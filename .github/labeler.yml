@@ -1,0 +1,16 @@
+
+documentation:
+    - documentation/**
+
+github-actions:
+    - .github/**
+
+backend:
+    - backend/**
+
+backend:
+    - frontend/**
+
+pipelines:
+    - pipelines/**
+
