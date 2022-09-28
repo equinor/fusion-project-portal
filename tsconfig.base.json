@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
@@ -14,7 +15,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@fusion-pe-portal/portal-ui": ["packages/portal-ui/src/index.ts"],
+      "@fusion-pe-portal/portal-utils": ["packages/portal-utils/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

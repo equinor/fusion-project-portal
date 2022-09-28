@@ -1,5 +1,12 @@
 {
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
-  "projects": {}
+  "projects": {
+    "app": "packages/app",
+    "app-e2e": "packages/app-e2e",
+    "portal": "packages/portal",
+    "portal-e2e": "packages/portal-e2e",
+    "portal-ui": "packages/portal-ui",
+    "portal-utils": "packages/portal-utils"
+  }
 }
