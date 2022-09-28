@@ -1,0 +1,16 @@
+{
+  "name": "fusion-fusion-project-portal-docs",
+  "version": "0.0.1",
+  "description": "Fusion Project Portal documentation",
+  "scripts": {
+    "docs:dev": "vuepress dev src",
+    "docs:build": "vuepress build src -d ../docs"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.8.2",
+    "vuepress": "^1.9.7",
+    "vuepress-theme-hope": "^1.30.0"
+  }
+}
