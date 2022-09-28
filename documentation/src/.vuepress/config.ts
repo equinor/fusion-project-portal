@@ -10,7 +10,7 @@ export default hope.config({
     repo: "equinor/fusion-project-portal",
     docsBranch: "main",
     editLinks: true,
-    docsDir: "docs/src",
+    docsDir: "docs/",
     darkmode: "auto-switch",
     comment: false,
     nav: [
@@ -27,6 +27,20 @@ export default hope.config({
       {
         title: "Frontend",
         path: "/frontend/",
+        collapsable: false,
+        sidebarDepth: 3,
+        children: [
+          // {
+          // 	title: 'Section',
+          // 	path: '/frontend/section',
+          // 	children: [
+          // 	],
+          // },
+        ],
+      },
+      {
+        title: "Backend",
+        path: "/backend/",
         collapsable: false,
         sidebarDepth: 3,
         children: [
