@@ -6,9 +6,7 @@ export function Header() {
   const account = useCurrentUser();
   return (
     <PortalHeader MenuButton={MenuButton} title="Project Portal">
-      <Avatar
-        src={`https://fusion.equinor.com/images/profiles/${account?.localAccountId}`}
-      />
+      <Avatar src={`/images/profiles/${account?.localAccountId}`} />
     </PortalHeader>
   );
 }
