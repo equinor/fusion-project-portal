@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.WebApi", "Equinor.ProjectExecutionPortal.WebApi\Equinor.ProjectExecutionPortal.WebApi.csproj", "{6A026217-B931-456B-ABFF-6C5D893F8F8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.Domain", "Equinor.ProjectExecutionPortal.Domain\Equinor.ProjectExecutionPortal.Domain.csproj", "{63616583-23CC-4F5F-BE93-D2117557E892}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.Infrastructure", "Equinor.ProjectExecutionPortal.Infrastructure\Equinor.ProjectExecutionPortal.Infrastructure.csproj", "{BB8ED263-FB37-4486-BDDB-CB91138C8485}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.Application", "Equinor.ProjectExecutionPortal.Application\Equinor.ProjectExecutionPortal.Application.csproj", "{7C20D65B-3237-4518-812A-BADC6BAE8B28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{09C989BD-D361-45EB-97F3-DBDE30A3D97B}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.editorconfig = ..\..\.editorconfig
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1E2C7897-D92B-429C-8114-8D99DFFCF275}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.Tests.WebApi", "tests\Equinor.ProjectExecutionPortal.Tests.WebApi\Equinor.ProjectExecutionPortal.Tests.WebApi.csproj", "{9147F23E-3BA7-4978-A8BC-658F17FC3428}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A026217-B931-456B-ABFF-6C5D893F8F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A026217-B931-456B-ABFF-6C5D893F8F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A026217-B931-456B-ABFF-6C5D893F8F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A026217-B931-456B-ABFF-6C5D893F8F8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63616583-23CC-4F5F-BE93-D2117557E892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63616583-23CC-4F5F-BE93-D2117557E892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63616583-23CC-4F5F-BE93-D2117557E892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63616583-23CC-4F5F-BE93-D2117557E892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8ED263-FB37-4486-BDDB-CB91138C8485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8ED263-FB37-4486-BDDB-CB91138C8485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8ED263-FB37-4486-BDDB-CB91138C8485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8ED263-FB37-4486-BDDB-CB91138C8485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C20D65B-3237-4518-812A-BADC6BAE8B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C20D65B-3237-4518-812A-BADC6BAE8B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C20D65B-3237-4518-812A-BADC6BAE8B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C20D65B-3237-4518-812A-BADC6BAE8B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9147F23E-3BA7-4978-A8BC-658F17FC3428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9147F23E-3BA7-4978-A8BC-658F17FC3428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9147F23E-3BA7-4978-A8BC-658F17FC3428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9147F23E-3BA7-4978-A8BC-658F17FC3428}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9147F23E-3BA7-4978-A8BC-658F17FC3428} = {1E2C7897-D92B-429C-8114-8D99DFFCF275}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D85E8EE1-7D85-4BB3-9514-F6EC6186822F}
+	EndGlobalSection
+EndGlobal
