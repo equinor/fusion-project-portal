@@ -52,6 +52,20 @@ export default hope.config({
           // },
         ],
       },
+      {
+        title: "Project Portal Study",
+        path: "/projectPortalStudy/",
+        collapsable: false,
+        sidebarDepth: 3,
+        children: [
+          // {
+          // 	title: 'Section',
+          // 	path: '/frontend/section',
+          // 	children: [
+          // 	],
+          // },
+        ],
+      },
     ],
 
     mdEnhance: {
