@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "portal-client": "packages/portal-client",
+    "portal-ui": "packages/portal-ui"
+  }
+}

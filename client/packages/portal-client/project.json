@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "portal-client",
+  "projectType": "application",
+  "sourceRoot": "packages/portal-client/src",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "nx-plugin-vite:serve",
+      "options": {
+        "configFile": "packages/portal-client/vite.config.ts",
+        "port": 3000,
+        "host": false,
+        "https": false
+      }
+    },
+    "preview": {
+      "executor": "nx-plugin-vite:preview",
+      "options": {
+        "configFile": "packages/portal-client/vite.config.ts"
+      }
+    },
+    "build": {
+      "executor": "nx-plugin-vite:build",
+      "options": {
+        "outDir": "dist",
+        "configFile": "packages/portal-client/vite.config.ts",
+        "watch": false,
+        "write": true,
+        "emitAtRootLevel": false,
+        "manifest": true
+      }
+    }
+  }
+}
