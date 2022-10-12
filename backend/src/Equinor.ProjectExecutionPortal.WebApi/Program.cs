@@ -24,10 +24,11 @@ FusionWebHostBuilder.BuildWebHost<Program>(args, setup =>
 builder.Services.AddFusionInfrastructure(builder.Configuration, fusion =>
 {
     fusion.AddDefaults(FusionServiceEndpoint.Portal);
-    //fusion.AddDefaultAuthentication()
-    //    .AddMainPortalSigning(builder.Configuration)
-    //    .AddDiscoveryAuthenticationSchema(builder.Configuration)
-    //    .AddPortalAuthorizationPolicies();
+
+    fusion.AddDefaultAuthentication()
+        .AddMainPortalSigning(builder.Configuration)
+        .AddDiscoveryAuthenticationSchema(builder.Configuration)
+        .AddPortalAuthorizationPolicies();
 
     fusion.AddApiVersioning();
 
@@ -49,7 +50,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IAuthorizationHandler, PortalAdminOrOwnerRequirement.Handler>();
 
 
 var app = builder.Build();
