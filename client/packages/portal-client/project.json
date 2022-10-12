@@ -30,6 +30,16 @@
         "emitAtRootLevel": false,
         "manifest": true
       }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/packages/portal-client"
+      ],
+      "options": {
+        "jestConfig": "packages/portal-client/jest.config.ts",
+        "passWithNoTests": true
+      }
     }
   }
 }

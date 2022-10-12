@@ -19,6 +19,13 @@
     }
   },
   "targetDefaults": {
+    "test": {
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"
