@@ -1,18 +1,18 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 
-namespace Equinor.ProjectExecutionPortal.Infrastructure.Entities;
+namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
 /// The portal master object which ties all relevant portal data together
 /// </summary>
-public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class WorkSurface : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
     private readonly List<WorkSurfaceApplication> _applications = new();
     private readonly List<WorkSurfaceApplicationGroup> _applicationGroups = new();
     private readonly List<WorkSurfaceLink> _portalLinks = new();
 
-    public WorkSurface(string name) : base("facility")
+    public WorkSurface(string name) : base(Guid.NewGuid())
     {
         Name = name;
     }

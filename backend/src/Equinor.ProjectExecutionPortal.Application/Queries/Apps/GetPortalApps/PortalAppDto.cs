@@ -1,6 +1,6 @@
 ﻿namespace Equinor.ProjectExecutionPortal.Application.Queries.Apps.GetPortalApps;
 
-public class PortalAppDto : BaseFacilityDto
+public class PortalAppDto : BaseContextDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

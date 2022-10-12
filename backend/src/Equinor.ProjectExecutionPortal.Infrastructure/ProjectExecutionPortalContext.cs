@@ -1,30 +1,29 @@
 ﻿using System.Reflection;
-using Equinor.ProjectExecutionPortal.Domain;
 using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.Infrastructure.Converters;
-using Equinor.ProjectExecutionPortal.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure;
 
 public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 {
-    private readonly IFacilityProvider _facilityProvider;
+    private readonly IContextProvider _contextProvider;
     private readonly IEventDispatcher _eventDispatcher;
     private readonly ICurrentUserProvider _currentUserProvider;
 
     public ProjectExecutionPortalContext(
         DbContextOptions<ProjectExecutionPortalContext> options,
-        IFacilityProvider facilityProvider,
+        IContextProvider contextProvider,
         IEventDispatcher eventDispatcher,
         ICurrentUserProvider currentUserProvider)
         : base(options)
     {
-        _facilityProvider = facilityProvider;
+        _contextProvider = contextProvider;
         _eventDispatcher = eventDispatcher;
         _currentUserProvider = currentUserProvider;
     }
@@ -33,7 +32,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        SetGlobalFacilityFilter(modelBuilder);
+        SetGlobalContextFilter(modelBuilder);
     }
 
     public static DateTimeKindConverter DateTimeKindConverter { get; } = new();
@@ -42,10 +41,10 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public virtual DbSet<PortalAdmin> PortalAdmins { get; set; }
     public virtual DbSet<WorkSurfaceApplication> WorkSurfaceApplications { get; set; }
 
-    public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : FacilityEntityBase =>
+    public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : ContextEntityBase =>
         builder
             .Entity<T>()
-            .HasQueryFilter(e => e.Facility == _facilityProvider.Facility.CommonLibFacility || _facilityProvider.IsCrossFacilityQuery);
+            .HasQueryFilter(e => e.ContextId == _contextProvider.ContextId || _contextProvider.IsCrossContextQuery);
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -62,11 +61,11 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
         }
     }
 
-    private void SetGlobalFacilityFilter(ModelBuilder modelBuilder)
+    private void SetGlobalContextFilter(ModelBuilder modelBuilder)
     {
-        // Set global query filter on entities inheriting from FacilityEntityBase
+        // Set global query filter on entities inheriting from ContextEntityBase
         // https://gunnarpeipman.com/ef-core-global-query-filters/
-        foreach (var type in TypeProvider.GetEntityTypes(typeof(IDomainMarker).GetTypeInfo().Assembly, typeof(FacilityEntityBase)))
+        foreach (var type in TypeProvider.GetEntityTypes(typeof(IDomainMarker).GetTypeInfo().Assembly, typeof(ContextEntityBase)))
         {
             typeof(ProjectExecutionPortalContext)
                 .GetMethod(nameof(SetGlobalQueryFilter))

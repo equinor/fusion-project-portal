@@ -1,13 +1,13 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
 
-namespace Equinor.ProjectExecutionPortal.Infrastructure.Entities;
+namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
 /// A portal link to an external resource of relevance
 /// </summary>
-public class WorkSurfaceLink : AuditableEntityBase
+public class WorkSurfaceLink : AuditableEntityEntityBase
 {
-    public WorkSurfaceLink(string facility, string title, string uri, int order) : base(facility)
+    public WorkSurfaceLink(string title, string uri, int order) : base(Guid.NewGuid())
     {
         Title = title;
         Uri = uri;

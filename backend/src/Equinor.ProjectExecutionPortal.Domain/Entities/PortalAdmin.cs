@@ -1,14 +1,14 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 
-namespace Equinor.ProjectExecutionPortal.Infrastructure.Entities;
+namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
 /// Administrators for managing portal and work surfaces. E.g. onboarding apps
 /// </summary>
-public class PortalAdmin : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class PortalAdmin : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public PortalAdmin(Guid azureUniqueId) : base("facility")
+    public PortalAdmin(Guid azureUniqueId) : base(Guid.NewGuid())
     {
         AzureUniqueId = azureUniqueId;
     }

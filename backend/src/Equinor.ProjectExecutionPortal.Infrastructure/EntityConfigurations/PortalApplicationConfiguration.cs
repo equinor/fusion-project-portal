@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Infrastructure.Entities;
+﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -9,6 +9,6 @@ public class PortalApplicationConfiguration : IEntityTypeConfiguration<WorkSurfa
 {
     public void Configure(EntityTypeBuilder<WorkSurfaceApplication> builder)
     {
-        builder.ConfigureFacility();
+        builder.ConfigureContext();
     }
 }

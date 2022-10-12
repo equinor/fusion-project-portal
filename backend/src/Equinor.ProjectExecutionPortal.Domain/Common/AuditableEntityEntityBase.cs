@@ -5,9 +5,9 @@ namespace Equinor.ProjectExecutionPortal.Domain.Common;
 /// <summary>
 /// Base class for auditable entities to be filtered by facility
 /// </summary>
-public abstract class AuditableEntityBase : FacilityEntityBase
+public abstract class AuditableEntityEntityBase : ContextEntityBase
 {
-    protected AuditableEntityBase(string facility) : base(facility)
+    protected AuditableEntityEntityBase(Guid contextId) : base(contextId)
     {
     }
 

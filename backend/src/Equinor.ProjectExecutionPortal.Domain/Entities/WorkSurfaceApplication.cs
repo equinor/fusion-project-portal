@@ -1,14 +1,14 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 
-namespace Equinor.ProjectExecutionPortal.Infrastructure.Entities;
+namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
 /// The shared Portal Application base that all applications should inherit from
 /// </summary>
-public abstract class WorkSurfaceApplication : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public abstract class WorkSurfaceApplication : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
-    protected WorkSurfaceApplication(string name, Guid? groupId, int order) : base("facility")
+    protected WorkSurfaceApplication(string name, Guid? groupId, int order) : base(Guid.NewGuid())
     {
         Name = name;
         GroupId = groupId;

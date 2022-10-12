@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Infrastructure.Entities;
+﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
 using MediatR;
 
 namespace Equinor.ProjectExecutionPortal.Domain.Common.Events;

@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@section Scripts {
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-image: url(/bundles/frameworks/landing-page.png);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.4);">
+        <div style="max-width: 800px; font-family: sans-serif; background: rgba(255, 255, 255, 0.95); text-align: center;">
+            <h2 style="display: flex; align-items: center; justify-content: center; margin-bottom: 40px;">
+                <img src="~/favicon-32x32.png" style="margin-right: 8px;" alt="Internet Explorer is not supported by Fusion" /> Fusion
+            </h2>
+            <p style="margin: 0 16px 16px;">
+                Internet Explorer is not supported by Fusion. Please use <a id="chrome-link" href="https://www.google.com/chrome/">Chrome</a> or <a id="edge-link" href="https://www.microsoft.com/nb-no/windows/microsoft-edge">Edge</a> for optimal user experience.
+            </p>
+        </div>
+    </div>
+    <script>
+        var url = window.location.toString();
+
+        var edgeLink = document.getElementById("edge-link");
+        edgeLink.href = "microsoft-edge:" + url;
+    </script>
+}
