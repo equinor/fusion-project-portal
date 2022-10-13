@@ -3,9 +3,10 @@ import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 
 import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { PortalConfig } from '../../typs/portalConfig';
-const myModule = {
-  test: 'hello',
-};
+
+
+type LoggerLevel = 0 | 1 | 2 | 4 | 3;
+
 export function createPortalFramework(
   portalConfig: PortalConfig
 ): React.LazyExoticComponent<
@@ -13,7 +14,7 @@ export function createPortalFramework(
 > {
   return createFrameworkProvider((config) => {
     config.logger.level =
-      (portalConfig.logger?.level as 0 | 1 | 2 | 4 | 3) || 0;
+      portalConfig.logger?.level || 0 as LoggerLevel;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 

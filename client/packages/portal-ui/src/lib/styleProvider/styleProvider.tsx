@@ -1,7 +1,13 @@
 import { EdsProvider, Icon } from '@equinor/eds-core-react';
 import * as icons from '@equinor/eds-icons';
 import { GlobalColorStyle } from './globalColors';
-import { GlobalStyle } from './gobalStyles';
+import { GlobalStyle } from './globalStyles';
+
+/** Consider adding the icons you use, Icons used:
+ *  - menu
+ *
+ *  will be changes when all icons are identified!
+ */
 
 Icon.add(icons);
 

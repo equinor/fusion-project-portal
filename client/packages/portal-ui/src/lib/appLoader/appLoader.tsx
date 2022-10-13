@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { AppLoaderService } from './appLoaderModule';
 
-const AppLoader = new AppLoaderService();
+const appLoader = new AppLoaderService();
 
 async function runApplication<TModules>(
   applicationId: string,
@@ -9,7 +9,7 @@ async function runApplication<TModules>(
   cb: (teardown: () => void) => void,
   modules?: TModules
 ) {
-  const appRun = await AppLoader.loadApplication(applicationId, ref, modules);
+  const appRun = await appLoader.loadApplication(applicationId, ref, modules);
   cb(appRun());
 }
 
