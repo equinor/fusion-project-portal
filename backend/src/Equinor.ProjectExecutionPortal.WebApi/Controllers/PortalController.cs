@@ -1,4 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels;
+﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels;
 using Fusion;
 using Fusion.Infrastructure.Authentication;
 using Fusion.Infrastructure.Internal.Configuration;
@@ -10,12 +12,31 @@ using Newtonsoft.Json;
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
     [Authorize(AuthorizationPolicies.COOKIE)]
-    public class PortalController : Controller
+    public class PortalController : ApiControllerBase
     {
+        [HttpGet("/fusion-apps")]
+        public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetFusionPortalApps([FromServices] IFusionPortalApiService fusionPortalApiService)
+        {
+            try
+            {
+                var apps = await fusionPortalApiService.TryGetFusionPortalApps();
+
+                return apps.ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         [HttpGet("/")]
         [HttpGet("/apps/{*anything}")]
         [HttpGet("/authentication/{*anything}")]
-        public async Task<ViewResult> Index([FromServices] IRuntimeOptions<EndpointConfig> endpointOptions, [FromServices] IConfiguration configurationAccessor, [FromServices] IWebHostEnvironment env)
+        public async Task<ViewResult> Index(
+            [FromServices] IRuntimeOptions<EndpointConfig> endpointOptions, 
+            [FromServices] IConfiguration configurationAccessor, 
+            [FromServices] IWebHostEnvironment env)
         {
             var clientId = configurationAccessor.GetConfig(FusionConfig.AzureAd.ClientId);
             var fusionPortalClientId = configurationAccessor.GetConfig(FusionConfig.FusionPortalClientId);

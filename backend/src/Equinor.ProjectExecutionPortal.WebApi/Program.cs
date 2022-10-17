@@ -1,10 +1,9 @@
 ﻿using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization.Requirements;
+using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Fusion;
 using Fusion.Infrastructure.Internal.Application;
 using Fusion.Integration.Configuration;
-using Microsoft.AspNetCore.Authorization;
 
 const string ServiceName = "project-execution-portal";
 
@@ -50,7 +49,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddApplicationModules(builder.Configuration);
 
 var app = builder.Build();
 

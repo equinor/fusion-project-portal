@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
-    public class WorkSurfaceController : Controller
+    public class WorkSurfaceController : ApiControllerBase
     {
         [HttpGet("/work-surface/apps")]
         public IActionResult Apps()

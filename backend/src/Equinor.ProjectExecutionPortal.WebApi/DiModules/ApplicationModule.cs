@@ -4,6 +4,8 @@ using Equinor.ProjectExecutionPortal.Application.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
+using Equinor.ProjectExecutionPortal.FusionPortalApi;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Client;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization.Requirements;
@@ -26,6 +28,7 @@ public static class ApplicationModule
 
         services.Configure<CacheOptions>(configuration.GetSection("CacheOptions"));
         services.Configure<AuthenticatorOptions>(configuration.GetSection("Authenticator"));
+        services.Configure<FusionPortalApiOptions>(configuration.GetSection("FusionPortalApi"));
 
         services.AddAuthorization(options =>
         {
@@ -60,6 +63,9 @@ public static class ApplicationModule
         // Services
 
         // Integrations
+
+        services.AddScoped<IBearerTokenFusionPortalApiClient, FusionPortalApiClient>();
+
 
         // Validators
 
