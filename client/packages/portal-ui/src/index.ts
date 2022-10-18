@@ -1,3 +1,4 @@
+export * from './lib/portalHeader/Icon';
 export * from './lib/portalHeader/PortalHeader';
 export * from './lib/portalMenu/MenuButton';
 export * from './lib/portalMenu/MenuContext';
