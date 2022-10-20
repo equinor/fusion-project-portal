@@ -8,13 +8,12 @@ public static class InfrastructureModule
 {
     public static IServiceCollection AddInfrastructureModules(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("ProjectExecutionPortalDbContext");
+        var connectionString = configuration.GetConnectionString("ProjectPortalContext");
 
         services.AddDbContext<IReadWriteContext, ProjectExecutionPortalContext>(options =>
             options.UseSqlServer(connectionString,
                 b => b.MigrationsAssembly(typeof(ProjectExecutionPortalContext).Assembly.FullName)
-                    //.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery) // For performance reasons
-                )
+            )
         );
 
         return services;

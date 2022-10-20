@@ -7,28 +7,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Apps.GetPortalApps;
 
-public class GetPortalAppsQuery : QueryBase<IList<PortalAppDto>>
+public class GetPortalAppsQuery : QueryBase<IList<WorkSurfaceApplication>>
 {
     public GetPortalAppsQuery()
     {
     }
 
-    public class Handler : IRequestHandler<GetPortalAppsQuery, IList<PortalAppDto>>
+    public class Handler : IRequestHandler<GetPortalAppsQuery, IList<WorkSurfaceApplication>>
     {
         private readonly IReadWriteContext _context;
-        private readonly IMapper _mapper;
 
-        public Handler(IReadWriteContext context, IMapper mapper)
+        public Handler(IReadWriteContext context)
         {
-            _mapper = mapper;
             _context = context;
         }
 
-        public async Task<IList<PortalAppDto>> Handle(GetPortalAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceApplication>> Handle(GetPortalAppsQuery request, CancellationToken cancellationToken)
         {
             return await _context.Set<WorkSurfaceApplication>()
                 .AsNoTracking()
-                .ProjectToListAsync<PortalAppDto>(_mapper.ConfigurationProvider);
+                .ToListAsync(cancellationToken);
+            //.ProjectToListAsync<PortalAppDto>(_mapper.ConfigurationProvider);
         }
     }
 }

@@ -40,4 +40,23 @@ public class FusionPortalApiService : IFusionPortalApiService
             _authenticator.AuthenticationType = oldAuthType;
         }
     }
+
+    public async Task<ApiFusionPortalAppInformation> TryGetFusionPortalApp(string appKey)
+    {
+        var url = $"{_baseAddress}/apps/" + 
+                  $"{appKey}" +
+                  $"?api-version={_apiVersion}";
+
+        var oldAuthType = _authenticator.AuthenticationType;
+        _authenticator.AuthenticationType = AuthenticationType.AsApplication;
+
+        try
+        {
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<ApiFusionPortalAppInformation>(url);
+        }
+        finally
+        {
+            _authenticator.AuthenticationType = oldAuthType;
+        }
+    }
 }

@@ -5,15 +5,14 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.FusionPortalApi;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Client;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization.Requirements;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Client;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.DiModules;
@@ -59,20 +58,21 @@ public static class ApplicationModule
         services.AddScoped<IBearerTokenProvider>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IBearerTokenSetter>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IAuthenticator>(x => x.GetRequiredService<Authenticator>());
+        services.AddScoped<IContextProvider>(x => x.GetRequiredService<ContextProvider>());
+        services.AddScoped<IContextSetter>(x => x.GetRequiredService<ContextProvider>());
+
 
         // Services
+
+        services.AddScoped<IFusionPortalApiService, FusionPortalApiService>();
 
         // Integrations
 
         services.AddScoped<IBearerTokenFusionPortalApiClient, FusionPortalApiClient>();
 
-
         // Validators
 
         // Authorization handlers
-
-        services.AddScoped<IAuthorizationHandler, PortalAdminOrOwnerRequirement.Handler>();
-
 
         // Singleton - Created the first time they are requested
     }
