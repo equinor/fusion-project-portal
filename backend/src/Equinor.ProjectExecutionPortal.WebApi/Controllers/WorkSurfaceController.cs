@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
