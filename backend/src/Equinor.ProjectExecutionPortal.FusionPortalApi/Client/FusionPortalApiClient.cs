@@ -29,7 +29,16 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
 
     public async Task<T> TryQueryAndDeserializeAsync<T>(string url) => await QueryAndDeserializeAsync<T>(url, true);
 
+    public async Task<string> TryQueryAsync(string url) => await QueryAsync(url, true);
+
     private async Task<T> QueryAndDeserializeAsync<T>(string url, bool tryGet)
+    {
+        var jsonResult = await QueryAsync(url, tryGet);
+        var result = JsonSerializer.Deserialize<T>(jsonResult);
+        return result;
+    }
+
+    private async Task<string> QueryAsync(string url, bool tryGet)
     {
         if (string.IsNullOrEmpty(url))
         {
@@ -61,8 +70,7 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
 
         _logger.LogInformation(msg);
         var jsonResult = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<T>(jsonResult);
-        return result;
+        return jsonResult;
     }
 
     private async ValueTask<HttpClient> CreateHttpClientAsync()

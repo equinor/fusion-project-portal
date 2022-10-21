@@ -30,6 +30,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
         }
 
+        [HttpGet("/fusion-apps/bundles/")]
+        public async Task<ActionResult<dynamic>> GetFusionPortalAppBundle([FromServices] IFusionPortalApiService fusionPortalApiService)
+        {
+            try
+            {
+                var appBundle = await fusionPortalApiService.TryGetFusionPortalAppBundle("one-equinor");
+
+                return appBundle;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         //[HttpGet("/")]
         //[HttpGet("/apps/{*anything}")]
         //[HttpGet("/authentication/{*anything}")]

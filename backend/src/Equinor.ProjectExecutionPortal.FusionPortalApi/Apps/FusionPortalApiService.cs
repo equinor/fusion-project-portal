@@ -25,7 +25,7 @@ public class FusionPortalApiService : IFusionPortalApiService
 
     public async Task<IList<ApiFusionPortalAppInformation>> TryGetFusionPortalApps()
     {
-        var url = $"{_baseAddress}/apps/" +
+        var url = $"{_baseAddress}/api/apps/" +
                   $"?api-version={_apiVersion}";
 
         var oldAuthType = _authenticator.AuthenticationType;
@@ -43,7 +43,7 @@ public class FusionPortalApiService : IFusionPortalApiService
 
     public async Task<ApiFusionPortalAppInformation> TryGetFusionPortalApp(string appKey)
     {
-        var url = $"{_baseAddress}/apps/" + 
+        var url = $"{_baseAddress}/api/apps/" + 
                   $"{appKey}" +
                   $"?api-version={_apiVersion}";
 
@@ -53,6 +53,25 @@ public class FusionPortalApiService : IFusionPortalApiService
         try
         {
             return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<ApiFusionPortalAppInformation>(url);
+        }
+        finally
+        {
+            _authenticator.AuthenticationType = oldAuthType;
+        }
+    }
+
+    public async Task<string> TryGetFusionPortalAppBundle(string appKey)
+    {
+        var url = $"{_baseAddress}/scripts/apps/" +
+                  $"{appKey}" +
+                  $"?api-version={_apiVersion}";
+
+        var oldAuthType = _authenticator.AuthenticationType;
+        _authenticator.AuthenticationType = AuthenticationType.AsApplication;
+
+        try
+        {
+            return await _fusionPortalApiClient.TryQueryAsync(url);
         }
         finally
         {

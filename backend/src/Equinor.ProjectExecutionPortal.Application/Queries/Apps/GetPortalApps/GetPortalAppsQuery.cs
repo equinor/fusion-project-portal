@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
