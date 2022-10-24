@@ -1,1 +1,2 @@
-export * from './storage/local-storage';
+export * from './rxjs';
+export * from './storage';

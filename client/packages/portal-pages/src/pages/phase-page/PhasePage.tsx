@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
 import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
 import { PasePageHeader } from './PhasePageHeader';
@@ -19,7 +18,6 @@ export const PhasePage = (props: PhaseProps): JSX.Element => {
 
           <StyledContentWrapper>
             <p>// some content</p>
-            <Link to={'/'}>home</Link>
           </StyledContentWrapper>
         </StyledContentSection>
       </StyledBackgroundSection>
