@@ -10,7 +10,7 @@ interface PhaseProps {
   icon: string | React.FC;
 }
 
-export const Phase = (props: PhaseProps): JSX.Element => {
+export const PhasePage = (props: PhaseProps): JSX.Element => {
   return (
     <StyledMain>
       <StyledBackgroundSection>

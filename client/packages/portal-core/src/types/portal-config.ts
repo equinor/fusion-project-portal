@@ -1,5 +1,7 @@
 import { AuthClientOptions } from '@equinor/fusion-framework-module-msal';
 
+export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
+
 export interface PortalConfig {
   serviceDiscovery: {
     client: Client;
@@ -27,9 +29,18 @@ export interface PortalConfig {
   agGrid?: {
     licenseKey: string;
   };
+  phases?: WorkSurfaces[];
 }
 
-interface Client {
+export interface WorkSurfaces {
+  id: string;
+  title: string;
+  description: string;
+  icon: string | React.FC;
+  active?: boolean;
+}
+
+export interface Client {
   baseUri: string;
   defaultScopes: string[];
 }

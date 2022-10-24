@@ -1,30 +1,43 @@
+import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 
-import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
-import { PortalConfig } from '../../typs/portalConfig';
+import {
+  LoggerLevel,
+  PortalConfig,
+  WorkSurfaces,
+} from '../types/portal-config';
 
-
-type LoggerLevel = 0 | 1 | 2 | 4 | 3;
-
+// { name: 'phase'; initialize: () => { phases: Phase[] } }
 export function createPortalFramework(
   portalConfig: PortalConfig
 ): React.LazyExoticComponent<
   React.FunctionComponent<{ children?: React.ReactNode }>
 > {
-  return createFrameworkProvider((config) => {
-    config.logger.level =
-      portalConfig.logger?.level || 0 as LoggerLevel;
+  return createFrameworkProvider<
+    [{ name: 'phase'; initialize: () => { phases: WorkSurfaces[] } }]
+  >((config) => {
+    config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
-    portalConfig.agGrid &&
+    if (portalConfig.agGrid) {
       config.addConfig(configureAgGrid(portalConfig.agGrid));
+    }
 
     config.onConfigured(() => {
       console.log('framework config done');
+    });
+
+    config.addConfig({
+      module: {
+        name: 'phase',
+        initialize: () => ({
+          phases: portalConfig.phases || [],
+        }),
+      },
     });
 
     config.onInitialized(async (fusion) => {
