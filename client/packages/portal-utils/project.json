@@ -1,20 +1,20 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/portal-ui/src",
+  "sourceRoot": "packages/portal-utils/src",
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
+    "butilsld": {
       "executor": "@nrwl/js:tsc",
       "outputs": [
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/packages/portal-ui",
-        "main": "packages/portal-ui/src/index.ts",
-        "tsConfig": "packages/portal-ui/tsconfig.lib.json",
+        "outputPath": "dist/packages/portal-utils",
+        "main": "packages/portal-utils/src/index.ts",
+        "tsConfig": "packages/portal-utils/tsconfig.lib.json",
         "assets": [
-          "packages/portal-ui/*.md"
+          "packages/portal-utils/*.md"
         ]
       }
     },
@@ -25,17 +25,17 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "packages/portal-ui/**/*.{ts,tsx,js,jsx}"
+          "packages/portal-utils/**/*.{ts,tsx,js,jsx}"
         ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "coverage/packages/portal-ui"
+        "coverage/packages/portal-utils"
       ],
       "options": {
-        "jestConfig": "packages/portal-ui/jest.config.ts",
+        "jestConfig": "packages/portal-utils/jest.config.ts",
         "passWithNoTests": true
       }
     }
