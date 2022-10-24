@@ -61,13 +61,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.PortalAdmin
             return Json($"apps for work surface {workSurfaceId}");
         }
 
-        [HttpPost("work-surfaces/{workSurfaceId:guid}apps")]
+        [HttpPost("work-surfaces/{workSurfaceId:guid}/apps")]
         public IActionResult AddAppToWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] string appKey)
         {
             return Json($"{appKey} added to work surface {workSurfaceId}");
         }
 
-        [HttpDelete("work-surfaces/{workSurfaceId:guid}/apps{appKey:string}")]
+        [HttpDelete("work-surfaces/{workSurfaceId:guid}/apps/{appKey}")]
         public IActionResult RemoveAppFromWorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string appKey)
         {
             return Json($"{appKey} Removed from {workSurfaceId}");
