@@ -1,50 +1,26 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { Early } from './components/phase-icons/Early';
-import { Execution } from './components/phase-icons/Execution';
-import { Renewable } from './components/phase-icons/Renewable';
 
 import PortalApp from './components/portal-app/PortalApp';
 import * as portalConfig from './portal.config.json';
+import { QueryClientProvider } from 'react-query';
 
-import { createPortalFramework, WorkSurfaces } from '@equinor/portal-core';
+import { createPortalFramework } from '@equinor/portal-core';
+import { queryClient } from './utils/queryClient/query-client';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const phases: WorkSurfaces[] = [
-  {
-    id: 'early-pase',
-    title: 'Early phase',
-    description: 'Here you can find all the tools that you need.',
-    icon: Early,
-    active: true,
-  },
-  {
-    id: 'execution-pase',
-    title: 'Project Execution',
-    description: 'Go to this phase to work with projects that are beyond DG3.',
-    icon: Execution,
-    active: true,
-  },
-  {
-    id: 'renewable-pase',
-    title: 'Renewable Execution',
-    description:
-      'Go to this phase to work with renewable projects that are beyond DG3.',
-    icon: Renewable,
-    // active: true,
-  },
-];
-
 document.title = `${portalConfig.title} | Fusion`;
-const Framework = createPortalFramework({ ...portalConfig.config, phases });
+const Framework = createPortalFramework(portalConfig.config);
 
 root.render(
   <StrictMode>
-    <Framework>
-      <PortalApp />
-    </Framework>
+    <QueryClientProvider client={queryClient}>
+      <Framework>
+        <PortalApp />
+      </Framework>
+    </QueryClientProvider>
   </StrictMode>
 );

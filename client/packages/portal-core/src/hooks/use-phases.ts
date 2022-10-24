@@ -1,10 +1,21 @@
-import { Fusion } from '@equinor/fusion-framework-react';
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
-import { WorkSurfaces } from '../types/portal-config';
+import { useObservable } from '@equinor/portal-utils';
+import { useMemo } from 'react';
+import { phaseController } from '../phases/phases';
+/**
+ * Hook for getting phases from api
+ */
 export function usePhases() {
-  const { modules } = useFramework() as Fusion<
-    [{ name: 'phase'; initialize: () => { phases: WorkSurfaces[] } }]
-  >;
+  const { clearSelectedPhase, currentPhase$, phases$, setActivePhase } =
+    useMemo(() => phaseController, []);
 
-  return modules.phase.phases as WorkSurfaces[];
+  const phases = useObservable(phases$);
+
+  const currentPhase = useObservable(currentPhase$);
+
+  return {
+    clearSelectedPhase,
+    setActivePhase,
+    phases,
+    currentPhase,
+  };
 }
