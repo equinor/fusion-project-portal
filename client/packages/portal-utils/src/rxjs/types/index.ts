@@ -1,1 +1,1 @@
-export * from './observableProxy';
+export * from './observable-proxy';

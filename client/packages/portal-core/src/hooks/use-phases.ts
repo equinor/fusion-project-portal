@@ -1,9 +1,21 @@
-import { useQuery } from 'react-query';
-import { phases } from '../mock.ts/phases';
-import { Phase } from '../types/portal-config';
+import { useObservable } from '@equinor/portal-utils';
+import { useMemo } from 'react';
+import { phaseController } from '../phases/phases';
 /**
  * Hook for getting phases from api
  */
 export function usePhases() {
-  return useQuery<Phase[]>(['Phases'], () => Promise.resolve(phases));
+  const { clearSelectedPhase, currentPhase$, phases$, setActivePhase } =
+    useMemo(() => phaseController, []);
+
+  const phases = useObservable(phases$);
+
+  const currentPhase = useObservable(currentPhase$);
+
+  return {
+    clearSelectedPhase,
+    setActivePhase,
+    phases,
+    currentPhase,
+  };
 }

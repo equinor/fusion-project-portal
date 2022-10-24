@@ -6,7 +6,7 @@ import * as portalConfig from './portal.config.json';
 import { QueryClientProvider } from 'react-query';
 
 import { createPortalFramework } from '@equinor/portal-core';
-import { queryClient } from './utils/queryClient/queryClient';
+import { queryClient } from './utils/queryClient/query-client';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

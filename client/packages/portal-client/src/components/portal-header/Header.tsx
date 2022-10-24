@@ -1,10 +1,10 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import { clearSelectedPhase } from '../../utils/phases/phases';
+import { phaseController } from 'packages/portal-core/src/phases/phases';
 
 export function Header() {
   return (
     <PortalHeader
-      onLogoClick={clearSelectedPhase}
+      onLogoClick={phaseController.clearSelectedPhase}
       MenuButton={MenuButton}
       title="Project Portal"
     >
