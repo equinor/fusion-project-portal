@@ -1,5 +1,5 @@
 import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
-import { Phase } from '../portal-content/PortalContent';
+import { PortalContent } from '../portal-content/PortalContent';
 import Header from '../portal-header/Header';
 
 export function PortalApp() {
@@ -8,7 +8,7 @@ export function PortalApp() {
       <MenuProvider>
         <Header />
         <PortalMenu>Portal Menu</PortalMenu>
-        <Phase />
+        <PortalContent />
       </MenuProvider>
     </StyleProvider>
   );
