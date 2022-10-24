@@ -1,7 +1,7 @@
 import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
 
-import Header from '../Header/Header';
-import { PortalRouter } from '../Router/Router';
+import Header from '../portal-header/Header';
+import { PortalRouter } from '../portal-router/Router';
 
 export function PortalApp() {
   return (

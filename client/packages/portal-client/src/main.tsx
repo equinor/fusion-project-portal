@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { Early } from './components/Icons/Early';
-import { Execution } from './components/Icons/Execution';
-import { Renewable } from './components/Icons/Renewable';
+import { Early } from './components/phase-icons/Early';
+import { Execution } from './components/phase-icons/Execution';
+import { Renewable } from './components/phase-icons/Renewable';
 
-import PortalApp from './components/PortalApp/PortalApp';
+import PortalApp from './components/portal-app/PortalApp';
 import * as portalConfig from './portal.config.json';
 
 import { createPortalFramework, WorkSurfaces } from '@equinor/portal-core';

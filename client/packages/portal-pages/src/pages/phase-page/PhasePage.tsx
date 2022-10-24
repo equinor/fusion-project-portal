@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { StyledBackgroundSection, StyledMain } from '../CommonStyles/Styles';
-import { StyledContentSection, StyledContentWrapper } from './PasePage.Styles';
-import { PasePageHeader } from './PasePageHeader';
+import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
+import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
+import { PasePageHeader } from './PhasePageHeader';
 
 interface PhaseProps {
   id?: string;

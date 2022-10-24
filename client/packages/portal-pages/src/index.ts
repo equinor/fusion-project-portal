@@ -1,3 +1,2 @@
-export * from './pages/HomePage/HomePage';
-export * from './pages/PasePage/PasePage';
-export * from './render';
+export * from './pages/home-page/HomePage';
+export * from './pages/phase-page/PhasePage';
