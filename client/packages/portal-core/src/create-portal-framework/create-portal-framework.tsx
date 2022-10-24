@@ -2,11 +2,7 @@ import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 
-import {
-  LoggerLevel,
-  PortalConfig,
-  WorkSurfaces,
-} from '../types/portal-config';
+import { LoggerLevel, PortalConfig, Phase } from '../types/portal-config';
 
 // { name: 'phase'; initialize: () => { phases: Phase[] } }
 export function createPortalFramework(
@@ -15,7 +11,7 @@ export function createPortalFramework(
   React.FunctionComponent<{ children?: React.ReactNode }>
 > {
   return createFrameworkProvider<
-    [{ name: 'phase'; initialize: () => { phases: WorkSurfaces[] } }]
+    [{ name: 'phase'; initialize: () => { phases: Phase[] } }]
   >((config) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 

@@ -3,7 +3,7 @@ import {
   useFramework,
 } from '@equinor/fusion-framework-react/hooks';
 import { Link } from 'react-router-dom';
-import { PaseSelectorItem } from '../../components/pase-selector/PaseSelectorItem';
+import { PhaseSelectorItem } from '../../components/phase-selector/PhaseSelectorItem';
 import {
   StyledBackgroundSection,
   StyledContentSection,
@@ -19,6 +19,7 @@ interface Phase {
   description: string;
   icon: string | React.FC;
   active?: boolean;
+  onClick: () => void;
 }
 
 interface HomePageProps {
@@ -33,7 +34,7 @@ export const HomePage = (props: HomePageProps): JSX.Element => {
           <HomePageHeader />
           <StyledPaseSectionWrapper>
             {props.phases.map((section) => (
-              <PaseSelectorItem {...section} key={section.id} />
+              <PhaseSelectorItem {...section} key={section.id} />
             ))}
           </StyledPaseSectionWrapper>
         </StyledContentSection>

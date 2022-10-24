@@ -29,10 +29,13 @@ export interface PortalConfig {
   agGrid?: {
     licenseKey: string;
   };
-  phases?: WorkSurfaces[];
+  phases?: Phase[];
 }
 
-export interface WorkSurfaces {
+/**
+ * The type for a phase, to be served from backend
+ */
+export interface Phase {
   id: string;
   title: string;
   description: string;

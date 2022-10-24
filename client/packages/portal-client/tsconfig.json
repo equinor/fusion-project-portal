@@ -18,7 +18,7 @@
     "noEmit": true
   },
   "files": [],
-  "include": ["./src"],
+  "include": ["./src", "../portal-core/src/mock.ts/phase-icons"],
   "references": [
     {
       "path": "./tsconfig.app.json"
