@@ -19,7 +19,8 @@
       "@equinor/portal-core": ["packages/portal-core/src/index.ts"],
       "@equinor/portal-pages": ["packages/portal-pages/src/index.ts"],
       "@equinor/portal-utils": ["packages/portal-utils/src/index.ts"],
-      "@equinor/portal-modules": ["packages/portal-modules/src/index.ts"]
+      "@equinor/portal-modules": ["packages/portal-modules/src/index.ts"],
+      "@equinor/portal-client": ["packages/portal-client/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
