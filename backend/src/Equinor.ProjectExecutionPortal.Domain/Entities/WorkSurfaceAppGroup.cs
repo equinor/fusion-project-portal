@@ -21,4 +21,9 @@ public class WorkSurfaceAppGroup : AuditableEntityEntityBase, ICreationAuditable
     public int Order { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();
+
+    public void AddApplication(WorkSurfaceApplication application)
+    {
+        _applications.Add(application);
+    }
 }
