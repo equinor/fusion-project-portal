@@ -3,9 +3,14 @@ import {
   useFramework,
 } from '@equinor/fusion-framework-react/hooks';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import background from '../../assets/homePageBackground.svg';
-import { PaseSelectorItem } from '../../components/PaseSelector/PaseSelectorItem';
+import { PaseSelectorItem } from '../../components/pase-selector/PaseSelectorItem';
+import {
+  StyledBackgroundSection,
+  StyledContentSection,
+  StyledMain,
+  StyledPaseSectionWrapper,
+} from './HomePage.Styles';
+
 import { HomePageHeader } from './HomePageHeader';
 
 interface Phase {
@@ -15,28 +20,6 @@ interface Phase {
   icon: string | React.FC;
   active?: boolean;
 }
-
-const StyledMain = styled.main``;
-
-const StyledBackgroundSection = styled.section`
-  width: 100%;
-  height: calc(100vh - 48px);
-  background-image: url(${background});
-
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  background-color: #dee5e7;
-`;
-const StyledContentSection = styled.section`
-  padding: 10rem 5rem 0rem 5rem;
-`;
-
-const StyledPaseSectionWrapper = styled.section`
-  display: flex;
-  gap: 3rem;
-  margin-top: 5rem;
-`;
 
 interface HomePageProps {
   phases: Phase[];
