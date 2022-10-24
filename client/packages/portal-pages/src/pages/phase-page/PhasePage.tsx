@@ -18,7 +18,6 @@ export const PhasePage = (props: PhaseProps): JSX.Element => {
 
           <StyledContentWrapper>
             <p>// some content</p>
-            {/* <Link to={'/'}>home</Link> */}
           </StyledContentWrapper>
         </StyledContentSection>
       </StyledBackgroundSection>
