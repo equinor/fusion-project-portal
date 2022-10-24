@@ -7,7 +7,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// The portal master object which ties all relevant portal data together
 /// It consists of multiple Work Surfaces, each with their own apps ++
 /// </summary>
-public abstract class Portal : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable // PERHAPS ABSTRACT
+public class Portal : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
     private readonly List<WorkSurface> _workSurfaces = new();
 

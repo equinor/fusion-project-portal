@@ -11,13 +11,17 @@ public class WorkSurface : AuditableEntityEntityBase, ICreationAuditable, IModif
     private readonly List<WorkSurfaceApplication> _applications = new();
     private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
-    public WorkSurface(string name, int order) : base(Guid.NewGuid())
+    public WorkSurface(string name, string shortName, string subText, int order) : base(Guid.NewGuid())
     {
         Name = name;
+        ShortName = shortName;
+        SubText = subText;
         Order = order;
     }
 
     public string Name { get; set; }
+    public string ShortName { get; set; }
+    public string SubText { get; set; }
     public int Order { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();

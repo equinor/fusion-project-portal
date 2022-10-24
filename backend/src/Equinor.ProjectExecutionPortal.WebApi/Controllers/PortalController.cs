@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -6,6 +8,19 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     [Route("api/portal")]
     public class PortalController : ApiControllerBase
     {
+        [HttpGet("")]
+        public async Task<ActionResult<ApiPortal>> Portal()
+        {
+            var portalDto = await Mediator.Send(new GetPortalWithAppsQuery());
+
+            if (portalDto == null)
+            {
+                return NotFound();
+            }
+
+            return new ApiPortal(portalDto);
+        } 
+        
         // TODO: List phases
         [HttpGet("work-surfaces")]
         public IActionResult WorkSurfaces()

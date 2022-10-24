@@ -2,14 +2,14 @@
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
-    public class ApiAddWorkSurfaceRequest
+    public class ApiCreateWorkSurfaceRequest
     {
         public string Name { get; set; }
         public int Order { get; set; }
 
-        public class AddWorkSurfaceRequestValidator : AbstractValidator<ApiAddWorkSurfaceRequest>
+        public class CreateWorkSurfaceRequestValidator : AbstractValidator<ApiCreateWorkSurfaceRequest>
         {
-            public AddWorkSurfaceRequestValidator()
+            public CreateWorkSurfaceRequestValidator()
             {
                 RuleFor(x => x.Name)
                     .NotEmpty()
