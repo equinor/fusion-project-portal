@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,16 +30,29 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
 
     public async Task<T> TryQueryAndDeserializeAsync<T>(string url) => await QueryAndDeserializeAsync<T>(url, true);
 
-    public async Task<string> TryQueryAsync(string url) => await QueryAsync(url, true);
-
-    private async Task<T> QueryAndDeserializeAsync<T>(string url, bool tryGet)
+    public async Task<byte[]> TryQueryAsByteArrayAsync(string url)
     {
-        var jsonResult = await QueryAsync(url, tryGet);
-        var result = JsonSerializer.Deserialize<T>(jsonResult);
+        var queryResult = await QueryAsync(url, true);
+        var result = await queryResult.Content.ReadAsByteArrayAsync();
+
         return result;
     }
 
-    private async Task<string> QueryAsync(string url, bool tryGet)
+    private async Task<T> QueryAndDeserializeAsync<T>(string url, bool tryGet)
+    {
+        var queryResult = await QueryAsync(url, tryGet);
+        var stringResult = await queryResult.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<T>(stringResult);
+
+        if (result == null)
+        {
+            throw new NotFoundException($"Requesting '{url}' resulted in null");
+        }
+
+        return result;
+    }
+
+    private async Task<HttpResponseMessage> QueryAsync(string url, bool tryGet)
     {
         if (string.IsNullOrEmpty(url))
         {
@@ -57,6 +71,7 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
         stopWatch.Stop();
 
         var msg = $"{stopWatch.Elapsed.TotalSeconds}s elapsed when requesting '{url}'. Status: {response.StatusCode}";
+
         if (!response.IsSuccessStatusCode)
         {
             if (tryGet && response.StatusCode == HttpStatusCode.NotFound)
@@ -69,8 +84,8 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
         }
 
         _logger.LogInformation(msg);
-        var jsonResult = await response.Content.ReadAsStringAsync();
-        return jsonResult;
+
+        return response;
     }
 
     private async ValueTask<HttpClient> CreateHttpClientAsync()

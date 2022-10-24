@@ -9,32 +9,27 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 public class WorkSurface : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
     private readonly List<WorkSurfaceApplication> _applications = new();
-    private readonly List<WorkSurfaceApplicationGroup> _applicationGroups = new();
-    private readonly List<WorkSurfaceLink> _portalLinks = new();
+    private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
-    public WorkSurface(string name) : base(Guid.NewGuid())
+    public WorkSurface(string name, int order) : base(Guid.NewGuid())
     {
         Name = name;
+        Order = order;
     }
 
     public string Name { get; set; }
+    public int Order { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();
-    public IReadOnlyCollection<WorkSurfaceApplicationGroup> ApplicationGroups => _applicationGroups.AsReadOnly();
-    public IReadOnlyCollection<WorkSurfaceLink> PortalLinks => _portalLinks.AsReadOnly();
+    public IReadOnlyCollection<WorkSurfaceAppGroup> AppGroups => _appGroups.AsReadOnly();
 
     public void AddApplication(WorkSurfaceApplication application)
     {
         _applications.Add(application);
     }
 
-    public void AddApplicationGroup(WorkSurfaceApplicationGroup group)
+    public void AddAppGroup(WorkSurfaceAppGroup group)
     {
-        _applicationGroups.Add(group);
-    }
-
-    public void AddPortalLink(WorkSurfaceLink link)
-    {
-        _portalLinks.Add(link);
+        _appGroups.Add(group);
     }
 }

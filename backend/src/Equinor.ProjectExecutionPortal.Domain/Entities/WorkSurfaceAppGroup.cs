@@ -7,11 +7,11 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// An Application Group acts as a grouping and ordering of selected portal applications
 /// TODO: Nested grouping
 /// </summary>
-public class WorkSurfaceApplicationGroup : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
+public class WorkSurfaceAppGroup : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
     private readonly List<WorkSurfaceApplication> _applications = new();
 
-    public WorkSurfaceApplicationGroup(string name, int order) : base(Guid.NewGuid())
+    public WorkSurfaceAppGroup(string name, int order) : base(Guid.NewGuid())
     {
         Name = name;
         Order = order;

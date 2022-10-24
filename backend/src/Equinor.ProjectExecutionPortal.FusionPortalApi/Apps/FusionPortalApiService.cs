@@ -41,7 +41,7 @@ public class FusionPortalApiService : IFusionPortalApiService
         }
     }
 
-    public async Task<ApiFusionPortalAppInformation> TryGetFusionPortalApp(string appKey)
+    public async Task<ApiFusionPortalAppInformation?> TryGetFusionPortalApp(string appKey)
     {
         var url = $"{_baseAddress}/api/apps/" + 
                   $"{appKey}" +
@@ -60,7 +60,7 @@ public class FusionPortalApiService : IFusionPortalApiService
         }
     }
 
-    public async Task<string> TryGetFusionPortalAppBundle(string appKey)
+    public async Task<byte[]> TryGetFusionPortalAppBundle(string appKey)
     {
         var url = $"{_baseAddress}/scripts/apps/" +
                   $"{appKey}" +
@@ -71,7 +71,7 @@ public class FusionPortalApiService : IFusionPortalApiService
 
         try
         {
-            return await _fusionPortalApiClient.TryQueryAsync(url);
+            return await _fusionPortalApiClient.TryQueryAsByteArrayAsync(url);
         }
         finally
         {

@@ -21,4 +21,9 @@ public abstract class Portal : AuditableEntityEntityBase, ICreationAuditable, IM
     public string Description { get; set; }
 
     public IReadOnlyCollection<WorkSurface> WorkSurfaces => _workSurfaces.AsReadOnly();
+
+    public void AddWorkSurface(WorkSurface workSurface)
+    {
+        _workSurfaces.Add(workSurface);
+    }
 }

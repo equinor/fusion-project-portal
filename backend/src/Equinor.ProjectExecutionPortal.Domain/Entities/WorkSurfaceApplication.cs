@@ -8,34 +8,25 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public abstract class WorkSurfaceApplication : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
-    protected WorkSurfaceApplication(string name, Guid? groupId, int order) : base(Guid.NewGuid())
+    protected WorkSurfaceApplication(string appKey, Guid? appGroupId, int order, bool isHidden) : base(Guid.NewGuid())
     {
-        Name = name;
-        GroupId = groupId;
+        AppKey = appKey;
+        AppGroupId = appGroupId;
         Order = order;
+        IsHidden = isHidden;
     }
 
     /// <summary>
     /// Fusion Portal application reference ID
     /// </summary>
-    public Guid? ApplicationId { get; set; }
-
-    public string Name { get; set; }
+    public string AppKey{ get; set; }
     public int Order { get; set; }
     public bool IsHidden { get; set; }
-    public bool IsPublished { get; set; }
-
-    public string Type { get; set; } // Should this be fetched from Fusion Portal?
-
-    // Metadata. Should this be fetched from Fusion Portal?
-
-    public string Icon { get; set; }
-    public string IconAccentColor { get; set; }
 
     // Relations
 
-    public Guid? GroupId { get; set; }
-    public WorkSurfaceApplicationGroup? Group { get; set; }
+    public Guid? AppGroupId { get; set; }
+    public WorkSurfaceAppGroup? AppGroup { get; set; }
 
     public Guid WorkSurfaceId { get; set; }
     public WorkSurface WorkSurface { get; set; }

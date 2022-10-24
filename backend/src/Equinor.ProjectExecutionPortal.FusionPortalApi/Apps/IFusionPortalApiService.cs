@@ -6,7 +6,7 @@ public interface IFusionPortalApiService
 {
     Task<IList<ApiFusionPortalAppInformation>> TryGetFusionPortalApps();
 
-    Task<ApiFusionPortalAppInformation> TryGetFusionPortalApp(string appKey);
+    Task<ApiFusionPortalAppInformation?> TryGetFusionPortalApp(string appKey);
 
-    Task<string> TryGetFusionPortalAppBundle(string appKey);
+    Task<byte[]> TryGetFusionPortalAppBundle(string appKey);
 }
