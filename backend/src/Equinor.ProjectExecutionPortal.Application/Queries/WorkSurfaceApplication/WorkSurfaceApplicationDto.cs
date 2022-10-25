@@ -5,8 +5,15 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplicat
     public class WorkSurfaceApplicationDto : BaseContextDto
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public string AppKey { get; set; }
         public int Order { get; set; }
         public WorkSurfaceAppGroupDto AppGroup { get; set; }
+
+        public void SupplyWithFusionData(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
     }
 }

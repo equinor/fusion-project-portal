@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Domain\Equinor.ProjectExecutionPortal.Domain.csproj" />
+    <ProjectReference Include="..\Equinor.ProjectExecutionPortal.FusionPortalApi\Equinor.ProjectExecutionPortal.FusionPortalApi.csproj" />
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Infrastructure\Equinor.ProjectExecutionPortal.Infrastructure.csproj" />
   </ItemGroup>
 

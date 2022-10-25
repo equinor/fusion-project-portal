@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Equinor.ProjectExecutionPortal.Application;
 using Equinor.ProjectExecutionPortal.Application.Events.Common;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
@@ -64,11 +65,12 @@ public static class ApplicationModule
 
         // Services
 
-        services.AddScoped<IFusionPortalApiService, FusionPortalApiService>();
+        services.AddScoped<IAppService, AppService>();
 
         // Integrations
 
         services.AddScoped<IBearerTokenFusionPortalApiClient, FusionPortalApiClient>();
+        services.AddScoped<IFusionPortalApiService, FusionPortalApiService>();
 
         // Validators
 
