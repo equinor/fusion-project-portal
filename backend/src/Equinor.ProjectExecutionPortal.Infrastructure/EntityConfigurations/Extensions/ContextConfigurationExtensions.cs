@@ -9,9 +9,11 @@ public static class ContextConfigurationExtensions
         where TEntity : ContextEntityBase
     {
         builder.Property(x => x.ExternalId)
+            .HasMaxLength(ContextEntityBase.ExternalIdLengthMax)
             .IsRequired();
 
         builder.Property(x => x.Type)
+            .HasMaxLength(ContextEntityBase.TypeLengthMax)
             .IsRequired();
     }
 }

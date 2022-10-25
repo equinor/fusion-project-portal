@@ -13,7 +13,9 @@ public class WorkSurfaceAppGroup : ContextEntityBase, ICreationAuditable, IModif
 
     private readonly List<WorkSurfaceApplication> _applications = new();
 
-    public WorkSurfaceAppGroup(string name, int order) : base(Guid.NewGuid(), "ContextType")
+    // Collaboration: Meeting & Review, Project Information: Task, OrgChart, Construction & Commissioning: Handover, WorkOrder, SWCR, Demo: Fungerende app
+
+    public WorkSurfaceAppGroup(string name, int order) : base("some-context", "context type")
     {
         Name = name;
         Order = order;

@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Common;
 /// <summary>
 /// Base class for auditable entities to be filtered by facility
 /// </summary>
-public abstract class AuditableEntityEntityBase
+public abstract class AuditableEntityBase : EntityBase
 {
     public DateTime CreatedAtUtc { get; private set; }
     public Guid? CreatedByAzureOid { get; private set; }

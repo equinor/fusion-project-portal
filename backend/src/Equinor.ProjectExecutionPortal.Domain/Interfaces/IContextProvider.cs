@@ -2,7 +2,7 @@
 
 public interface IContextProvider
 {
-    Guid ExternalId { get; }
+    string ExternalId { get; }
 
     string Type { get; }
 

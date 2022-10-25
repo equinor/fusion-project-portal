@@ -6,7 +6,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// The portal master object which ties all relevant portal data together
 /// </summary>
-public class WorkSurface : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
+public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int NameLengthMax = 200;
     public const int ShortNameLengthMax = 50;

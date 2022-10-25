@@ -2,7 +2,7 @@
 
 public interface IContextSetter
 {
-    void SetContext(Guid externalId, string type);
+    void SetContext(string externalId, string type);
 
     void SetCrossContextQuery();
 

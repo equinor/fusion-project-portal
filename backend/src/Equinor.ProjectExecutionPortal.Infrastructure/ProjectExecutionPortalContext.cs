@@ -39,8 +39,8 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 
     public virtual DbSet<Portal> Portals { get; set; }
     public virtual DbSet<WorkSurface> WorkSurfaces { get; set; }
-    public virtual DbSet<WorkSurfaceApplication> WorkSurfaceApplications { get; set; }
     public virtual DbSet<WorkSurfaceAppGroup> WorkSurfaceAppGroups { get; set; }
+    public virtual DbSet<WorkSurfaceApplication> WorkSurfaceApplications { get; set; }
 
     public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : ContextEntityBase =>
         builder

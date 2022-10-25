@@ -12,5 +12,9 @@ public class WorkSurfaceApplicationConfiguration : IEntityTypeConfiguration<Work
         builder.ConfigureContext();
         builder.ConfigureCreationAudit();
         builder.ConfigureModificationAudit();
+
+        builder.Property(t => t.AppKey)
+            .HasMaxLength(WorkSurfaceApplication.AppKeyLengthMax)
+            .IsRequired();
     }
 }

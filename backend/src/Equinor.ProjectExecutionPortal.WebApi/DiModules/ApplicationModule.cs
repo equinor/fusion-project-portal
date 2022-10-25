@@ -59,10 +59,11 @@ public static class ApplicationModule
         services.AddScoped<IBearerTokenProvider>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IBearerTokenSetter>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IAuthenticator>(x => x.GetRequiredService<Authenticator>());
+
+        services.AddScoped<ContextProvider>();
         services.AddScoped<IContextProvider>(x => x.GetRequiredService<ContextProvider>());
         services.AddScoped<IContextSetter>(x => x.GetRequiredService<ContextProvider>());
-
-
+        
         // Services
 
         services.AddScoped<IAppService, AppService>();
