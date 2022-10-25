@@ -17,6 +17,6 @@ export const createObservableStorage = <TType>(
   return {
     obs$: subject$.pipe(tap(store.save)),
     next: (value: TType) => subject$.next(value),
-    complete: () => subject$.complete(),
+    subject$,
   };
 };
