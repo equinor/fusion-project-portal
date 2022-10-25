@@ -2,7 +2,9 @@
 
 public interface IContextProvider
 {
-    Guid ContextId { get; }
+    Guid ExternalId { get; }
+
+    string Type { get; }
 
     bool IsCrossContextQuery { get; }
 }

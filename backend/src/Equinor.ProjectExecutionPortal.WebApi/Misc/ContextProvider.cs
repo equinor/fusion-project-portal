@@ -4,10 +4,17 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Misc;
 
 public class ContextProvider : IContextProvider, IContextSetter
 {
-    public Guid ContextId { get; private set; }
+    public Guid ExternalId { get; private set; }
+    public string Type { get; private set; }
     public bool IsCrossContextQuery { get; private set; }
 
-    public void SetContext(Guid contextId) => ContextId = contextId;
-    public void SetCrossPlantQuery() => IsCrossContextQuery = true;
-    public void ClearCrossPlantQuery() => IsCrossContextQuery = false;
+    public void SetContext(Guid externalId, string type)
+    {
+        ExternalId = externalId;
+        Type = type;
+    }
+
+    public void SetCrossContextQuery() => IsCrossContextQuery = true;
+
+    public void ClearCrossContextQuery() => IsCrossContextQuery = false;
 }

@@ -2,7 +2,9 @@
 
 public interface IContextSetter
 {
-    void SetContext(Guid plant);
-    void SetCrossPlantQuery();
-    void ClearCrossPlantQuery();
+    void SetContext(Guid externalId, string type);
+
+    void SetCrossContextQuery();
+
+    void ClearCrossContextQuery();
 }

@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations;
 
-public class PortalApplicationConfiguration : IEntityTypeConfiguration<WorkSurfaceApplication>
+public class WorkSurfaceApplicationConfiguration : IEntityTypeConfiguration<WorkSurfaceApplication>
 {
     public void Configure(EntityTypeBuilder<WorkSurfaceApplication> builder)
     {
         builder.ConfigureContext();
+        builder.ConfigureCreationAudit();
+        builder.ConfigureModificationAudit();
     }
 }

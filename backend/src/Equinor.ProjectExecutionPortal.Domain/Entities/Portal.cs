@@ -9,9 +9,12 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class Portal : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
+    public const int NameLengthMax = 200;
+    public const int DescriptionLengthMax = 4000;
+
     private readonly List<WorkSurface> _workSurfaces = new();
 
-    protected Portal(string name, string description) : base(Guid.NewGuid())
+    protected Portal(string name, string description)
     {
         Name = name;
         Description = description;

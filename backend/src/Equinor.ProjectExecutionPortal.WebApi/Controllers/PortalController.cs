@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
+using Fusion.Integration;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
@@ -22,7 +23,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         } 
         
         [HttpGet("work-surfaces")]
-        public IActionResult WorkSurfaces()
+        public async Task<IActionResult> WorkSurfaces([FromServices] IFusionContextResolver contextResolver)
         {
             return Json("work surfaces for portal");
         }

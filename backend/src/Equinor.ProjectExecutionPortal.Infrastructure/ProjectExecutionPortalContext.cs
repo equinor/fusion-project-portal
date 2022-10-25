@@ -45,7 +45,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : ContextEntityBase =>
         builder
             .Entity<T>()
-            .HasQueryFilter(e => e.ContextId == _contextProvider.ContextId || _contextProvider.IsCrossContextQuery);
+            .HasQueryFilter(e => (e.ExternalId == _contextProvider.ExternalId && e.Type == _contextProvider.Type) || _contextProvider.IsCrossContextQuery);
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

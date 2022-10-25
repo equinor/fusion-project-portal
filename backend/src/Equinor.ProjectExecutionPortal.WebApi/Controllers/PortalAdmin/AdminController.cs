@@ -8,26 +8,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.PortalAdmin
     [Route("api/admin")]
     public class AdminController : ApiControllerBase
     {
-
-        [HttpGet("onboard")]
-        public IActionResult OnboardedApps()
-        {
-            return Json("onboarded apps for portal");
-        }
-
-        [HttpPost("onboard")]
-        public IActionResult OnboardApp([FromBody] string appKey)
-        {
-            return Json($"{appKey} onboarded");
-        }
-
-        [HttpDelete("onboard/{appKey}")]
-        public IActionResult DelistApp([FromRoute] string appKey)
-        {
-            return Json($"{appKey} no longer onboarded");
-        }
-
-        [HttpGet("onboard/fusion-apps")]
+        [HttpGet("fusion-apps")]
         public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionPortalApiService fusionPortalApiService)
         {
             try
@@ -41,6 +22,24 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.PortalAdmin
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        [HttpGet("onboarded-apps")]
+        public IActionResult OnboardedApps()
+        {
+            return Json("onboarded apps for portal");
+        }
+
+        [HttpPost("onboarded-apps")]
+        public IActionResult OnboardApp([FromBody] string appKey)
+        {
+            return Json($"{appKey} onboarded");
+        }
+
+        [HttpDelete("onboarded-apps/{appKey}")]
+        public IActionResult DelistApp([FromRoute] string appKey)
+        {
+            return Json($"{appKey} no longer onboarded");
         }
 
         [HttpGet("work-surfaces")]

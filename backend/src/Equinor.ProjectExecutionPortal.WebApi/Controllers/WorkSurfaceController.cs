@@ -4,13 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
     [ApiVersion("0.1")]
-    [Route("api/work-surface")]
+    [Route("api/work-surfaces/")]
     public class WorkSurfaceController : ApiControllerBase
     {
+        //[HttpGet("{workSurfaceId}/contexts/{contextId}/apps")]
         [HttpGet("{workSurfaceId}/apps")]
         public IActionResult Apps([FromRoute] Guid workSurfaceId)
         {
-            // TODO list of whitelisted bundles
+            // TODO: Resolve
+            // TODO list of apps added to this specific work surface
 
             return Json("yo");
         }
@@ -25,7 +27,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             try
             {
-                // TODO: Verify that app is in work surface
+                // TODO: Verify that app is in work surface and context
 
                 var appBundle = await fusionPortalApiService.TryGetFusionPortalAppBundle(appKey);
 
@@ -38,8 +40,4 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
         }
     }
-
-
-
-
 }

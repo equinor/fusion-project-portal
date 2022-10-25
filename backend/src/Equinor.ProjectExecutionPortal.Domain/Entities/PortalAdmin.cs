@@ -9,7 +9,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class PortalAdmin : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public PortalAdmin(Guid azureUniqueId) : base(Guid.NewGuid())
+    public PortalAdmin(Guid azureUniqueId)
     {
         AzureUniqueId = azureUniqueId;
     }

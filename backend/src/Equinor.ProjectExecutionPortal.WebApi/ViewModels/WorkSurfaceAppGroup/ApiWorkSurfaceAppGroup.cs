@@ -11,6 +11,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
             Order = workSurfaceAppGroupDto.Order;
             Applications = workSurfaceAppGroupDto.Applications.OrderBy(x => x.Order).Select(x => new ApiWorkSurfaceApplication(x)).ToList();
         }
+
         public string Name { get; set; }
         public int Order { get; set; }
         public List<ApiWorkSurfaceApplication> Applications { get; set; }

@@ -8,10 +8,14 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class WorkSurface : AuditableEntityEntityBase, ICreationAuditable, IModificationAuditable
 {
+    public const int NameLengthMax = 200;
+    public const int ShortNameLengthMax = 50;
+    public const int SubTextLengthMax = 200;
+
     private readonly List<WorkSurfaceApplication> _applications = new();
     private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
-    public WorkSurface(string name, string shortName, string subText, int order) : base(Guid.NewGuid())
+    public WorkSurface(string name, string shortName, string subText, int order)
     {
         Name = name;
         ShortName = shortName;
@@ -23,6 +27,9 @@ public class WorkSurface : AuditableEntityEntityBase, ICreationAuditable, IModif
     public string ShortName { get; set; }
     public string SubText { get; set; }
     public int Order { get; set; }
+
+    public Guid PortalId { get; set; }
+    public Portal Portal { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();
     public IReadOnlyCollection<WorkSurfaceAppGroup> AppGroups => _appGroups.AsReadOnly();

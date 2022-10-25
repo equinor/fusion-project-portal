@@ -40,6 +40,7 @@ builder.Services.AddFusionIntegration(f =>
     f.UseServiceInformation("Fusion.Project.Portal", "Dev");
     f.UseDefaultEndpointResolver("ci");
     f.UseMsalTokenProvider();
+    f.DisableClaimsTransformation();
 });
 
 // Add http client to the fusion portal api. This can be fetched from the IHttpClientFactory

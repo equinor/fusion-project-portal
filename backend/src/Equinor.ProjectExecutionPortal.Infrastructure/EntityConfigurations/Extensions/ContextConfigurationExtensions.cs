@@ -5,7 +5,13 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations.Ext
 
 public static class ContextConfigurationExtensions
 {
-    public static void ConfigureContext<TEntity>(this EntityTypeBuilder<TEntity> builder) where TEntity : ContextEntityBase =>
-        builder.Property(x => x.ContextId)
+    public static void ConfigureContext<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        where TEntity : ContextEntityBase
+    {
+        builder.Property(x => x.ExternalId)
             .IsRequired();
+
+        builder.Property(x => x.Type)
+            .IsRequired();
+    }
 }
