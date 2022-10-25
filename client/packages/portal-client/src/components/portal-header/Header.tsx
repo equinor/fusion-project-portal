@@ -1,5 +1,6 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
 import { phaseController } from 'packages/portal-core/src/phases/phases';
+import { TopBarAvatar } from '../../../../portal-core/src';
 
 export function Header() {
   return (
@@ -8,7 +9,7 @@ export function Header() {
       MenuButton={MenuButton}
       title="Project Portal"
     >
-      Hello Project Portal
+      <TopBarAvatar />
     </PortalHeader>
   );
 }
