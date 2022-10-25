@@ -21,7 +21,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return new ApiPortal(portalDto);
         } 
         
-        // TODO: List phases
         [HttpGet("work-surfaces")]
         public IActionResult WorkSurfaces()
         {
