@@ -1,7 +1,7 @@
 import { Phase } from '@equinor/portal-core';
-import { createObservableStorage, storage } from '@equinor/portal-utils';
+import { createObservableStorage } from '@equinor/portal-utils';
 import { BehaviorSubject, of } from 'rxjs';
-import { combineLatestWith, switchMap, tap } from 'rxjs/operators';
+import { combineLatestWith, switchMap } from 'rxjs/operators';
 import { phases as MockPhases } from '../mock/phases';
 
 //Key the selected phase is stored under
