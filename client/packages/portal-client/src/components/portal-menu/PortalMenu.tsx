@@ -68,15 +68,20 @@ export function MenuGroups() {
 
   return (
     <PortalMenu>
-      <Search
-        onChange={(e) => {
-          search$.next(e.target.value);
-        }}
-      />
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5em' }}>
-        {groups.map((group) => (
-          <Group key={group.name} group={group} />
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2em' }}>
+        <Search
+          placeholder="Search for apps"
+          onChange={(e) => {
+            search$.next(e.target.value);
+          }}
+        />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5em' }}>
+          {groups.length ? (
+            groups.map((group) => <Group key={group.name} group={group} />)
+          ) : (
+            <div>No apps to show</div>
+          )}
+        </div>
       </div>
     </PortalMenu>
   );
