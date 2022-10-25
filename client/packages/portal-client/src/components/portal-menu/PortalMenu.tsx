@@ -2,6 +2,8 @@ import { Search } from '@equinor/eds-core-react';
 import { PortalMenu } from '@equinor/portal-ui';
 import { useObservable } from '@equinor/portal-utils';
 import { BehaviorSubject, combineLatestWith, map } from 'rxjs';
+import { MenuGroup } from './Group/Group';
+import { GroupWrapper } from './GroupWrapper/GroupWrapper';
 
 const MOCK_GROUPS: MenuGroup[] = [
   {
@@ -75,55 +77,8 @@ export function MenuGroups() {
             search$.next(e.target.value);
           }}
         />
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5em' }}>
-          {groups.length ? (
-            groups.map((group) => <Group key={group.name} group={group} />)
-          ) : (
-            <div>No apps to show</div>
-          )}
-        </div>
+        <GroupWrapper groups={groups} />
       </div>
     </PortalMenu>
   );
 }
-
-type GroupProps = {
-  group: MenuGroup;
-};
-const Group = ({ group }: GroupProps) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '0.5em',
-        width: '200px',
-        alignItems: 'flex-start',
-      }}
-    >
-      <ColorTab color={group.color} />
-      <div
-        key={group.name}
-        style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}
-      >
-        <div>{group.name}</div>
-        <div style={{ display: 'flex', gap: '0.5em', flexDirection: 'column' }}>
-          {group.children.map((child) => (
-            <div key={child}>{child}</div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ColorTab = ({ color }: { color: string }) => {
-  return (
-    <div style={{ height: '16px', width: '4px', backgroundColor: color }}></div>
-  );
-};
-
-type MenuGroup = {
-  name: string;
-  color: string;
-  children: string[];
-};
