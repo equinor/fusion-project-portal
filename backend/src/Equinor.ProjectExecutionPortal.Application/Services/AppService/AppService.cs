@@ -16,6 +16,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         public async Task<IList<WorkSurfaceApplicationDto>> EnrichWithFusionAppData(IList<WorkSurfaceApplicationDto> applications, CancellationToken cancellationToken)
         {
+            // Todo: Get only certain apps
             var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
 
             return CombineWithFusionAppData(applications, fusionApps);

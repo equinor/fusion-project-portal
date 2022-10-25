@@ -1,9 +1,10 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
+﻿using AutoMapper;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
+using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
 
@@ -15,100 +16,83 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
     public class Handler : IRequestHandler<GetPortalWithAppsQuery, PortalDto?>
     {
-        //private readonly IReadWriteContext _context;
+        private readonly IReadWriteContext _context;
+        private readonly IMapper _mapper;
         private readonly IAppService _appService;
 
-        public Handler(IAppService appService)
+        public Handler(IReadWriteContext context, IMapper mapper, IAppService appService)
         {
-            // _context = context;
+            _context = context;
+            _mapper = mapper;
             _appService = appService;
         }
 
         public async Task<PortalDto?> Handle(GetPortalWithAppsQuery request, CancellationToken cancellationToken)
         {
-            // As of now, we should only have one portal
-
-            //var portal = await _context.Set<Domain.Entities.Portal>()
-            //    .Include(x => x.WorkSurfaces).ThenInclude(x => x.Applications)
-            //    .AsNoTracking()
-            //    .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException("Could not find any portals");
-            //.ProjectToListAsync<PortalAppDto>(_mapper.ConfigurationProvider);
-
-            var portal = new PortalDto
+            // Temp: Seed db if no portals is found
+            if (!await _context.Set<Domain.Entities.Portal>().AnyAsync(cancellationToken))
             {
-                Name = "Project Execution Portal",
-                Description = "A test description",
-                WorkSurfaces = new List<WorkSurfaceDto>
-                {
-                    new WorkSurfaceDto
-                    {
-                        Name = "Early Phase",
-                        ShortName = "< DG 3",
-                        SubText = "Here you can find all the tools that you need",
-                        Order = 0,
-                        AppGroups =new List<WorkSurfaceAppGroupDto>(),
-                        Applications = new List<WorkSurfaceApplicationDto>
-                        {
-                            new WorkSurfaceApplicationDto
-                            {
-                                AppKey = "one-equinor",
-                                Order = 0
-                            },
-                            new WorkSurfaceApplicationDto
-                            {
-                                AppKey = "resource-allocation-landingpage",
-                                Order = 1
-                            }
-                        }
-                    },
-                    new WorkSurfaceDto
-                    {
-                        Name = "Project Execution",
-                        ShortName = "DG 3 - DG 4",
-                        SubText = "Go to this phase to work with projects that are beyond DG3",
-                        Order = 1,
-                        AppGroups =new List<WorkSurfaceAppGroupDto>(),
-                        Applications = new List<WorkSurfaceApplicationDto>
-                        {
-                            new WorkSurfaceApplicationDto
-                            {
-                                AppKey = "one-equinor",
-                                Order = 0
-                            },
-                            new WorkSurfaceApplicationDto
-                            {
-                                AppKey = "resource-allocation-landingpage",
-                                Order = 1
-                            }
-                        }
-                    },
-                    new WorkSurfaceDto
-                    {
-                        Name = "Another phase",
-                        ShortName = "DG X",
-                        SubText = "Some other sub text",
-                        Order = 2,
-                        AppGroups =new List<WorkSurfaceAppGroupDto>(),
-                        Applications = new List<WorkSurfaceApplicationDto>
-                        {
-                            new WorkSurfaceApplicationDto
-                            {
-                                AppKey = "one-equinor",
-                                Order = 0
-                            },
-                            new WorkSurfaceApplicationDto
-                            {
-                                AppKey = "resource-allocation-landingpage",
-                                Order = 1
-                            }
-                        }
-                    },
-                }
-            };
+                await TempMethodSeedDb(cancellationToken);
+            }
+
+            var enitity = await _context.Set<Domain.Entities.Portal>()
+                .Include(x => x.WorkSurfaces).ThenInclude(x => x.Applications)
+                .Include(x => x.WorkSurfaces).ThenInclude(x => x.AppGroups).ThenInclude(x => x.Applications)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException();
+
+            var portal = _mapper.Map<Domain.Entities.Portal, PortalDto>(enitity);
 
             var enrichedPortal = await _appService.EnrichPortalWithFusionAppData(portal, cancellationToken);
 
             return enrichedPortal;
+        }
+
+        // TEMP TEMP TEMP
+        private async Task TempMethodSeedDb(CancellationToken cancellationToken)
+        {
+            var portal = new Domain.Entities.Portal("Project Execution Portal", "A test description");
+
+            var workSurface1 = new Domain.Entities.WorkSurface("Early Phase", "< DG 3", "Here you can find all the tools that you need", 0);
+            var workSurface2 = new Domain.Entities.WorkSurface("Project Execution", "DG 3 - DG 4", "Go to this phase to work with projects that are beyond DG3", 1);
+            var workSurface3 = new Domain.Entities.WorkSurface("Another phase", "DG X", "Some other sub text", 2);
+
+            portal.AddWorkSurface(workSurface1);
+            portal.AddWorkSurface(workSurface2);
+            portal.AddWorkSurface(workSurface3);
+
+            await _context.Set<Domain.Entities.Portal>().AddAsync(portal, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var collaborationAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Collaboration", 0);
+            var projectInformationAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Project Information", 1);
+            var ccAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Construction and Commissioning", 2);
+            var demoAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Demo", 3);
+
+            workSurface2.AddAppGroup(collaborationAppGroup);
+            workSurface2.AddAppGroup(projectInformationAppGroup);
+            workSurface2.AddAppGroup(ccAppGroup);
+            workSurface2.AddAppGroup(demoAppGroup);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var meetingsApp = new Domain.Entities.WorkSurfaceApplication("meetings", null, 0, workSurface2.Id);
+            var reviewsApp = new Domain.Entities.WorkSurfaceApplication("reviews", null, 1, workSurface2.Id);
+            var tasksApp = new Domain.Entities.WorkSurfaceApplication("tasks", null, 0, workSurface2.Id);
+            var orgChartApp = new Domain.Entities.WorkSurfaceApplication("one-equinor", null, 1, workSurface2.Id);
+            var handoverGardenApp = new Domain.Entities.WorkSurfaceApplication("handover-garden", null, 0, workSurface2.Id);
+            var workOrderGardenApp = new Domain.Entities.WorkSurfaceApplication("workorder-garden", null, 1, workSurface2.Id);
+            var demoApp = new Domain.Entities.WorkSurfaceApplication("one-equinor", null, 0, workSurface2.Id);
+
+            collaborationAppGroup.AddApplication(meetingsApp);
+            collaborationAppGroup.AddApplication(reviewsApp);
+            projectInformationAppGroup.AddApplication(tasksApp);
+            projectInformationAppGroup.AddApplication(orgChartApp);
+            ccAppGroup.AddApplication(handoverGardenApp);
+            ccAppGroup.AddApplication(workOrderGardenApp);
+            demoAppGroup.AddApplication(demoApp);
+
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

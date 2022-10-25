@@ -43,7 +43,7 @@ public static class ApplicationModule
 
         services.AddHttpContextAccessor();
         services.AddMediatR(applicationAssembly);
-        //services.AddAutoMapper(applicationAssembly);
+        services.AddAutoMapper(applicationAssembly);
 
         // Transient - Created each time it is requested from the service container
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

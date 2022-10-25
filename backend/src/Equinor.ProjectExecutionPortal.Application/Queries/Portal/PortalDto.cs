@@ -1,8 +1,9 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portal;
 
-public class PortalDto : BaseContextDto
+public class PortalDto : BaseContextDto, IMapFrom<Domain.Entities.Portal>
 {
     public string Name { get; set; }
     public string Description { get; set; }

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Fusion.Infrastructure.Internal.Services" Version="6.0.4" />
     <PackageReference Include="Fusion.Integration" Version="6.0.11" />
     <PackageReference Include="MediatR" Version="10.0.1" />

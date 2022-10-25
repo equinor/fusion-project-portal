@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries;
+namespace Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
 
 public static class MappingExtensions
 {

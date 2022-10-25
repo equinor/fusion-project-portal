@@ -97,7 +97,8 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 
         if (addedEntries.Any() || modifiedEntries.Any())
         {
-            var currentUserOid = _currentUserProvider.GetCurrentUserOid();
+            //var currentUserOid = _currentUserProvider.GetCurrentUserOid();
+            var currentUserOid = new Guid("d42814c3-4d50-4099-9216-b02702cf7014");
 
             foreach (var entry in addedEntries)
             {

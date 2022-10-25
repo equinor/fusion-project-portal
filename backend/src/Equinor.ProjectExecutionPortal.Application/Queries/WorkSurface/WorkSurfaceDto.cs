@@ -1,9 +1,10 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
 {
-    public class WorkSurfaceDto : BaseContextDto
+    public class WorkSurfaceDto : BaseContextDto, IMapFrom<Domain.Entities.WorkSurface>
     {
         public string Name { get; set; }
         public string ShortName { get; set; }

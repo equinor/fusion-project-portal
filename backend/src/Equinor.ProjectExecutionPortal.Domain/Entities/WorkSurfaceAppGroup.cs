@@ -13,7 +13,7 @@ public class WorkSurfaceAppGroup : ContextEntityBase, ICreationAuditable, IModif
 
     private readonly List<WorkSurfaceApplication> _applications = new();
 
-    // Collaboration: Meeting & Review, Project Information: Task, OrgChart, Construction & Commissioning: Handover, WorkOrder, SWCR, Demo: Fungerende app
+    // Collaboration: Meeting & Review, Project Information: Task, OrgChart, Construction and Commissioning: Handover, WorkOrder, SWCR, Demo: Fungerende app
 
     public WorkSurfaceAppGroup(string name, int order) : base("some-context", "context type")
     {

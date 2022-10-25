@@ -14,7 +14,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
 
     private readonly List<WorkSurface> _workSurfaces = new();
 
-    protected Portal(string name, string description)
+    public Portal(string name, string description)
     {
         Name = name;
         Description = description;
