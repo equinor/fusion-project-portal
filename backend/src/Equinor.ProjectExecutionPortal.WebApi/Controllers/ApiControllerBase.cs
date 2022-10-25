@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fusion.Integration;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ public abstract class ApiControllerBase : Controller
     private IMapper _mapper = null!;
     private readonly ILogger<ApiControllerBase> _logger = null!;
     private IAuthorizationService _authorizationService = null!;
+    private IFusionContextResolver _contextResolver = null!;
 
     protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
     protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetRequiredService<IMapper>();
     protected ILogger Logger => _logger;
     protected IAuthorizationService AuthorizationService => _authorizationService ??= HttpContext.RequestServices.GetRequiredService<IAuthorizationService>();
+    protected IFusionContextResolver contextResolver => _contextResolver ??= HttpContext.RequestServices.GetRequiredService<IFusionContextResolver>();
 
     private protected async Task<Unit> SetAuthorizedVerbsHeader(List<(string verb, string policy)> verbPolicyMap, object? resource)
     {

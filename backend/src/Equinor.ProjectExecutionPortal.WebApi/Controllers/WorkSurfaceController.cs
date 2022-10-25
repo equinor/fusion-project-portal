@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
+using Fusion.Integration;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
@@ -7,6 +8,15 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     [Route("api/work-surfaces/")]
     public class WorkSurfaceController : ApiControllerBase
     {
+        [HttpGet("")]
+        public async Task<IActionResult> WorkSurfaces()
+        {
+            var contextIdentifier = ContextIdentifier.FromExternalId("FC5FFCBC-392F-4D7E-BB14-79A006579337");
+            var context = await contextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+            return Json("work surfaces for portal");
+        }
+
         //[HttpGet("{workSurfaceId}/contexts/{contextId}/apps")]
         [HttpGet("{workSurfaceId}/apps")]
         public IActionResult Apps([FromRoute] Guid workSurfaceId)
