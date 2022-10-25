@@ -1,7 +1,7 @@
 import { Phase } from '@equinor/portal-core';
 import { createObservableStorage } from '@equinor/portal-utils';
-import { BehaviorSubject, of } from 'rxjs';
-import { combineLatestWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs/operators';
 import { phases as MockPhases } from '../mock/phases';
 
 //Key the selected phase is stored under
@@ -30,7 +30,7 @@ const phases$ = phases.asObservable();
 
 const currentPhase$ = phases$.pipe(
   combineLatestWith(currentPhaseId$),
-  switchMap(([phases, selected]) => of(phases.find((s) => s.id === selected)))
+  map(([phases, selected]) => phases.find((s) => s.id === selected))
 );
 
 export const phaseController = {
