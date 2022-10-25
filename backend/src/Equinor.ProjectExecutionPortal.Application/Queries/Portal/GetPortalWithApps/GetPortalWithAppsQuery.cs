@@ -1,6 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using MediatR;
 
@@ -15,10 +16,12 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
     public class Handler : IRequestHandler<GetPortalWithAppsQuery, PortalDto?>
     {
         //private readonly IReadWriteContext _context;
+        private readonly IAppService _appService;
 
-        public Handler()
+        public Handler(IAppService appService)
         {
             // _context = context;
+            _appService = appService;
         }
 
         public async Task<PortalDto?> Handle(GetPortalWithAppsQuery request, CancellationToken cancellationToken)
@@ -31,7 +34,7 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             //    .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException("Could not find any portals");
             //.ProjectToListAsync<PortalAppDto>(_mapper.ConfigurationProvider);
 
-            return new PortalDto
+            var portal = new PortalDto
             {
                 Name = "Project Execution Portal",
                 Description = "A test description",
@@ -48,13 +51,11 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
                         {
                             new WorkSurfaceApplicationDto
                             {
-                                Name = "One Equinor",
                                 AppKey = "one-equinor",
                                 Order = 0
                             },
                             new WorkSurfaceApplicationDto
                             {
-                                Name = "Resource Allocation Landingpage",
                                 AppKey = "resource-allocation-landingpage",
                                 Order = 1
                             }
@@ -71,13 +72,11 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
                         {
                             new WorkSurfaceApplicationDto
                             {
-                                Name = "One Equinor",
                                 AppKey = "one-equinor",
                                 Order = 0
                             },
                             new WorkSurfaceApplicationDto
                             {
-                                Name = "Resource Allocation Landingpage",
                                 AppKey = "resource-allocation-landingpage",
                                 Order = 1
                             }
@@ -94,13 +93,11 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
                         {
                             new WorkSurfaceApplicationDto
                             {
-                                Name = "One Equinor",
                                 AppKey = "one-equinor",
                                 Order = 0
                             },
                             new WorkSurfaceApplicationDto
                             {
-                                Name = "Resource Allocation Landingpage",
                                 AppKey = "resource-allocation-landingpage",
                                 Order = 1
                             }
@@ -108,6 +105,10 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
                     },
                 }
             };
+
+            var enrichedPortal = await _appService.EnrichPortalWithFusionAppData(portal, cancellationToken);
+
+            return enrichedPortal;
         }
     }
 }
