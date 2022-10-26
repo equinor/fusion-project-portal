@@ -1,90 +1,64 @@
-# ProjectPortalClient
 
-This project was generated using [Nx](https://nx.dev).
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+   <img src="../documentation/src/.vuepress/public/fusion.png" width="350">
+  </a>
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+  <h1 align="center">Fusion Project Portal</h1>
 
-🔎 **Smart, Fast and Extensible Build System**
+  <p align="center">
+    This projects documentation and specification can be found here 
+    <br />
+    <a href="https://equinor.github.io/fusion-project-portal/"><strong>Explore the docs</strong></a>
+    <br />
+  </p>
+</div>
 
-## Adding capabilities to your workspace
+## About The Project
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+This projects main goal is to give the user a space serving workflows according to project phase and context. This will be served to the user in the form of a project portal. The portal will contain sections each containing specific application support the current phase. 
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## Built With
 
-Below are our core plugins:
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+ [![typescript][Typescript]][Typescript-url]
+ [![React][React.js]][React-url]
+ [![Vite][Vite.js]][ViteJs-url]
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+## Getting Started
 
-## Generate an application
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
 
-> You can use any of the plugins above to generate applications as well.
+### Installation
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
 
-## Generate a library
+1. Clone the repo
+```sh
+   git clone https://github.com/equinor/fusion-project-portal.git
+```
+2. Open client folder
+```sh
+   $ cd client
+```
+3. Install dependencies
+```sh
+   yarn install
+```
+4. Run in development
+```sh
+   nx serve
+```
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
 
-> You can also use any of the plugins above to generate libraries as well.
 
-Libraries are shareable across libraries and applications. They can be imported from `@project-portal/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vite.js]: https://img.shields.io/badge/vite-20232A?style=for-the-badge&logo=vite&logoColor=61DAFB
+[ViteJs-url]: https://vitejs.dev/
+[Typescript]: https://img.shields.io/badge/typescript-20232A?style=for-the-badge&logo=typescript&logoColor=61DAFB
+[Typescript-url]: https://typescriptlang.org

@@ -19,6 +19,13 @@
     }
   },
   "targetDefaults": {
+    "test": {
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"
@@ -42,5 +49,23 @@
   "workspaceLayout": {
     "appsDir": "packages",
     "libsDir": "packages"
-  }
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "styled-components"
+      },
+      "library": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    },
+    "targetDefaults": {}
+  },
+  "defaultProject": "portal-client"
 }
