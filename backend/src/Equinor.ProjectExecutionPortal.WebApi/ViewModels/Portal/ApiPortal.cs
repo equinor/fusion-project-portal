@@ -9,7 +9,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         {
             Name = portalDto.Name;
             Description = portalDto.Description;
-            WorkSurfaces = portalDto.WorkSurfaces.OrderBy(x => x.Order).Select(x => new ApiWorkSurface(x)).ToList();
+            WorkSurfaces = portalDto.WorkSurfaces.Select(x => new ApiWorkSurface(x)).ToList();
         }
 
         public string Name { get; set; }

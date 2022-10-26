@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
             Name = workSurfaceAppGroupDto.Name;
             Order = workSurfaceAppGroupDto.Order;
             AccentColor = workSurfaceAppGroupDto.AccentColor;
-            Applications = workSurfaceAppGroupDto.Applications.OrderBy(x => x.Order).Select(x => new ApiWorkSurfaceApplication(x)).ToList();
+            Applications = workSurfaceAppGroupDto.Applications.Select(x => new ApiWorkSurfaceApplication(x)).ToList();
         }
 
         public string Name { get; set; }

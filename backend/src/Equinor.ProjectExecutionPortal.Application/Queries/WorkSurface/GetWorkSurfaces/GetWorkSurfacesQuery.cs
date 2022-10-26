@@ -26,6 +26,7 @@ public class GetWorkSurfacesQuery : QueryBase<IList<WorkSurfaceDto>>
         public async Task<IList<WorkSurfaceDto>> Handle(GetWorkSurfacesQuery request, CancellationToken cancellationToken)
         {
             var entities = await _context.Set<Domain.Entities.WorkSurface>()
+                .OrderBy(x => x.Order)
                 .AsNoTracking().ToListAsync(cancellationToken);
 
             var workSurfaces = _mapper.Map<List<Domain.Entities.WorkSurface>, List<WorkSurfaceDto>>(entities);

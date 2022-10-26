@@ -13,8 +13,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             ShortName = workSurfaceDto.ShortName;
             Subtext = workSurfaceDto.SubText;
             Order = workSurfaceDto.Order;
-            Applications = workSurfaceDto.Applications.OrderBy(x => x.Order).Select(x => new ApiWorkSurfaceApplication(x)).ToList();
-            AppGroups = workSurfaceDto.AppGroups.OrderBy(x => x.Order).Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
+            Applications = workSurfaceDto.Applications.Select(x => new ApiWorkSurfaceApplication(x)).ToList();
+            AppGroups = workSurfaceDto.AppGroups.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
         }
 
         public Guid Id { get; set; }
