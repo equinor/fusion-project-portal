@@ -29,14 +29,14 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
         public async Task<PortalDto?> Handle(GetPortalWithAppsQuery request, CancellationToken cancellationToken)
         {
-            // Temp: Seed db if no portals is found
+            // Temp POC: Seed db if no portals is found
             if (!await _context.Set<Domain.Entities.Portal>().AnyAsync(cancellationToken))
             {
                 await TempMethodSeedDb(cancellationToken);
             }
 
             var enitity = await _context.Set<Domain.Entities.Portal>()
-                .Include(x => x.WorkSurfaces).ThenInclude(x => x.Applications)
+                //.Include(x => x.WorkSurfaces).ThenInclude(x => x.Applications)
                 .Include(x => x.WorkSurfaces).ThenInclude(x => x.AppGroups).ThenInclude(x => x.Applications)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException();
@@ -48,7 +48,7 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             return enrichedPortal;
         }
 
-        // TEMP TEMP TEMP
+        // TEMP TEMP TEMP POC
         private async Task TempMethodSeedDb(CancellationToken cancellationToken)
         {
             var portal = new Domain.Entities.Portal("Project Execution Portal", "A test description");

@@ -32,7 +32,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        SetGlobalContextFilter(modelBuilder);
+        //SetGlobalContextFilter(modelBuilder); // Enables context filter on all queries
     }
 
     public static DateTimeKindConverter DateTimeKindConverter { get; } = new();

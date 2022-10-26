@@ -50,7 +50,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         // TEMP METHOD
         private static PortalDto CombinePortalWithFusionAppData(PortalDto portalDto, IList<ApiFusionPortalAppInformation> fusionApps)
         {
-            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.Applications))
+            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.AppGroups).SelectMany(x => x.Applications))
             {
                 var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, applicationDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
