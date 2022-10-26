@@ -19,6 +19,7 @@ public class WorkSurfaceAppGroup : ContextEntityBase, ICreationAuditable, IModif
     {
         Name = name;
         Order = order;
+        AccentColor = accentColor;
     }
 
     public string Name { get; set; }
