@@ -5,9 +5,9 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplicat
 {
     public class WorkSurfaceApplicationDto : BaseContextDto, IMapFrom<Domain.Entities.WorkSurfaceApplication>
     {
+        public string AppKey { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string AppKey { get; set; }
         public int Order { get; set; }
         public WorkSurfaceAppGroupDto AppGroup { get; set; }
 

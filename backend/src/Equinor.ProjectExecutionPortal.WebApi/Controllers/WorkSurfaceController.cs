@@ -1,5 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
-using Fusion.Integration;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
@@ -9,45 +10,24 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     public class WorkSurfaceController : ApiControllerBase
     {
         [HttpGet("")]
-        public async Task<IActionResult> WorkSurfaces()
+        public async Task<ActionResult<IList<ApiWorkSurface>>> WorkSurfaces()
         {
-            var contextIdentifier = ContextIdentifier.FromExternalId("FC5FFCBC-392F-4D7E-BB14-79A006579337");
-            var context = await contextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+            var workSurfaceDtos = await Mediator.Send(new GetWorkSurfacesQuery());
 
-            return Json("work surfaces for portal");
+            return workSurfaceDtos.Select(dto => new ApiWorkSurface(dto)).ToList();
         }
 
-        //[HttpGet("{workSurfaceId}/contexts/{contextId}/apps")]
-        [HttpGet("{workSurfaceId}/apps")]
-        public IActionResult Apps([FromRoute] Guid workSurfaceId)
+        [HttpGet("{workSurfaceId}")]
+        public async Task<ActionResult<ApiWorkSurface>> Apps([FromRoute] Guid workSurfaceId)
         {
-            // TODO: Resolve
-            // TODO list of apps added to this specific work surface
+            var workSurfaceDto = await Mediator.Send(new GetWorkSurfaceQuery(workSurfaceId));
 
-            return Json("yo");
-        }
-
-        [HttpGet("{workSurfaceId}/bundles/{appKey}")]
-        [HttpGet("{workSurfaceId}/bundles/{appKey}.js")]
-        public async Task<ActionResult> GetFusionPortalAppBundle(
-            [FromServices] IFusionPortalApiService fusionPortalApiService,
-            [FromRoute] Guid workSurfaceId,
-            [FromRoute] string appKey
-            )
-        {
-            try
+            if (workSurfaceDto == null)
             {
-                // TODO: Verify that app is in work surface and context
-
-                var appBundle = await fusionPortalApiService.TryGetFusionPortalAppBundle(appKey);
-
-                return File(appBundle, "application/javascript");
+                return FusionApiError.NotFound(workSurfaceId, "Could not find work surface");
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+
+            return new ApiWorkSurface(workSurfaceDto);
         }
     }
 }

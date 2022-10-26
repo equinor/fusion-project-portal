@@ -23,6 +23,7 @@ public class FusionPortalApiService : IFusionPortalApiService
         _apiVersion = options.CurrentValue.ApiVersion;
     }
 
+    // Todo: Get only certain apps
     public async Task<IList<ApiFusionPortalAppInformation>> TryGetFusionPortalApps()
     {
         var url = $"{_baseAddress}/api/apps/" +

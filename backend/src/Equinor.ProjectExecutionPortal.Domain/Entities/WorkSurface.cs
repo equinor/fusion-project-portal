@@ -23,6 +23,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
         Order = order;
     }
 
+    //public string Key { get; set; }
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string SubText { get; set; }

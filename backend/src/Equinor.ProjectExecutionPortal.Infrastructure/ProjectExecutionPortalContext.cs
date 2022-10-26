@@ -37,10 +37,10 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 
     public static DateTimeKindConverter DateTimeKindConverter { get; } = new();
 
-    public virtual DbSet<Portal> Portals { get; set; }
-    public virtual DbSet<WorkSurface> WorkSurfaces { get; set; }
-    public virtual DbSet<WorkSurfaceAppGroup> WorkSurfaceAppGroups { get; set; }
-    public virtual DbSet<WorkSurfaceApplication> WorkSurfaceApplications { get; set; }
+    public DbSet<Portal> Portals { get; set; }
+    public DbSet<WorkSurface> WorkSurfaces { get; set; }
+    public DbSet<WorkSurfaceAppGroup> WorkSurfaceAppGroups { get; set; }
+    public DbSet<WorkSurfaceApplication> WorkSurfaceApplications { get; set; }
 
     public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : ContextEntityBase =>
         builder

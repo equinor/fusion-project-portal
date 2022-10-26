@@ -14,7 +14,11 @@ public class WorkSurfaceAppGroupConfiguration : IEntityTypeConfiguration<WorkSur
         builder.ConfigureModificationAudit();
 
         builder.Property(t => t.Name)
-            .HasMaxLength(WorkSurface.SubTextLengthMax)
+            .HasMaxLength(WorkSurfaceAppGroup.NameLengthMax)
+            .IsRequired();
+
+        builder.Property(t => t.AccentColor)
+            .HasMaxLength(WorkSurfaceAppGroup.AccentColorLengthMax)
             .IsRequired();
 
         builder.HasMany(x => x.Applications)

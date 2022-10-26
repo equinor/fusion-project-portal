@@ -8,6 +8,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
     {
         public ApiWorkSurface(WorkSurfaceDto workSurfaceDto)
         {
+            Id = workSurfaceDto.Id;
             Name = workSurfaceDto.Name;
             ShortName = workSurfaceDto.ShortName;
             Subtext = workSurfaceDto.SubText;
@@ -16,6 +17,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             AppGroups = workSurfaceDto.AppGroups.OrderBy(x => x.Order).Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
         }
 
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
         public string Subtext { get; set; }

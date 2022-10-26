@@ -82,7 +82,7 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             var orgChartApp = new Domain.Entities.WorkSurfaceApplication("one-equinor", null, 1, workSurface2.Id);
             var handoverGardenApp = new Domain.Entities.WorkSurfaceApplication("handover-garden", null, 0, workSurface2.Id);
             var workOrderGardenApp = new Domain.Entities.WorkSurfaceApplication("workorder-garden", null, 1, workSurface2.Id);
-            var demoApp = new Domain.Entities.WorkSurfaceApplication("one-equinor", null, 0, workSurface2.Id);
+            var demoApp = new Domain.Entities.WorkSurfaceApplication("test-app", null, 0, workSurface2.Id);
 
             collaborationAppGroup.AddApplication(meetingsApp);
             collaborationAppGroup.AddApplication(reviewsApp);

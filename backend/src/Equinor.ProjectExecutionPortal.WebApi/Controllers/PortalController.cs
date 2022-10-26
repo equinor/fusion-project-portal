@@ -15,7 +15,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             if (portalDto == null)
             {
-                return NotFound();
+                return FusionApiError.NotFound("Portal", "Could not find portal");
             }
 
             return new ApiPortal(portalDto);

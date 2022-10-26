@@ -5,6 +5,7 @@ using Fusion.Integration.Http;
 using Microsoft.Identity.Web;
 
 //const string ServiceName = "project-execution-portal";
+const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,19 @@ var builder = WebApplication.CreateBuilder(args);
 //    .Run();
 
 // Add services to the container.
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(AllowAllOriginsCorsPolicy,
+        policyBuilder =>
+        {
+            policyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithExposedHeaders("Allow");
+        });
+});
 
 // Add cookie auth
 builder.Services
@@ -86,6 +100,8 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddApplicationModules(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseCors(AllowAllOriginsCorsPolicy);
 
 // Always enable swagger
 app.UseSwagger();
