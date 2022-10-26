@@ -1,5 +1,6 @@
+import { AppGroup } from '@equinor/portal-core';
 import styled from 'styled-components';
-import { Group, MenuGroup } from '../Group/Group';
+import { Group } from '../Group/Group';
 
 const StyledGroupWrapper = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ const StyledGroupWrapper = styled.div`
 `;
 
 type GroupWrapperProps = {
-  groups: MenuGroup[];
+  groups: AppGroup[];
 };
 export const GroupWrapper = ({ groups }: GroupWrapperProps) => {
   return (

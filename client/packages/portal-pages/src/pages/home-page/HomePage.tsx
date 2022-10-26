@@ -12,15 +12,7 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-
-interface Phase {
-  id: string;
-  title: string;
-  description: string;
-  icon: string | React.FC;
-  active?: boolean;
-  onClick: () => void;
-}
+import { Phase, phaseController } from '@equinor/portal-core';
 
 interface HomePageProps {
   phases: Phase[];
@@ -34,7 +26,11 @@ export const HomePage = (props: HomePageProps): JSX.Element => {
           <HomePageHeader />
           <StyledPaseSectionWrapper>
             {props.phases.map((section) => (
-              <PhaseSelectorItem {...section} key={section.id} />
+              <PhaseSelectorItem
+                {...section}
+                onClick={() => phaseController.setActivePhase(section)}
+                key={section.id}
+              />
             ))}
           </StyledPaseSectionWrapper>
         </StyledContentSection>

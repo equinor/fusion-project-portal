@@ -1,3 +1,4 @@
+import { AppGroup } from '@equinor/portal-core';
 import { AppCard } from '../AppCard/AppCard';
 import { ColorTab } from './ColorTab';
 import {
@@ -7,24 +8,18 @@ import {
   StyledMenuGroupName,
 } from './group.styles';
 
-export type MenuGroup = {
-  name: string;
-  color: string;
-  children: string[];
-};
-
 type GroupProps = {
-  group: MenuGroup;
+  group: AppGroup;
 };
 export const Group = ({ group }: GroupProps) => {
   return (
     <StyledGroup>
-      <ColorTab color={group.color} />
+      <ColorTab color={group.accentColor} />
       <StyledGroupBody>
         <StyledMenuGroupName>{group.name}</StyledMenuGroupName>
         <StyledChildrenWrapper>
-          {group.children.map((child) => (
-            <AppCard key={child} name={child} />
+          {group.applications.map((child) => (
+            <AppCard key={child.appKey} name={child.appKey} />
           ))}
         </StyledChildrenWrapper>
       </StyledGroupBody>

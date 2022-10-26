@@ -11,7 +11,7 @@ export function PortalContent() {
       <HomePage
         phases={phases.map((phase) => ({
           ...phase,
-          onClick: () => phase.active && setActivePhase(phase),
+          onClick: () => setActivePhase(phase),
         }))}
       />
     );

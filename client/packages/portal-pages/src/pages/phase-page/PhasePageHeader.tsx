@@ -1,5 +1,6 @@
 import { Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
+import { Phase } from '@equinor/portal-core';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
@@ -37,28 +38,20 @@ interface PasePageHeaderProps {
   icon: string | React.FC;
 }
 
-export const PasePageHeader = ({
-  title,
-  icon,
-  description,
-}: PasePageHeaderProps) => {
-  const CustomIcon = icon;
+export const PasePageHeader = ({ name, shortName, subtext }: Phase) => {
+  const CustomIcon = 'place_unknown';
   return (
     <StyledSection>
       <StyledIconWrapper>
-        {typeof CustomIcon === 'string' ? (
-          <Icon name={CustomIcon} />
-        ) : (
-          <CustomIcon />
-        )}
+        <Icon name={CustomIcon} />
       </StyledIconWrapper>
 
       <StyledTextWrapper>
         <Typography variant="h1" bold>
-          {title}
+          {name}
         </Typography>
         <Typography variant="h6" token={{ textTransform: 'uppercase' }}>
-          {description}
+          {subtext}
         </Typography>
       </StyledTextWrapper>
     </StyledSection>

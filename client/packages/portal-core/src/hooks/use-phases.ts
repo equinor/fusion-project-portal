@@ -6,7 +6,7 @@ import { phaseController } from '../phases/phases';
  */
 export function usePhases() {
   const { clearSelectedPhase, currentPhase$, phases$, setActivePhase } =
-    useMemo(() => phaseController, []);
+    phaseController;
 
   const phases = useObservable(phases$);
 

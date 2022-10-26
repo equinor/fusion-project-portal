@@ -1,15 +1,9 @@
+import { Phase } from '@equinor/portal-core';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
 import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
 import { PasePageHeader } from './PhasePageHeader';
 
-interface PhaseProps {
-  id?: string;
-  title: string;
-  description: string;
-  icon: string | React.FC;
-}
-
-export const PhasePage = (props: PhaseProps): JSX.Element => {
+export const PhasePage = (props: Phase): JSX.Element => {
   return (
     <StyledMain>
       <StyledBackgroundSection>
