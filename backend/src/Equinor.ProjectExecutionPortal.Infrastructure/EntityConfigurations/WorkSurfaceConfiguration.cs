@@ -24,6 +24,9 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
             .HasMaxLength(WorkSurface.SubTextLengthMax)
             .IsRequired();
 
+        builder.Property(t => t.Icon)
+            .IsRequired();
+
         builder.HasMany(x => x.Applications)
             .WithOne(x => x.WorkSurface)
             .OnDelete(DeleteBehavior.Restrict);

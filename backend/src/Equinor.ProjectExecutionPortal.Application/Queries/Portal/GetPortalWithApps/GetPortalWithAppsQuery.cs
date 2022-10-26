@@ -54,9 +54,9 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
         {
             var portal = new Domain.Entities.Portal("Project Execution Portal", "A test description");
 
-            var workSurface1 = new Domain.Entities.WorkSurface("Early Phase", "< DG 3", "Here you can find all the tools that you need", 0);
-            var workSurface2 = new Domain.Entities.WorkSurface("Project Execution", "DG 3 - DG 4", "Go to this phase to work with projects that are beyond DG3", 1);
-            var workSurface3 = new Domain.Entities.WorkSurface("Another phase", "DG X", "Some other sub text", 2);
+            var workSurface1 = new Domain.Entities.WorkSurface("Early Phase", "< DG 3", "Here you can find all the tools that you need", 0, "");
+            var workSurface2 = new Domain.Entities.WorkSurface("Project Execution", "DG 3 - DG 4", "Go to this phase to work with projects that are beyond DG3", 1, "");
+            var workSurface3 = new Domain.Entities.WorkSurface("Another phase", "DG X", "Some other sub text", 2, "");
 
             portal.AddWorkSurface(workSurface1);
             portal.AddWorkSurface(workSurface2);

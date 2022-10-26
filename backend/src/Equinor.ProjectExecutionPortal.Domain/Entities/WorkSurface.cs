@@ -15,19 +15,21 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     private readonly List<WorkSurfaceApplication> _applications = new();
     private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
-    public WorkSurface(string name, string shortName, string subText, int order)
+    public WorkSurface(string name, string shortName, string subText, int order, string icon)
     {
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Order = order;
+        Icon = icon;
     }
 
-    //public string Key { get; set; }
+    //public string Key { get; set; } FOR ROUTING
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string SubText { get; set; }
     public int Order { get; set; }
+    public string Icon { get; set; }
 
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; }
