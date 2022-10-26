@@ -10,12 +10,12 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 public class WorkSurfaceAppGroup : ContextEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int NameLengthMax = 200;
+    public const int AccentColorLengthMax = 7;
 
     private readonly List<WorkSurfaceApplication> _applications = new();
 
-    // Collaboration: Meeting & Review, Project Information: Task, OrgChart, Construction and Commissioning: Handover, WorkOrder, SWCR, Demo: Fungerende app
 
-    public WorkSurfaceAppGroup(string name, int order) : base("some-context", "context type")
+    public WorkSurfaceAppGroup(string name, int order, string accentColor) : base("some-context", "context type")
     {
         Name = name;
         Order = order;
@@ -23,6 +23,7 @@ public class WorkSurfaceAppGroup : ContextEntityBase, ICreationAuditable, IModif
 
     public string Name { get; set; }
     public int Order { get; set; }
+    public string AccentColor { get; set; }
 
     public Guid WorkSurfaceId { get; set; }
     public WorkSurface WorkSurface { get; set; }

@@ -64,10 +64,10 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             await _context.Set<Domain.Entities.Portal>().AddAsync(portal, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            var collaborationAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Collaboration", 0);
-            var projectInformationAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Project Information", 1);
-            var ccAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Construction and Commissioning", 2);
-            var demoAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Demo", 3);
+            var collaborationAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Collaboration", 0, "#E24973");
+            var projectInformationAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Project Information", 1, "#6D2FD5");
+            var ccAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Construction and Commissioning", 2, "#0084C4");
+            var demoAppGroup = new Domain.Entities.WorkSurfaceAppGroup("Demo", 3, "#00977B");
 
             workSurface2.AddAppGroup(collaborationAppGroup);
             workSurface2.AddAppGroup(projectInformationAppGroup);

@@ -7,6 +7,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup
     {
         public string Name { get; set; }
         public int Order { get; set; }
+        public string AccentColor { get; set; }
         public List<WorkSurfaceApplicationDto> Applications { get; set; }
     }
 }
