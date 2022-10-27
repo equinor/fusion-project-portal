@@ -13,22 +13,27 @@ import {
 
 import { HomePageHeader } from './HomePageHeader';
 import { Phase, phaseController } from '@equinor/portal-core';
+import { useObservable } from '@equinor/portal-utils';
 
-interface HomePageProps {
-  phases: Phase[];
-}
+export const HomePage = (): JSX.Element => {
+  const phases = useObservable(phaseController.phases$);
 
-export const HomePage = (props: HomePageProps): JSX.Element => {
+  if (!phases) return <div>Loading phases...</div>;
+
   return (
     <StyledMain>
       <StyledBackgroundSection>
         <StyledContentSection>
           <HomePageHeader />
           <StyledPaseSectionWrapper>
-            {props.phases.map((section) => (
+            {phases.map((section) => (
               <PhaseSelectorItem
                 {...section}
-                onClick={() => phaseController.setActivePhase(section)}
+                onClick={() => {
+                  location.replace(
+                    `/${section.name.toLowerCase().replace(' ', '-')}`
+                  );
+                }}
                 key={section.id}
               />
             ))}

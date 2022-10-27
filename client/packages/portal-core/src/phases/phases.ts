@@ -13,10 +13,13 @@ async function getPhases() {
 //Key the selected phase is stored under
 const storageKey = 'selectedPhase';
 
-const { next, obs$ } = createObservableStorage<string | undefined>(
+const { next, obs$, subject$ } = createObservableStorage<string | undefined>(
   storageKey,
   undefined
 );
+
+obs$.subscribe();
+
 const currentPhaseId$ = obs$;
 /**
  * Clear selected phase
@@ -38,7 +41,7 @@ const currentPhase$ = phases$.pipe(
   map(([phases, selected]) => phases.find((s) => s.id === selected))
 );
 
-const getCurrentPhase = () => phaseSubject.value;
+const getCurrentPhase = () => subject$.value;
 
 export const phaseController = {
   currentPhase$,

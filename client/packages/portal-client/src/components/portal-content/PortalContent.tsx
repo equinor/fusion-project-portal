@@ -1,5 +1,5 @@
 import { usePhases } from '@equinor/portal-core';
-import { HomePage, PhasePage } from '@equinor/portal-pages';
+import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
 
 export function PortalContent() {
   const { currentPhase, phases, setActivePhase } = usePhases();
@@ -18,7 +18,7 @@ export function PortalContent() {
 
   return (
     <>
-      <PhasePage {...currentPhase} />
+      <WorkSurfacePage {...currentPhase} />
     </>
   );
 }
