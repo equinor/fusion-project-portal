@@ -1,16 +1,25 @@
 import { Phase } from '@equinor/portal-core';
-import { createObservableStorage, storage } from '@equinor/portal-utils';
-import { BehaviorSubject, of } from 'rxjs';
-import { combineLatestWith, switchMap, tap } from 'rxjs/operators';
-import { phases as MockPhases } from '../mock/phases';
+import { createObservableStorage } from '@equinor/portal-utils';
+import { from, Observable } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs/operators';
+async function getPhases() {
+  return await (
+    await fetch(
+      'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces'
+    )
+  ).json();
+}
 
 //Key the selected phase is stored under
 const storageKey = 'selectedPhase';
 
-const { next, obs$ } = createObservableStorage<string | undefined>(
+const { next, obs$, subject$ } = createObservableStorage<string | undefined>(
   storageKey,
   undefined
 );
+
+obs$.subscribe();
+
 const currentPhaseId$ = obs$;
 /**
  * Clear selected phase
@@ -25,15 +34,14 @@ const clearSelectedPhase = () => next(undefined);
  */
 const setActivePhase = (phase: Phase) => next(phase.id);
 
-const phases = new BehaviorSubject<Phase[]>(MockPhases);
-const phases$ = phases.asObservable();
+const phases$: Observable<Phase[]> = from(getPhases());
 
 const currentPhase$ = phases$.pipe(
   combineLatestWith(currentPhaseId$),
-  switchMap(([phases, selected]) => of(phases.find((s) => s.id === selected)))
+  map(([phases, selected]) => phases.find((s) => s.id === selected))
 );
 
-const getCurrentPhase = () => phaseSubject.value;
+const getCurrentPhase = () => subject$.value;
 
 export const phaseController = {
   currentPhase$,

@@ -12,29 +12,30 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
+import { Phase, phaseController } from '@equinor/portal-core';
+import { useObservable } from '@equinor/portal-utils';
 
-interface Phase {
-  id: string;
-  title: string;
-  description: string;
-  icon: string | React.FC;
-  active?: boolean;
-  onClick: () => void;
-}
+export const HomePage = (): JSX.Element => {
+  const phases = useObservable(phaseController.phases$);
 
-interface HomePageProps {
-  phases: Phase[];
-}
+  if (!phases) return <div>Loading phases...</div>;
 
-export const HomePage = (props: HomePageProps): JSX.Element => {
   return (
     <StyledMain>
       <StyledBackgroundSection>
         <StyledContentSection>
           <HomePageHeader />
           <StyledPaseSectionWrapper>
-            {props.phases.map((section) => (
-              <PhaseSelectorItem {...section} key={section.id} />
+            {phases.map((section) => (
+              <PhaseSelectorItem
+                {...section}
+                onClick={() => {
+                  location.replace(
+                    `/${section.name.toLowerCase().replace(' ', '-')}`
+                  );
+                }}
+                key={section.id}
+              />
             ))}
           </StyledPaseSectionWrapper>
         </StyledContentSection>

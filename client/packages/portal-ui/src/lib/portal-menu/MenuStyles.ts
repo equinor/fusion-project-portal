@@ -34,6 +34,8 @@ export const MenuWrapper = styled.div`
   max-height: 100% !important;
   height: calc(100vh - 48px);
   position: absolute;
+  width: 50vw;
+  background-color: white;
   top: 0px;
   left: 0px;
   padding: 1rem;

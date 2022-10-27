@@ -4,44 +4,41 @@ import {
   StyledIconWrapper,
   StyledTypography,
 } from './PhaseSelectorItem.Styles';
+import { Phase } from '@equinor/portal-core';
+import { SVGIconFromString } from '@equinor/portal-ui';
 
-interface SectionSelectorItemProps {
-  id: string;
-  title: string;
-  description: string;
-  icon: string | React.FC;
-  active?: boolean;
-  onClick: () => void;
-}
+type SectionSelectorItemProps = Phase & { onClick: () => void };
 
 export const PhaseSelectorItem = ({
   id,
-  title,
-  description,
+  appGroups,
+  name,
+  order,
+  shortName,
+  subtext,
   icon,
-  active,
   onClick,
 }: SectionSelectorItemProps) => {
-  const CustomIcon = icon;
+  const CustomIcon = 'place_unknown';
 
   return (
-    <StyledCard active={active} onClick={onClick}>
+    <StyledCard active={true} onClick={onClick}>
       <Card.Header>
         <Card.HeaderTitle>
           <StyledTypography
             variant="h4"
             token={{ textAlign: 'center', fontWeight: 'bold' }}
           >
-            {title}
+            {name}
           </StyledTypography>
         </Card.HeaderTitle>
       </Card.Header>
 
-      <StyledIconWrapper active={active}>
-        {typeof CustomIcon === 'string' ? (
-          <Icon name={CustomIcon} />
+      <StyledIconWrapper active={true}>
+        {icon ? (
+          <SVGIconFromString blobString={icon} />
         ) : (
-          <CustomIcon />
+          <Icon name={CustomIcon} />
         )}
       </StyledIconWrapper>
 
@@ -51,7 +48,7 @@ export const PhaseSelectorItem = ({
             textAlign: 'center',
           }}
         >
-          {description}
+          {subtext}
         </StyledTypography>
       </Card.Actions>
     </StyledCard>

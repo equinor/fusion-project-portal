@@ -35,12 +35,30 @@ export interface PortalConfig {
 /**
  * The type for a phase, to be served from backend
  */
+
 export interface Phase {
   id: string;
-  title: string;
+  icon?: string;
+  name: string;
+  shortName: string;
+  subtext: string;
+  order: number;
+  appGroups: AppGroup[];
+}
+
+export interface Application {
+  appKey: string;
+  name: string;
   description: string;
-  icon: string | React.FC;
-  active?: boolean;
+  order: number;
+  appGroup?: string;
+}
+
+export interface AppGroup {
+  name: string;
+  accentColor: string;
+  order: number;
+  applications: Application[];
 }
 
 export interface Client {
