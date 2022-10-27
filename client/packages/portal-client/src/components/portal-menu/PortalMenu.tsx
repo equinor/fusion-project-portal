@@ -9,8 +9,6 @@ export function MenuGroups() {
   const { data, isLoading } = useMenuItems();
   const [searchText, setSearchText] = useState<string | undefined>();
 
-  if (isLoading) return <CircularProgress />;
-
   return (
     <PortalMenu>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2em' }}>
@@ -20,7 +18,24 @@ export function MenuGroups() {
             setSearchText(e.target.value);
           }}
         />
-        <GroupWrapper groups={appsMatchingSearch(data ?? [], searchText)} />
+        {isLoading ? (
+          <div
+            style={{
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+              gap: '1.2em',
+            }}
+          >
+            <CircularProgress />
+            <div>Loading apps</div>
+          </div>
+        ) : (
+          <GroupWrapper groups={appsMatchingSearch(data ?? [], searchText)} />
+        )}
       </div>
     </PortalMenu>
   );

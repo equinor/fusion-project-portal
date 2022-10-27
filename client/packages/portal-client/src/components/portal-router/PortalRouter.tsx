@@ -34,12 +34,14 @@ export default PortalRouter;
 
 const PortalFrame = () => (
   <StyleProvider>
-    <MenuProvider>
-      <Header />
-      <PortalMenu>
-        <MenuGroups />
-      </PortalMenu>
-      <Outlet />
-    </MenuProvider>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <MenuProvider>
+        <Header />
+        <PortalMenu>
+          <MenuGroups />
+        </PortalMenu>
+        <Outlet />
+      </MenuProvider>
+    </div>
   </StyleProvider>
 );
