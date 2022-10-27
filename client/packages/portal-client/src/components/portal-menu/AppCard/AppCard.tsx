@@ -1,6 +1,7 @@
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { menuFavoritesController } from '@equinor/portal-core';
+import { useMenuContext } from '@equinor/portal-ui';
 import { useObservable } from '@equinor/portal-utils';
 import { useNavigate } from 'react-router-dom';
 import { map } from 'rxjs';
@@ -10,6 +11,8 @@ type AppCardProps = {
   name: string;
 };
 export const AppCard = ({ name }: AppCardProps) => {
+  const { toggleMenu } = useMenuContext();
+
   const isFavorited = Boolean(
     useObservable(
       menuFavoritesController.favorites$.pipe(map((val) => val?.includes(name)))
@@ -17,7 +20,12 @@ export const AppCard = ({ name }: AppCardProps) => {
   );
 
   return (
-    <StyledAppCard>
+    <StyledAppCard
+      onClick={() => {
+        toggleMenu();
+        window.location.replace(`/apps/${name}`);
+      }}
+    >
       <div>{name}</div>
       <StyledIcon
         onClick={() => menuFavoritesController.onClickFavorite(name)}
