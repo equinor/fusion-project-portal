@@ -1,21 +1,23 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import { useObservable } from '@equinor/portal-utils';
-import { TopBarAvatar, phaseController } from '@equinor/portal-core';
+import { Phase, TopBarAvatar, usePhases } from '@equinor/portal-core';
+import { useQuery } from 'react-query';
 
 export function Header() {
-  const phases = useObservable(phaseController.phases$);
+  const { phases, clearWorkSurface, currentWorkSurface, setWorkSurface } =
+    usePhases();
+
+  useMenuItems();
 
   return (
     <PortalHeader
       onLogoClick={() => {
         const phase = phases?.find(
-          (s) => s.id === phaseController.getCurrentPhase()
+          (s) => s.id === currentWorkSurface?.id
         )?.name;
-        console.log(phase, phases);
-        if (location.href.includes('/apps') && phase) {
-          window.location.replace(`/${phase.toLowerCase().replace(' ', '-')}`);
+        if (location.href.includes('/apps') && phase && currentWorkSurface) {
+          setWorkSurface(currentWorkSurface);
         } else {
-          window.location.replace(`/`);
+          clearWorkSurface();
         }
       }}
       MenuButton={MenuButton}
@@ -27,3 +29,21 @@ export function Header() {
 }
 
 export default Header;
+
+export const useMenuItems = () => {
+  const id = usePhases().currentWorkSurface?.id;
+  return useQuery(
+    ['menu-items', id],
+    async () => {
+      if (id) {
+        const res = await fetch(
+          `https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/${id}`
+        );
+        return ((await res.json()) as Phase).appGroups;
+      } else {
+        return [];
+      }
+    },
+    { cacheTime: Infinity, refetchOnWindowFocus: false, staleTime: Infinity }
+  );
+};

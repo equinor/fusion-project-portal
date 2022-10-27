@@ -1,23 +1,37 @@
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
-import { useMemo } from 'react';
+import { StyleProvider, MenuProvider, PortalMenu } from '@equinor/portal-ui';
+import { ReactNode, useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLoader } from '../app-loader/AppLoader';
-import { PortalContent } from '../portal-content/PortalContent';
+import Header from '../portal-header/Header';
+import { MenuGroups } from '../portal-menu/PortalMenu';
 
 export function PortalRouter() {
   let router = useMemo(() => {
     return createBrowserRouter([
       {
         path: '/',
-        element: <HomePage />,
+        element: (
+          <PortalFrame>
+            <HomePage />
+          </PortalFrame>
+        ),
       },
       {
         path: '/:workSurfaceKey',
-        element: <WorkSurfacePage />,
+        element: (
+          <PortalFrame>
+            <WorkSurfacePage />
+          </PortalFrame>
+        ),
       },
       {
         path: `/apps/:appKey/*`,
-        element: <AppLoader />,
+        element: (
+          <PortalFrame>
+            <AppLoader />
+          </PortalFrame>
+        ),
       },
     ]);
   }, []);
@@ -26,3 +40,15 @@ export function PortalRouter() {
 }
 
 export default PortalRouter;
+
+const PortalFrame = ({ children }: { children: ReactNode }) => (
+  <StyleProvider>
+    <MenuProvider>
+      <Header />
+      <PortalMenu>
+        <MenuGroups />
+      </PortalMenu>
+      {children}
+    </MenuProvider>
+  </StyleProvider>
+);

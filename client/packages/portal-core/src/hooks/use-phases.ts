@@ -1,21 +1,35 @@
 import { useObservable } from '@equinor/portal-utils';
-import { useMemo } from 'react';
-import { phaseController } from '../phases/phases';
+import { useNavigate } from 'react-router-dom';
+import { workSurfaceController } from '../phases/phases';
+import { Phase } from '../types/portal-config';
 /**
  * Hook for getting phases from api
  */
 export function usePhases() {
-  const { clearSelectedPhase, currentPhase$, phases$, setActivePhase } =
-    phaseController;
+  const navigate = useNavigate();
+  const {
+    clearWorkSurface,
+    currentWorkSurface$: currentWorkSurface$,
+    workSurfaces$,
+    setWorkSurface,
+  } = workSurfaceController;
 
-  const phases = useObservable(phases$);
+  const workSurfaces = useObservable(workSurfaces$);
 
-  const currentPhase = useObservable(currentPhase$);
+  const currentWorkSurface = useObservable(currentWorkSurface$);
 
   return {
-    clearSelectedPhase,
-    setActivePhase,
-    phases,
-    currentPhase,
+    clearWorkSurface: (preventRedirect?: boolean) => {
+      clearWorkSurface();
+      if (preventRedirect) return;
+      navigate('/');
+    },
+    setWorkSurface: (workSurface: Phase, preventRedirect?: boolean) => {
+      setWorkSurface(workSurface);
+      if (preventRedirect) return;
+      navigate(`/${workSurface.name.toLowerCase().replace(' ', '-')}`);
+    },
+    phases: workSurfaces,
+    currentWorkSurface,
   };
 }

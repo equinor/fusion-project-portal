@@ -2,7 +2,7 @@ import {
   useCurrentUser,
   useFramework,
 } from '@equinor/fusion-framework-react/hooks';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PhaseSelectorItem } from '../../components/phase-selector/PhaseSelectorItem';
 import {
   StyledBackgroundSection,
@@ -12,13 +12,35 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-import { Phase, phaseController } from '@equinor/portal-core';
+import { usePhases, workSurfaceController } from '@equinor/portal-core';
 import { useObservable } from '@equinor/portal-utils';
+import { tap } from 'rxjs';
+
+const { workSurfaces$, getCurrentWorkSurfaceId } = workSurfaceController;
+/**
+ * Redirects to last surface
+ */
+export const useNavigateLastSurface = () => {
+  const navigate = useNavigate();
+  useObservable(workSurfaces$, (s) =>
+    s.pipe(
+      tap((surfaces) => {
+        const surface = surfaces?.find(
+          (s) => s.id === getCurrentWorkSurfaceId()
+        )?.name;
+        if (surface) {
+          navigate(`/${surface.toLowerCase().replace(' ', '-')}`);
+        }
+      })
+    )
+  );
+};
 
 export const HomePage = (): JSX.Element => {
-  const phases = useObservable(phaseController.phases$);
+  const { phases: surfaces, setWorkSurface } = usePhases();
 
-  if (!phases) return <div>Loading phases...</div>;
+  useNavigateLastSurface();
+  if (!surfaces) return <div>Loading phases...</div>;
 
   return (
     <StyledMain>
@@ -26,13 +48,11 @@ export const HomePage = (): JSX.Element => {
         <StyledContentSection>
           <HomePageHeader />
           <StyledPaseSectionWrapper>
-            {phases.map((section) => (
+            {surfaces.map((section) => (
               <PhaseSelectorItem
                 {...section}
                 onClick={() => {
-                  location.replace(
-                    `/${section.name.toLowerCase().replace(' ', '-')}`
-                  );
+                  setWorkSurface(section);
                 }}
                 key={section.id}
               />
