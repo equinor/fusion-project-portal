@@ -1,6 +1,6 @@
 import { useAppLoader } from '@equinor/portal-core';
 import { useEffect, useRef, useState } from 'react';
-import { from, take, tap } from 'rxjs';
+import { from } from 'rxjs';
 import { AppLoadingTransition } from './AppLoadingTransition';
 
 interface ModuleLoaderProps<TProps> {
