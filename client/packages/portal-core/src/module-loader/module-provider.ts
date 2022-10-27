@@ -53,14 +53,16 @@ export class ModuleProvider implements IModuleProvider {
     element?: HTMLDivElement,
     ModuleEnv?: ModuleEnv<TModules, TConfig, TProps>
   ) => {
-    try {
-      const loadedModule = await this._loadModuleByModulePath(
-        await this._modulePathProvider(moduleId)
-      );
+    const loadedModule = await this._loadModuleByModulePath(
+      await this._modulePathProvider(moduleId)
+    );
 
-      if (loadedModule && element) return loadedModule(element, ModuleEnv);
-    } catch (error) {
-      throw error;
+    if (loadedModule && element) {
+      return loadedModule(element, ModuleEnv);
+    } else {
+      throw new Error(
+        'could not load application, module or element is not valid'
+      );
     }
   };
 
