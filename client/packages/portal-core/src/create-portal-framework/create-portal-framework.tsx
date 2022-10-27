@@ -39,7 +39,7 @@ export function createPortalFramework(
 
     config.addConfig(
       configureModuleLoader('appLoader', (moduleId: string) => {
-        return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/a76b50ee-b3e5-4013-892d-b8351d0be655/bundles/test-app.js';
+        return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
       })
     );
 
