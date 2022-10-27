@@ -1,5 +1,5 @@
 import { Phase } from '@equinor/portal-core';
-import { storage } from '@equinor/portal-utils';
+import { createObservableStorage, storage } from '@equinor/portal-utils';
 import { BehaviorSubject, of } from 'rxjs';
 import { combineLatestWith, switchMap, tap } from 'rxjs/operators';
 import { phases as MockPhases } from '../mock/phases';
@@ -7,31 +7,23 @@ import { phases as MockPhases } from '../mock/phases';
 //Key the selected phase is stored under
 const storageKey = 'selectedPhase';
 
-//Interface to read and save phase from local storage
-const phaseStorage = {
-  readPhase: () => storage.getItem(storageKey) as string | undefined,
-  storePhase: (id: string | undefined) => storage.setItem(storageKey, id),
-};
-
-const phaseSubject = new BehaviorSubject<string | undefined>(
-  phaseStorage.readPhase()
+const { next, obs$ } = createObservableStorage<string | undefined>(
+  storageKey,
+  undefined
 );
-
-const currentPhaseId$ = phaseSubject.pipe(tap(phaseStorage.storePhase));
-
+const currentPhaseId$ = obs$;
 /**
  * Clear selected phase
  *
  * Sends user back to homepage
  */
-const clearSelectedPhase = () => phaseSubject.next(undefined);
-
+const clearSelectedPhase = () => next(undefined);
 /**
  * Set active phase
  *
  * Used for navigating a user to a certain phase homepage
  */
-const setActivePhase = (phase: Phase) => phaseSubject.next(phase.id);
+const setActivePhase = (phase: Phase) => next(phase.id);
 
 const phases = new BehaviorSubject<Phase[]>(MockPhases);
 const phases$ = phases.asObservable();
