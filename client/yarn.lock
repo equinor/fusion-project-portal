@@ -1231,6 +1231,13 @@
     "@equinor/fusion-framework-module" "^1.2.5"
     "@equinor/fusion-framework-module-http" "^2.0.13"
 
+"@equinor/fusion-framework-module-services@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-services/-/fusion-framework-module-services-0.3.1.tgz#e7180d6ecbf21d182ecc3047258e12dec4ab457e"
+  integrity sha512-OYltEIwuh7B4puPDDU0EE9INFuICd8Ek/FVUkcWuTZsEW4tJAvbCpp7MynZbOrJA16EkKLVhuDpbAmvTLWi5Qw==
+  dependencies:
+    odata-query "^7.0.3"
+
 "@equinor/fusion-framework-module@^1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module/-/fusion-framework-module-1.2.5.tgz#254c27295e529a89d90bb1a5af4fef0d13edc63e"
@@ -1272,7 +1279,7 @@
   dependencies:
     "@equinor/fusion-framework-module" "^1.2.5"
 
-"@equinor/fusion-framework-react@^1.0.13", "@equinor/fusion-framework-react@^1.0.16":
+"@equinor/fusion-framework-react@^1.0.16":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react/-/fusion-framework-react-1.0.16.tgz#6df86ab559c3fd525c89f26d33d92bddb65fb841"
   integrity sha512-AR/4ZwG25WN68hdBX28N+yLsv8gwXLPelHw5I2MaZoZRFPOF2MfldyG1bVK1dXofxxsQmxL4y90wdMhJT7IQOw==
@@ -9557,6 +9564,13 @@ obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
+
+odata-query@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-7.0.3.tgz#ca20727da0636f30146b31d843bfb7477bdb35e3"
+  integrity sha512-Pgc4YK71Z2MNj5mDN8lwDxfNTdjAczw+g80QIUqeUhi3NLX6h4tm3V4Mamjin2Zuu1s5xGsaz1wF2LrzamyGfQ==
+  dependencies:
+    tslib "^2.4.0"
 
 on-finished@2.4.1:
   version "2.4.1"

@@ -2,7 +2,8 @@ import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 
-import { LoggerLevel, PortalConfig, Phase } from '../types/portal-config';
+import { configureModuleLoader } from '../module-loader/module';
+import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
 
 // { name: 'phase'; initialize: () => { phases: Phase[] } }
 export function createPortalFramework(
@@ -35,6 +36,12 @@ export function createPortalFramework(
         }),
       },
     });
+
+    config.addConfig(
+      configureModuleLoader('appLoader', (moduleId: string) => {
+        return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/a76b50ee-b3e5-4013-892d-b8351d0be655/bundles/test-app.js';
+      })
+    );
 
     config.onInitialized(async (fusion) => {
       if (portalConfig.logger?.defaultClientLogger?.active) {
