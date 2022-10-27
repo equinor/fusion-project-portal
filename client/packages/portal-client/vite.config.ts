@@ -12,17 +12,6 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: {
-      '^/bundles/apps/*': {
-        target: 'File://C:\\',
-        changeOrigin: true,
-        secure: false,
-        configure(proxy, options) {},
-        rewrite: (path) => {
-          return 'bundles\\apps\\test-app.js';
-        },
-      },
-    },
   },
   resolve: {
     alias: {

@@ -23,7 +23,7 @@
     "build": {
       "executor": "nx-plugin-vite:build",
       "options": {
-        "outDir": "dist",
+        "outDir": "../../dist/packages/portal-client",
         "configFile": "packages/portal-client/vite.config.ts",
         "watch": false,
         "write": true,
@@ -33,9 +33,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/packages/portal-client"
-      ],
+      "outputs": ["coverage/packages/portal-client"],
       "options": {
         "jestConfig": "packages/portal-client/jest.config.ts",
         "passWithNoTests": true
