@@ -1,6 +1,6 @@
 import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
-import { PortalContent } from '../portal-content/PortalContent';
 import Header from '../portal-header/Header';
+import PortalRouter from '../portal-router/PortalRouter';
 
 export function PortalApp() {
   return (
@@ -8,7 +8,7 @@ export function PortalApp() {
       <MenuProvider>
         <Header />
         <PortalMenu>Portal Menu</PortalMenu>
-        <PortalContent />
+        <PortalRouter />
       </MenuProvider>
     </StyleProvider>
   );
