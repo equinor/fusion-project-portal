@@ -38,6 +38,7 @@ export interface PortalConfig {
 
 export interface Phase {
   id: string;
+  icon?: string;
   name: string;
   shortName: string;
   subtext: string;

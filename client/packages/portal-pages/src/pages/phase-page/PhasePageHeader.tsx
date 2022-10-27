@@ -1,6 +1,7 @@
 import { Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { Phase } from '@equinor/portal-core';
+import { SVGIconFromString } from '@equinor/portal-ui';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
@@ -31,19 +32,16 @@ export const StyledIconWrapper = styled.div<{ active?: boolean }>`
     0px 5px 22px rgba(0, 0, 0, 0.12), 0px 7px 8px rgba(0, 0, 0, 0.2);
 `;
 
-interface PasePageHeaderProps {
-  id?: string;
-  title: string;
-  description: string;
-  icon: string | React.FC;
-}
-
-export const PasePageHeader = ({ name, shortName, subtext }: Phase) => {
+export const PasePageHeader = ({ name, shortName, subtext, icon }: Phase) => {
   const CustomIcon = 'place_unknown';
   return (
     <StyledSection>
       <StyledIconWrapper>
-        <Icon name={CustomIcon} />
+        {icon ? (
+          <SVGIconFromString blobString={icon} />
+        ) : (
+          <Icon name={CustomIcon} />
+        )}
       </StyledIconWrapper>
 
       <StyledTextWrapper>

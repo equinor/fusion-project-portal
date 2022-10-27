@@ -5,6 +5,7 @@ import {
   StyledTypography,
 } from './PhaseSelectorItem.Styles';
 import { Phase } from '@equinor/portal-core';
+import { SVGIconFromString } from '@equinor/portal-ui';
 
 type SectionSelectorItemProps = Phase & { onClick: () => void };
 
@@ -15,6 +16,7 @@ export const PhaseSelectorItem = ({
   order,
   shortName,
   subtext,
+  icon,
   onClick,
 }: SectionSelectorItemProps) => {
   const CustomIcon = 'place_unknown';
@@ -33,7 +35,11 @@ export const PhaseSelectorItem = ({
       </Card.Header>
 
       <StyledIconWrapper active={true}>
-        <Icon name={CustomIcon} />
+        {icon ? (
+          <SVGIconFromString blobString={icon} />
+        ) : (
+          <Icon name={CustomIcon} />
+        )}
       </StyledIconWrapper>
 
       <Card.Actions>
