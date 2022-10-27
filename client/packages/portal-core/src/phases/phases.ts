@@ -38,8 +38,11 @@ const currentPhase$ = phases$.pipe(
   map(([phases, selected]) => phases.find((s) => s.id === selected))
 );
 
+const getCurrentPhase = () => phaseSubject.value;
+
 export const phaseController = {
   currentPhase$,
+  getCurrentPhase,
   phases$,
   clearSelectedPhase,
   setActivePhase,
