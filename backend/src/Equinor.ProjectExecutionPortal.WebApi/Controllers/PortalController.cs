@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/portal")]
     public class PortalController : ApiControllerBase
