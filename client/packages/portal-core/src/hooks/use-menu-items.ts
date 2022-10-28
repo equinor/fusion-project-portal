@@ -1,4 +1,6 @@
 import { useQuery } from 'react-query';
+import { from, lastValueFrom, map, of, switchMap } from 'rxjs';
+import { requirePortalClient } from '../clients';
 import { Phase } from '../types/portal-config';
 import { usePhases } from './use-phases';
 
@@ -11,11 +13,19 @@ export const useMenuItems = () => {
     ['menu-items', id],
     async () => {
       if (id) {
-        const res = await fetch(
-          `https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/${id}`
+        return lastValueFrom(
+          from(requirePortalClient()).pipe(
+            switchMap((s) =>
+              s.fetch$(
+                `https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/${id}`
+              )
+            ),
+            switchMap((res) => res.json()),
+            map((phase: Phase) => phase.appGroups)
+          )
         );
-        return ((await res.json()) as Phase).appGroups;
       } else {
+        /**Load global apps, doesnt exist yet */
         return [];
       }
     },
