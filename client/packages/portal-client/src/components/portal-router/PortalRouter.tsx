@@ -2,6 +2,7 @@ import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
 import { StyleProvider, MenuProvider, PortalMenu } from '@equinor/portal-ui';
 import { useMemo } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import styled from 'styled-components';
 import { AppLoader } from '../app-loader/AppLoader';
 import Header from '../portal-header/Header';
 import { MenuGroups } from '../portal-menu/PortalMenu';
@@ -34,7 +35,7 @@ export default PortalRouter;
 
 const PortalFrame = () => (
   <StyleProvider>
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Wrapper>
       <MenuProvider>
         <Header />
         <PortalMenu>
@@ -42,6 +43,12 @@ const PortalFrame = () => (
         </PortalMenu>
         <Outlet />
       </MenuProvider>
-    </div>
+    </Wrapper>
   </StyleProvider>
 );
+
+const Wrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
