@@ -6,34 +6,24 @@
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/portal-ui",
         "main": "packages/portal-ui/src/index.ts",
         "tsConfig": "packages/portal-ui/tsconfig.lib.json",
-        "assets": [
-          "packages/portal-ui/*.md"
-        ]
+        "assets": ["packages/portal-ui/*.md"]
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/portal-ui/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["packages/portal-ui/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/packages/portal-ui"
-      ],
+      "outputs": ["coverage/packages/portal-ui"],
       "options": {
         "jestConfig": "packages/portal-ui/jest.config.ts",
         "passWithNoTests": true

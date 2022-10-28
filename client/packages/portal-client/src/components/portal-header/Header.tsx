@@ -1,10 +1,5 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import {
-  Phase,
-  TopBarAvatar,
-  useMenuItems,
-  usePhases,
-} from '@equinor/portal-core';
+import { TopBarAvatar, useMenuItems, usePhases } from '@equinor/portal-core';
 
 export function Header() {
   const { phases, clearWorkSurface, currentWorkSurface, setWorkSurface } =

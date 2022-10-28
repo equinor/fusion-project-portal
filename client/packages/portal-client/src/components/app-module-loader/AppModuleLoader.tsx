@@ -1,7 +1,5 @@
 import { useAppLoader } from '@equinor/portal-core';
-import { useEffect, useRef, useState } from 'react';
-import { from } from 'rxjs';
-import { AppLoadingTransition } from './AppLoadingTransition';
+import { useEffect, useRef } from 'react';
 
 interface ModuleLoaderProps<TProps> {
   moduleId: string;
@@ -11,23 +9,13 @@ interface ModuleLoaderProps<TProps> {
 export function ModuleLoader<TProps>({ moduleId }: ModuleLoaderProps<TProps>) {
   const ref = useRef<HTMLDivElement>(null);
   const { loadModule, teardownModule } = useAppLoader();
-  const [appLoading, setAppLoading] = useState(true);
+
   useEffect(() => {
-    if (ref.current) {
-      const sub = from(loadModule(moduleId, ref.current)).subscribe(() => {
-        setAppLoading(false);
-        sub.unsubscribe();
-      });
-    }
+    if (ref.current) loadModule(moduleId, ref.current);
     return () => {
       teardownModule && teardownModule();
     };
   }, []);
 
-  return (
-    <>
-      {appLoading && <AppLoadingTransition />}
-      <div ref={ref} />
-    </>
-  );
+  return <div ref={ref} />;
 }
