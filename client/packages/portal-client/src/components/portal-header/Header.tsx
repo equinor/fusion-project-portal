@@ -1,6 +1,10 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import { Phase, TopBarAvatar, usePhases } from '@equinor/portal-core';
-import { useQuery } from 'react-query';
+import {
+  Phase,
+  TopBarAvatar,
+  useMenuItems,
+  usePhases,
+} from '@equinor/portal-core';
 
 export function Header() {
   const { phases, clearWorkSurface, currentWorkSurface, setWorkSurface } =
@@ -29,21 +33,3 @@ export function Header() {
 }
 
 export default Header;
-
-export const useMenuItems = () => {
-  const id = usePhases().currentWorkSurface?.id;
-  return useQuery(
-    ['menu-items', id],
-    async () => {
-      if (id) {
-        const res = await fetch(
-          `https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/${id}`
-        );
-        return ((await res.json()) as Phase).appGroups;
-      } else {
-        return [];
-      }
-    },
-    { cacheTime: Infinity, refetchOnWindowFocus: false, staleTime: Infinity }
-  );
-};
