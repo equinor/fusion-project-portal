@@ -3,6 +3,8 @@ import { PortalMenu } from '@equinor/portal-ui';
 import { GroupWrapper } from './GroupWrapper/GroupWrapper';
 import { AppGroup, useMenuItems } from '@equinor/portal-core';
 import { useState } from 'react';
+import { appsMatchingSearch } from '../../utils/appsMatchingSearch';
+import { LoadingMenu } from './LoadingMenu';
 
 export function MenuGroups() {
   const { data, isLoading } = useMenuItems();
@@ -18,36 +20,11 @@ export function MenuGroups() {
           }}
         />
         {isLoading ? (
-          <div
-            style={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-              gap: '1.2em',
-            }}
-          >
-            <CircularProgress />
-            <div>Loading apps</div>
-          </div>
+          <LoadingMenu />
         ) : (
           <GroupWrapper groups={appsMatchingSearch(data ?? [], searchText)} />
         )}
       </div>
     </PortalMenu>
   );
-}
-
-export function appsMatchingSearch(groups: AppGroup[], searchText?: string) {
-  if (!searchText) return groups;
-  return groups
-    .map((group) => ({
-      ...group,
-      applications: group.applications.filter((group) =>
-        group.appKey.toLowerCase().includes(searchText)
-      ),
-    }))
-    .filter((group) => group.applications.length);
 }
