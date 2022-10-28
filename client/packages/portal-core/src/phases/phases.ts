@@ -1,11 +1,14 @@
-import { Phase } from '@equinor/portal-core';
+import { Phase, framework$ } from '@equinor/portal-core';
 import { createObservableStorage } from '@equinor/portal-utils';
 import { from, Observable } from 'rxjs';
 import { combineLatestWith, map } from 'rxjs/operators';
+import { requirePortalClient } from '../clients/portalClient';
 
 async function getWorkSurfaces() {
   return await (
-    await fetch(
+    await (
+      await requirePortalClient()
+    ).fetch(
       'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces'
     )
   ).json();
