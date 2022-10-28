@@ -15,6 +15,7 @@ export function createPortalFramework(
     [{ name: 'phase'; initialize: () => { phases: Phase[] } }]
   >((config) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
+    portalConfig.masal.client.redirectUri = window.location.origin;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
