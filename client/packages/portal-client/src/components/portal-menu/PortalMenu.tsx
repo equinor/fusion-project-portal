@@ -1,8 +1,7 @@
 import { CircularProgress, Search } from '@equinor/eds-core-react';
 import { PortalMenu } from '@equinor/portal-ui';
 import { GroupWrapper } from './GroupWrapper/GroupWrapper';
-import { AppGroup } from '@equinor/portal-core';
-import { useMenuItems } from '../portal-header/Header';
+import { AppGroup, useMenuItems } from '@equinor/portal-core';
 import { useState } from 'react';
 
 export function MenuGroups() {
