@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.WebApi;
+using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Fusion.Integration;
 using Fusion.Integration.Http;
@@ -24,7 +25,7 @@ builder.Services.AddCors(options =>
 
 // Add cookie auth
 builder.Services
-    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddAuthentication(/*OpenIdConnectDefaults.AuthenticationScheme*/)
     .AddMicrosoftIdentityWebApp(builder.Configuration)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
@@ -33,6 +34,9 @@ builder.Services
 builder.Services.AddAuthentication()
     .AddMicrosoftIdentityWebApi(builder.Configuration)
     .EnableTokenAcquisitionToCallDownstreamApi();
+
+// Add asset proxy
+builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
 
 // Add fusion integration
 builder.Services.AddFusionIntegration(f =>
@@ -78,6 +82,9 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    // Set up routes that the asset proxy should forward.
+    endpoints.MapFusionPortalAssetProxy();
+
     endpoints.MapControllers();
     endpoints.MapRazorPages();
 });

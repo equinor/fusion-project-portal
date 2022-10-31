@@ -24,7 +24,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
         Icon = icon;
     }
 
-    //public string Key { get; set; } FOR ROUTING
+    //public string Key { get; set; } FOR ROUTING (unique, indexed)
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string SubText { get; set; }
