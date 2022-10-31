@@ -4,7 +4,8 @@ import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
 import { configureModuleLoader } from '../module-loader/module';
-import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
+import { WorkSurfaceModule, module } from '../phase-module/module';
+import { LoggerLevel, PortalConfig } from '../types/portal-config';
 
 export const framework$ = new BehaviorSubject<null | any>(null);
 
@@ -13,7 +14,7 @@ export function createPortalFramework(
 ): React.LazyExoticComponent<
   React.FunctionComponent<{ children?: React.ReactNode }>
 > {
-  return createFrameworkProvider((config) => {
+  return createFrameworkProvider<[WorkSurfaceModule]>((config) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
     portalConfig.masal.client.redirectUri = window.location.origin;
 
@@ -28,6 +29,8 @@ export function createPortalFramework(
     config.onConfigured(() => {
       console.log('framework config done');
     });
+
+    config.addConfig({ module });
 
     config.addConfig(
       configureModuleLoader('appLoader', (moduleId: string) => {
