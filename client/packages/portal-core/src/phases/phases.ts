@@ -1,17 +1,24 @@
 import { Phase } from '@equinor/portal-core';
 import { createObservableStorage } from '@equinor/portal-utils';
-import { from, Observable } from 'rxjs';
-import { combineLatestWith, map } from 'rxjs/operators';
-async function getPhases() {
-  return await (
-    await fetch(
-      'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces'
+import { from, lastValueFrom, Observable } from 'rxjs';
+import { combineLatestWith, map, switchMap } from 'rxjs/operators';
+import { requirePortalClient } from '../clients/portalClient';
+
+async function getWorkSurfaces() {
+  return lastValueFrom(
+    from(requirePortalClient()).pipe(
+      switchMap((client) =>
+        client.fetch(
+          'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces'
+        )
+      ),
+      switchMap((res) => res.json())
     )
-  ).json();
+  );
 }
 
 //Key the selected phase is stored under
-const storageKey = 'selectedPhase';
+const storageKey = 'work-surface';
 
 const { next, obs$, subject$ } = createObservableStorage<string | undefined>(
   storageKey,
@@ -20,33 +27,33 @@ const { next, obs$, subject$ } = createObservableStorage<string | undefined>(
 
 obs$.subscribe();
 
-const currentPhaseId$ = obs$;
+const currentWsId$ = obs$;
 /**
  * Clear selected phase
  *
  * Sends user back to homepage
  */
-const clearSelectedPhase = () => next(undefined);
+const clearWorkSurface = () => next(undefined);
 /**
  * Set active phase
  *
  * Used for navigating a user to a certain phase homepage
  */
-const setActivePhase = (phase: Phase) => next(phase.id);
+const setWorkSurface = (workSurface: Phase) => next(workSurface.id);
 
-const phases$: Observable<Phase[]> = from(getPhases());
+const workSurfaces$: Observable<Phase[]> = from(getWorkSurfaces());
 
-const currentPhase$ = phases$.pipe(
-  combineLatestWith(currentPhaseId$),
-  map(([phases, selected]) => phases.find((s) => s.id === selected))
+const currentWorkSurface$ = workSurfaces$.pipe(
+  combineLatestWith(currentWsId$),
+  map(([surfaces, selected]) => surfaces.find((s) => s.id === selected))
 );
 
-const getCurrentPhase = () => subject$.value;
+const getCurrentWorkSurfaceId = () => subject$.value;
 
-export const phaseController = {
-  currentPhase$,
-  getCurrentPhase,
-  phases$,
-  clearSelectedPhase,
-  setActivePhase,
+export const workSurfaceController = {
+  currentWorkSurface$,
+  getCurrentWorkSurfaceId,
+  workSurfaces$,
+  clearWorkSurface,
+  setWorkSurface,
 };

@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 import PortalApp from './components/portal-app/PortalApp';
@@ -18,9 +18,11 @@ const Framework = createPortalFramework(portalConfig.config);
 root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Framework>
-        <PortalApp />
-      </Framework>
+      <Suspense fallback={<div>Configuring portal</div>}>
+        <Framework>
+          <PortalApp />
+        </Framework>
+      </Suspense>
     </QueryClientProvider>
   </StrictMode>
 );

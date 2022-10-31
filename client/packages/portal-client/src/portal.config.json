@@ -15,8 +15,8 @@
     },
     "portal": {
       "client": {
-        "baseUri": "https://pro-s-portal-ci.azurewebsites.net",
-        "defaultScopes": ["97978493-9777-4d48-b38a-67b0b9cd88d2/.default"]
+        "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/api",
+        "defaultScopes": ["9f166838-5d6b-4c44-8964-06db10eebd5d/.default"]
       }
     },
     "masal": {

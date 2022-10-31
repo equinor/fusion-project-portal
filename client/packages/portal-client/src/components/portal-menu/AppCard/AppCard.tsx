@@ -12,7 +12,7 @@ type AppCardProps = {
 };
 export const AppCard = ({ name }: AppCardProps) => {
   const { toggleMenu } = useMenuContext();
-
+  const navigate = useNavigate();
   const isFavorited = Boolean(
     useObservable(
       menuFavoritesController.favorites$.pipe(map((val) => val?.includes(name)))
@@ -23,7 +23,7 @@ export const AppCard = ({ name }: AppCardProps) => {
     <StyledAppCard
       onClick={() => {
         toggleMenu();
-        window.location.replace(`/apps/${name}`);
+        navigate(`/apps/${name}`);
       }}
     >
       <div>{name}</div>
