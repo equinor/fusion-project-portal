@@ -8,7 +8,7 @@ RUN npx nx run portal-client:build
 
 FROM nginx:1.20.2-alpine
 
-COPY --from=build /app/packages/portal-client/dist /usr/share/nginx/html
+COPY --from=build /app/dist/packages/portal-client /usr/share/nginx/html
 
 COPY ./docker/nginx/ /etc/nginx/
 
