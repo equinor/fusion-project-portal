@@ -1,8 +1,10 @@
 import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
+import { contextModule } from '@equinor/fusion-framework-module-context';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
+import { module as serviceModule } from '@equinor/fusion-framework-module-services';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
-
 import { configureModuleLoader } from '../module-loader/module';
+
 import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
 
 // { name: 'phase'; initialize: () => { phases: Phase[] } }
@@ -28,6 +30,8 @@ export function createPortalFramework(
       console.log('framework config done');
     });
 
+    config.addConfig({ module: contextModule });
+
     config.addConfig({
       module: {
         name: 'phase',
@@ -35,6 +39,9 @@ export function createPortalFramework(
           phases: portalConfig.phases || [],
         }),
       },
+    });
+    config.addConfig({
+      module: serviceModule,
     });
 
     config.addConfig(

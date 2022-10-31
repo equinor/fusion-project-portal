@@ -6,19 +6,11 @@ export function PortalContent() {
 
   if (!phases) return <div>Loading phases....</div>;
 
-  if (!currentPhase)
-    return (
-      <HomePage
-        phases={phases.map((phase) => ({
-          ...phase,
-          onClick: () => setActivePhase(phase),
-        }))}
-      />
-    );
+  if (!currentPhase) return <HomePage />;
 
   return (
     <>
-      <WorkSurfacePage {...currentPhase} />
+      <WorkSurfacePage />
     </>
   );
 }

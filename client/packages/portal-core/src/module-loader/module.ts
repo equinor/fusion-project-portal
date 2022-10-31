@@ -1,4 +1,7 @@
-import type { Module } from '@equinor/fusion-framework-module';
+import type {
+  IModuleConfigurator,
+  Module,
+} from '@equinor/fusion-framework-module';
 import {
   IModuleLoaderConfigConfigurator,
   ModuleLoaderConfigConfigurator,
@@ -17,9 +20,7 @@ export type ModuleLoaderType = 'appLoader' | 'moduleLoader' | 'widgetLoader';
 export function configureModuleLoader<TModule extends ModuleLoaderType>(
   name: TModule,
   generateUrl: (moduleId: string) => string
-): {
-  module: ModuleLoader<TModule>;
-} {
+): IModuleConfigurator<ModuleLoader<TModule>, any> {
   const config = new ModuleLoaderConfigConfigurator();
   config.generateUrl = generateUrl;
   return {
