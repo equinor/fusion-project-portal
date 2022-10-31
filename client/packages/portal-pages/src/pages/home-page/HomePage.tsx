@@ -6,8 +6,8 @@ import {
   StyledPaseSectionWrapper,
 } from './HomePage.Styles';
 
+import { useNavigateLastSurface, usePhases } from '@equinor/portal-core';
 import { HomePageHeader } from './HomePageHeader';
-import { usePhases, useNavigateLastSurface } from '@equinor/portal-core';
 import { LoadingWorkSurfacesTransition } from './LoadingPhaseTransition';
 
 export const HomePage = (): JSX.Element => {
