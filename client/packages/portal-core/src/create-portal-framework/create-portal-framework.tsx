@@ -4,7 +4,7 @@ import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
 import { configureModuleLoader } from '../module-loader/module';
-import { LoggerLevel, PortalConfig } from '../types/portal-config';
+import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
 
 export const framework$ = new BehaviorSubject<null | any>(null);
 
@@ -15,6 +15,7 @@ export function createPortalFramework(
 > {
   return createFrameworkProvider((config) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
+    portalConfig.masal.client.redirectUri = window.location.origin;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
@@ -24,7 +25,7 @@ export function createPortalFramework(
       config.addConfig(configureAgGrid(portalConfig.agGrid));
     }
 
-    config.onConfigured((s) => {
+    config.onConfigured(() => {
       console.log('framework config done');
     });
 
@@ -40,6 +41,7 @@ export function createPortalFramework(
         fusion.auth.defaultClient.setLogger(
           new ConsoleLogger(portalConfig.logger.defaultClientLogger.level)
         );
+
         console.debug('📒 subscribing to all events');
         fusion.event.subscribe((e) => console.debug(`🔔🌍 [${e.type}]`, e));
 
