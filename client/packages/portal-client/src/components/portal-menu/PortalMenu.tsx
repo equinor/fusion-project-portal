@@ -1,15 +1,14 @@
-import { Search } from '@equinor/eds-core-react';
+import { CircularProgress, Search } from '@equinor/eds-core-react';
 import { PortalMenu } from '@equinor/portal-ui';
-import { useObservable } from '@equinor/portal-utils';
 import { GroupWrapper } from './GroupWrapper/GroupWrapper';
-import { menuController } from '@equinor/portal-core';
-
-const { groupsMatchingSearch$, setSearchText } = menuController;
+import { AppGroup, useMenuItems } from '@equinor/portal-core';
+import { useState } from 'react';
+import { appsMatchingSearch } from '../../utils/appsMatchingSearch';
+import { LoadingMenu } from './LoadingMenu';
 
 export function MenuGroups() {
-  const groups = useObservable(groupsMatchingSearch$);
-
-  if (!groups) return null;
+  const { data, isLoading } = useMenuItems();
+  const [searchText, setSearchText] = useState<string | undefined>();
 
   return (
     <PortalMenu>
@@ -20,7 +19,11 @@ export function MenuGroups() {
             setSearchText(e.target.value);
           }}
         />
-        <GroupWrapper groups={groups} />
+        {isLoading ? (
+          <LoadingMenu />
+        ) : (
+          <GroupWrapper groups={appsMatchingSearch(data ?? [], searchText)} />
+        )}
       </div>
     </PortalMenu>
   );
