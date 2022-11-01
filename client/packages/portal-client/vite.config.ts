@@ -13,13 +13,6 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true,
-    // proxy: {
-    //   '/_discovery/environments/current': {
-    //     target: 'https://pro-s-portal-ci.azurewebsites.net',
-    //     changeOrigin: true,
-    //     secure: false,
-    //   },
-    // },
   },
   resolve: {
     alias: {
