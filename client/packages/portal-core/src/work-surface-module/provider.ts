@@ -5,7 +5,10 @@ import {
   FrameworkEventInit,
 } from '@equinor/fusion-framework-module-event';
 import { Observable } from 'rxjs';
-import  { createWorkSurfaceClient, WorkSurfaceClient } from './client/workSurfaceClient';
+import {
+  createWorkSurfaceClient,
+  WorkSurfaceClient,
+} from './client/workSurfaceClient';
 import { IWorkSurfaceModuleConfig } from './configurator';
 import { WorkSurface } from './types';
 
@@ -59,7 +62,7 @@ export class WorkSurfaceProvider implements IWorkSurfaceProvider {
   }) {
     const { config, event } = args;
 
-    this.#client = createWorkSurfaceClient({client: config.client, event});
+    this.#client = createWorkSurfaceClient(config);
 
     if (event) {
       /** this might be moved to client, to await prevention of event */

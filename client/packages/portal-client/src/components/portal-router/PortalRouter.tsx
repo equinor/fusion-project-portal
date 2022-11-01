@@ -1,4 +1,3 @@
-import { useFramework, useHttpClient } from '@equinor/fusion-framework-react/hooks';
 import { useWorkSurface } from '@equinor/portal-core';
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
 import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
@@ -6,7 +5,6 @@ import { useObservable } from '@equinor/portal-utils';
 import { LoadingWorkSurfacesTransition } from 'packages/portal-pages/src/pages/home-page/LoadingPhaseTransition';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { map } from 'rxjs';
 import styled from 'styled-components';
 import { AppLoader } from '../app-loader/AppLoader';
 import { FailedToLoadWorkSurfaces } from '../failed-work-surfaces/FailedToLoadWorkSurfaces';
@@ -62,10 +60,9 @@ type PhaseLoaderProps = {
 const PhaseLoader = ({ children }: PhaseLoaderProps) => {
   const { error$, isLoading$, init } = useWorkSurface();
 
-
   useEffect(() => {
     init();
-  },[])
+  }, []);
 
   const isLoading = useObservable(isLoading$);
   const error = useObservable(error$);

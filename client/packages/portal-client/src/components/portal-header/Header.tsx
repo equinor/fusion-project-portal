@@ -3,12 +3,15 @@ import {
   TopBarAvatar,
   useCurrentWorkSurface,
   useMenuItems,
+  useWorkSurface,
 } from '@equinor/portal-core';
 import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const currentWorkSurface = useCurrentWorkSurface();
+  // const module = useWorkSurface();
   const navigate = useNavigate();
+  //Preload all menu items
   useMenuItems();
 
   return (
@@ -17,6 +20,7 @@ export function Header() {
         if (location.href.includes('/apps') && currentWorkSurface) {
           navigate(`/${currentWorkSurface.name}`);
         } else {
+          // module.setCurrentWorkSurface(undefined);
           navigate('/');
         }
       }}
