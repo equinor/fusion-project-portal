@@ -1,23 +1,14 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import { TopBarAvatar, useMenuItems, usePhases } from '@equinor/portal-core';
+import { TopBarAvatar } from '@equinor/portal-core';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
-  const { phases, clearWorkSurface, currentWorkSurface, setWorkSurface } =
-    usePhases();
-
-  useMenuItems();
+  const navigate = useNavigate();
 
   return (
     <PortalHeader
       onLogoClick={() => {
-        const phase = phases?.find(
-          (s) => s.id === currentWorkSurface?.id
-        )?.name;
-        if (location.href.includes('/apps') && phase && currentWorkSurface) {
-          setWorkSurface(currentWorkSurface);
-        } else {
-          clearWorkSurface();
-        }
+        navigate('/');
       }}
       MenuButton={MenuButton}
       title="Project Portal"

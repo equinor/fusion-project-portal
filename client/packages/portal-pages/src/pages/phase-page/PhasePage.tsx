@@ -1,5 +1,4 @@
-import { workSurfaceController } from '@equinor/portal-core';
-import { useObservable } from '@equinor/portal-utils';
+import { useWorkSurfaces } from '@equinor/portal-core';
 import { useParams } from 'react-router-dom';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
 import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
@@ -8,16 +7,15 @@ import { PasePageHeader } from './PhasePageHeader';
 export const WorkSurfacePage = (): JSX.Element => {
   const { workSurfaceKey } = useParams();
 
-  const phases = useObservable(workSurfaceController.workSurfaces$);
+  const { data: phases, isLoading } = useWorkSurfaces();
 
-  if (!phases) return <div>Loading...</div>;
-
+  if (isLoading) return <div>Loading...</div>;
+  if (!phases) return <div>Woops something went wrong</div>;
   const phase = phases.find(
     (s) => s.name.toLowerCase().replace(' ', '-') === workSurfaceKey
   );
 
   if (!phase) return <div>Phase not found</div>;
-  workSurfaceController.setWorkSurface(phase);
 
   return (
     <StyledMain>

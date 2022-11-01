@@ -7,15 +7,16 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-import { usePhases, useNavigateLastSurface } from '@equinor/portal-core';
+import { useWorkSurfaces } from '@equinor/portal-core';
 import { LoadingWorkSurfacesTransition } from './LoadingPhaseTransition';
+import { useNavigate } from 'react-router-dom';
 
 export const HomePage = (): JSX.Element => {
-  const { phases: surfaces, setWorkSurface } = usePhases();
+  const { data: surfaces, isLoading } = useWorkSurfaces();
+  const navigate = useNavigate();
 
-  useNavigateLastSurface();
-  if (!surfaces) return <LoadingWorkSurfacesTransition />;
-
+  if (isLoading) return <LoadingWorkSurfacesTransition />;
+  if (!surfaces) return <div>Something went wrong</div>;
   return (
     <StyledMain>
       <StyledBackgroundSection>
@@ -26,7 +27,7 @@ export const HomePage = (): JSX.Element => {
               <PhaseSelectorItem
                 {...section}
                 onClick={() => {
-                  setWorkSurface(section);
+                  navigate(`/${section.name}`);
                 }}
                 key={section.id}
               />

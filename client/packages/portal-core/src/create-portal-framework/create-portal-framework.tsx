@@ -4,7 +4,7 @@ import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
 import { configureModuleLoader } from '../module-loader/module';
-import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
+import { LoggerLevel, WorkSurface, PortalConfig } from '../types/portal-config';
 
 export const framework$ = new BehaviorSubject<null | any>(null);
 
@@ -20,6 +20,10 @@ export function createPortalFramework(
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
+
+    config.configureHttpClient('portal', {
+      baseUri: 'https://app-pep-backend-noe-dev.azurewebsites.net',
+    });
 
     if (portalConfig.agGrid) {
       config.addConfig(configureAgGrid(portalConfig.agGrid));

@@ -1,4 +1,4 @@
-import { Phase } from '@equinor/portal-core';
+import { WorkSurface } from '@equinor/portal-core';
 import { createObservableStorage } from '@equinor/portal-utils';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import { combineLatestWith, map, switchMap } from 'rxjs/operators';
@@ -39,9 +39,9 @@ const clearWorkSurface = () => next(undefined);
  *
  * Used for navigating a user to a certain phase homepage
  */
-const setWorkSurface = (workSurface: Phase) => next(workSurface.id);
+const setWorkSurface = (workSurface: WorkSurface) => next(workSurface.id);
 
-const workSurfaces$: Observable<Phase[]> = from(getWorkSurfaces());
+const workSurfaces$: Observable<WorkSurface[]> = from(getWorkSurfaces());
 
 const currentWorkSurface$ = workSurfaces$.pipe(
   combineLatestWith(currentWsId$),
