@@ -2,18 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/portal-utils/src",
   "projectType": "library",
+  "name": "portal-utils",
   "tags": [],
   "targets": {
-    "butilsld": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/portal-utils",
-        "main": "packages/portal-utils/src/index.ts",
-        "tsConfig": "packages/portal-utils/tsconfig.lib.json",
-        "assets": ["packages/portal-utils/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

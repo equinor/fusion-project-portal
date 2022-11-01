@@ -9,20 +9,24 @@
   "config": {
     "serviceDiscovery": {
       "client": {
-        "baseUri": "https://pro-s-portal-ci.azurewebsites.net",
-        "defaultScopes": ["97978493-9777-4d48-b38a-67b0b9cd88d2/.default"]
+        "baseUri": "https://pro-s-portal-ci.azurewebsites.net/",
+        "defaultScopes": [
+          "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
+        ]
       }
     },
-    "portal": {
+    "portalClient": {
       "client": {
-        "baseUri": "https://pro-s-portal-ci.azurewebsites.net",
-        "defaultScopes": ["97978493-9777-4d48-b38a-67b0b9cd88d2/.default"]
+        "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
+        "defaultScopes": [
+          "api://9f166838-5d6b-4c44-8964-06db10eebd5d/ReadWrite"
+        ]
       }
     },
     "masal": {
       "client": {
         "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
-        "clientId": "9b707e3a-3e90-41ed-a47e-652a1e3b53d0",
+        "clientId": "9f166838-5d6b-4c44-8964-06db10eebd5d",
         "redirectUri": "/authentication/login-callback"
       },
       "options": {

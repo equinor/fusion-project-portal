@@ -1,7 +1,5 @@
 import {
-  GetContext,
-  phaseController,
-  QueryContext,
+  GetContext, QueryContext, workSurfaceController
 } from '@equinor/portal-core';
 import { useObservable } from '@equinor/portal-utils';
 import { useParams } from 'react-router-dom';
@@ -12,7 +10,7 @@ import { PasePageHeader } from './PhasePageHeader';
 export const WorkSurfacePage = (): JSX.Element => {
   const { workSurfaceKey } = useParams();
 
-  const phases = useObservable(phaseController.phases$);
+  const phases = useObservable(workSurfaceController.workSurfaces$);
 
   if (!phases) return <div>Loading...</div>;
 
@@ -21,7 +19,7 @@ export const WorkSurfacePage = (): JSX.Element => {
   );
 
   if (!phase) return <div>Phase not found</div>;
-  phaseController.setActivePhase(phase);
+  workSurfaceController.setWorkSurface(phase);
 
   return (
     <StyledMain>

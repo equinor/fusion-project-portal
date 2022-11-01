@@ -1,21 +1,17 @@
 import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { contextModule } from '@equinor/fusion-framework-module-context';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
-import { module as serviceModule } from '@equinor/fusion-framework-module-services';
-import { createFrameworkProvider } from '@equinor/fusion-framework-react';
+
+import { FusionConfigurator } from '@equinor/fusion-framework-react';
+import { BehaviorSubject } from 'rxjs';
+
 import { configureModuleLoader } from '../module-loader/module';
+import { LoggerLevel, PortalConfig } from '../types/portal-config';
 
-import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
+export const framework$ = new BehaviorSubject<null | any>(null);
 
-// { name: 'phase'; initialize: () => { phases: Phase[] } }
-export function createPortalFramework(
-  portalConfig: PortalConfig
-): React.LazyExoticComponent<
-  React.FunctionComponent<{ children?: React.ReactNode }>
-> {
-  return createFrameworkProvider<
-    [{ name: 'phase'; initialize: () => { phases: Phase[] } }]
-  >((config) => {
+export function createPortalFramework(portalConfig: PortalConfig) {
+  return (config: FusionConfigurator) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
@@ -30,20 +26,11 @@ export function createPortalFramework(
       console.log('framework config done');
     });
 
+    config.configureHttpClient(
+      'portal-client',
+      portalConfig.portalClient.client
+    );
     config.addConfig({ module: contextModule });
-
-    config.addConfig({
-      module: {
-        name: 'phase',
-        initialize: () => ({
-          phases: portalConfig.phases || [],
-        }),
-      },
-    });
-    config.addConfig({
-      module: serviceModule,
-    });
-
     config.addConfig(
       configureModuleLoader('appLoader', (moduleId: string) => {
         return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
@@ -51,21 +38,18 @@ export function createPortalFramework(
     );
 
     config.onInitialized(async (fusion) => {
-      if (portalConfig.logger?.defaultClientLogger?.active) {
-        fusion.auth.defaultClient.setLogger(
-          new ConsoleLogger(portalConfig.logger.defaultClientLogger.level)
-        );
+      framework$.next(fusion);
+      fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
-        console.debug('📒 subscribing to all events');
-        fusion.event.subscribe((e) => console.debug(`🔔🌍 [${e.type}]`, e));
+      console.debug('📒 subscribing to all events');
+      fusion.event.subscribe((e) => console.debug(`🔔🌍 [${e.type}]`, e));
 
-        console.debug('📒 subscribing to [onReactAppLoaded]');
-        fusion.event.addEventListener('onReactAppLoaded', (e) =>
-          console.debug('🔔 [onReactAppLoaded]', e)
-        );
-      }
+      console.debug('📒 subscribing to [onReactAppLoaded]');
+      fusion.event.addEventListener('onReactAppLoaded', (e) =>
+        console.debug('🔔 [onReactAppLoaded]', e)
+      );
     });
-  });
+  };
 }
 
 export default createPortalFramework;

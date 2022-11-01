@@ -9,13 +9,16 @@ import styled from 'styled-components';
 
 type AppCardProps = {
   name: string;
+  appKey: string;
 };
-export const AppCard = ({ name }: AppCardProps) => {
+export const AppCard = ({ name, appKey }: AppCardProps) => {
   const { toggleMenu } = useMenuContext();
-
+  const navigate = useNavigate();
   const isFavorited = Boolean(
     useObservable(
-      menuFavoritesController.favorites$.pipe(map((val) => val?.includes(name)))
+      menuFavoritesController.favorites$.pipe(
+        map((val) => val?.includes(appKey))
+      )
     )
   );
 
@@ -23,12 +26,12 @@ export const AppCard = ({ name }: AppCardProps) => {
     <StyledAppCard
       onClick={() => {
         toggleMenu();
-        window.location.replace(`/apps/${name}`);
+        navigate(`/apps/${appKey}`);
       }}
     >
       <div>{name}</div>
       <StyledIcon
-        onClick={() => menuFavoritesController.onClickFavorite(name)}
+        onClick={() => menuFavoritesController.onClickFavorite(appKey)}
         name={isFavorited ? 'star_filled' : 'star_outlined'}
       />
     </StyledAppCard>

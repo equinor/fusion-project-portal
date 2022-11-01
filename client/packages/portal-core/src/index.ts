@@ -2,6 +2,7 @@ export * from './avatar';
 export * from './context/GetContext';
 export * from './context/SelectContext';
 export * from './create-portal-framework/create-portal-framework';
+export * from './hooks';
 export * from './hooks/use-app-loader';
 export * from './hooks/use-phases';
 export * from './menu';
