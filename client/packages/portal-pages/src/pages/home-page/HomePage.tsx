@@ -7,11 +7,15 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-import { usePhases, useNavigateLastSurface } from '@equinor/portal-core';
+import { useNavigateLastSurface, useWorkSurfaces } from '@equinor/portal-core';
 import { LoadingWorkSurfacesTransition } from './LoadingPhaseTransition';
+import { useObservable } from '@equinor/portal-utils';
+import { useNavigate } from 'react-router-dom';
 
 export const HomePage = (): JSX.Element => {
-  const { phases: surfaces, setWorkSurface } = usePhases();
+  const { workSurfaces$, setWorkSurface } = useWorkSurfaces();
+  const navigate = useNavigate();
+  const surfaces = useObservable(workSurfaces$);
 
   useNavigateLastSurface();
   if (!surfaces) return <LoadingWorkSurfacesTransition />;
@@ -27,6 +31,7 @@ export const HomePage = (): JSX.Element => {
                 {...section}
                 onClick={() => {
                   setWorkSurface(section);
+                  navigate(`/${section.name}`);
                 }}
                 key={section.id}
               />

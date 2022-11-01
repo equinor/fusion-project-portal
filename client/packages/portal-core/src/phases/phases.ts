@@ -5,6 +5,7 @@ import { combineLatestWith, map, switchMap } from 'rxjs/operators';
 import { requirePortalClient } from '../clients/portalClient';
 
 async function getWorkSurfaces() {
+  return [];
   return lastValueFrom(
     from(requirePortalClient()).pipe(
       switchMap((client) =>

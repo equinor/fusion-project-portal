@@ -1,29 +1,31 @@
-import { workSurfaceController } from '@equinor/portal-core';
-import { useObservable } from '@equinor/portal-utils';
-import { useParams } from 'react-router-dom';
+import { useWorkSurfaces } from '@equinor/portal-core';
+import { useQuery } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
 import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
 import { PasePageHeader } from './PhasePageHeader';
 
 export const WorkSurfacePage = (): JSX.Element => {
   const { workSurfaceKey } = useParams();
+  const navigate = useNavigate();
+  const { currentWorkSurface$, resolveWorkSurface } = useWorkSurfaces();
 
-  const phases = useObservable(workSurfaceController.workSurfaces$);
+  if (!workSurfaceKey) {
+    navigate('/');
+    return <></>;
+  }
 
-  if (!phases) return <div>Loading...</div>;
-
-  const phase = phases.find(
-    (s) => s.name.toLowerCase().replace(' ', '-') === workSurfaceKey
+  const { data: surface, isLoading } = useQuery(['resolve'], () =>
+    resolveWorkSurface(workSurfaceKey)
   );
 
-  if (!phase) return <div>Phase not found</div>;
-  workSurfaceController.setWorkSurface(phase);
+  if (!surface) return <div>Phase not found</div>;
 
   return (
     <StyledMain>
       <StyledBackgroundSection>
         <StyledContentSection>
-          <PasePageHeader {...phase} />
+          <PasePageHeader {...surface} />
 
           <StyledContentWrapper>
             <p>// some content</p>

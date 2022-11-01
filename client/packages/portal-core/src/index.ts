@@ -5,3 +5,4 @@ export * from './menu';
 export * from './avatar';
 export * from './phases';
 export * from './hooks';
+export * from './work-surface-module';

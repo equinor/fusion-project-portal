@@ -1,5 +1,5 @@
-import { Observable, interval } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { Observable, interval, of } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { Presence } from './types';
 
 export const getPresence$: (userId: string) => Observable<Presence> = (
@@ -7,9 +7,9 @@ export const getPresence$: (userId: string) => Observable<Presence> = (
 ) =>
   interval(5000 * 60).pipe(
     startWith(0),
-    switchMap(() =>
-      window.Fusion.modules.serviceDiscovery.createClient('people')
-    ),
-    switchMap((s) => s.fetch(`/persons/${userId}/presence`)),
-    switchMap((s) => s.json())
+    map((s) => ({
+      activity: 'Available',
+      id: '123',
+      availability: 'Available',
+    }))
   );

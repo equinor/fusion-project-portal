@@ -4,6 +4,7 @@ import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
 import { configureModuleLoader } from '../module-loader/module';
+import { module } from '../work-surface-module/module';
 import { LoggerLevel, Phase, PortalConfig } from '../types/portal-config';
 
 export const framework$ = new BehaviorSubject<null | any>(null);
@@ -19,7 +20,20 @@ export function createPortalFramework(
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
-    config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
+    config.configureMsal(
+      {
+        tenantId: '3aa4a235-b6e2-48d5-9195-7fcf05b459b0',
+        clientId: '9f166838-5d6b-4c44-8964-06db10eebd5d',
+        redirectUri: '/authentication/login-callback',
+      },
+      { requiresAuth: true }
+    );
+
+    config.addConfig({ module });
+
+    config.configureHttpClient('portal', {
+      baseUri: 'https://app-pep-backend-noe-dev.azurewebsites.net',
+    });
 
     if (portalConfig.agGrid) {
       config.addConfig(configureAgGrid(portalConfig.agGrid));
