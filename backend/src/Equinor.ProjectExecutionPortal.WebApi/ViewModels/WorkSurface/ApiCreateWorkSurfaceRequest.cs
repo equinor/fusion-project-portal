@@ -18,7 +18,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 
                 RuleFor(x => x.Order)
                     .NotEmpty()
-                    .WithMessage("Order required"); ;
+                    .WithMessage("Order required");
             }
         }
     }

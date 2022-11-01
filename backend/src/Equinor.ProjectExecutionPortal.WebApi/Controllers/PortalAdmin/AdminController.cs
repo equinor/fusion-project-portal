@@ -38,15 +38,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.PortalAdmin
         }
 
         [HttpPost("onboarded-apps")]
-        public IActionResult OnboardApp([FromBody] string appKey)
+        public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
-            return Json($"{appKey} onboarded");
+            return await Mediator.Send(request.ToCommand());
         }
-
+        
         [HttpDelete("onboarded-apps/{appKey}")]
-        public IActionResult DelistApp([FromRoute] string appKey)
+        public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
         {
-            return Json($"{appKey} no longer onboarded");
+            var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey};
+            await Mediator.Send(request.ToCommand());
+
+            return NoContent();
         }
 
         [HttpGet("work-surfaces")]
