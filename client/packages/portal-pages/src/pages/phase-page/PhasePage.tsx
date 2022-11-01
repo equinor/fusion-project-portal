@@ -15,8 +15,8 @@ export const WorkSurfacePage = (): JSX.Element => {
     return <></>;
   }
   const surface =
-    module.currentWorkSurface ??
-    module?.workSurfaces?.find((s) => s.name === workSurfaceKey);
+    module.getCurrentWorkSurface() ??
+    module?.getWorkSurfaces()?.find((s) => s.name === workSurfaceKey);
 
   if (!surface) return <div>Phase not found</div>;
 

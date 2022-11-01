@@ -33,9 +33,9 @@ export const storeCurrentWorkSurface = (workSurface?: WorkSurface | string) => {
     }
   }
 };
-export const loadCurrentWorkSurface = (): WorkSurface | undefined => {
-  const res = storage.getItem<WorkSurface>(storageKeys.currentWorkSurface);
-  if (typeof res === 'string' || res === undefined) {
+export const loadCurrentWorkSurface = (): string | undefined => {
+  const res = storage.getItem<string>(storageKeys.currentWorkSurface);
+  if (res === undefined) {
     return undefined;
   }
   return res;

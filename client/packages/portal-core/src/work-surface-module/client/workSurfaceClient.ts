@@ -4,7 +4,8 @@ import { IEventModuleProvider } from '@equinor/fusion-framework-module-event';
 
 import { WorkSurface } from '../types';
 import {
-  loadWorkSurfaces,
+  loadCurrentWorkSurface,
+  loadWorkSurfaces, storeWorkSurfaces,
 } from './persist';
 
 export type WorkSurfaceClientOptions = {
@@ -16,17 +17,20 @@ export type WorkSurfaceClient = ReturnType<typeof createWorkSurfaceClient>;
 
 
 export function createWorkSurfaceClient({client, event}: WorkSurfaceClientOptions){
+  const preload = loadWorkSurfaces();
+  const previousWorkSurface = loadCurrentWorkSurface();
 
-    const isLoading$ = new BehaviorSubject(true);
+
+    const isLoading$ = new BehaviorSubject(!preload);
     const error$ = new BehaviorSubject<unknown>(null);
     const currentWorkSurface$ = new BehaviorSubject<WorkSurface | undefined>(undefined);
-    const workSurfaces$ = new BehaviorSubject<WorkSurface[] | undefined>(undefined);
+    const workSurfaces$ = new BehaviorSubject<WorkSurface[] | undefined>(preload);
 
 
     const init = async () => {
-      throw new Error("")
-      workSurfaces$.next(loadWorkSurfaces());
-      isLoading$.next(true);
+      if(!workSurfaces$.value){
+        isLoading$.next(true);
+      }
       try {
         const res = await client.fetch('/api/work-surfaces');
         if (!res.ok) throw res;
@@ -43,7 +47,14 @@ export function createWorkSurfaceClient({client, event}: WorkSurfaceClientOption
       } finally {
         isLoading$.next(false);
       }
-      return lastValueFrom(workSurfaces$)
+      if(workSurfaces$.value){
+        const prev = workSurfaces$.value.find( s => s.id === previousWorkSurface);
+        if(prev){
+          currentWorkSurface$.next(prev)
+        }
+        storeWorkSurfaces(workSurfaces$.value)
+      }
+      return workSurfaces$.value;
     }
 
   return { 

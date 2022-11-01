@@ -63,10 +63,9 @@ const PhaseLoader = ({ children }: PhaseLoaderProps) => {
   const { error$, isLoading$, init } = useWorkSurface();
 
 
-const client = useHttpClient("portal-client" as any);
-useEffect(() => {
-  client.fetch("test/123")
-},[])
+  useEffect(() => {
+    init();
+  },[])
 
   const isLoading = useObservable(isLoading$);
   const error = useObservable(error$);

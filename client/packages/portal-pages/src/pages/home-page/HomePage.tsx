@@ -21,7 +21,7 @@ export const HomePage = (): JSX.Element => {
         <StyledContentSection>
           <HomePageHeader />
           <StyledPaseSectionWrapper>
-            {(module?.workSurfaces ?? []).map((section) => (
+            {(module.getWorkSurfaces() ?? []).map((section) => (
               <PhaseSelectorItem
                 {...section}
                 onClick={() => {

@@ -11,7 +11,7 @@ export const useMenuItems = () => {
   return useQuery(
     ['menu-items', surface?.id],
     async () => {
-      return []
+
       if (surface?.id) {
         return lastValueFrom(
           from(requirePortalClient()).pipe(
