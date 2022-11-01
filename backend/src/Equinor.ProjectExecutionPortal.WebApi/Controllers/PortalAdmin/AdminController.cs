@@ -1,9 +1,14 @@
-﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp.GetOnboardedApps;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.PortalAdmin
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/admin")]
     public class AdminController : ApiControllerBase
@@ -25,9 +30,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.PortalAdmin
         }
 
         [HttpGet("onboarded-apps")]
-        public IActionResult OnboardedApps()
+        public async Task<ActionResult<IList<ApiOnboardedApp>>> OnboardedApps()
         {
-            return Json("onboarded apps for portal");
+            var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
+
+            return onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList();
         }
 
         [HttpPost("onboarded-apps")]
