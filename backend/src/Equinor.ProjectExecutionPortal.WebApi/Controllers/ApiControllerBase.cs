@@ -19,7 +19,7 @@ public abstract class ApiControllerBase : Controller
     protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetRequiredService<IMapper>();
     protected ILogger Logger => _logger;
     protected IAuthorizationService AuthorizationService => _authorizationService ??= HttpContext.RequestServices.GetRequiredService<IAuthorizationService>();
-    protected IFusionContextResolver contextResolver => _contextResolver ??= HttpContext.RequestServices.GetRequiredService<IFusionContextResolver>();
+    protected IFusionContextResolver ContextResolver => _contextResolver ??= HttpContext.RequestServices.GetRequiredService<IFusionContextResolver>();
 
     private protected async Task<Unit> SetAuthorizedVerbsHeader(List<(string verb, string policy)> verbPolicyMap, object? resource)
     {

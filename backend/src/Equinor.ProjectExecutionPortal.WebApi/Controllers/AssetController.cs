@@ -1,8 +1,11 @@
 ﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("/assets")]
     public class AssetController : ApiControllerBase

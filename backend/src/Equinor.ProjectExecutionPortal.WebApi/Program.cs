@@ -1,9 +1,12 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi;
+﻿using System.Text.Json.Serialization;
+using Equinor.ProjectExecutionPortal.WebApi;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Fusion.Integration;
 using Fusion.Integration.Http;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 
 const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
@@ -24,16 +27,17 @@ builder.Services.AddCors(options =>
 });
 
 // Add cookie auth
-builder.Services
-    .AddAuthentication(/*OpenIdConnectDefaults.AuthenticationScheme*/)
-    .AddMicrosoftIdentityWebApp(builder.Configuration)
+//builder.Services
+//    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+//    .AddMicrosoftIdentityWebApp(builder.Configuration)
+//    .EnableTokenAcquisitionToCallDownstreamApi()
+//    .AddInMemoryTokenCaches();
+
+//Add bearer auth
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
-
-// Add bearer auth
-builder.Services.AddAuthentication()
-    .AddMicrosoftIdentityWebApi(builder.Configuration)
-    .EnableTokenAcquisitionToCallDownstreamApi();
 
 // Add asset proxy
 builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
@@ -55,7 +59,15 @@ builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal
 });
 
 builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+
+builder.Services.AddControllers(config =>
+    {
+        var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+        config.Filters.Add(new AuthorizeFilter(policy));
+    })
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
