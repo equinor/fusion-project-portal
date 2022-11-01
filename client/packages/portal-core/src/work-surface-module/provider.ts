@@ -5,7 +5,7 @@ import {
   FrameworkEventInit,
 } from '@equinor/fusion-framework-module-event';
 import { Observable } from 'rxjs';
-import WorkSurfaceClient from './client/workSurfaceClient';
+import  { createWorkSurfaceClient, WorkSurfaceClient } from './client/workSurfaceClient';
 import { IWorkSurfaceModuleConfig } from './configurator';
 import { WorkSurface } from './types';
 
@@ -26,7 +26,7 @@ export class WorkSurfaceProvider implements IWorkSurfaceProvider {
   }
 
   get currentWorkSurface(): WorkSurface | undefined {
-    return this.#client.currentWorkSurface;
+    return this.#client.getCurrentWorkSurface();
   }
   get currentWorkSurface$(): Observable<WorkSurface | undefined> {
     return this.#client.currentWorkSurface$;
@@ -35,7 +35,7 @@ export class WorkSurfaceProvider implements IWorkSurfaceProvider {
   async setCurrentWorkSurface(itemOrId?: string | WorkSurface) {
     typeof itemOrId === 'string'
       ? this.#client.setCurrentWorkSurface(
-          await this.#client.resolveWorkSurface$(itemOrId)
+          await this.#client.resolveWorkSurface(itemOrId)
         )
       : this.#client.setCurrentWorkSurface(itemOrId);
   }
@@ -44,12 +44,10 @@ export class WorkSurfaceProvider implements IWorkSurfaceProvider {
     this.#client.setCurrentWorkSurface(context);
   }
 
-  async resolveWorkSurface(id: string) {
-    return this.#client.resolveWorkSurface$(id);
-  }
+  resolveWorkSurface = (id: string) => this.#client.resolveWorkSurface(id);
 
   get workSurfaces() {
-    return this.#client.workSurfaces;
+    return this.#client.getWorkSurfaces();
   }
   get workSurfaces$() {
     return this.#client.workSurfaces$;
@@ -61,7 +59,7 @@ export class WorkSurfaceProvider implements IWorkSurfaceProvider {
   }) {
     const { config, event } = args;
 
-    this.#client = new WorkSurfaceClient(config);
+    this.#client = createWorkSurfaceClient({client: config.client, event});
 
     if (event) {
       /** this might be moved to client, to await prevention of event */

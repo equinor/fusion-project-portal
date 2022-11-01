@@ -1,67 +1,62 @@
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
+import { IEventModuleProvider } from '@equinor/fusion-framework-module-event';
 
 import { WorkSurface } from '../types';
+import {
+  loadWorkSurfaces,
+} from './persist';
 
 export type WorkSurfaceClientOptions = {
   client: IHttpClient;
+  event: IEventModuleProvider | undefined;
 };
 
-export class WorkSurfaceClient extends Observable<WorkSurface> {
-  #client: IHttpClient;
+export type WorkSurfaceClient = ReturnType<typeof createWorkSurfaceClient>;
 
-  #currentWorkSurface$ = new BehaviorSubject<WorkSurface | undefined>(
-    undefined
-  );
-  #workSurfaces$ = new BehaviorSubject<WorkSurface[] | undefined>(undefined);
 
-  get currentWorkSurface(): WorkSurface | undefined {
-    return this.#currentWorkSurface$.value;
-  }
+export function createWorkSurfaceClient({client, event}: WorkSurfaceClientOptions){
 
-  get currentWorkSurface$(): Observable<WorkSurface | undefined> {
-    return this.#currentWorkSurface$.asObservable();
-  }
+    const isLoading$ = new BehaviorSubject(true);
+    const error$ = new BehaviorSubject<unknown>(null);
+    const currentWorkSurface$ = new BehaviorSubject<WorkSurface | undefined>(undefined);
+    const workSurfaces$ = new BehaviorSubject<WorkSurface[] | undefined>(undefined);
 
-  get workSurfaces(): WorkSurface[] | undefined {
-    return this.#workSurfaces$.value;
-  }
 
-  get workSurfaces$(): Observable<WorkSurface[] | undefined> {
-    return this.#workSurfaces$.asObservable();
-  }
+    const init = async () => {
+      throw new Error("")
+      workSurfaces$.next(loadWorkSurfaces());
+      isLoading$.next(true);
+      try {
+        const res = await client.fetch('/api/work-surfaces');
+        if (!res.ok) throw res;
+        const surfaces: WorkSurface[] = await res.json();
+        workSurfaces$.next(
+          surfaces.map((s) => ({
+            ...s,
+            name: s.name.toLowerCase().replace(' ', '-'),
+          }))
+        );
+      } catch (e) {
+        console.error(e)
+        error$.next(e);
+      } finally {
+        isLoading$.next(false);
+      }
+      return lastValueFrom(workSurfaces$)
+    }
 
-  constructor(options: WorkSurfaceClientOptions) {
-    super((observer) => this.#currentWorkSurface$.subscribe(observer));
-
-    this.#client = options.client;
-
-    this.#initWorkSurfaces();
-  }
-
-  async #initWorkSurfaces() {
-    const rest = await this.#client.fetch('/api/work-surfaces');
-    const surfaces: WorkSurface[] = await rest.json();
-    this.#workSurfaces$.next(
-      surfaces.map((s) => ({
-        ...s,
-        name: s.name.toLowerCase().replace(' ', '-'),
-      }))
-    );
-  }
-
-  public setCurrentWorkSurface(item?: WorkSurface) {
-    this.#currentWorkSurface$.next(item);
-  }
-
-  public async resolveWorkSurface$(
-    id: string
-  ): Promise<WorkSurface | undefined> {
-    console.log(id, this.workSurfaces);
-
-    return this.workSurfaces?.find((s) => s.id === id);
+  return { 
+    isLoading$: isLoading$.asObservable(),
+    error$: error$.asObservable(),
+    workSurfaces$: workSurfaces$.asObservable(),
+    getWorkSurfaces: () => workSurfaces$.getValue(),
+    currentWorkSurface$: currentWorkSurface$.asObservable(),
+    getCurrentWorkSurface: () => currentWorkSurface$.getValue(),
+    init,
+    setCurrentWorkSurface: (item?: WorkSurface) => currentWorkSurface$.next(item),
+    resolveWorkSurface: (guidOrName: string) => workSurfaces$.value?.find(s => s.id === guidOrName || s.name === guidOrName) 
   }
 }
 
-export default WorkSurfaceClient;
+export default createWorkSurfaceClient;

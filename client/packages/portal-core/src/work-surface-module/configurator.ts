@@ -6,8 +6,6 @@ import {
   HttpMsalModule,
   IHttpClient,
 } from '@equinor/fusion-framework-module-http';
-import { WorkSurfaceClientOptions } from './client/workSurfaceClient';
-import { WorkSurface } from './types';
 
 export interface IWorkSurfaceModuleConfig {
   client: IHttpClient;
@@ -31,9 +29,9 @@ export class WorkSurfaceModuleConfigurator
       [HttpMsalModule]
     >
   ) {
-    const provider = init.requireInstance('http');
-    const client = (await provider).createClient('portal');
-    console.log(client);
+    const provider = await init.requireInstance('http');
+    const client = provider.createClient('portal-client');
+
     return { client };
   }
 }

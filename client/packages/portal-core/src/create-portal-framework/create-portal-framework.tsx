@@ -27,9 +27,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     config.addConfig({ module });
 
-    config.configureHttpClient('portal', {
-      baseUri: 'https://app-pep-backend-noe-dev.azurewebsites.net',
-    });
+
 
     if (portalConfig.agGrid) {
       config.addConfig(configureAgGrid(portalConfig.agGrid));

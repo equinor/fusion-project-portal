@@ -1,9 +1,15 @@
+import { useFramework, useHttpClient } from '@equinor/fusion-framework-react/hooks';
+import { useWorkSurface } from '@equinor/portal-core';
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
 import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
-import { useMemo } from 'react';
+import { useObservable } from '@equinor/portal-utils';
+import { LoadingWorkSurfacesTransition } from 'packages/portal-pages/src/pages/home-page/LoadingPhaseTransition';
+import { ReactNode, useEffect, useMemo } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { map } from 'rxjs';
 import styled from 'styled-components';
 import { AppLoader } from '../app-loader/AppLoader';
+import { FailedToLoadWorkSurfaces } from '../failed-work-surfaces/FailedToLoadWorkSurfaces';
 import Header from '../portal-header/Header';
 import { MenuGroups } from '../portal-menu/PortalMenu';
 
@@ -41,11 +47,34 @@ const PortalFrame = () => (
         <PortalMenu>
           <MenuGroups />
         </PortalMenu>
-        <Outlet />
+        <PhaseLoader>
+          <Outlet />
+        </PhaseLoader>
       </MenuProvider>
     </Wrapper>
   </StyleProvider>
 );
+
+type PhaseLoaderProps = {
+  children: ReactNode;
+};
+
+const PhaseLoader = ({ children }: PhaseLoaderProps) => {
+  const { error$, isLoading$, init } = useWorkSurface();
+
+
+const client = useHttpClient("portal-client" as any);
+useEffect(() => {
+  client.fetch("test/123")
+},[])
+
+  const isLoading = useObservable(isLoading$);
+  const error = useObservable(error$);
+  if (isLoading) return <LoadingWorkSurfacesTransition />;
+  if (error) return <FailedToLoadWorkSurfaces error={error as Response} />;
+
+  return <>{children}</>;
+};
 
 const Wrapper = styled.div`
   height: 100vh;

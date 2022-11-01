@@ -1,16 +1,7 @@
-import WorkSurfaceProvider from '../provider';
-import { WorkSurface } from '../types';
+import { useObservable } from '@equinor/portal-utils';
+import { useWorkSurface } from './useWorkSurface';
 
-export const useWorkSurfaces = () => {
-  const module = window.Fusion.modules?.['work-surface'] as WorkSurfaceProvider;
-
-  return {
-    setWorkSurface: async (idOrItem?: string | WorkSurface) =>
-      await module.setCurrentWorkSurface(idOrItem),
-    getCurrentWorkSurface: () => module.currentWorkSurface,
-    workSurfaces$: module.workSurfaces$,
-    getWorkSurfaces: () => module.workSurfaces,
-    currentWorkSurface$: module.currentWorkSurface$,
-    resolveWorkSurface: module.resolveWorkSurface,
-  };
-};
+export function useWorkSurfaces() {
+  const { workSurfaces$, workSurfaces } = useWorkSurface();
+  return useObservable(workSurfaces$);
+}

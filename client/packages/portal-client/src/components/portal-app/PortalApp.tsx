@@ -1,7 +1,5 @@
 import PortalRouter from '../portal-router/PortalRouter';
 
-export function PortalApp() {
+export default function PortalApp() {
   return <PortalRouter />;
 }
-
-export default PortalApp;

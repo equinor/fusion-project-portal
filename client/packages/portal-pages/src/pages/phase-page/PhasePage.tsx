@@ -1,23 +1,22 @@
-import { useWorkSurfaces } from '@equinor/portal-core';
-import { useQuery } from 'react-query';
+import { useWorkSurface } from '@equinor/portal-core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
 import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
 import { PasePageHeader } from './PhasePageHeader';
 
 export const WorkSurfacePage = (): JSX.Element => {
+  const module = useWorkSurface();
+
   const { workSurfaceKey } = useParams();
   const navigate = useNavigate();
-  const { currentWorkSurface$, resolveWorkSurface } = useWorkSurfaces();
 
   if (!workSurfaceKey) {
     navigate('/');
     return <></>;
   }
-
-  const { data: surface, isLoading } = useQuery(['resolve'], () =>
-    resolveWorkSurface(workSurfaceKey)
-  );
+  const surface =
+    module.currentWorkSurface ??
+    module?.workSurfaces?.find((s) => s.name === workSurfaceKey);
 
   if (!surface) return <div>Phase not found</div>;
 
