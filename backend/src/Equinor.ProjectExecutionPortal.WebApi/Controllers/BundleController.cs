@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/bundles/")]
     public class BundleController : ApiControllerBase
     {
+        [AllowAnonymous]
         [HttpGet("{appKey}")]
         [HttpGet("{appKey}.js")]
         public async Task<ActionResult> FusionPortalAppBundle([FromServices] IFusionPortalApiService fusionPortalApiService,[FromRoute] string appKey)
