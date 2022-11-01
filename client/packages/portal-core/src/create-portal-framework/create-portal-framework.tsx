@@ -1,18 +1,18 @@
 import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
-
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
+
 import { FusionConfigurator } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
 import { configureModuleLoader } from '../module-loader/module';
-import { LoggerLevel, PortalConfig } from '../types/portal-config';
+import { PortalConfig } from '../types/portal-config';
 
 export const framework$ = new BehaviorSubject<null | any>(null);
 
 export function createPortalFramework(portalConfig: PortalConfig) {
   return (config: FusionConfigurator) => {
-    config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
-
+    config.logger.level = 4; //(portalConfig.logger?.level as LoggerLevel) || 0;
+    portalConfig.serviceDiscovery.client.baseUri = window.location.origin;
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
@@ -25,10 +25,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
       console.log('framework config done');
     });
 
-    config.configureHttpClient('portal-client', {
-      baseUri: 'https://app-pep-backend-noe-dev.azurewebsites.net/',
-      defaultScopes: ['9f166838-5d6b-4c44-8964-06db10eebd5d'],
-    });
+    config.configureHttpClient(
+      'portal-client',
+      portalConfig.portalClient.client
+    );
 
     config.addConfig(
       configureModuleLoader('appLoader', (moduleId: string) => {
@@ -38,19 +38,15 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     config.onInitialized(async (fusion) => {
       framework$.next(fusion);
-      if (portalConfig.logger?.defaultClientLogger?.active) {
-        fusion.auth.defaultClient.setLogger(
-          new ConsoleLogger(portalConfig.logger.defaultClientLogger.level)
-        );
+      fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
-        console.debug('📒 subscribing to all events');
-        fusion.event.subscribe((e) => console.debug(`🔔🌍 [${e.type}]`, e));
+      console.debug('📒 subscribing to all events');
+      fusion.event.subscribe((e) => console.debug(`🔔🌍 [${e.type}]`, e));
 
-        console.debug('📒 subscribing to [onReactAppLoaded]');
-        fusion.event.addEventListener('onReactAppLoaded', (e) =>
-          console.debug('🔔 [onReactAppLoaded]', e)
-        );
-      }
+      console.debug('📒 subscribing to [onReactAppLoaded]');
+      fusion.event.addEventListener('onReactAppLoaded', (e) =>
+        console.debug('🔔 [onReactAppLoaded]', e)
+      );
     });
   };
 }

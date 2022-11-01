@@ -9,17 +9,17 @@
   "config": {
     "serviceDiscovery": {
       "client": {
-        "baseUri": "https://pro-s-portal-ci.azurewebsites.net",
+        "baseUri": "/",
         "defaultScopes": [
           "97978493-9777-4d48-b38a-67b0b9cd88d2/.default"
         ]
       }
     },
-    "portal": {
+    "portalClient": {
       "client": {
-        "baseUri": "https://pro-s-portal-ci.azurewebsites.net",
+        "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
         "defaultScopes": [
-          "9f166838-5d6b-4c44-8964-06db10eebd5d/.default"
+          "api://9f166838-5d6b-4c44-8964-06db10eebd5d/ReadWrite"
         ]
       }
     },
