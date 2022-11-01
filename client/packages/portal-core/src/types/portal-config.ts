@@ -6,6 +6,9 @@ export interface PortalConfig {
   serviceDiscovery: {
     client: Client;
   };
+  portalClient: {
+    client: Client;
+  };
   masal: {
     client: AuthClientOptions;
     options: {

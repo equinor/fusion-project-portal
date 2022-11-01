@@ -8,11 +8,9 @@ async function getWorkSurfaces() {
   return [];
   return lastValueFrom(
     from(requirePortalClient()).pipe(
-      switchMap((client) =>
-        client.fetch(
-          'https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces'
-        )
-      ),
+      switchMap((client) => {
+        return client.fetch('api/work-surfaces');
+      }),
       switchMap((res) => res.json())
     )
   );
