@@ -1,7 +1,7 @@
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
-import { StyleProvider, MenuProvider, PortalMenu } from '@equinor/portal-ui';
+import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
 import { useMemo } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import styled from 'styled-components';
 import { AppLoader } from '../app-loader/AppLoader';
 import Header from '../portal-header/Header';
