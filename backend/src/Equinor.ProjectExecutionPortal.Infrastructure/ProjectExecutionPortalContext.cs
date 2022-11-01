@@ -41,6 +41,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public DbSet<WorkSurface> WorkSurfaces { get; set; }
     public DbSet<WorkSurfaceAppGroup> WorkSurfaceAppGroups { get; set; }
     public DbSet<WorkSurfaceApplication> WorkSurfaceApplications { get; set; }
+    public DbSet<OnboardedApp> OnboardedApps { get; set; }
 
     public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : ContextEntityBase =>
         builder

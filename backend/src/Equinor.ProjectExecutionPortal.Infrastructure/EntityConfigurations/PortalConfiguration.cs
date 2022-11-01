@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
+using Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,6 +9,9 @@ public class PortalConfiguration : IEntityTypeConfiguration<Portal>
 {
     public void Configure(EntityTypeBuilder<Portal> builder)
     {
+        builder.ConfigureCreationAudit();
+        builder.ConfigureModificationAudit();
+
         builder.Property(t => t.Name)
             .HasMaxLength(Portal.NameLengthMax)
             .IsRequired();
