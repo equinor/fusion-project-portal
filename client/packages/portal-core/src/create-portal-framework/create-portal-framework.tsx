@@ -5,14 +5,14 @@ import { FusionConfigurator } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
 import { configureModuleLoader } from '../module-loader/module';
-import { PortalConfig } from '../types/portal-config';
+import { LoggerLevel, PortalConfig } from '../types/portal-config';
 
 export const framework$ = new BehaviorSubject<null | any>(null);
 
 export function createPortalFramework(portalConfig: PortalConfig) {
   return (config: FusionConfigurator) => {
-    config.logger.level = 4; //(portalConfig.logger?.level as LoggerLevel) || 0;
-    portalConfig.serviceDiscovery.client.baseUri = window.location.origin;
+    config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
+
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
