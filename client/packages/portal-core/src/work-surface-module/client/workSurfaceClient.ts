@@ -2,12 +2,7 @@ import { BehaviorSubject, skip } from 'rxjs';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
 import { WorkSurface } from '../types';
-import {
-  loadCurrentWorkSurface,
-  loadWorkSurfaces,
-  storeCurrentWorkSurface,
-  storeWorkSurfaces,
-} from './persist';
+import { loadCurrentWorkSurface, storeCurrentWorkSurface } from './persist';
 
 export type WorkSurfaceClientOptions = {
   client: IHttpClient;
@@ -50,7 +45,6 @@ export function createWorkSurfaceClient({ client }: WorkSurfaceClientOptions) {
           name: prev.name.toLowerCase().replace(' ', '-'),
         });
       }
-      storeWorkSurfaces(surfaces);
     } catch (e) {
       console.error(e);
       error$.next(e);
