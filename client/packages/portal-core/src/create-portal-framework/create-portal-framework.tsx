@@ -16,18 +16,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
-    config.configureMsal(
-      {
-        tenantId: '3aa4a235-b6e2-48d5-9195-7fcf05b459b0',
-        clientId: '9f166838-5d6b-4c44-8964-06db10eebd5d',
-        redirectUri: '/authentication/login-callback',
-      },
-      { requiresAuth: true }
-    );
+    config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
     config.addConfig({ module });
-
-
 
     if (portalConfig.agGrid) {
       config.addConfig(configureAgGrid(portalConfig.agGrid));
