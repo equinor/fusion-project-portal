@@ -1,6 +1,5 @@
-import { BehaviorSubject, lastValueFrom, skip } from 'rxjs';
+import { BehaviorSubject, skip } from 'rxjs';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { IEventModuleProvider } from '@equinor/fusion-framework-module-event';
 
 import { WorkSurface } from '../types';
 import {
@@ -17,10 +16,9 @@ export type WorkSurfaceClientOptions = {
 export type WorkSurfaceClient = ReturnType<typeof createWorkSurfaceClient>;
 
 export function createWorkSurfaceClient({ client }: WorkSurfaceClientOptions) {
-  const preload = loadWorkSurfaces();
   const previousWorkSurface = loadCurrentWorkSurface();
 
-  const isLoading$ = new BehaviorSubject(!preload);
+  const isLoading$ = new BehaviorSubject(true);
   const error$ = new BehaviorSubject<unknown>(null);
   const currentWorkSurface$ = new BehaviorSubject<WorkSurface | undefined>(
     undefined
@@ -28,12 +26,12 @@ export function createWorkSurfaceClient({ client }: WorkSurfaceClientOptions) {
 
   currentWorkSurface$.pipe(skip(1)).subscribe(storeCurrentWorkSurface);
 
-  const workSurfaces$ = new BehaviorSubject<WorkSurface[] | undefined>(preload);
+  const workSurfaces$ = new BehaviorSubject<WorkSurface[] | undefined>(
+    undefined
+  );
 
   const init = async () => {
-    if (!workSurfaces$.value) {
-      isLoading$.next(true);
-    }
+    isLoading$.next(true);
     try {
       const res = await client.fetch('/api/work-surfaces');
       if (!res.ok) throw res;
@@ -44,21 +42,22 @@ export function createWorkSurfaceClient({ client }: WorkSurfaceClientOptions) {
           name: s.name.toLowerCase().replace(' ', '-'),
         }))
       );
+
+      const prev = surfaces.find((s) => s.id === previousWorkSurface);
+      if (prev) {
+        currentWorkSurface$.next({
+          ...prev,
+          name: prev.name.toLowerCase().replace(' ', '-'),
+        });
+      }
+      storeWorkSurfaces(surfaces);
     } catch (e) {
       console.error(e);
       error$.next(e);
     } finally {
       isLoading$.next(false);
     }
-    if (workSurfaces$.value) {
-      const prev = workSurfaces$.value.find(
-        (s) => s.id === previousWorkSurface
-      );
-      if (prev) {
-        currentWorkSurface$.next(prev);
-      }
-      storeWorkSurfaces(workSurfaces$.value);
-    }
+
     return workSurfaces$.value;
   };
 

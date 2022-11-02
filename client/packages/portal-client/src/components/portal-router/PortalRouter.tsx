@@ -5,6 +5,7 @@ import { useObservable } from '@equinor/portal-utils';
 import { LoadingWorkSurfacesTransition } from 'packages/portal-pages/src/pages/home-page/LoadingPhaseTransition';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { from } from 'rxjs';
 import styled from 'styled-components';
 import { AppLoader } from '../app-loader/AppLoader';
 import { FailedToLoadWorkSurfaces } from '../failed-work-surfaces/FailedToLoadWorkSurfaces';
@@ -45,19 +46,19 @@ const PortalFrame = () => (
         <PortalMenu>
           <MenuGroups />
         </PortalMenu>
-        <PhaseLoader>
+        <WorkSurfaceLoader>
           <Outlet />
-        </PhaseLoader>
+        </WorkSurfaceLoader>
       </MenuProvider>
     </Wrapper>
   </StyleProvider>
 );
 
-type PhaseLoaderProps = {
+type WorkSurfaceLoaderProps = {
   children: ReactNode;
 };
 
-const PhaseLoader = ({ children }: PhaseLoaderProps) => {
+const WorkSurfaceLoader = ({ children }: WorkSurfaceLoaderProps) => {
   const { error$, isLoading$, init } = useWorkSurface();
 
   useEffect(() => {
@@ -65,8 +66,10 @@ const PhaseLoader = ({ children }: PhaseLoaderProps) => {
   }, []);
 
   const isLoading = useObservable(isLoading$);
+
   const error = useObservable(error$);
-  if (isLoading) return <LoadingWorkSurfacesTransition />;
+  if (isLoading || isLoading === undefined)
+    return <LoadingWorkSurfacesTransition />;
   if (error) return <FailedToLoadWorkSurfaces error={error as Response} />;
 
   return <>{children}</>;
