@@ -1,6 +1,4 @@
-import {
-  GetContext, QueryContext, workSurfaceController
-} from '@equinor/portal-core';
+import { QueryContext, workSurfaceController } from '@equinor/portal-core';
 import { useObservable } from '@equinor/portal-utils';
 import { useParams } from 'react-router-dom';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
@@ -29,7 +27,7 @@ export const WorkSurfacePage = (): JSX.Element => {
 
           <StyledContentWrapper>
             <p>// some content</p>
-            <GetContext />
+            {/* <GetContext /> */}
             <QueryContext />
           </StyledContentWrapper>
         </StyledContentSection>

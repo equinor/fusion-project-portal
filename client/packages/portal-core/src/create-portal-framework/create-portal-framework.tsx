@@ -1,6 +1,7 @@
 import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { contextModule } from '@equinor/fusion-framework-module-context';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
+import { module as serviceModule } from '@equinor/fusion-framework-module-services';
 
 import { FusionConfigurator } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
@@ -21,6 +22,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     if (portalConfig.agGrid) {
       config.addConfig(configureAgGrid(portalConfig.agGrid));
     }
+    config.addConfig({
+      module: serviceModule,
+    });
 
     config.onConfigured(() => {
       console.log('framework config done');
@@ -30,7 +34,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
       'portal-client',
       portalConfig.portalClient.client
     );
+
     config.addConfig({ module: contextModule });
+
     config.addConfig(
       configureModuleLoader('appLoader', (moduleId: string) => {
         return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';

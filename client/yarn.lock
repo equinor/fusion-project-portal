@@ -1199,6 +1199,11 @@
   dependencies:
     "@equinor/fusion-framework-module" "^1.2.6"
 
+"@equinor/fusion-framework-module-context@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-context/-/fusion-framework-module-context-0.1.1.tgz#7bb7fb0af7552f952424454e8ed46621adecd3f0"
+  integrity sha512-7AguTXIMhcpjcCMJl9Sm+QmB2FmbKvZa+oGzOBnDyjmuPAKu6YJY/QRBvaYVk0Yad5DDnQJCldWs+EGQ92miAg==
+
 "@equinor/fusion-framework-module-event@^1.0.13":
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-event/-/fusion-framework-module-event-1.0.13.tgz#db182b29391270c9c014ae1dfe1ab150c5a887c6"

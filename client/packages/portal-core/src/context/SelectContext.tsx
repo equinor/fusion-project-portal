@@ -2,16 +2,19 @@ import { useCallback, useEffect, useState } from 'react';
 
 import {
   ContextModule,
-  QueryContextParameters
+  QueryContextParameters,
 } from '@equinor/fusion-framework-module-context';
 import { useFramework } from '@equinor/fusion-framework-react/hooks';
 import { useObservableSelectorState } from '@equinor/fusion-observable/react';
+import { useObservable } from '@equinor/portal-utils';
+import { useNavigate } from 'react-router-dom';
+import { usePhases } from '../hooks';
 
-const useContextQuery = () => {
+export const useContextQuery = () => {
   const {
     modules: { context },
   } = useFramework<[ContextModule]>();
-  const [result, setResult] = useState<unknown>(null);
+  const [result, setResult] = useState<any>(null);
 
   const search = useCallback(
     (args: QueryContextParameters) => {
@@ -27,6 +30,8 @@ const useContextQuery = () => {
     [context]
   );
 
+  const contextValue = useObservable(context.contextClient.currentContext$);
+
   const status = useObservableSelectorState(
     context.queryClient.client,
     (x: any) => x.status
@@ -41,7 +46,7 @@ const useContextQuery = () => {
     result,
     status,
     setContext,
-    contextValue: context.contextClient.currentContext,
+    contextValue,
   };
 };
 
@@ -49,22 +54,59 @@ export const QueryContext = () => {
   const [query, setQuery] = useState<string>('');
   const { result, search, status, setContext, contextValue } =
     useContextQuery();
+  const navigate = useNavigate();
+  const { currentWorkSurface } = usePhases();
+
   useEffect(() => {
     if (query.length > 2) {
-      search({ search: query });
+      search({
+        search: query,
+        filter: {
+          type: ['Facility', 'ProjectMaster'],
+        },
+      });
     }
   }, [query, search]);
-  console.log('contextValue', contextValue);
+
   return (
     <div>
+      <p>My Context</p>
+      {contextValue ? (
+        <h1>
+          <>
+            {contextValue?.title} - {contextValue.type.id}
+          </>
+        </h1>
+      ) : (
+        <p>No context selected</p>
+      )}
       <input type="search" onChange={(e) => setQuery(e.currentTarget.value)} />
       <span>status: {status}</span>
       <div>
         {status === 'active' && <p>Loading data</p>}
-        {status === 'idle' && <pre>{JSON.stringify(result, undefined, 4)}</pre>}
+        {status === 'idle' &&
+          result &&
+          result.value.slice(1, 10).map((c: any) => {
+            return (
+              <div
+                key={c.id}
+                onClick={() => {
+                  setContext(c.id);
+                  currentWorkSurface?.shortName &&
+                    navigate(
+                      `/${currentWorkSurface.name
+                        .toLowerCase()
+                        .replace(' ', '-')}/${c.id}`
+                    );
+                }}
+              >
+                <span>
+                  {c.title} - {c.type.id}
+                </span>
+              </div>
+            );
+          })}
       </div>
-
-      <input type="test" onChange={(e) => setContext(e.currentTarget.value)} />
     </div>
   );
 };
