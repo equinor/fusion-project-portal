@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { Card, Typography } from '@equinor/eds-core-react';
 import {
   ContextModule,
   QueryContextParameters,
@@ -7,6 +8,10 @@ import {
 import { useFramework } from '@equinor/fusion-framework-react/hooks';
 import { useObservableSelectorState } from '@equinor/fusion-observable/react';
 import { useObservable } from '@equinor/portal-utils';
+import { useParams } from 'react-router-dom';
+
+import { StyledMain } from '../common-styles/Styles';
+import { GridItem, StyledGrid } from './ContextPageStyles';
 
 const useContextQuery = () => {
   const {
@@ -48,14 +53,6 @@ const useContextQuery = () => {
   };
 };
 
-export const Wrapper = styled.section`
-  padding: 10rem 5rem 0rem 5rem;
-`;
-
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
-
 export const ContextPage = (): JSX.Element => {
   const { contextValue, setContext } = useContextQuery();
   const { contextId } = useParams();
@@ -67,14 +64,39 @@ export const ContextPage = (): JSX.Element => {
 
   return (
     <StyledMain>
-      <StyledBackgroundSection>
-        <Wrapper>
-          <h1>
-            {contextValue?.title} - {contextValue?.type.id}
-          </h1>
-          <p>{JSON.stringify(contextValue)}</p>
-        </Wrapper>
-      </StyledBackgroundSection>
+      <StyledGrid>
+        <GridItem columnName="column-1">
+          <Card.Header>
+            <Card.HeaderTitle title={`Welcome to ${contextValue?.title}`}>
+              <Typography variant="h6">
+                Welcome to {contextValue?.title}
+              </Typography>
+              <Typography>{contextValue?.type.id}</Typography>
+            </Card.HeaderTitle>
+          </Card.Header>
+        </GridItem>
+        <GridItem columnName="column-1">
+          <Card.Header>
+            <Card.HeaderTitle>
+              <Typography variant="h6">Some KPI...</Typography>
+            </Card.HeaderTitle>
+          </Card.Header>
+        </GridItem>
+        <GridItem columnName="column-1">
+          <Card.Header>
+            <Card.HeaderTitle>
+              <Typography variant="h6">Some KPI...</Typography>
+            </Card.HeaderTitle>
+          </Card.Header>
+        </GridItem>
+        <GridItem columnName="column-2" rowStart={true}>
+          <Card.Header>
+            <Card.HeaderTitle>
+              <Typography variant="h6">Work assigned</Typography>
+            </Card.HeaderTitle>
+          </Card.Header>
+        </GridItem>
+      </StyledGrid>
     </StyledMain>
   );
 };
