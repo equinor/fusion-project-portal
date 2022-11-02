@@ -1,16 +1,8 @@
-import { useWorkSurface } from '@equinor/portal-core';
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
-import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
-import { useObservable } from '@equinor/portal-utils';
-import { LoadingWorkSurfacesTransition } from 'packages/portal-pages/src/pages/home-page/LoadingPhaseTransition';
-import { ReactNode, useEffect, useMemo } from 'react';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { from } from 'rxjs';
-import styled from 'styled-components';
+import { useMemo } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLoader } from '../app-loader/AppLoader';
-import { FailedToLoadWorkSurfaces } from '../failed-work-surfaces/FailedToLoadWorkSurfaces';
-import Header from '../portal-header/Header';
-import { MenuGroups } from '../portal-menu/PortalMenu';
+import { PortalFrame } from '../portal-frame/PortalFrame';
 
 export function PortalRouter() {
   let router = useMemo(() => {
@@ -37,46 +29,3 @@ export function PortalRouter() {
 }
 
 export default PortalRouter;
-
-const PortalFrame = () => (
-  <StyleProvider>
-    <Wrapper>
-      <MenuProvider>
-        <Header />
-        <PortalMenu>
-          <MenuGroups />
-        </PortalMenu>
-        <WorkSurfaceLoader>
-          <Outlet />
-        </WorkSurfaceLoader>
-      </MenuProvider>
-    </Wrapper>
-  </StyleProvider>
-);
-
-type WorkSurfaceLoaderProps = {
-  children: ReactNode;
-};
-
-const WorkSurfaceLoader = ({ children }: WorkSurfaceLoaderProps) => {
-  const { error$, isLoading$, init } = useWorkSurface();
-
-  useEffect(() => {
-    init();
-  }, []);
-
-  const isLoading = useObservable(isLoading$);
-
-  const error = useObservable(error$);
-  if (isLoading || isLoading === undefined)
-    return <LoadingWorkSurfacesTransition />;
-  if (error) return <FailedToLoadWorkSurfaces error={error as Response} />;
-
-  return <>{children}</>;
-};
-
-const Wrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
