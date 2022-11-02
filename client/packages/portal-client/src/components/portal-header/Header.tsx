@@ -10,10 +10,10 @@ import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const currentWorkSurface = useCurrentWorkSurface();
-  const module = useWorkSurface();
-  useNavigateBasedOnWorkSurface();
+  const { setCurrentWorkSurface } = useWorkSurface();
   const navigate = useNavigate();
   //Preload all menu items
+  useNavigateBasedOnWorkSurface();
   useMenuItems();
   return (
     <PortalHeader
@@ -21,7 +21,7 @@ export function Header() {
         if (location.pathname.includes('/apps') && currentWorkSurface) {
           navigate(`/${currentWorkSurface.name}`);
         } else {
-          module.setCurrentWorkSurface(undefined);
+          setCurrentWorkSurface(undefined);
           navigate('/');
         }
       }}
