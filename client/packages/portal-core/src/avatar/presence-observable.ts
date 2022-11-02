@@ -1,15 +1,15 @@
 import { Observable, interval, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Presence } from './types';
+import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
-export const getPresence$: (userId: string) => Observable<Presence> = (
-  userId: string
-) =>
+export const getPresence$: (
+  userId: string,
+  client: Promise<IHttpClient>
+) => Observable<Presence> = (userId: string, client: Promise<IHttpClient>) =>
   interval(5000 * 60).pipe(
     startWith(0),
-    map((s) => ({
-      activity: 'Available',
-      id: '123',
-      availability: 'Available',
-    }))
+    switchMap(() => client),
+    switchMap((s) => s.fetch$(`/persons/${userId}/presence`)),
+    switchMap((s) => s.json())
   );
