@@ -30,7 +30,7 @@ export const useNavigateOnViewChanged = (
       );
     });
     return () => sub.unsubscribe();
-  }, []);
+  }, [data]);
 };
 
 async function handleViewRedirect(

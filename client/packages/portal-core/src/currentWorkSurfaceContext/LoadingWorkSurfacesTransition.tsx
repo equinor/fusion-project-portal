@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const LoadingWorkSurfacesTransition = () => (
   <StyledLoadingWorkSurfacesTransition>
-    <CircularProgress /> <div>Loading worksurfaces</div>
+    <CircularProgress /> <div>Loading views</div>
   </StyledLoadingWorkSurfacesTransition>
 );
 

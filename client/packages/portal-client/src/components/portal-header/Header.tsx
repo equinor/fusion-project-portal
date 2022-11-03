@@ -4,11 +4,12 @@ import {
   useCurrentWorkSurfaceId,
   useMenuItems,
 } from '@equinor/portal-core';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const { getId, setViewId } = useCurrentWorkSurfaceId();
+  const navigate = useNavigate();
   useMenuItems();
-
   return (
     <PortalHeader
       onLogoClick={() => {
@@ -18,6 +19,7 @@ export function Header() {
         } else {
           setViewId(undefined);
         }
+        navigate('/');
       }}
       MenuButton={MenuButton}
       title="Project Portal"

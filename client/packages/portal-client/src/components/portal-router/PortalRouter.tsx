@@ -1,12 +1,8 @@
-import { CurrentWorkSurfaceIdProvider } from '@equinor/portal-core';
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
-import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
 import { useMemo } from 'react';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import styled from 'styled-components';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLoader } from '../app-loader/AppLoader';
-import Header from '../portal-header/Header';
-import { MenuGroups } from '../portal-menu/PortalMenu';
+import { PortalFrame } from '../portal-frame/PortalFrame';
 
 export function PortalRouter() {
   let router = useMemo(() => {
@@ -33,25 +29,3 @@ export function PortalRouter() {
 }
 
 export default PortalRouter;
-
-const PortalFrame = () => (
-  <StyleProvider>
-    <CurrentWorkSurfaceIdProvider>
-      <Wrapper>
-        <MenuProvider>
-          <Header />
-          <PortalMenu>
-            <MenuGroups />
-          </PortalMenu>
-          <Outlet />
-        </MenuProvider>
-      </Wrapper>
-    </CurrentWorkSurfaceIdProvider>
-  </StyleProvider>
-);
-
-const Wrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;

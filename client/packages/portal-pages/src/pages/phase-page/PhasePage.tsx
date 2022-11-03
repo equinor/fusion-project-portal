@@ -10,7 +10,7 @@ export const WorkSurfacePage = (): JSX.Element => {
   const { data, isLoading } = useViews();
   if (isLoading) return <div>Loading....</div>;
   if (!data) return <div>Something went wrong</div>;
-  const phase = data.find((s) => s.id === workSurfaceKey);
+  const phase = data.find((s) => s.name === workSurfaceKey);
   if (!phase) return <div>Phase not found</div>;
 
   return (

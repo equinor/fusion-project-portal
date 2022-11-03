@@ -8,7 +8,7 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-import { LoadingWorkSurfacesTransition } from './LoadingPhaseTransition';
+import { LoadingWorkSurfacesTransition } from '../../../../portal-core/src/currentWorkSurfaceContext/LoadingWorkSurfacesTransition';
 
 export const HomePage = (): JSX.Element => {
   const { isLoading, data } = useViews();

@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useCurrentWorkSurfaceId } from '../../currentWorkSurfaceContext/currentWorkSurfaceContext';
+import { useCurrentWorkSurfaceId } from '../../currentWorkSurfaceContext/CurrentViewContext';
 import { usePortalClient } from '../../hooks/use-portal-client';
 import { getMenuItems } from '../portal/getMenuItems';
 

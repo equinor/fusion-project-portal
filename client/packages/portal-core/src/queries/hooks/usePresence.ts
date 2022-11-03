@@ -1,18 +1,19 @@
 import {
   useCurrentUser,
-  useHttpClient,
+  useFramework,
 } from '@equinor/fusion-framework-react/hooks';
 import { useQuery } from 'react-query';
 import { getPresence } from '../fusion/getPresence';
 
 export const usePresence = () => {
-  const client = useHttpClient('people' as 'portal');
+  const client = useFramework().modules.serviceDiscovery.createClient('people');
   const currentUser = useCurrentUser();
 
   return useQuery({
     queryKey: ['presence'],
-    queryFn: () => getPresence(client, currentUser?.localAccountId ?? ''),
-    staleTime: Infinity,
-    cacheTime: Infinity,
+    queryFn: async () =>
+      getPresence(await client, currentUser?.localAccountId ?? ''),
+
+    refetchInterval: 5 * 1000 * 60,
   });
 };
