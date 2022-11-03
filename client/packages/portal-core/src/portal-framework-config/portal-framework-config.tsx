@@ -1,10 +1,17 @@
+import { FusionConfigurator } from '@equinor/fusion-framework';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 
-import { ProjectPortalConfigurator } from '../portal-framework-configurator/portal-framework-configurator';
+import {
+  addAgGrid,
+  addAppLoader,
+  addPortalClient,
+  addWorkSurfaceModule,
+} from '../portal-framework-configurator/portal-configurators';
+
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
 
 export function createPortalFramework(portalConfig: PortalConfig) {
-  return (config: ProjectPortalConfigurator) => {
+  return (config: FusionConfigurator) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
@@ -12,14 +19,16 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
     if (portalConfig.agGrid) {
-      config.configureAgGrid(portalConfig.agGrid);
+      addAgGrid(config, portalConfig.agGrid);
     }
 
-    config.configurePortalClient(portalConfig.portalClient.client);
+    addPortalClient(config, portalConfig.portalClient.client);
 
-    config.configureAppLoader((moduleId: string) => {
+    addAppLoader(config, (moduleId: string) => {
       return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
     });
+
+    addWorkSurfaceModule(config);
 
     config.onConfigured(() => {
       console.log('framework config done');
