@@ -1,46 +1,33 @@
-import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 
-import { FusionConfigurator } from '@equinor/fusion-framework-react';
 import { BehaviorSubject } from 'rxjs';
 
-import { configureModuleLoader } from '../module-loader/module';
-import { module } from '../work-surface-module/module';
+import { ProjectPortalConfigurator } from '../portal-framework-configurator/portal-framework-configurator';
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
 
-export const framework$ = new BehaviorSubject<null | any>(null);
-
 export function createPortalFramework(portalConfig: PortalConfig) {
-  return (config: FusionConfigurator) => {
+  return (config: ProjectPortalConfigurator) => {
     config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
-    config.addConfig({ module });
-
     if (portalConfig.agGrid) {
-      config.addConfig(configureAgGrid(portalConfig.agGrid));
+      config.configureAgGrid(portalConfig.agGrid);
     }
+
+    config.configurePortalClient(portalConfig.portalClient.client);
+
+    config.configureAppLoader((moduleId: string) => {
+      return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
+    });
 
     config.onConfigured(() => {
       console.log('framework config done');
     });
 
-    config.configureHttpClient(
-      'portal-client',
-      portalConfig.portalClient.client
-    );
-
-    config.addConfig(
-      configureModuleLoader('appLoader', (moduleId: string) => {
-        return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
-      })
-    );
-
     config.onInitialized(async (fusion) => {
-      framework$.next(fusion);
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
       console.debug('📒 subscribing to all events');

@@ -7,13 +7,13 @@
  */
 
 export interface IModuleLoaderConfigConfigurator {
-  generateUrl(appKey: string): string;
+  urlGenerator(moduleId: string): string;
 }
 
 export class ModuleLoaderConfigConfigurator
   implements IModuleLoaderConfigConfigurator
 {
-  public generateUrl(appKey: string): string {
-    return `appKey`;
+  public urlGenerator(moduleId: string): string {
+    return moduleId;
   }
 }
