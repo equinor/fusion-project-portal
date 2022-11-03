@@ -1,5 +1,5 @@
 import { HttpClient } from '@equinor/fusion-framework-module-http/client';
-import { framework$ } from '../create-portal-framework/create-portal-framework';
+import { framework$ } from '../portal-framework-config/portal-framework-config';
 
 /** Requests an api client from the fusion framework */
 export async function requirePortalClient(): Promise<HttpClient> {

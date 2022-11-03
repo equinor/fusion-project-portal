@@ -45,7 +45,7 @@ export class ModuleProvider implements IModuleProvider {
   private _modulePathProvider: (moduleId: string) => string;
 
   constructor(protected _config: IModuleLoaderConfigConfigurator) {
-    this._modulePathProvider = _config.generateUrl;
+    this._modulePathProvider = _config.urlGenerator;
   }
 
   loadModule = async <TModules extends Array<AnyModule>, TConfig, TProps>(
