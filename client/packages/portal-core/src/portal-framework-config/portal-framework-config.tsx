@@ -1,7 +1,5 @@
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 
-import { BehaviorSubject } from 'rxjs';
-
 import { ProjectPortalConfigurator } from '../portal-framework-configurator/portal-framework-configurator';
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
 

@@ -1,7 +1,6 @@
 import { useHttpClient } from '@equinor/fusion-framework-react/hooks';
 import { useQuery } from 'react-query';
 import { from, lastValueFrom, map, switchMap } from 'rxjs';
-import { requirePortalClient } from '../clients';
 import { useCurrentWorkSurface, WorkSurface } from '../work-surface-module';
 
 /**
