@@ -1,5 +1,6 @@
 import { configureAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { FusionConfigurator } from '@equinor/fusion-framework-react';
+import { module as workSurfaceModule } from '@equinor/portal-core';
 import { configureModuleLoader } from '../module-loader/module';
 import { Client } from '../types/portal-config';
 
@@ -26,4 +27,7 @@ export function addWidgetLoader(
   urlGenerator: (widgetId: string) => string
 ) {
   config.addConfig(configureModuleLoader('widgetLoader', urlGenerator));
+}
+export function addWorkSurfaceModule(config: FusionConfigurator) {
+  config.addConfig({ module: workSurfaceModule });
 }
