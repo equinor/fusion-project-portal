@@ -1,7 +1,4 @@
-import type {
-  IModuleConfigurator,
-  Module,
-} from '@equinor/fusion-framework-module';
+import type { Module } from '@equinor/fusion-framework-module';
 import {
   IModuleLoaderConfigConfigurator,
   ModuleLoaderConfigConfigurator,
@@ -19,10 +16,12 @@ export type ModuleLoaderType = 'appLoader' | 'moduleLoader' | 'widgetLoader';
 
 export function configureModuleLoader<TModule extends ModuleLoaderType>(
   name: TModule,
-  generateUrl: (moduleId: string) => string
-): IModuleConfigurator<ModuleLoader<TModule>, any> {
+  urlGenerator: (moduleId: string) => string
+): {
+  module: ModuleLoader<TModule>;
+} {
   const config = new ModuleLoaderConfigConfigurator();
-  config.generateUrl = generateUrl;
+  config.urlGenerator = urlGenerator;
   return {
     module: {
       name,
@@ -39,7 +38,6 @@ export function configureModuleLoader<TModule extends ModuleLoaderType>(
 
 declare module '@equinor/portal-core' {
   interface Modules {
-    moduleLoader: ModuleLoader<'moduleLoader'>;
     appLoader: ModuleLoader<'appLoader'>;
     widgetLoader: ModuleLoader<'widgetLoader'>;
   }
