@@ -1,3 +1,4 @@
+import { CurrentWorkSurfaceIdProvider } from '@equinor/portal-core';
 import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
 import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
 import { useMemo } from 'react';
@@ -35,15 +36,17 @@ export default PortalRouter;
 
 const PortalFrame = () => (
   <StyleProvider>
-    <Wrapper>
-      <MenuProvider>
-        <Header />
-        <PortalMenu>
-          <MenuGroups />
-        </PortalMenu>
-        <Outlet />
-      </MenuProvider>
-    </Wrapper>
+    <CurrentWorkSurfaceIdProvider>
+      <Wrapper>
+        <MenuProvider>
+          <Header />
+          <PortalMenu>
+            <MenuGroups />
+          </PortalMenu>
+          <Outlet />
+        </MenuProvider>
+      </Wrapper>
+    </CurrentWorkSurfaceIdProvider>
   </StyleProvider>
 );
 

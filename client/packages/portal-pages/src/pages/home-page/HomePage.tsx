@@ -1,3 +1,4 @@
+import { useCurrentWorkSurfaceId, useViews } from '@equinor/portal-core';
 import { PhaseSelectorItem } from '../../components/phase-selector/PhaseSelectorItem';
 import {
   StyledBackgroundSection,
@@ -6,27 +7,25 @@ import {
   StyledPaseSectionWrapper,
 } from './HomePage.Styles';
 
-import { useNavigateLastSurface, usePhases } from '@equinor/portal-core';
 import { HomePageHeader } from './HomePageHeader';
 import { LoadingWorkSurfacesTransition } from './LoadingPhaseTransition';
 
 export const HomePage = (): JSX.Element => {
-  const { phases: surfaces, setWorkSurface } = usePhases();
-
-  useNavigateLastSurface();
-  if (!surfaces) return <LoadingWorkSurfacesTransition />;
-
+  const { isLoading, data } = useViews();
+  const { setViewId } = useCurrentWorkSurfaceId();
+  if (isLoading) return <LoadingWorkSurfacesTransition />;
+  if (!data) return <div>Something went wrong</div>;
   return (
     <StyledMain>
       <StyledBackgroundSection>
         <StyledContentSection>
           <HomePageHeader />
           <StyledPaseSectionWrapper>
-            {surfaces.map((section) => (
+            {data.map((section) => (
               <PhaseSelectorItem
                 {...section}
                 onClick={() => {
-                  setWorkSurface(section);
+                  setViewId(section.id);
                 }}
                 key={section.id}
               />

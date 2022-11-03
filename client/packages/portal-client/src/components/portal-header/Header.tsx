@@ -1,22 +1,22 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import { TopBarAvatar, useMenuItems, usePhases } from '@equinor/portal-core';
+import {
+  TopBarAvatar,
+  useCurrentWorkSurfaceId,
+  useMenuItems,
+} from '@equinor/portal-core';
 
 export function Header() {
-  const { phases, clearWorkSurface, currentWorkSurface, setWorkSurface } =
-    usePhases();
-
+  const { getId, setViewId } = useCurrentWorkSurfaceId();
   useMenuItems();
 
   return (
     <PortalHeader
       onLogoClick={() => {
-        const phase = phases?.find(
-          (s) => s.id === currentWorkSurface?.id
-        )?.name;
-        if (location.href.includes('/apps') && phase && currentWorkSurface) {
-          setWorkSurface(currentWorkSurface);
+        const id = getId();
+        if (location.href.includes('/apps') && id) {
+          setViewId(id);
         } else {
-          clearWorkSurface();
+          setViewId(undefined);
         }
       }}
       MenuButton={MenuButton}
