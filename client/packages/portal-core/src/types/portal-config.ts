@@ -1,4 +1,5 @@
 import { AuthClientOptions } from '@equinor/fusion-framework-module-msal';
+import { WorkSurface } from '../work-surface-module';
 
 export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
 
@@ -32,36 +33,7 @@ export interface PortalConfig {
   agGrid?: {
     licenseKey: string;
   };
-  phases?: Phase[];
-}
-
-/**
- * The type for a phase, to be served from backend
- */
-
-export interface Phase {
-  id: string;
-  icon?: string;
-  name: string;
-  shortName: string;
-  subtext: string;
-  order: number;
-  appGroups: AppGroup[];
-}
-
-export interface Application {
-  appKey: string;
-  name: string;
-  description: string;
-  order: number;
-  appGroup?: string;
-}
-
-export interface AppGroup {
-  name: string;
-  accentColor: string;
-  order: number;
-  applications: Application[];
+  phases?: WorkSurface[];
 }
 
 export interface Client {

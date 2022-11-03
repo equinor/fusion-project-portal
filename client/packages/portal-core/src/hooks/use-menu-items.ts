@@ -1,27 +1,28 @@
+import { useHttpClient } from '@equinor/fusion-framework-react/hooks';
 import { useQuery } from 'react-query';
-import { from, lastValueFrom, map, of, switchMap } from 'rxjs';
-import { requirePortalClient } from '../clients';
-import { Phase } from '../types/portal-config';
-import { usePhases } from './use-phases';
+import { from, lastValueFrom, map, switchMap } from 'rxjs';
+import { useCurrentWorkSurface, WorkSurface } from '../work-surface-module';
 
 /**
  * Fetches menu items based on the current phase
  */
 export const useMenuItems = () => {
-  const id = usePhases().currentWorkSurface?.id;
+  const surface = useCurrentWorkSurface();
+
+  const client = useHttpClient('portal-client' as 'portal');
+
   return useQuery(
-    ['menu-items', id],
+    ['menu-items', surface?.id],
     async () => {
-      if (id) {
+      if (surface?.id) {
         return lastValueFrom(
-          from(requirePortalClient()).pipe(
-            switchMap((s) =>
-              s.fetch$(
-                `https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/${id}`
-              )
-            ),
+          from(
+            client.fetch$(
+              `https://app-pep-backend-noe-dev.azurewebsites.net/api/work-surfaces/${surface.id}`
+            )
+          ).pipe(
             switchMap((res) => res.json()),
-            map((phase: Phase) => phase.appGroups)
+            map((workSurface: WorkSurface) => workSurface.appGroups)
           )
         );
       } else {

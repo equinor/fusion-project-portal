@@ -1,11 +1,7 @@
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 
-import { BehaviorSubject } from 'rxjs';
-
 import { ProjectPortalConfigurator } from '../portal-framework-configurator/portal-framework-configurator';
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
-
-export const framework$ = new BehaviorSubject<null | any>(null);
 
 export function createPortalFramework(portalConfig: PortalConfig) {
   return (config: ProjectPortalConfigurator) => {
@@ -30,7 +26,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     });
 
     config.onInitialized(async (fusion) => {
-      framework$.next(fusion);
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
       console.debug('📒 subscribing to all events');
