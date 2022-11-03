@@ -1,7 +1,6 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 
-import { BehaviorSubject } from 'rxjs';
 import {
   addAgGrid,
   addAppLoader,
@@ -9,8 +8,6 @@ import {
 } from '../portal-framework-configurator/portal-configurators';
 
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
-
-export const framework$ = new BehaviorSubject<null | any>(null);
 
 export function createPortalFramework(portalConfig: PortalConfig) {
   return (config: FusionConfigurator) => {
@@ -35,7 +32,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     });
 
     config.onInitialized(async (fusion) => {
-      framework$.next(fusion);
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
       console.debug('📒 subscribing to all events');
