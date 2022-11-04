@@ -1,4 +1,4 @@
-import { HomePage, WorkSurfacePage } from '@equinor/portal-pages';
+import { HomePage, CurrentViewPage } from '@equinor/portal-pages';
 import { useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLoader } from '../app-loader/AppLoader';
@@ -12,8 +12,8 @@ export function PortalRouter() {
         element: <PortalFrame />,
         children: [
           {
-            path: ':workSurfaceKey',
-            element: <WorkSurfacePage />,
+            path: ':viewKey',
+            element: <CurrentViewPage />,
           },
           { path: `/apps/:appKey/*`, element: <AppLoader /> },
           {

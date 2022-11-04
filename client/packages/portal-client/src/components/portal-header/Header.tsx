@@ -1,14 +1,14 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
 import {
   TopBarAvatar,
-  useCurrentWorkSurfaceId,
+  useViewController,
   useMenuItems,
 } from '@equinor/portal-core';
 import { useNavigate } from 'react-router-dom';
 import { appMounted } from '@equinor/portal-utils';
 
 export function Header() {
-  const { getId, setViewId } = useCurrentWorkSurfaceId();
+  const { getId, setViewId } = useViewController();
   const navigate = useNavigate();
   useMenuItems();
   return (

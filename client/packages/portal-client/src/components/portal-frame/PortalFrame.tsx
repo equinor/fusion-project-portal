@@ -1,4 +1,4 @@
-import { CurrentWorkSurfaceIdProvider } from '@equinor/portal-core';
+import { ViewProvider } from '@equinor/portal-core';
 import { StyleProvider, MenuProvider, PortalMenu } from '@equinor/portal-ui';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ import { MenuGroups } from '../portal-menu/PortalMenu';
 export const PortalFrame = () => (
   <StyleProvider>
     <Wrapper>
-      <CurrentWorkSurfaceIdProvider>
+      <ViewProvider>
         <MenuProvider>
           <Header />
           <PortalMenu>
@@ -16,7 +16,7 @@ export const PortalFrame = () => (
           </PortalMenu>
           <Outlet />
         </MenuProvider>
-      </CurrentWorkSurfaceIdProvider>
+      </ViewProvider>
     </Wrapper>
   </StyleProvider>
 );

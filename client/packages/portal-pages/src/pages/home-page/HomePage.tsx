@@ -1,4 +1,5 @@
-import { useCurrentWorkSurfaceId, useViews } from '@equinor/portal-core';
+import { useViewController, useViews } from '@equinor/portal-core';
+import { FullPageLoading } from '@equinor/portal-ui';
 import { PhaseSelectorItem } from '../../components/phase-selector/PhaseSelectorItem';
 import {
   StyledBackgroundSection,
@@ -8,12 +9,11 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-import { LoadingWorkSurfacesTransition } from '../../../../portal-core/src/currentWorkSurfaceContext/LoadingWorkSurfacesTransition';
 
 export const HomePage = (): JSX.Element => {
   const { isLoading, data } = useViews();
-  const { setViewId } = useCurrentWorkSurfaceId();
-  if (isLoading) return <LoadingWorkSurfacesTransition />;
+  const { setViewId } = useViewController();
+  if (isLoading) return <FullPageLoading detail="Loading views" />;
   if (!data) return <div>Something went wrong</div>;
   return (
     <StyledMain>

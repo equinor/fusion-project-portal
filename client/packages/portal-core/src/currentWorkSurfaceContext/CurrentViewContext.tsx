@@ -1,3 +1,4 @@
+import { FullPageLoading } from '@equinor/portal-ui';
 import { storage } from '@equinor/portal-utils';
 import {
   createContext,
@@ -11,8 +12,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { useNavigateOnViewChanged } from '../hooks/useNavigateOnViewChanged';
 import { useViews } from '../queries';
-import { FailedToLoadWorkSurfaces } from './FailedToLoadWorkSurfaces';
-import { LoadingWorkSurfacesTransition } from './LoadingWorkSurfacesTransition';
+import { FailedToLoadViews } from './FailedToLoadWorkSurfaces';
 
 /** View context type */
 type ViewController = {
@@ -21,53 +21,51 @@ type ViewController = {
   id$: Observable<string | undefined>;
 };
 
-const CurrentWorkSurfaceId = createContext<ViewController>({} as any);
+const ViewControllerContext = createContext<ViewController>({} as any);
 
-export const useCurrentWorkSurfaceId = () => useContext(CurrentWorkSurfaceId);
+export const useViewController = () => useContext(ViewControllerContext);
 
-type CurrentWorkSurfaceIdProviderProps = {
+type ViewControllerProviderProps = {
   children: ReactNode;
 };
 
-export const CurrentWorkSurfaceIdProvider = ({
-  children,
-}: CurrentWorkSurfaceIdProviderProps) => {
+export const ViewProvider = ({ children }: ViewControllerProviderProps) => {
   /** Dont halt user if he/she is loading an app */
   const shouldHalt = !location.pathname.includes('apps');
 
   const { isLoading, error } = useViews();
 
-  const currentWorkSurfaceId$ = useRef(
+  const currentViewId$ = useRef(
     new BehaviorSubject<string | undefined>(viewStorage.readId())
   );
   const setViewId = useCallback(
-    (viewId: string | undefined) => currentWorkSurfaceId$.current.next(viewId),
+    (viewId: string | undefined) => currentViewId$.current.next(viewId),
     []
   );
 
-  const id$ = useMemo(() => currentWorkSurfaceId$.current.asObservable(), []);
+  const id$ = useMemo(() => currentViewId$.current.asObservable(), []);
 
   /** Switches routes based on current view id */
   useNavigateOnViewChanged(id$);
   useStoreCurrentViewId(id$);
   if (error && shouldHalt) {
-    return <FailedToLoadWorkSurfaces error={error as Response} />;
+    return <FailedToLoadViews error={error as Response} />;
   }
 
   if (isLoading && shouldHalt) {
-    return <LoadingWorkSurfacesTransition />;
+    return <FullPageLoading detail="Loading views" />;
   }
 
   return (
-    <CurrentWorkSurfaceId.Provider
+    <ViewControllerContext.Provider
       value={{
-        getId: () => currentWorkSurfaceId$.current.value,
+        getId: () => currentViewId$.current.value,
         id$: id$,
         setViewId,
       }}
     >
       {children}
-    </CurrentWorkSurfaceId.Provider>
+    </ViewControllerContext.Provider>
   );
 };
 
