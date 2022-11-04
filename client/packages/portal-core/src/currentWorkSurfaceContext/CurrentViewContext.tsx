@@ -12,7 +12,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { useNavigateOnViewChanged } from '../hooks/useNavigateOnViewChanged';
 import { useViews } from '../queries';
-import { FailedToLoadViews } from './FailedToLoadWorkSurfaces';
+import { FailedToLoadViews } from './FailedToLoadViews';
 
 /** View context type */
 type ViewController = {

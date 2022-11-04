@@ -32,6 +32,7 @@ export const TopBarAvatar = (): JSX.Element | null => {
       />
     );
   }
+  //TODO: make component
   if (error || !data) return <div>Error</div>;
 
   const presenceInfo = getPresenceInfo(data.availability);
