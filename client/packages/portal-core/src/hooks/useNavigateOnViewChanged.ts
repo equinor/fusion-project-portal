@@ -1,8 +1,9 @@
+import { appMounted } from '@equinor/portal-utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Observable } from 'rxjs';
 import { useViews } from '../queries';
-import { Phase } from '../types/portal-config';
+import { View } from '../types/view';
 
 export const useNavigateOnViewChanged = (
   obs$: Observable<string | undefined>
@@ -13,7 +14,7 @@ export const useNavigateOnViewChanged = (
   useEffect(() => {
     const sub = obs$.subscribe((viewId) => {
       /** User is inside an app, dont navigate anywhere */
-      if (appIsMounted()) return;
+      if (appMounted()) return;
       /** ViewId is undefined, return to root if not already there */
       if (!viewId) {
         /** User is already at root */
@@ -34,7 +35,7 @@ export const useNavigateOnViewChanged = (
 };
 
 async function handleViewRedirect(
-  getData: () => Promise<Phase[] | undefined>,
+  getData: () => Promise<View[] | undefined>,
   viewId: string,
   navigate: ReturnType<typeof useNavigate>
 ) {
@@ -50,9 +51,6 @@ async function handleViewRedirect(
   navigate(`/${view}`);
 }
 
-function appIsMounted() {
-  return location.pathname.includes('apps');
-}
 function isRootUrl() {
   return location.pathname.length === 0;
 }

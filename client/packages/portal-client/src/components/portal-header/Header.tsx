@@ -5,6 +5,7 @@ import {
   useMenuItems,
 } from '@equinor/portal-core';
 import { useNavigate } from 'react-router-dom';
+import { appMounted } from '@equinor/portal-utils';
 
 export function Header() {
   const { getId, setViewId } = useCurrentWorkSurfaceId();
@@ -14,7 +15,7 @@ export function Header() {
     <PortalHeader
       onLogoClick={() => {
         const id = getId();
-        if (location.href.includes('/apps') && id) {
+        if (appMounted() && id) {
           setViewId(id);
         } else {
           setViewId(undefined);

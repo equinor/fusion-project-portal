@@ -4,10 +4,10 @@ import {
   StyledIconWrapper,
   StyledTypography,
 } from './PhaseSelectorItem.Styles';
-import { Phase } from '@equinor/portal-core';
+import { View } from '@equinor/portal-core';
 import { SVGIconFromString } from '@equinor/portal-ui';
 
-type SectionSelectorItemProps = Phase & { onClick: () => void };
+type SectionSelectorItemProps = View & { onClick: () => void };
 
 export const PhaseSelectorItem = ({
   id,
