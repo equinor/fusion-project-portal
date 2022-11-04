@@ -18,7 +18,7 @@ export const storage = {
 
   getItem<T>(key: string): string | T | undefined {
     const data = localStorage.getItem(key);
-    if (!data || data === 'undefined' || data === 'null') return undefined;
+    if (!data) return undefined;
 
     try {
       return JSON.parse(data) as T;
