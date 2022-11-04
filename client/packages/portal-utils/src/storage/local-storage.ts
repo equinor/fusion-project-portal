@@ -1,10 +1,19 @@
 export const storage = {
   setItem<T>(key: string, data: T): void {
+    /** Data is null or undefined */
+    if (!data) {
+      localStorage.removeItem(key);
+      return;
+    }
+
+    /** Data is already string */
     if (typeof data === 'string') {
       localStorage.setItem(key, data);
-    } else {
-      localStorage.setItem(key, JSON.stringify(data));
+      return;
     }
+
+    //Anything else
+    localStorage.setItem(key, JSON.stringify(data));
   },
 
   getItem<T>(key: string): string | T | undefined {
