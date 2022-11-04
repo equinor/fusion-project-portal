@@ -1,2 +1,2 @@
-export * from './getMenuItems';
+export * from './getViewById';
 export * from './getViews';

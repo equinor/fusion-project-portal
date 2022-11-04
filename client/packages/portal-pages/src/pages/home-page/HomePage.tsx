@@ -14,6 +14,7 @@ export const HomePage = (): JSX.Element => {
   const { isLoading, data } = useViews();
   const { setViewId } = useViewController();
   if (isLoading) return <FullPageLoading detail="Loading views" />;
+  //TODO: make component
   if (!data) return <div>Something went wrong</div>;
   return (
     <StyledMain>

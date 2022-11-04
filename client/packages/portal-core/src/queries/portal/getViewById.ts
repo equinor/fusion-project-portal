@@ -2,7 +2,7 @@ import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { View } from '../../types/view';
 
 /** Get menu items based on current view id */
-export async function getMenuItems(
+export async function getViewById(
   client: IHttpClient,
   viewId?: string
 ): Promise<View | undefined> {

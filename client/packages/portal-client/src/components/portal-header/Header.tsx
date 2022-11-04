@@ -11,17 +11,20 @@ export function Header() {
   const { getId, setViewId } = useViewController();
   const navigate = useNavigate();
   useMenuItems();
+
+  const handleLogoClick = () => {
+    const id = getId();
+    if (appMounted() && id) {
+      setViewId(id);
+    } else {
+      setViewId(undefined);
+    }
+    navigate('/');
+  };
+
   return (
     <PortalHeader
-      onLogoClick={() => {
-        const id = getId();
-        if (appMounted() && id) {
-          setViewId(id);
-        } else {
-          setViewId(undefined);
-        }
-        navigate('/');
-      }}
+      onLogoClick={handleLogoClick}
       MenuButton={MenuButton}
       title="Project Portal"
     >

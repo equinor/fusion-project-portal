@@ -33,7 +33,7 @@ export interface PortalConfig {
   agGrid?: {
     licenseKey: string;
   };
-  phases?: View[];
+  views?: View[];
 }
 
 export interface Client {
