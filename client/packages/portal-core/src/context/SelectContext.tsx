@@ -8,7 +8,7 @@ import { useFramework } from '@equinor/fusion-framework-react/hooks';
 import { useObservableSelectorState } from '@equinor/fusion-observable/react';
 import { useObservable } from '@equinor/portal-utils';
 import { useNavigate } from 'react-router-dom';
-import { usePhases } from '../hooks';
+import { useCurrentWorkSurface } from '../work-surface-module';
 
 export const useContextQuery = () => {
   const {
@@ -55,7 +55,7 @@ export const QueryContext = () => {
   const { result, search, status, setContext, contextValue } =
     useContextQuery();
   const navigate = useNavigate();
-  const { currentWorkSurface } = usePhases();
+  const currentWorkSurface = useCurrentWorkSurface();
 
   useEffect(() => {
     if (query.length > 2) {

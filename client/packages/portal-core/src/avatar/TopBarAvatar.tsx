@@ -1,7 +1,10 @@
 import { Icon, Popover } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { useRef, useState } from 'react';
-import { useCurrentUser } from '@equinor/fusion-framework-react/hooks';
+import {
+  useCurrentUser,
+  useFramework,
+} from '@equinor/fusion-framework-react/hooks';
 import { useObservable } from '@equinor/portal-utils';
 import { getPresenceInfo } from './parsePresenceStatus';
 import { getPresence$ } from './presence-observable';
@@ -23,7 +26,16 @@ export const TopBarAvatar = (): JSX.Element | null => {
   const close = () => setIsOpen(false);
   const user = useCurrentUser();
 
-  const presence = useObservable(getPresence$(user?.localAccountId ?? ''));
+  const {
+    modules: { serviceDiscovery },
+  } = useFramework();
+
+  const presence = useObservable(
+    getPresence$(
+      user?.localAccountId ?? '',
+      serviceDiscovery.createClient('people')
+    )
+  );
 
   const presenceInfo = getPresenceInfo(presence?.availability);
 
