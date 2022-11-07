@@ -16,9 +16,9 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     private readonly List<WorkSurfaceApplication> _applications = new();
     private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
-    public WorkSurface(string name, string shortName, string subText, int order, string icon)
+    public WorkSurface(string key, string name, string shortName, string subText, int order, string icon)
     {
-        Key = "";
+        Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;

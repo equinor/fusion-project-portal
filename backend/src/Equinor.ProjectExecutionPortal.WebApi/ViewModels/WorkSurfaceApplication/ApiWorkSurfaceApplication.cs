@@ -7,7 +7,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApplicatio
     {
         public ApiWorkSurfaceApplication(WorkSurfaceApplicationDto workSurfaceApplicationDto)
         {
-            AppKey = workSurfaceApplicationDto.AppKey;
+            AppKey = workSurfaceApplicationDto.OnboardedApp.AppKey;
             Name = workSurfaceApplicationDto.Name;
             Description = workSurfaceApplicationDto.Description;
             Order = workSurfaceApplicationDto.Order;
@@ -17,6 +17,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApplicatio
         public string Name { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
-        public ApiWorkSurfaceAppGroup AppGroup { get; set; }
+        public ApiWorkSurfaceAppGroup? AppGroup { get; set; }
     }
 }

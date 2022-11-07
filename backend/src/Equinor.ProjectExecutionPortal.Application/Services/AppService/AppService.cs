@@ -68,9 +68,9 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return portalDto;
         }
 
-        private static WorkSurfaceApplicationDto CombineAppWithFusionAppData(WorkSurfaceApplicationDto applicationDto, IList<ApiFusionPortalAppInformation> fusionApps)
+        private static WorkSurfaceApplicationDto CombineAppWithFusionAppData(WorkSurfaceApplicationDto applicationDto, IEnumerable<ApiFusionPortalAppInformation> fusionApps)
         {
-            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, applicationDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
+            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, applicationDto.OnboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
             if (fusionApp != null)
             {

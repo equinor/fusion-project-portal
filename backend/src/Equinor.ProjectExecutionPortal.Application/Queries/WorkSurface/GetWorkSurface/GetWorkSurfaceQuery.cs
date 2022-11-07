@@ -36,6 +36,7 @@ public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
                 .AsNoTracking()
                 .Include(workSurface => workSurface.AppGroups.OrderBy(appGroup => appGroup.Order))
                     .ThenInclude(appGroup => appGroup.Applications.OrderBy(x => x.Order))
+                        .ThenInclude(x => x.OnboardedApp)
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken) ?? throw new NotFoundException();
 
             var workSurface = _mapper.Map<Domain.Entities.WorkSurface, WorkSurfaceDto>(entity);
