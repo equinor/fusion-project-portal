@@ -5,10 +5,10 @@ namespace Equinor.ProjectExecutionPortal.Domain.Common.Events;
 
 public class PortalApplicationAddedEvent : INotification
 {
-    public PortalApplicationAddedEvent(WorkSurfaceApplication workSurfaceApplication)
+    public PortalApplicationAddedEvent(WorkSurfaceApp workSurfaceApp)
     {
-        WorkSurfaceApplication = workSurfaceApplication;
+        WorkSurfaceApp = workSurfaceApp;
     }
 
-    public WorkSurfaceApplication WorkSurfaceApplication { get; }
+    public WorkSurfaceApp WorkSurfaceApp { get; }
 }

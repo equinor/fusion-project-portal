@@ -13,7 +13,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public const int ShortNameLengthMax = 50;
     public const int SubTextLengthMax = 200;
 
-    private readonly List<WorkSurfaceApplication> _applications = new();
+    private readonly List<WorkSurfaceApp> _apps = new();
     private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
     public WorkSurface(string key, string name, string shortName, string subText, int order, string icon)
@@ -37,7 +37,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; }
 
-    public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();
+    public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<WorkSurfaceAppGroup> AppGroups => _appGroups.AsReadOnly();
 
     public void Update(string key, string name, string shortName, string subText, int order, string icon)
@@ -60,9 +60,9 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
         IsDefault = false;
     }
 
-    public void AddApplication(WorkSurfaceApplication application)
+    public void AddApp(WorkSurfaceApp app)
     {
-        _applications.Add(application);
+        _apps.Add(app);
     }
 
     public void AddAppGroup(WorkSurfaceAppGroup group)

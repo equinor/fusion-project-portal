@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
@@ -15,21 +15,21 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             _fusionPortalApiService = fusionPortalApiService;
         }
 
-        public async Task<IList<WorkSurfaceApplicationDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceApplicationDto> applications, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceAppDto> apps, CancellationToken cancellationToken)
         {
             var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
 
-            return CombineAppsWithFusionAppData(applications, fusionApps);
+            return CombineAppsWithFusionAppData(apps, fusionApps);
         }
 
-        private static List<WorkSurfaceApplicationDto> CombineAppsWithFusionAppData(IList<WorkSurfaceApplicationDto> applicationDtos, IList<ApiFusionPortalAppInformation> fusionApps)
+        private static List<WorkSurfaceAppDto> CombineAppsWithFusionAppData(IList<WorkSurfaceAppDto> appDtos, IList<ApiFusionPortalAppInformation> fusionApps)
         {
-            foreach (var applicationDto in applicationDtos)
+            foreach (var applicationDto in appDtos)
             {
                 CombineAppWithFusionAppData(applicationDto, fusionApps);
             }
 
-            return applicationDtos.ToList();
+            return appDtos.ToList();
         }
 
         public async Task<WorkSurfaceDto> EnrichWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurface, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         private static WorkSurfaceDto CombineWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurfaceDto, IList<ApiFusionPortalAppInformation> fusionApps)
         {
-            foreach (var applicationDto in workSurfaceDto.AppGroups.SelectMany(x => x.Applications))
+            foreach (var applicationDto in workSurfaceDto.AppGroups.SelectMany(x => x.Apps))
             {
                 CombineAppWithFusionAppData(applicationDto, fusionApps);
             }
@@ -60,7 +60,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         // TEMP POC METHOD
         private static PortalDto CombinePortalWithFusionAppData(PortalDto portalDto, IList<ApiFusionPortalAppInformation> fusionApps)
         {
-            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.AppGroups).SelectMany(x => x.Applications))
+            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.AppGroups).SelectMany(x => x.Apps))
             {
                 CombineAppWithFusionAppData(applicationDto, fusionApps);
             }
@@ -68,18 +68,18 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return portalDto;
         }
 
-        private static WorkSurfaceApplicationDto CombineAppWithFusionAppData(WorkSurfaceApplicationDto applicationDto, IEnumerable<ApiFusionPortalAppInformation> fusionApps)
+        private static WorkSurfaceAppDto CombineAppWithFusionAppData(WorkSurfaceAppDto appDto, IEnumerable<ApiFusionPortalAppInformation> fusionApps)
         {
-            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, applicationDto.OnboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
+            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, appDto.OnboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
             if (fusionApp != null)
             {
-                applicationDto.SupplyWithFusionData(
+                appDto.SupplyWithFusionData(
                     fusionApp.Name,
                     fusionApp.Description);
             }
 
-            return applicationDto;
+            return appDto;
         }
     }
 }

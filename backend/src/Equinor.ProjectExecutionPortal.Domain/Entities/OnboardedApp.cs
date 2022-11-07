@@ -20,6 +20,4 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     /// AppKey referes to the app's unique ID in the Fusion Portal
     /// </summary>
     public string AppKey { get; set; }
-
-    // TODO: There should perhaps be a direct relation between an onboarded app and an actual use (WorkSurfaceApplication)
 }

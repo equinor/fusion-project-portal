@@ -13,7 +13,7 @@ public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IMod
     public const int NameLengthMax = 200;
     public const int AccentColorLengthMax = 7;
 
-    private readonly List<WorkSurfaceApplication> _applications = new();
+    private readonly List<WorkSurfaceApp> _apps = new();
     
     public WorkSurfaceAppGroup(string name, int order, string accentColor)
     {
@@ -29,10 +29,10 @@ public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IMod
     public Guid WorkSurfaceId { get; set; }
     public WorkSurface WorkSurface { get; set; }
 
-    public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();
+    public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
 
-    public void AddApplication(WorkSurfaceApplication application)
+    public void AddApp(WorkSurfaceApp app)
     {
-        _applications.Add(application);
+        _apps.Add(app);
     }
 }

@@ -2,9 +2,9 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp
 {
-    public class WorkSurfaceApplicationDto : BaseContextDto, IMapFrom<Domain.Entities.WorkSurfaceApplication>
+    public class WorkSurfaceAppDto : BaseContextDto, IMapFrom<Domain.Entities.WorkSurfaceApp>
     {
         public string Name { get; set; }
         public string Description { get; set; }

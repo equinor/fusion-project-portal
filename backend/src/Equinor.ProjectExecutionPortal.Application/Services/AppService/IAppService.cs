@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {
@@ -10,6 +10,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         Task<WorkSurfaceDto> EnrichWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurface, CancellationToken cancellationToken);
 
-        Task<IList<WorkSurfaceApplicationDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceApplicationDto> applications, CancellationToken cancellationToken);
+        Task<IList<WorkSurfaceAppDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceAppDto> apps, CancellationToken cancellationToken);
     }
 }

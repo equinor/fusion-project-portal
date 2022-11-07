@@ -20,7 +20,7 @@ public class WorkSurfaceAppGroupConfiguration : IEntityTypeConfiguration<WorkSur
             .HasMaxLength(WorkSurfaceAppGroup.AccentColorLengthMax)
             .IsRequired();
 
-        builder.HasMany(x => x.Applications)
+        builder.HasMany(x => x.Apps)
             .WithOne(x => x.AppGroup)
             .OnDelete(DeleteBehavior.Restrict);
     }

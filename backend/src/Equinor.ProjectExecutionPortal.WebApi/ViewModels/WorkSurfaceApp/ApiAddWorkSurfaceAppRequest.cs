@@ -1,16 +1,16 @@
 ﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApplication
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
-    public class ApiAddWorkSurfaceApplicationRequest
+    public class ApiAddWorkSurfaceAppRequest
     {
         public string Name { get; set; }
         public int Order { get; set; }
 
-        public class AddWorkSurfaceApplicationRequestValidator : AbstractValidator<ApiCreateWorkSurfaceAppGroupRequest>
+        public class AddWorkSurfaceAppRequestValidator : AbstractValidator<ApiAddWorkSurfaceAppRequest>
         {
-            public AddWorkSurfaceApplicationRequestValidator()
+            public AddWorkSurfaceAppRequestValidator()
             {
                 RuleFor(x => x.Name)
                     .NotEmpty()

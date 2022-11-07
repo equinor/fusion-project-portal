@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
 {
@@ -14,7 +14,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
         public int Order { get; set; }
         public string Icon { get; set; }
         public bool IsDefault { get; set; }
-        public List<WorkSurfaceApplicationDto> Applications { get; set; }
+        public List<WorkSurfaceAppDto> Apps { get; set; }
         public List<WorkSurfaceAppGroupDto> AppGroups { get; set; }
     }
 }

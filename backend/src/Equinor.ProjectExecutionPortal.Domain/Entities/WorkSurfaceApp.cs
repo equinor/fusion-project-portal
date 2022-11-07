@@ -6,11 +6,11 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// The shared Portal Application base that all applications should inherit from
 /// </summary>
-public class WorkSurfaceApplication : ContextEntityBase, ICreationAuditable, IModificationAuditable
+public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int AppKeyLengthMax = 400;
 
-    public WorkSurfaceApplication(Guid onboardedAppId, Guid? appGroupId, int order, Guid workSurfaceId, bool isHidden = false) : base("some-context", "context-type")
+    public WorkSurfaceApp(Guid onboardedAppId, Guid? appGroupId, int order, Guid workSurfaceId, bool isHidden = false) : base("some-context", "context-type")
     {
         OnboardedAppId = onboardedAppId;
         AppGroupId = appGroupId;

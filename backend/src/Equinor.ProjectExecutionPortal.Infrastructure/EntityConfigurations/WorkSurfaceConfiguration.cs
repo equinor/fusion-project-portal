@@ -35,7 +35,7 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
         builder.Property(t => t.Icon)
             .IsRequired();
 
-        builder.HasMany(x => x.Applications)
+        builder.HasMany(x => x.Apps)
             .WithOne(x => x.WorkSurface)
             .OnDelete(DeleteBehavior.Restrict);
 

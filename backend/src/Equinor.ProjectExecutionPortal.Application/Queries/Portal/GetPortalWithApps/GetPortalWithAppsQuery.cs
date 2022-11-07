@@ -38,7 +38,7 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             var enitity = await _context.Set<Domain.Entities.Portal>()
                 .Include(portal => portal.WorkSurfaces.OrderBy(workSurface => workSurface.Order))
                     .ThenInclude(workSurface => workSurface.AppGroups.OrderBy(appGroup => appGroup.Order)).
-                        ThenInclude(appGroup => appGroup.Applications.OrderBy(application => application.Order))
+                        ThenInclude(appGroup => appGroup.Apps.OrderBy(application => application.Order))
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException();
 
@@ -95,21 +95,21 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            var meetingsWsApp = new Domain.Entities.WorkSurfaceApplication(meetingsApp.Id, null, 0, workSurface2.Id);
-            var reviewsWsApp = new Domain.Entities.WorkSurfaceApplication(reviewsApp.Id, null, 1, workSurface2.Id);
-            var tasksWsApp = new Domain.Entities.WorkSurfaceApplication(tasksApp.Id, null, 0, workSurface2.Id);
-            var orgChartWsApp = new Domain.Entities.WorkSurfaceApplication(orgChartApp.Id, null, 1, workSurface2.Id);
-            var handoverGardenWsApp = new Domain.Entities.WorkSurfaceApplication(handoverGardenApp.Id, null, 0, workSurface2.Id);
-            var workOrderGardenWsApp = new Domain.Entities.WorkSurfaceApplication(workOrderGardenApp.Id, null, 1, workSurface2.Id);
-            var demoWsApp = new Domain.Entities.WorkSurfaceApplication(demoApp.Id, null, 0, workSurface2.Id);
+            var meetingsWsApp = new Domain.Entities.WorkSurfaceApp(meetingsApp.Id, null, 0, workSurface2.Id);
+            var reviewsWsApp = new Domain.Entities.WorkSurfaceApp(reviewsApp.Id, null, 1, workSurface2.Id);
+            var tasksWsApp = new Domain.Entities.WorkSurfaceApp(tasksApp.Id, null, 0, workSurface2.Id);
+            var orgChartWsApp = new Domain.Entities.WorkSurfaceApp(orgChartApp.Id, null, 1, workSurface2.Id);
+            var handoverGardenWsApp = new Domain.Entities.WorkSurfaceApp(handoverGardenApp.Id, null, 0, workSurface2.Id);
+            var workOrderGardenWsApp = new Domain.Entities.WorkSurfaceApp(workOrderGardenApp.Id, null, 1, workSurface2.Id);
+            var demoWsApp = new Domain.Entities.WorkSurfaceApp(demoApp.Id, null, 0, workSurface2.Id);
 
-            collaborationAppGroup.AddApplication(meetingsWsApp);
-            collaborationAppGroup.AddApplication(reviewsWsApp);
-            projectInformationAppGroup.AddApplication(tasksWsApp);
-            projectInformationAppGroup.AddApplication(orgChartWsApp);
-            ccAppGroup.AddApplication(handoverGardenWsApp);
-            ccAppGroup.AddApplication(workOrderGardenWsApp);
-            demoAppGroup.AddApplication(demoWsApp);
+            collaborationAppGroup.AddApp(meetingsWsApp);
+            collaborationAppGroup.AddApp(reviewsWsApp);
+            projectInformationAppGroup.AddApp(tasksWsApp);
+            projectInformationAppGroup.AddApp(orgChartWsApp);
+            ccAppGroup.AddApp(handoverGardenWsApp);
+            ccAppGroup.AddApp(workOrderGardenWsApp);
+            demoAppGroup.AddApp(demoWsApp);
 
             await _context.SaveChangesAsync(cancellationToken);
         }

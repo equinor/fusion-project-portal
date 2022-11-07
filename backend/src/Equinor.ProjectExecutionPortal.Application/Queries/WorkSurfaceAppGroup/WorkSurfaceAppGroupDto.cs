@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApplication;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup
 {
@@ -8,6 +8,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup
         public string Name { get; set; }
         public int Order { get; set; }
         public string AccentColor { get; set; }
-        public List<WorkSurfaceApplicationDto> Applications { get; set; }
+        public List<WorkSurfaceAppDto> Apps { get; set; }
     }
 }
