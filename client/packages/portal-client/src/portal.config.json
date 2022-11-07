@@ -1,6 +1,6 @@
 {
   "portalId": "some-portal-id",
-  "title": "Project Portal",
+  "title": "PRD Portal",
   "description": "some description...",
   "homepage": {
     "widgetId": "1234"
@@ -10,7 +10,9 @@
     "serviceDiscovery": {
       "client": {
         "baseUri": "https://pro-s-portal-ci.azurewebsites.net/",
-        "defaultScopes": ["5a842df8-3238-415d-b168-9f16a6a6031b/.default"]
+        "defaultScopes": [
+          "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
+        ]
       }
     },
     "portalClient": {

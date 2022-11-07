@@ -8,7 +8,7 @@ import { useFramework } from '@equinor/fusion-framework-react/hooks';
 import { useObservableSelectorState } from '@equinor/fusion-observable/react';
 import { useObservable } from '@equinor/portal-utils';
 import { useNavigate } from 'react-router-dom';
-import { useCurrentWorkSurface } from '../work-surface-module';
+import { useCurrentView } from '../queries';
 
 export const useContextQuery = () => {
   const {
@@ -55,7 +55,7 @@ export const QueryContext = () => {
   const { result, search, status, setContext, contextValue } =
     useContextQuery();
   const navigate = useNavigate();
-  const currentWorkSurface = useCurrentWorkSurface();
+  const { data } = useCurrentView();
 
   useEffect(() => {
     if (query.length > 2) {
@@ -92,11 +92,9 @@ export const QueryContext = () => {
                 key={c.id}
                 onClick={() => {
                   setContext(c.id);
-                  currentWorkSurface?.shortName &&
+                  data?.shortName &&
                     navigate(
-                      `/${currentWorkSurface.name
-                        .toLowerCase()
-                        .replace(' ', '-')}/${c.id}`
+                      `/${data?.name.toLowerCase().replace(' ', '-')}/${c.id}`
                     );
                 }}
               >
