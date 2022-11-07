@@ -8666,11 +8666,6 @@ raw-loader@^4.0.2:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-react-arrow-navigation@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-arrow-navigation/-/react-arrow-navigation-1.0.1.tgz#c6bf91c35b146d1b07c60fa733bc1440898af449"
-  integrity sha512-UiGPpRRKceyZbYgyX7p7gtlya+MjvV3l+HrF17oy5aupAEouks96Tpq82+AIeGjYv3+PpAflbOT5Z8DyPgupVA==
-
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
