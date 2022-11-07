@@ -27,8 +27,6 @@ export const WorkSurfacePage = (): JSX.Element => {
           <PasePageHeader {...surface} />
 
           <StyledContentWrapper>
-            <p>// some content</p>
-            {/* <GetContext /> */}
             <QueryContext />
           </StyledContentWrapper>
         </StyledContentSection>

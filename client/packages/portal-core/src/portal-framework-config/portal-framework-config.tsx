@@ -1,4 +1,5 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
+import { contextModule } from '@equinor/fusion-framework-module-context';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { module as serviceModule } from '@equinor/fusion-framework-module-services';
 
