@@ -7,16 +7,15 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// An Application Group acts as a grouping and ordering of selected portal applications
 /// TODO: Nested grouping
 ///
-/// TODO: SHOULD NOT HAVE CONTEXT
 /// </summary>
-public class WorkSurfaceAppGroup : ContextEntityBase, ICreationAuditable, IModificationAuditable
+public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int NameLengthMax = 200;
     public const int AccentColorLengthMax = 7;
 
     private readonly List<WorkSurfaceApplication> _applications = new();
     
-    public WorkSurfaceAppGroup(string name, int order, string accentColor) : base("some-context", "context type")
+    public WorkSurfaceAppGroup(string name, int order, string accentColor)
     {
         Name = name;
         Order = order;
