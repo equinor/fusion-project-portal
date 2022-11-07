@@ -34,9 +34,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPut("{workSurfaceId}")]
-        public async Task<ActionResult<Guid>> UpdateWorkSurface([FromBody] ApiUpdateWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> UpdateWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateWorkSurfaceRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
     }
 }
