@@ -13,6 +13,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
         public string SubText { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; }
+        public bool IsDefault { get; set; }
         public List<WorkSurfaceApplicationDto> Applications { get; set; }
         public List<WorkSurfaceAppGroupDto> AppGroups { get; set; }
     }

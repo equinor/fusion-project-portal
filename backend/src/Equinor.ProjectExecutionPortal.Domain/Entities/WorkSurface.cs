@@ -32,6 +32,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public string SubText { get; set; }
     public int Order { get; set; }
     public string Icon { get; set; }
+    public bool IsDefault { get; set; }
 
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; }
@@ -47,6 +48,16 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
         SubText = subText;
         Order = order;
         Icon = icon;
+    }
+
+    public void SetAsDefault()
+    {
+        IsDefault = true;
+    }
+
+    public void UnsetAsDefault()
+    {
+        IsDefault = false;
     }
 
     public void AddApplication(WorkSurfaceApplication application)

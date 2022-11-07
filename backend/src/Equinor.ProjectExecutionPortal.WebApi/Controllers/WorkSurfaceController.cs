@@ -38,5 +38,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
+
+        [HttpPut("{workSurfaceId}/setAsDefault")]
+        public async Task<ActionResult<Guid>> SetWorkSurfaceAsDefault([FromRoute] Guid workSurfaceId)
+        {
+            var request = new ApiSetWorkSurfaceAsDefaultRequest();
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
     }
 }
