@@ -1,3 +1,5 @@
+import { useViewController, useViews } from '@equinor/portal-core';
+import { FullPageLoading } from '@equinor/portal-ui';
 import { PhaseSelectorItem } from '../../components/phase-selector/PhaseSelectorItem';
 import {
   StyledBackgroundSection,
@@ -7,26 +9,24 @@ import {
 } from './HomePage.Styles';
 
 import { HomePageHeader } from './HomePageHeader';
-import { useNavigate } from 'react-router-dom';
-import { useWorkSurface } from '@equinor/portal-core';
 
 export const HomePage = (): JSX.Element => {
-  const navigate = useNavigate();
-
-  const module = useWorkSurface();
-
+  const { isLoading, data } = useViews();
+  const { setViewId } = useViewController();
+  if (isLoading) return <FullPageLoading detail="Loading views" />;
+  //TODO: make component
+  if (!data) return <div>Something went wrong</div>;
   return (
     <StyledMain>
       <StyledBackgroundSection>
         <StyledContentSection>
           <HomePageHeader />
           <StyledPaseSectionWrapper>
-            {(module.getWorkSurfaces() ?? []).map((section) => (
+            {data.map((section) => (
               <PhaseSelectorItem
                 {...section}
                 onClick={() => {
-                  module.setCurrentWorkSurface(section);
-                  navigate(`/${section.name}`);
+                  setViewId(section.id);
                 }}
                 key={section.id}
               />

@@ -1,13 +1,11 @@
 import { Button } from '@equinor/eds-core-react';
 import { FatalError } from '@equinor/portal-ui';
-import { responseErrorParser } from '../../utils/response-error-parser/response-error-parser';
+import { responseErrorParser } from '../../../portal-client/src/utils/response-error-parser/response-error-parser';
 
-type FailedToLoadWorkSurfacesProps = {
+type FailedToLoadViewsProps = {
   error: Response;
 };
-export const FailedToLoadWorkSurfaces = ({
-  error,
-}: FailedToLoadWorkSurfacesProps) => {
+export const FailedToLoadViews = ({ error }: FailedToLoadViewsProps) => {
   const description = responseErrorParser(error);
   return (
     <FatalError

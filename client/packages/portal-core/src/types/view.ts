@@ -1,4 +1,4 @@
-export interface WorkSurface {
+export type View = {
   id: string;
   icon?: string;
   name: string;
@@ -6,7 +6,7 @@ export interface WorkSurface {
   subtext: string;
   order: number;
   appGroups: AppGroup[];
-}
+};
 
 export interface Application {
   appKey: string;

@@ -7,7 +7,6 @@ import {
   addAgGrid,
   addAppLoader,
   addPortalClient,
-  addWorkSurfaceModule,
 } from '../portal-framework-configurator/portal-configurators';
 
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
@@ -32,8 +31,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     addAppLoader(config, (moduleId: string) => {
       return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
     });
-
-    addWorkSurfaceModule(config);
 
     config.onConfigured(() => {
       console.log('framework config done');

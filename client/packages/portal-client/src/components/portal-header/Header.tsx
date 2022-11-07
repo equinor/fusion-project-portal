@@ -1,30 +1,30 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
 import {
   TopBarAvatar,
-  useCurrentWorkSurface,
+  useViewController,
   useMenuItems,
-  useNavigateBasedOnWorkSurface,
-  useWorkSurface,
 } from '@equinor/portal-core';
 import { useNavigate } from 'react-router-dom';
+import { appMounted } from '@equinor/portal-utils';
 
 export function Header() {
-  const currentWorkSurface = useCurrentWorkSurface();
-  const { setCurrentWorkSurface } = useWorkSurface();
+  const { getId, setViewId } = useViewController();
   const navigate = useNavigate();
-  //Preload all menu items
-  useNavigateBasedOnWorkSurface();
   useMenuItems();
+
+  const handleLogoClick = () => {
+    const id = getId();
+    if (appMounted() && id) {
+      setViewId(id);
+    } else {
+      setViewId(undefined);
+    }
+    navigate('/');
+  };
+
   return (
     <PortalHeader
-      onLogoClick={() => {
-        if (location.pathname.includes('/apps') && currentWorkSurface) {
-          navigate(`/${currentWorkSurface.name}`);
-        } else {
-          setCurrentWorkSurface(undefined);
-          navigate('/');
-        }
-      }}
+      onLogoClick={handleLogoClick}
       MenuButton={MenuButton}
       title="Project Portal"
     >
