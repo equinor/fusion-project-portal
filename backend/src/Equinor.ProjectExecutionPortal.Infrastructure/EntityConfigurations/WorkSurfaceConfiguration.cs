@@ -12,6 +12,14 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
         builder.ConfigureCreationAudit();
         builder.ConfigureModificationAudit();
 
+        builder
+            .HasIndex(t => t.Key)
+            .IsUnique();
+
+        builder.Property(t => t.Key)
+            .HasMaxLength(WorkSurface.KeyLengthMax)
+            .IsRequired();
+
         builder.Property(t => t.Name)
             .HasMaxLength(WorkSurface.NameLengthMax)
             .IsRequired();
@@ -19,7 +27,7 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
         builder.Property(t => t.ShortName)
             .HasMaxLength(WorkSurface.ShortNameLengthMax)
             .IsRequired();
-        
+
         builder.Property(t => t.SubText)
             .HasMaxLength(WorkSurface.SubTextLengthMax)
             .IsRequired();

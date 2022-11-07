@@ -8,6 +8,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
+    public const int KeyLengthMax = 200;
     public const int NameLengthMax = 200;
     public const int ShortNameLengthMax = 50;
     public const int SubTextLengthMax = 200;
@@ -17,6 +18,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
 
     public WorkSurface(string name, string shortName, string subText, int order, string icon)
     {
+        Key = "";
         Name = name;
         ShortName = shortName;
         SubText = subText;
@@ -24,7 +26,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
         Icon = icon;
     }
 
-    //public string Key { get; set; } FOR ROUTING (unique, indexed)
+    public string Key { get; set; }
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string SubText { get; set; }
@@ -36,6 +38,16 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
 
     public IReadOnlyCollection<WorkSurfaceApplication> Applications => _applications.AsReadOnly();
     public IReadOnlyCollection<WorkSurfaceAppGroup> AppGroups => _appGroups.AsReadOnly();
+
+    public void Update(string key, string name, string shortName, string subText, int order, string icon)
+    {
+        Key = key;
+        Name = name;
+        ShortName = shortName;
+        SubText = subText;
+        Order = order;
+        Icon = icon;
+    }
 
     public void AddApplication(WorkSurfaceApplication application)
     {

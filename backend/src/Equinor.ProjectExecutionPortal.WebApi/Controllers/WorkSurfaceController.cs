@@ -32,5 +32,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return new ApiWorkSurface(workSurfaceDto);
         }
+
+        [HttpPut("{workSurfaceId}")]
+        public async Task<ActionResult<Guid>> UpdateWorkSurface([FromBody] ApiUpdateWorkSurfaceRequest request)
+        {
+            return await Mediator.Send(request.ToCommand());
+        }
     }
 }
