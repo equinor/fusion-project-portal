@@ -17,10 +17,8 @@
 
         public static IEndpointRouteBuilder MapFusionPortalAssetProxy(this IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/_assets/legacy-apps/{appKey}.js", AssetProxyHandler.ProxyRequestAsync<LegacyAppRequestTransformer>)
-                .AllowAnonymous();
-            endpoints.MapGet("/_assets/legacy-resources/{appKey}/{*resourcePath}", AssetProxyHandler.ProxyRequestAsync<LegacyAppResourcesRequestTransformer>)
-                .AllowAnonymous();
+            endpoints.MapGet("/_assets/legacy-apps/{appKey}.js", AssetProxyHandler.ProxyRequestAsync<LegacyAppRequestTransformer>);
+            endpoints.MapGet("/_assets/legacy-resources/{appKey}/{*resourcePath}", AssetProxyHandler.ProxyRequestAsync<LegacyAppResourcesRequestTransformer>);
             endpoints.MapGet("/_assets/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
             endpoints.MapGet("/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
 
