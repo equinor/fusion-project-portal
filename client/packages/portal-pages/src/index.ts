@@ -1,1 +1,1 @@
-export * from './pages/phase-page/ViewPage';
+export * from './pages/view-page/ViewPage';
