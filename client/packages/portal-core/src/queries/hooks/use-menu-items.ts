@@ -1,4 +1,4 @@
-import { useCurrentView } from './useCurrentView';
+import { useCurrentView } from './use-current-view';
 
 export const useMenuItems = () => {
   const view = useCurrentView();
