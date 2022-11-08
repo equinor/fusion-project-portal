@@ -8,7 +8,7 @@ import { GlobalStyle } from './globalStyles';
  *
  *  will be changes when all icons are identified!
  */
-
+console.log(icons);
 Icon.add(icons);
 
 const compact = 'compact';

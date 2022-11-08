@@ -12,3 +12,7 @@ export const StyledPaseSectionWrapper = styled.section`
   gap: 3rem;
   margin-top: 5rem;
 `;
+
+export const StyledViewSelectorWrapper = styled.div`
+  display: flex;
+`;
