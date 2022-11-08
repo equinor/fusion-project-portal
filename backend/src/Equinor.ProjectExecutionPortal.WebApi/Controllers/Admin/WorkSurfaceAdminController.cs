@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,37 +7,38 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
-    [Route("api/admin")]
+    [Route("api/admin/work-surfaces")]
     public class WorkSurfaceAdminController : ApiControllerBase
     {
-        [HttpGet("work-surfaces")]
-        public IActionResult WorkSurfaces()
-        {
-            return Json("all work surfaces");
-        }
-
-        [HttpPost("work-surfaces")]
+        [HttpPost("")]
         public IActionResult CreateWorkSurface([FromBody] string name)
         {
-            return Json($"{name} work surface created");
+            return Json($"{name} work surface created, NOT");
         }
 
-        [HttpGet("work-surfaces/{workSurfaceId:guid}/apps")]
-        public IActionResult WorkSurfaceApps([FromRoute] Guid workSurfaceId)
+        [HttpPut("{workSurfaceId:guid}")]
+        public async Task<ActionResult<Guid>> UpdateWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateWorkSurfaceRequest request)
         {
-            return Json($"apps for work surface {workSurfaceId}");
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
 
-        [HttpPost("work-surfaces/{workSurfaceId:guid}/apps")]
+        [HttpPut("{workSurfaceId:guid}/setAsDefault")]
+        public async Task<ActionResult<Guid>> SetWorkSurfaceAsDefault([FromRoute] Guid workSurfaceId)
+        {
+            var request = new ApiSetWorkSurfaceAsDefaultRequest();
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
+
+        [HttpPost("{workSurfaceId:guid}/apps")]
         public IActionResult AddAppToWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] string appKey)
         {
-            return Json($"{appKey} added to work surface {workSurfaceId}");
+            return Json($"{appKey} added to work surface {workSurfaceId}, NOT");
         }
 
-        [HttpDelete("work-surfaces/{workSurfaceId:guid}/apps/{appKey}")]
+        [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
         public IActionResult RemoveAppFromWorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string appKey)
         {
-            return Json($"{appKey} Removed from {workSurfaceId}");
+            return Json($"{appKey} Removed from {workSurfaceId}, NOT");
         }
     }
 }

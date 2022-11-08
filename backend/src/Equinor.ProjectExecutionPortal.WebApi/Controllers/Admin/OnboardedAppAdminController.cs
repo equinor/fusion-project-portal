@@ -8,10 +8,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
-    [Route("api/admin")]
+    [Route("api/admin/onboarded-apps")]
     public class OnboardedAppAdminController : ApiControllerBase
     {
-        [HttpGet("onboarded-apps")]
+        [HttpGet("")]
         public async Task<ActionResult<IList<ApiOnboardedApp>>> OnboardedApps()
         {
             var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
@@ -19,13 +19,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
             return onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList();
         }
 
-        [HttpPost("onboarded-apps")]
+        [HttpPost("")]
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
             return await Mediator.Send(request.ToCommand());
         }
 
-        [HttpDelete("onboarded-apps/{appKey}")]
+        [HttpDelete("{appKey}")]
         public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
         {
             var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
