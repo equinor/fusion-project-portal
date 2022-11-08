@@ -37,8 +37,9 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
             var enitity = await _context.Set<Domain.Entities.Portal>()
                 .Include(portal => portal.WorkSurfaces.OrderBy(workSurface => workSurface.Order))
-                    .ThenInclude(workSurface => workSurface.AppGroups.OrderBy(appGroup => appGroup.Order)).
-                        ThenInclude(appGroup => appGroup.Apps.OrderBy(application => application.Order))
+                    .ThenInclude(workSurface => workSurface.AppGroups.OrderBy(appGroup => appGroup.Order))
+                        .ThenInclude(appGroup => appGroup.Apps.OrderBy(application => application.Order))
+                            .ThenInclude(x => x.OnboardedApp)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException();
 
