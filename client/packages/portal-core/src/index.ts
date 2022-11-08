@@ -1,7 +1,8 @@
 export * from './avatar';
+export * from './currentViewContext/CurrentViewContext';
 export * from './hooks';
 export * from './menu';
 export * from './portal-framework-config';
-export * from './types';
 export * from './queries';
-export * from './currentWorkSurfaceContext/CurrentViewContext';
+export * from './types';
+

@@ -1,29 +1,38 @@
 import { FullPageLoading } from '@equinor/portal-ui';
-import { storage } from '@equinor/portal-utils';
+import { useObservable } from '@equinor/portal-utils';
 import {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
 } from 'react';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { useNavigateOnViewChanged } from '../hooks/useNavigateOnViewChanged';
+import { useStoreCurrentViewId } from '../hooks';
 import { useViews } from '../queries';
+import { viewStorage } from '../store';
+import { View } from '../types';
 import { FailedToLoadViews } from './FailedToLoadViews';
 
 /** View context type */
 type ViewController = {
   setViewId: (viewId: string | undefined) => void;
   getId: () => string | undefined;
-  id$: Observable<string | undefined>;
+  currentViewKey$: Observable<string | undefined>;
+  currentView: View | undefined;
+  views: View[];
+  isLoading: boolean;
 };
 
 const ViewControllerContext = createContext<ViewController>({} as any);
 
 export const useViewController = () => useContext(ViewControllerContext);
+
+const currentViewKey$ = new BehaviorSubject<string | undefined>(
+  viewStorage.readId()
+);
+
+const setViewId = (viewId: string | undefined) => currentViewKey$.next(viewId);
 
 type ViewControllerProviderProps = {
   children: ReactNode;
@@ -33,21 +42,28 @@ export const ViewProvider = ({ children }: ViewControllerProviderProps) => {
   /** Dont halt user if he/she is loading an app */
   const shouldHalt = !location.pathname.includes('apps');
 
-  const { isLoading, error } = useViews();
+  const { data, isLoading, error } = useViews();
 
-  const currentViewId$ = useRef(
-    new BehaviorSubject<string | undefined>(viewStorage.readId())
-  );
-  const setViewId = useCallback(
-    (viewId: string | undefined) => currentViewId$.current.next(viewId),
-    []
-  );
+  const currentViewKey = useObservable(currentViewKey$) || viewStorage.readId();
 
-  const id$ = useMemo(() => currentViewId$.current.asObservable(), []);
+  const currentView = useMemo(() => {
+    if (currentViewKey)
+      return data?.find((view) => view.key === currentViewKey);
 
-  /** Switches routes based on current view id */
-  useNavigateOnViewChanged(id$);
-  useStoreCurrentViewId(id$);
+    const currentView = data?.find((view) => view.isDefault);
+    setViewId(currentView?.key);
+    return currentView;
+  }, [data, currentViewKey]);
+
+  useEffect(() => {
+    if (currentViewKey$.value) {
+      setViewId(currentViewKey$.value);
+      return;
+    }
+  }, []);
+
+  useStoreCurrentViewId(currentViewKey$);
+
   if (error && shouldHalt) {
     return <FailedToLoadViews error={error as Response} />;
   }
@@ -59,25 +75,15 @@ export const ViewProvider = ({ children }: ViewControllerProviderProps) => {
   return (
     <ViewControllerContext.Provider
       value={{
-        getId: () => currentViewId$.current.value,
-        id$: id$,
+        getId: () => currentViewKey$.value,
+        currentViewKey$,
+        currentView,
+        views: data || [],
         setViewId,
+        isLoading,
       }}
     >
       {children}
     </ViewControllerContext.Provider>
   );
-};
-
-function useStoreCurrentViewId(obs$: Observable<string | undefined>) {
-  useEffect(() => {
-    const sub = obs$.subscribe(viewStorage.storeId);
-    return () => sub.unsubscribe();
-  }, []);
-}
-
-export const viewStorage = {
-  key: 'currentViewId',
-  readId: (): string | undefined => storage.getItem(viewStorage.key),
-  storeId: (id: string | undefined) => storage.setItem(viewStorage.key, id),
 };

@@ -1,29 +1,45 @@
-import { useViews } from '@equinor/portal-core';
+import { Button } from '@equinor/eds-core-react';
+import { useViewController } from '@equinor/portal-core';
 import { FullPageLoading } from '@equinor/portal-ui';
-import { useParams } from 'react-router-dom';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
-import { StyledContentSection, StyledContentWrapper } from './PhasePage.Styles';
+import { StyledContentSection, StyledContentWrapper } from './ViewPage.Styles';
 import { PasePageHeader } from './ViewPageHeader';
 
 export const CurrentViewPage = (): JSX.Element => {
-  const { viewKey } = useParams();
+  const { setViewId, views, currentView, isLoading } = useViewController();
 
-  const { data, isLoading } = useViews();
-  if (isLoading) return <FullPageLoading detail="Loading phase" />;
+  if (isLoading) return <FullPageLoading detail="Loading view" />;
   //TODO: Make component
-  if (!data) return <div>Something went wrong</div>;
-  const view = data.find((s) => s.name === viewKey);
-  if (!view) return <div>Phase not found</div>;
+  if (!views) return <div>Something went wrong</div>;
 
   return (
     <StyledMain>
       <StyledBackgroundSection>
         <StyledContentSection>
-          <PasePageHeader {...view} />
+          {currentView && (
+            <>
+              <PasePageHeader {...currentView} />
 
-          <StyledContentWrapper>
-            <p>// some content</p>
-          </StyledContentWrapper>
+              <StyledContentWrapper>
+                {views.map((view) => {
+                  if (view.key === currentView.key) {
+                    return <div key={view.id}></div>;
+                  }
+                  return (
+                    <Button
+                      key={view.key}
+                      variant="ghost"
+                      onClick={() => {
+                        setViewId(view.key);
+                      }}
+                    >
+                      {view.name}
+                    </Button>
+                  );
+                })}
+              </StyledContentWrapper>
+            </>
+          )}
         </StyledContentSection>
       </StyledBackgroundSection>
     </StyledMain>

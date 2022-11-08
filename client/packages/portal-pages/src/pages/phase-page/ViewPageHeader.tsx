@@ -3,6 +3,7 @@ import { tokens } from '@equinor/eds-tokens';
 import { View } from '@equinor/portal-core';
 import { SVGIconFromString } from '@equinor/portal-ui';
 import styled from 'styled-components';
+import { FusionIcon } from './FusionIcon';
 
 const StyledSection = styled.section`
   display: flex;
@@ -33,16 +34,20 @@ export const StyledIconWrapper = styled.div<{ active?: boolean }>`
 `;
 
 export const PasePageHeader = ({ name, shortName, subtext, icon }: View) => {
-  const CustomIcon = 'place_unknown';
+  const customIcon = 'place_unknown';
   return (
     <StyledSection>
-      <StyledIconWrapper>
-        {icon ? (
+      {customIcon ? (
+        <FusionIcon />
+      ) : icon ? (
+        <StyledIconWrapper>
           <SVGIconFromString blobString={icon} />
-        ) : (
-          <Icon name={CustomIcon} />
-        )}
-      </StyledIconWrapper>
+        </StyledIconWrapper>
+      ) : (
+        <StyledIconWrapper>
+          <Icon name={customIcon} />
+        </StyledIconWrapper>
+      )}
 
       <StyledTextWrapper>
         <Typography variant="h1" bold>

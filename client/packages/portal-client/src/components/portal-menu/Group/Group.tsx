@@ -18,7 +18,7 @@ export const Group = ({ group }: GroupProps) => {
       <StyledGroupBody>
         <StyledMenuGroupName>{group.name}</StyledMenuGroupName>
         <StyledChildrenWrapper>
-          {group.applications.map((child) => (
+          {group.apps.map((child) => (
             <AppCard
               key={child.appKey}
               appKey={child.appKey}

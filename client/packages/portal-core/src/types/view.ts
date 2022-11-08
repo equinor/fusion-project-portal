@@ -6,9 +6,11 @@ export type View = {
   subtext: string;
   order: number;
   appGroups: AppGroup[];
+  key: string;
+  isDefault: boolean;
 };
 
-export interface Application {
+export interface App {
   appKey: string;
   name: string;
   description: string;
@@ -20,5 +22,5 @@ export interface AppGroup {
   name: string;
   accentColor: string;
   order: number;
-  applications: Application[];
+  apps: App[];
 }
