@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useViewController } from '../../currentViewContext/CurrentViewContext';
+import { useViewController } from '../../current-view-context/CurrentViewContext';
 import { usePortalClient } from '../../hooks';
 import { getViewById } from '../portal';
 
