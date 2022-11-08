@@ -8,8 +8,6 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public const int AppKeyLengthMax = 400;
-
     public WorkSurfaceApp(Guid onboardedAppId, Guid? appGroupId, int order, Guid workSurfaceId, bool isHidden = false) : base("some-context", "context-type")
     {
         OnboardedAppId = onboardedAppId;

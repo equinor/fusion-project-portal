@@ -9,12 +9,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.SetWo
 
 public class SetWorkSurfaceAsDefaultCommand : IRequest<Guid>
 {
-    public SetWorkSurfaceAsDefaultCommand(Guid id)
+    public SetWorkSurfaceAsDefaultCommand(Guid workSurfaceId)
     {
-        Id = id;
+        WorkSurfaceId = workSurfaceId;
     }
 
-    public Guid Id { get; }
+    public Guid WorkSurfaceId { get; }
 
     public class Handler : IRequestHandler<SetWorkSurfaceAsDefaultCommand, Guid>
     {
@@ -28,11 +28,11 @@ public class SetWorkSurfaceAsDefaultCommand : IRequest<Guid>
         public async Task<Guid> Handle(SetWorkSurfaceAsDefaultCommand command, CancellationToken cancellationToken)
         {
             var entity = await _readWriteContext.Set<WorkSurface>()
-                .FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.Id);
+                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
 
             if (entity.IsDefault)

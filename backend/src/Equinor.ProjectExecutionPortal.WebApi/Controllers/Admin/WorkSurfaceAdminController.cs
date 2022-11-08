@@ -1,4 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Admin;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,15 +32,20 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
-        public IActionResult AddAppToWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] string appKey)
+        [HttpPost("{workSurfaceId:guid}/{externalContextId}/apps")]
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? externalContextId, [FromBody] ApiAddWorkSurfaceAppRequest request)
         {
-            return Json($"{appKey} added to work surface {workSurfaceId}, NOT");
+            return await Mediator.Send(request.ToCommand(workSurfaceId, externalContextId));
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
-        public IActionResult RemoveAppFromWorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string appKey)
+        [HttpDelete("{workSurfaceId:guid}/{externalContextId}/apps/{appKey}")]
+        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? externalContextId, [FromRoute] string appKey)
         {
-            return Json($"{appKey} Removed from {workSurfaceId}, NOT");
+            var request = new ApiRemoveWorkSurfaceAppRequest();
+            await Mediator.Send(request.ToCommand(workSurfaceId, externalContextId, appKey));
+
+            return NoContent();
         }
     }
 }
