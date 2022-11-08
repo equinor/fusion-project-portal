@@ -16,7 +16,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             Order = workSurfaceDto.Order;
             Icon = workSurfaceDto.Icon;
             IsDefault = workSurfaceDto.IsDefault;
-            Applications = workSurfaceDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList();
+            Apps = workSurfaceDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList();
             AppGroups = workSurfaceDto.AppGroups.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
         }
 
@@ -28,7 +28,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
         public int Order { get; set; }
         public string Icon { get; set; }
         public bool IsDefault { get; set; }
-        public List<ApiWorkSurfaceApp> Applications { get; set; } // TODO: BREAKING CHANGE: RENAME TO APP
+        public List<ApiWorkSurfaceApp> Apps { get; set; }
         public List<ApiWorkSurfaceAppGroup> AppGroups { get; set; }
     }
 }
