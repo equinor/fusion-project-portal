@@ -6,15 +6,15 @@
 public abstract class ContextEntityBase : AuditableEntityBase
 {
     public const int ExternalIdLengthMax = 200;
-    public const int TypeLengthMax = 100;
+    public const int TypeLengthMax = 200;
 
-    protected ContextEntityBase(string externalId, string type)
+    protected ContextEntityBase(string? externalId, string? type)
     {
         ExternalId = externalId;
         Type = type;
     }
 
-    public virtual string ExternalId { get; }
+    public virtual string? ExternalId { get; }
 
-    public virtual string Type { get; }
+    public virtual string? Type { get; }
 }

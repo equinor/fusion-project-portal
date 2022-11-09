@@ -8,7 +8,17 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public WorkSurfaceApp(Guid onboardedAppId, Guid? appGroupId, int order, Guid workSurfaceId, bool isHidden = false) : base("some-context", "context-type")
+    public WorkSurfaceApp(Guid onboardedAppId, Guid? appGroupId, int order, Guid workSurfaceId, string externalContextId, string externalContextType, bool isHidden = false)
+        : base(externalContextId, externalContextType)
+    {
+        OnboardedAppId = onboardedAppId;
+        AppGroupId = appGroupId;
+        Order = order;
+        IsHidden = isHidden;
+        WorkSurfaceId = workSurfaceId;
+    }
+
+    public WorkSurfaceApp(Guid onboardedAppId, Guid? appGroupId, int order, Guid workSurfaceId, bool isHidden = false) : base(null, null)
     {
         OnboardedAppId = onboardedAppId;
         AppGroupId = appGroupId;
