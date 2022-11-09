@@ -8,15 +8,15 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.Remov
 
 public class RemoveWorkSurfaceAppCommand : IRequest
 {
-    public RemoveWorkSurfaceAppCommand(Guid workSurfaceId, string? externalContextId, string appKey)
+    public RemoveWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
-        ExternalContextId = externalContextId;
+        ContextExternalId = contextExternalId;
         AppKey = appKey;
     }
 
     public Guid WorkSurfaceId { get; }
-    public string? ExternalContextId { get; }
+    public string? ContextExternalId { get; }
     public string AppKey { get; set; }
 
     public class Handler : IRequestHandler<RemoveWorkSurfaceAppCommand>
@@ -30,9 +30,9 @@ public class RemoveWorkSurfaceAppCommand : IRequest
 
         public async Task<Unit> Handle(RemoveWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
-            if (command.ExternalContextId != null)
+            if (command.ContextExternalId != null)
             {
-                await RemoveContextAppFromWorkSurface(command.WorkSurfaceId, command.ExternalContextId, command.AppKey, cancellationToken);
+                await RemoveContextAppFromWorkSurface(command.WorkSurfaceId, command.ContextExternalId, command.AppKey, cancellationToken);
             }
             else
             {

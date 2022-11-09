@@ -32,42 +32,42 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
-        [HttpPost("{workSurfaceId:guid}/{externalContextId}/apps")]
-        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? externalContextId, [FromBody] ApiAddWorkSurfaceAppRequest request)
+        [HttpPost("{workSurfaceId:guid}/{contextExternalId}/apps")]
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromBody] ApiAddWorkSurfaceAppRequest request)
         {
-            if (externalContextId == null)
+            if (contextExternalId == null)
             {
                 return await Mediator.Send(request.ToCommand(workSurfaceId, null, null));
             }
 
-            var contextIdentifier = ContextIdentifier.FromExternalId(externalContextId);
+            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
             var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
             if (context == null)
             {
-                return FusionApiError.NotFound(externalContextId, "Could not find context by external id");
+                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
             }
 
             return await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, context.Type));
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
-        [HttpDelete("{workSurfaceId:guid}/{externalContextId}/apps/{appKey}")]
-        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? externalContextId, [FromRoute] string appKey)
+        [HttpDelete("{workSurfaceId:guid}/{contextExternalId}/apps/{appKey}")]
+        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
         {
-            if (externalContextId != null)
+            if (contextExternalId != null)
             {
-                var contextIdentifier = ContextIdentifier.FromExternalId(externalContextId);
+                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
                 if (context == null)
                 {
-                    return FusionApiError.NotFound(externalContextId, "Could not find context by external id");
+                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
             }
 
             var request = new ApiRemoveWorkSurfaceAppRequest();
-            await Mediator.Send(request.ToCommand(workSurfaceId, externalContextId, appKey));
+            await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
 
             return NoContent();
         }

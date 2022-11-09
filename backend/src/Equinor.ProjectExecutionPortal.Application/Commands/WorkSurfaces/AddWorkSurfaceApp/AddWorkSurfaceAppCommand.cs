@@ -8,19 +8,19 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddWo
 
 public class AddWorkSurfaceAppCommand : IRequest<Guid>
 {
-    public AddWorkSurfaceAppCommand(Guid workSurfaceId, string? externalContextId, string? externalContextType, string appKey, Guid? appGroupId, int order)
+    public AddWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string? contextType, string appKey, Guid? appGroupId, int order)
     {
         WorkSurfaceId = workSurfaceId;
-        ExternalContextId = externalContextId;
-        ExternalContextType = externalContextType;
+        ContextExternalId = contextExternalId;
+        ContextType = contextType;
         AppKey = appKey;
         Order = order;
         AppGroupId = appGroupId;
     }
 
     public Guid WorkSurfaceId { get; }
-    public string? ExternalContextId { get; }
-    public string? ExternalContextType { get; }
+    public string? ContextExternalId { get; }
+    public string? ContextType { get; }
     public string AppKey { get; set; }
     public Guid? AppGroupId { get; set; }
     public int Order { get; set; }
@@ -52,8 +52,8 @@ public class AddWorkSurfaceAppCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
             }
 
-            workSurface.AddApp(command.ExternalContextId != null && command.ExternalContextType != null
-                ? new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId, command.ExternalContextId, command.ExternalContextType)
+            workSurface.AddApp(command.ContextExternalId != null && command.ContextType != null
+                ? new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId, command.ContextExternalId, command.ContextType)
                 : new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId));
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);

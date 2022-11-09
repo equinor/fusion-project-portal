@@ -1,6 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +22,28 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{workSurfaceId:guid}")]
-        public async Task<ActionResult<ApiWorkSurface>> Apps([FromRoute] Guid workSurfaceId)
+        [HttpGet("{workSurfaceId:guid}/{contextExternalId}")]
+        public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
         {
-            var workSurfaceDto = await Mediator.Send(new GetWorkSurfaceQuery(workSurfaceId));
+            if (contextExternalId != null)
+            {
+                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-            if (workSurfaceDto == null)
+                if (context == null)
+                {
+                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
+                }
+            }
+
+            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceWithAppsQuery(workSurfaceId, contextExternalId));
+
+            if (workSurfaceWithAppsDto == null)
             {
                 return FusionApiError.NotFound(workSurfaceId, "Could not find work surface");
             }
 
-            return new ApiWorkSurface(workSurfaceDto);
+            return new ApiWorkSurface(workSurfaceWithAppsDto);
         }
     }
 }
