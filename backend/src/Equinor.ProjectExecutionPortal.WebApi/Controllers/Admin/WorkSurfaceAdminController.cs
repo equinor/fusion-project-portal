@@ -13,9 +13,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
     public class WorkSurfaceAdminController : ApiControllerBase
     {
         [HttpPost("")]
-        public IActionResult CreateWorkSurface([FromBody] string name)
+        public async Task<ActionResult<Guid>> CreateWorkSurface([FromBody] ApiCreateWorkSurfaceRequest request)
         {
-            return Json($"{name} work surface created, NOT");
+            return await Mediator.Send(request.ToCommand());
         }
 
         [HttpPut("{workSurfaceId:guid}")]
@@ -55,6 +55,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
         [HttpDelete("{workSurfaceId:guid}/contexts/{contextExternalId}/apps/{appKey}")]
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
         {
+            // TODO: Removing global should come with a warning. E.g highlight affected contexts
+
             if (contextExternalId != null)
             {
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);

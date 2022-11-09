@@ -54,13 +54,15 @@ public class AddWorkSurfaceAppCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
             }
 
-            workSurface.AddApp(command.ContextExternalId != null && command.ContextType != null
+            var workSurfaceApp = command.ContextExternalId != null && command.ContextType != null
                 ? new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId, command.ContextExternalId, command.ContextType)
-                : new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId));
+                : new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId);
+
+            workSurface.AddApp(workSurfaceApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
-            return workSurface.Id;
+            return workSurfaceApp.Id;
         }
     }
 }

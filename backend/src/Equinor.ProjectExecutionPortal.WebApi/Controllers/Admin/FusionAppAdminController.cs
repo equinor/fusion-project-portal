@@ -9,7 +9,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/admin")]
-    public class FusionAppAppAdminController : ApiControllerBase
+    public class FusionAppAdminController : ApiControllerBase
     {
         [HttpGet("fusion-apps")]
         public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionPortalApiService fusionPortalApiService)

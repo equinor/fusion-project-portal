@@ -30,8 +30,6 @@ public class RemoveWorkSurfaceAppCommand : IRequest
 
         public async Task<Unit> Handle(RemoveWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
-            // TODO: Removing global should come with a warning. E.g highlight affected contexts
-
             if (command.ContextExternalId != null)
             {
                 await RemoveContextAppFromWorkSurface(command.WorkSurfaceId, command.ContextExternalId, command.AppKey, cancellationToken);
