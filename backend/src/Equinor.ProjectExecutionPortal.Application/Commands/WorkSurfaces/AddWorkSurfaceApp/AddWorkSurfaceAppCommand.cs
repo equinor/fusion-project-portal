@@ -36,6 +36,8 @@ public class AddWorkSurfaceAppCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(AddWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
+            // TODO: Do not add duplicates or if global already exist (what if a global is added after context specific have been added? Cleanup?)
+
             var workSurface = await _readWriteContext.Set<WorkSurface>()
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 

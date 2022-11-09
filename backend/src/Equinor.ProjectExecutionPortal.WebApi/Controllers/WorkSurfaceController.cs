@@ -22,7 +22,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{workSurfaceId:guid}")]
-        [HttpGet("{workSurfaceId:guid}/{contextExternalId}")]
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}")]
         public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
         {
             if (contextExternalId != null)

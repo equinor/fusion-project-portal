@@ -13,7 +13,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("{externalId}")]
         public async Task<ActionResult<FusionContext>> Context(string externalId)
         {
-            // E.g. FC5FFCBC-392F-4D7E-BB14-79A006579337
+            // External id eg: FC5FFCBC-392F-4D7E-BB14-79A006579337
             var contextIdentifier = ContextIdentifier.FromExternalId(externalId);
             var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 

@@ -32,7 +32,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
-        [HttpPost("{workSurfaceId:guid}/{contextExternalId}/apps")]
+        [HttpPost("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
         public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromBody] ApiAddWorkSurfaceAppRequest request)
         {
             if (contextExternalId == null)
@@ -52,7 +52,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
-        [HttpDelete("{workSurfaceId:guid}/{contextExternalId}/apps/{appKey}")]
+        [HttpDelete("{workSurfaceId:guid}/contexts/{contextExternalId}/apps/{appKey}")]
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
         {
             if (contextExternalId != null)

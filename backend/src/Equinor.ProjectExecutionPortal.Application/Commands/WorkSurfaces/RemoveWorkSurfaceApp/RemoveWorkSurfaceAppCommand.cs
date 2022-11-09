@@ -30,6 +30,8 @@ public class RemoveWorkSurfaceAppCommand : IRequest
 
         public async Task<Unit> Handle(RemoveWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
+            // TODO: Removing global should come with a warning. E.g highlight affected contexts
+
             if (command.ContextExternalId != null)
             {
                 await RemoveContextAppFromWorkSurface(command.WorkSurfaceId, command.ContextExternalId, command.AppKey, cancellationToken);
@@ -49,7 +51,7 @@ public class RemoveWorkSurfaceAppCommand : IRequest
             var entity = await _readWriteContext.Set<WorkSurfaceApp>()
                 .Include(x => x.OnboardedApp)
                 .FirstOrDefaultAsync(x =>
-                        x.Id == workSurfaceId
+                        x.WorkSurfaceId == workSurfaceId
                         && x.ExternalId == null // TODO: make nullable
                         && x.OnboardedApp.AppKey == appKey,
                     cancellationToken);
@@ -67,7 +69,7 @@ public class RemoveWorkSurfaceAppCommand : IRequest
             var entity = await _readWriteContext.Set<WorkSurfaceApp>()
             .Include(x => x.OnboardedApp)
             .FirstOrDefaultAsync(x =>
-                        x.Id == workSurfaceId
+                        x.WorkSurfaceId == workSurfaceId
                         && x.ExternalId == externalContextId
                         && x.OnboardedApp.AppKey == appKey,
                 cancellationToken);
