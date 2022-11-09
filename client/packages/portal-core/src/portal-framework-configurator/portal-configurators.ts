@@ -7,6 +7,10 @@ export function addPortalClient(config: FusionConfigurator, client: Client) {
   config.configureHttpClient('portal-client', client);
 }
 
+export function addWidgetClient(config: FusionConfigurator, client: Client) {
+  config.configureHttpClient('widget-client', client);
+}
+
 export function addAgGrid(
   config: FusionConfigurator,
   ...args: Parameters<typeof configureAgGrid>

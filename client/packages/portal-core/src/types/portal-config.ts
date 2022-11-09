@@ -10,6 +10,9 @@ export interface PortalConfig {
   portalClient: {
     client: Client;
   };
+  widgetClient: {
+    client: Client;
+  };
   masal: {
     client: AuthClientOptions;
     options: {
