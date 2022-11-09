@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
+namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
-    [Route("api/admin")]
-    public class FusionAppAdminController : ApiControllerBase
+    [Route("api")]
+    public class FusionAppController : ApiControllerBase
     {
         [HttpGet("fusion-apps")]
         public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionPortalApiService fusionPortalApiService)

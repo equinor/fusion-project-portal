@@ -1,7 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.CreateWorkSurface;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Admin
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
     public class ApiCreateWorkSurfaceRequest
     {

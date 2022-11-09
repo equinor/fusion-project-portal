@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.Controllers.Admin
+namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
-    [Route("api/admin/onboarded-apps")]
-    public class OnboardedAppAdminController : ApiControllerBase
+    [Route("api/onboarded-apps")]
+    public class OnboardedAppController : ApiControllerBase
     {
         [HttpGet("")]
         public async Task<ActionResult<IList<ApiOnboardedApp>>> OnboardedApps()
