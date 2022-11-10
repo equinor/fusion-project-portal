@@ -17,7 +17,7 @@ public class RemoveWorkSurfaceAppCommand : IRequest
 
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
-    public string AppKey { get; set; }
+    public string AppKey { get; }
 
     public class Handler : IRequestHandler<RemoveWorkSurfaceAppCommand>
     {

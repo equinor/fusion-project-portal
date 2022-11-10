@@ -7,15 +7,17 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
     {
         public ApiWorkSurfaceAppGroup(WorkSurfaceAppGroupDto workSurfaceAppGroupDto)
         {
+            Id = workSurfaceAppGroupDto.Id;
             Name = workSurfaceAppGroupDto.Name;
             Order = workSurfaceAppGroupDto.Order;
             AccentColor = workSurfaceAppGroupDto.AccentColor;
             Apps = workSurfaceAppGroupDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList(); 
         }
 
-        public string Name { get; set; }
-        public int Order { get; set; }
-        public string AccentColor { get; set; }
-        public List<ApiWorkSurfaceApp> Apps { get; set; }
+        public Guid Id { get; }
+        public string Name { get; }
+        public int Order { get; }
+        public string AccentColor { get; }
+        public List<ApiWorkSurfaceApp> Apps { get; }
     }
 }

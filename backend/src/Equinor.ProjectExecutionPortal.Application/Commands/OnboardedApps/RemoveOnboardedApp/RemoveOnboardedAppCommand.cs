@@ -13,7 +13,7 @@ public class RemoveOnboardedAppCommand : IRequest
         AppKey = appKey;
     }
 
-    public string AppKey { get; set; }
+    public string AppKey { get; }
 
     public class Handler : IRequestHandler<RemoveOnboardedAppCommand>
     {

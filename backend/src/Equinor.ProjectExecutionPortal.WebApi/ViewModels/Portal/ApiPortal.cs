@@ -12,8 +12,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
             WorkSurfaces = portalDto.WorkSurfaces.Select(x => new ApiWorkSurface(x)).ToList();
         }
 
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public List<ApiWorkSurface> WorkSurfaces { get; set; }
+        public string Name { get; }
+        public string Description { get; }
+        public List<ApiWorkSurface> WorkSurfaces { get; }
     }
 }

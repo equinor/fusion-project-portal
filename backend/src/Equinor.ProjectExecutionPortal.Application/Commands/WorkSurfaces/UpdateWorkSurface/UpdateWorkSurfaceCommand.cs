@@ -21,10 +21,10 @@ public class UpdateWorkSurfaceCommand : IRequest<Guid>
 
     public Guid Id { get; }
     public string Name { get; }
-    public string ShortName { get; set; }
-    public string SubText { get; set; }
-    public int Order { get; set; }
-    public string Icon { get; set; }
+    public string ShortName { get; }
+    public string SubText { get; }
+    public int Order { get; }
+    public string Icon { get; }
 
     public class Handler : IRequestHandler<UpdateWorkSurfaceCommand, Guid>
     {

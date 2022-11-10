@@ -107,5 +107,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{workSurfaceId:guid}/app-groups/order")]
+        public async Task<ActionResult<Guid>> UpdateAppGroupOrder([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateAppGroupsOrderRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
     }
 }

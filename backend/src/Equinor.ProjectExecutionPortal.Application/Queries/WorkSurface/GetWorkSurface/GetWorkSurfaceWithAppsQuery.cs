@@ -16,8 +16,8 @@ public class GetWorkSurfaceWithAppsQuery : QueryBase<WorkSurfaceDto?>
         ContextExternalId = contextExternalId;
     }
 
-    public Guid WorkSurfaceId { get; set; }
-    public string? ContextExternalId { get; set; }
+    public Guid WorkSurfaceId { get; }
+    public string? ContextExternalId { get; }
 
     public class Handler : IRequestHandler<GetWorkSurfaceWithAppsQuery, WorkSurfaceDto?>
     {

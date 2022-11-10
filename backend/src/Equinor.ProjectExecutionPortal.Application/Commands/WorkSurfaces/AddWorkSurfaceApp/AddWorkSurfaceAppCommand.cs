@@ -21,9 +21,9 @@ public class AddWorkSurfaceAppCommand : IRequest<Guid>
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
     public string? ContextType { get; }
-    public string AppKey { get; set; }
-    public Guid? AppGroupId { get; set; }
-    public int Order { get; set; }
+    public string AppKey { get; }
+    public Guid? AppGroupId { get; }
+    public int Order { get; }
 
     public class Handler : IRequestHandler<AddWorkSurfaceAppCommand, Guid>
     {

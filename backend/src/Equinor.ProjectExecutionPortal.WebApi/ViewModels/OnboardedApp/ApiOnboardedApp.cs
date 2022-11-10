@@ -9,6 +9,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
             AppKey = onboardedAppDto.AppKey;
         }
 
-        public string AppKey { get; set; }
+        public string AppKey { get; }
     }
 }
