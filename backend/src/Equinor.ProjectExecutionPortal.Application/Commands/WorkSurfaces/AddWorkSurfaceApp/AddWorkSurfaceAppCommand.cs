@@ -36,9 +36,8 @@ public class AddWorkSurfaceAppCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(AddWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
-            // TODO: Do not add duplicates or if global already exist (what if a global is added after context specific have been added? Cleanup?)
-
             var workSurface = await _readWriteContext.Set<WorkSurface>()
+                .Include(x => x.Apps)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurface == null)
@@ -47,11 +46,17 @@ public class AddWorkSurfaceAppCommand : IRequest<Guid>
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
 
             if (onboardedApp == null)
             {
                 throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
+            }
+
+            if (workSurface.Apps.Any(x => x.OnboardedAppId == onboardedApp.Id))
+            {
+                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }
 
             var workSurfaceApp = command.ContextExternalId != null && command.ContextType != null
