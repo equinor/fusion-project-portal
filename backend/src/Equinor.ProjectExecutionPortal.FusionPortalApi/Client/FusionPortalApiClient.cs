@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -30,29 +29,45 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
 
     public async Task<T> TryQueryAndDeserializeAsync<T>(string url) => await QueryAndDeserializeAsync<T>(url, true);
 
-    public async Task<byte[]> TryQueryAsByteArrayAsync(string url)
-    {
-        var queryResult = await QueryAsync(url, true);
-        var result = await queryResult.Content.ReadAsByteArrayAsync();
-
-        return result;
-    }
+    public async Task<T> QueryAndDeserializeAsync<T>(string url) => await QueryAndDeserializeAsync<T>(url, false);
 
     private async Task<T> QueryAndDeserializeAsync<T>(string url, bool tryGet)
     {
-        var queryResult = await QueryAsync(url, tryGet);
-        var stringResult = await queryResult.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<T>(stringResult);
-
-        if (result == null)
+        if (string.IsNullOrEmpty(url))
         {
-            throw new NotFoundException($"Requesting '{url}' resulted in null");
+            throw new ArgumentNullException(nameof(url));
         }
 
+        if (url.Length > 2000)
+        {
+            throw new ArgumentException("url exceed max 2000 characters", nameof(url));
+        }
+
+        var httpClient = await CreateHttpClientAsync();
+
+        var stopWatch = Stopwatch.StartNew();
+        var response = await httpClient.GetAsync(url);
+        stopWatch.Stop();
+
+        var msg = $"{stopWatch.Elapsed.TotalSeconds}s elapsed when requesting '{url}'. Status: {response.StatusCode}";
+        if (!response.IsSuccessStatusCode)
+        {
+            if (tryGet && response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogWarning(msg);
+                return default;
+            }
+            _logger.LogError(msg);
+            throw new Exception($"Requesting '{url}' was unsuccessful. Status={response.StatusCode}");
+        }
+
+        _logger.LogInformation(msg);
+        var jsonResult = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<T>(jsonResult);
         return result;
     }
 
-    private async Task<HttpResponseMessage> QueryAsync(string url, bool tryGet)
+    public async Task<byte[]> TryQueryAsByteArrayAsync(string url)
     {
         if (string.IsNullOrEmpty(url))
         {
@@ -74,7 +89,7 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
 
         if (!response.IsSuccessStatusCode)
         {
-            if (tryGet && response.StatusCode == HttpStatusCode.NotFound)
+            if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 _logger.LogWarning(msg);
                 return default;
@@ -85,7 +100,7 @@ public class FusionPortalApiClient : IBearerTokenFusionPortalApiClient
 
         _logger.LogInformation(msg);
 
-        return response;
+        return await response.Content.ReadAsByteArrayAsync();
     }
 
     private async ValueTask<HttpClient> CreateHttpClientAsync()

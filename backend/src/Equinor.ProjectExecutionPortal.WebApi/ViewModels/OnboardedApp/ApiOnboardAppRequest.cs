@@ -1,6 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.OnboardApp;
 using FluentValidation;
-using StackExchange.Redis;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {

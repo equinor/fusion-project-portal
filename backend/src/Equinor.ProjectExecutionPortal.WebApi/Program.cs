@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.WebApi;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
+using FluentValidation.AspNetCore;
 using Fusion.Integration;
 using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -68,6 +69,11 @@ builder.Services.AddControllers(config =>
         config.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+builder.Services.AddFluentValidation(c =>
+ {
+     c.RegisterValidatorsFromAssemblyContaining<Program>();
+ });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,18 +1,16 @@
 ﻿using System.Reflection;
 using Equinor.ProjectExecutionPortal.Application;
 using Equinor.ProjectExecutionPortal.Application.Events.Common;
-using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.FusionPortalApi;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Client;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Client;
@@ -46,6 +44,7 @@ public static class ApplicationModule
         services.AddHttpContextAccessor();
         services.AddMediatR(applicationAssembly);
         services.AddAutoMapper(applicationAssembly);
+        services.AddValidatorsFromAssembly(applicationAssembly);
 
         // Transient - Created each time it is requested from the service container
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
@@ -65,20 +64,8 @@ public static class ApplicationModule
         services.AddScoped<ContextProvider>();
         services.AddScoped<IContextProvider>(x => x.GetRequiredService<ContextProvider>());
         services.AddScoped<IContextSetter>(x => x.GetRequiredService<ContextProvider>());
-        
-        // Services
 
-        services.AddScoped<IAppService, AppService>();
-
-        // Integrations
-
-        services.AddScoped<IBearerTokenFusionPortalApiClient, FusionPortalApiClient>();
-        services.AddScoped<IFusionPortalApiService, FusionPortalApiService>();
-
-        // Validators
-
-        // Authorization handlers
-
-        // Singleton - Created the first time they are requested
+        services.AddApplicationServicesModules();
+        services.AddApplicationIntegrationsModule();
     }
 }

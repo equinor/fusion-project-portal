@@ -15,6 +15,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             _fusionPortalApiService = fusionPortalApiService;
         }
 
+        public async Task<bool> AppExist(string appKey, CancellationToken cancellationToken)
+        {
+            var fusionApp = await _fusionPortalApiService.TryGetFusionPortalApp(appKey);
+
+            return fusionApp != null;
+        }
+
         public async Task<IList<WorkSurfaceAppDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceAppDto> apps, CancellationToken cancellationToken)
         {
             var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
