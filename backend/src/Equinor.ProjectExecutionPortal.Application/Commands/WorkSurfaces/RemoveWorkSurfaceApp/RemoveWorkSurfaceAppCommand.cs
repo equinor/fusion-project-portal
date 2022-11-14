@@ -50,7 +50,7 @@ public class RemoveWorkSurfaceAppCommand : IRequest
                 .Include(x => x.OnboardedApp)
                 .FirstOrDefaultAsync(x =>
                         x.WorkSurfaceId == workSurfaceId
-                        && x.ExternalId == null // TODO: make nullable
+                        && x.ExternalId == null
                         && x.OnboardedApp.AppKey == appKey,
                     cancellationToken);
 

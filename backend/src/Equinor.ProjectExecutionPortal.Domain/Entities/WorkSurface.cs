@@ -69,7 +69,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     {
         _appGroups.Add(group);
     }
-
+    
     public void ReorderAppGroups(List<Guid> reorderedAppGroupIds)
     {
         foreach (var (orderedAppGroupId, index) in reorderedAppGroupIds.Select((value, i) => (value, i)))
