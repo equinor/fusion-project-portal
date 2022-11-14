@@ -71,18 +71,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             if (contextExternalId == null)
             {
-                return await Mediator.Send(request.ToCommand(workSurfaceId, null, null));
+                await Mediator.Send(request.ToCommand(workSurfaceId, null, null));
             }
-
-            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-            if (context == null)
+            else
             {
-                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
+                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+                if (context == null)
+                {
+                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
+                }
+
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, context.Type));
             }
 
-            return await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, context.Type));
+            return NoContent();
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
