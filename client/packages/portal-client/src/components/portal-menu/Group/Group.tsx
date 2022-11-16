@@ -13,10 +13,15 @@ type GroupProps = {
 };
 export const Group = ({ group }: GroupProps) => {
   return (
-    <StyledGroup>
+    <StyledGroup id={`groupe-${group.name}`}>
       <ColorTab color={group.accentColor} />
       <StyledGroupBody>
-        <StyledMenuGroupName>{group.name}</StyledMenuGroupName>
+        <StyledMenuGroupName
+          id={`groupe-${group.name}-name`}
+          title={group.name}
+        >
+          {group.name}
+        </StyledMenuGroupName>
         <StyledChildrenWrapper>
           {group.apps.map((child) => (
             <AppCard

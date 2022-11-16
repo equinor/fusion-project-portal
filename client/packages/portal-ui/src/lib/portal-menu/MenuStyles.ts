@@ -32,6 +32,9 @@ export const MenuScrim = styled(Scrim)`
 
 export const MenuWrapper = styled.div`
   max-height: 100% !important;
+  display: 'flex';
+  flex-direction: 'column';
+  gap: '1.2em';
   height: calc(100vh - 48px);
   position: absolute;
   width: 50vw;

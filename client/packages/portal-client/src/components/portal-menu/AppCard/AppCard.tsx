@@ -24,6 +24,8 @@ export const AppCard = ({ name, appKey }: AppCardProps) => {
 
   return (
     <StyledAppCard
+      id={`${appKey}-button`}
+      title={`Application button for the application ${name}`}
       onClick={() => {
         toggleMenu();
         navigate(`/apps/${appKey}`);
@@ -31,7 +33,12 @@ export const AppCard = ({ name, appKey }: AppCardProps) => {
     >
       <div>{name}</div>
       <StyledIcon
-        onClick={() => menuFavoritesController.onClickFavorite(appKey)}
+        id={`${appKey}-favorite-button`}
+        title={`App favorite button for ${name}`}
+        onClick={(event) => {
+          event.stopPropagation();
+          menuFavoritesController.onClickFavorite(appKey);
+        }}
         name={isFavorited ? 'star_filled' : 'star_outlined'}
       />
     </StyledAppCard>
@@ -40,9 +47,12 @@ export const AppCard = ({ name, appKey }: AppCardProps) => {
 const StyledIcon = styled(Icon)`
   visibility: hidden;
 `;
-const StyledAppCard = styled.div`
+const StyledAppCard = styled.button`
+  background: none;
+  border: none;
   height: 24px;
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
