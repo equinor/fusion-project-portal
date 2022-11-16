@@ -5,6 +5,7 @@ import {
   addAgGrid,
   addAppLoader,
   addPortalClient,
+  configurePortalContext,
 } from '../portal-framework-configurator/portal-configurators';
 
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
@@ -32,6 +33,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     });
 
     config.onInitialized(async (fusion) => {
+      configurePortalContext(fusion.context);
+
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
       console.debug('📒 subscribing to all events');

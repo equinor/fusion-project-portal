@@ -5,7 +5,7 @@ export function appsMatchingSearch(groups: AppGroup[], searchText?: string) {
   return groups
     .map((group) => ({
       ...group,
-      applications: group.applications.filter((group) =>
+      applications: group.apps.filter((group) =>
         group.appKey.toLowerCase().includes(searchText)
       ),
     }))
