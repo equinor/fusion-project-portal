@@ -24,8 +24,8 @@ export function setContextHistory(context: ContextHistoryItem) {
       moveItemToTopByIndex(storedContextHistory, currentContextIndex)
     );
   } else {
-    const contextHistory = [];
-    contextHistory.unshift(context, ...storedContextHistory);
+    const contextHistory = [context, ...storedContextHistory];
+
     storage.setItem(
       CONTEXT_HISTORY_SOCAGE_KEY,
       contextHistory.slice(0, getContextHistoryLength() - 1)

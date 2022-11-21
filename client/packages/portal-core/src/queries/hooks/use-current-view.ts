@@ -6,7 +6,7 @@ import { getViewById } from '../portal';
 export const useCurrentView = () => {
   const id = useViewController().currentView?.id;
   const currentContext = useFrameworkCurrentContext();
-  console.table(currentContext);
+
   const client = usePortalClient();
 
   return useQuery({

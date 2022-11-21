@@ -8,7 +8,6 @@ export async function getViewById(
   contextExternalId?: string
 ): Promise<View | undefined> {
   try {
-    console.log(viewId, contextExternalId);
     if (!viewId) return undefined;
     let uri = `/api/work-surfaces/${viewId}`;
 
