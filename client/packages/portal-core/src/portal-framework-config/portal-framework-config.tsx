@@ -5,6 +5,7 @@ import {
   addAgGrid,
   addAppLoader,
   addPortalClient,
+  configurePortalContext,
 } from '../portal-framework-configurator/portal-configurators';
 
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
@@ -24,7 +25,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     addPortalClient(config, portalConfig.portalClient.client);
 
     addAppLoader(config, (moduleId: string) => {
-      return 'https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/test-app.js';
+      return `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${
+        moduleId === 'test-app' ? 'test-app' : 'handover'
+      }`;
     });
 
     config.onConfigured(() => {
@@ -32,6 +35,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     });
 
     config.onInitialized(async (fusion) => {
+      configurePortalContext(fusion.context);
+
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
       console.debug('📒 subscribing to all events');

@@ -1,4 +1,4 @@
-import { useViewController } from '@equinor/portal-core';
+import { PortalContextSelector, useViewController } from '@equinor/portal-core';
 import { FullPageLoading } from '@equinor/portal-ui';
 import { StyledBackgroundSection, StyledMain } from '../common-styles/Styles';
 import { StyledContentSection, StyledContentWrapper } from './ViewPage.Styles';
@@ -18,6 +18,7 @@ export const CurrentViewPage = (): JSX.Element => {
         <StyledContentSection>
           <PasePageHeader {...currentView} />
           <StyledContentWrapper>
+            <PortalContextSelector />
             <ViewSelector {...{ currentView, views, setViewId }} />
           </StyledContentWrapper>
         </StyledContentSection>

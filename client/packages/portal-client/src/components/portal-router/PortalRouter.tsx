@@ -1,4 +1,4 @@
-import { CurrentViewPage } from '@equinor/portal-pages';
+import { ContextPage, CurrentViewPage } from '@equinor/portal-pages';
 import { useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLoader } from '../app-loader/AppLoader';
@@ -14,6 +14,10 @@ export function PortalRouter() {
           {
             path: '/',
             element: <CurrentViewPage />,
+          },
+          {
+            path: '/:contextId',
+            element: <ContextPage />,
           },
           { path: `/apps/:appKey/*`, element: <AppLoader /> },
         ],
