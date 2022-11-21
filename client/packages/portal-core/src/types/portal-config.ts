@@ -1,9 +1,13 @@
 import { AuthClientOptions } from '@equinor/fusion-framework-module-msal';
+import { View } from './view';
 
 export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
 
 export interface PortalConfig {
   serviceDiscovery: {
+    client: Client;
+  };
+  portalClient: {
     client: Client;
   };
   masal: {
@@ -29,18 +33,7 @@ export interface PortalConfig {
   agGrid?: {
     licenseKey: string;
   };
-  phases?: Phase[];
-}
-
-/**
- * The type for a phase, to be served from backend
- */
-export interface Phase {
-  id: string;
-  title: string;
-  description: string;
-  icon: string | React.FC;
-  active?: boolean;
+  views?: View[];
 }
 
 export interface Client {

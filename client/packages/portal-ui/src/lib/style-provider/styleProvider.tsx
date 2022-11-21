@@ -3,6 +3,8 @@ import * as icons from '@equinor/eds-icons';
 import { GlobalColorStyle } from './globalColors';
 import { GlobalStyle } from './globalStyles';
 
+import { theme, ThemeProvider } from '@equinor/fusion-react-styles';
+
 /** Consider adding the icons you use, Icons used:
  *  - menu
  *
@@ -16,10 +18,12 @@ const compact = 'compact';
 export function StyleProvider({ children }: React.PropsWithChildren) {
   return (
     <EdsProvider>
-      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
 
-      <GlobalColorStyle />
-      {children}
+        <GlobalColorStyle />
+        {children}
+      </ThemeProvider>
     </EdsProvider>
   );
 }

@@ -2,9 +2,7 @@ import { Icon, Popover } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { useRef, useState } from 'react';
 import { useCurrentUser } from '@equinor/fusion-framework-react/hooks';
-import { useObservable } from '@equinor/portal-utils';
 import { getPresenceInfo } from './parsePresenceStatus';
-import { getPresence$ } from './presence-observable';
 import {
   StyledInfoText,
   StyledStatusIconOverAvatar,
@@ -12,6 +10,7 @@ import {
   StyledWrapper,
   StyledPresence,
 } from './top-bar-avatar.styles';
+import { usePresence } from '../queries';
 
 export const TopBarAvatar = (): JSX.Element | null => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,12 +22,20 @@ export const TopBarAvatar = (): JSX.Element | null => {
   const close = () => setIsOpen(false);
   const user = useCurrentUser();
 
-  const presence = useObservable(getPresence$(user?.localAccountId ?? ''));
+  const { data, isLoading, error } = usePresence();
 
-  const presenceInfo = getPresenceInfo(presence?.availability);
+  if (isLoading) {
+    return (
+      <Icon
+        color={tokens.colors.interactive.primary__resting.hex}
+        name="account_circle"
+      />
+    );
+  }
+  //TODO: make component
+  if (error || !data) return <div>Error</div>;
 
-  if (!user) return null;
-
+  const presenceInfo = getPresenceInfo(data.availability);
   return (
     <div>
       <div style={{ position: 'relative' }} ref={ref} onClick={open}>
@@ -46,7 +53,7 @@ export const TopBarAvatar = (): JSX.Element | null => {
           <StyledWrapper>
             <div>
               <StyledInfoText>Signed in as</StyledInfoText>
-              <StyledUserName>{user.username}</StyledUserName>
+              <StyledUserName>{user?.username}</StyledUserName>
               <StyledPresence>
                 <div>{presenceInfo.icon} </div>
                 <div>{presenceInfo.status}</div>

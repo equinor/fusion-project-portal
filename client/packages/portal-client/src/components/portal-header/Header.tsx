@@ -1,12 +1,31 @@
 import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import { phaseController } from 'packages/portal-core/src/phases/phases';
-import { TopBarAvatar } from '../../../../portal-core/src';
+import {
+  TopBarAvatar,
+  useViewController,
+  useMenuItems,
+} from '@equinor/portal-core';
+import { useNavigate } from 'react-router-dom';
+import { appMounted } from '@equinor/portal-utils';
 import { PortalBreadcrumbs } from '../portal-breadcrumbs/PortalBreadcrumbs';
 
 export function Header() {
+  const { getId, setViewId } = useViewController();
+  const navigate = useNavigate();
+  useMenuItems();
+
+  const handleLogoClick = () => {
+    const id = getId();
+    if (appMounted() && id) {
+      setViewId(id);
+    } else {
+      setViewId(undefined);
+    }
+    navigate('/');
+  };
+
   return (
     <PortalHeader
-      onLogoClick={phaseController.clearSelectedPhase}
+      onLogoClick={handleLogoClick}
       MenuButton={MenuButton}
       title="Project Portal"
       Navigation={PortalBreadcrumbs}

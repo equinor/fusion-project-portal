@@ -1,11 +1,13 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
+import { QueryClientProvider } from 'react-query';
 import PortalApp from './components/portal-app/PortalApp';
 import * as portalConfig from './portal.config.json';
-import { QueryClientProvider } from 'react-query';
 
+import Framework from '@equinor/fusion-framework-react';
 import { createPortalFramework } from '@equinor/portal-core';
+import { PortalProgressLoader } from './components/portal-progress-loader/PortalProgressLoader';
 import { queryClient } from './utils/queryClient/query-client';
 
 const root = ReactDOM.createRoot(
@@ -13,12 +15,13 @@ const root = ReactDOM.createRoot(
 );
 
 document.title = `${portalConfig.title} | Fusion`;
-const Framework = createPortalFramework(portalConfig.config);
+
+const configure = createPortalFramework(portalConfig.config);
 
 root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Framework>
+      <Framework configure={configure} fallback={<PortalProgressLoader />}>
         <PortalApp />
       </Framework>
     </QueryClientProvider>
