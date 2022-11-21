@@ -15,4 +15,5 @@ export const StyledPaseSectionWrapper = styled.section`
 
 export const StyledViewSelectorWrapper = styled.div`
   display: flex;
+  padding-top: 1rem;
 `;

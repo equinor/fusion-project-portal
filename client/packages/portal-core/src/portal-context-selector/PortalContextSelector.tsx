@@ -1,3 +1,4 @@
+import { Button } from '@equinor/eds-core-react';
 import ContextSelector, {
   ContextResult,
 } from '@equinor/fusion-react-context-selector';
@@ -27,6 +28,10 @@ interface ContextEvent {
   };
 }
 
+const StyledNavigationButton = styled(Button)`
+  margin-bottom: 1rem;
+`;
+
 export const PortalContextSelector = () => {
   const resolver = useContextResolver(['Facility', 'ProjectMaster']);
   const { contextClient } = useFrameworkContext();
@@ -36,10 +41,16 @@ export const PortalContextSelector = () => {
 
   return (
     <div>
+      {currentContext && (
+        <StyledNavigationButton
+          onClick={() => navigate(`./${currentContext.id}`)}
+        >
+          Go to {currentContext?.title}
+        </StyledNavigationButton>
+      )}
       <StyledContextSelector
         resolver={resolver}
         ref={searchRef}
-        // label="Context Selector"
         initialText="Type to search..."
         onSelect={(e: ContextEvent) => {
           e.stopPropagation();
@@ -47,12 +58,6 @@ export const PortalContextSelector = () => {
           navigate(`./${e.nativeEvent.detail.selected[0].id}`);
         }}
       />
-      <div>
-        <label>current context:</label>
-        <p>
-          <b>{currentContext?.title}</b>
-        </p>
-      </div>
     </div>
   );
 };

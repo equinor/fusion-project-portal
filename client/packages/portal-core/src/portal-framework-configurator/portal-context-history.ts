@@ -28,7 +28,7 @@ export function setContextHistory(context: ContextHistoryItem) {
     contextHistory.unshift(context, ...storedContextHistory);
     storage.setItem(
       CONTEXT_HISTORY_SOCAGE_KEY,
-      contextHistory.slice(0, getContextHistoryLength())
+      contextHistory.slice(0, getContextHistoryLength() - 1)
     );
   }
 }
@@ -59,5 +59,5 @@ export function getContextHistoryLength(): number {
     storage.getItem<string>(CONTEXT_HISTORY_LENGTH_KEY) ||
     CONTEXT_HISTORY_LENGTH;
 
-  return Number(contextHistoryLength);
+  return Number(contextHistoryLength) > 5 ? 5 : Number(contextHistoryLength);
 }

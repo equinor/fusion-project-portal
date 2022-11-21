@@ -36,6 +36,11 @@ export const StyledGridItem = styled(Card)<{
 
 export const ContextPage = () => {
   const currentContext = useFrameworkCurrentContext();
+
+  // if (!currentContext?.id) {
+  //   return <Navigate to="/" />;
+  // }
+
   return (
     <StyledMain>
       <StyledBackground />
