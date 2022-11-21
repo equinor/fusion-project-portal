@@ -16,11 +16,9 @@ export const ViewSelector = ({
 }: ViewSelectorProps) => {
   return (
     <StyledViewSelectorWrapper>
-      {currentView &&
-        views.map((view) => {
-          if (view.key === currentView.key) {
-            return <div key={view.id}></div>;
-          }
+      {views
+        .filter((view) => view.key !== currentView.key)
+        .map((view) => {
           return (
             <Button
               key={view.key}
