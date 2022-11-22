@@ -1,8 +1,27 @@
-import { useObservable } from '@equinor/portal-utils';
-import { phaseController } from 'packages/portal-core/src/phases/phases';
+import { Breadcrumbs } from '@equinor/eds-core-react';
+import {
+  PortalTopBarContextSelector,
+  useViewController,
+} from '@equinor/portal-core';
+import styled from 'styled-components';
+
+const StyledBreadcrumbs = styled(Breadcrumbs)`
+  > ol {
+    align-items: center;
+  }
+`;
 
 export const PortalBreadcrumbs = () => {
-  const phase = useObservable(phaseController.currentPhase$);
-  if (!phase) return null;
-  return <div style={{ fontWeight: 500 }}>/ {phase?.title}</div>;
+  const { currentView } = useViewController();
+
+  return (
+    <StyledBreadcrumbs>
+      <Breadcrumbs.Breadcrumb>Project Portal</Breadcrumbs.Breadcrumb>
+      {currentView && (
+        <Breadcrumbs.Breadcrumb>{currentView.name}</Breadcrumbs.Breadcrumb>
+      )}
+      <Breadcrumbs.Breadcrumb>App Name</Breadcrumbs.Breadcrumb>
+      <PortalTopBarContextSelector />
+    </StyledBreadcrumbs>
+  );
 };

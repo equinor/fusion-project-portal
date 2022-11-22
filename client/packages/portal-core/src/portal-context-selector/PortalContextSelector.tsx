@@ -10,6 +10,7 @@ import {
   useFrameworkContext,
   useFrameworkCurrentContext,
 } from '../hooks';
+import './style.css';
 
 const StyledContextSelector = styled(ContextSelector)``;
 
@@ -33,7 +34,7 @@ const StyledNavigationButton = styled(Button)`
 `;
 
 export const PortalContextSelector = () => {
-  const resolver = useContextResolver(['Facility', 'ProjectMaster']);
+  const resolver = useContextResolver(['ProjectMaster']);
   const { contextClient } = useFrameworkContext();
   const currentContext = useFrameworkCurrentContext();
   const navigate = useNavigate();
@@ -59,5 +60,36 @@ export const PortalContextSelector = () => {
         }}
       />
     </div>
+  );
+};
+
+const StyledTopBarContextSelector = styled(ContextSelector)`
+  > fwc-textinput {
+    background: red !important;
+  }
+  > fwc-textinput > .mdc-text-field {
+    background: red !important;
+    border: none !important;
+  }
+`;
+
+export const PortalTopBarContextSelector = () => {
+  const resolver = useContextResolver(['ProjectMaster']);
+  const { contextClient } = useFrameworkContext();
+
+  const navigate = useNavigate();
+  const searchRef = useRef();
+
+  return (
+    <StyledTopBarContextSelector
+      resolver={resolver}
+      ref={searchRef}
+      initialText="Type to search..."
+      onSelect={(e: ContextEvent) => {
+        e.stopPropagation();
+        contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
+        navigate(`./${e.nativeEvent.detail.selected[0].id}`);
+      }}
+    />
   );
 };
