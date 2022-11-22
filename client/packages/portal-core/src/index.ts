@@ -5,4 +5,5 @@ export * from './menu';
 export * from './portal-context-selector/PortalContextSelector';
 export * from './portal-framework-config';
 export * from './queries';
+export * from './top-bar-actions';
 export * from './types';
