@@ -16,6 +16,16 @@ An application for managing projects.
    1. Azure AppConfiguration is configed by default. You will have to specify AppConfig connection string to use it. Otherwise you will need to set up `secrets.json` to reflet the whole `appSettings.json`.
    2. Add your database connection string
 
+### Nuget Feeds
+
+Some Fusion specific packages is only available on the Fusion nuget feed and must be referenced.
+
+For more info: https://statoil-proview.visualstudio.com/Fusion%20-%20Packages/_artifacts/feed/Fusion-Public/connect
+
+Make sure you have the following feeds:
+
+- Nuget feed: https://api.nuget.org/v3/index.json
+- Fusion-Public feed:https://statoil-proview.pkgs.visualstudio.com/5309109e-a734-4064-a84c-fbce45336913/_packaging/Fusion-Public/nuget/v3/index.json
 
 ## Technical
 
