@@ -22,7 +22,6 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code.
-- [ ] I have linked my DevOps task using the AB# tag.
 - [ ] My code is easy to read.
 - [ ] Documentation and comments is added where needed.
 - [ ] My code is covered by tests.
