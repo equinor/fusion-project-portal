@@ -31,7 +31,7 @@ public class OnboardAppCommand : IRequest<Guid>
         {
             if (!await _appService.AppExist(command.AppKey, cancellationToken))
             {
-                throw new NotFoundException($"{command.AppKey} does not exist.");
+                throw new NotFoundException($"Could not locate app '{command.AppKey}' in Fusion.");
             }
 
             var existingOnboardedApp = await _readWriteContext.Set<OnboardedApp>()

@@ -108,3 +108,6 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+
+// Used for tests
+public partial class Program { }
