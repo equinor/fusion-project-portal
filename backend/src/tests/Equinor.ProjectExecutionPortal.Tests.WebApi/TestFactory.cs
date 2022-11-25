@@ -24,11 +24,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private readonly string _configPath;
         private readonly List<Action> _teardownList = new();
         private readonly List<IDisposable> _disposables = new();
-
         private readonly Mock<IFusionPortalApiService> _fusionPortalApiServiceMock = new();
-
         public static Dictionary<UserType, ITestUser> TestUsersDictionary = new();
-
         private static TestFactory? _sInstance;
         private static readonly object _sPadlock = new();
 
@@ -201,7 +198,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                 .Returns(Task.FromResult(new List<ApiFusionPortalAppInformation>() as IList<ApiFusionPortalAppInformation>));
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
-                .Returns(Task.FromResult(FusionPortalAppsData.FusionApps.FirstOrDefault()));
+                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));
         }
 
         private void SetupTestUsers()

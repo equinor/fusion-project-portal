@@ -14,85 +14,165 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         private const string Route = "api/onboarded-apps";
 
         [TestMethod]
-        public async Task Get_OnboardedApps_AsAuthenticatedUser_ShouldReturnOk() => await AssertGetOnboardedApps(UserType.Authenticated);
+        public async Task Get_OnboardedApps_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Act
+            var response = await GetAllOnboardedApps(UserType.Authenticated);
+            var content = await response.Content.ReadAsStringAsync();
+            var onboardedApps = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsNotNull(content);
+            Assert.IsNotNull(onboardedApps);
+            Assert.IsTrue(onboardedApps.Count > 0);
+            Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
+        }
 
         [TestMethod]
-        public async Task Get_OnboardedApps_AsAnonymous_ShouldReturnUnauthorized() => await AssertGetOnboardedApps(UserType.Anonymous, HttpStatusCode.Unauthorized);
+        public async Task Get_OnboardedApps_AsAnonymous_ShouldReturnUnauthorized()
+        {
+            // Act
+            var response = await GetAllOnboardedApps(UserType.Anonymous);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
 
         [TestMethod]
         public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
+            // Arrange
             var addOnboardedAppPayload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app"
             };
 
-            var serializePayload = JsonConvert.SerializeObject(addOnboardedAppPayload);
-            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+            // Act
+            var response = await AddOnboardedApp(UserType.Authenticated, addOnboardedAppPayload);
 
-            await AssertAddOnboardedApp(UserType.Authenticated, content);
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
-        //[TestMethod] // TODO: Mock service must accept dynamic values
-        //public async Task Add_Invalid_OnboardedApp_AsAuthenticatedUser_ShouldThrowExeption()
-        //{
-        //    var addOnboardedAppPayload = new ApiOnboardAppRequest
-        //    {
-        //        AppKey = "i-do-not-exist"
-        //    };
+        [TestMethod]
+        public async Task Add_Valid_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var addOnboardedAppPayload = new ApiOnboardAppRequest
+            {
+                AppKey = "test-app"
+            };
 
-        //    var serializePayload = JsonConvert.SerializeObject(addOnboardedAppPayload);
-        //    var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+            // Act
+            var response = await AddOnboardedApp(UserType.Anonymous, addOnboardedAppPayload);
 
-        //    await AssertAddOnboardedApp(UserType.Authenticated, content, HttpStatusCode.BadRequest);
-        //}
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Ignore] // TODO: Mock service must accept dynamic values
+        [TestMethod]
+        public async Task Add_Invalid_OnboardedApp_AsAuthenticatedUser_ShouldThrowExeption()
+        {
+            // Arrange
+            var addOnboardedAppPayload = new ApiOnboardAppRequest
+            {
+                AppKey = "i-do-not-exist"
+            };
+
+            // Act
+            var response = await AddOnboardedApp(UserType.Anonymous, addOnboardedAppPayload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidActionException))]
         public async Task Add_Duplicate_OnboardedApp_AsAuthenticatedUser_ShouldThrowException()
         {
-            var createOnboardedAppPayload = new ApiOnboardAppRequest
+            // Arrange
+            var addOnboardedAppPayload = new ApiOnboardAppRequest
             {
                 AppKey = "one-equinor"
             };
 
-            var serializePayload = JsonConvert.SerializeObject(createOnboardedAppPayload);
-            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
-
-            await AssertAddOnboardedApp(UserType.Authenticated, content);
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedApp(UserType.Authenticated, addOnboardedAppPayload));
         }
 
-        private static async Task AssertGetOnboardedApps(UserType userType, HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK)
+        [TestMethod]
+        public async Task Remove_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
+            // Arrange
+            var addOnboardedAppPayload = new ApiOnboardAppRequest
+            {
+                AppKey = "app-to-be-removed"
+            };
+
             // Act
-            var client = TestFactory.Instance.GetHttpClient(userType);
-            var response = await client.GetAsync($"{Route}");
+            await AddOnboardedApp(UserType.Authenticated, addOnboardedAppPayload);
+
+            var getAllAfterAddedResponse = await GetAllOnboardedApps(UserType.Authenticated);
+            var getAllAfterAddedContent = await getAllAfterAddedResponse.Content.ReadAsStringAsync();
+            var totalCountAfterAdded = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllAfterAddedContent)?.Count;
+
+            var removeResponse = await RemoveOnboardedApp(UserType.Authenticated, addOnboardedAppPayload.AppKey);
+
+            var getAllAfterRemovalRepsonse = await GetAllOnboardedApps(UserType.Authenticated);
+            var getAllAfterRemovalContent = await getAllAfterRemovalRepsonse.Content.ReadAsStringAsync();
+            var totalCountAfterRemoval = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllAfterRemovalContent)?.Count;
 
             // Assert
-            Assert.AreEqual(expectedHttpStatusCode, response.StatusCode);
-
-            if (expectedHttpStatusCode != HttpStatusCode.OK)
+            if (totalCountAfterRemoval != null && totalCountAfterAdded != null)
             {
-                return;
+                Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
+                Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
             }
-
-            var content = await response.Content.ReadAsStringAsync();
-            Assert.IsNotNull(content);
-
-            var dto = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
-            Assert.IsNotNull(dto);
-            Assert.IsTrue(dto.Count > 0);
-            Assert.IsNotNull(dto.FirstOrDefault()?.AppKey);
+            else
+            {
+                Assert.Fail();
+            }
         }
 
-        private static async Task AssertAddOnboardedApp(UserType userType, HttpContent content, HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK)
+        [TestMethod]
+        public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
+            // Arrange
+            const string ExistingOnboardedAppKey = "one-equinor";
+
             // Act
+            var removeResponse = await RemoveOnboardedApp(UserType.Anonymous, ExistingOnboardedAppKey);
+
+            // Assert
+            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);
+        }
+
+        private static async Task<HttpResponseMessage> AddOnboardedApp(UserType userType, ApiOnboardAppRequest onboardApp)
+        {
+            var serializePayload = JsonConvert.SerializeObject(onboardApp);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.PostAsync($"{Route}", content);
 
-            // Assert
-            Assert.AreEqual(expectedHttpStatusCode, response.StatusCode);
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> GetAllOnboardedApps(UserType userType)
+        {
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync($"{Route}");
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> RemoveOnboardedApp(UserType userType, string appKey)
+        {
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.DeleteAsync($"{Route}/{appKey}");
+
+            return response;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
         private static void SeedOnboardedApps(DbContext dbContext)
         {
-            var onboardedApp = new OnboardedApp(FusionPortalAppsData.SeedData.OneEquinor);
+            var onboardedApp = new OnboardedApp(FusionPortalAppsData.InitialSeedData.OneEquinor);
             dbContext.Add(onboardedApp);
             dbContext.SaveChanges();
         }

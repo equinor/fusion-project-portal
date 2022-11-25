@@ -54,8 +54,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
                 throw new Exception("[Authorization] header missing");
             }
 
-            TokenProfile profile;
+            TokenProfile? profile;
             var tokenPart = tokens[1];
+
             try
             {
                 var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));

@@ -5,6 +5,6 @@
         public TokenProfile? Profile { get; set; }
         public HttpClient HttpClient { get; set; }
 
-        public override string ToString() => Profile?.ToString();
+        public override string? ToString() => Profile?.ToString();
     }
 }
