@@ -1,10 +1,5 @@
-import {
-  TopBarActions,
-  TopBarAvatar,
-  useMenuItems,
-  useViewController,
-} from '@equinor/portal-core';
-import { MenuButton, PortalHeader } from '@equinor/portal-ui';
+import { useMenuItems, useViewController } from '@equinor/portal-core';
+import { MenuButton, PortalHeader, TopBarActions } from '@equinor/portal-ui';
 import { appMounted } from '@equinor/portal-utils';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +25,6 @@ export function Header() {
       title="Project Portal"
     >
       <TopBarActions />
-      <TopBarAvatar />
     </PortalHeader>
   );
 }
