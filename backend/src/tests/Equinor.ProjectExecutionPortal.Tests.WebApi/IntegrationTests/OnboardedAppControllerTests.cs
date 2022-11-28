@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,15 +35,22 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Act
             var response = await GetAllOnboardedApps(UserType.Anonymous);
+            var content = await response.Content.ReadAsStringAsync();
+            var onboardedApps = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.IsNull(onboardedApps);
         }
 
         [TestMethod]
         public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
+            var getAllBeforeAddedResponse = await GetAllOnboardedApps(UserType.Authenticated);
+            var getAllBeforeAddedContent = await getAllBeforeAddedResponse.Content.ReadAsStringAsync();
+            var totalCountBeforeAdded = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllBeforeAddedContent)?.Count;
+
             var addOnboardedAppPayload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app"
@@ -52,7 +60,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var response = await AddOnboardedApp(UserType.Authenticated, addOnboardedAppPayload);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var getAllAfterAddedResponse = await GetAllOnboardedApps(UserType.Authenticated);
+            var getAllAfterAddedContent = await getAllAfterAddedResponse.Content.ReadAsStringAsync();
+            var totalCountAfterAdded = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllAfterAddedContent)?.Count;
+
+            if (totalCountBeforeAdded != null && totalCountAfterAdded != null)
+            {
+                Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+                Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
+            }
+            else
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
@@ -94,7 +115,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var addOnboardedAppPayload = new ApiOnboardAppRequest
             {
-                AppKey = "one-equinor"
+                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey
             };
 
             // Act & Assert
@@ -139,10 +160,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            const string ExistingOnboardedAppKey = "one-equinor";
+            var existingOnboardedAppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey;
 
             // Act
-            var removeResponse = await RemoveOnboardedApp(UserType.Anonymous, ExistingOnboardedAppKey);
+            var removeResponse = await RemoveOnboardedApp(UserType.Anonymous, existingOnboardedAppKey);
 
             // Assert
             Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);

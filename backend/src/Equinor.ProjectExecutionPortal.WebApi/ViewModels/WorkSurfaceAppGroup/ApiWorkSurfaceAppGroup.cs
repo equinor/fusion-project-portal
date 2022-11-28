@@ -5,6 +5,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
 {
     public class ApiWorkSurfaceAppGroup
     {
+        public ApiWorkSurfaceAppGroup() { }
+
         public ApiWorkSurfaceAppGroup(WorkSurfaceAppGroupDto workSurfaceAppGroupDto)
         {
             Id = workSurfaceAppGroupDto.Id;
@@ -14,10 +16,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
             Apps = workSurfaceAppGroupDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList(); 
         }
 
-        public Guid Id { get; }
-        public string Name { get; }
-        public int Order { get; }
-        public string AccentColor { get; }
-        public List<ApiWorkSurfaceApp> Apps { get; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public string AccentColor { get; set; }
+        public List<ApiWorkSurfaceApp> Apps { get; set; }
     }
 }

@@ -25,13 +25,71 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var userProvider = serviceProvider.GetRequiredService<CurrentUserProvider>();
             userProvider.SetCurrentUserOid(new Guid(SeederOid));
 
-            SeedOnboardedApps(dbContext);
+            SeedPortal(dbContext);
         }
 
-        private static void SeedOnboardedApps(DbContext dbContext)
+        private static void SeedPortal(DbContext dbContext)
         {
-            var onboardedApp = new OnboardedApp(FusionPortalAppsData.InitialSeedData.OneEquinor);
-            dbContext.Add(onboardedApp);
+            // Create portal
+
+            var portal = PortalData.InitialSeedData.Portal;
+
+            // Add work surfaces
+
+            var workSurface1 = WorkSurfaceData.InitialSeedData.WorkSurface1;
+            var workSurface2 = WorkSurfaceData.InitialSeedData.WorkSurface2;
+            var workSurface3 = WorkSurfaceData.InitialSeedData.WorkSurface3;
+
+            portal.AddWorkSurface(workSurface1);
+            portal.AddWorkSurface(workSurface2);
+            portal.AddWorkSurface(workSurface3);
+
+            dbContext.Add(portal);
+            dbContext.SaveChanges();
+
+            // Add onboarded apps
+
+            var meetingsApp = OnboardedAppsData.InitialSeedData.MeetingsApp;
+            var reviewsApp = OnboardedAppsData.InitialSeedData.ReviewsApp;
+            var tasksApp = OnboardedAppsData.InitialSeedData.TasksApp;
+            var orgChartApp = OnboardedAppsData.InitialSeedData.OrgChartApp;
+            var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
+            var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
+
+            dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
+
+            dbContext.SaveChanges();
+
+            // Add apps groups to work surfaces
+
+            var collaborationAppGroup = WorkSurfaceAppGroupData.InitialSeedData.CollaborationAppGroup;
+            var projectInformationAppGroup = WorkSurfaceAppGroupData.InitialSeedData.ProjectInformationAppGroup;
+            var ccAppGroup = WorkSurfaceAppGroupData.InitialSeedData.CcAppGroup;
+            var demoAppGroup = WorkSurfaceAppGroupData.InitialSeedData.DemoAppGroup;
+
+            workSurface2.AddAppGroup(collaborationAppGroup);
+            workSurface2.AddAppGroup(projectInformationAppGroup);
+            workSurface2.AddAppGroup(ccAppGroup);
+            workSurface2.AddAppGroup(demoAppGroup);
+
+            dbContext.SaveChanges();
+
+            // Add apps to work surfaces
+
+            var meetingsWsApp = new WorkSurfaceApp(meetingsApp.Id, 0, workSurface2.Id);
+            var reviewsWsApp = new WorkSurfaceApp(reviewsApp.Id, 1, workSurface2.Id);
+            var tasksWsApp = new WorkSurfaceApp(tasksApp.Id, 0, workSurface2.Id);
+            var orgChartWsApp = new WorkSurfaceApp(orgChartApp.Id, 1, workSurface2.Id);
+            var handoverGardenWsApp = new WorkSurfaceApp(handoverGardenApp.Id, 0, workSurface2.Id);
+            var workOrderGardenWsApp = new WorkSurfaceApp(workOrderGardenApp.Id, 1, workSurface2.Id);
+
+            collaborationAppGroup.AddApp(meetingsWsApp);
+            collaborationAppGroup.AddApp(reviewsWsApp);
+            projectInformationAppGroup.AddApp(tasksWsApp);
+            projectInformationAppGroup.AddApp(orgChartWsApp);
+            ccAppGroup.AddApp(handoverGardenWsApp);
+            ccAppGroup.AddApp(workOrderGardenWsApp);
+
             dbContext.SaveChanges();
         }
     }
