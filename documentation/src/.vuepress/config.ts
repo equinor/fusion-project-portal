@@ -29,14 +29,7 @@ export default hope.config({
         path: "/frontend/",
         collapsable: false,
         sidebarDepth: 3,
-        children: [
-          // {
-          // 	title: 'Section',
-          // 	path: '/frontend/section',
-          // 	children: [
-          // 	],
-          // },
-        ],
+        children: ["/frontend/portal-actions.md"],
       },
       {
         title: "Backend",

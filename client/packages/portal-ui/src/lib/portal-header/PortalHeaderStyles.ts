@@ -12,5 +12,5 @@ export const StyledTopBar = styled(TopBar)`
 `;
 
 export const Actions = styled(TopBar.Actions)`
-  padding-right: 1rem;
+  padding-right: 0.5rem;
 `;

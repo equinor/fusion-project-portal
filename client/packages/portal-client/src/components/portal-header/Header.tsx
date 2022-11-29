@@ -1,11 +1,7 @@
-import { MenuButton, PortalHeader } from '@equinor/portal-ui';
-import {
-  TopBarAvatar,
-  useViewController,
-  useMenuItems,
-} from '@equinor/portal-core';
-import { useNavigate } from 'react-router-dom';
+import { useMenuItems, useViewController } from '@equinor/portal-core';
+import { MenuButton, PortalHeader, TopBarActions } from '@equinor/portal-ui';
 import { appMounted } from '@equinor/portal-utils';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const { getId, setViewId } = useViewController();
@@ -28,7 +24,7 @@ export function Header() {
       MenuButton={MenuButton}
       title="Project Portal"
     >
-      <TopBarAvatar />
+      <TopBarActions />
     </PortalHeader>
   );
 }
