@@ -30,14 +30,65 @@ empty or display configuration needed.
 
 :::info  
 The widgetId is not in use for the moment. the thought behind it is to dynamically load a action widget to keep portal bundle as small ass possible.
-
 :::
 
 ## Portal Actions
 
+The current portal action that ar configured are shown in the list below.
+
+```TS
+    export const actions: PortalAction[] = [
+      {
+        actionId: 'full-screen',
+        name: 'Full screen',
+        icon: FullScreenIcon,
+        appendDivider: true,
+        onClick: handleFullScreenClick,
+        topParOnly: true,
+      },
+      {
+        actionId: 'my-account',
+        name: 'My Account',
+        icon: 'account_circle',
+        component: MyAccount,
+        dropDownOnly: true,
+      },
+      {
+        actionId: 'bookmarks',
+        name: 'Bookmarks',
+        icon: 'bookmarks',
+        component: Bookmarks,
+      },
+      {
+        actionId: 'task',
+        name: 'Task',
+        icon: 'view_list',
+        component: Task,
+      },
+      {
+        actionId: 'notifications',
+        name: 'Notifications',
+        icon: 'notifications',
+        component: Notifications,
+      },
+      {
+        actionId: 'service-message',
+        name: 'Service message',
+        icon: 'comment_chat',
+      },
+      {
+        actionId: 'help',
+        name: 'Help / Service now',
+        icon: 'help_outline',
+        component: Help,
+      },
+    ];
+
+```
+
 ## Top Bar Actions
 
-A top bar action can be considered a portal action favorite, by staring the action the action wil be displayed in the top bar.
+A top bar action can be considered a portal action favorite, by staring the action the action will be displayed in the top bar.
 
 ## Actions Views
 
