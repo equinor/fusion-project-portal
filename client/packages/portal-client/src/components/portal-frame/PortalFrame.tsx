@@ -1,5 +1,9 @@
 import { ViewProvider } from '@equinor/portal-core';
-import { MenuProvider, PortalMenu, StyleProvider } from '@equinor/portal-ui';
+import {
+  MenuProvider,
+  PortalSideSheet,
+  StyleProvider,
+} from '@equinor/portal-ui';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../portal-header/Header';
@@ -10,11 +14,11 @@ export const PortalFrame = () => (
       <ViewProvider>
         <MenuProvider>
           <Header />
-          <PortalMenu>
-            <MenuGroups />
-          </PortalMenu>
+
+          <MenuGroups />
           <Outlet />
         </MenuProvider>
+        <PortalSideSheet />
       </ViewProvider>
     </Wrapper>
   </StyleProvider>

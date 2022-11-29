@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PortalLogo } from './Logo';
-import { StyledHeader, StyledTopBar, Actions } from './PortalHeaderStyles';
+import { Actions, StyledHeader, StyledTopBar } from './PortalHeaderStyles';
 
 interface PortalHeaderProps {
   Navigation?: React.FC;

@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
@@ -19,6 +18,5 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
         public string Name { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
-        public ApiWorkSurfaceAppGroup? AppGroup { get; set; }
     }
 }
