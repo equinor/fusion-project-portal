@@ -1,5 +1,5 @@
 import { createObservableStorage } from '@equinor/portal-utils';
-import { map, switchMap } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs';
 import { portalActions } from './portal-actions';
 import { actions } from './portal-actions-config';
 import { PortalTopBarActions } from './types';
@@ -11,13 +11,17 @@ export const topBarActionsIds$ = createObservableStorage<string[]>(
 );
 
 export const topBarActions$ = portalActions.actions$.pipe(
-  switchMap((actions) =>
-    topBarActionsIds$.obs$.pipe(
-      map((ids) => actions.filter((action) => ids.includes(action.actionId)))
-    )
+  combineLatestWith(topBarActionsIds$.obs$),
+  map(([actions, ids]) =>
+    actions.filter((action) => ids.includes(action.actionId))
   )
 );
 
+/**
+ * To toggle top bar actions we firs have to check if our selection is less than all the portal actions this to determine if we want
+ * to select all or deselect al, if one item is selected we should  select all, if all are selected then whe should deselect all.
+ * `filter((action) => action.topParOnly)` will alow items specified to always show  in top bar, to be unchanged.
+ */
 function toggleTopBarAllActions() {
   topBarActionsIds$.next(
     topBarActionsIds$.subject$.value.length <
