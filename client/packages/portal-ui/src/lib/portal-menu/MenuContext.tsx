@@ -13,6 +13,7 @@ export interface MenuState {
 
 export interface MenuContext extends MenuState {
   toggleMenu<T>(e?: React.MouseEvent<T>): void;
+  closeMenu(): void;
 }
 
 const MenuContext = createContext<MenuContext>({} as MenuContext);
@@ -35,12 +36,20 @@ export const MenuProvider = ({
       return ns;
     });
   }
+  function closeMenu() {
+    setMenuState((s) => {
+      const ns = { ...s, menuActive: false };
+      storage.setItem(MENU_KEY, ns);
+      return ns;
+    });
+  }
 
   return (
     <MenuContext.Provider
       value={{
         ...menuState,
         toggleMenu,
+        closeMenu,
       }}
     >
       {children}

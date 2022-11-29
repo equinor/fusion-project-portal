@@ -2,38 +2,19 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/portal-utils/src",
   "projectType": "library",
+  "name": "portal-utils",
   "tags": [],
   "targets": {
-    "butilsld": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/packages/portal-utils",
-        "main": "packages/portal-utils/src/index.ts",
-        "tsConfig": "packages/portal-utils/tsconfig.lib.json",
-        "assets": [
-          "packages/portal-utils/*.md"
-        ]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/portal-utils/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["packages/portal-utils/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/packages/portal-utils"
-      ],
+      "outputs": ["coverage/packages/portal-utils"],
       "options": {
         "jestConfig": "packages/portal-utils/jest.config.ts",
         "passWithNoTests": true

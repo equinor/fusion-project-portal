@@ -14,11 +14,12 @@ const StyledTitle = styled(Typography)`
 
 interface PortalLogoProps {
   title: string;
+  onClick: () => void;
 }
 
-export function PortalLogo({ title }: PortalLogoProps): JSX.Element {
+export function PortalLogo({ title, onClick }: PortalLogoProps): JSX.Element {
   return (
-    <StyledWrapper>
+    <StyledWrapper onClick={onClick}>
       <PortalIcon />
       <StyledTitle variant="h6">{title}</StyledTitle>
     </StyledWrapper>

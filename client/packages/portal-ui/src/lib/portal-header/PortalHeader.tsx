@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { PortalLogo } from './Logo';
-import { StyledHeader, StyledTopBar, Actions } from './PortalHeaderStyles';
+import { Actions, StyledHeader, StyledTopBar } from './PortalHeaderStyles';
 
 interface PortalHeaderProps {
   Navigation?: React.FC;
   MenuButton: React.FC;
   title: string;
+  onLogoClick: () => void;
 }
 
 export function PortalHeader({
@@ -14,12 +15,13 @@ export function PortalHeader({
   Navigation,
   MenuButton,
   title,
+  onLogoClick,
 }: React.PropsWithChildren<PortalHeaderProps>): JSX.Element {
   return (
     <StyledTopBar>
       <StyledHeader>
         <MenuButton />
-        <PortalLogo title={title} />
+        <PortalLogo title={title} onClick={onLogoClick} />
         {Navigation && <Navigation />}
       </StyledHeader>
 
