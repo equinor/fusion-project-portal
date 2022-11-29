@@ -1,3 +1,4 @@
+export * from './lib/avatar';
 export * from './lib/bookmarks/Bookmarks';
 export * from './lib/divider/Divider';
 export * from './lib/fatal-error';
