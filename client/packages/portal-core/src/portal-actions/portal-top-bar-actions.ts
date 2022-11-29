@@ -1,12 +1,13 @@
 import { createObservableStorage } from '@equinor/portal-utils';
 import { map, switchMap } from 'rxjs';
 import { portalActions } from './portal-actions';
+import { actions } from './portal-actions-config';
 import { PortalTopBarActions } from './types';
 const TOP_BAR_ACTIONS_STORAGE_KEY = 'topBarActions';
 
 export const topBarActionsIds$ = createObservableStorage<string[]>(
   TOP_BAR_ACTIONS_STORAGE_KEY,
-  []
+  actions.map((action) => action.actionId) || []
 );
 
 export const topBarActions$ = portalActions.actions$.pipe(
