@@ -4,6 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Misc;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -25,6 +26,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private readonly List<Action> _teardownList = new();
         private readonly List<IDisposable> _disposables = new();
         private readonly Mock<IFusionPortalApiService> _fusionPortalApiServiceMock = new();
+        private readonly Mock<IFusionContextResolver> _fusionContextResolverMock = new();
         public static Dictionary<UserType, ITestUser> TestUsersDictionary = new();
         private static TestFactory? _sInstance;
         private static readonly object _sPadlock = new();
@@ -105,6 +107,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                     jwtBearerOptions.ForwardAuthenticate = IntegrationTestAuthHandler.TestAuthenticationScheme);
 
                 services.AddScoped(_ => _fusionPortalApiServiceMock.Object);
+                services.AddScoped(_ => _fusionContextResolverMock.Object);
             });
 
             builder.ConfigureServices(services =>
@@ -199,6 +202,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
                 .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));
+            
+            _fusionContextResolverMock.Setup(service => service.ResolveContextAsync(It.IsAny<ContextIdentifier>(), It.IsAny<FusionContextType>()))
+                .Returns(Task.FromResult(FusionContextData.ValidFusionContext)!);
         }
 
         private void SetupTestUsers()

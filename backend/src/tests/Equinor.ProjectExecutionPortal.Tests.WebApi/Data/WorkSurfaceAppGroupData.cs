@@ -6,10 +6,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
     {
         public class InitialSeedData
         {
-            public static WorkSurfaceAppGroup CollaborationAppGroup = new("Collaboration", 0, "#E24973");
-            public static WorkSurfaceAppGroup ProjectInformationAppGroup = new("Project Information", 1, "#6D2FD5");
-            public static WorkSurfaceAppGroup CcAppGroup = new("Construction and Commissioning", 2, "#0084C4");
-            public static WorkSurfaceAppGroup DemoAppGroup = new("Demo", 3, "#00977B");
+            public static WorkSurfaceAppGroup AppGroup1 = new("App group with global apps only", 0, "#E24973");
+            public static WorkSurfaceAppGroup AppGroup2 = new("App group with context apps only", 1, "#6D2FD5");
+            public static WorkSurfaceAppGroup AppGroup3 = new("App group with mixed apps", 2, "#0084C4");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public WorkSurfaceApp(Guid onboardedAppId, int order, Guid workSurfaceId, string externalContextId, string externalContextType, Guid? appGroupId, bool isHidden = false)
+    public WorkSurfaceApp(Guid onboardedAppId, int order, Guid workSurfaceId, string externalContextId, string externalContextType, Guid? appGroupId = null, bool isHidden = false)
         : base(externalContextId, externalContextType)
     {
         OnboardedAppId = onboardedAppId;
