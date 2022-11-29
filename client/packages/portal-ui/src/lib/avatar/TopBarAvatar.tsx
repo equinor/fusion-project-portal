@@ -16,8 +16,14 @@ export const TopBarAvatar = (): JSX.Element | null => {
       />
     );
   }
-  //TODO: make component
-  if (error || !data) return <div>Error</div>;
+
+  if (error || !data)
+    return (
+      <Icon
+        color={tokens.colors.interactive.warning__resting.hex}
+        name="error_outlined"
+      />
+    );
 
   const presenceInfo = getPresenceInfo(data.availability);
   return (
@@ -33,20 +39,3 @@ export const TopBarAvatar = (): JSX.Element | null => {
     </div>
   );
 };
-
-{
-  /* <Popover anchorEl={ref.current} open={isOpen} onClose={close}>
-        <Popover.Content>
-          <StyledWrapper>
-            <div>
-              <StyledInfoText>Signed in as</StyledInfoText>
-              <StyledUserName>{user?.username}</StyledUserName>
-              <StyledPresence>
-                <div>{presenceInfo.icon} </div>
-                <div>{presenceInfo.status}</div>
-              </StyledPresence>
-            </div>
-          </StyledWrapper>
-        </Popover.Content>
-      </Popover> */
-}
