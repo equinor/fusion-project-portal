@@ -24,21 +24,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{workSurfaceId:guid}")]
-        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}")]
-        public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
+        public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId)
         {
-            if (contextExternalId != null)
-            {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-                if (context == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
-            }
-
-            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceWithAppsQuery(workSurfaceId, contextExternalId));
+            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurface(workSurfaceId));
 
             if (workSurfaceWithAppsDto == null)
             {
