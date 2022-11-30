@@ -147,6 +147,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);
         }
 
+        #region Helpers
+
         private static async Task<IList<ApiOnboardedApp>?> AssertGetAllOnboardedApps(UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
@@ -194,5 +196,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             return response;
         }
+
+        #endregion Helpers
     }
 }
