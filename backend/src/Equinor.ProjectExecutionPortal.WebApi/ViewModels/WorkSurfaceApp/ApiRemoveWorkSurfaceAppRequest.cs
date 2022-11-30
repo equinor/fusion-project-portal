@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveWorkSurfaceApp;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
     public class ApiRemoveWorkSurfaceAppRequest
     {

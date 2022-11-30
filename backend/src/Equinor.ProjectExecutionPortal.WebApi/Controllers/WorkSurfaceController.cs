@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -134,8 +135,34 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpPut("{workSurfaceId:guid}/app-groups/order")]
-        public async Task<ActionResult<Guid>> UpdateAppGroupOrder([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateAppGroupsOrderRequest request)
+
+
+        // App Groups
+        // ===========================================
+
+
+
+
+        [HttpPost("{workSurfaceId:guid}/app-groups")]
+        public async Task<ActionResult<Guid>> CreateAppGroup([FromRoute] Guid workSurfaceId, [FromBody] ApiCreateWorkSurfaceRequest request)
+        {
+            return await Mediator.Send(request.ToCommand());
+        }
+
+        [HttpPut("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
+        public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiUpdateWorkSurfaceRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
+
+        [HttpDelete("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
+        public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiUpdateWorkSurfaceRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
+
+        [HttpPut("{workSurfaceId:guid}/app-groups/reorder")]
+        public async Task<ActionResult<Guid>> ReorderAppGroups([FromRoute] Guid workSurfaceId, [FromBody] ApiReorderAppGroupsRequest request)
         {
             return await Mediator.Send(request.ToCommand(workSurfaceId));
         }

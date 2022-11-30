@@ -4,11 +4,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppGroupsOrder;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.ReorderAppGroups;
 
-public class UpdateAppGroupsOrderCommand : IRequest<Guid>
+public class ReorderAppGroupsCommand : IRequest<Guid>
 {
-    public UpdateAppGroupsOrderCommand(Guid workSurfaceId, List<Guid> reorderedAppGroupIds)
+    public ReorderAppGroupsCommand(Guid workSurfaceId, List<Guid> reorderedAppGroupIds)
     {
         WorkSurfaceId = workSurfaceId;
         ReorderedAppGroupIds = reorderedAppGroupIds;
@@ -17,7 +17,7 @@ public class UpdateAppGroupsOrderCommand : IRequest<Guid>
     public Guid WorkSurfaceId { get; }
     public List<Guid> ReorderedAppGroupIds { get; }
 
-    public class Handler : IRequestHandler<UpdateAppGroupsOrderCommand, Guid>
+    public class Handler : IRequestHandler<ReorderAppGroupsCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -26,7 +26,7 @@ public class UpdateAppGroupsOrderCommand : IRequest<Guid>
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Guid> Handle(UpdateAppGroupsOrderCommand command, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(ReorderAppGroupsCommand command, CancellationToken cancellationToken)
         {
             var workSurface = _readWriteContext.Set<WorkSurface>()
                 .Include(ws => ws.AppGroups.OrderBy(appGroup => appGroup.Order))
