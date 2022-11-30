@@ -1,6 +1,7 @@
 import { AppGroup } from '@equinor/portal-core';
 import styled from 'styled-components';
-import { Group } from '../Group/Group';
+import { InfoMessage } from '../../info-message/InfoMessage';
+import { Group } from '../group/Group';
 
 const StyledGroupWrapper = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ export const GroupWrapper = ({ groups }: GroupWrapperProps) => {
       {groups.length ? (
         groups.map((group) => <Group key={group.name} group={group} />)
       ) : (
-        <div>No apps to show</div>
+        <InfoMessage>No application awaitable for this view</InfoMessage>
       )}
     </StyledGroupWrapper>
   );
