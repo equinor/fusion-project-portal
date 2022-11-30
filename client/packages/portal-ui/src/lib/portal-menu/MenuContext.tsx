@@ -1,3 +1,4 @@
+import { AppGroup, useMenuItems } from '@equinor/portal-core';
 import { storage } from '@equinor/portal-utils';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
@@ -5,10 +6,14 @@ const MENU_KEY = 'menuState';
 
 const initialState: MenuState = {
   menuActive: false,
+  data: [],
+  isLoading: false,
 };
 
 export interface MenuState {
   menuActive: boolean;
+  data: AppGroup[];
+  isLoading: boolean;
 }
 
 export interface MenuContext extends MenuState {
@@ -24,6 +29,8 @@ export const MenuProvider = ({
   const [menuState, setMenuState] = useState(
     (storage.getItem<MenuState>(MENU_KEY) as MenuState) || initialState
   );
+
+  const { data, isLoading } = useMenuItems();
   function toggleMenu<T>(e?: React.MouseEvent<T>) {
     if (e) {
       e.preventDefault();
@@ -50,6 +57,8 @@ export const MenuProvider = ({
         ...menuState,
         toggleMenu,
         closeMenu,
+        data: data || [],
+        isLoading,
       }}
     >
       {children}
