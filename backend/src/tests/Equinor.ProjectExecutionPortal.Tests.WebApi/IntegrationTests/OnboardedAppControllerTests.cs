@@ -18,13 +18,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApps_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Act
-            var response = await GetAllOnboardedApps(UserType.Authenticated);
-            var content = await response.Content.ReadAsStringAsync();
-            var onboardedApps = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
+            var onboardedApps = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.IsNotNull(content);
             Assert.IsNotNull(onboardedApps);
             Assert.IsTrue(onboardedApps.Count > 0);
             Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
@@ -34,12 +30,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApps_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act
-            var response = await GetAllOnboardedApps(UserType.Anonymous);
-            var content = await response.Content.ReadAsStringAsync();
-            var onboardedApps = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
+            var onboardedApps = await AssertGetAllOnboardedApps(UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
             Assert.IsNull(onboardedApps);
         }
 
@@ -47,9 +40,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllBeforeAddedResponse = await GetAllOnboardedApps(UserType.Authenticated);
-            var getAllBeforeAddedContent = await getAllBeforeAddedResponse.Content.ReadAsStringAsync();
-            var totalCountBeforeAdded = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllBeforeAddedContent)?.Count;
+            var getAllBeforeAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountBeforeAdded = getAllBeforeAdded?.Count;
 
             var addOnboardedAppPayload = new ApiOnboardAppRequest
             {
@@ -60,20 +52,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var response = await AddOnboardedApp(UserType.Authenticated, addOnboardedAppPayload);
 
             // Assert
+            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterAdded = getAllAfterAdded?.Count;
 
-            var getAllAfterAddedResponse = await GetAllOnboardedApps(UserType.Authenticated);
-            var getAllAfterAddedContent = await getAllAfterAddedResponse.Content.ReadAsStringAsync();
-            var totalCountAfterAdded = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllAfterAddedContent)?.Count;
-
-            if (totalCountBeforeAdded != null && totalCountAfterAdded != null)
-            {
-                Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-                Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            Assert.IsNotNull(totalCountBeforeAdded);
+            Assert.IsNotNull(totalCountAfterAdded);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
         }
 
         [TestMethod]
@@ -134,26 +119,19 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Act
             await AddOnboardedApp(UserType.Authenticated, addOnboardedAppPayload);
 
-            var getAllAfterAddedResponse = await GetAllOnboardedApps(UserType.Authenticated);
-            var getAllAfterAddedContent = await getAllAfterAddedResponse.Content.ReadAsStringAsync();
-            var totalCountAfterAdded = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllAfterAddedContent)?.Count;
+            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterAdded = getAllAfterAdded?.Count;
 
             var removeResponse = await RemoveOnboardedApp(UserType.Authenticated, addOnboardedAppPayload.AppKey);
 
-            var getAllAfterRemovalRepsonse = await GetAllOnboardedApps(UserType.Authenticated);
-            var getAllAfterRemovalContent = await getAllAfterRemovalRepsonse.Content.ReadAsStringAsync();
-            var totalCountAfterRemoval = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(getAllAfterRemovalContent)?.Count;
+            var getAllAfterRemoval = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterRemoval = getAllAfterRemoval?.Count;
 
             // Assert
-            if (totalCountAfterRemoval != null && totalCountAfterAdded != null)
-            {
-                Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
-                Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            Assert.IsNotNull(totalCountAfterAdded);
+            Assert.IsNotNull(totalCountAfterRemoval);
+            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
+            Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
         }
 
         [TestMethod]
@@ -167,6 +145,27 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Assert
             Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);
+        }
+
+        private static async Task<IList<ApiOnboardedApp>?> AssertGetAllOnboardedApps(UserType userType, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            var response = await GetAllOnboardedApps(userType);
+            var content = await response.Content.ReadAsStringAsync();
+            var onboardedApps = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return null;
+            }
+
+            Assert.IsNotNull(content);
+            Assert.IsNotNull(onboardedApps);
+
+            return onboardedApps;
         }
 
         private static async Task<HttpResponseMessage> AddOnboardedApp(UserType userType, ApiOnboardAppRequest onboardApp)
