@@ -37,7 +37,9 @@ public class UpdateAppGroupsOrderCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
 
-            if (workSurface.AppGroups.Count != command.ReorderedAppGroupIds.Count)
+            var hasMismatches = !workSurface.AppGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
+            
+            if (hasMismatches)
             {
                 throw new InvalidActionException("The provided app groups does not match existing app groups");
             }
