@@ -29,6 +29,12 @@ public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IMod
 
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
 
+    public void Update(string name, string accentColor)
+    {
+        Name = name;
+        AccentColor = accentColor;
+    }
+
     public void AddApp(WorkSurfaceApp app)
     {
         _apps.Add(app);

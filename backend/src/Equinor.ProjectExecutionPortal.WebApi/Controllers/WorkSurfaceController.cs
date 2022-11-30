@@ -144,21 +144,21 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
 
         [HttpPost("{workSurfaceId:guid}/app-groups")]
-        public async Task<ActionResult<Guid>> CreateAppGroup([FromRoute] Guid workSurfaceId, [FromBody] ApiCreateWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> CreateAppGroup([FromRoute] Guid workSurfaceId, [FromBody] ApiCreateWorkSurfaceAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
 
         [HttpPut("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
-        public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiUpdateWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiUpdateWorkSurfaceAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand(workSurfaceId));
+            return await Mediator.Send(request.ToCommand(workSurfaceId, appGroupId));
         }
 
         [HttpDelete("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
-        public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiUpdateWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiDeleteWorkSurfaceAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand(workSurfaceId));
+            return await Mediator.Send(request.ToCommand(workSurfaceId, appGroupId));
         }
 
         [HttpPut("{workSurfaceId:guid}/app-groups/reorder")]
