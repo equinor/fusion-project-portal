@@ -124,6 +124,53 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Update_Valid_AppGroupInWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+            Assert.IsNotNull(workSurfaceToTest);
+
+            var getAllBeforeAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var theOneToUpdate = getAllBeforeAdded!.First();
+
+            var payload = new ApiUpdateWorkSurfaceAppGroupRequest
+            {
+                Name = "An updated app group",
+                AccentColor = "#93f542"
+            };
+
+            // Act
+            var response = await UpdateAppGroupInWorkSurface(payload, theOneToUpdate.Id, workSurfaceToTest.Id, UserType.Authenticated);
+
+            // Assert
+            var getAllAfterAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var theOneAfterUpdate = getAllAfterAdded!.First(x => x.Id == theOneToUpdate.Id);
+
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(theOneToUpdate.Id, theOneAfterUpdate.Id);
+            Assert.AreNotEqual(theOneToUpdate.Name, theOneAfterUpdate.Name);
+            Assert.AreNotEqual(theOneToUpdate.AccentColor, theOneAfterUpdate.AccentColor);
+        }
+
+        [TestMethod]
+        public async Task Update_Valid_AppGroupInWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var payload = new ApiUpdateWorkSurfaceAppGroupRequest
+            {
+                Name = "An updated app group",
+                AccentColor = "#93f542"
+            };
+
+            // Act
+            var response = await UpdateAppGroupInWorkSurface(payload, Guid.NewGuid(), Guid.NewGuid(), UserType.Anonymous);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [TestMethod]
         public async Task Delete_NonExistentAppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
         {
             // Act & Assert
