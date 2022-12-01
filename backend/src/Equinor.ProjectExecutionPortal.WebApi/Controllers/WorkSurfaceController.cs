@@ -141,8 +141,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         // ===========================================
 
 
-
-
+        
         [HttpPost("{workSurfaceId:guid}/app-groups")]
         public async Task<ActionResult<Guid>> CreateAppGroup([FromRoute] Guid workSurfaceId, [FromBody] ApiCreateWorkSurfaceAppGroupRequest request)
         {

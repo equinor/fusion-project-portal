@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 {
     [TestClass]
-    public class WorkSurfaceControllerTests : TestBase
+    public class WorkSurfaceAppGroupControllerTests : TestBase
     {
-        private const string Route = "api/work-surfaces";
+        private const string Route = "api/work-surfaces/app-groups";
 
         [TestMethod]
         public async Task Get_WorkSurfaces_AsAuthenticatedUser_ShouldReturnOk()
@@ -135,7 +135,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             foreach (var workSurface in workSurfaces)
             {
-                AssertWorkSurfaceValues(workSurface);
+                AssertAppGroupValues(workSurface);
             }
 
             return workSurfaces;
@@ -162,7 +162,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.IsNotNull(content);
             Assert.IsNotNull(workSurface);
-            AssertWorkSurfaceValues(workSurface);
+            AssertAppGroupValues(workSurface);
 
             return workSurface;
         }
@@ -184,22 +184,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return response;
         }
 
-        private static void AssertWorkSurfaceValues(ApiWorkSurface? workSurface)
-        {
-            if (workSurface == null)
-            {
-                Assert.Fail();
-            }
-
-            Assert.IsNotNull(workSurface.Id);
-            Assert.IsNotNull(workSurface.Name);
-            Assert.IsNotNull(workSurface.Icon);
-            Assert.IsNotNull(workSurface.IsDefault);
-            Assert.IsNotNull(workSurface.Key);
-            Assert.IsNotNull(workSurface.Order);
-            Assert.IsNotNull(workSurface.ShortName);
-            Assert.IsNotNull(workSurface.Subtext);
-        }
 
         private static void AssertWorkSurfaceAppGroupValues(ApiWorkSurfaceAppGroup? appGroup)
         {
