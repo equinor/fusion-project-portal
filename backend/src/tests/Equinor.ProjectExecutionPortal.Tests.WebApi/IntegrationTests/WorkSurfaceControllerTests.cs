@@ -1,8 +1,8 @@
 ﻿using System.Net;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -47,10 +47,17 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Get_NonExistentWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
+        {
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<NotFoundException>(() => GetWorksurface(Guid.NewGuid(), UserType.Authenticated));
+        }
+
+        [TestMethod]
         public async Task Get_WorkSurface_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act
-            var workSurface = await AssertGetWorksurface(new Guid(), UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var workSurface = await AssertGetWorksurface(Guid.NewGuid(), UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(workSurface);
@@ -104,6 +111,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
         }
 
+
+        [TestMethod]
+        public async Task Get_AppsForNonExistentWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
+        {
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<NotFoundException>(() => GetAppsForWorksurface(Guid.NewGuid(), null, UserType.Authenticated));
+        }
+
         [TestMethod]
         public async Task Get_AppsForWorkSurface_WithoutContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
@@ -126,7 +141,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         #region Helpers
 
-        private static async Task<IList<ApiWorkSurface>?> AssertGetAllWorksurfaces(UserType userType, HttpStatusCode expectedStatusCode)
+        public static async Task<IList<ApiWorkSurface>?> AssertGetAllWorksurfaces(UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetAllWorksurfaces(userType);
@@ -146,7 +161,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             foreach (var workSurface in workSurfaces)
             {
-                AssertWorkSurfaceValues(workSurface);
+                AssertHelpers.AssertWorkSurfaceValues(workSurface);
                 Assert.AreEqual(workSurface.AppGroups.Count, 0); // No relational data should be included in this request
             }
 
@@ -170,7 +185,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.IsNotNull(content);
             Assert.IsNotNull(workSurface);
-            AssertWorkSurfaceValues(workSurface);
+            AssertHelpers.AssertWorkSurfaceValues(workSurface);
             Assert.AreEqual(workSurface.AppGroups.Count, 0); // No relational data should be included in this request
 
             return workSurface;
@@ -196,11 +211,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             foreach (var appGroup in appGroups)
             {
-                AssertWorkSurfaceAppGroupValues(appGroup);
+                AssertHelpers.AssertWorkSurfaceAppGroupValues(appGroup);
 
                 foreach (var app in appGroup.Apps)
                 {
-                    AssertWorkSurfaceAppValues(app);
+                    AssertHelpers.AssertWorkSurfaceAppValues(app);
                 }
             }
 
@@ -230,49 +245,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var response = await client.GetAsync(route);
 
             return response;
-        }
-
-        private static void AssertWorkSurfaceValues(ApiWorkSurface? workSurface)
-        {
-            if (workSurface == null)
-            {
-                Assert.Fail();
-            }
-
-            Assert.IsNotNull(workSurface.Id);
-            Assert.IsNotNull(workSurface.Name);
-            Assert.IsNotNull(workSurface.Icon);
-            Assert.IsNotNull(workSurface.IsDefault);
-            Assert.IsNotNull(workSurface.Key);
-            Assert.IsNotNull(workSurface.Order);
-            Assert.IsNotNull(workSurface.ShortName);
-            Assert.IsNotNull(workSurface.Subtext);
-        }
-
-        private static void AssertWorkSurfaceAppGroupValues(ApiWorkSurfaceAppGroup? appGroup)
-        {
-            if (appGroup == null)
-            {
-                Assert.Fail();
-            }
-
-            Assert.IsNotNull(appGroup.Id);
-            Assert.IsNotNull(appGroup.Name);
-            Assert.IsNotNull(appGroup.Order);
-            Assert.IsNotNull(appGroup.AccentColor);
-        }
-
-        private static void AssertWorkSurfaceAppValues(ApiWorkSurfaceApp? app)
-        {
-            if (app == null)
-            {
-                Assert.Fail();
-            }
-
-            Assert.IsNotNull(app.AppKey);
-            Assert.IsNotNull(app.Name);
-            Assert.IsNotNull(app.Description);
-            Assert.IsNotNull(app.Order);
         }
 
         #endregion Helpers
