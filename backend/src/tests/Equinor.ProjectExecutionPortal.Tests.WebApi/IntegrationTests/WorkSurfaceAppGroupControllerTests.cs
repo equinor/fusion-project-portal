@@ -44,7 +44,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Add_Valid_AppGroupToWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Create_Valid_AppGroupForWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
             var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
@@ -61,7 +61,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await AddAppGroupToWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
+            var response = await CreateAppGroupForWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
 
             // Assert
             var getAllAfterAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
@@ -74,7 +74,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Add_Valid_AppGroupToWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
+        public async Task Create_Valid_AppGroupForWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
             var payload = new ApiCreateWorkSurfaceAppGroupRequest
@@ -84,44 +84,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await AddAppGroupToWorkSurface(payload, Guid.NewGuid(), UserType.Anonymous);
+            var response = await CreateAppGroupForWorkSurface(payload, Guid.NewGuid(), UserType.Anonymous);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        [TestMethod]
-        public async Task Delete_AppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
-        {
-            // Arrange
-            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
-            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
-            Assert.IsNotNull(workSurfaceToTest);
-
-            var payload = new ApiCreateWorkSurfaceAppGroupRequest
-            {
-                Name = "A soon to be deleted appGroup",
-                AccentColor = "#e62cba"
-            };
-
-            // Act
-            await AddAppGroupToWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
-
-            var getAllAfterAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
-            var totalCountAfterAdded = getAllAfterAdded?.Count;
-            var createdAppGroupId = getAllAfterAdded!.First(x => x.Name == payload.Name).Id;
-
-            var removeResponse = await DeleteAppGroupFromWorkSurface(workSurfaceToTest.Id, createdAppGroupId, UserType.Authenticated);
-
-            var getAllAfterRemoval = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
-            var totalCountAfterRemoval = getAllAfterRemoval?.Count;
-
-            // Assert
-            Assert.IsNotNull(totalCountAfterAdded);
-            Assert.IsNotNull(totalCountAfterRemoval);
-            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
-            Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
-        }
 
         [TestMethod]
         public async Task Update_Valid_AppGroupInWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
@@ -214,6 +182,39 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Delete_AppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+            Assert.IsNotNull(workSurfaceToTest);
+
+            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            {
+                Name = "A soon to be deleted appGroup",
+                AccentColor = "#e62cba"
+            };
+
+            // Act
+            await CreateAppGroupForWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
+
+            var getAllAfterAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterAdded = getAllAfterAdded?.Count;
+            var createdAppGroupId = getAllAfterAdded!.First(x => x.Name == payload.Name).Id;
+
+            var removeResponse = await DeleteAppGroupFromWorkSurface(workSurfaceToTest.Id, createdAppGroupId, UserType.Authenticated);
+
+            var getAllAfterRemoval = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterRemoval = getAllAfterRemoval?.Count;
+
+            // Assert
+            Assert.IsNotNull(totalCountAfterAdded);
+            Assert.IsNotNull(totalCountAfterRemoval);
+            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
+            Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
+        }
+
+        [TestMethod]
         public async Task Delete_NonExistentAppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
         {
             // Act & Assert
@@ -221,7 +222,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
+        public async Task Delete_AppGroupFromWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
             var removeResponse = await DeleteAppGroupFromWorkSurface(Guid.NewGuid(), Guid.NewGuid(), UserType.Anonymous);
@@ -267,7 +268,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return response;
         }
 
-        private static async Task<HttpResponseMessage> AddAppGroupToWorkSurface(ApiCreateWorkSurfaceAppGroupRequest newAppGroup, Guid workSurfaceId, UserType userType)
+        private static async Task<HttpResponseMessage> CreateAppGroupForWorkSurface(ApiCreateWorkSurfaceAppGroupRequest newAppGroup, Guid workSurfaceId, UserType userType)
         {
             var serializePayload = JsonConvert.SerializeObject(newAppGroup);
             var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
