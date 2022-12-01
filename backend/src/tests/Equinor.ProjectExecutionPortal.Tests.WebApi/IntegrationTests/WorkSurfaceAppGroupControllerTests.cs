@@ -1,8 +1,7 @@
 ﻿using System.Net;
-using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
+using System.Text;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -12,203 +11,202 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
     [TestClass]
     public class WorkSurfaceAppGroupControllerTests : TestBase
     {
-        private const string Route = "api/work-surfaces/app-groups";
+        private const string Route = "api/work-surfaces/{0}/app-groups";
 
         [TestMethod]
-        public async Task Get_WorkSurfaces_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Get_AppGroupsForWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
         {
+            // Arrange
+            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+            Assert.IsNotNull(workSurfaceToTest);
+
             // Act
-            var workSurfaces = await AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var appGroups = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
-            Assert.IsNotNull(workSurfaces);
-            Assert.IsTrue(workSurfaces.Count > 0);
-
-            foreach (var workSurface in workSurfaces)
-            {
-                Assert.AreEqual(workSurface.AppGroups.Count, 0); // No relational data should be included in this request
-            }
+            Assert.IsNotNull(appGroups);
+            Assert.IsTrue(appGroups.Count > 0);
         }
 
         [TestMethod]
-        public async Task Get_WorkSurfaces_AsAnonymous_ShouldReturnUnauthorized()
+        public async Task Get_AppGroupsForWorkSurface_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act & Assert
-            await AssertGetAllWorksurfaces(UserType.Anonymous, HttpStatusCode.Unauthorized);
+            await AssertGetAllAppGroupsForWorkSurface(Guid.NewGuid(), UserType.Anonymous, HttpStatusCode.Unauthorized);
         }
 
         [TestMethod]
-        public async Task Get_WorkSurface_WithoutContext_AsAuthenticatedUser_ShouldReturnOkAndOnlyGlobalApps()
+        public async Task Get_AppGroupsForNonExistentWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
         {
-            // Arrange
-            var workSurfaces = await AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
-            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
-
-            // Act
-            var workSurface = await AssertGetWorksurface(workSurfaceToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
-
-            // Assert
-            Assert.IsNotNull(workSurface);
-            Assert.AreEqual(workSurface.AppGroups.Count, 3);
-
-            // Verify that only global apps are returned
-            var appGroupWithGlobalApps = workSurface.AppGroups.ElementAt(0);
-            var appGroupWithContextApps = workSurface.AppGroups.ElementAt(1);
-            var appGroupWithMixedApps = workSurface.AppGroups.ElementAt(2);
-
-            Assert.AreEqual(appGroupWithGlobalApps.Apps.Count, 2);
-            Assert.AreEqual(appGroupWithContextApps.Apps.Count, 0);
-            Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
-
-            foreach (var appGroup in workSurface.AppGroups)
-            {
-                AssertWorkSurfaceAppGroupValues(appGroup);
-
-                foreach (var app in appGroup.Apps)
-                {
-                    AssertWorkSurfaceAppValues(app);
-                }
-            }
-        }
-
-        [TestMethod] // Limiation: Invalid context not currently tested
-        public async Task Get_WorkSurface_WithValidContext_AsAuthenticatedUser_ShouldReturnOkAndBothGlobalAndContextApps()
-        {
-            // Arrange
-            var workSurfaces = await AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
-            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
-
-            // Act
-            var workSurface = await AssertGetWorksurface(workSurfaceToTest!.Id, FusionContextData.InitialSeedData.JcaExternalContextId, UserType.Authenticated, HttpStatusCode.OK);
-
-            // Assert
-            Assert.IsNotNull(workSurface);
-            Assert.AreEqual(workSurface.AppGroups.Count, 3);
-
-            // Verify that both global and context (for JCA) apps are returned
-            var appGroupWithGlobalApps = workSurface.AppGroups.ElementAt(0);
-            var appGroupWithContextApps = workSurface.AppGroups.ElementAt(1);
-            var appGroupWithMixedApps = workSurface.AppGroups.ElementAt(2);
-
-            Assert.AreEqual(appGroupWithGlobalApps.Apps.Count, 2);
-            Assert.AreEqual(appGroupWithContextApps.Apps.Count, 2);
-            Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
-
-            foreach (var appGroup in workSurface.AppGroups)
-            {
-                AssertWorkSurfaceAppGroupValues(appGroup);
-
-                foreach (var app in appGroup.Apps)
-                {
-                    AssertWorkSurfaceAppValues(app);
-                }
-            }
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<NotFoundException>(() => GetAllAppGroupsForWorkSurface(Guid.NewGuid(), UserType.Authenticated));
         }
 
         [TestMethod]
-        public async Task Get_WorkSurface_AsAnonymous_ShouldReturnUnauthorized()
+        public async Task Add_Valid_AppGroupToWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
         {
+            // Arrange
+            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+            Assert.IsNotNull(workSurfaceToTest);
+
+            var getAllBeforeAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountBeforeAdded = getAllBeforeAdded?.Count;
+
+            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            {
+                Name = "A newly added appGroup",
+                AccentColor = "#e62cba"
+            };
+
             // Act
-            var workSurface = await AssertGetWorksurface(new Guid(), null, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var response = await AddAppGroupToWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
 
             // Assert
-            Assert.IsNull(workSurface);
+            var getAllAfterAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterAdded = getAllAfterAdded?.Count;
+
+            Assert.IsNotNull(totalCountBeforeAdded);
+            Assert.IsNotNull(totalCountAfterAdded);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
         }
 
-        private static async Task<IList<ApiWorkSurface>?> AssertGetAllWorksurfaces(UserType userType, HttpStatusCode expectedStatusCode)
+        [TestMethod]
+        public async Task Add_Valid_AppGroupToWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
         {
+            // Arrange
+            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            {
+                Name = "A newly added appGroup",
+                AccentColor = "#e62cba"
+            };
+
             // Act
-            var response = await GetAllWorksurfaces(userType);
-            var content = await response.Content.ReadAsStringAsync();
-            var workSurfaces = JsonConvert.DeserializeObject<IList<ApiWorkSurface>>(content);
+            var response = await AddAppGroupToWorkSurface(payload, Guid.NewGuid(), UserType.Anonymous);
 
             // Assert
-            Assert.AreEqual(expectedStatusCode, response.StatusCode);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                return null;
-            }
-
-            Assert.IsNotNull(content);
-            Assert.IsNotNull(workSurfaces);
-
-            foreach (var workSurface in workSurfaces)
-            {
-                AssertAppGroupValues(workSurface);
-            }
-
-            return workSurfaces;
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        // TODO: Tests for App Groups CRUD
+        [TestMethod]
+        public async Task Delete_AppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+            Assert.IsNotNull(workSurfaceToTest);
+
+            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            {
+                Name = "A soon to be deleted appGroup",
+                AccentColor = "#e62cba"
+            };
+
+            // Act
+            await AddAppGroupToWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
+
+            var getAllAfterAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterAdded = getAllAfterAdded?.Count;
+            var createdAppGroupId = getAllAfterAdded!.First(x => x.Name == payload.Name).Id;
+
+            var removeResponse = await DeleteAppGroupFromWorkSurface(workSurfaceToTest.Id, createdAppGroupId, UserType.Authenticated);
+
+            var getAllAfterRemoval = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var totalCountAfterRemoval = getAllAfterRemoval?.Count;
+
+            // Assert
+            Assert.IsNotNull(totalCountAfterAdded);
+            Assert.IsNotNull(totalCountAfterRemoval);
+            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
+            Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
+        }
+
+        [TestMethod]
+        public async Task Delete_NonExistentAppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
+        {
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<NotFoundException>(() => DeleteAppGroupFromWorkSurface(Guid.NewGuid(), Guid.NewGuid(), UserType.Authenticated));
+        }
+
+        [TestMethod]
+        public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Act
+            var removeResponse = await DeleteAppGroupFromWorkSurface(Guid.NewGuid(), Guid.NewGuid(), UserType.Anonymous);
+
+            // Assert
+            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);
+        }
 
         #region Helpers
 
-        private static async Task<ApiWorkSurface?> AssertGetWorksurface(Guid workSurfaceId, string? contextExternalId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiWorkSurfaceAppGroup>?> AssertGetAllAppGroupsForWorkSurface(Guid workSurfaceId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
-            var response = await GetWorksurface(workSurfaceId, contextExternalId, userType);
+            var response = await GetAllAppGroupsForWorkSurface(workSurfaceId, userType);
             var content = await response.Content.ReadAsStringAsync();
-            var workSurface = JsonConvert.DeserializeObject<ApiWorkSurface>(content);
+            var appGroups = JsonConvert.DeserializeObject<IList<ApiWorkSurfaceAppGroup>>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                return null;
+                return appGroups;
             }
 
             Assert.IsNotNull(content);
-            Assert.IsNotNull(workSurface);
-            AssertAppGroupValues(workSurface);
+            Assert.IsNotNull(appGroups);
 
-            return workSurface;
+            foreach (var appGroup in appGroups)
+            {
+                AssertHelpers.AssertWorkSurfaceAppGroupValues(appGroup);
+                Assert.AreEqual(appGroup.Apps.Count, 0); // No relational data should be included in this request
+            }
+
+            return appGroups;
         }
 
-        private static async Task<HttpResponseMessage> GetAllWorksurfaces(UserType userType)
+        private static async Task<HttpResponseMessage> GetAllAppGroupsForWorkSurface(Guid workSurfaceId, UserType userType)
         {
             var client = TestFactory.Instance.GetHttpClient(userType);
-            var response = await client.GetAsync($"{Route}");
+            var response = await client.GetAsync(string.Format(Route, workSurfaceId));
 
             return response;
         }
 
-        private static async Task<HttpResponseMessage> GetWorksurface(Guid workSurfaceId, string? contextExternalId, UserType userType)
+        private static async Task<HttpResponseMessage> AddAppGroupToWorkSurface(ApiCreateWorkSurfaceAppGroupRequest newAppGroup, Guid workSurfaceId, UserType userType)
         {
-            var route = contextExternalId != null ? $"{Route}/{workSurfaceId}/contexts/{contextExternalId}" : $"{Route}/{workSurfaceId}";
+            var serializePayload = JsonConvert.SerializeObject(newAppGroup);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+
             var client = TestFactory.Instance.GetHttpClient(userType);
-            var response = await client.GetAsync(route);
+            var response = await client.PostAsync(string.Format(Route, workSurfaceId), content);
 
             return response;
         }
 
-
-        private static void AssertWorkSurfaceAppGroupValues(ApiWorkSurfaceAppGroup? appGroup)
+        private static async Task<HttpResponseMessage> UpdateAppGroupInWorkSurface(ApiUpdateWorkSurfaceAppGroupRequest updatedAppGroup, Guid appGroupId, Guid workSurfaceId, UserType userType)
         {
-            if (appGroup == null)
-            {
-                Assert.Fail();
-            }
+            var url = $"{string.Format(Route, workSurfaceId)}/{appGroupId}";
+            var serializePayload = JsonConvert.SerializeObject(updatedAppGroup);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
 
-            Assert.IsNotNull(appGroup.Id);
-            Assert.IsNotNull(appGroup.Name);
-            Assert.IsNotNull(appGroup.Order);
-            Assert.IsNotNull(appGroup.AccentColor);
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.PutAsync(url, content);
+
+            return response;
         }
 
-        private static void AssertWorkSurfaceAppValues(ApiWorkSurfaceApp? app)
+        private static async Task<HttpResponseMessage> DeleteAppGroupFromWorkSurface(Guid workSurfaceId, Guid appGroupId, UserType userType)
         {
-            if (app == null)
-            {
-                Assert.Fail();
-            }
+            var url = $"{string.Format(Route, workSurfaceId)}/{appGroupId}";
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.DeleteAsync(url);
 
-            Assert.IsNotNull(app.AppKey);
-            Assert.IsNotNull(app.Name);
-            Assert.IsNotNull(app.Description);
-            Assert.IsNotNull(app.Order);
+            return response;
         }
 
         #endregion Helpers

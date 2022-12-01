@@ -1,6 +1,8 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup.GetAppGroupsForWorkSurface;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
@@ -8,6 +10,7 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Amqp.Encoding;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -123,13 +126,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return NoContent();
         }
 
-
-
         // App Groups
         // ===========================================
 
+        [HttpGet("{workSurfaceId:guid}/app-groups")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroup>>> GetAppGroups([FromRoute] Guid workSurfaceId)
+        {
+            var appGroupsDto = await Mediator.Send(new GetAppGroupsForWorkSurfaceQuery(workSurfaceId));
 
-        
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find work surface");
+            }
+
+            return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
+        }
+
         [HttpPost("{workSurfaceId:guid}/app-groups")]
         public async Task<ActionResult<Guid>> CreateAppGroup([FromRoute] Guid workSurfaceId, [FromBody] ApiCreateWorkSurfaceAppGroupRequest request)
         {
@@ -143,9 +155,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpDelete("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
-        public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiDeleteWorkSurfaceAppGroupRequest request)
+        public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId)
         {
-            return await Mediator.Send(request.ToCommand(workSurfaceId, appGroupId));
+            var request = new ApiDeleteWorkSurfaceAppGroupRequest();
+            await Mediator.Send(request.ToCommand(workSurfaceId, appGroupId));
+
+            return NoContent();
         }
 
         [HttpPut("{workSurfaceId:guid}/app-groups/reorder")]
