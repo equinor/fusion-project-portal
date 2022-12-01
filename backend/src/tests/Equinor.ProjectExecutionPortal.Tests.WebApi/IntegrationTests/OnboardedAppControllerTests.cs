@@ -161,7 +161,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                return null;
+                return onboardedApps;
             }
 
             Assert.IsNotNull(content);
