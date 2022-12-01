@@ -171,6 +171,49 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Reorder_AppGroupsInWorkSurface_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var workSurfaces = await WorkSurfaceControllerTests.AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+            Assert.IsNotNull(workSurfaceToTest);
+
+            var getAllBefore = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+
+            var payload = new ApiReorderAppGroupsRequest
+            {
+                ReorderedAppGroupIds = getAllBefore!.OrderByDescending(x => x.Order).Select(x => x.Id).ToList()
+            };
+
+            // Act
+            var response = await ReorderAppGroupsInWorkSurface(payload, workSurfaceToTest.Id, UserType.Authenticated);
+
+            // Assert
+            var getAllAfter = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
+
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(getAllBefore!.Count, getAllAfter!.Count);
+            Assert.AreNotEqual(getAllBefore.First().Name, getAllAfter.First().Name);
+            Assert.AreNotEqual(getAllBefore.Last().Name, getAllAfter.Last().Name);
+        }
+
+        [TestMethod]
+        public async Task Reorder_AppGroupsInWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var payload = new ApiReorderAppGroupsRequest
+            {
+                ReorderedAppGroupIds = new List<Guid>{Guid.NewGuid(), Guid.NewGuid()}
+            };
+
+            // Act
+            var response = await ReorderAppGroupsInWorkSurface(payload, Guid.NewGuid(), UserType.Anonymous);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [TestMethod]
         public async Task Delete_NonExistentAppGroupFromWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
         {
             // Act & Assert
@@ -237,21 +280,30 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         private static async Task<HttpResponseMessage> UpdateAppGroupInWorkSurface(ApiUpdateWorkSurfaceAppGroupRequest updatedAppGroup, Guid appGroupId, Guid workSurfaceId, UserType userType)
         {
-            var url = $"{string.Format(Route, workSurfaceId)}/{appGroupId}";
             var serializePayload = JsonConvert.SerializeObject(updatedAppGroup);
             var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
 
             var client = TestFactory.Instance.GetHttpClient(userType);
-            var response = await client.PutAsync(url, content);
+            var response = await client.PutAsync($"{string.Format(Route, workSurfaceId)}/{appGroupId}", content);
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> ReorderAppGroupsInWorkSurface(ApiReorderAppGroupsRequest reordredAppGroups, Guid workSurfaceId, UserType userType)
+        {
+            var serializePayload = JsonConvert.SerializeObject(reordredAppGroups);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.PutAsync($"{string.Format(Route, workSurfaceId)}/reorder", content);
 
             return response;
         }
 
         private static async Task<HttpResponseMessage> DeleteAppGroupFromWorkSurface(Guid workSurfaceId, Guid appGroupId, UserType userType)
         {
-            var url = $"{string.Format(Route, workSurfaceId)}/{appGroupId}";
             var client = TestFactory.Instance.GetHttpClient(userType);
-            var response = await client.DeleteAsync(url);
+            var response = await client.DeleteAsync($"{string.Format(Route, workSurfaceId)}/{appGroupId}");
 
             return response;
         }

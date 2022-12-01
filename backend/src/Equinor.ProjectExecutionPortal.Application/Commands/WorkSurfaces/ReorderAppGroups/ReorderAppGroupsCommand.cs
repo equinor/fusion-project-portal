@@ -37,11 +37,11 @@ public class ReorderAppGroupsCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
 
-            var hasMismatches = !workSurface.AppGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
+            var hasUnmatchedIds = workSurface.AppGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
             
-            if (hasMismatches)
+            if (hasUnmatchedIds)
             {
-                throw new InvalidActionException("The provided app groups does not match existing app groups");
+                throw new InvalidActionException("The provided app groups does not match the existing app groups");
             }
 
             workSurface.ReorderAppGroups(command.ReorderedAppGroupIds);

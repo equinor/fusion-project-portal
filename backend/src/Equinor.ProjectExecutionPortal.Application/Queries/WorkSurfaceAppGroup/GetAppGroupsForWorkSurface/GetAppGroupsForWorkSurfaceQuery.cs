@@ -31,7 +31,7 @@ public class GetAppGroupsForWorkSurfaceQuery : QueryBase<IList<WorkSurfaceAppGro
         {
             var workSurface = await _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
-                .Include(x => x.AppGroups)
+                .Include(x => x.AppGroups.OrderBy(x => x.Order))
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken) ?? throw new NotFoundException();
 
             var appGroups = _mapper.Map<List<Domain.Entities.WorkSurfaceAppGroup>, List<WorkSurfaceAppGroupDto>>(workSurface.AppGroups.ToList());
