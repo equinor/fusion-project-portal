@@ -2,7 +2,6 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup.GetAppGroupsForWorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
@@ -10,7 +9,6 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Amqp.Encoding;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -58,6 +56,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var request = new ApiSetWorkSurfaceAsDefaultRequest();
             return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
+
+        // Apps
 
         [HttpGet("{workSurfaceId:guid}/apps")]
         [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
@@ -127,7 +127,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         // App Groups
-        // ===========================================
 
         [HttpGet("{workSurfaceId:guid}/app-groups")]
         public async Task<ActionResult<List<ApiWorkSurfaceAppGroup>>> GetAppGroups([FromRoute] Guid workSurfaceId)
