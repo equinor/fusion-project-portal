@@ -3,6 +3,4 @@ export * from './group';
 export * from './group-wrapper';
 export * from './LoadingMenu';
 export * from './MenuButton';
-export * from './MenuContext';
 export * from './PortalMenu';
-

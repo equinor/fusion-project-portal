@@ -6,9 +6,10 @@ import {
   addAppLoader,
   addPortalClient,
   configurePortalContext,
-} from '../portal-framework-configurator/portal-configurators';
+} from '../framework-configurator/portal-configurators';
 
 import { LoggerLevel, PortalConfig } from '../types/portal-config';
+const showInfo = false;
 
 export function createPortalFramework(portalConfig: PortalConfig) {
   return (config: FusionConfigurator) => {
@@ -30,22 +31,29 @@ export function createPortalFramework(portalConfig: PortalConfig) {
       }`;
     });
 
-    config.onConfigured(() => {
-      console.log('framework config done');
-    });
+    if (showInfo) {
+      config.onConfigured(() => {
+        showInfo && console.log('framework config done');
+      });
+    }
 
     config.onInitialized(async (fusion) => {
       configurePortalContext(fusion.context);
 
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
-      console.debug('📒 subscribing to all events');
-      fusion.event.subscribe((e) => console.debug(`🔔🌍 [${e.type}]`, e));
+      if (showInfo) {
+        console.debug('📒 subscribing to all events');
 
-      console.debug('📒 subscribing to [onReactAppLoaded]');
-      fusion.event.addEventListener('onReactAppLoaded', (e) =>
-        console.debug('🔔 [onReactAppLoaded]', e)
-      );
+        fusion.event.subscribe((e) => {
+          console.debug(`🔔🌍 [${e.type}]`, e);
+        });
+
+        console.debug('📒 subscribing to [onReactAppLoaded]');
+        fusion.event.addEventListener('onReactAppLoaded', (e) => {
+          console.debug('🔔 [onReactAppLoaded]', e);
+        });
+      }
     });
   };
 }

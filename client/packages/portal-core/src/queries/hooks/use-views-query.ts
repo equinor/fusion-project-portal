@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { usePortalClient } from '../../hooks/use-portal-client';
 import { getViews } from '../portal/getViews';
 
-export const useViews = () => {
+export const useViewsQuery = () => {
   const client = usePortalClient();
   return useQuery({
     queryKey: ['views'],

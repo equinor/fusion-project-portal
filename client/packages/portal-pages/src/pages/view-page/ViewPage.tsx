@@ -5,7 +5,7 @@ import { StyledContentSection, StyledContentWrapper } from './ViewPage.Styles';
 import { PasePageHeader } from './ViewPageHeader';
 import { ViewSelector } from './ViewSelector';
 
-export const CurrentViewPage = (): JSX.Element => {
+export const ViewPage = (): JSX.Element => {
   const { views, isLoading, currentView, setViewId } = useViewController();
 
   if (isLoading) return <FullPageLoading detail="Loading view" />;

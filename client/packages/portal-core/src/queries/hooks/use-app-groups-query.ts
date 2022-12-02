@@ -1,10 +1,11 @@
 import { useQuery, UseQueryResult } from 'react-query';
-import { useViewController } from '../../current-view-context/CurrentViewContext';
+
 import { useFrameworkCurrentContext, usePortalClient } from '../../hooks';
+import { useViewController } from '../../providers';
 import { AppGroup } from '../../types';
 import { getAppGroups } from '../portal/getAppGroups';
 
-export const useMenuItems = (): UseQueryResult<[] | AppGroup[]> => {
+export const useAppGroupsQuery = (): UseQueryResult<[] | AppGroup[]> => {
   const id = useViewController().currentView?.id;
   const currentContext = useFrameworkCurrentContext();
 

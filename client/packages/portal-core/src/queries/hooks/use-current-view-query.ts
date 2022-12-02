@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query';
-import { useViewController } from '../../current-view-context/CurrentViewContext';
+
 import { useFrameworkCurrentContext, usePortalClient } from '../../hooks';
+import { useViewController } from '../../providers';
 import { getViewById } from '../portal';
 
-export const useCurrentView = () => {
+export const useCurrentViewQuery = () => {
   const id = useViewController().currentView?.id;
   const currentContext = useFrameworkCurrentContext();
 

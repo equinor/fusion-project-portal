@@ -9,12 +9,13 @@ export async function getAppGroups(
 ): Promise<AppGroup[] | []> {
   try {
     if (!viewId) return [];
-    const uri = `/api/work-surfaces/${viewId}/contexts/${contextExternalId}/apps`;
+    let uri = `/api/work-surfaces/${viewId}/apps`;
+    if (contextExternalId)
+      uri = `/api/work-surfaces/${viewId}/contexts/${contextExternalId}/apps`;
 
     const res = await client.fetch(uri);
     if (!res.ok) throw res;
     const data = (await res.json()) as AppGroup[];
-    console.table(data);
     return data || [];
   } catch (error) {
     console.error(error);

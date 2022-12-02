@@ -1,12 +1,12 @@
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { usePresence } from '@equinor/portal-core';
+import { usePresenceQuery } from '@equinor/portal-core';
 
 import { getPresenceInfo } from './parsePresenceStatus';
 import { StyledStatusIconOverAvatar } from './top-bar-avatar.styles';
 
 export const TopBarAvatar = (): JSX.Element | null => {
-  const { data, isLoading, error } = usePresence();
+  const { data, isLoading, error } = usePresenceQuery();
 
   if (isLoading) {
     return (

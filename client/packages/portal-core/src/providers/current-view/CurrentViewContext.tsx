@@ -8,10 +8,10 @@ import {
   useMemo,
 } from 'react';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { useStoreCurrentViewId } from '../hooks';
-import { useViews } from '../queries';
-import { viewStorage } from '../store';
-import { View } from '../types';
+import { useStoreCurrentViewId } from '../../hooks';
+import { useViewsQuery } from '../../queries';
+import { viewStorage } from '../../store';
+import { View } from '../../types';
 import { FailedToLoadViews } from './FailedToLoadViews';
 
 /** View context type */
@@ -39,10 +39,10 @@ type ViewControllerProviderProps = {
 };
 
 export const ViewProvider = ({ children }: ViewControllerProviderProps) => {
-  /** Dont halt user if he/she is loading an app */
+  /** Don't halt user if he/she is loading an app */
   const shouldHalt = !location.pathname.includes('apps');
 
-  const { data, isLoading, error } = useViews();
+  const { data, isLoading, error } = useViewsQuery();
 
   const currentViewKey = useObservable(currentViewKey$) || viewStorage.readId();
 

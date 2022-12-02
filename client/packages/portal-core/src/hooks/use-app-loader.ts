@@ -1,29 +1,32 @@
 import { useFramework } from '@equinor/fusion-framework-react/hooks';
-import { useCallback, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { ModuleLoader } from '../module-loader/module';
 
-export function useAppLoader() {
+export function useAppLoader(moduleId: string) {
   const fusion = useFramework<[ModuleLoader<'appLoader'>]>();
-  const teardownModule = useRef<(() => void) | undefined>();
 
-  let loadModule = useCallback(
-    async (moduleId: string, element: HTMLDivElement) => {
-      teardownModule.current = await fusion.modules.appLoader.loadModule(
-        moduleId,
-        element,
-        {
-          fusion,
-          env: {
-            basename: window.location.pathname,
-          },
-        }
-      );
-    },
-    [fusion]
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | undefined>();
+  const [module, setModule] = useState<any | undefined>();
+
+  useEffect(() => {
+    setIsLoading(true);
+    setError(undefined);
+
+    fusion.modules.appLoader.loadModule(moduleId).subscribe({
+      next: (module: any) => {
+        setModule(module);
+      },
+      error: setError,
+      complete: () => {
+        setIsLoading(false);
+      },
+    });
+  }, [moduleId]);
 
   return {
-    loadModule,
-    teardownModule: teardownModule.current,
+    isLoading,
+    error,
+    module,
   };
 }

@@ -5,7 +5,7 @@ import {
 import { useQuery } from 'react-query';
 import { getPresence } from '../fusion/getPresence';
 
-export const usePresence = () => {
+export const usePresenceQuery = () => {
   const client = useFramework().modules.serviceDiscovery.createClient('people');
   const currentUser = useCurrentUser();
 

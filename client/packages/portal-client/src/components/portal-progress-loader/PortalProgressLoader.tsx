@@ -15,11 +15,15 @@ const Progress = styled(StarProgress)`
   width: 85px;
 `;
 
-export function PortalProgressLoader() {
+interface ProgressLoaderProps {
+  title: string;
+}
+
+export function PortalProgressLoader({ title }: ProgressLoaderProps) {
   return (
     <Wrapper>
       <Progress />
-      <Typography variant="h5"> Configuring Portal</Typography>
+      <Typography variant="h5"> {title}</Typography>
     </Wrapper>
   );
 }

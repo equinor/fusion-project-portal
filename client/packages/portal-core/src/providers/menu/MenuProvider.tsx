@@ -1,36 +1,27 @@
-import { AppGroup, useMenuItems } from '@equinor/portal-core';
+import { useAppGroupsQuery } from '@equinor/portal-core';
 import { storage } from '@equinor/portal-utils';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useState } from 'react';
+import { IMenuContext, IMenuState } from './menu-types';
 
 const MENU_KEY = 'menuState';
 
-const initialState: MenuState = {
+const initialState: IMenuState = {
   menuActive: false,
   data: [],
   isLoading: false,
 };
 
-export interface MenuState {
-  menuActive: boolean;
-  data: AppGroup[];
-  isLoading: boolean;
-}
-
-export interface MenuContext extends MenuState {
-  toggleMenu<T>(e?: React.MouseEvent<T>): void;
-  closeMenu(): void;
-}
-
-const MenuContext = createContext<MenuContext>({} as MenuContext);
+export const MenuContext = createContext<IMenuContext>({} as IMenuContext);
 
 export const MenuProvider = ({
   children,
 }: PropsWithChildren<unknown>): JSX.Element => {
   const [menuState, setMenuState] = useState(
-    (storage.getItem<MenuState>(MENU_KEY) as MenuState) || initialState
+    (storage.getItem<IMenuState>(MENU_KEY) as IMenuState) || initialState
   );
 
-  const { data, isLoading } = useMenuItems();
+  const { data, isLoading } = useAppGroupsQuery();
+
   function toggleMenu<T>(e?: React.MouseEvent<T>) {
     if (e) {
       e.preventDefault();
@@ -65,7 +56,3 @@ export const MenuProvider = ({
     </MenuContext.Provider>
   );
 };
-
-export function useMenuContext(): MenuContext {
-  return useContext(MenuContext);
-}

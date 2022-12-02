@@ -21,7 +21,10 @@ const configure = createPortalFramework(portalConfig.config);
 root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Framework configure={configure} fallback={<PortalProgressLoader />}>
+      <Framework
+        configure={configure}
+        fallback={<PortalProgressLoader title="Configuring Portal" />}
+      >
         <PortalApp />
       </Framework>
     </QueryClientProvider>
