@@ -4,9 +4,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
 {
     public class ApiDeleteWorkSurfaceAppGroupRequest
     {
-        public DeleteAppGroupCommand ToCommand(Guid workSurfaceId, Guid appGroupId)
+        public DeleteAppGroupCommand ToCommand(Guid appGroupId)
         {
-            return new DeleteAppGroupCommand(workSurfaceId, appGroupId);
+            return new DeleteAppGroupCommand(appGroupId);
         }
     }
 }

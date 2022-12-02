@@ -43,7 +43,9 @@ public class OnboardAppCommand : IRequest<Guid>
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }
 
-            var onboardedApp = new OnboardedApp(command.AppKey);
+            var onboardedAppsCount = await _readWriteContext.Set<OnboardedApp>().CountAsync(cancellationToken);
+
+            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount);
 
             await _readWriteContext.Set<OnboardedApp>().AddAsync(onboardedApp, cancellationToken);
             await _readWriteContext.SaveChangesAsync(cancellationToken);

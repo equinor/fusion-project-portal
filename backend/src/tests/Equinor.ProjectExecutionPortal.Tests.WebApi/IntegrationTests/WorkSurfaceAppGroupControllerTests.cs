@@ -233,12 +233,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         #region Helpers
 
-        private static async Task<IList<ApiWorkSurfaceAppGroup>?> AssertGetAllAppGroupsForWorkSurface(Guid workSurfaceId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiAppGroup>?> AssertGetAllAppGroupsForWorkSurface(Guid workSurfaceId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetAllAppGroupsForWorkSurface(workSurfaceId, userType);
             var content = await response.Content.ReadAsStringAsync();
-            var appGroups = JsonConvert.DeserializeObject<IList<ApiWorkSurfaceAppGroup>>(content);
+            var appGroups = JsonConvert.DeserializeObject<IList<ApiAppGroup>>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);

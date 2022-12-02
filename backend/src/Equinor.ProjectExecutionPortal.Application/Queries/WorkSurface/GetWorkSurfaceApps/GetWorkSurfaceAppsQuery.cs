@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceApps;
 
-public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceAppGroupDto>>
+public class GetWorkSurfaceAppsQuery : QueryBase<IList<WorkSurfaceAppDto>>
 {
-    public GetWorkSurfaceAppGroupsWithAppsQuery(Guid workSurfaceId, string? contextExternalId)
+    public GetWorkSurfaceAppsQuery(Guid workSurfaceId, string? contextExternalId)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
@@ -20,7 +20,7 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithAppsQuery, IList<WorkSurfaceAppGroupDto>>
+    public class Handler : IRequestHandler<GetWorkSurfaceAppsQuery, IList<WorkSurfaceAppDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IMapper _mapper;
@@ -33,17 +33,17 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
             _appService = appService;
         }
 
-        public async Task<IList<WorkSurfaceAppGroupDto>> Handle(GetWorkSurfaceAppGroupsWithAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppDto>> Handle(GetWorkSurfaceAppsQuery request, CancellationToken cancellationToken)
         {
             Domain.Entities.WorkSurface? workSurface;
 
             if (request.ContextExternalId != null)
             {
-                workSurface = await GetAppGroupsWithGlobalAndContextApps(request.WorkSurfaceId, request.ContextExternalId, cancellationToken);
+                workSurface = await GetGlobalAndContextAppsForWorkSurface(request.WorkSurfaceId, request.ContextExternalId, cancellationToken);
             }
             else
             {
-                workSurface = await GetAppGroupsWithGlobalApps(request.WorkSurfaceId, cancellationToken);
+                workSurface = await GetGlobalAppsForWorkSurface(request.WorkSurfaceId, cancellationToken);
             }
 
             if (workSurface == null)
@@ -51,31 +51,35 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
                 throw new NotFoundException(nameof(WorkSurfaceApp), request.WorkSurfaceId);
             }
 
-            var appGroups = _mapper.Map<List<Domain.Entities.WorkSurfaceAppGroup>, List<WorkSurfaceAppGroupDto>>(workSurface.AppGroups.ToList());
+            // TODO: Group by AppGroup and return list of AppGroups
 
-            await _appService.EnrichAppsWithFusionAppData(appGroups.SelectMany(x => x.Apps).ToList(), cancellationToken);
+            var test = workSurface.Apps.GroupBy(x => x.OnboardedApp.AppGroup.Name);
 
-            return appGroups;
+            var surfaceApps = _mapper.Map<List<Domain.Entities.WorkSurfaceApp>, List<WorkSurfaceAppDto>>(workSurface.Apps.ToList());
+
+            await _appService.EnrichAppsWithFusionAppData(surfaceApps.ToList(), cancellationToken);
+
+            return surfaceApps;
         }
 
-        private Task<Domain.Entities.WorkSurface?> GetAppGroupsWithGlobalApps(Guid workSurfaceId, CancellationToken cancellationToken)
+        private Task<Domain.Entities.WorkSurface?> GetGlobalAppsForWorkSurface(Guid workSurfaceId, CancellationToken cancellationToken)
         {
             return _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
-                .Include(x => x.AppGroups)
-                .ThenInclude(appGroup => appGroup.Apps.Where(app => app.ExternalId == null))
+                .Include(workSurface => workSurface.Apps.Where(app => app.ExternalId == null))
                 .ThenInclude(app => app.OnboardedApp)
+                .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .OrderBy(appGroup => appGroup.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
         }
 
-        private Task<Domain.Entities.WorkSurface?> GetAppGroupsWithGlobalAndContextApps(Guid workSurfaceId, string contextExternalId, CancellationToken cancellationToken)
+        private Task<Domain.Entities.WorkSurface?> GetGlobalAndContextAppsForWorkSurface(Guid workSurfaceId, string contextExternalId, CancellationToken cancellationToken)
         {
             return _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
-                .Include(x => x.AppGroups)
-                .ThenInclude(appGroup => appGroup.Apps.Where(app => app.ExternalId == null || app.ExternalId == contextExternalId))
+                .Include(appGroup => appGroup.Apps.Where(app => app.ExternalId == null || app.ExternalId == contextExternalId))
                 .ThenInclude(app => app.OnboardedApp)
+                .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .OrderBy(appGroup => appGroup.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
         }

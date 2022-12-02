@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
@@ -11,8 +12,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         public ApiOnboardedApp(OnboardedAppDto onboardedAppDto)
         {
             AppKey = onboardedAppDto.AppKey;
+            AppGroup = new ApiAppGroup(onboardedAppDto.AppGroup);
         }
         
         public string AppKey { get; set; }
+        public ApiAppGroup AppGroup { get; set; }
     }
 }

@@ -75,7 +75,7 @@ public class AddWorkSurfaceAppCommand : IRequest<Unit>
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.Order, command.WorkSurfaceId, command.AppGroupId);
+            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId);
 
             workSurfaceWithGlobalApps.AddApp(workSurfaceApp);
         }
@@ -110,7 +110,7 @@ public class AddWorkSurfaceAppCommand : IRequest<Unit>
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.Order, command.WorkSurfaceId, command.ContextExternalId, command.ContextType, command.AppGroupId);
+            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, command.ContextExternalId, command.ContextType);
 
             workSurfaceWithContextApps.AddApp(workSurfaceApp);
         }

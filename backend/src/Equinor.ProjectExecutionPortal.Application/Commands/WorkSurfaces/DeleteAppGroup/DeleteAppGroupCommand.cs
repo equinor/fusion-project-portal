@@ -8,13 +8,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.Delet
 
 public class DeleteAppGroupCommand : IRequest<Guid>
 {
-    public DeleteAppGroupCommand(Guid workSurfaceId, Guid appGroupId)
+    public DeleteAppGroupCommand(Guid appGroupId)
     {
-        WorkSurfaceId = workSurfaceId;
         AppGroupId = appGroupId;
     }
 
-    public Guid WorkSurfaceId { get; set; }
     public Guid AppGroupId { get; set; }
 
     public class Handler : IRequestHandler<DeleteAppGroupCommand, Guid>
@@ -28,9 +26,9 @@ public class DeleteAppGroupCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(DeleteAppGroupCommand command, CancellationToken cancellationToken)
         {
-            var appGroup = await _readWriteContext.Set<WorkSurfaceAppGroup>()
+            var appGroup = await _readWriteContext.Set<AppGroup>()
                 .Include(x => x.Apps)
-                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId && x.WorkSurfaceId == command.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId, cancellationToken);
 
             if (appGroup == null)
             {
@@ -42,19 +40,19 @@ public class DeleteAppGroupCommand : IRequest<Guid>
                 throw new InvalidActionException("Can't delete app group because apps exists in it.");
             }
 
-            _readWriteContext.Set<WorkSurfaceAppGroup>().Remove(appGroup);
+            _readWriteContext.Set<AppGroup>().Remove(appGroup);
 
-            // Perform re-ordering of remaining items
-            var workSurface = await _readWriteContext.Set<WorkSurface>()
-                .Include(x => x.AppGroups)
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+            // TODO Perform re-ordering of remaining items
+            //var workSurface = await _readWriteContext.Set<WorkSurface>()
+            //    .Include(x => x.AppGroups)
+            //    .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
-            if (workSurface == null)
-            {
-                throw new NotFoundException(nameof(workSurface));
-            }
+            //if (workSurface == null)
+            //{
+            //    throw new NotFoundException(nameof(workSurface));
+            //}
 
-            workSurface.ReorderAppGroups(workSurface.AppGroups.OrderBy(x => x.Order).Select(x => x.Id).ToList());
+            //workSurface.ReorderAppGroups(workSurface.AppGroups.OrderBy(x => x.Order).Select(x => x.Id).ToList());
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

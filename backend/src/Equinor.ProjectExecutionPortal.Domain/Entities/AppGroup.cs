@@ -6,14 +6,14 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// An Application Group acts as a grouping and ordering of selected portal applications
 /// </summary>
-public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class AppGroup : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int NameLengthMax = 200;
     public const int AccentColorLengthMax = 7;
 
-    private readonly List<WorkSurfaceApp> _apps = new();
+    private readonly List<OnboardedApp> _apps = new();
 
-    public WorkSurfaceAppGroup(string name, int order, string accentColor)
+    public AppGroup(string name, int order, string accentColor)
     {
         Name = name;
         Order = order;
@@ -24,10 +24,7 @@ public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IMod
     public int Order { get; set; }
     public string AccentColor { get; set; }
 
-    public Guid WorkSurfaceId { get; set; }
-    public WorkSurface WorkSurface { get; set; }
-
-    public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
+    public IReadOnlyCollection<OnboardedApp> Apps => _apps.AsReadOnly();
 
     public void Update(string name, string accentColor)
     {
@@ -35,7 +32,7 @@ public class WorkSurfaceAppGroup : AuditableEntityBase, ICreationAuditable, IMod
         AccentColor = accentColor;
     }
 
-    public void AddApp(WorkSurfaceApp app)
+    public void AddApp(OnboardedApp app)
     {
         _apps.Add(app);
     }

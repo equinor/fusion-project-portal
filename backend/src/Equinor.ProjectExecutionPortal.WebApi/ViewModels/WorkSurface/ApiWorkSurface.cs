@@ -1,11 +1,12 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
     public class ApiWorkSurface
     {
-        public ApiWorkSurface() { }
+        public ApiWorkSurface()
+        { }
 
         public ApiWorkSurface(WorkSurfaceDto workSurfaceDto)
         {
@@ -17,7 +18,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             Order = workSurfaceDto.Order;
             Icon = workSurfaceDto.Icon;
             IsDefault = workSurfaceDto.IsDefault;
-            AppGroups = workSurfaceDto.AppGroups.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
+            Apps = workSurfaceDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList();
         }
 
         public Guid Id { get; set; }
@@ -28,6 +29,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
         public int Order { get; set; }
         public string Icon { get; set; }
         public bool IsDefault { get; set; }
-        public List<ApiWorkSurfaceAppGroup> AppGroups { get; set; }
+        public List<ApiWorkSurfaceApp> Apps { get; set; }
     }
 }

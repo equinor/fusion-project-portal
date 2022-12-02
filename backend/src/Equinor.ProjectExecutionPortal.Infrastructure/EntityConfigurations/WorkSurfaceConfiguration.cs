@@ -38,9 +38,5 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
         builder.HasMany(x => x.Apps)
             .WithOne(x => x.WorkSurface)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasMany(x => x.AppGroups)
-            .WithOne(x => x.WorkSurface)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

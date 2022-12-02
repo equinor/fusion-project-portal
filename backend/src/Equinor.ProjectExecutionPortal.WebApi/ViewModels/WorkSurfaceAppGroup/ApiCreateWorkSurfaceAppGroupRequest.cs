@@ -8,9 +8,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
         public string Name { get; set; }
         public string AccentColor { get; set; }
 
-        public CreateAppGroupCommand ToCommand(Guid workSurfaceId)
+        public CreateAppGroupCommand ToCommand()
         {
-            return new CreateAppGroupCommand(workSurfaceId, Name, AccentColor);
+            return new CreateAppGroupCommand(Name, AccentColor);
         }
 
         public class CreateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiCreateWorkSurfaceAppGroupRequest>
@@ -23,7 +23,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
                     .WithMessage("Name is required");
 
                 RuleFor(x => x.AccentColor)
-                    .MaximumLength(Domain.Entities.WorkSurfaceAppGroup.AccentColorLengthMax)
+                    .MaximumLength(Domain.Entities.AppGroup.AccentColorLengthMax)
                     .NotContainScriptTag();
             }
         }

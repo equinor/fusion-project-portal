@@ -8,15 +8,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.Updat
 
 public class UpdateAppGroupCommand : IRequest<Guid>
 {
-    public UpdateAppGroupCommand(Guid workSurfaceId, Guid appGroupId, string name, string accentColor)
+    public UpdateAppGroupCommand(Guid appGroupId, string name, string accentColor)
     {
-        WorkSurfaceId = workSurfaceId;
         AppGroupId = appGroupId;
         Name = name;
         AccentColor = accentColor;
     }
 
-    public Guid WorkSurfaceId { get; set; }
     public Guid AppGroupId { get; set; }
     public string Name { get; set; }
     public string AccentColor { get; set; }
@@ -32,8 +30,8 @@ public class UpdateAppGroupCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(UpdateAppGroupCommand command, CancellationToken cancellationToken)
         {
-            var appGroup = await _readWriteContext.Set<WorkSurfaceAppGroup>()
-                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId && x.WorkSurfaceId == command.WorkSurfaceId, cancellationToken);
+            var appGroup = await _readWriteContext.Set<AppGroup>()
+                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId, cancellationToken);
 
             if (appGroup == null)
             {
