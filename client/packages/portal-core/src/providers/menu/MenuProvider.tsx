@@ -7,7 +7,7 @@ const MENU_KEY = 'menuState';
 
 const initialState: IMenuState = {
   menuActive: false,
-  data: [],
+  appGroups: [],
   isLoading: false,
 };
 
@@ -48,7 +48,7 @@ export const MenuProvider = ({
         ...menuState,
         toggleMenu,
         closeMenu,
-        data: data || [],
+        appGroups: data || [],
         isLoading,
       }}
     >

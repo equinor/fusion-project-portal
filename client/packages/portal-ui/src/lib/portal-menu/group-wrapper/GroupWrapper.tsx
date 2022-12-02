@@ -10,13 +10,15 @@ const StyledGroupWrapper = styled.div`
 `;
 
 type GroupWrapperProps = {
-  groups: AppGroup[];
+  appGroups: AppGroup[];
 };
-export const GroupWrapper = ({ groups }: GroupWrapperProps) => {
+export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
   return (
     <StyledGroupWrapper>
-      {groups.length ? (
-        groups.map((group) => <Group key={group.name} group={group} />)
+      {appGroups.length ? (
+        appGroups.map((appGroup) => (
+          <Group key={appGroup.name} group={appGroup} />
+        ))
       ) : (
         <InfoMessage>No application awaitable for this view</InfoMessage>
       )}

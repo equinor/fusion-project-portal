@@ -2,7 +2,7 @@ import { AppGroup } from '../../types';
 
 export interface IMenuState {
   menuActive: boolean;
-  data: AppGroup[];
+  appGroups: AppGroup[];
   isLoading: boolean;
 }
 
