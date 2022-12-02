@@ -1,26 +1,26 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.CreateAppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppGroup;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
 {
-    public class ApiCreateWorkSurfaceAppGroupRequest
+    public class ApiUpdateWorkSurfaceAppGroupRequest
     {
         public string Name { get; set; }
         public string AccentColor { get; set; }
 
-        public CreateAppGroupCommand ToCommand(Guid workSurfaceId)
+        public UpdateAppGroupCommand ToCommand(Guid workSurfaceId, Guid appGroupId)
         {
-            return new CreateAppGroupCommand(workSurfaceId, Name, AccentColor);
+            return new UpdateAppGroupCommand(workSurfaceId, appGroupId, Name, AccentColor);
         }
 
-        public class CreateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiCreateWorkSurfaceAppGroupRequest>
+        public class UpdateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiUpdateWorkSurfaceAppGroupRequest>
         {
-            public CreateWorkSurfaceAppGroupRequestValidator()
+            public UpdateWorkSurfaceAppGroupRequestValidator()
             {
                 RuleFor(x => x.Name)
                     .NotEmpty()
                     .NotContainScriptTag()
-                    .WithMessage("Name is required");
+                    .WithMessage("Name required");
 
                 RuleFor(x => x.AccentColor)
                     .MaximumLength(Domain.Entities.WorkSurfaceAppGroup.AccentColorLengthMax)

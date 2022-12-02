@@ -1,7 +1,9 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup.GetAppGroupsForWorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,6 +56,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var request = new ApiSetWorkSurfaceAsDefaultRequest();
             return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
+
+        // Apps
 
         [HttpGet("{workSurfaceId:guid}/apps")]
         [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
@@ -122,8 +126,44 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpPut("{workSurfaceId:guid}/app-groups/order")]
-        public async Task<ActionResult<Guid>> UpdateAppGroupOrder([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateAppGroupsOrderRequest request)
+        // App Groups
+
+        [HttpGet("{workSurfaceId:guid}/app-groups")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroup>>> GetAppGroups([FromRoute] Guid workSurfaceId)
+        {
+            var appGroupsDto = await Mediator.Send(new GetAppGroupsForWorkSurfaceQuery(workSurfaceId));
+
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find work surface");
+            }
+
+            return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
+        }
+
+        [HttpPost("{workSurfaceId:guid}/app-groups")]
+        public async Task<ActionResult<Guid>> CreateAppGroup([FromRoute] Guid workSurfaceId, [FromBody] ApiCreateWorkSurfaceAppGroupRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
+
+        [HttpPut("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
+        public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId, [FromBody] ApiUpdateWorkSurfaceAppGroupRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(workSurfaceId, appGroupId));
+        }
+
+        [HttpDelete("{workSurfaceId:guid}/app-groups/{appGroupId:guid}")]
+        public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid workSurfaceId, [FromRoute] Guid appGroupId)
+        {
+            var request = new ApiDeleteWorkSurfaceAppGroupRequest();
+            await Mediator.Send(request.ToCommand(workSurfaceId, appGroupId));
+
+            return NoContent();
+        }
+
+        [HttpPut("{workSurfaceId:guid}/app-groups/reorder")]
+        public async Task<ActionResult<Guid>> ReorderAppGroups([FromRoute] Guid workSurfaceId, [FromBody] ApiReorderAppGroupsRequest request)
         {
             return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
