@@ -7,11 +7,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceApps;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppsByAppGroup;
 
-public class GetWorkSurfaceAppsQuery : QueryBase<IList<WorkSurfaceAppDto>>
+public class GetWorkSurfaceAppsByAppGroupQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>>
 {
-    public GetWorkSurfaceAppsQuery(Guid workSurfaceId, string? contextExternalId)
+    public GetWorkSurfaceAppsByAppGroupQuery(Guid workSurfaceId, string? contextExternalId)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
@@ -20,7 +20,7 @@ public class GetWorkSurfaceAppsQuery : QueryBase<IList<WorkSurfaceAppDto>>
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppsQuery, IList<WorkSurfaceAppDto>>
+    public class Handler : IRequestHandler<GetWorkSurfaceAppsByAppGroupQuery, IList<WorkSurfaceAppGroupWithAppsDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ public class GetWorkSurfaceAppsQuery : QueryBase<IList<WorkSurfaceAppDto>>
             _appService = appService;
         }
 
-        public async Task<IList<WorkSurfaceAppDto>> Handle(GetWorkSurfaceAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppsByAppGroupQuery request, CancellationToken cancellationToken)
         {
             Domain.Entities.WorkSurface? workSurface;
 
@@ -51,15 +51,11 @@ public class GetWorkSurfaceAppsQuery : QueryBase<IList<WorkSurfaceAppDto>>
                 throw new NotFoundException(nameof(WorkSurfaceApp), request.WorkSurfaceId);
             }
 
-            // TODO: Group by AppGroup and return list of AppGroups
+            var appGroupsWithApps = MapWorkSurfaceToAppGroups(workSurface);
 
-            var test = workSurface.Apps.GroupBy(x => x.OnboardedApp.AppGroup.Name);
+            await _appService.EnrichAppsWithFusionAppData(appGroupsWithApps.SelectMany(x => x.Apps).ToList(), cancellationToken);
 
-            var surfaceApps = _mapper.Map<List<Domain.Entities.WorkSurfaceApp>, List<WorkSurfaceAppDto>>(workSurface.Apps.ToList());
-
-            await _appService.EnrichAppsWithFusionAppData(surfaceApps.ToList(), cancellationToken);
-
-            return surfaceApps;
+            return appGroupsWithApps;
         }
 
         private Task<Domain.Entities.WorkSurface?> GetGlobalAppsForWorkSurface(Guid workSurfaceId, CancellationToken cancellationToken)
@@ -82,6 +78,24 @@ public class GetWorkSurfaceAppsQuery : QueryBase<IList<WorkSurfaceAppDto>>
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .OrderBy(appGroup => appGroup.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
+        }
+
+        private List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(Domain.Entities.WorkSurface workSurface)
+        {
+            var appGrouping = workSurface.Apps.GroupBy(x => new
+            {
+                x.OnboardedApp.AppGroup.Name,
+                x.OnboardedApp.AppGroup.Order,
+                x.OnboardedApp.AppGroup.AccentColor
+            });
+
+            return appGrouping.Select(x => new WorkSurfaceAppGroupWithAppsDto
+            {
+                Name = x.Key.Name,
+                AccentColor = x.Key.AccentColor,
+                Order = x.Key.Order,
+                Apps = x.Select(y => _mapper.Map<WorkSurfaceApp, WorkSurfaceAppDto>(y)).ToList()
+            }).ToList();
         }
     }
 }

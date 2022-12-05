@@ -1,9 +1,9 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.CreateAppGroup;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
-    public class ApiCreateWorkSurfaceAppGroupRequest
+    public class ApiCreateAppGroupRequest
     {
         public string Name { get; set; }
         public string AccentColor { get; set; }
@@ -13,7 +13,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
             return new CreateAppGroupCommand(Name, AccentColor);
         }
 
-        public class CreateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiCreateWorkSurfaceAppGroupRequest>
+        public class CreateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiCreateAppGroupRequest>
         {
             public CreateWorkSurfaceAppGroupRequestValidator()
             {

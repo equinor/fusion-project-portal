@@ -1,7 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
     public class ApiAppGroup
     {

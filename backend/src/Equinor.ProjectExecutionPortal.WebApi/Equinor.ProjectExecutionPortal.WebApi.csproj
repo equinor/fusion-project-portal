@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Infrastructure\Equinor.ProjectExecutionPortal.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\WorkSurfaceAppGroup\" />
+  </ItemGroup>
+
 </Project>

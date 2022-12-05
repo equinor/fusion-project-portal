@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {

@@ -2,7 +2,7 @@
 using System.Text;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -54,7 +54,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var getAllBeforeAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
             var totalCountBeforeAdded = getAllBeforeAdded?.Count;
 
-            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            var payload = new ApiCreateAppGroupRequest
             {
                 Name = "A newly added appGroup",
                 AccentColor = "#e62cba"
@@ -77,7 +77,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Create_Valid_AppGroupForWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            var payload = new ApiCreateAppGroupRequest
             {
                 Name = "A newly added appGroup",
                 AccentColor = "#e62cba"
@@ -102,7 +102,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var getAllBeforeAdded = await AssertGetAllAppGroupsForWorkSurface(workSurfaceToTest.Id, UserType.Authenticated, HttpStatusCode.OK);
             var theOneToUpdate = getAllBeforeAdded!.First();
 
-            var payload = new ApiUpdateWorkSurfaceAppGroupRequest
+            var payload = new ApiUpdateAppGroupRequest
             {
                 Name = "An updated app group",
                 AccentColor = "#93f542"
@@ -125,7 +125,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Update_Valid_AppGroupInWorkSurface_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var payload = new ApiUpdateWorkSurfaceAppGroupRequest
+            var payload = new ApiUpdateAppGroupRequest
             {
                 Name = "An updated app group",
                 AccentColor = "#93f542"
@@ -189,7 +189,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
             Assert.IsNotNull(workSurfaceToTest);
 
-            var payload = new ApiCreateWorkSurfaceAppGroupRequest
+            var payload = new ApiCreateAppGroupRequest
             {
                 Name = "A soon to be deleted appGroup",
                 AccentColor = "#e62cba"
@@ -268,7 +268,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return response;
         }
 
-        private static async Task<HttpResponseMessage> CreateAppGroupForWorkSurface(ApiCreateWorkSurfaceAppGroupRequest newAppGroup, Guid workSurfaceId, UserType userType)
+        private static async Task<HttpResponseMessage> CreateAppGroupForWorkSurface(ApiCreateAppGroupRequest newAppGroup, Guid workSurfaceId, UserType userType)
         {
             var serializePayload = JsonConvert.SerializeObject(newAppGroup);
             var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
@@ -279,7 +279,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return response;
         }
 
-        private static async Task<HttpResponseMessage> UpdateAppGroupInWorkSurface(ApiUpdateWorkSurfaceAppGroupRequest updatedAppGroup, Guid appGroupId, Guid workSurfaceId, UserType userType)
+        private static async Task<HttpResponseMessage> UpdateAppGroupInWorkSurface(ApiUpdateAppGroupRequest updatedAppGroup, Guid appGroupId, Guid workSurfaceId, UserType userType)
         {
             var serializePayload = JsonConvert.SerializeObject(updatedAppGroup);
             var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");

@@ -1,6 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests

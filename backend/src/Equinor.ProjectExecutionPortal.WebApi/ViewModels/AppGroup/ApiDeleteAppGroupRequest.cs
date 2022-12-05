@@ -1,8 +1,8 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.DeleteAppGroup;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
-    public class ApiDeleteWorkSurfaceAppGroupRequest
+    public class ApiDeleteAppGroupRequest
     {
         public DeleteAppGroupCommand ToCommand(Guid appGroupId)
         {

@@ -1,9 +1,9 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppGroup;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
-    public class ApiUpdateWorkSurfaceAppGroupRequest
+    public class ApiUpdateAppGroupRequest
     {
         public string Name { get; set; }
         public string AccentColor { get; set; }
@@ -13,7 +13,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
             return new UpdateAppGroupCommand(appGroupId, Name, AccentColor);
         }
 
-        public class UpdateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiUpdateWorkSurfaceAppGroupRequest>
+        public class UpdateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiUpdateAppGroupRequest>
         {
             public UpdateWorkSurfaceAppGroupRequestValidator()
             {

@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.ReorderAppGroups;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
     public class ApiReorderAppGroupsRequest
     {

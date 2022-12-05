@@ -3,7 +3,6 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
