@@ -20,7 +20,7 @@ jobs:
       configFile: client/config/client-dev-config.json
       configGlobal: .config/global-config.json
       deploymentName: client_app_build
-      dockerFile: client/Dockerfile
+      dockerPath: client/
       environment: non-prod
       envLocation: noe
     secrets:

@@ -18,7 +18,7 @@ on:
         type: string
         required: true
 
-      dockerFile:
+      dockerPath:
         description: Path to DockerFile
         type: string
         required: true
@@ -57,7 +57,7 @@ jobs:
     env:
       CONFIG_FILE: ${{ inputs.configFile }}
       CONFIG_GLOBAL: ${{ inputs.configGlobal }}
-      DOCKERFILE: ${{ inputs.dockerFile }}
+      DOCKER_PATH: ${{ inputs.dockerPath }}
       DEPLOYMENT_NAME: ${{ inputs.deploymentName }}
       ENV_LOCATION: ${{ inputs.envLocation }}
 
@@ -98,6 +98,6 @@ jobs:
           $tagUnique = "$containerRegistry.azurecr.io/$($repository):${{ github.run_number }}"
           $tagLatest = "$containerRegistry.azurecr.io/$($repository):latest"
 
-          docker build $env:DOCKERFILE -t "$tagUnique" -t "$tagLatest"
+          docker build $env:DOCKER_PATH -t "$tagUnique" -t "$tagLatest"
           docker push "$tagUnique"
           docker push "$tagLatest"
