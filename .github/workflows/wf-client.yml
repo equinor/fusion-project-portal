@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - feat/client-ci-cd-pipeline
     paths:
       - "client/**"
 
