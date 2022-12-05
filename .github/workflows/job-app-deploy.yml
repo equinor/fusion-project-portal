@@ -90,5 +90,6 @@ jobs:
             az webapp config container set `
                 --resource-group $rgName `
                 --name $appName `
-                --docker-registry-server-url "https://$containerRegistry.azurecr.io" `
-                --docker-custom-image-name "$containerRegistry.azurecr.io/$repository:${{ github.run_number }}"
+                --docker-registry-server-url "https://$($containerRegistry).azurecr.io" `
+                --docker-custom-image-name "$containerRegistry.azurecr.io/$($repository):${{ github.run_number }}" `
+                --output none
