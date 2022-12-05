@@ -95,8 +95,8 @@ jobs:
           $containerRegistry = $configGlobal.$envLocation.resources.containerRegistry
           $repository        = $configGlobal.$envLocation.resources.repository.$appType
 
-          $tagUnique = "$containerRegistry.azurecr.io/$repository:${{ github.run_number }}"
-          $tagLatest = "$containerRegistry.azurecr.io/$repository:latest"
+          $tagUnique = "$containerRegistry.azurecr.io/$($repository):${{ github.run_number }}"
+          $tagLatest = "$containerRegistry.azurecr.io/$($repository):latest"
 
           docker build $env:DOCKERFILE -t "$tagUnique" -t "$tagLatest"
           docker push "$tagUnique"
