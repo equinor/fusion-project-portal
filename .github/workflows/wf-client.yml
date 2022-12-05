@@ -10,10 +10,8 @@ on:
   push:
     branches:
       - main
-      - feat/client-ci-cd
     paths:
       - "client/**"
-      - ".github/**"
 
 jobs:
   # app-build

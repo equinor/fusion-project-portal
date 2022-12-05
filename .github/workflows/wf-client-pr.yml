@@ -1,4 +1,4 @@
-name: wf-client
+name: wf-client-pr
 
 # Set permissions granted to GITHUB_TOKEN in caller workflow:
 permissions:
