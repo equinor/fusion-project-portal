@@ -5,12 +5,13 @@ permissions:
   id-token: write
   contents: read
 
-on: [pull_request]
-  push:
+on:
+  [pull_request]:
     branches:
       - main
     paths:
       - "client/**"
+      - ".github/**"
 
 jobs:
   # app-build
@@ -24,6 +25,7 @@ jobs:
       dockerPath: client/
       environment: non-prod
       envLocation: noe
+      isPullRequest: true
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
