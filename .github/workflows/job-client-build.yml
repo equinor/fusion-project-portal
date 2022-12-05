@@ -35,7 +35,7 @@ on:
 
       isPullRequest:
         description: The job is a pull request
-        type: bool
+        type: boolean
         required: true
 
     secrets:
