@@ -9,13 +9,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feat/client-ci-cd-pipeline
+      - feat/client-ci-cd
 
 jobs:
   # app-build
   app-build:
     name: Client App Build
-    uses: ./.github/workflows/job-client-build.yml
+    uses: ./pipelines/client/job-client-build.yml
     with:
       configFile: client/config/client-dev-config.json
       configGlobal: .config/global-config.json
@@ -32,7 +32,7 @@ jobs:
   app-deploy-dev:
     name: Client App Deploy
     needs: app-build
-    uses: ./.github/workflows/job-app-deploy.yml
+    uses: ./pipelines/client/job-app-deploy.yml
     with:
       configFile: ./client/config/client-dev-config.json
       configGlobal: .config/global-config.json
