@@ -6,11 +6,10 @@ permissions:
   contents: read
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - feat/client-ci-cd-pipeline
-    paths:
-      - "client/**"
 
 jobs:
   # app-build
