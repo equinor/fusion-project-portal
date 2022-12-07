@@ -24,7 +24,6 @@ export function ModuleLoader<TProps>({ moduleId }: ModuleLoaderProps<TProps>) {
   const fusion = useFramework();
 
   useEffect(() => {
-    console.log(module, ref.current);
     if (module && ref.current) {
       const renderFn = module.render || module.default;
       return renderFn(ref.current, {
