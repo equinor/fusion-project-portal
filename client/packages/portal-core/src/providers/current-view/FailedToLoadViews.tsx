@@ -1,6 +1,6 @@
 import { Button } from '@equinor/eds-core-react';
 import { FatalError } from '@equinor/portal-ui';
-import { responseErrorParser } from '../../../portal-client/src/utils/response-error-parser/response-error-parser';
+import { responseErrorParser } from '@equinor/portal-utils';
 
 type FailedToLoadViewsProps = {
   error: Response;

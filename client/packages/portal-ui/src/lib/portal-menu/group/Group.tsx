@@ -1,12 +1,12 @@
 import { AppGroup } from '@equinor/portal-core';
-import { AppCard } from '../AppCard/AppCard';
+import { AppCard } from '../app-card/AppCard';
 import { ColorTab } from './ColorTab';
 import {
   StyledChildrenWrapper,
   StyledGroup,
   StyledGroupBody,
   StyledMenuGroupName,
-} from './group.styles';
+} from './group-styles';
 
 type GroupProps = {
   group: AppGroup;

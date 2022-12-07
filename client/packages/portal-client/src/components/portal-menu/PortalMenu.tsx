@@ -1,18 +1,16 @@
 import { Search } from '@equinor/eds-core-react';
-import { useMenuItems } from '@equinor/portal-core';
-import { PortalMenu } from '@equinor/portal-ui';
+import { useMenuContext } from '@equinor/portal-core';
+import { GroupWrapper, LoadingMenu, PortalMenu } from '@equinor/portal-ui';
+import { appsMatchingSearch } from '@equinor/portal-utils';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { appsMatchingSearch } from '../../utils/appsMatchingSearch';
-import { GroupWrapper } from './GroupWrapper/GroupWrapper';
-import { LoadingMenu } from './LoadingMenu';
 
 const StyledWrapper = styled.div`
   padding: 1rem 0;
 `;
 
 export function MenuGroups() {
-  const { data, isLoading } = useMenuItems();
+  const { appGroups, isLoading } = useMenuContext();
   const [searchText, setSearchText] = useState<string | undefined>();
 
   return (
@@ -25,10 +23,12 @@ export function MenuGroups() {
         }}
       />
       <StyledWrapper>
-        {isLoading ? (
+        {isLoading && appGroups.length === 0 ? (
           <LoadingMenu />
         ) : (
-          <GroupWrapper groups={appsMatchingSearch(data ?? [], searchText)} />
+          <GroupWrapper
+            appGroups={appsMatchingSearch(appGroups ?? [], searchText)}
+          />
         )}
       </StyledWrapper>
     </PortalMenu>

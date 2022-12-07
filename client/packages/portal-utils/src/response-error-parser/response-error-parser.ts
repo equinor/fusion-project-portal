@@ -8,7 +8,7 @@ export const responseErrorParser = (res: Response) => {
     }
 
     case 403: {
-      return 'It looks like you dont have permission to view this page';
+      return `It looks like you don't have permission to view this page`;
     }
 
     default: {

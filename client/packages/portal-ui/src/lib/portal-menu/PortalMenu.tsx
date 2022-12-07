@@ -1,5 +1,6 @@
+import { useMenuContext } from '@equinor/portal-core';
 import { PropsWithChildren } from 'react';
-import { useMenuContext } from './MenuContext';
+
 import { MenuScrim, MenuWrapper } from './MenuStyles';
 
 export const PortalMenu = ({

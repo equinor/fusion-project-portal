@@ -23,3 +23,7 @@ export const StyledActionMenuButton = styled(Button)`
   height: 48px;
   width: 48px;
 `;
+
+export const StyledActionListWrapper = styled.span`
+  display: flex;
+`;

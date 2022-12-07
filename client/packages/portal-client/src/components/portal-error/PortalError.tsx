@@ -1,30 +1,37 @@
 import { Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 const StylesWrapper = styled.div`
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60% 0;
   justify-content: center;
 `;
 
-export function InfoMessage({ children }: PropsWithChildren<{}>) {
+interface PortalErrorPageProps {
+  title: string;
+  icon?: string;
+}
+
+export function PortalErrorPage({
+  title,
+  icon = 'error_outlined',
+}: PortalErrorPageProps) {
   return (
     <StylesWrapper>
       <Icon
         size={48}
         color={tokens.colors.text.static_icons__tertiary.hex}
-        name="info_circle"
+        name={icon}
       />
       <Typography
         color={tokens.colors.text.static_icons__tertiary.hex}
         variant="h6"
       >
-        {children}
+        {title}
       </Typography>
     </StylesWrapper>
   );

@@ -3,7 +3,10 @@ import { tokens } from '@equinor/eds-tokens';
 import { PortalAction, useTopBarActions } from '@equinor/portal-core';
 import { Divider } from '@equinor/portal-ui';
 import { useEffect, useState } from 'react';
-import { StyledActionMenuButton } from './TopBarActionStyles';
+import {
+  StyledActionListWrapper,
+  StyledActionMenuButton,
+} from './TopBarActionStyles';
 
 export function TopBarActionList(): JSX.Element {
   const { topBarActions$, setActiveActionById } = useTopBarActions();
@@ -32,7 +35,7 @@ export function TopBarActionList(): JSX.Element {
             <action.icon />
           );
         return (
-          <>
+          <StyledActionListWrapper key={action.actionId}>
             <StyledActionMenuButton
               variant="ghost_icon"
               onClick={() => {
@@ -41,12 +44,11 @@ export function TopBarActionList(): JSX.Element {
                   : setActiveActionById(action.actionId);
               }}
               title={action.name}
-              key={action.actionId}
             >
               {customIcon}
             </StyledActionMenuButton>
             {action.appendDivider && !!topBarActions[index + 1] && <Divider />}
-          </>
+          </StyledActionListWrapper>
         );
       })}
       {topBarActions.length > 0 && <Divider />}
