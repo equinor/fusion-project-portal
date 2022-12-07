@@ -9,11 +9,7 @@ export async function getAppGroups(
 ): Promise<AppGroup[] | []> {
   try {
     if (!viewId) return [];
-    let uri = `/api/work-surfaces/${viewId}/apps`;
-    if (contextExternalId)
-      uri = `/api/work-surfaces/${viewId}/contexts/${contextExternalId}/apps`;
-
-    const res = await client.fetch(uri);
+    const res = await client.fetch(getAppGroupsURI(viewId, contextExternalId));
     if (!res.ok) throw res;
     const data = (await res.json()) as AppGroup[];
     return data || [];
@@ -21,4 +17,10 @@ export async function getAppGroups(
     console.error(error);
     return [];
   }
+}
+
+function getAppGroupsURI(viewId: string, contextExternalId?: string): string {
+  return contextExternalId
+    ? `/api/work-surfaces/${viewId}/contexts/${contextExternalId}/apps`
+    : `/api/work-surfaces/${viewId}/apps`;
 }
