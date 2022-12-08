@@ -5,6 +5,7 @@ import {
   ContextResultItem,
 } from '@equinor/fusion-react-context-selector';
 import { useCallback } from 'react';
+import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 ContextApiClient;
 
@@ -13,7 +14,7 @@ export const useContextResolver = (type: string[]) => {
   const minQueryLength = 3;
 
   const searchQuery = useCallback(
-    async (search: string): Promise<ContextResult | undefined> => {
+    async (search: string): Promise<ContextResult> => {
       let searchResult: ContextResult = [];
       if (!client) {
         return [
@@ -56,8 +57,6 @@ export const useContextResolver = (type: string[]) => {
         }
 
         return searchResult;
-
-        return;
       } catch (e) {
         return [
           singleItem({
@@ -74,6 +73,7 @@ export const useContextResolver = (type: string[]) => {
 
   return {
     searchQuery,
+    initialResult: getContextHistory(),
   };
 };
 

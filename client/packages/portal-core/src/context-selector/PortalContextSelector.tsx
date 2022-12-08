@@ -41,21 +41,26 @@ export const PortalContextSelector = () => {
 
   return (
     <div>
-      {currentContext && (
-        <StyledNavigationButton
-          onClick={() => navigate(`./${currentContext.id}`)}
-        >
-          Go to {currentContext?.title}
-        </StyledNavigationButton>
-      )}
       <StyledContextSelector
-        resolver={resolver}
-        ref={searchRef}
-        initialText="Type to search..."
-        onSelect={(e: ContextEvent) => {
+        id="context-selector"
+        resolver={{
+          ...resolver,
+          closeHandler: (e) => {
+            e.stopPropagation();
+            console.log('close', e);
+            contextClient.setCurrentContext(undefined);
+          },
+        }}
+        onSelect={(e: any) => {
           e.stopPropagation();
           contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
           navigate(`./${e.nativeEvent.detail.selected[0].id}`);
+        }}
+        value={contextClient.currentContext?.title || ''}
+        placeholder="Start to type to search..."
+        onChange={(e) => {
+          e.stopPropagation();
+          console.log(e);
         }}
       />
     </div>
