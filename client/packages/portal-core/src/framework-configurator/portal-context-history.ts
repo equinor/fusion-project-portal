@@ -39,7 +39,7 @@ export function getContextHistory(): ContextResult {
     storage.getItem<ContextResult>(CONTEXT_HISTORY_SOCAGE_KEY) || [];
   if (typeof storedContextHistory == 'string') return [];
 
-  return storedContextHistory;
+  return storedContextHistory.map((context: any) => ({ ...context, subTitle: context.type.id }));
 }
 
 export function setUserDefinedContextHistoryLength(contextLength?: number) {

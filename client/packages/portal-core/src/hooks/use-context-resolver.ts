@@ -1,3 +1,4 @@
+import context from '@equinor/fusion-framework-module-services/context';
 import ContextApiClient from '@equinor/fusion-framework-module-services/context';
 import { QueryContextResponse } from '@equinor/fusion-framework-module-services/context/query';
 import {
@@ -73,7 +74,12 @@ export const useContextResolver = (type: string[]) => {
 
   return {
     searchQuery,
-    initialResult: getContextHistory(),
+    initialResult: [singleItem({
+      id: 'histroy',
+      title: 'Hisory',
+      type: 'section',
+      children: getContextHistory()
+    })]
   };
 };
 
@@ -92,7 +98,7 @@ function contextResultMappedByTypes(
           id: context.type.id,
           title: context.type.id,
           type: 'section',
-          children: [singleItem({ id: context.id, title: context.title! })],
+          children: [singleItem({ id: context.id, title: context.title!, subTitle: context.type?.id })],
         })
       );
       return result;
@@ -116,6 +122,7 @@ function contextResultMapped(
     singleItem({
       id: context.id,
       title: context.title!,
+      subTitle: context.type?.id
     })
   );
 }
