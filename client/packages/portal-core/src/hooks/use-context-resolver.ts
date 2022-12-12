@@ -8,8 +8,8 @@ import { useCallback } from 'react';
 import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 ContextApiClient;
-
 export const useContextResolver = (type: string[]) => {
+
   const client = useContextClient('json');
   const minQueryLength = 3;
 
@@ -42,13 +42,13 @@ export const useContextResolver = (type: string[]) => {
           query: { search, filter: { type } },
         });
 
+        if (!contexts[0].id) return searchResult
         // Structure as type
 
         searchResult =
           type.length > 1
             ? contextResultMappedByTypes(contexts)
             : contextResultMapped(contexts);
-        searchResult.length > 0 && console.log(searchResult);
 
         if (searchResult.length === 0) {
           searchResult.push(
