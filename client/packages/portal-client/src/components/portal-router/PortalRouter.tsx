@@ -19,7 +19,7 @@ export function PortalRouter() {
             errorElement: <PortalErrorPage title="Fail to load view page" />,
           },
           {
-            path: '/context/',
+            path: '/context-page/*',
             element: <ContextPage />,
             errorElement: <PortalErrorPage title="Fail to load context page" />,
           },

@@ -27,7 +27,7 @@ export function setStoredContext(contextProvider: IContextProvider) {
     const params = new URLSearchParams()
     params.append("contextId", storedContextId)
 
-    window.location.replace(`context/?${params.toString()}`)
+    window.location.replace(`context-page/?${params.toString()}`)
 
   }
 

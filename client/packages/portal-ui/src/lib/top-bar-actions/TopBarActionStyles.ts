@@ -24,6 +24,23 @@ export const StyledActionMenuButton = styled(Button)`
   width: 48px;
 `;
 
+export const StyledActionFavoriteButton = styled.span`
+  height: 48px;
+  width: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin: 4px;
+  width: 40px;
+
+  :hover {
+    background: #fefefe;
+    border-radius: 50%;
+  }
+`;
+
 export const StyledActionListWrapper = styled.span`
   display: flex;
 `;

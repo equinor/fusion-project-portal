@@ -13,33 +13,18 @@ import {
 
 /**
  * Context user flow
- *  - [] When starting application the user need to select a context. 
- *  - [] If context selected the user should be able to remove context.
- *  - [] User should be navigated to context page when accessing the portal if context is selected.
- *  - [] The user should be able to navigat to context selection page. 
+ *  - [x] When starting application the user need to select a context. 
+ *  - [x] If context selected the user should be able to remove context.
+ *  - [x] User should be navigated to context page when accessing the portal if context is selected.
+ *  - [x] The user should be able to navigat to context selection page. 
  *  - [x] Context selector should show previous visited contexts
  *  - [] A user should be able to add context favorites 
  *  - [] Context selcetor in breadcrumbs
 */
 
 const StyledContextSelector = styled(ContextSelector)`
-flex: 1;
+    flex: 1;
 `;
-
-interface ContextEvent {
-  stopPropagation: () => void;
-  type: string;
-  currentTarget: {
-    controller: {
-      _selectedItems: any[];
-    };
-  };
-  nativeEvent: {
-    detail: {
-      selected: ContextResult;
-    };
-  };
-}
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -53,8 +38,9 @@ export const PortalContextSelector = () => {
   const resolver = useContextResolver(['ProjectMaster']);
   const contextProvider = useFrameworkContext();
   const currentContext = useFrameworkCurrentContext();
+  
   const navigate = useNavigate();
-  const searchRef = useRef();
+
 
   return (
     <StyledWrapper>
@@ -64,16 +50,15 @@ export const PortalContextSelector = () => {
           ...resolver,
           closeHandler: (e) => {
             e.stopPropagation();
-
             contextProvider.currentContext = undefined;
           },
         }}
         onSelect={(e: any) => {
           e.stopPropagation();
           contextProvider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
-          navigate(`context/$contextId=${e.nativeEvent.detail.selected[0].id}`);
+          navigate(`context-page/$contextId=${e.nativeEvent.detail.selected[0].id}`);
         }}
-        value={contextProvider.currentContext?.id ? contextProvider.currentContext?.title || "" :  ''}
+        value={currentContext?.id ? currentContext?.title || "" :  ''}
         placeholder="Start to type to search..."
         onChange={(e) => {
           e.stopPropagation();
@@ -81,7 +66,9 @@ export const PortalContextSelector = () => {
         }}
       />
 
-      { contextProvider.currentContext && (<Button variant='ghost' onClick={()=> {navigate(`context/$contextId=${contextProvider.currentContext?.id}`)}}>
+      { currentContext && (<Button variant='ghost' onClick={()=> {
+        navigate(`context-page/$contextId=${currentContext?.id}`)
+      }}>
         Go to project
       </Button>)}
     </StyledWrapper>

@@ -7,7 +7,7 @@ import {
 } from '@equinor/portal-core';
 import { MouseEvent } from 'react';
 
-import { StyledMenuItem, StyledTopBarButton } from './TopBarActionStyles';
+import { StyledActionFavoriteButton, StyledMenuItem, StyledTopBarButton } from './TopBarActionStyles';
 
 interface TopBarActionItemProps {
   action: PortalAction;
@@ -48,9 +48,8 @@ export function TopBarActionItem({
         {action.name}
       </Typography>
       {!action.dropDownOnly && (
-        <StyledTopBarButton
-          variant="ghost_icon"
-          onClick={(e: MouseEvent<HTMLButtonElement>) => {
+        <StyledActionFavoriteButton
+          onClick={(e: MouseEvent<HTMLSpanElement>) => {
             e.stopPropagation();
             toggleActionById(action.actionId);
           }}
@@ -60,7 +59,7 @@ export function TopBarActionItem({
             size={16}
             color={tokens.colors.text.static_icons__tertiary.hex}
           />
-        </StyledTopBarButton>
+        </StyledActionFavoriteButton>
       )}
     </StyledMenuItem>
   );
