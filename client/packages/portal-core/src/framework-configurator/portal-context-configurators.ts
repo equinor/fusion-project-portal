@@ -12,7 +12,7 @@ export function storeCurrentContext(contextProvider: IContextProvider) {
     // Update the history with the current context selected.
     setContextHistory(context);
 
-    if (context.id !== storedContextId){
+    if (context.id !== storedContextId) {
       storage.setItem(CONTEXT_SOCAGE_KEY, context?.id);
     }
   });
@@ -21,13 +21,14 @@ export function storeCurrentContext(contextProvider: IContextProvider) {
 export function setStoredContext(contextProvider: IContextProvider) {
   const storedContextId = storage.getItem<string>(CONTEXT_SOCAGE_KEY);
 
-  if (storedContextId && !window.location.pathname.includes("context") ){
+
+  if (storedContextId && window.location.pathname === "/") {
     const params = new URLSearchParams()
     params.append("contextId", storedContextId)
     window.location.replace(`context-page/?${params.toString()}`)
   }
 
-  if (contextProvider.currentContext?.id !== storedContextId) 
+  if (contextProvider.currentContext?.id !== storedContextId)
     contextProvider.contextClient.setCurrentContext(storedContextId);
 
 }
