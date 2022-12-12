@@ -1,4 +1,5 @@
 import { ContextItem } from '@equinor/fusion-framework-module-context';
+import { ContextResult } from '@equinor/fusion-react-context-selector';
 import { moveItemToTopByIndex, storage } from '@equinor/portal-utils';
 
 const CONTEXT_HISTORY_SOCAGE_KEY = 'contextHistory';
@@ -33,12 +34,12 @@ export function setContextHistory(context: ContextHistoryItem) {
   }
 }
 
-export function getContextHistory(): ContextHistoryItem[] {
+export function getContextHistory(): ContextResult {
   const storedContextHistory =
-    storage.getItem<ContextHistoryItem[]>(CONTEXT_HISTORY_SOCAGE_KEY) || [];
+    storage.getItem<ContextResult>(CONTEXT_HISTORY_SOCAGE_KEY) || [];
   if (typeof storedContextHistory == 'string') return [];
 
-  return storedContextHistory;
+  return storedContextHistory.map((context: any) => ({ ...context, subTitle: context.type.id }));
 }
 
 export function setUserDefinedContextHistoryLength(contextLength?: number) {

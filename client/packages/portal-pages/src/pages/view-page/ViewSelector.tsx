@@ -1,6 +1,6 @@
 import { Button, Icon } from '@equinor/eds-core-react';
 import { arrow_drop_right } from '@equinor/eds-icons';
-import { View } from '@equinor/portal-core';
+import { useFrameworkContext, View } from '@equinor/portal-core';
 import { StyledViewSelectorWrapper } from './ViewPage.Styles';
 
 interface ViewSelectorProps {
@@ -14,6 +14,8 @@ export const ViewSelector = ({
   currentView,
   setViewId,
 }: ViewSelectorProps) => {
+
+  const contextProvider = useFrameworkContext();
   return (
     <StyledViewSelectorWrapper>
       {views
@@ -25,6 +27,7 @@ export const ViewSelector = ({
               variant="ghost"
               onClick={() => {
                 setViewId(view.key);
+                contextProvider.currentContext = undefined
               }}
             >
               {view.name} <Icon {...arrow_drop_right} />
