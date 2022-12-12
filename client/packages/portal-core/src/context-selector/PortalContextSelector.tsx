@@ -9,16 +9,6 @@ import {
 } from '../hooks';
 import { getContextPageUrl } from './utils';
 
-/**
- * Context user flow
- *  - [x] When starting application the user need to select a context. 
- *  - [x] If context selected the user should be able to remove context.
- *  - [x] User should be navigated to context page when accessing the portal if context is selected.
- *  - [x] The user should be able to navigat to context selection page. 
- *  - [x] Context selector should show previous visited contexts
- *  - [] A user should be able to add context favorites 
- *  - [] Context selcetor in breadcrumbs
-*/
 
 
 const StyledWrapper = styled.div`
