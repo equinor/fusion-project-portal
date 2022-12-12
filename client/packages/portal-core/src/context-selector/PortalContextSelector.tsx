@@ -20,9 +20,6 @@ import { getContextPageUrl } from './utils';
  *  - [] Context selcetor in breadcrumbs
 */
 
-const StyledContextSelector = styled(ContextSelector)`
-    flex: 1;
-`;
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -31,19 +28,23 @@ const StyledWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     gap: .5rem;
+
+    > fwc-searchable-dropdown-provider {
+      flex: 1;
+    }
 `;
 
 export const PortalContextSelector = () => {
   const resolver = useContextResolver(['ProjectMaster']);
   const contextProvider = useFrameworkContext();
   const currentContext = useFrameworkCurrentContext();
-  
+
   const navigate = useNavigate();
 
 
   return (
     <StyledWrapper>
-      <StyledContextSelector
+      <ContextSelector
         id="context-selector"
         resolver={{
           ...resolver,
@@ -57,12 +58,12 @@ export const PortalContextSelector = () => {
           contextProvider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
           navigate(getContextPageUrl(e.nativeEvent.detail.selected[0].id));
         }}
-        value={currentContext?.id ? currentContext?.title || "" :  ''}
+        value={currentContext?.id ? currentContext?.title || "" : ''}
         placeholder="Start to type to search..."
 
       />
 
-      { currentContext && (<Button variant='ghost' onClick={()=> {
+      {currentContext && (<Button variant='ghost' onClick={() => {
         navigate(getContextPageUrl(currentContext?.id))
       }}>
         Go to project
