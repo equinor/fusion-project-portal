@@ -29,7 +29,11 @@ export function ModuleLoader<TProps>({ moduleId }: ModuleLoaderProps<TProps>) {
       return renderFn(ref.current, {
         fusion,
         env: {
+          manifest: {
+            appKey: moduleId
+          },
           basename: window.location.pathname,
+          modules: fusion,
         },
       });
     }

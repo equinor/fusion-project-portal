@@ -26,9 +26,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     addPortalClient(config, portalConfig.portalClient.client);
 
     addAppLoader(config, (moduleId: string) => {
-      return `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${
-        moduleId === 'test-app' ? 'test-app' : 'handover'
-      }`;
+      return `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${moduleId === 'test-app' ? 'test-app' : 'handover'
+        }`;
     });
 
     if (showInfo) {
