@@ -11,7 +11,7 @@ export const ViewPage = (): JSX.Element => {
   if (isLoading) return <FullPageLoading detail="Loading view" />;
 
   //TODO: Make component
-  if (!currentView) return <div>Something went wrong no view precent</div>;
+  if (!currentView) return <div>Something went wrong no view percent</div>;
 
   return (
     <StyledMain>
