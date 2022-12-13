@@ -7,7 +7,7 @@ import {
 } from '@equinor/fusion-react-context-selector';
 import { useCallback } from 'react';
 import { getContextHistory } from '../framework-configurator/portal-context-history';
-import { useContextClient } from './use-context-client';
+import { useContextClient } from '../hooks/use-context-client';
 ContextApiClient;
 export const useContextResolver = (type: string[]) => {
 
