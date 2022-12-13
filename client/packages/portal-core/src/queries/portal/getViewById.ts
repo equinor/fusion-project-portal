@@ -18,7 +18,6 @@ export async function getViewById(
     const res = await client.fetch(uri);
     if (!res.ok) throw res;
     const data = (await res.json()) as View;
-    console.table(data.appGroups);
     return data;
   } catch (error) {
     console.error(error);

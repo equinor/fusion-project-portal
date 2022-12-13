@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "update:core": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command .tools/updateFusionCore.ps1"
+    "update:core": "pwsh -NoProfile -ExecutionPolicy Unrestricted -Command .tools/updateFusionCore.ps1"
   },
   "private": true,
   "devDependencies": {
@@ -44,14 +44,14 @@
     "@equinor/eds-core-react": "^0.23.0",
     "@equinor/eds-icons": "^0.16.0",
     "@equinor/eds-tokens": "^0.7.1",
-    "@equinor/fusion-framework-app": "^3.1.16",
-    "@equinor/fusion-framework-module-ag-grid": "^1.0.17",
-    "@equinor/fusion-framework-module-context": "^0.5.0",
-    "@equinor/fusion-framework-module-services": "^0.5.6",
-    "@equinor/fusion-framework-react": "^1.3.16",
-    "@equinor/fusion-framework-react-app": "^1.3.1",
-    "@equinor/fusion-observable": "^1.4.1",
-    "@equinor/fusion-react-context-selector": "^0.1.2",
+    "@equinor/fusion-framework-app": "^4.0.14",
+    "@equinor/fusion-framework-module-ag-grid": "^1.0.19",
+    "@equinor/fusion-framework-module-context": "^1.1.10",
+    "@equinor/fusion-framework-module-services": "^1.0.8",
+    "@equinor/fusion-framework-react": "^2.0.15",
+    "@equinor/fusion-framework-react-app": "^2.0.16",
+    "@equinor/fusion-observable": "^3.0.2",
+    "@equinor/fusion-react-context-selector": "^0.1.8",
     "@equinor/fusion-react-styles": "^0.5.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

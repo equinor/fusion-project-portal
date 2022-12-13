@@ -1,0 +1,48 @@
+name: wf-client
+
+# Set permissions granted to GITHUB_TOKEN in caller workflow:
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "client/**"
+
+jobs:
+  # app-build
+  app-build:
+    name: Client App Build
+    uses: ./.github/workflows/job-client-build.yml
+    with:
+      configFile: client/config/client-dev-config.json
+      configGlobal: .config/global-config.json
+      deploymentName: client_app_build
+      dockerPath: client/
+      environment: non-prod
+      envLocation: noe
+      isPullRequest: false
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+  # app-deploy
+  app-deploy-dev:
+    name: Client App Deploy
+    needs: app-build
+    uses: ./.github/workflows/job-app-deploy.yml
+    with:
+      configFile: ./client/config/client-dev-config.json
+      configGlobal: .config/global-config.json
+      deploymentName: client_app_deploy
+      environment: non-prod
+      envLocation: noe
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

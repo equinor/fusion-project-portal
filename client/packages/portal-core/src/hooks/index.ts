@@ -5,3 +5,4 @@ export * from './use-framework-context';
 export * from './use-framework-current-context';
 export * from './use-portal-client';
 export * from './use-store-current-view-id';
+export * from './use-top-bar-actions';

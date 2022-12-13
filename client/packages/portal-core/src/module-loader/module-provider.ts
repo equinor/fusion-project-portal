@@ -13,6 +13,7 @@
 
 import type { AppManifest, Fusion } from '@equinor/fusion-framework';
 import type { AnyModule } from '@equinor/fusion-framework-module';
+import { from, Observable } from 'rxjs';
 import { IModuleLoaderConfigConfigurator } from './module-configurator';
 
 // Get form fusion framework
@@ -33,50 +34,20 @@ export interface ModuleEnv<
   env: AppEnv<TConfig, TProps>;
 }
 
-export interface IModuleProvider {
-  loadModule: <TModules extends Array<AnyModule>, TConfig, TProps>(
-    moduleId: string,
-    element: HTMLDivElement,
-    ModuleEnv?: ModuleEnv<TModules, TConfig, TProps>
-  ) => Promise<(() => void) | undefined>;
-}
-
-export class ModuleProvider implements IModuleProvider {
-  private _modulePathProvider: (moduleId: string) => string;
+export class ModuleProvider {
+  #modulePathProvider: (moduleId: string) => string;
 
   constructor(protected _config: IModuleLoaderConfigConfigurator) {
-    this._modulePathProvider = _config.urlGenerator;
+    this.#modulePathProvider = _config.urlGenerator;
   }
 
-  loadModule = async <TModules extends Array<AnyModule>, TConfig, TProps>(
-    moduleId: string,
-    element?: HTMLDivElement,
-    ModuleEnv?: ModuleEnv<TModules, TConfig, TProps>
-  ) => {
-    const loadedModule = await this._loadModuleByModulePath(
-      await this._modulePathProvider(moduleId)
-    );
+  public loadModule<TModule = unknown>(moduleId: string): Observable<TModule> {
+    return from(
+      this.#load(this.#modulePathProvider(moduleId))
+    ) as Observable<TModule>;
+  }
 
-    if (loadedModule && element) {
-      return loadedModule(element, ModuleEnv);
-    } else {
-      throw new Error(
-        'could not load application, module or element is not valid'
-      );
-    }
-  };
-
-  private _loadModuleByModulePath = async (modulePath: string) => {
-    const { render, default: moduleRender } = await import(
-      /* @vite-ignore */ modulePath
-    );
-
-    if (typeof render === 'function') {
-      return render;
-    } else if (typeof moduleRender === 'function') {
-      return moduleRender;
-    } else {
-      console.warn('This is not a valid fusion application');
-    }
-  };
+  #load(modulePath: string) {
+    return import(/* @vite-ignore */ modulePath);
+  }
 }

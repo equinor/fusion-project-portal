@@ -1,3 +1,4 @@
+import context from '@equinor/fusion-framework-module-services/context';
 import ContextApiClient from '@equinor/fusion-framework-module-services/context';
 import { QueryContextResponse } from '@equinor/fusion-framework-module-services/context/query';
 import {
@@ -5,15 +6,16 @@ import {
   ContextResultItem,
 } from '@equinor/fusion-react-context-selector';
 import { useCallback } from 'react';
+import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 ContextApiClient;
-
 export const useContextResolver = (type: string[]) => {
+
   const client = useContextClient('json');
   const minQueryLength = 3;
 
   const searchQuery = useCallback(
-    async (search: string): Promise<ContextResult | undefined> => {
+    async (search: string): Promise<ContextResult> => {
       let searchResult: ContextResult = [];
       if (!client) {
         return [
@@ -41,13 +43,13 @@ export const useContextResolver = (type: string[]) => {
           query: { search, filter: { type } },
         });
 
+        if (!contexts[0].id) return searchResult
         // Structure as type
 
         searchResult =
           type.length > 1
             ? contextResultMappedByTypes(contexts)
             : contextResultMapped(contexts);
-        searchResult.length > 0 && console.log(searchResult);
 
         if (searchResult.length === 0) {
           searchResult.push(
@@ -56,8 +58,6 @@ export const useContextResolver = (type: string[]) => {
         }
 
         return searchResult;
-
-        return;
       } catch (e) {
         return [
           singleItem({
@@ -74,6 +74,12 @@ export const useContextResolver = (type: string[]) => {
 
   return {
     searchQuery,
+    initialResult: [singleItem({
+      id: 'histroy',
+      title: 'Hisory',
+      type: 'section',
+      children: getContextHistory()
+    })]
   };
 };
 
@@ -92,7 +98,7 @@ function contextResultMappedByTypes(
           id: context.type.id,
           title: context.type.id,
           type: 'section',
-          children: [singleItem({ id: context.id, title: context.title! })],
+          children: [singleItem({ id: context.id, title: context.title!, subTitle: context.type?.id })],
         })
       );
       return result;
@@ -116,6 +122,7 @@ function contextResultMapped(
     singleItem({
       id: context.id,
       title: context.title!,
+      subTitle: context.type?.id
     })
   );
 }
