@@ -2,14 +2,17 @@ import context from '@equinor/fusion-framework-module-services/context';
 import ContextApiClient from '@equinor/fusion-framework-module-services/context';
 import { QueryContextResponse } from '@equinor/fusion-framework-module-services/context/query';
 import {
+  ContextResolver,
   ContextResult,
   ContextResultItem,
 } from '@equinor/fusion-react-context-selector';
 import { useCallback } from 'react';
 import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
+import { useFrameworkContext } from './use-framework-context';
 ContextApiClient;
-export const useContextResolver = (type: string[]) => {
+export const useContextResolver = (type: string[]): ContextResolver => {
+  const contextProvider = useFrameworkContext();
 
   const client = useContextClient('json');
   const minQueryLength = 3;
@@ -72,14 +75,20 @@ export const useContextResolver = (type: string[]) => {
     [client]
   );
 
+  const children = getContextHistory()
+
   return {
     searchQuery,
-    initialResult: [singleItem({
-      id: 'histroy',
+    initialResult: children.length > 0 ? [singleItem({
+      id: 'history',
       title: 'History',
       type: 'section',
-      children: getContextHistory()
-    })]
+      children,
+    })] : [],
+    closeHandler: (e: MouseEvent) => {
+      e.stopPropagation();
+      contextProvider.clearCurrentContext();
+    },
   };
 };
 

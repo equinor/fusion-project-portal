@@ -23,17 +23,9 @@ const StyledWrapper = styled.div`
     }
 `;
 
-interface PortalContextSelectorProps {
-  variant?: string
-  width: string;
-}
-
-
-export const PortalContextSelector = ({ variant }: PortalContextSelectorProps) => {
-
+export const PortalContextSelector = () => {
   const currentContext = useFrameworkCurrentContext();
   const navigate = useNavigate();
-
 
   return (
     <StyledWrapper>

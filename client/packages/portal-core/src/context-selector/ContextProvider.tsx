@@ -3,7 +3,6 @@ import { ContextProvider as FusionContextProvider } from '@equinor/fusion-react-
 import { ReactNode } from 'react';
 import {
     useContextResolver,
-    useFrameworkContext,
 } from '../hooks';
 
 
@@ -12,20 +11,16 @@ interface PortalContextProviderProps {
 }
 
 export const ContextProvider = ({ children }: PortalContextProviderProps) => {
+    //Todo: get contest types from view / work-surface
     const resolver = useContextResolver(['ProjectMaster']);
-    const contextProvider = useFrameworkContext();
+
 
     return (
         <FusionContextProvider
-            resolver={{
-                ...resolver,
-                closeHandler: (e: MouseEvent) => {
-                    e.stopPropagation();
-                    contextProvider.clearCurrentContext();
-                },
-            }}
-        >{children}
-        </FusionContextProvider>
+            resolver={resolver}
+        >
+            {children}
+        </FusionContextProvider >
     );
 };
 
