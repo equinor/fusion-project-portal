@@ -13,7 +13,6 @@ interface PortalContextSelectorProps {
 }
 
 export const ContextSelector = ({ variant }: PortalContextSelectorProps) => {
-    const resolver = useContextResolver(['ProjectMaster']);
     const contextProvider = useFrameworkContext();
     const currentContext = useFrameworkCurrentContext();
     const navigate = useNavigate();
@@ -23,13 +22,6 @@ export const ContextSelector = ({ variant }: PortalContextSelectorProps) => {
         <FusionContextSelector
             id="context-selector"
             variant={variant}
-            resolver={{
-                ...resolver,
-                closeHandler: (e) => {
-                    e.stopPropagation();
-                    contextProvider.currentContext = undefined;
-                },
-            }}
             onSelect={(e: any) => {
                 e.stopPropagation();
                 contextProvider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
