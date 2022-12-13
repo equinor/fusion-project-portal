@@ -1,7 +1,9 @@
 import {
   useCurrentUser,
-  useFramework,
 } from '@equinor/fusion-framework-react/hooks';
+import {
+  useFramework,
+} from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
 import { getPresence } from '../fusion/getPresence';
 

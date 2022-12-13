@@ -1,4 +1,4 @@
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
+import { useFramework } from '@equinor/fusion-framework-react';
 import { useEffect, useState } from 'react';
 import { ModuleLoader } from '../module-loader/module';
 

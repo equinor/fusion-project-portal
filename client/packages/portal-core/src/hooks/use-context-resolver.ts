@@ -76,7 +76,7 @@ export const useContextResolver = (type: string[]) => {
     searchQuery,
     initialResult: [singleItem({
       id: 'histroy',
-      title: 'Hisory',
+      title: 'History',
       type: 'section',
       children: getContextHistory()
     })]

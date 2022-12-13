@@ -1,4 +1,4 @@
-export * from './context-selector/PortalContextSelector';
+export * from './context-selector';
 export * from './framework-config';
 export * from './hooks';
 export * from './menu';

@@ -1,31 +1,32 @@
 import React from 'react';
+import { Breadcrumbs } from '../breadcrumbs/PortalBreadcrumbs';
+import { TopBarActions } from '../top-bar-actions';
 
 import { PortalLogo } from './Logo';
-import { Actions, StyledHeader, StyledTopBar } from './PortalHeaderStyles';
+import { StyledActionsWrapper, StyledHeader, StyledTopBar } from './PortalHeaderStyles';
 
 interface PortalHeaderProps {
-  Navigation?: React.FC;
   MenuButton: React.FC;
   title: string;
   onLogoClick: () => void;
 }
 
 export function PortalHeader({
-  children,
-  Navigation,
   MenuButton,
   title,
   onLogoClick,
-}: React.PropsWithChildren<PortalHeaderProps>): JSX.Element {
+}: PortalHeaderProps): JSX.Element {
   return (
     <StyledTopBar>
       <StyledHeader>
         <MenuButton />
         <PortalLogo title={title} onClick={onLogoClick} />
-        {Navigation && <Navigation />}
+        <Breadcrumbs />
       </StyledHeader>
 
-      <Actions>{children}</Actions>
+      <StyledActionsWrapper>
+        <TopBarActions />
+      </StyledActionsWrapper>
     </StyledTopBar>
   );
 }

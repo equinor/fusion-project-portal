@@ -1,4 +1,4 @@
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
+import { useFramework } from '@equinor/fusion-framework-react';
 import { useAppLoader } from '@equinor/portal-core';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
