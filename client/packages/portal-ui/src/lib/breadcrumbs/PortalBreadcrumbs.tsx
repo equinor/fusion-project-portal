@@ -3,6 +3,7 @@ import {
   TopBarContextSelector,
   useViewController,
 } from '@equinor/portal-core';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledBreadcrumbs = styled(EdsBreadcrumbs)`
@@ -17,12 +18,15 @@ const StyledBreadcrumbItem = styled.span`
 
 export const Breadcrumbs = () => {
   const { currentView } = useViewController();
+  const navigate = useNavigate()
   const app = false;
   return (
     <StyledBreadcrumbs>
       <span />
       {currentView && (
-        <StyledBreadcrumbItem>{currentView.name}</StyledBreadcrumbItem>
+        <StyledBreadcrumbs.Breadcrumb onClick={() => {
+          navigate("/")
+        }}>{currentView.name}</StyledBreadcrumbs.Breadcrumb>
       )}
       {app && <StyledBreadcrumbItem>App Name</StyledBreadcrumbItem>}
       <StyledBreadcrumbItem><TopBarContextSelector /></StyledBreadcrumbItem>
