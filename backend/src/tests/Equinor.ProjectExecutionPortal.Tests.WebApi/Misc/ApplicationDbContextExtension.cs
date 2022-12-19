@@ -45,18 +45,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             dbContext.Add(portal);
             dbContext.SaveChanges();
 
-            // Add onboarded apps
-
-            var meetingsApp = OnboardedAppsData.InitialSeedData.MeetingsApp;
-            var reviewsApp = OnboardedAppsData.InitialSeedData.ReviewsApp;
-            var tasksApp = OnboardedAppsData.InitialSeedData.TasksApp;
-            var orgChartApp = OnboardedAppsData.InitialSeedData.OrgChartApp;
-            var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
-            var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
-
-            dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
-
-            dbContext.SaveChanges();
 
             // Add apps groups
 
@@ -68,6 +56,28 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             dbContext.SaveChanges();
 
+            // Add onboarded apps
+
+            var meetingsApp = OnboardedAppsData.InitialSeedData.MeetingsApp;
+            var reviewsApp = OnboardedAppsData.InitialSeedData.ReviewsApp;
+            var tasksApp = OnboardedAppsData.InitialSeedData.TasksApp;
+            var orgChartApp = OnboardedAppsData.InitialSeedData.OrgChartApp;
+            var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
+            var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
+
+            //dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
+
+            appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
+            appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
+
+            appGroupWithContextAppsOnly.AddApp(orgChartApp);
+            appGroupWithContextAppsOnly.AddApp(handoverGardenApp);
+
+            appGroupWithMixedApps.AddApp(workOrderGardenApp);
+            appGroupWithMixedApps.AddApp(tasksApp);
+
+            dbContext.SaveChanges();
+            
             // Add apps to work surface
 
             var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, workSurfaceWithApps.Id);

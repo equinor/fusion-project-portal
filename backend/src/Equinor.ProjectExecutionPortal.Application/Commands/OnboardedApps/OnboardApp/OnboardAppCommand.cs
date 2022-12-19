@@ -9,12 +9,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey)
+    public OnboardAppCommand(string appKey, Guid appGroupId)
     {
         AppKey = appKey;
+        AppGroupId = appGroupId;
     }
 
     public string AppKey { get; }
+    public Guid AppGroupId { get; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {
@@ -43,11 +45,21 @@ public class OnboardAppCommand : IRequest<Guid>
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }
 
-            var onboardedAppsCount = await _readWriteContext.Set<OnboardedApp>().CountAsync(cancellationToken);
+            var appGroup = await _readWriteContext.Set<AppGroup>()
+                .Include(x => x.Apps)
+                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId, cancellationToken);
+
+            if (appGroup == null)
+            {
+                throw new NotFoundException($"App Group '{command.AppGroupId}' was not found");
+            }
+
+            var onboardedAppsCount = appGroup.Apps.Count;
 
             var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount);
 
-            await _readWriteContext.Set<OnboardedApp>().AddAsync(onboardedApp, cancellationToken);
+            appGroup.AddApp(onboardedApp);
+
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
             return onboardedApp.Id;

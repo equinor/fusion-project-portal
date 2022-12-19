@@ -95,7 +95,9 @@ public class GetWorkSurfaceAppsByAppGroupQuery : QueryBase<IList<WorkSurfaceAppG
                 AccentColor = x.Key.AccentColor,
                 Order = x.Key.Order,
                 Apps = x.Select(y => _mapper.Map<WorkSurfaceApp, WorkSurfaceAppDto>(y)).ToList()
-            }).ToList();
+            })
+                .OrderBy(x => x.Order)
+                .ToList();
         }
     }
 }

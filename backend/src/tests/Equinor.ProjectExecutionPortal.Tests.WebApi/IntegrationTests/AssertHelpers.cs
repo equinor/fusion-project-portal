@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -48,6 +49,16 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(app.Name);
             Assert.IsNotNull(app.Description);
             Assert.IsNotNull(app.Order);
+        }
+
+        public static void AssertOnboardedAppValues(ApiOnboardedApp? app)
+        {
+            if (app == null)
+            {
+                Assert.Fail();
+            }
+
+            Assert.IsNotNull(app.AppKey);
         }
     }
 }
