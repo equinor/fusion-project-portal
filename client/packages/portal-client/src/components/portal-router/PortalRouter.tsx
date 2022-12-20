@@ -1,7 +1,8 @@
+import { AppLoader } from '@equinor/portal-core';
 import { ContextPage, ViewPage } from '@equinor/portal-pages';
 import { useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AppLoader } from '../app-loader/AppLoader';
+
 import { PortalErrorPage } from '../portal-error/PortalError';
 import { PortalFrame } from '../portal-frame/PortalFrame';
 
@@ -30,7 +31,7 @@ export function PortalRouter() {
           },
         ],
       },
-      
+
     ]);
   }, []);
 
