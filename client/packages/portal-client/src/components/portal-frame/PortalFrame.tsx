@@ -7,16 +7,14 @@ import { MenuGroups } from '../portal-menu/PortalMenu';
 export const PortalFrame = () => (
   <StyleProvider>
     <Wrapper>
-      <ContextProvider>
-        <ViewProvider>
-          <MenuProvider>
-            <Header />
-            <MenuGroups />
-            <Outlet />
-          </MenuProvider>
-          <PortalSideSheet />
-        </ViewProvider>
-      </ContextProvider>
+      <ViewProvider>
+        <MenuProvider>
+          <Header />
+          <MenuGroups />
+          <Outlet />
+        </MenuProvider>
+        <PortalSideSheet />
+      </ViewProvider>
     </Wrapper>
   </StyleProvider>
 );
