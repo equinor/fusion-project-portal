@@ -5,7 +5,7 @@ import {
   ServicesModule,
 } from '@equinor/fusion-framework-module-services';
 import { ContextApiClient } from '@equinor/fusion-framework-module-services/context';
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 export const useContextClient = <T extends ClientMethodType>(
   type: T
