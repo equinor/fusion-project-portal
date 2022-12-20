@@ -32,6 +32,11 @@ public class AppGroup : AuditableEntityBase, ICreationAuditable, IModificationAu
         AccentColor = accentColor;
     }
 
+    public void UpdateOrder(int order)
+    {
+        Order = order;
+    }
+
     public void AddApp(OnboardedApp app)
     {
         _apps.Add(app);

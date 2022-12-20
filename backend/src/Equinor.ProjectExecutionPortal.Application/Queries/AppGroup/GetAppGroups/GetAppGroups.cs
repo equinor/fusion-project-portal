@@ -28,6 +28,7 @@ public class GetAppGroups : QueryBase<IList<AppGroupDto>>
         {
             var entities = await _readWriteContext.Set<Domain.Entities.AppGroup>()
                 .AsNoTracking()
+                .OrderBy(x => x.Order)
                 .ToListAsync(cancellationToken);
 
             var appGroups = _mapper.Map<List<Domain.Entities.AppGroup>, List<AppGroupDto>>(entities.ToList());

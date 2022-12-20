@@ -30,14 +30,17 @@ public class ReorderAppGroupsCommand : IRequest<Unit>
                 .ToListAsync(cancellationToken);
 
             var hasUnmatchedIds = appGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
-            
+
             if (hasUnmatchedIds)
             {
                 throw new InvalidActionException("The provided app groups does not match the existing app groups");
             }
 
-            // TODO
-            //appGroups.ReorderAppGroups(command.ReorderedAppGroupIds);
+            foreach (var (orderedAppGroupId, index) in command.ReorderedAppGroupIds.Select((value, i) => (value, i)))
+            {
+                var currentAppGroup = appGroups.Single(x => x.Id == orderedAppGroupId);
+                currentAppGroup.UpdateOrder(index);
+            }
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
