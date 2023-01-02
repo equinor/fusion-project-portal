@@ -3,6 +3,6 @@ export function getContextPageUrl(contextId?: string): string {
 
   const params = new URLSearchParams()
   params.append("contextId", contextId)
-  
-  return `context-page/$${params.toString()}`
+
+  return `/context-page/?${params.toString()}`
 } 

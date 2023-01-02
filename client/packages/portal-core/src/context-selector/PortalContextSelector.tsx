@@ -23,18 +23,27 @@ const StyledWrapper = styled.div`
     }
 `;
 
+const StyledButton = styled(Button)`
+white-space: nowrap;
+`;
+const StyledActionWrapper = styled.div`
+min-width: 120px;
+`;
+
 export const PortalContextSelector = () => {
   const currentContext = useFrameworkCurrentContext();
   const navigate = useNavigate();
 
   return (
     <StyledWrapper>
-      <ContextSelector />
-      {currentContext && (<Button variant='ghost' onClick={() => {
-        navigate(getContextPageUrl(currentContext?.id))
-      }}>
-        Go to project
-      </Button>)}
+      <ContextSelector navigate={navigate} />
+      <StyledActionWrapper>
+        {currentContext && (<StyledButton variant='ghost' onClick={() => {
+          navigate(getContextPageUrl(currentContext?.id))
+        }}>
+          Go to project
+        </StyledButton>)}
+      </StyledActionWrapper>
     </StyledWrapper>
   );
 };
