@@ -16,6 +16,7 @@ export const ViewSelector = ({
 }: ViewSelectorProps) => {
 
   const contextProvider = useFrameworkContext();
+
   return (
     <StyledViewSelectorWrapper>
       {views
@@ -27,7 +28,7 @@ export const ViewSelector = ({
               variant="ghost"
               onClick={() => {
                 setViewId(view.key);
-                contextProvider.currentContext = undefined
+                contextProvider.clearCurrentContext()
               }}
             >
               {view.name} <Icon {...arrow_drop_right} />

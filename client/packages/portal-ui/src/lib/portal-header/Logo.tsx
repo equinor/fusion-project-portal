@@ -10,6 +10,7 @@ const StyledWrapper = styled.div`
 
 const StyledTitle = styled(Typography)`
   padding-left: 0.5rem;
+  white-space: nowrap;
 `;
 
 interface PortalLogoProps {

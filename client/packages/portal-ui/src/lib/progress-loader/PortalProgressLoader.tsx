@@ -1,16 +1,16 @@
 import { StarProgress, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
 `;
 
-const Progress = styled(StarProgress)`
+const StyledProgress = styled(StarProgress)`
   height: auto;
   width: 85px;
 `;
@@ -21,9 +21,9 @@ interface ProgressLoaderProps {
 
 export function PortalProgressLoader({ title }: ProgressLoaderProps) {
   return (
-    <Wrapper>
-      <Progress />
+    <StyledWrapper>
+      <StyledProgress />
       <Typography variant="h5"> {title}</Typography>
-    </Wrapper>
+    </StyledWrapper>
   );
 }

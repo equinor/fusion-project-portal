@@ -11,6 +11,6 @@ export const StyledTopBar = styled(TopBar)`
   height: 48px;
 `;
 
-export const Actions = styled(TopBar.Actions)`
+export const StyledActionsWrapper = styled(TopBar.Actions)`
   padding-right: 0.5rem;
 `;

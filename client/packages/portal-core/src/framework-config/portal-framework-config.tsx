@@ -1,9 +1,11 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
+import { enableAppModule } from '@equinor/fusion-framework-module-app';
+
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
+import { appConfigurator } from '../framework-configurator/app-configurator';
 
 import {
   addAgGrid,
-  addAppLoader,
   addPortalClient,
   configurePortalContext,
 } from '../framework-configurator/portal-configurators';
@@ -17,6 +19,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
+    enableAppModule(config, appConfigurator)
+
     config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
     if (portalConfig.agGrid) {
@@ -25,10 +29,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     addPortalClient(config, portalConfig.portalClient.client);
 
-    addAppLoader(config, (moduleId: string) => {
-      return `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${moduleId === 'test-app' ? 'test-app' : 'handover'
-        }`;
-    });
 
     if (showInfo) {
       config.onConfigured(() => {
@@ -38,7 +38,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     config.onInitialized(async (fusion) => {
       configurePortalContext(fusion.context);
-
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 
       if (showInfo) {
