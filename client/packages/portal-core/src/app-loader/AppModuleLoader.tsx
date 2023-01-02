@@ -1,8 +1,10 @@
 import { FC, useEffect, useRef, } from 'react';
 import styled from 'styled-components';
-import { PortalProgressLoader } from '../../../portal-client/src/components/portal-progress-loader/PortalProgressLoader';
+import { PortalProgressLoader } from '@equinor/portal-ui';
 import { ErrorViewer } from './ErrorView';
 import { useAppLoader } from './use-app-loader';
+import { AppNotAwaitable } from './AppNotAwaitable';
+import { useCurrentAppGroup } from '../hooks';
 
 interface CurrentAppLoaderProps {
     appKey: string;
@@ -20,6 +22,7 @@ const StyledAppSection = styled.section`
 export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
     const ref = useRef<HTMLElement>(null);
     const { loading, error, appRef } = useAppLoader(appKey);
+    const { currentAppGroup } = useCurrentAppGroup(appKey)
 
     useEffect(() => {
         const refEl = ref.current;
@@ -48,6 +51,10 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
         return <Wrapper>
             <PortalProgressLoader title="Loading App" />
         </Wrapper>
+    }
+
+    if (!currentAppGroup) {
+        return <AppNotAwaitable />;
     }
 
     return <StyledAppSection ref={ref} />;

@@ -1,4 +1,4 @@
-import { MenuProvider, ViewProvider } from '@equinor/portal-core';
+import { ContextProvider, MenuProvider, ViewProvider } from '@equinor/portal-core';
 import { PortalSideSheet, StyleProvider } from '@equinor/portal-ui';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';

@@ -1,9 +1,12 @@
+
 import { useParams } from 'react-router-dom';
 import AppModuleLoader from './AppModuleLoader';
 
-export function AppLoader() {
+export const AppLoader = () => {
   const { appKey } = useParams();
-  if (appKey) return <AppModuleLoader appKey={appKey} />;
 
-  return <p>No module Found</p>;
+  if (appKey) {
+    return <AppModuleLoader appKey={appKey} />;
+  }
+  return <p> No app key provided.</p >
 }

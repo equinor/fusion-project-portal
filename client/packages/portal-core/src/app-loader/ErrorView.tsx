@@ -39,7 +39,7 @@ export const ErrorViewer: FC<ErrorViewProps> = ({ error }) => {
       </Typography>}
       <Button variant="ghost" onClick={() => {
         setShowStack(s => !s)
-      }}>Toggle Stacktrace</Button>
+      }}>Toggle developer information</Button>
 
       {showStack && <StyledStackWrapper >
         {error.stack && <pre>{error.stack}</pre>}
