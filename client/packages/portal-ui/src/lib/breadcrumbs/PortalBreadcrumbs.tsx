@@ -40,7 +40,6 @@ export const Breadcrumbs = () => {
           </ContextProvider>
         </StyledBreadcrumbItem>
       </StyledBreadcrumbs>
-
     </>
   );
 };

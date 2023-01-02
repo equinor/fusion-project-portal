@@ -1,9 +1,10 @@
 import { FC, useEffect, useRef, } from 'react';
 import styled from 'styled-components';
-import { PortalProgressLoader, useCurrentAppGroup } from '@equinor/portal-ui';
+import { PortalProgressLoader } from '@equinor/portal-ui';
 import { ErrorViewer } from './ErrorView';
 import { useAppLoader } from './use-app-loader';
 import { AppNotAwaitable } from './AppNotAwaitable';
+import { useCurrentAppGroup } from '../hooks';
 
 interface CurrentAppLoaderProps {
     appKey: string;
