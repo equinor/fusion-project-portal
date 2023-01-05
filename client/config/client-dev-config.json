@@ -1,0 +1,10 @@
+{
+    "noe": {
+        "shared": {
+            "appName": "app-pep-frontend-noe-dev",
+            "appType": "client",
+            "envName": "dev",
+            "envLabel": "non-prod"
+        }
+    }
+}

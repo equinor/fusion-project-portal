@@ -1,0 +1,116 @@
+name: job-client-build
+
+on:
+  workflow_call:
+    inputs:
+      configFile:
+        description: Configuration File.
+        type: string
+        required: true
+
+      configGlobal:
+        description: Global Configuration File.
+        type: string
+        required: true
+
+      deploymentName:
+        description: Azure Deployment Name.
+        type: string
+        required: true
+
+      dockerPath:
+        description: Path to DockerFile
+        type: string
+        required: true
+
+      environment:
+        description: The environment that the job references in GitHub (non-prod, prod).
+        type: string
+        required: true
+
+      envLocation:
+        description: Environment Location.
+        type: string
+        required: true
+
+      isPullRequest:
+        description: The job is a pull request
+        type: boolean
+        required: true
+
+    secrets:
+      AZURE_CLIENT_ID:
+        description: The client ID of the Azure AD service principal to use for authenticating to Azure.
+        required: true
+
+      AZURE_SUBSCRIPTION_ID:
+        description: The ID of the Azure subscription to create the resources in.
+        required: true
+
+      AZURE_TENANT_ID:
+        description: The ID of the Azure tenant to create the resources in.
+        required: true
+
+jobs:
+  client-build:
+    name: client-build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      CONFIG_FILE: ${{ inputs.configFile }}
+      CONFIG_GLOBAL: ${{ inputs.configGlobal }}
+      DOCKER_PATH: ${{ inputs.dockerPath }}
+      DEPLOYMENT_NAME: ${{ inputs.deploymentName }}
+      ENV_LOCATION: ${{ inputs.envLocation }}
+
+    steps:
+      # checkout code
+      - name: checkout-code
+        uses: actions/checkout@v2
+
+      # azure login
+      - name: azure-login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          enable-AzPSSession: true
+
+      - name: Login to ACR
+        if: ${{ !inputs.isPullRequest }}
+        run: |
+          # Variables
+          $configGlobal      = Get-Content $env:CONFIG_GLOBAL | ConvertFrom-Json -AsHashtable
+          $envLocation       = $env:ENV_LOCATION
+          $containerRegistry = $configGlobal.$envLocation.resources.containerRegistry
+
+          az acr login --name $containerRegistry
+
+      - name: Build and push
+        id: build
+        if: ${{ !inputs.isPullRequest }}
+        run: |
+          # Variables
+          $config            = Get-Content $env:CONFIG_FILE | ConvertFrom-Json -AsHashtable
+          $configGlobal      = Get-Content $env:CONFIG_GLOBAL | ConvertFrom-Json -AsHashtable
+          $envLocation       = $env:ENV_LOCATION
+          $appType           = $config.$envLocation.shared.appType
+          $containerRegistry = $configGlobal.$envLocation.resources.containerRegistry
+          $repository        = $configGlobal.$envLocation.resources.repository.$appType
+
+          $tagUnique = "$containerRegistry.azurecr.io/$($repository):${{ github.run_number }}"
+          $tagLatest = "$containerRegistry.azurecr.io/$($repository):latest"
+
+          docker build $env:DOCKER_PATH -t "$tagUnique" -t "$tagLatest"
+          docker push "$tagUnique"
+          docker push "$tagLatest"
+
+      - name: Pr Check Build
+        id: pr-check-build
+        if: ${{ inputs.isPullRequest }}
+        run: |
+          docker build $env:DOCKER_PATH

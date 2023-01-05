@@ -4,10 +4,11 @@ import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 const StylesWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60% 10%;
+  padding: 60% 0;
   justify-content: center;
 `;
 

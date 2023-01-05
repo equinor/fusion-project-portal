@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { Presence } from '../../avatar/types';
+import { Presence } from '@equinor/portal-ui';
 
 export async function getPresence(
   client: IHttpClient,
