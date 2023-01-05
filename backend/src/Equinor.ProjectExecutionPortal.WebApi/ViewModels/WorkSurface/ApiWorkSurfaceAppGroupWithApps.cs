@@ -3,12 +3,12 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
-    public class ApiWorkSurfaceAppGroup
+    public class ApiWorkSurfaceAppGroupWithApps
     {
-        public ApiWorkSurfaceAppGroup()
+        public ApiWorkSurfaceAppGroupWithApps()
         { }
 
-        public ApiWorkSurfaceAppGroup(WorkSurfaceAppGroupWithAppsDto appGroupDto)
+        public ApiWorkSurfaceAppGroupWithApps(WorkSurfaceAppGroupWithAppsDto appGroupDto)
         {
             Name = appGroupDto.Name;
             Order = appGroupDto.Order;

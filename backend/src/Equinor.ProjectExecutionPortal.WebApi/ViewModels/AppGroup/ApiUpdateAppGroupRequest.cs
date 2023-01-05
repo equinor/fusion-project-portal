@@ -13,9 +13,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
             return new UpdateAppGroupCommand(appGroupId, Name, AccentColor);
         }
 
-        public class UpdateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiUpdateAppGroupRequest>
+        public class UpdateAppGroupRequestValidator : AbstractValidator<ApiUpdateAppGroupRequest>
         {
-            public UpdateWorkSurfaceAppGroupRequestValidator()
+            public UpdateAppGroupRequestValidator()
             {
                 RuleFor(x => x.Name)
                     .NotEmpty()

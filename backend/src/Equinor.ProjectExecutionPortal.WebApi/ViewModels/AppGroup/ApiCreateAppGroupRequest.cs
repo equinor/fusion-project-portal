@@ -13,9 +13,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
             return new CreateAppGroupCommand(Name, AccentColor);
         }
 
-        public class CreateWorkSurfaceAppGroupRequestValidator : AbstractValidator<ApiCreateAppGroupRequest>
+        public class CreateAppGroupRequestValidator : AbstractValidator<ApiCreateAppGroupRequest>
         {
-            public CreateWorkSurfaceAppGroupRequestValidator()
+            public CreateAppGroupRequestValidator()
             {
                 RuleFor(x => x.Name)
                     .NotEmpty()

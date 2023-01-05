@@ -48,9 +48,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add apps groups
 
-            var appGroupWithGlobalAppsOnly = WorkSurfaceAppGroupData.InitialSeedData.AppGroup1;
-            var appGroupWithContextAppsOnly = WorkSurfaceAppGroupData.InitialSeedData.AppGroup2;
-            var appGroupWithMixedApps = WorkSurfaceAppGroupData.InitialSeedData.AppGroup3;
+            var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
+            var appGroupWithContextAppsOnly = AppGroupData.InitialSeedData.AppGroup2;
+            var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
 
             dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
 

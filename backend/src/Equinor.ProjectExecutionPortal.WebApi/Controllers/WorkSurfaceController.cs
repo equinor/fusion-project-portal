@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppsByAppGroup;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithAppsQuery;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
@@ -59,7 +59,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpGet("{workSurfaceId:guid}/apps")]
         [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroup>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
         {
             if (contextExternalId != null)
             {
@@ -72,9 +72,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 }
             }
 
-            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppsByAppGroupQuery(workSurfaceId, contextExternalId));
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithAppsQuery(workSurfaceId, contextExternalId));
 
-            return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
+            return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList();
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]

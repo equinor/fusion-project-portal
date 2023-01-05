@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
-    internal class WorkSurfaceAppGroupData
+    internal class AppGroupData
     {
         public class InitialSeedData
         {

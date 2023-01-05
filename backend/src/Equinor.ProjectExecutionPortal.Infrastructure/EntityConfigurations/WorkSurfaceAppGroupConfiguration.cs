@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations;
 
-public class WorkSurfaceAppGroupConfiguration : IEntityTypeConfiguration<AppGroup>
+public class AppGroupConfiguration : IEntityTypeConfiguration<AppGroup>
 {
     public void Configure(EntityTypeBuilder<AppGroup> builder)
     {

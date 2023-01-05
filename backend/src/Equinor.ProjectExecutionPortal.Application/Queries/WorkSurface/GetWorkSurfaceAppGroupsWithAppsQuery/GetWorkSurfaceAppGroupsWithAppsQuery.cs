@@ -7,11 +7,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppsByAppGroup;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithAppsQuery;
 
-public class GetWorkSurfaceAppsByAppGroupQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>>
+public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>>
 {
-    public GetWorkSurfaceAppsByAppGroupQuery(Guid workSurfaceId, string? contextExternalId)
+    public GetWorkSurfaceAppGroupsWithAppsQuery(Guid workSurfaceId, string? contextExternalId)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
@@ -20,7 +20,7 @@ public class GetWorkSurfaceAppsByAppGroupQuery : QueryBase<IList<WorkSurfaceAppG
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppsByAppGroupQuery, IList<WorkSurfaceAppGroupWithAppsDto>>
+    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ public class GetWorkSurfaceAppsByAppGroupQuery : QueryBase<IList<WorkSurfaceAppG
             _appService = appService;
         }
 
-        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppsByAppGroupQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppGroupsWithAppsQuery request, CancellationToken cancellationToken)
         {
             Domain.Entities.WorkSurface? workSurface;
 
