@@ -35,5 +35,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return NoContent();
         }
+
+        //[HttpPut("reorder")]
+        //public async Task<ActionResult<Guid>> ReorderOnboardedApps([FromBody] ApiReorderOnboardedAppsRequest request)
+        //{
+        //    await Mediator.Send(request.ToCommand());
+
+        //    return NoContent();
+        //}
     }
 }

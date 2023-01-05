@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\WorkSurfaceAppGroup\**" />
+    <Content Remove="ViewModels\WorkSurfaceAppGroup\**" />
+    <EmbeddedResource Remove="ViewModels\WorkSurfaceAppGroup\**" />
+    <None Remove="ViewModels\WorkSurfaceAppGroup\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="Fusion.Infrastructure.Internal.Services" Version="6.0.4" />
@@ -26,10 +33,6 @@
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Application\Equinor.ProjectExecutionPortal.Application.csproj" />
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.FusionPortalApi\Equinor.ProjectExecutionPortal.FusionPortalApi.csproj" />
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Infrastructure\Equinor.ProjectExecutionPortal.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\WorkSurfaceAppGroup\" />
   </ItemGroup>
 
 </Project>

@@ -6,20 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppsOrder;
 
-public class UpdateAppsOrderCommand : IRequest<Guid>
+public class ReorderOnboardedAppsCommand : IRequest<Guid>
 {
-    public UpdateAppsOrderCommand(Guid appGroupId, List<Guid> reorderedAppIds, string? contextExternalId)
+    public ReorderOnboardedAppsCommand(Guid appGroupId, List<Guid> reorderedAppIds)
     {
         AppGroupId = appGroupId;
         ReorderedAppIds = reorderedAppIds;
-        ContextExternalId = contextExternalId;
     }
 
     public Guid AppGroupId { get; }
     public List<Guid> ReorderedAppIds { get; }
-    public string? ContextExternalId { get; }
 
-    public class Handler : IRequestHandler<UpdateAppsOrderCommand, Guid>
+    public class Handler : IRequestHandler<ReorderOnboardedAppsCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -28,7 +26,7 @@ public class UpdateAppsOrderCommand : IRequest<Guid>
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Guid> Handle(UpdateAppsOrderCommand command, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(ReorderOnboardedAppsCommand command, CancellationToken cancellationToken)
         {
             var appGroup = _readWriteContext.Set<AppGroup>()
                 .Include(ws => ws.Apps.OrderBy(app => app.Order))
