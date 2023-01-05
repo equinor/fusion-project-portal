@@ -42,17 +42,12 @@ public class DeleteAppGroupCommand : IRequest<Guid>
 
             _readWriteContext.Set<AppGroup>().Remove(appGroup);
 
-            // TODO Perform re-ordering of remaining items
-            //var workSurface = await _readWriteContext.Set<WorkSurface>()
-            //    .Include(x => x.AppGroups)
-            //    .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+            // Perform re-ordering of remaining items
+            var appGroups = await _readWriteContext.Set<AppGroup>()
+                .OrderBy(x => x.Order)
+                .ToListAsync(cancellationToken);
 
-            //if (workSurface == null)
-            //{
-            //    throw new NotFoundException(nameof(workSurface));
-            //}
-
-            //workSurface.ReorderAppGroups(workSurface.AppGroups.OrderBy(x => x.Order).Select(x => x.Id).ToList());
+            AppGroup.RefreshOrder(appGroups);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

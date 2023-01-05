@@ -62,18 +62,4 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     {
         _apps.Add(app);
     }
-
-    //public void AddAppGroup(AppGroup group)
-    //{
-    //    _appGroups.Add(group);
-    //}
-    
-    //public void ReorderAppGroups(List<Guid> reorderedAppGroupIds)
-    //{
-    //    foreach (var (orderedAppGroupId, index) in reorderedAppGroupIds.Select((value, i) => (value, i)))
-    //    {
-    //        var currentAppGroup = _appGroups.Single(x => x.Id == orderedAppGroupId);
-    //        currentAppGroup.Order = index;
-    //    }
-    //}
 }

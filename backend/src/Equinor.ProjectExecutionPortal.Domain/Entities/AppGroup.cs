@@ -44,10 +44,21 @@ public class AppGroup : AuditableEntityBase, ICreationAuditable, IModificationAu
 
     public void ReorderApps(List<Guid> reorderedAppIds)
     {
-        foreach (var (orderedAppId, index) in reorderedAppIds.Select((value, i) => (value, i)))
+        foreach (var (reorderedAppId, index) in reorderedAppIds.Select((value, i) => (value, i)))
         {
-            var currentApp = _apps.Single(x => x.Id == orderedAppId);
+            var currentApp = _apps.Single(x => x.Id == reorderedAppId);
             currentApp.Order = index;
         }
+    }
+
+    public static List<AppGroup> RefreshOrder(List<AppGroup> reorderedAppGroups)
+    {
+        foreach (var (reorderedAppGroup, index) in reorderedAppGroups.Select((value, i) => (value, i)))
+        {
+            var currentAppGroup = reorderedAppGroups.Single(x => x.Id == reorderedAppGroup.Id);
+            currentAppGroup.Order = index;
+        }
+
+        return reorderedAppGroups;
     }
 }

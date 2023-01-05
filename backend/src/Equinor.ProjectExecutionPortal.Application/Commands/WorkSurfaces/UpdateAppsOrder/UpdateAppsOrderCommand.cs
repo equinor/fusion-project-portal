@@ -30,9 +30,6 @@ public class UpdateAppsOrderCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(UpdateAppsOrderCommand command, CancellationToken cancellationToken)
         {
-            // We have one issue here: Updating app order on global apps. If we do this here, it may invalidate the order set by another context.
-            // For now, we handle only context-specific apps
-
             var appGroup = _readWriteContext.Set<AppGroup>()
                 .Include(ws => ws.Apps.OrderBy(app => app.Order))
                 .FirstOrDefault(ws => ws.Id == command.AppGroupId);
