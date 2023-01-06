@@ -29,6 +29,8 @@ public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
         public async Task<IList<OnboardedAppDto>> Handle(GetOnboardedAppsQuery request, CancellationToken cancellationToken)
         {
             var enitity = await _context.Set<Domain.Entities.OnboardedApp>()
+                .Include(x => x.AppGroup)
+                .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 

@@ -45,6 +45,17 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             dbContext.Add(portal);
             dbContext.SaveChanges();
 
+
+            // Add apps groups
+
+            var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
+            var appGroupWithContextAppsOnly = AppGroupData.InitialSeedData.AppGroup2;
+            var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
+
+            dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
+
+            dbContext.SaveChanges();
+
             // Add onboarded apps
 
             var meetingsApp = OnboardedAppsData.InitialSeedData.MeetingsApp;
@@ -54,42 +65,32 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
             var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
 
-            dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
+            //dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
+
+            appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
+            appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
+
+            appGroupWithContextAppsOnly.AddApp(orgChartApp);
+            appGroupWithContextAppsOnly.AddApp(handoverGardenApp);
+
+            appGroupWithMixedApps.AddApp(workOrderGardenApp);
+            appGroupWithMixedApps.AddApp(tasksApp);
 
             dbContext.SaveChanges();
-
-            // Add apps groups to work surfaces
-
-            var appGroupWithGlobalAppsOnly = WorkSurfaceAppGroupData.InitialSeedData.AppGroup1;
-            var appGroupWithContextAppsOnly = WorkSurfaceAppGroupData.InitialSeedData.AppGroup2;
-            var appGroupWithMixedApps = WorkSurfaceAppGroupData.InitialSeedData.AppGroup3;
-
-            workSurfaceWithApps.AddAppGroup(appGroupWithGlobalAppsOnly);
-            workSurfaceWithApps.AddAppGroup(appGroupWithContextAppsOnly);
-            workSurfaceWithApps.AddAppGroup(appGroupWithMixedApps);
-
-            dbContext.SaveChanges();
-
+            
             // Add apps to work surface
 
-            var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, 0, workSurfaceWithApps.Id);
-            var globalReviewsApp = new WorkSurfaceApp(reviewsApp.Id, 1, workSurfaceWithApps.Id);
-            var globalTasksApp = new WorkSurfaceApp(tasksApp.Id, 0, workSurfaceWithApps.Id);
+            var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, workSurfaceWithApps.Id);
+            var globalReviewsApp = new WorkSurfaceApp(reviewsApp.Id, workSurfaceWithApps.Id);
+            var globalTasksApp = new WorkSurfaceApp(tasksApp.Id, workSurfaceWithApps.Id);
 
-            var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, 1, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.JcaExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
-            var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, 0, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.JcaExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
-            var anotherContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, 1, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.AnotherExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
+            var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.JcaExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
+            var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.JcaExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
+            var anotherContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.AnotherExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
 
             // Add context specific apps to work surfaces
 
-            appGroupWithGlobalAppsOnly.AddApp(globalMeetingsApp);
-            appGroupWithGlobalAppsOnly.AddApp(globalReviewsApp);
-
-            appGroupWithContextAppsOnly.AddApp(jcaContextOrgChartApp);
-            appGroupWithContextAppsOnly.AddApp(jcaContextHandoverGardenApp);
-
-            appGroupWithMixedApps.AddApp(globalTasksApp);
-            appGroupWithMixedApps.AddApp(anotherContextWorkOrderGardenApp);
+            dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, anotherContextWorkOrderGardenApp);
 
             dbContext.SaveChanges();
         }

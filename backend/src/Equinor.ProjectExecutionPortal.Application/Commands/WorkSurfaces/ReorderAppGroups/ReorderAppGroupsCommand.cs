@@ -6,18 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.ReorderAppGroups;
 
-public class ReorderAppGroupsCommand : IRequest<Guid>
+public class ReorderAppGroupsCommand : IRequest<Unit>
 {
-    public ReorderAppGroupsCommand(Guid workSurfaceId, List<Guid> reorderedAppGroupIds)
+    public ReorderAppGroupsCommand(List<Guid> reorderedAppGroupIds)
     {
-        WorkSurfaceId = workSurfaceId;
         ReorderedAppGroupIds = reorderedAppGroupIds;
     }
 
-    public Guid WorkSurfaceId { get; }
     public List<Guid> ReorderedAppGroupIds { get; }
 
-    public class Handler : IRequestHandler<ReorderAppGroupsCommand, Guid>
+    public class Handler : IRequestHandler<ReorderAppGroupsCommand, Unit>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -26,29 +24,27 @@ public class ReorderAppGroupsCommand : IRequest<Guid>
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Guid> Handle(ReorderAppGroupsCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ReorderAppGroupsCommand command, CancellationToken cancellationToken)
         {
-            var workSurface = _readWriteContext.Set<WorkSurface>()
-                .Include(ws => ws.AppGroups.OrderBy(appGroup => appGroup.Order))
-                .FirstOrDefault(ws => ws.Id == command.WorkSurfaceId);
+            var appGroups = await _readWriteContext.Set<AppGroup>()
+                .ToListAsync(cancellationToken);
 
-            if (workSurface == null)
-            {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
-            }
+            var hasUnmatchedIds = appGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
 
-            var hasUnmatchedIds = workSurface.AppGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
-            
-            if (hasUnmatchedIds)
+            if (hasUnmatchedIds || appGroups.Count != command.ReorderedAppGroupIds.Count)
             {
                 throw new InvalidActionException("The provided app groups does not match the existing app groups");
             }
 
-            workSurface.ReorderAppGroups(command.ReorderedAppGroupIds);
+            foreach (var (orderedAppGroupId, index) in command.ReorderedAppGroupIds.Select((value, i) => (value, i)))
+            {
+                var currentAppGroup = appGroups.Single(x => x.Id == orderedAppGroupId);
+                currentAppGroup.UpdateOrder(index);
+            }
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
-            return workSurface.Id;
+            return Unit.Value;
         }
     }
 }

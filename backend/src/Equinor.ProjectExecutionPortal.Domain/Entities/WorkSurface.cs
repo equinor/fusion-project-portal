@@ -14,7 +14,6 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public const int SubTextLengthMax = 200;
 
     private readonly List<WorkSurfaceApp> _apps = new();
-    private readonly List<WorkSurfaceAppGroup> _appGroups = new();
 
     public WorkSurface(string key, string name, string shortName, string subText, int order, string icon)
     {
@@ -38,7 +37,6 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public Portal Portal { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
-    public IReadOnlyCollection<WorkSurfaceAppGroup> AppGroups => _appGroups.AsReadOnly();
 
     public void Update(string key, string name, string shortName, string subText, int order, string icon)
     {
@@ -63,19 +61,5 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public void AddApp(WorkSurfaceApp app)
     {
         _apps.Add(app);
-    }
-
-    public void AddAppGroup(WorkSurfaceAppGroup group)
-    {
-        _appGroups.Add(group);
-    }
-    
-    public void ReorderAppGroups(List<Guid> reorderedAppGroupIds)
-    {
-        foreach (var (orderedAppGroupId, index) in reorderedAppGroupIds.Select((value, i) => (value, i)))
-        {
-            var currentAppGroup = _appGroups.Single(x => x.Id == orderedAppGroupId);
-            currentAppGroup.Order = index;
-        }
     }
 }

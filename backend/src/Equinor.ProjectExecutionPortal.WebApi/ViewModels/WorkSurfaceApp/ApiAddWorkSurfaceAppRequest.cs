@@ -6,12 +6,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
     public class ApiAddWorkSurfaceAppRequest
     {
         public string AppKey { get; set; }
-        public Guid? AppGroupId { get; set; }
-        public int Order { get; set; }
 
         public AddWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string? contextExternalId, string? contextType)
         {
-            return new AddWorkSurfaceAppCommand(workSurfaceId, contextExternalId, contextType, AppKey, AppGroupId, Order);
+            return new AddWorkSurfaceAppCommand(workSurfaceId, contextExternalId, contextType, AppKey);
         }
 
         public class AddWorkSurfaceAppRequestValidator : AbstractValidator<ApiAddWorkSurfaceAppRequest>
@@ -22,10 +20,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
                     .NotEmpty()
                     .NotContainScriptTag()
                     .WithMessage("App Key required");
-
-                RuleFor(x => x.Order)
-                    .NotEmpty()
-                    .WithMessage("Order required"); ;
             }
         }
     }

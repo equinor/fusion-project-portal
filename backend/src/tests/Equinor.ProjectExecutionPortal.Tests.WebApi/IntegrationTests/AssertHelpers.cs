@@ -1,6 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
@@ -24,14 +24,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(workSurface.Subtext);
         }
 
-        public static void AssertWorkSurfaceAppGroupValues(ApiWorkSurfaceAppGroup? appGroup)
+        public static void AssertWorkSurfaceAppGroupValues(ApiWorkSurfaceAppGroupWithApps? appGroup)
         {
             if (appGroup == null)
             {
                 Assert.Fail();
             }
 
-            Assert.IsNotNull(appGroup.Id);
             Assert.IsNotNull(appGroup.Name);
             Assert.IsNotNull(appGroup.Order);
             Assert.IsNotNull(appGroup.AccentColor);
@@ -48,6 +47,16 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(app.Name);
             Assert.IsNotNull(app.Description);
             Assert.IsNotNull(app.Order);
+        }
+
+        public static void AssertOnboardedAppValues(ApiOnboardedApp? app)
+        {
+            if (app == null)
+            {
+                Assert.Fail();
+            }
+
+            Assert.IsNotNull(app.AppKey);
         }
     }
 }

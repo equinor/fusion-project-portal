@@ -1,6 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {

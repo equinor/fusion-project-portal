@@ -6,20 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppsOrder;
 
-public class UpdateAppsOrderCommand : IRequest<Guid>
+public class ReorderOnboardedAppsCommand : IRequest<Guid>
 {
-    public UpdateAppsOrderCommand(Guid appGroupId, List<Guid> reorderedAppIds, string? contextExternalId)
+    public ReorderOnboardedAppsCommand(Guid appGroupId, List<Guid> reorderedAppIds)
     {
         AppGroupId = appGroupId;
         ReorderedAppIds = reorderedAppIds;
-        ContextExternalId = contextExternalId;
     }
 
     public Guid AppGroupId { get; }
     public List<Guid> ReorderedAppIds { get; }
-    public string? ContextExternalId { get; }
 
-    public class Handler : IRequestHandler<UpdateAppsOrderCommand, Guid>
+    public class Handler : IRequestHandler<ReorderOnboardedAppsCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -28,13 +26,10 @@ public class UpdateAppsOrderCommand : IRequest<Guid>
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Guid> Handle(UpdateAppsOrderCommand command, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(ReorderOnboardedAppsCommand command, CancellationToken cancellationToken)
         {
-            // We have one issue here: Updating app order on global apps. If we do this here, it may invalidate the order set by another context.
-            // For now, we handle only context-specific apps
-
-            var appGroup = _readWriteContext.Set<WorkSurfaceAppGroup>()
-                .Include(ws => ws.Apps.Where(app => app.ExternalId == command.ContextExternalId).OrderBy(app => app.Order))
+            var appGroup = _readWriteContext.Set<AppGroup>()
+                .Include(ws => ws.Apps.OrderBy(app => app.Order))
                 .FirstOrDefault(ws => ws.Id == command.AppGroupId);
 
             if (appGroup == null)
@@ -42,7 +37,10 @@ public class UpdateAppsOrderCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(WorkSurface), command.AppGroupId);
             }
 
-            if (appGroup.Apps.Count != command.ReorderedAppIds.Count)
+            //var allAppIdsExists = appGroup.Apps.All(x => command.ReorderedAppIds.Any(y => x.Id == y));
+            var hasUnmatchedIds = appGroup.Apps.Select(x => x.Id).Except(command.ReorderedAppIds).Any();
+
+            if (hasUnmatchedIds || appGroup.Apps.Count != command.ReorderedAppIds.Count)
             {
                 throw new InvalidActionException("The provided apps does not match existing apps in this app group");
             }

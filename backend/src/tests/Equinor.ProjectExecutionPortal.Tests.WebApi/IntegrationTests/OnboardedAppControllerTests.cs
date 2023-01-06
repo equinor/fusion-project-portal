@@ -40,12 +40,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
+            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
             var getAllBeforeAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
             var totalCountBeforeAdded = getAllBeforeAdded?.Count;
 
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app"
+                AppKey = "test-app",
+                AppGroupId = getAllAppGroups!.First().Id
             };
 
             // Act
@@ -111,9 +113,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
+            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "app-to-be-removed"
+                AppKey = "app-to-be-removed",
+                AppGroupId = getAllAppGroups!.First().Id
             };
 
             // Act
