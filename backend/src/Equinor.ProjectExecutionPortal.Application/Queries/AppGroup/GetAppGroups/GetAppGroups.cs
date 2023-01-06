@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;

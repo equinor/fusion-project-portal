@@ -1,7 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup
+namespace Equinor.ProjectExecutionPortal.Application.Queries.AppGroup
 {
     public class AppGroupDto : BaseContextDto, IMapFrom<Domain.Entities.AppGroup>
     {
@@ -9,6 +8,5 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup
         public string Name { get; set; }
         public int Order { get; set; }
         public string AccentColor { get; set; }
-        public List<OnboardedAppDto> Apps { get; set; }
     }
 }

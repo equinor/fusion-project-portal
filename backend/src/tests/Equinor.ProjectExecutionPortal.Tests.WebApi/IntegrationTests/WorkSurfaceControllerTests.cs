@@ -191,12 +191,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return workSurface;
         }
 
-        private static async Task<IList<ApiAppGroup>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? externalContextId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiWorkSurfaceAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? externalContextId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetAppsForWorksurface(workSurfaceId, externalContextId, userType);
             var content = await response.Content.ReadAsStringAsync();
-            var appGroups = JsonConvert.DeserializeObject<IList<ApiAppGroup>>(content);
+            var appGroups = JsonConvert.DeserializeObject<IList<ApiWorkSurfaceAppGroupWithApps>>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -215,7 +215,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
                 foreach (var app in appGroup.Apps)
                 {
-                    AssertHelpers.AssertOnboardedAppValues(app);
+
+                    Assert.IsNotNull(app.AppKey);
+                    Assert.IsNotNull(app.Name);
+                    Assert.IsNotNull(app.Description);
+                    Assert.IsNotNull(app.Order);
                 }
             }
 

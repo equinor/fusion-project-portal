@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Application.Queries.AppGroup;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceAppGroup;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
 {

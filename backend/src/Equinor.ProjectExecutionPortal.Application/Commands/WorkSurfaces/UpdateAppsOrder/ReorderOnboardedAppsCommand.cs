@@ -37,7 +37,10 @@ public class ReorderOnboardedAppsCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(WorkSurface), command.AppGroupId);
             }
 
-            if (appGroup.Apps.Count != command.ReorderedAppIds.Count)
+            //var allAppIdsExists = appGroup.Apps.All(x => command.ReorderedAppIds.Any(y => x.Id == y));
+            var hasUnmatchedIds = appGroup.Apps.Select(x => x.Id).Except(command.ReorderedAppIds).Any();
+
+            if (hasUnmatchedIds || appGroup.Apps.Count != command.ReorderedAppIds.Count)
             {
                 throw new InvalidActionException("The provided apps does not match existing apps in this app group");
             }

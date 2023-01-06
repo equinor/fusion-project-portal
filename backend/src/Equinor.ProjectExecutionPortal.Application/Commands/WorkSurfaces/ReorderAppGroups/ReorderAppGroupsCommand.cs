@@ -31,7 +31,7 @@ public class ReorderAppGroupsCommand : IRequest<Unit>
 
             var hasUnmatchedIds = appGroups.Select(x => x.Id).Except(command.ReorderedAppGroupIds).Any();
 
-            if (hasUnmatchedIds)
+            if (hasUnmatchedIds || appGroups.Count != command.ReorderedAppGroupIds.Count)
             {
                 throw new InvalidActionException("The provided app groups does not match the existing app groups");
             }
