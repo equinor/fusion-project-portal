@@ -12,15 +12,17 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public const int NameLengthMax = 200;
     public const int ShortNameLengthMax = 50;
     public const int SubTextLengthMax = 200;
+    public const int DescriptionLengthMax = 4000;
 
     private readonly List<WorkSurfaceApp> _apps = new();
 
-    public WorkSurface(string key, string name, string shortName, string subText, int order, string icon)
+    public WorkSurface(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
         Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;
+        Description = description;
         Order = order;
         Icon = icon;
     }
@@ -29,6 +31,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string SubText { get; set; }
+    public string? Description { get; set; }
     public int Order { get; set; }
     public string Icon { get; set; }
     public bool IsDefault { get; set; }
@@ -38,12 +41,13 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
 
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
 
-    public void Update(string key, string name, string shortName, string subText, int order, string icon)
+    public void Update(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
         Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;
+        Description = description;
         Order = order;
         Icon = icon;
     }

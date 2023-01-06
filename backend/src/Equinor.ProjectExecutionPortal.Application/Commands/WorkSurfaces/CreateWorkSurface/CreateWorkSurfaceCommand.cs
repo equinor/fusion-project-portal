@@ -9,11 +9,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.Creat
 
 public class CreateWorkSurfaceCommand : IRequest<Guid>
 {
-    public CreateWorkSurfaceCommand(string name, string shortName, string subText, int order, string icon)
+    public CreateWorkSurfaceCommand(string name, string shortName, string subText, string? description, int order, string icon)
     {
         Name = name;
         ShortName = shortName;
         SubText = subText;
+        Description = description;
         Order = order;
         Icon = icon;
     }
@@ -21,6 +22,7 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string SubText { get; set; }
+    public string? Description { get; set; }
     public int Order { get; set; }
     public string Icon { get; set; }
 
@@ -45,7 +47,7 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
 
             var slug = SlugHelper.Sluggify(command.Name);
 
-            var workSurface = new WorkSurface(slug, command.Name, command.ShortName, command.SubText, command.Order, command.Icon)
+            var workSurface = new WorkSurface(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon)
             {
                 PortalId = portal.Id
             };
