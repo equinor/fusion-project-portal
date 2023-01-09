@@ -15,6 +15,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             Name = workSurfaceDto.Name;
             ShortName = workSurfaceDto.ShortName;
             Subtext = workSurfaceDto.SubText;
+            Description = workSurfaceDto.Description;
             Order = workSurfaceDto.Order;
             Icon = workSurfaceDto.Icon;
             IsDefault = workSurfaceDto.IsDefault;
@@ -26,6 +27,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
         public string Name { get; set; }
         public string ShortName { get; set; }
         public string Subtext { get; set; }
+        public string Description { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; }
         public bool IsDefault { get; set; }
