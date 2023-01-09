@@ -22,6 +22,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(workSurface.Order);
             Assert.IsNotNull(workSurface.ShortName);
             Assert.IsNotNull(workSurface.Subtext);
+            Assert.IsNotNull(workSurface.Description);
+            Assert.IsNotNull(workSurface);
         }
 
         public static void AssertWorkSurfaceAppGroupValues(ApiWorkSurfaceAppGroupWithApps? appGroup)

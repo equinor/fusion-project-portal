@@ -9,6 +9,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
         public string Name { get; set; }
         public string ShortName { get; set; }
         public string SubText { get; set; }
+        public string? Description { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; }
         public bool IsDefault { get; set; }
