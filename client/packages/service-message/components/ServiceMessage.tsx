@@ -7,10 +7,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { tokens } from "@equinor/eds-tokens";
 
-import { SideSheetHeader } from "../../side-sheet-header.tsx/SideSheetHeader";
+import { SideSheetHeader } from "../../portal-ui/src/lib/side-sheet-header.tsx/SideSheetHeader";
 import MarkdownViewer from "./MarkdownViewer";
-
-
 
 
 
@@ -211,11 +209,6 @@ export const MessageWrapper: FC<PropsWithChildren<{ message: ServiceMessage, tim
   );
 
 }
-
-
-
-
-
 
 export const NotificationService: FC<PropsWithChildren<{}>> = ({ children }) => {
 

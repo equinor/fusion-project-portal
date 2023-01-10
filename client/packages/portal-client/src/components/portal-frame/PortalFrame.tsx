@@ -1,5 +1,6 @@
 import { MenuProvider, ViewProvider } from '@equinor/portal-core';
-import { NotificationService, PortalSideSheet, StyleProvider } from '@equinor/portal-ui';
+import { PortalSideSheet, StyleProvider } from '@equinor/portal-ui';
+import { NotificationService } from "@equinor/service-message"
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../portal-header/Header';

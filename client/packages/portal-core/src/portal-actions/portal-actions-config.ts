@@ -4,12 +4,12 @@ import {
   Help,
   MyAccount,
   Notifications,
-
-  ServiceMessageIcon,
-
-  ServiceMessages,
   Task,
 } from '@equinor/portal-ui';
+import {
+  ServiceMessageIcon,
+  ServiceMessages,
+} from '@equinor/service-message';
 import { PortalAction } from './types';
 import { handleFullscreenClick } from './utils';
 
