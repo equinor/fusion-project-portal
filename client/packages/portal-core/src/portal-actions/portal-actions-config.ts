@@ -4,10 +4,16 @@ import {
   Help,
   MyAccount,
   Notifications,
+
+  ServiceMessageIcon,
+
+  ServiceMessages,
   Task,
 } from '@equinor/portal-ui';
 import { PortalAction } from './types';
 import { handleFullscreenClick } from './utils';
+
+
 
 export const actions: PortalAction[] = [
   {
@@ -43,11 +49,12 @@ export const actions: PortalAction[] = [
     icon: 'notifications',
     component: Notifications,
   },
-  // {
-  //   actionId: 'service-message',
-  //   name: 'Service message',
-  //   icon: 'comment_chat',
-  // },
+  {
+    actionId: 'service-message',
+    name: 'Service message',
+    icon: ServiceMessageIcon,
+    component: ServiceMessages,
+  },
   {
     actionId: 'help',
     name: 'Help / Service now',

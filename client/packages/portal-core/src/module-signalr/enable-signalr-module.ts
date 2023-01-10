@@ -1,4 +1,5 @@
 import type { IModulesConfigurator } from '@equinor/fusion-framework-module';
+import { SignalRConfig } from './configurator';
 import module from './module';
 
 /*
@@ -11,11 +12,15 @@ import module from './module';
 
 export const enableSignalr = (
     configurator: IModulesConfigurator<any, any>,
+    config: SignalRConfig
 ) => {
     configurator.addConfig({
         module,
-        configure: (appConfigurator) => {
-
+        configure: (signalRConfigurator) => {
+            if (!config) {
+                throw new Error("No signalr config provided")
+            }
+            signalRConfigurator.createConfig(config)
         },
     });
 }
