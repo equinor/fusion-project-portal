@@ -1,0 +1,9 @@
+{
+  "name": "bookmark-manager",
+  "version": "0.0.1",
+  "description": "Bookmark widget for fusion portals",
+  "main": "index.js",
+  "author": "Gustav Eikaas",
+  "license": "MIT",
+  "private": false
+}
