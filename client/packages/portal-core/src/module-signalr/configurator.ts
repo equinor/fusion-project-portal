@@ -1,5 +1,3 @@
-import { config } from "rxjs";
-
 export interface ISignalRConfigurator {
     config: SignalRConfig,
     createConfig: (config: SignalRConfig) => void

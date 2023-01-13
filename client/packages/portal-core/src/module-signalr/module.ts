@@ -6,7 +6,6 @@ import { ISignalRProvider, SignalRProvider } from "./provider";
 
 export type SignalRModuleKey = "signalr";
 
-
 export const moduleKey = "signalr";
 
 export type SignalRModule = Module<

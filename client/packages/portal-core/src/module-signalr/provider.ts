@@ -1,5 +1,5 @@
 
-import { HubConnectionBuilder, HubConnection, IStreamResult, HubConnectionState } from "@microsoft/signalr"
+import { HubConnectionBuilder, HubConnection } from "@microsoft/signalr"
 import { Observable, shareReplay } from "rxjs";
 import { SignalRConfig } from "./configurator";
 

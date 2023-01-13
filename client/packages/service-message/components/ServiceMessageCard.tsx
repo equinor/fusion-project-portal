@@ -1,12 +1,17 @@
-import { Button, Icon } from "@equinor/eds-core-react";
+import { Button, Card, Icon } from "@equinor/eds-core-react";
 import { tokens } from "@equinor/eds-tokens";
+
+
 import { FC, useState } from "react";
+import styled from "styled-components";
 import { ServiceMessage } from "../types/types"
-import { AppChips } from "./AppChips";
+
 import MarkdownViewer from "./MarkdownViewer";
 import { StyledCard, StyledCardIndicator, StyledContentWrapper, StyledHeader, StyledHeaderItem, StyledHeaderWrapper, StyledTime } from "./ServiceMessageCardStyles";
 import { TimeStamp } from "./TimeStamp";
 
+
+const StyledContent = styled(Card.Content)``;
 
 const getIconVariant = (type: "Issue" | "Maintenance" | "Info") => {
     const variant = {
@@ -49,9 +54,9 @@ export const ServiceMessageCard: FC<{ message: ServiceMessage, onClose?: VoidFun
             </StyledHeaderWrapper>
 
             {showContent &&
-                <div>
+                <StyledContent>
                     <MarkdownViewer markdown={message.content || ""} />
-                </div>
+                </StyledContent>
             }
 
         </StyledContentWrapper>
