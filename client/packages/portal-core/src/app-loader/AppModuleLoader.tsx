@@ -17,6 +17,7 @@ const Wrapper = styled.section`
 
 const StyledAppSection = styled.section`
     flex: 1 1 auto;
+    overflow: auto;
 `;
 
 export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
