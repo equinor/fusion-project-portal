@@ -19,7 +19,7 @@ export const actions: PortalAction[] = [
   {
     actionId: 'full-screen',
     name: 'Full screen',
-    icon: FullscreenIcon,
+    icon: { component: FullscreenIcon, name: "fullscreen" },
     appendDivider: true,
     onClick: handleFullscreenClick,
     topParOnly: true,
@@ -52,7 +52,7 @@ export const actions: PortalAction[] = [
   {
     actionId: 'service-message',
     name: 'Service message',
-    icon: ServiceMessageIcon,
+    icon: { component: ServiceMessageIcon, name: "comment_chat" },
     component: ServiceMessages,
   },
   {

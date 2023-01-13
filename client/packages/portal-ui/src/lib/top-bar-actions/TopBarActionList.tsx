@@ -32,7 +32,7 @@ export function TopBarActionList(): JSX.Element {
               name={action.icon}
             />
           ) : (
-            <action.icon />
+            <action.icon.component />
           );
         return (
           <StyledActionListWrapper key={action.actionId}>

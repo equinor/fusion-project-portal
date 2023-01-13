@@ -1,49 +1,40 @@
 
 import { HubConnectionBuilder, HubConnection, IStreamResult, HubConnectionState } from "@microsoft/signalr"
-import { Observable } from "rxjs";
+import { Observable, shareReplay } from "rxjs";
 import { SignalRConfig } from "./configurator";
 
 export interface ISignalRProvider {
-    // start(): Promise<boolean>;
-    stop(): void;
-    connect<T>(methodName: string, args: any): Topic<T> | undefined;
+    connect<T>(methodName: string, args: any): Promise<Topic<T> | undefined>;
 }
 
 
 export class SignalRProvider implements ISignalRProvider {
-    #hubConnection: HubConnection;
-
+    #hubConnection: Observable<HubConnection>;
 
     constructor(config: SignalRConfig, getToken: () => Promise<string>) {
-        this.#hubConnection = new HubConnectionBuilder()
-            .withAutomaticReconnect()
-            .withUrl(config.url, {
-                accessTokenFactory: async () => await getToken(),
-                timeout: config.timeout
+
+        this.#hubConnection = new Observable<HubConnection>((observer) => {
+            const connection = new HubConnectionBuilder()
+                .withAutomaticReconnect()
+                .withUrl(config.url, {
+                    accessTokenFactory: async () => await getToken(),
+                    timeout: config.timeout
+                })
+                .build()
+
+            connection.start().then(() => {
+                observer.next(connection)
             })
-            .build()
+            return () => {
+                console.log("close")
+                connection.stop()
+            }
 
-        this.start()
+        }).pipe(shareReplay({ bufferSize: 1, refCount: true }))
+
     }
 
-    private async start() {
-        try {
-            await this.#hubConnection.start()
-            return true
-        } catch (error: unknown) {
-            throw Error("Was not able to start hubConnection")
-        }
-    }
-
-    stop() {
-        try {
-            this.#hubConnection.stop()
-        } catch (error: unknown) {
-            throw Error("Was not able to stop hubConnection")
-        }
-    }
-
-    connect<T>(methodName: string, args: any) {
+    async connect<T>(methodName: string, args: any) {
         try {
             return new Topic<T>(methodName, this.#hubConnection, args);
         } catch (error) {
@@ -55,24 +46,36 @@ export class SignalRProvider implements ISignalRProvider {
 }
 
 export class Topic<T> extends Observable<T> {
-    constructor(public topic: string, public connection: HubConnection, args: any[]) {
+    connection: HubConnection | undefined;
+
+    constructor(public topic: string, public hubConnection: Observable<HubConnection>, args: any[]) {
         super((subscriber) => {
-            const hubStream = connection.stream(topic, args);
-            const cb = subscriber.next.bind(subscriber);
-            connection.on(topic, cb);
-            subscriber.add(() => connection.off(topic, cb));
+            const hubConnectionSubscription = hubConnection.subscribe((connection) => {
+                connection.stream(topic, args);
+                const cb = subscriber.next.bind(subscriber);
+                connection.on(topic, cb);
+                subscriber.add(() => connection.off(topic, cb));
+                this.connection = connection
+            })
+            subscriber.add(() => {
+                hubConnectionSubscription.unsubscribe();
+            })
+
         })
     }
 
     send(...args: any[]): void {
+        if (!this.connection) {
+            throw new Error("No hub connection awaitable")
+        }
         this.connection.send(this.topic, args);
     }
 
     invoke<T>(...args: any[]): Promise<T> {
-        return this.connection.invoke(this.topic, args);
+        if (!this.connection) {
+            throw new Error("No hub connection awaitable")
+        }
+        return this.connection?.invoke(this.topic, args);
     }
 
-    close() {
-        this.connection.stop()
-    }
 }

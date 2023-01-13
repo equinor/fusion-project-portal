@@ -1,5 +1,5 @@
 import { InfoMessage } from "../../info-message/InfoMessage";
-import { SideSheetHeader } from "../../side-sheet-header.tsx/SideSheetHeader";
+import { SideSheetHeader } from "../../../../../service-message/components/side-sheet-header.tsx/SideSheetHeader";
 
 
 export function Notifications() {

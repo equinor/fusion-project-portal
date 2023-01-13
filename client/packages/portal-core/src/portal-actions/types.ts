@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export interface PortalAction {
   actionId: string;
   name: string;
-  icon: string | React.FC;
+  icon: string | { component: React.FC, name: string }
   onClick?: (actionId: string) => void;
   component?: FunctionComponent;
   widgetId?: string;

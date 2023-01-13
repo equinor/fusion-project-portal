@@ -2,7 +2,7 @@ import { Button, Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 
 import { Banner, StyledMessageType } from './ServiceMessageBannerStyles';
-import { ServiceMessage } from './types';
+import { ServiceMessage } from '../types/types';
 
 interface SystemBannerProps {
     message?: ServiceMessage;

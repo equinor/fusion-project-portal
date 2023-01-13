@@ -1,5 +1,6 @@
 import { useFramework } from "@equinor/fusion-framework-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Subscription } from "rxjs";
 import { SignalRModule } from "./module";
 import { Topic } from "./provider";
 
@@ -7,16 +8,25 @@ import { Topic } from "./provider";
 export const useSignalRTopic = <T>(topicId: string, cb: (data: T) => void, args?: any) => {
     const [topic, setTopic] = useState<Topic<T>>();
     const hub = useFramework<[SignalRModule]>().modules.signalr;
+    const subscription = useRef<Subscription>()
 
     useEffect(() => {
-        setTopic(hub.connect(topicId, args));
+        hub.connect<T>(topicId, args).then((topicConnection) => {
+            if (topicConnection)
+                setTopic(topicConnection);
+        })
     }, [topicId, args]);
 
     useEffect(() => {
         if (!topic) return;
-        topic.subscribe(cb)
-        return () => topic.close()
+        subscription.current = topic.subscribe(cb)
     }, [topic]);
+
+    useEffect(() => {
+        return () => {
+            if (subscription.current) subscription.current.unsubscribe()
+        }
+    }, [])
 
     return topic
 }

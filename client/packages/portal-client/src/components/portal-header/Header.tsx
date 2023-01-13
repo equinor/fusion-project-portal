@@ -1,9 +1,9 @@
-import { useMenuContext, useServiceMessage, useSignalRTopic, useViewController } from '@equinor/portal-core';
-import { MenuButton, PortalHeader, TopBarActions } from '@equinor/portal-ui';
+import { useMenuContext, useViewController } from '@equinor/portal-core';
+import { MenuButton, PortalHeader, } from '@equinor/portal-ui';
 import { appMounted } from '@equinor/portal-utils';
-import { useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import { map } from 'rxjs';
+
 
 
 export function Header() {

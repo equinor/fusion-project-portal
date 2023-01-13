@@ -1,2 +1,2 @@
 export * from "./use-service-message";
-export * from "./types"
+export * from "../types/types"

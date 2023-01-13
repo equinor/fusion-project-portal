@@ -17,15 +17,14 @@ export const StyledScrim = styled(Scrim)`
   }
 `;
 
-export const StyledSidesheet = styled.section`
+export const StyledSidesheetWrapper = styled.section`
   height: 100vh;
-  background: #fff; // TODO: token
-  width: 500px;
   position: fixed;
   top: 0;
   transition: right 10s;
   animation: Animation ease 0.3s;
   right: 0px;
+
   @keyframes Animation {
     0% {
       right: -500px;
@@ -34,6 +33,12 @@ export const StyledSidesheet = styled.section`
       right: 0px;
     }
   }
+`;
+
+export const StyledSidesheet = styled.section`
+  height: 100%;
+  background: #fff; // TODO: token
+  width: 100%;
 `;
 
 export const StyledTop = styled.div`
