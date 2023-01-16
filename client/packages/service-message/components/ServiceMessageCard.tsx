@@ -2,7 +2,7 @@ import { Button, Card, Icon } from "@equinor/eds-core-react";
 import { tokens } from "@equinor/eds-tokens";
 
 
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import styled from "styled-components";
 import { ServiceMessage } from "../types/types"
 
@@ -27,15 +27,16 @@ const getIconName = (active: boolean) => active ? "chevron_up" : "chevron_down"
 
 export const ServiceMessageCard: FC<{ message: ServiceMessage, onClose?: VoidFunction, compact?: boolean }> = ({ message, onClose, compact = true }) => {
     const variant = getIconVariant(message.type);
-    const [showContent, setShowContent] = useState(compact || message.type === "Issue");
+    const [showContent, setShowContent] = useState(compact || message.type === "Issue" && message.content !== null);
+    const ref = useRef<HTMLDivElement>(null);
 
-    return (<StyledCard key={message.id}>
+    return (<StyledCard key={message.id} ref={ref}>
         <StyledCardIndicator color={variant.color} />
         <StyledContentWrapper>
             <StyledHeaderWrapper >
                 <StyledHeaderItem>
                     <Icon {...variant} />
-                    <StyledHeader token={tokens.typography.ui.accordion_header}>{message.title}
+                    <StyledHeader width={ref.current?.offsetWidth ? ref.current?.offsetWidth - 300 : 200} title={message.title} token={tokens.typography.ui.accordion_header}>{message.title}
                     </StyledHeader>
                 </StyledHeaderItem>
                 <StyledHeaderItem>
@@ -44,7 +45,7 @@ export const ServiceMessageCard: FC<{ message: ServiceMessage, onClose?: VoidFun
                     </StyledTime>
                     {onClose ? <Button variant="ghost_icon" onClick={() => onClose()} >
                         <Icon name="close" />
-                    </Button> : <Button variant="ghost_icon" onClick={() => {
+                    </Button> : <Button variant="ghost_icon" disabled={!message.content} onClick={() => {
                         setShowContent(state => !state)
                     }} >
                         <Icon name={getIconName(showContent)} />
@@ -53,9 +54,9 @@ export const ServiceMessageCard: FC<{ message: ServiceMessage, onClose?: VoidFun
 
             </StyledHeaderWrapper>
 
-            {showContent &&
+            {showContent && message.content &&
                 <StyledContent>
-                    <MarkdownViewer markdown={message.content || ""} />
+                    <MarkdownViewer markdown={message.content} />
                 </StyledContent>
             }
 

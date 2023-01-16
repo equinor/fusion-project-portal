@@ -3,8 +3,9 @@ import { useSignalRTopic } from "@equinor/portal-core";
 import { createContext, FC, PropsWithChildren, useEffect, } from "react"
 import { BehaviorSubject, combineLatestWith, map, Observable } from "rxjs";
 
-import { AppReference, ServiceMessage } from "../service-message";
-import { useServiceMessageQuery } from "../service-message/use-service-message-query";
+
+import { useServiceMessageQuery } from "../query/use-service-message-query";
+import { AppReference, ServiceMessage } from "../types/types";
 
 
 interface IServiceMessageContext {
@@ -55,13 +56,17 @@ class ServiceMessages {
         return acc;
     }
     #sortMessages(serviceMessages: ServiceMessage[]): ServiceMessage[] {
-        return serviceMessages.sort((a: ServiceMessage, b: ServiceMessage): number => {
-            if (!b || a.type === "Maintenance") return 0
 
-            if (a.type === "Issue" && b.type !== "Issue") {
-                return -1
+        return serviceMessages.sort((a: ServiceMessage, b: ServiceMessage) => {
+            return new Date(b.timestamp).getUTCDate() - new Date(a.timestamp).getUTCDate()
+        }).sort((a: ServiceMessage, b: ServiceMessage): number => {
+            const statusValues = {
+                Issue: 3,
+                Maintenance: 2,
+                Info: 1
             }
-            return 1
+
+            return statusValues[b.type] - statusValues[a.type]
         });
     }
 

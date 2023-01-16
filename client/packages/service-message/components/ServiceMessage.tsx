@@ -9,6 +9,7 @@ import { SideSheetHeader } from "./side-sheet-header.tsx/SideSheetHeader";
 import { ServiceMessage, useServiceMessage } from "../service-message";
 import { ServiceMessageList } from "./SirviceMessageList";
 import { ServiceMessageCard } from "./ServiceMessageCard";
+import { AppServiceMessage } from "../provider/ServiceMessageProvider";
 
 
 export function ServiceMessages() {
@@ -29,35 +30,8 @@ const StyledWrapper = styled.div`
  flex-direction: column;
 `;
 
-const StyledMessageChip = styled(Chip)`
-    position: absolute;
-    right: 6px;
-    bottom: 10px;
-    padding: 0;
-    line-height: 0;
-    width: 16px;
-    height: 16px;
-    text-align: center;
-    justify-content: center;
-`;
 
-const getSeverity = (messages: ServiceMessage[]): "default" | "error" => {
-  return messages.some(message => message.type === "Issue") ? "error" : "default";
-}
-
-export function ServiceMessageIcon() {
-  const [color, setColor] = useState<string>("#007079");
-  const { messages } = useServiceMessage();
-
-  useEffect(() => {
-    setColor(messages && messages.length > 0 ? tokens.colors.interactive.warning__resting.rgba : tokens.colors.interactive.primary__resting.rgba);
-  }, [messages]);
-  return <Icon name='comment_chat' color={color} />
-
-}
-/* <StyledMessageChip  variant={getSeverity(messages)}>{messages.length}</StyledMessageChip> */
-
-const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
+export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
   const { appsMessages, portalMessages, messages } = useServiceMessage();
   const [compact, setCompact] = useState(false)
 
@@ -80,10 +54,15 @@ const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
           App Status ({messages.filter(a => a.scope === "App").length})
         </Typography>
 
-        {appsMessages.length > 0 ? appsMessages.map((appMessageGroup) =>
+        {appsMessages.sort(sortCurrentAppToTop(appKey)).map((appMessageGroup) =>
           <ServiceMessageList key={appMessageGroup.key} messages={appMessageGroup.messages} title={appMessageGroup.name} currentApp={!appKey || appMessageGroup.key === appKey} compact={compact} />) : null}
       </StyledWrapper>
     </SideSheetHeader >
   );
 }
 
+const sortCurrentAppToTop = (appKey: string = "") => {
+  return (a: AppServiceMessage, b: AppServiceMessage) => {
+    return a.key !== appKey && b.key === appKey ? 1 : -1
+  }
+}

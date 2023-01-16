@@ -29,10 +29,11 @@ export const StyledHeaderWrapper = styled.div`
     border-bottom: 1px solid ${tokens.colors.ui.background__medium.rgba};
 `;
 
-export const StyledHeader = styled(Typography)`
+export const StyledHeader = styled(Typography) <{ width: number }>`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    width: ${({ width }) => `${width}px`};
 `;
 
 export const StyledTime = styled(Typography)`
