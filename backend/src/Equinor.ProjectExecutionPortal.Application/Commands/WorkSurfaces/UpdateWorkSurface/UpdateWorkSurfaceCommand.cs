@@ -9,12 +9,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.Updat
 
 public class UpdateWorkSurfaceCommand : IRequest<Guid>
 {
-    public UpdateWorkSurfaceCommand(Guid id, string name, string shortName, string subText, int order, string icon)
+    public UpdateWorkSurfaceCommand(Guid id, string name, string shortName, string subText, string? description, int order, string icon)
     {
         Id = id;
         Name = name;
         ShortName = shortName;
         SubText = subText;
+        Description = description;
         Order = order;
         Icon = icon;
     }
@@ -23,6 +24,7 @@ public class UpdateWorkSurfaceCommand : IRequest<Guid>
     public string Name { get; }
     public string ShortName { get; }
     public string SubText { get; }
+    public string? Description { get; set; }
     public int Order { get; }
     public string Icon { get; }
 
@@ -47,7 +49,7 @@ public class UpdateWorkSurfaceCommand : IRequest<Guid>
 
             var slug = SlugHelper.Sluggify(command.Name);
 
-            entity.Update(slug, command.Name, command.ShortName, command.SubText, command.Order, command.Icon);
+            entity.Update(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

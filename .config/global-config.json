@@ -1,0 +1,14 @@
+{
+    "noe": {
+        "resourceGroups": {
+            "dev": "rg-project-execution-portal-noe-dev"
+        },
+        "resources": {
+            "containerRegistry": "crpepnoe",
+            "repository": {
+                "backend": "backend",
+                "client": "client"
+            }
+        }
+    }
+}

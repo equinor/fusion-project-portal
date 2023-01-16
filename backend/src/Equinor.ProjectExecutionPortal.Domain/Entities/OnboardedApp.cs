@@ -11,13 +11,19 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
 {
     public const int AppKeyLengthMax = 200;
 
-    public OnboardedApp(string appKey)
+    public OnboardedApp(string appKey, int order)
     {
         AppKey = appKey;
+        Order = order;
     }
 
     /// <summary>
     /// AppKey referes to the app's unique ID in the Fusion Portal
     /// </summary>
     public string AppKey { get; set; }
+
+    public int Order { get; set; }
+
+    public Guid AppGroupId { get; set; }
+    public AppGroup AppGroup { get; set; }
 }

@@ -1,6 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
@@ -48,7 +47,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         private static WorkSurfaceDto CombineWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurfaceDto, IList<ApiFusionPortalAppInformation> fusionApps)
         {
-            foreach (var applicationDto in workSurfaceDto.AppGroups.SelectMany(x => x.Apps))
+            foreach (var applicationDto in workSurfaceDto.Apps)
             {
                 CombineAppWithFusionAppData(applicationDto, fusionApps);
             }
@@ -67,7 +66,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         // TEMP POC METHOD
         private static PortalDto CombinePortalWithFusionAppData(PortalDto portalDto, IList<ApiFusionPortalAppInformation> fusionApps)
         {
-            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.AppGroups).SelectMany(x => x.Apps))
+            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.Apps))
             {
                 CombineAppWithFusionAppData(applicationDto, fusionApps);
             }

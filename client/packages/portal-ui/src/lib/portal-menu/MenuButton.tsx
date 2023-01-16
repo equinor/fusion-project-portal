@@ -1,5 +1,5 @@
 import { Button, Icon } from '@equinor/eds-core-react';
-import { useMenuContext } from './MenuContext';
+import { useMenuContext } from '@equinor/portal-core';
 
 export function MenuButton(): JSX.Element {
   const { toggleMenu, menuActive } = useMenuContext();

@@ -8,22 +8,18 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddWo
 
 public class AddWorkSurfaceAppCommand : IRequest<Unit>
 {
-    public AddWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string? contextType, string appKey, Guid? appGroupId, int order)
+    public AddWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string? contextType, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
         ContextType = contextType;
         AppKey = appKey;
-        Order = order;
-        AppGroupId = appGroupId;
     }
 
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
     public string? ContextType { get; }
     public string AppKey { get; }
-    public Guid? AppGroupId { get; }
-    public int Order { get; }
 
     public class Handler : IRequestHandler<AddWorkSurfaceAppCommand, Unit>
     {
@@ -75,7 +71,7 @@ public class AddWorkSurfaceAppCommand : IRequest<Unit>
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId);
+            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId);
 
             workSurfaceWithGlobalApps.AddApp(workSurfaceApp);
         }
@@ -110,7 +106,7 @@ public class AddWorkSurfaceAppCommand : IRequest<Unit>
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.AppGroupId, command.Order, command.WorkSurfaceId, command.ContextExternalId, command.ContextType);
+            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, command.ContextExternalId, command.ContextType);
 
             workSurfaceWithContextApps.AddApp(workSurfaceApp);
         }

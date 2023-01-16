@@ -1,10 +1,13 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
     public class ApiWorkSurface
     {
+        public ApiWorkSurface()
+        { }
+
         public ApiWorkSurface(WorkSurfaceDto workSurfaceDto)
         {
             Id = workSurfaceDto.Id;
@@ -12,20 +15,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             Name = workSurfaceDto.Name;
             ShortName = workSurfaceDto.ShortName;
             Subtext = workSurfaceDto.SubText;
+            Description = workSurfaceDto.Description;
             Order = workSurfaceDto.Order;
             Icon = workSurfaceDto.Icon;
             IsDefault = workSurfaceDto.IsDefault;
-            AppGroups = workSurfaceDto.AppGroups.Select(x => new ApiWorkSurfaceAppGroup(x)).ToList();
+            Apps = workSurfaceDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList();
         }
 
-        public Guid Id { get; }
-        public string Key { get; }
-        public string Name { get; }
-        public string ShortName { get; }
-        public string Subtext { get; }
-        public int Order { get; }
-        public string Icon { get; }
-        public bool IsDefault { get; }
-        public List<ApiWorkSurfaceAppGroup> AppGroups { get; }
+        public Guid Id { get; set; }
+        public string Key { get; set; }
+        public string Name { get; set; }
+        public string ShortName { get; set; }
+        public string Subtext { get; set; }
+        public string? Description { get; set; }
+        public int Order { get; set; }
+        public string Icon { get; set; }
+        public bool IsDefault { get; set; }
+        public List<ApiWorkSurfaceApp> Apps { get; set; }
     }
 }

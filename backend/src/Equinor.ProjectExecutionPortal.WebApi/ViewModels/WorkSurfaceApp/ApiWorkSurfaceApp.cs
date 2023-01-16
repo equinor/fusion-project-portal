@@ -1,10 +1,11 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaceApp;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceAppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
     public class ApiWorkSurfaceApp
     {
+        public ApiWorkSurfaceApp() { }
+
         public ApiWorkSurfaceApp(WorkSurfaceAppDto workSurfaceAppDto)
         {
             AppKey = workSurfaceAppDto.OnboardedApp.AppKey;
@@ -13,10 +14,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
             Order = workSurfaceAppDto.Order;
         }
 
-        public string AppKey { get; }
-        public string Name { get; }
-        public string Description { get; }
-        public int Order { get; }
-        public ApiWorkSurfaceAppGroup? AppGroup { get; }
+        public string AppKey { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Order { get; set; }
     }
 }

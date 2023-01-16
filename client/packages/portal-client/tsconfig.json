@@ -5,7 +5,11 @@
     "allowJs": false,
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "skipLibCheck": false,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
@@ -18,7 +22,9 @@
     "noEmit": true
   },
   "files": [],
-  "include": ["./src"],
+  "include": [
+    "./src",
+  ],
   "references": [
     {
       "path": "./tsconfig.app.json"

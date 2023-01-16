@@ -17,15 +17,54 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.AppGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AccentColor")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppGroups");
+                });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AppGroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AppKey")
@@ -45,7 +84,12 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid?>("ModifiedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AppGroupId");
 
                     b.HasIndex("AppKey")
                         .IsUnique();
@@ -97,6 +141,10 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
                     b.Property<Guid?>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<string>("Icon")
                         .IsRequired()
@@ -153,9 +201,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AppGroupId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -178,9 +223,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid>("OnboardedAppId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -190,8 +232,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppGroupId");
-
                     b.HasIndex("OnboardedAppId");
 
                     b.HasIndex("WorkSurfaceId");
@@ -199,45 +239,15 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("WorkSurfaceApps");
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceAppGroup", b =>
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.AppGroup", "AppGroup")
+                        .WithMany("Apps")
+                        .HasForeignKey("AppGroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Property<string>("AccentColor")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedByAzureOid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("ModifiedByAzureOid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("WorkSurfaceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkSurfaceId");
-
-                    b.ToTable("WorkSurfaceAppGroups");
+                    b.Navigation("AppGroup");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", b =>
@@ -253,11 +263,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceApp", b =>
                 {
-                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceAppGroup", "AppGroup")
-                        .WithMany("Apps")
-                        .HasForeignKey("AppGroupId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", "OnboardedApp")
                         .WithMany()
                         .HasForeignKey("OnboardedAppId")
@@ -270,22 +275,14 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("AppGroup");
-
                     b.Navigation("OnboardedApp");
 
                     b.Navigation("WorkSurface");
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceAppGroup", b =>
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.AppGroup", b =>
                 {
-                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", "WorkSurface")
-                        .WithMany("AppGroups")
-                        .HasForeignKey("WorkSurfaceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("WorkSurface");
+                    b.Navigation("Apps");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
@@ -294,13 +291,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", b =>
-                {
-                    b.Navigation("AppGroups");
-
-                    b.Navigation("Apps");
-                });
-
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceAppGroup", b =>
                 {
                     b.Navigation("Apps");
                 });

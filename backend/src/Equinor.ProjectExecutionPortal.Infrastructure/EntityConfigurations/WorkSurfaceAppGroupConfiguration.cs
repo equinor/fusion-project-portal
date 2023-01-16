@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations;
 
-public class WorkSurfaceAppGroupConfiguration : IEntityTypeConfiguration<WorkSurfaceAppGroup>
+public class AppGroupConfiguration : IEntityTypeConfiguration<AppGroup>
 {
-    public void Configure(EntityTypeBuilder<WorkSurfaceAppGroup> builder)
+    public void Configure(EntityTypeBuilder<AppGroup> builder)
     {
         builder.ConfigureCreationAudit();
         builder.ConfigureModificationAudit();
 
         builder.Property(t => t.Name)
-            .HasMaxLength(WorkSurfaceAppGroup.NameLengthMax)
+            .HasMaxLength(AppGroup.NameLengthMax)
             .IsRequired();
 
         builder.Property(t => t.AccentColor)
-            .HasMaxLength(WorkSurfaceAppGroup.AccentColorLengthMax)
+            .HasMaxLength(AppGroup.AccentColorLengthMax)
             .IsRequired();
 
         builder.HasMany(x => x.Apps)

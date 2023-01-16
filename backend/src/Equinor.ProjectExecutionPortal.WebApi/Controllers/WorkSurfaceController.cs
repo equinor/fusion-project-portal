@@ -1,6 +1,8 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,21 +24,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{workSurfaceId:guid}")]
-        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}")]
-        public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
+        public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId)
         {
-            if (contextExternalId != null)
-            {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-                if (context == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
-            }
-
-            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceWithAppsQuery(workSurfaceId, contextExternalId));
+            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurface(workSurfaceId));
 
             if (workSurfaceWithAppsDto == null)
             {
@@ -63,6 +53,28 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var request = new ApiSetWorkSurfaceAsDefaultRequest();
             return await Mediator.Send(request.ToCommand(workSurfaceId));
+        }
+
+        // Apps
+
+        [HttpGet("{workSurfaceId:guid}/apps")]
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
+        {
+            if (contextExternalId != null)
+            {
+                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+                if (context == null)
+                {
+                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
+                }
+            }
+
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithAppsQuery(workSurfaceId, contextExternalId));
+
+            return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList();
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
@@ -110,12 +122,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
 
             return NoContent();
-        }
-
-        [HttpPut("{workSurfaceId:guid}/app-groups/order")]
-        public async Task<ActionResult<Guid>> UpdateAppGroupOrder([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateAppGroupsOrderRequest request)
-        {
-            return await Mediator.Send(request.ToCommand(workSurfaceId));
         }
     }
 }
