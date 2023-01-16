@@ -3,7 +3,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Header } from './header';
 import { PropsProvider } from '../hooks/useWidgetProps';
 import { useBookmarks } from '../hooks/useBookmarks';
+
 import styled from 'styled-components';
+import React from 'react';
 
 export type BookmarkWidgetProps = {
   isOpen: boolean;
@@ -27,9 +29,10 @@ export function BookmarkWidget(props: BookmarkWidgetProps) {
 }
 
 const StyledBookmarksRoot = styled.div`
-  height: 100%;
-  width: 100%;
+  height: calc(100% - 16px) px;
+  width: calc(100% - 16px) px;
   background: white;
+  margin: 16px;
 `;
 
 export function BookmarkDataLoader() {
@@ -42,6 +45,7 @@ export function BookmarkDataLoader() {
         <CircularProgress />
       ) : (
         <div>
+          <pre>{data && JSON.stringify(data)}</pre>
           {/* <Filter /> */}
           {/* Map sections 
       <Section ><Row /> </Section>
