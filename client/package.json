@@ -45,7 +45,7 @@
     "@equinor/eds-core-react": "^0.28.0",
     "@equinor/eds-icons": "^0.17.0",
     "@equinor/eds-tokens": "^0.9.0",
-    "@equinor/fusion-framework-app": "^4.0.20",
+    "@equinor/fusion-framework-app": "^5.0.6",
     "@equinor/fusion-framework-module-ag-grid": "^1.0.19",
     "@equinor/fusion-framework-module-app": "^2.8.1",
     "@equinor/fusion-framework-module-context": "^1.2.2",
