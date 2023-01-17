@@ -24,7 +24,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     addPortalClient(config, portalConfig.portalClient.client);
 
     enableSignalr(config, {
-      url: "https://pro-s-portal-ci.azurewebsites.net/signalr/hubs/portal/?negotiateVersion=1",
+      url: "/signalr/hubs/portal/?negotiateVersion=1",
+      usePortal: true,
       scopes: ["5a842df8-3238-415d-b168-9f16a6a6031b/.default"]
     })
 

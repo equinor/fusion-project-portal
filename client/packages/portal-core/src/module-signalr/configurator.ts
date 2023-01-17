@@ -6,6 +6,8 @@ export interface ISignalRConfigurator {
 export type SignalRConfig = {
     url: string;
     scopes: string[];
+    baseUrl?: string
+    usePortal?: boolean;
     timeout?: number
 }
 
@@ -15,7 +17,9 @@ export class SignalRConfigurator implements ISignalRConfigurator {
     constructor() {
         this.config = {
             url: "",
+            baseUrl: "",
             scopes: [],
+            usePortal: false
         }
     }
 

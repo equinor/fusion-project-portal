@@ -13,11 +13,12 @@ export class SignalRProvider implements ISignalRProvider {
     #hubConnection: Observable<HubConnection>;
 
     constructor(config: SignalRConfig, getToken: () => Promise<string>) {
+        const url = config.baseUrl ? config.baseUrl + config.url : config.url;
 
         this.#hubConnection = new Observable<HubConnection>((observer) => {
             const connection = new HubConnectionBuilder()
                 .withAutomaticReconnect()
-                .withUrl(config.url, {
+                .withUrl(url, {
                     accessTokenFactory: async () => await getToken(),
                     timeout: config.timeout
                 })

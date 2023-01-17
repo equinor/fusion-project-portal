@@ -56,7 +56,7 @@ export function TopBarActionList(): JSX.Element {
                 </Tooltip>
               }>
               <StyledActionMenuButton
-                title={!action.tooltip && action.name}
+                title={!action.tooltip ? action.name : undefined}
                 variant="ghost_icon"
                 onClick={() => {
                   action.onClick
