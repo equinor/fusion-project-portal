@@ -36,6 +36,9 @@
       ],
       "@equinor/portal-client": [
         "packages/portal-client/src/index.ts"
+      ],
+      "@equinor/service-message": [
+        "packages/service-message/index.ts"
       ]
     }
   },

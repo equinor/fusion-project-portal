@@ -6,6 +6,11 @@ import {
   Notifications,
   Task,
 } from '@equinor/portal-ui';
+import {
+  ServiceMessageIcon,
+  ServiceMessages,
+  ServiceMessageTooltip,
+} from '@equinor/service-message';
 import { PortalAction } from './types';
 import { handleFullscreenClick } from './utils';
 
@@ -13,7 +18,7 @@ export const actions: PortalAction[] = [
   {
     actionId: 'full-screen',
     name: 'Full screen',
-    icon: FullscreenIcon,
+    icon: { component: FullscreenIcon, name: "fullscreen" },
     appendDivider: true,
     onClick: handleFullscreenClick,
     topParOnly: true,
@@ -43,11 +48,13 @@ export const actions: PortalAction[] = [
     icon: 'notifications',
     component: Notifications,
   },
-  // {
-  //   actionId: 'service-message',
-  //   name: 'Service message',
-  //   icon: 'comment_chat',
-  // },
+  {
+    actionId: 'service-message',
+    name: 'Service message',
+    tooltip: <ServiceMessageTooltip />,
+    icon: { component: ServiceMessageIcon, name: "comment_chat" },
+    component: ServiceMessages,
+  },
   {
     actionId: 'help',
     name: 'Help / Service now',
@@ -55,3 +62,4 @@ export const actions: PortalAction[] = [
     component: Help,
   },
 ];
+

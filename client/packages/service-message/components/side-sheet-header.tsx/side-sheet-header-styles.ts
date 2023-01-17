@@ -2,6 +2,7 @@ import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 import { HEXString } from './types';
 
+
 export const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,6 +11,7 @@ export const StyledWrapper = styled.div`
 
 export const StyledHeader = styled.div`
   padding: 1rem;
+  height: 48px;
   display: flex;
   justify-content: space-between;
 `;
@@ -17,7 +19,6 @@ export const StyledHeader = styled.div`
 export const StyledTitleContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 1rem;
 `;
 
 export const StyledTitleWrapper = styled.div`
@@ -32,6 +33,11 @@ export const StyledIndicator = styled.span<{ color?: HEXString }>`
   background-color: ${({ color }) => color || 'red'};
   height: 48px;
   width: 16px;
+  margin-right: 1rem;
 `;
 
-export const ContentWrapper = styled.div``;
+// To get teh perfect scroll the window height gets subtracted with StyledHeader height and padding
+export const ContentWrapper = styled.div`
+  overflow-y: auto ;
+  height: calc(100vh - 48px - 2rem);
+`;

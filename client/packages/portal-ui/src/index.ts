@@ -6,7 +6,7 @@ export * from './lib/full-page-loading';
 export * from './lib/fullscreen-icon/FullscreenIcon';
 export * from './lib/help/Help';
 export * from './lib/my-account/MyAccount';
-export * from './lib/notifications/Notifications';
+export * from './lib/widgets'
 export * from './lib/portal-header/Icon';
 export * from './lib/portal-header/PortalHeader';
 export * from './lib/portal-menu';

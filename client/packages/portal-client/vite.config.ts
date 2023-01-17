@@ -32,6 +32,10 @@ export default defineConfig({
         __dirname,
         '../portal-utils/src/index.ts'
       ),
+      '@equinor/service-message': path.resolve(
+        __dirname,
+        '../service-message/index.ts'
+      ),
     },
   },
 });

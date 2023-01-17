@@ -7,4 +7,5 @@ yarn add -W  @equinor/fusion-framework-app `
     @equinor/fusion-observable `
     @equinor/fusion-react-context-selector `
     @equinor/fusion-framework-module-app `
+    @equinor/fusion-framework-module-http `
 
