@@ -25,7 +25,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     enableSignalr(config, {
       url: "/signalr/hubs/portal/?negotiateVersion=1",
-      usePortal: true,
+      useFusionPortalClientBaseUrl: true,
       scopes: ["5a842df8-3238-415d-b168-9f16a6a6031b/.default"]
     })
 

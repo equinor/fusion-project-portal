@@ -26,9 +26,11 @@ export const MessageWrapper: FC<PropsWithChildren<{ message: ServiceMessage, tim
   const onClose = message.type === "Issue" ? () => { setDisplay(false) } : undefined
 
   useEffect(() => {
-    if (!onClose) {
-      setTimeout(() => { setDisplay(false) }, timeout)
-    }
+    if (onClose) return;
+    const timeoutId = setTimeout(() => { setDisplay(false) }, timeout);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [])
 
   if (!display) return null;
