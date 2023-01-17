@@ -1,7 +1,8 @@
 import { FC, PropsWithChildren } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useServiceMessage } from "../service-message";
+import { useServiceMessage } from "../query/use-service-message";
+
 import { MessageWrapper } from "./MessageWrapper";
 
 const StyledMessageListWrapper = styled.div`

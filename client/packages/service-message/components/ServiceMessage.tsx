@@ -1,15 +1,15 @@
-import { Chip, Icon, Typography } from "@equinor/eds-core-react";
+import { Typography } from "@equinor/eds-core-react";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { tokens } from "@equinor/eds-tokens";
 
 import { SideSheetHeader } from "./side-sheet-header.tsx/SideSheetHeader";
-import { ServiceMessage, useServiceMessage } from "../service-message";
-import { ServiceMessageList } from "./SirviceMessageList";
+
+import { ServiceMessageList } from "./ServiceMessageList";
 import { ServiceMessageCard } from "./ServiceMessageCard";
 import { AppServiceMessage } from "../provider/ServiceMessageProvider";
+import { useServiceMessage } from "../query/use-service-message";
 
 
 export function ServiceMessages() {
@@ -55,7 +55,7 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
         </Typography>
 
         {appsMessages.sort(sortCurrentAppToTop(appKey)).map((appMessageGroup) =>
-          <ServiceMessageList key={appMessageGroup.key} messages={appMessageGroup.messages} title={appMessageGroup.name} currentApp={!appKey || appMessageGroup.key === appKey} compact={compact} />) : null}
+          <ServiceMessageList key={appMessageGroup.key} messages={appMessageGroup.messages} title={appMessageGroup.name} currentApp={!appKey || appMessageGroup.key === appKey} compact={compact} />)}
       </StyledWrapper>
     </SideSheetHeader >
   );

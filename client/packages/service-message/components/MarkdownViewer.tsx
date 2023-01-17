@@ -12,8 +12,6 @@ const StyledTypography = styled(Typography)`
     overflow: auto;
 `;
 
-
-
 const MarkdownViewer: FC<MarkdownViewerProps> = ({ markdown }) => {
     return (
         < StyledTypography variant="body_long"

@@ -1384,6 +1384,14 @@
     "@material-ui/styles" "^4.11.4"
     clsx "^1.1.1"
 
+"@equinor/fusion-react-tooltip@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-tooltip/-/fusion-react-tooltip-1.1.5.tgz#cf00fc68de7ddd51cf463d512d0a45f41fefd641"
+  integrity sha512-ffG6IevxRDQ3rmaCP+aJ5lFc54JWiJxBtzyZ7t2JjVVKwODbwoGq9XIwa/++1NzWsNH936zlyb0NkJ/YsYxxsw==
+  dependencies:
+    "@equinor/fusion-react-styles" "^0.5.5"
+    "@tippyjs/react" "^4.2.6"
+
 "@equinor/fusion-react-utils@^2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-utils/-/fusion-react-utils-2.0.4.tgz#049a0b6470972d63ebde13aa8fb14e1e72e9b204"
@@ -2987,7 +2995,7 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@popperjs/core@2.11.6":
+"@popperjs/core@2.11.6", "@popperjs/core@^2.9.0":
   version "2.11.6"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
@@ -3221,6 +3229,13 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.5.0"
     "@types/react-dom" "^18.0.0"
+
+"@tippyjs/react@^4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@tippyjs/react/-/react-4.2.6.tgz#971677a599bf663f20bb1c60a62b9555b749cc71"
+  integrity sha512-91RicDR+H7oDSyPycI13q3b7o4O60wa2oRbjlz2fyRLmHImc4vyDwuUP8NtZaN0VARJY5hybvDYrFzhY9+Lbyw==
+  dependencies:
+    tippy.js "^6.3.1"
 
 "@tootallnate/once@2":
   version "2.0.0"
@@ -10594,6 +10609,13 @@ tiny-warning@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+
+tippy.js@^6.3.1:
+  version "6.3.7"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-6.3.7.tgz#8ccfb651d642010ed9a32ff29b0e9e19c5b8c61c"
+  integrity sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==
+  dependencies:
+    "@popperjs/core" "^2.9.0"
 
 tmp@~0.2.1:
   version "0.2.1"

@@ -56,6 +56,7 @@
     "@equinor/fusion-observable": "^3.0.3",
     "@equinor/fusion-react-context-selector": "^0.2.0",
     "@equinor/fusion-react-styles": "^0.5.5",
+    "@equinor/fusion-react-tooltip": "^1.1.5",
     "@microsoft/signalr": "^7.0.0",
     "dompurify": "^2.4.1",
     "marked": "^4.2.5",

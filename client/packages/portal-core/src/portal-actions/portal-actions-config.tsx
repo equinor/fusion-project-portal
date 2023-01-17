@@ -9,11 +9,10 @@ import {
 import {
   ServiceMessageIcon,
   ServiceMessages,
+  ServiceMessageTooltip,
 } from '@equinor/service-message';
 import { PortalAction } from './types';
 import { handleFullscreenClick } from './utils';
-
-
 
 export const actions: PortalAction[] = [
   {
@@ -52,6 +51,7 @@ export const actions: PortalAction[] = [
   {
     actionId: 'service-message',
     name: 'Service message',
+    tooltip: <ServiceMessageTooltip />,
     icon: { component: ServiceMessageIcon, name: "comment_chat" },
     component: ServiceMessages,
   },
@@ -62,3 +62,4 @@ export const actions: PortalAction[] = [
     component: Help,
   },
 ];
+

@@ -6,6 +6,7 @@ export interface PortalAction {
   name: string;
   icon: string | { component: React.FC, name: string }
   onClick?: (actionId: string) => void;
+  tooltip?: React.ReactNode;
   component?: FunctionComponent;
   widgetId?: string;
   appendDivider?: boolean;

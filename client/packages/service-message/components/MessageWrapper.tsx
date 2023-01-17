@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useState, useEffect } from "react";
 import styled from "styled-components";
-import { ServiceMessage } from "../service-message";
+import { ServiceMessage } from "../types/types";
 import { ServiceMessageCard } from "./ServiceMessageCard";
 
 const StyledMessageWrapper = styled.div`

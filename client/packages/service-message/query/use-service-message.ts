@@ -25,21 +25,21 @@ export const useServiceMessage = (appKey?: string) => {
     return () => {
       sub.unsubscribe()
     }
-  }, []);
+  }, [context]);
 
   useEffect(() => {
     const sub = context.serviceMessages.appMessages$.subscribe(setAppsMessages);
     return () => {
       sub.unsubscribe()
     }
-  }, []);
+  }, [context]);
 
   useEffect(() => {
     const sub = context.serviceMessages.currentAppMessages$.subscribe(setCurrentMessages);
     return () => {
       sub.unsubscribe()
     }
-  }, []);
+  }, [context]);
 
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const useServiceMessage = (appKey?: string) => {
     return () => {
       sub.unsubscribe()
     }
-  }, []);
+  }, [context]);
 
 
   return {
