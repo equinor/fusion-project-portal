@@ -23,7 +23,7 @@ export const module: SignalRModule = {
         const config = (args.config as ISignalRConfigurator).config;
         const { hasModule, requireInstance } = args;
 
-        if (config.usePortal) {
+        if (config.useFusionPortalClientBaseUrl) {
             const serviceDiscovery = await requireInstance('serviceDiscovery');
             const portalClient = await serviceDiscovery.createClient('portal');
             config.baseUrl = portalClient.uri

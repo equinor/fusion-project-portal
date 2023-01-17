@@ -7,7 +7,7 @@ export type SignalRConfig = {
     url: string;
     scopes: string[];
     baseUrl?: string
-    usePortal?: boolean;
+    useFusionPortalClientBaseUrl?: boolean;
     timeout?: number
 }
 
@@ -19,7 +19,7 @@ export class SignalRConfigurator implements ISignalRConfigurator {
             url: "",
             baseUrl: "",
             scopes: [],
-            usePortal: false
+            useFusionPortalClientBaseUrl: false
         }
     }
 

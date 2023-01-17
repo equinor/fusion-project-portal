@@ -38,6 +38,7 @@ const StyledIndicator = styled.span`
 `
 
 const StyledDot = styled.span(() => ({
+
     display: 'inline-block',
     height: '1em',
     width: '1em',
@@ -53,10 +54,7 @@ const StyledDot = styled.span(() => ({
         backgroundColor: tokens.colors.infographic.primary__moss_green_100.rgba
     },
 
-
 }));
-
-
 
 export function ServiceMessageTooltip() {
 
