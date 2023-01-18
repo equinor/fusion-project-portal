@@ -1,13 +1,14 @@
 import { Icon, Menu, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { useOutsideClick } from '@equinor/eds-utils';
-import React, { MutableRefObject, ReactNode, useRef, useState } from 'react';
+import { MutableRefObject, ReactNode, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 type MenuOption = {
   name: string;
   disabled: boolean;
   onClick: VoidFunction;
+  Icon?: ReactNode;
 };
 
 type RowProps = {
@@ -56,7 +57,7 @@ type MenuProps = {
 export function MoreMenu({ pRef, close, options }: MenuProps) {
   return (
     <Menu open anchorEl={pRef}>
-      {options.map(({ onClick, name, disabled }) => (
+      {options.map(({ onClick, name, disabled, Icon }) => (
         <Menu.Item
           disabled={disabled}
           onClick={() => {
@@ -65,6 +66,7 @@ export function MoreMenu({ pRef, close, options }: MenuProps) {
           }}
           key={name}
         >
+          {Icon && Icon}
           {name}
         </Menu.Item>
       ))}

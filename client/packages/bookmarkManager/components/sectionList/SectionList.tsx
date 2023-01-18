@@ -1,3 +1,4 @@
+import { Icon } from '@equinor/eds-core-react';
 import { useBookmarkGrouping, useDelete, useShare } from '../../hooks';
 import { Bookmark } from '../../types';
 import { Row } from '../row/Row';
@@ -8,15 +9,21 @@ type SectionList = {
   bookmarkGroups: ReturnType<typeof useBookmarkGrouping>['bookmarkGroups'];
 };
 export function SectionList({ bookmarkGroups }: SectionList) {
-  const { mutate: deleteMutation, error } = useDelete();
+  const { mutate: deleteMutation } = useDelete();
   const { mutate: shareMutation } = useShare();
 
   const createMenuOptions = ({ id, isShared }: Bookmark) => [
-    { name: 'Delete', disabled: false, onClick: () => deleteMutation(id) },
+    {
+      name: 'Remove',
+      disabled: false,
+      onClick: () => deleteMutation(id),
+      Icon: <Icon name="close" />,
+    },
     {
       name: isShared ? 'Unshare' : 'Share',
       disabled: false,
       onClick: () => shareMutation({ id, unShare: isShared }),
+      Icon: <Icon name="share" />,
     },
   ];
 
