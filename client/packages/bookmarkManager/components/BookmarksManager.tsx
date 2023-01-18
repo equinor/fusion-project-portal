@@ -6,7 +6,6 @@ import {
   more_vertical,
 } from '@equinor/eds-icons';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { PropsProvider } from '../hooks/useWidgetProps';
 
 Icon.add({
   chevron_down,
@@ -18,22 +17,15 @@ Icon.add({
 import styled from 'styled-components';
 import { BookmarkDataLoader } from './dataLoader/DataLoader';
 
-export type BookmarkWidgetProps = {
-  isOpen: boolean;
-  close: VoidFunction;
-};
-
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
 });
 
-export function BookmarkWidget(props: BookmarkWidgetProps) {
+export function BookmarkWidget() {
   return (
     <StyledBookmarksRoot>
       <QueryClientProvider client={queryClient}>
-        <PropsProvider value={props}>
-          <BookmarkDataLoader />
-        </PropsProvider>
+        <BookmarkDataLoader />
       </QueryClientProvider>
     </StyledBookmarksRoot>
   );
