@@ -1,36 +1,41 @@
-import React from 'react';
-import { useBookmarkGrouping, useDelete } from '../../hooks';
+import { useBookmarkGrouping, useDelete, useShare } from '../../hooks';
 import { Bookmark } from '../../types';
 import { Row } from '../row/Row';
 import { Section } from '../section/Section';
 import { SharedIcon } from '../shared/SharedIcon';
+
 type SectionList = {
   bookmarkGroups: ReturnType<typeof useBookmarkGrouping>['bookmarkGroups'];
 };
 export function SectionList({ bookmarkGroups }: SectionList) {
-  const { mutate } = useDelete();
+  const { mutate: deleteMutation, error } = useDelete();
+  const { mutate: shareMutation } = useShare();
 
-  const createMenuOptions = (id: string) => [
-    { name: 'Delete', disabled: false, onClick: () => mutate(id) },
+  const createMenuOptions = ({ id, isShared }: Bookmark) => [
+    { name: 'Delete', disabled: false, onClick: () => deleteMutation(id) },
+    {
+      name: isShared ? 'Unshare' : 'Share',
+      disabled: false,
+      onClick: () => shareMutation({ id, unShare: isShared }),
+    },
   ];
+
   return (
     <>
       {bookmarkGroups
         .filter(filterEmptyGroups)
-        .map(({ groupingProperty: group, values }) => (
-          <Section key={group} name={group}>
-            {values
-              .sort(sortByName)
-              .map(({ name, id, isShared, createdBy }) => (
-                <Row menuOptions={createMenuOptions(id)} key={id} name={name}>
-                  {isShared && (
-                    <SharedIcon
-                      createdById={createdBy.azureUniqueId}
-                      createdBy={extractNameFromMail(createdBy.mail)}
-                    />
-                  )}
-                </Row>
-              ))}
+        .map(({ groupingProperty, values }) => (
+          <Section key={groupingProperty} name={groupingProperty}>
+            {values.sort(sortByName).map((b) => (
+              <Row menuOptions={createMenuOptions(b)} key={b.id} name={b.name}>
+                {b.isShared && (
+                  <SharedIcon
+                    createdById={b.createdBy.azureUniqueId}
+                    createdBy={extractNameFromMail(b.createdBy.mail)}
+                  />
+                )}
+              </Row>
+            ))}
           </Section>
         ))}
     </>

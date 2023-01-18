@@ -1,5 +1,5 @@
 {
-  "name": "bookmark-manager",
+  "name": "@equinor/bookmark-manager",
   "version": "0.0.1",
   "description": "Bookmark widget for fusion portals",
   "main": "index.js",

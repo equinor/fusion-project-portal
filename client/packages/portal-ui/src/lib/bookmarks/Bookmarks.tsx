@@ -1,5 +1,6 @@
 import { InfoMessage } from '../info-message/InfoMessage';
 import { SideSheetHeader } from '../side-sheet-header.tsx/SideSheetHeader';
+import { BookmarkWidget } from '../../../../bookmarkManager';
 
 export function Bookmarks() {
   return (
@@ -8,7 +9,7 @@ export function Bookmarks() {
       subTitle="Application bookmarks"
       color={'#258800'}
     >
-      <InfoMessage>This functionality is not yet implemented.</InfoMessage>
+      <BookmarkWidget close={() => void 0} isOpen />
     </SideSheetHeader>
   );
 }

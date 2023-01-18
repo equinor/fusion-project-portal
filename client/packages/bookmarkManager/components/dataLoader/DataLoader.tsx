@@ -1,8 +1,5 @@
-import { CircularProgress } from '@equinor/eds-core-react';
-import React from 'react';
 import { useBookmarks, useBookmarkGrouping } from '../../hooks';
 import { BookmarkFilter } from '../filter/Filter';
-import { Header } from '../header';
 import { Loading } from '../loading/Loading';
 import { SectionList } from '../sectionList/SectionList';
 
@@ -18,8 +15,7 @@ export function BookmarkDataLoader() {
   } = useBookmarkGrouping();
 
   return (
-    <div>
-      <Header />
+    <div style={{ width: '95%' }}>
       {isLoading ? (
         <Loading />
       ) : (

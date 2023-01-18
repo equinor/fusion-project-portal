@@ -16,7 +16,6 @@ Icon.add({
 });
 
 import styled from 'styled-components';
-import React from 'react';
 import { BookmarkDataLoader } from './dataLoader/DataLoader';
 
 export type BookmarkWidgetProps = {
@@ -41,8 +40,9 @@ export function BookmarkWidget(props: BookmarkWidgetProps) {
 }
 
 const StyledBookmarksRoot = styled.div`
-  height: calc(100% - 16px) px;
-  width: calc(100% - 16px) px;
+  height: 100%;
+  width: 100%;
   background: white;
-  margin: 16px;
+  display: flex;
+  justify-content: center;
 `;
