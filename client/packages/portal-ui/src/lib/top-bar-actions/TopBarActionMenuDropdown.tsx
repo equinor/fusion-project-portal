@@ -70,6 +70,7 @@ export function TopBarActionMenuDropdown(): JSX.Element {
             <TopBarActionItem
               action={action}
               isFavorite={favorites.includes(action)}
+              showAsMenu={true}
             />
           </span>
         ))}

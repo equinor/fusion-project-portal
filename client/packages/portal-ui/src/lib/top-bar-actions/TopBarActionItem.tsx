@@ -12,11 +12,13 @@ import { StyledActionFavoriteButton, StyledMenuItem, StyledTopBarButton } from '
 interface TopBarActionItemProps {
   action: PortalAction;
   isFavorite: boolean;
+  showAsMenu?: boolean;
 }
 
 export function TopBarActionItem({
   action,
   isFavorite,
+  showAsMenu
 }: TopBarActionItemProps) {
   const { setActiveActionById } = usePortalActions();
   const { toggleActionById } = useTopBarActions();
@@ -31,7 +33,11 @@ export function TopBarActionItem({
         color={tokens.colors.text.static_icons__tertiary.hex}
       />
     ) : (
-      <action.icon />
+      !showAsMenu ? <action.icon.component /> : <Icon
+        name={action.icon.name}
+        size={16}
+        color={tokens.colors.text.static_icons__tertiary.hex}
+      />
     );
 
   return (
