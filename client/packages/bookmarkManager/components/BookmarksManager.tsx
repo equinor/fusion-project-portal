@@ -1,11 +1,23 @@
-import { CircularProgress } from '@equinor/eds-core-react';
+import { Icon } from '@equinor/eds-core-react';
+import {
+  chevron_down,
+  chevron_right,
+  share,
+  more_vertical,
+} from '@equinor/eds-icons';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Header } from './header';
 import { PropsProvider } from '../hooks/useWidgetProps';
-import { useBookmarks } from '../hooks/useBookmarks';
+
+Icon.add({
+  chevron_down,
+  chevron_right,
+  share,
+  more_vertical,
+});
 
 import styled from 'styled-components';
 import React from 'react';
+import { BookmarkDataLoader } from './dataLoader/DataLoader';
 
 export type BookmarkWidgetProps = {
   isOpen: boolean;
@@ -34,24 +46,3 @@ const StyledBookmarksRoot = styled.div`
   background: white;
   margin: 16px;
 `;
-
-export function BookmarkDataLoader() {
-  const { data, isLoading, error } = useBookmarks();
-
-  return (
-    <div>
-      <Header />
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <div>
-          <pre>{data && JSON.stringify(data)}</pre>
-          {/* <Filter /> */}
-          {/* Map sections 
-      <Section ><Row /> </Section>
-    */}
-        </div>
-      )}
-    </div>
-  );
-}
