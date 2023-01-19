@@ -16,6 +16,7 @@ Icon.add({
 
 import styled from 'styled-components';
 import { BookmarkDataLoader } from './dataLoader/DataLoader';
+import { ImportBookmarkModal } from './importBookmark';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
@@ -26,6 +27,7 @@ export function BookmarkWidget() {
     <StyledBookmarksRoot>
       <QueryClientProvider client={queryClient}>
         <BookmarkDataLoader />
+        <ImportBookmarkModal />
       </QueryClientProvider>
     </StyledBookmarksRoot>
   );
