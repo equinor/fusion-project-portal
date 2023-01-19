@@ -20,7 +20,7 @@ export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
           <Group key={appGroup.name} group={appGroup} />
         ))
       ) : (
-        <InfoMessage>No application awaitable for this view</InfoMessage>
+        <InfoMessage>No application available for this view</InfoMessage>
       )}
     </StyledGroupWrapper>
   );
