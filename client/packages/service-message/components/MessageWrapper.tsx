@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, useState, useEffect } from "react";
 import styled from "styled-components";
+import { useServiceMessage } from "../query/use-service-message";
 import { ServiceMessage } from "../types/types";
 import { ServiceMessageCard } from "./ServiceMessageCard";
 
@@ -23,11 +24,19 @@ const StyledMessageWrapper = styled.div`
 
 export const MessageWrapper: FC<PropsWithChildren<{ message: ServiceMessage, timeout: number }>> = ({ message, timeout }) => {
   const [display, setDisplay] = useState(true)
-  const onClose = message.type === "Issue" ? () => { setDisplay(false) } : undefined
+
+  const { setMessageShown } = useServiceMessage();
+
+  const handleClose = () => {
+    setDisplay(false);
+    setMessageShown(message.id);
+  }
+
+  const onClose = message.type === "Issue" ? handleClose : undefined
 
   useEffect(() => {
     if (onClose) return;
-    const timeoutId = setTimeout(() => { setDisplay(false) }, timeout);
+    const timeoutId = setTimeout(() => handleClose(), timeout);
     return () => {
       clearTimeout(timeoutId);
     };
@@ -36,7 +45,7 @@ export const MessageWrapper: FC<PropsWithChildren<{ message: ServiceMessage, tim
   if (!display) return null;
 
   return (
-    <StyledMessageWrapper onClick={() => { setDisplay(false) }} >
+    <StyledMessageWrapper onClick={() => handleClose()} >
       <ServiceMessageCard key={message.id} message={message} onClose={onClose} />
     </StyledMessageWrapper>
   );

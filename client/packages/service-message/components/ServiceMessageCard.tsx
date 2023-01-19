@@ -2,8 +2,9 @@ import { Button, Card, Icon } from "@equinor/eds-core-react";
 import { tokens } from "@equinor/eds-tokens";
 
 
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { useServiceMessage } from "../query/use-service-message";
 import { ServiceMessage } from "../types/types"
 
 import MarkdownViewer from "./MarkdownViewer";
@@ -27,8 +28,10 @@ const getIconName = (active: boolean) => active ? "chevron_up" : "chevron_down"
 
 export const ServiceMessageCard: FC<{ message: ServiceMessage, onClose?: VoidFunction, compact?: boolean }> = ({ message, onClose, compact = true }) => {
     const variant = getIconVariant(message.type);
-    const [showContent, setShowContent] = useState(compact || message.type === "Issue" && message.content !== null);
+    const [showContent, setShowContent] = useState(message.type === "Issue" && message.content !== null ? true : !compact);
+    const { setMessageShown } = useServiceMessage();
     const ref = useRef<HTMLDivElement>(null);
+
 
     return (<StyledCard key={message.id} ref={ref}>
         <StyledCardIndicator color={variant.color} />
@@ -47,6 +50,7 @@ export const ServiceMessageCard: FC<{ message: ServiceMessage, onClose?: VoidFun
                         <Icon name="close" />
                     </Button> : <Button variant="ghost_icon" disabled={!message.content} onClick={() => {
                         setShowContent(state => !state)
+                        setMessageShown(message.id)
                     }} >
                         <Icon name={getIconName(showContent)} />
                     </Button>}

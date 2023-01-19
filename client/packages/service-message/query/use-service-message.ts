@@ -6,6 +6,7 @@ import { ServiceMessage } from "../types/types";
 
 export const useServiceMessage = (appKey?: string) => {
   const context = useContext(ServiceMessageContext);
+  const [compact, setCompact] = useState(true)
 
   if (!context) {
     throw new Error("ServiceMessageContext context used out of bounds");
@@ -35,7 +36,7 @@ export const useServiceMessage = (appKey?: string) => {
   }, [context]);
 
   useEffect(() => {
-    const sub = context.serviceMessages.currentAppMessages$.subscribe(setCurrentMessages);
+    const sub = context.serviceMessages.currentMessages$.subscribe(setCurrentMessages);
     return () => {
       sub.unsubscribe()
     }
@@ -54,6 +55,8 @@ export const useServiceMessage = (appKey?: string) => {
     appsMessages,
     portalMessages,
     currentMessages,
-    messages
+    messages,
+    setMessageShown: context.serviceMessages.setMessageShown,
+    compact
   }
 }

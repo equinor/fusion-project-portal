@@ -1,5 +1,6 @@
 
 import { useSignalRTopic } from "@equinor/portal-core";
+import { storage } from "@equinor/portal-utils";
 import { createContext, FC, PropsWithChildren, useEffect, } from "react"
 import { BehaviorSubject, combineLatestWith, map, Observable } from "rxjs";
 
@@ -19,19 +20,38 @@ export interface AppServiceMessage extends AppReference {
     messages: ServiceMessage[]
 }
 
+const SERVICE_MESSAGE = "SERVICE_MESSAGE";
+
 class ServiceMessages {
     messages$: BehaviorSubject<ServiceMessage[]>;
     appMessages$: Observable<AppServiceMessage[]>;
-    currentAppMessages$: Observable<ServiceMessage[]>;
+    currentMessages$: Observable<ServiceMessage[]>;
     portal$: Observable<ServiceMessage[]>;
     currentAppKey$: BehaviorSubject<string>;
+    shownMessages$: BehaviorSubject<string[]>;
 
     constructor(_initial: ServiceMessage[]) {
+
         this.messages$ = new BehaviorSubject(_initial);
         this.currentAppKey$ = new BehaviorSubject("");
+        this.shownMessages$ = new BehaviorSubject(this.#getShownMessages())
         this.appMessages$ = this.messages$.pipe(map((messages) => this.#appServiceMessageMapper(messages)));
-        this.currentAppMessages$ = this.messages$.pipe(combineLatestWith(this.currentAppKey$), map(([messages, appKey]) => messages.filter(message => message.scope === "Portal" || message.relevantApps?.some(app => app.key === appKey))));
+        this.currentMessages$ = this.messages$.pipe(combineLatestWith(this.currentAppKey$, this.shownMessages$), map(([messages, appKey, shownMessages]) => messages.filter(message => message.scope === "Portal" || message.relevantApps?.some(app => app.key === appKey)).filter(message => !shownMessages.includes(message.id))));
         this.portal$ = this.messages$.pipe(map((messages) => messages.filter((message) => message.scope === "Portal")));
+
+    }
+
+    #getShownMessages(): string[] {
+        const messages = storage.getItem<string[]>(SERVICE_MESSAGE);
+
+        if (!messages) {
+            return [];
+        }
+        if (typeof messages === "string") {
+            return [messages]
+        }
+        return messages
+
     }
 
     #appServiceMessageMapper(serviceMessages: ServiceMessage[]): AppServiceMessage[] {
@@ -56,7 +76,6 @@ class ServiceMessages {
         return acc;
     }
     #sortMessages(serviceMessages: ServiceMessage[]): ServiceMessage[] {
-
         return serviceMessages.sort((a: ServiceMessage, b: ServiceMessage) => {
             return new Date(b.timestamp).getUTCDate() - new Date(a.timestamp).getUTCDate()
         }).sort((a: ServiceMessage, b: ServiceMessage): number => {
@@ -68,6 +87,15 @@ class ServiceMessages {
 
             return statusValues[b.type] - statusValues[a.type]
         });
+    }
+
+    setMessageShown = (messageId: string) => {
+
+        if (!this.shownMessages$.value.includes(messageId)) {
+            const messages = [...this.shownMessages$.value, messageId]
+            this.shownMessages$.next(messages)
+            storage.setItem("SERVICE_MESSAGE", JSON.stringify(messages));
+        }
     }
 
     nextMessages(value: ServiceMessage[]) {

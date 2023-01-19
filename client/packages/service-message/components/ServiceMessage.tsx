@@ -32,8 +32,8 @@ const StyledWrapper = styled.div`
 
 
 export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
-  const { appsMessages, portalMessages, messages } = useServiceMessage();
-  const [compact, setCompact] = useState(false)
+  const { appsMessages, portalMessages, messages, compact } = useServiceMessage();
+
 
   return (
     <SideSheetHeader
