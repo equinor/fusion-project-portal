@@ -14,7 +14,7 @@ export interface SourceSystem {
   subSystem: string;
 }
 
-export interface Bookmark {
+export type Bookmark = {
   id: string;
   name: string;
   isShared: boolean;
@@ -22,4 +22,6 @@ export interface Bookmark {
   createdBy: CreatedBy;
   created: Date;
   sourceSystem: SourceSystem;
-}
+} & {
+  isMine: boolean;
+};
