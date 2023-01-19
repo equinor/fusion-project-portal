@@ -1,4 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-react/http';
+import { Bookmark } from '../types';
 
 export type BookmarkResponse<TPayload extends unknown = unknown> = {
   bookmarkId: string;
@@ -33,6 +34,8 @@ export type SourceSystem = {
 /**Creates an api client for bookmarks */
 export const createBookmarkClient = (client: IHttpClient) => {
   client.requestHandler.setHeader('api-version', '1.0');
+  client.requestHandler.setHeader('content-type', 'application/json');
+
   client.responseHandler.set('throw-on-not-ok', (res) => {
     if (!res.ok) throw res;
   });
@@ -74,10 +77,7 @@ export const createBookmarkClient = (client: IHttpClient) => {
       signal?: AbortSignal
     ): Promise<BookmarkResponse<T>> =>
       (await client.fetch(`bookmarks/${id}/apply`, { signal })).json(),
-    getById: async <T>(
-      id: string,
-      signal?: AbortSignal
-    ): Promise<BookmarkResponse<T>> =>
+    getById: async (id: string, signal?: AbortSignal): Promise<Bookmark> =>
       await (await client.fetch(`bookmarks/${id}`, { signal })).json(),
     headBookmark: async (id: string, signal?: AbortSignal) =>
       await client.fetch(`persons/me/bookmarks/favourites/${id}`, {
