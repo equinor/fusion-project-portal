@@ -1,7 +1,9 @@
 import { useMenuContext, useViewController } from '@equinor/portal-core';
-import { MenuButton, PortalHeader, TopBarActions } from '@equinor/portal-ui';
+import { MenuButton, PortalHeader, } from '@equinor/portal-ui';
 import { appMounted } from '@equinor/portal-utils';
+
 import { useNavigate } from 'react-router-dom';
+
 
 
 export function Header() {
@@ -24,7 +26,6 @@ export function Header() {
       onLogoClick={handleLogoClick}
       MenuButton={MenuButton}
       title="Project Portal"
-
     />
   );
 }

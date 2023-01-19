@@ -1,6 +1,6 @@
-import { SideSheetHeader } from '../side-sheet-header.tsx/SideSheetHeader';
 import { BookmarkWidget } from '../../../../bookmarkManager';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { SideSheetHeader } from '../../../../service-message/components/side-sheet-header.tsx/SideSheetHeader';
 
 export function Bookmarks() {
   const context = useFrameworkCurrentContext();

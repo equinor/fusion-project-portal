@@ -2,15 +2,9 @@ import { FusionConfigurator } from '@equinor/fusion-framework';
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
 
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
-import { appConfigurator } from '../framework-configurator/app-configurator';
+import { addAgGrid, addPortalClient, configurePortalContext, enableSignalr, LoggerLevel, PortalConfig } from '@equinor/portal-core';
+import { appConfigurator } from '../../../portal-core/src/framework-configurator/app-configurator';
 
-import {
-  addAgGrid,
-  addPortalClient,
-  configurePortalContext,
-} from '../framework-configurator/portal-configurators';
-
-import { LoggerLevel, PortalConfig } from '../types/portal-config';
 const showInfo = false;
 
 export function createPortalFramework(portalConfig: PortalConfig) {
@@ -29,6 +23,12 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
     addPortalClient(config, portalConfig.portalClient.client);
 
+    enableSignalr(config, {
+      url: "/signalr/hubs/portal/?negotiateVersion=1",
+      useFusionPortalClientBaseUrl: true,
+      scopes: ["5a842df8-3238-415d-b168-9f16a6a6031b/.default"]
+    })
+
 
     if (showInfo) {
       config.onConfigured(() => {
@@ -39,6 +39,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     config.onInitialized(async (fusion) => {
       configurePortalContext(fusion.context);
       fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
+
 
       if (showInfo) {
         console.debug('📒 subscribing to all events');
