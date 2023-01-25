@@ -24,7 +24,6 @@
   "files": [],
   "include": [
     "./src",
-    "../portal-ui/src/lib/portal-message-page/PortalMessagePage.tsx",
   ],
   "references": [
     {
