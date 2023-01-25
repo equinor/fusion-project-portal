@@ -1,5 +1,6 @@
 import { Button, Icon, Typography } from "@equinor/eds-core-react";
 import { tokens } from "@equinor/eds-tokens";
+import { PortalMessagePage } from "@equinor/portal-ui";
 import { FC, useState } from "react";
 import styled from "styled-components";
 
@@ -9,12 +10,11 @@ const StyledWrapper = styled.div`
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  height: 80vh;
 `;
 
 const StyledStackWrapper = styled.section`
   position: absolute;
-  margin-top: 450px;
+  margin-top:350px;
   z-index: 0;
 `;
 
@@ -29,23 +29,20 @@ export const ErrorViewer: FC<ErrorViewProps> = ({ error }) => {
   const cause = error.cause as Error;
   return (
 
-    <StyledWrapper>
-      <Icon size={48} name="error_outlined" color={tokens.colors.interactive.warning__resting.rgba} />
-      <Typography variant="h3" color={tokens.colors.interactive.warning__resting.rgba}>
-        {error.name} - {error.message}
-      </Typography>
-      {cause && <Typography>
-        {cause.message}
-      </Typography>}
-      <Button variant="ghost" onClick={() => {
-        setShowStack(s => !s)
-      }}>Toggle developer information</Button>
+    <PortalMessagePage title={`${error.name} - ${error.message}`} type="Error">
+      <StyledWrapper>
+        {cause && <Typography>
+          {cause.message}
+        </Typography>}
+        <Button variant="ghost" onClick={() => {
+          setShowStack(s => !s)
+        }}>Toggle developer information</Button>
 
-      {showStack && <StyledStackWrapper >
-        {error.stack && <pre>{error.stack}</pre>}
-      </StyledStackWrapper>}
-
-    </StyledWrapper>
+        {showStack && <StyledStackWrapper >
+          {error.stack && <pre>{error.stack}</pre>}
+        </StyledStackWrapper>}
+      </StyledWrapper>
+    </PortalMessagePage>
 
   );
 };

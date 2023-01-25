@@ -1,9 +1,10 @@
 import { AppLoader } from '@equinor/portal-core';
 import { ContextPage, ViewPage } from '@equinor/portal-pages';
+import { PortalMessagePage } from '@equinor/portal-ui';
 import { useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { PortalErrorPage } from '../portal-error/PortalError';
+
 import { PortalFrame } from '../portal-frame/PortalFrame';
 
 export function PortalRouter() {
@@ -12,22 +13,22 @@ export function PortalRouter() {
       {
         path: '/',
         element: <PortalFrame />,
-        errorElement: <PortalErrorPage title="Fail to setup portal" />,
+        errorElement: <PortalMessagePage title="Fail to setup portal" type='Error' />,
         children: [
           {
             path: '/',
             element: <ViewPage />,
-            errorElement: <PortalErrorPage title="Fail to load view page" />,
+            errorElement: <PortalMessagePage title="Fail to load view page" type={"Error"} />,
           },
           {
             path: '/context-page/*',
             element: <ContextPage />,
-            errorElement: <PortalErrorPage title="Fail to load context page" />,
+            errorElement: <PortalMessagePage title="Fail to load context page" type={"Error"} />,
           },
           {
             path: `/apps/:appKey/*`,
             element: <AppLoader />,
-            errorElement: <PortalErrorPage title="Fail to load application" />,
+            errorElement: <PortalMessagePage title="Fail to load application" type={"Error"} />,
           },
         ],
       },

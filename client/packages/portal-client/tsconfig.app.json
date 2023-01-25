@@ -26,5 +26,6 @@
     "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
+    "../portal-ui/src/lib/portal-message-page/PortalMessagePage.tsx",
   ]
 }
