@@ -17,3 +17,4 @@ export * from './lib/task/Task';
 export * from './lib/top-bar-actions';
 export * from './lib/breadcrumbs/';
 export * from './lib/progress-loader';
+export * from "./lib/portal-message-page";

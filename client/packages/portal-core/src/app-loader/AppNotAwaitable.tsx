@@ -1,13 +1,8 @@
-
-
-
-import { Icon, Typography } from '@equinor/eds-core-react';
-import { tokens } from '@equinor/eds-tokens';
-import { GroupWrapper } from '@equinor/portal-ui';
+import { GroupWrapper, PortalMessagePage } from '@equinor/portal-ui';
 import { useNavigate } from 'react-router-dom';
 import { ContextProvider, ContextSelector } from '../context-selector';
 import { useAppGroupsQuery } from '../queries';
-import { StyledContent, StyledPaper, StyledWrapper, Wrapper } from './styles';
+
 
 import { useAppModule } from './uss-app-module';
 
@@ -17,31 +12,17 @@ export const AppNotAwaitable = () => {
     const navigate = useNavigate()
 
     return (
-        <Wrapper>
-            <StyledWrapper>
-                <StyledContent>
-                    <StyledPaper elevation='raised'>
-
-                        <Icon size={48} name="error_outlined" color={tokens.colors.interactive.warning__resting.rgba} />
-                        <Typography variant="h3" color={tokens.colors.interactive.warning__resting.rgba}>
-                            {appManifest?.name}
-                        </Typography>
-
-                        <Typography> Application not awaitable for the selected context</Typography>
-
-                        <ContextProvider>
-                            <ContextSelector navigate={navigate} />
-                        </ContextProvider>
-
-                    </StyledPaper>
-
-                    {!isLoading && data && <div>
-                        <p>Current apps are awaitable for the selected context</p>
-                        <div><GroupWrapper appGroups={data} /></div>
-                    </div>}
-
-                </StyledContent>
-            </StyledWrapper>
-        </Wrapper>);
+        <PortalMessagePage title={`${appManifest?.name} is not awaitable for the selected context`} type="Warning">
+            <div>
+                
+                <ContextProvider>
+                    <ContextSelector navigate={navigate} />
+                </ContextProvider>
+                {!isLoading && data && <div>
+                    <p>Current apps are awaitable for the selected context</p>
+                    <div><GroupWrapper appGroups={data} /></div>
+                </div>}
+            </div>
+        </PortalMessagePage>);
 
 }
