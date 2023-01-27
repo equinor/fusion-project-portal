@@ -1,17 +1,44 @@
+import { Card, Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { StyledMain } from '../common-styles/Styles';
 import {
   StyledBackground,
   StyledContextPageGrid,
   StyledGridItem,
+  StyledHeaderSection,
+  StyledCard
 } from './ContextPage.Styles';
 
-export const ContextPage = () => {
-  const currentContext = useFrameworkCurrentContext();
+function getBackgroundURL(instCode: string) {
+  return `https://stiddata.equinor.com/public/${instCode}.jpg`
 
+}
+
+interface ProjectMaster extends Record<string, unknown> {
+  facilities: string[];
+  projectCategory: string;
+}
+
+export const ContextPage = () => {
+  const currentContext = useFrameworkCurrentContext<ProjectMaster>();
+  console.log(currentContext)
   return (
     <StyledMain>
       <StyledBackground />
+      {currentContext?.value.facilities && <StyledHeaderSection url={getBackgroundURL(currentContext?.value.facilities[0])}>
+        <StyledCard>
+          <Typography variant='h3'>
+            <b>
+            {currentContext?.title}
+            </b>
+            </Typography>
+            <Typography variant='h3'>
+       
+            {currentContext.value.projectCategory.replace('\-|\_\/*'," ")}
+    
+            </Typography>
+        </StyledCard>
+        </StyledHeaderSection>}
       <StyledContextPageGrid>
         <StyledGridItem span={2}>
           <StyledGridItem.Header>
@@ -31,6 +58,7 @@ export const ContextPage = () => {
         <StyledGridItem span={2}>
           <StyledGridItem.Header>
             <h5>Some Content</h5>
+            <pre>{JSON.stringify(currentContext,null,'\t')  }</pre>
           </StyledGridItem.Header>
         </StyledGridItem>
       </StyledContextPageGrid>
