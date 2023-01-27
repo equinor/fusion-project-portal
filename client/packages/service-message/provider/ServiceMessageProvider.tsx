@@ -1,8 +1,7 @@
+import { useSignalR } from "@equinor/fusion-framework-react/signalr";
 
-import { useSignalRTopic } from "@equinor/portal-core";
-import { createContext, FC, PropsWithChildren, useEffect, } from "react"
+import { createContext, FC, PropsWithChildren, useEffect, useLayoutEffect  } from "react"
 import { BehaviorSubject, combineLatestWith, map, Observable } from "rxjs";
-
 
 import { useServiceMessageQuery } from "../query/use-service-message-query";
 import { AppReference, ServiceMessage } from "../types/types";
@@ -70,7 +69,7 @@ class ServiceMessages {
         });
     }
 
-    nextMessages(value: ServiceMessage[]) {
+    next(value: ServiceMessage[]) {
         this.messages$.next(value);
     }
 
@@ -98,15 +97,20 @@ export const ServiceMessageProvider: FC<PropsWithChildren<{}>> = ({ children }) 
 
     useEffect(() => {
         if (data) {
-            serviceMessages.nextMessages(data)
+            serviceMessages.next(data)
         }
     }, [data]);
 
-    useSignalRTopic("service-messages", (message: unknown[]) => {
-        message = message.shift() as unknown[];
-        const messages = JSON.parse(JSON.stringify(message)) as ServiceMessage[];
-        serviceMessages.nextMessages(messages)
-    });
+    const topic = useSignalR<unknown[]>("portal", "portal");
+
+    useLayoutEffect(() => {
+        const sub = topic.pipe(map(x => x.shift() as ServiceMessage[])).subscribe(serviceMessages)
+        sub.add(()=> console.log("teardown"))
+        return ()=>{
+            
+            sub.unsubscribe()
+        }
+    }, [topic]);
 
 
     return <ServiceMessageContext.Provider value={{ serviceMessages }}>{children}</ServiceMessageContext.Provider>
