@@ -10,7 +10,7 @@ const StyledContent = styled.div`
 export function Task() {
   return (
     <SideSheetHeader
-      title="Task"
+      title="My Work Assigned"
       subTitle="Your application related task"
       color={'#258800'}
     >

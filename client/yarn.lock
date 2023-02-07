@@ -1377,6 +1377,14 @@
     "@equinor/fusion-react-utils" "^2.0.4"
     "@equinor/fusion-wc-searchable-dropdown" "^2.2.0"
 
+"@equinor/fusion-react-skeleton@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-skeleton/-/fusion-react-skeleton-0.2.13.tgz#8e1a2e2e92b8c61b8b80c76a1a334a890cb8783a"
+  integrity sha512-nPenwcrLM27KQ02iwSmMg//+43a9peJOxK8dFg1RVFIxfV2XDbXmdio+VK1n5sekQMDKDx6I3cmZ4AgVWrnjIA==
+  dependencies:
+    "@equinor/fusion-react-utils" "^2.0.4"
+    "@equinor/fusion-wc-skeleton" "^0.2.17"
+
 "@equinor/fusion-react-styles@^0.5.5":
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.5.tgz#dc97bc7c82142deb0e2f04668fab21fc6f1ead04"
@@ -1469,6 +1477,14 @@
     "@types/uuid" "^8.3.4"
     lit "2.4.1"
     uuid "^9.0.0"
+
+"@equinor/fusion-wc-skeleton@^0.2.17":
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-wc-skeleton/-/fusion-wc-skeleton-0.2.20.tgz#2588fc09da4a9b53c67dfd87106f1290ee960a1f"
+  integrity sha512-i7bO8G0FgohJcnsQ1kOF5lVPQNF7UkvUNfrkSRcyba5eVHNRF1/4Lp+yP3AdP2iYSOK0WDmFKTGlM9m+XzRrKw==
+  dependencies:
+    "@equinor/fusion-wc-core" "^1.0.5"
+    lit "2.4.1"
 
 "@equinor/fusion-wc-textinput@^0.5.15":
   version "0.5.15"

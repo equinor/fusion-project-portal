@@ -2,8 +2,10 @@ import {  Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
 import { StyledMain } from '../common-styles/Styles';
-import { AlwaysSafe } from './components/project-cards/AlwaysSafe';
-import { LowCarbon } from './components/project-cards/LowCarbon';
+import { AlwaysSafe } from './components/kpis/AlwaysSafe';
+import { Handover } from './components/kpis/Handover';
+import { LowCarbon } from './components/kpis/LowCarbon';
+
 import { Milestones } from './components/project-cards/milestones/Milestones';
 import { ProjectDescription } from './components/project-cards/ProjectDescription';
 import { ProjectDetails } from './components/project-cards/ProjectDetails';
@@ -53,11 +55,9 @@ export const ContextPage = () => {
           <ProjectDetails/>
           <ProjectDescription/>
         </StyledGridItem>
-        <StyledGridItem span={2}>
-          <LowCarbon/>
-        </StyledGridItem>
-        <StyledGridItem span={3}>
-          <AlwaysSafe/>
+
+        <StyledGridItem span={5}>
+          <Handover/>
         </StyledGridItem>
         <StyledGridItem span={4} heightSpan={3} >
           < WorkAssigned/>

@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 import { StyledCardWrapper, StyledContent, StyledHeader, StyledContentRow, StyledContentItem } from './styles';
 import { Relations } from './types';
 
-interface ProjectMaster extends Record<string, unknown> {
+export interface ProjectMaster extends Record<string, unknown> {
 	facilities: string[];
 	projectCategory: string;
 	cvpid: string;
@@ -16,7 +16,7 @@ interface ProjectMaster extends Record<string, unknown> {
 }
 
 export async function getContextRelations(client: IHttpClient, contextId?: string ):  Promise<Relations[] | undefined> {
-    contextId
+    if (!contextId) return;
     const res = await client.fetch(`/contexts/${contextId}/relations`);
     if (!res.ok) throw res;
     return (await res.json()) as Relations[];

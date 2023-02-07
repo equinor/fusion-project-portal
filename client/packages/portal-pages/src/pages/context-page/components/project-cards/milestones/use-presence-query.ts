@@ -17,7 +17,7 @@ interface Milestones {
 
 
 export async function getMilestones(client: IHttpClient, contextId?: string ):  Promise<Milestones[] | undefined> {
-  contextId
+  if (!contextId) return ;
   const res = await client.fetch(`/api/contexts/${contextId}/milestones`);
   if (!res.ok) throw res;
   return (await res.json()) as Milestones[];

@@ -46,7 +46,6 @@ export const Tasks: FC<TaskProps> = ({maxDisplay}) => {
     const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
 	return (
         <>
-      
                 <StyledKpiWrapper>
                     <StyledKpiItem>
                         <StyledKpi>

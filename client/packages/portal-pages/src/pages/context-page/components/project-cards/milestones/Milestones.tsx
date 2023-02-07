@@ -1,5 +1,6 @@
 import {  Button, EdsProvider, Icon, Slider, Table, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
+import Skeleton, { SkeletonVariant } from '@equinor/fusion-react-skeleton';
 import { DateTime } from 'luxon';
 
 
@@ -9,6 +10,34 @@ import { useMilestoneQuery } from './use-presence-query';
 function verifyDate (date: string): string {
     return new Date(date).toString() !== "Invalid Date" ? DateTime.fromJSDate(new Date(date)).toFormat("dd LLL yyyy"): "-";
 } 
+
+const LoadingSkeleton = ()=> <>
+        <Table.Row  >
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+       </Table.Row>
+        <Table.Row  >
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+       </Table.Row>
+        <Table.Row  >
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+       </Table.Row>
+        <Table.Row  >
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+            <Table.Cell><Skeleton variant={SkeletonVariant.Text}/></Table.Cell>
+       </Table.Row>
+</>
+
 
 export const Milestones = () => {
     const {data} = useMilestoneQuery() 
@@ -32,16 +61,16 @@ export const Milestones = () => {
                     </Table.Row>
                 </Table.Head>
                 <Table.Body>
-                    {data?.map((milestone) => { 
+                    {data ? data.map((milestone) => { 
                         const datePlanned = verifyDate(milestone.datePlanned); 
                         const dateForecast = verifyDate(milestone.dateForecast);
-                        return (  <Table.Row >
+                        return (  <Table.Row key={milestone.milestone} >
                         <Table.Cell>{milestone.milestone}</Table.Cell>
                         <Table.Cell>{milestone.description}</Table.Cell>
                         <Table.Cell>{datePlanned}</Table.Cell>
                         <Table.Cell>{dateForecast}</Table.Cell>
-                    </Table.Row>);
-                    })
+                    </Table.Row>) 
+                    }) : <LoadingSkeleton/>
                     } 
                 </Table.Body>
             </Table>
