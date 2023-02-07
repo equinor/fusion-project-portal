@@ -46,7 +46,7 @@ export async function getContextRelations(client: IHttpClient, contextId?: strin
 
 export const ProjectDetails = () => {
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
-    const foo = useRelationsByType("EquinorTask");
+    const equinorTask = useRelationsByType("EquinorTask");
 	return (
 		<StyledCardWrapper>
 			<StyledHeader>
@@ -82,8 +82,8 @@ export const ProjectDetails = () => {
                     </StyledContentItem>
                 </StyledContentRow>
 			</StyledContent>
-                {foo[0]?.value.orgUnitSapId && <StyledCardWrapper.Actions alignRight={true}>
-                    <Button as="a" variant='ghost' href={`https://fusion.equinor.com/apps/one-equinor/org-unit/${foo[0].value.orgUnitSapId}/info` } aria-label='View in this project master in One Equinor' target="_blank">
+                {equinorTask[0]?.value.orgUnitSapId && <StyledCardWrapper.Actions alignRight={true}>
+                    <Button as="a" variant='ghost' href={`https://fusion.equinor.com/apps/one-equinor/org-unit/${equinorTask[0].value.orgUnitSapId}/info` } aria-label='View in this project master in One Equinor' target="_blank">
                         View in One Equinor
                         <Icon name="chevron_right"/>
                     </Button>

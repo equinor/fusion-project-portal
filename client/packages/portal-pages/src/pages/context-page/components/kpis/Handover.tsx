@@ -1,8 +1,7 @@
 import { IHttpClient } from "@equinor/fusion-framework-module-http";
 import { useFramework } from "@equinor/fusion-framework-react";
-import { useHttpClient } from "@equinor/fusion-framework-react/hooks";
 import { useFrameworkCurrentContext } from "@equinor/portal-core";
-import { KpiCard, KpiItem } from "@equinor/portal-ui"
+import { KpiCard } from "@equinor/portal-ui"
 import { useQuery } from "react-query";
 import { ProjectMaster } from "../project-cards/ProjectDetails";
 
@@ -20,7 +19,7 @@ export async function getHandoverData(client: IHttpClient, contextId?: string ):
     const currentContext = useFrameworkCurrentContext<ProjectMaster>();
    const contextId = currentContext?.id;
     return useQuery({
-      queryKey: ['context-relations', contextId],
+      queryKey: ['´Handover-kpis', contextId],
       queryFn: async () =>
       getHandoverData(await client, contextId),
     });
