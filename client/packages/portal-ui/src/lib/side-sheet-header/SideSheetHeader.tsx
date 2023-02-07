@@ -1,7 +1,8 @@
 import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { usePortalActions } from '@equinor/portal-core';
 import { PropsWithChildren, useRef } from 'react';
-import { FullscreenIcon } from '../../../portal-ui/src/lib/fullscreen-icon/FullscreenIcon';
+import { FullscreenIcon } from '../fullscreen-icon/FullscreenIcon';
+
 import {
   ContentWrapper,
   StyledActionsWrapper,

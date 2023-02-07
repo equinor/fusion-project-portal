@@ -11,12 +11,11 @@ export const StyledBackground = createGlobalStyle`
 
 export const StyledHeaderSection = styled.div<{url: string}>(({url}) =>({
  backgroundImage: `url(${url})`,
- backgroundPosition: 'center',
  backgroundRepeat: 'no-repeat',
  backgroundSize: 'cover',
  height: '250px',
  display: 'flex',
- width: '100%',
+
  alignItems: 'center',
  padding: "2rem"
 }))
@@ -30,7 +29,7 @@ export const StyledContextPageGrid = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
   @media only screen and (min-width: 80rem) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(12, 1fr);
   }
 `;
 
@@ -40,9 +39,10 @@ export const StyledCard = styled(Card)`
   width: 450px;
   padding: 1rem;
   background-color: ${tokens.colors.ui.background__default.hex + OPACITY_ALPHA};
+  
 `;
 
-export const StyledGridItem = styled(Card)<{
+export const StyledGridItem = styled.div<{
   span?: number;
   heightSpan?: number;
 }>`
@@ -50,5 +50,8 @@ export const StyledGridItem = styled(Card)<{
     grid-column: span ${({ span }) => span || 1};
     grid-row: span ${({ heightSpan }) => heightSpan || 1};
   }
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
