@@ -73,7 +73,7 @@ export const Tasks: FC<TaskProps> = ({maxDisplay}) => {
                 <StyledAssignmentsList>
                     {
                         assignments.map(assignment => (
-                            <StyledTaskItem key={assignment.id} onClick={()=> console.log(assignment)}>
+                            <StyledTaskItem key={assignment.id}  href={assignment.url}>
                                 <div>
                                     <Typography >{assignment.title}</Typography>
                                     <Typography variant='overline'>{assignment.sourceSystem.subSystem}</Typography>
@@ -128,13 +128,14 @@ const StyledRightText = styled.div`
 `;
 
 
-const StyledTaskItem = styled.div`
+const StyledTaskItem = styled.a`
     gap: 1rem;
     display: flex;
     margin-bottom: 0.5rem;
     justify-content: space-between;
     padding: 0.5rem 0;
     border-top: 1px solid ${tokens.colors.ui.background__medium.hex};
+    text-decoration: none;
     cursor: pointer;
 
     :hover > div > p{
