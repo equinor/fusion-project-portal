@@ -1274,10 +1274,8 @@
   dependencies:
     odata-query "^7.0.3"
 
-"@equinor/fusion-framework-module-signalr@^1.0.0":
+"@equinor/fusion-framework-module-signalr@^1.0.0", "@equinor/fusion-framework-module-signalr@file:.yalc/@equinor/fusion-framework-module-signalr":
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-signalr/-/fusion-framework-module-signalr-1.0.0.tgz#81f901b278eb14076d1ae30704a922dd4d79553b"
-  integrity sha512-WSepO/965j0woG/blq1cqnDYIEMJxgN+qmD7MUF0jpVq3knSBobiHjqdtk6OX+o7XcMPprkal5GyFOPdaqo4yg==
   dependencies:
     "@microsoft/signalr" "^7.0.0"
     rxjs "^7.5.7"

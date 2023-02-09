@@ -21,7 +21,7 @@ interface ProjectMaster extends Record<string, unknown> {
 
 export const ContextPage = () => {
   const currentContext = useFrameworkCurrentContext<ProjectMaster>();
-  console.log(currentContext)
+
   return (
     <StyledMain>
       <StyledBackground />

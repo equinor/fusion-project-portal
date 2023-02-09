@@ -105,7 +105,7 @@ export const ServiceMessageProvider: FC<PropsWithChildren<{}>> = ({ children }) 
 
     useLayoutEffect(() => {
         const sub = topic.pipe(map(x => x.shift() as ServiceMessage[])).subscribe(serviceMessages)
-        sub.add(()=> console.log("teardown"))
+        
         return ()=>{
             
             sub.unsubscribe()

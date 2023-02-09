@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import Header from '../portal-header/Header';
 import { MenuGroups } from '../portal-menu/PortalMenu';
 export const PortalFrame = () => {
-  console.log("portal-frame")
   return (
   <StyleProvider>
     <StyledWrapper>
