@@ -18,3 +18,6 @@ export * from './lib/top-bar-actions';
 export * from './lib/breadcrumbs/';
 export * from './lib/progress-loader';
 export * from "./lib/portal-message-page";
+export * from "./lib/task/work-assigned/WorkAssigned"
+export * from "./lib/side-sheet-header/SideSheetHeader"
+export * from "./lib/kpis";
