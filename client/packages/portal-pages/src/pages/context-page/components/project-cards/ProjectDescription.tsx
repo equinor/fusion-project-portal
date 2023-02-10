@@ -2,7 +2,7 @@ import {  Button, Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 
 
-import { StyledCardWrapper, StyledContent, StyledHeader, StyledContentRow, StyledContentItem } from './styles';
+import { StyledCardWrapper, StyledContent, StyledHeader } from './styles';
 
 
 

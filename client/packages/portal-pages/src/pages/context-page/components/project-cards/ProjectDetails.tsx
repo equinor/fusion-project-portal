@@ -15,9 +15,9 @@ export interface ProjectMaster extends Record<string, unknown> {
 	portfolioOrganizationalUnit: string;
 }
 
-export async function getContextRelations(client: IHttpClient, contextId?: string ):  Promise<Relations[] | undefined> {
+export async function getContextRelations(client: IHttpClient, contextId?: string, signal?: AbortSignal ):  Promise<Relations[] | undefined> {
     if (!contextId) return;
-    const res = await client.fetch(`/contexts/${contextId}/relations`);
+    const res = await client.fetch(`/contexts/${contextId}/relations`, { signal });
     if (!res.ok) throw res;
     return (await res.json()) as Relations[];
   }
@@ -29,8 +29,8 @@ export async function getContextRelations(client: IHttpClient, contextId?: strin
    const contextId = currentContext?.id;
     return useQuery({
       queryKey: ['context-relations', contextId],
-      queryFn: async () =>
-      getContextRelations(await client, contextId),
+      queryFn: async ({signal}) =>
+      getContextRelations(await client, contextId, signal),
     });
   };
 

@@ -1,5 +1,4 @@
 import {  Button, EdsProvider, Icon, Slider, Table, Typography } from '@equinor/eds-core-react';
-import { tokens } from '@equinor/eds-tokens';
 import Skeleton, { SkeletonVariant } from '@equinor/fusion-react-skeleton';
 import { DateTime } from 'luxon';
 
