@@ -51,7 +51,7 @@
     "@equinor/fusion-framework-module-context": "^2.0.0",
     "@equinor/fusion-framework-module-http": "^3.0.0",
     "@equinor/fusion-framework-module-services": "^2.0.0",
-    "@equinor/fusion-framework-module-signalr": "file:.yalc/@equinor/fusion-framework-module-signalr",
+    "@equinor/fusion-framework-module-signalr": "^1.0.0",
     "@equinor/fusion-framework-react": "^3.0.0",
     "@equinor/fusion-framework-react-app": "^3.0.0",
     "@equinor/fusion-framework-react-module-signalr": "^1.0.0",
