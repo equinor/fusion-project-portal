@@ -5,9 +5,10 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../portal-header/Header';
 import { MenuGroups } from '../portal-menu/PortalMenu';
-export const PortalFrame = () => (
+export const PortalFrame = () => {
+  return (
   <StyleProvider>
-    <Wrapper>
+    <StyledWrapper>
       <ServiceMessageProvider>
         <NotificationService>
           <ViewProvider>
@@ -20,11 +21,11 @@ export const PortalFrame = () => (
           </ViewProvider>
         </NotificationService>
       </ServiceMessageProvider>
-    </Wrapper>
-  </StyleProvider>
-);
+    </StyledWrapper>
+  </StyleProvider>);
+};
 
-const Wrapper = styled.div`
+const StyledWrapper = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;

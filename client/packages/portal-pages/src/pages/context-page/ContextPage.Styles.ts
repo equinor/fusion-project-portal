@@ -11,11 +11,11 @@ export const StyledBackground = createGlobalStyle`
 
 export const StyledHeaderSection = styled.div<{url: string}>(({url}) =>({
  backgroundImage: `url(${url})`,
+
  backgroundRepeat: 'no-repeat',
  backgroundSize: 'cover',
  height: '250px',
  display: 'flex',
-
  alignItems: 'center',
  padding: "2rem"
 }))
@@ -38,8 +38,7 @@ const OPACITY_ALPHA = "cc"
 export const StyledCard = styled(Card)`
   width: 450px;
   padding: 1rem;
-  background-color: ${tokens.colors.ui.background__default.hex + OPACITY_ALPHA};
-  
+  background-color: ${tokens.colors.ui.background__default.hex + OPACITY_ALPHA}; 
 `;
 
 export const StyledGridItem = styled.div<{

@@ -2,8 +2,8 @@ import { FusionConfigurator } from '@equinor/fusion-framework';
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
 
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
-import { addAgGrid, addPortalClient, configurePortalContext, enableSignalr, LoggerLevel, PortalConfig } from '@equinor/portal-core';
-import { appConfigurator } from '../../../portal-core/src/framework-configurator/app-configurator';
+import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
+import { addAgGrid, addPortalClient, configurePortalContext,  LoggerLevel, PortalConfig , appConfigurator} from '@equinor/portal-core';
 
 const showInfo = false;
 
@@ -22,11 +22,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
     }
 
     addPortalClient(config, portalConfig.portalClient.client);
-
-    enableSignalr(config, {
-      url: "/signalr/hubs/portal/?negotiateVersion=1",
-      useFusionPortalClientBaseUrl: true,
-      scopes: ["5a842df8-3238-415d-b168-9f16a6a6031b/.default"]
+    
+    enableSignalR(config, "portal", {
+      service: "portal",
+      path: "/signalr/hubs/portal/?negotiateVersion=1",
     })
 
 

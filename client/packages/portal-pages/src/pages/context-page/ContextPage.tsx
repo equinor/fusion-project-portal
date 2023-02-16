@@ -1,4 +1,6 @@
+
 import {  Typography } from '@equinor/eds-core-react';
+
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
 import { StyledMain } from '../common-styles/Styles';
@@ -46,7 +48,7 @@ export const ContextPage = () => {
             </b>
             </Typography>
             <Typography variant='h3'>
-            { currentContext?.value.projectCategory.replace(new RegExp("-|\_\/*")," ") }
+              { currentContext?.value.projectCategory.replace(new RegExp("-|\_\/*")," ") }
             </Typography>
         </StyledCard>
         </StyledHeaderSection>}
