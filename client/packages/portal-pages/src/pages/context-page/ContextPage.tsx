@@ -1,6 +1,17 @@
-import { Card, Typography } from '@equinor/eds-core-react';
+
+import {  Typography } from '@equinor/eds-core-react';
+
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { WorkAssigned } from '@equinor/portal-ui';
 import { StyledMain } from '../common-styles/Styles';
+import { AlwaysSafe } from './components/kpis/AlwaysSafe';
+import { Handover } from './components/kpis/Handover';
+import { LowCarbon } from './components/kpis/LowCarbon';
+
+import { Milestones } from './components/project-cards/milestones/Milestones';
+import { ProjectDescription } from './components/project-cards/ProjectDescription';
+import { ProjectDetails } from './components/project-cards/ProjectDetails';
+
 import {
   StyledBackground,
   StyledContextPageGrid,
@@ -17,6 +28,10 @@ function getBackgroundURL(instCode: string) {
 interface ProjectMaster extends Record<string, unknown> {
   facilities: string[];
   projectCategory: string;
+  cvpid: string;
+  documentManagementId: string;
+  phase: string;
+  portfolioOrganizationalUnit: string;
 }
 
 export const ContextPage = () => {
@@ -33,34 +48,25 @@ export const ContextPage = () => {
             </b>
             </Typography>
             <Typography variant='h3'>
-       
-            {currentContext.value.projectCategory.replace('\-|\_\/*'," ")}
-    
+              { currentContext?.value.projectCategory.replace(new RegExp("-|\_\/*")," ") }
             </Typography>
         </StyledCard>
         </StyledHeaderSection>}
       <StyledContextPageGrid>
-        <StyledGridItem span={2}>
-          <StyledGridItem.Header>
-            <h5>{currentContext?.title}</h5>
-          </StyledGridItem.Header>
+        <StyledGridItem span={3} heightSpan={3}>
+          <ProjectDetails/>
+          <ProjectDescription/>
         </StyledGridItem>
-        <StyledGridItem heightSpan={2}>
-          <StyledGridItem.Header>
-            <h5>Work Items</h5>
-          </StyledGridItem.Header>
+
+        <StyledGridItem span={5}>
+          <Handover/>
         </StyledGridItem>
-        <StyledGridItem heightSpan={2}>
-          <StyledGridItem.Header>
-            <h5>My Position</h5>
-          </StyledGridItem.Header>
+        <StyledGridItem span={4} heightSpan={3} >
+          < WorkAssigned/>
         </StyledGridItem>
-        <StyledGridItem span={2}>
-          <StyledGridItem.Header>
-            <h5>Some Content</h5>
-            <pre>{JSON.stringify(currentContext,null,'\t')  }</pre>
-          </StyledGridItem.Header>
-        </StyledGridItem>
+        <StyledGridItem span={5} >
+          <Milestones/>
+        </StyledGridItem  >
       </StyledContextPageGrid>
     </StyledMain>
   );

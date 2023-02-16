@@ -1392,6 +1392,14 @@
     "@equinor/fusion-react-utils" "^2.0.4"
     "@equinor/fusion-wc-searchable-dropdown" "^2.4.0"
 
+"@equinor/fusion-react-skeleton@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-skeleton/-/fusion-react-skeleton-0.2.13.tgz#8e1a2e2e92b8c61b8b80c76a1a334a890cb8783a"
+  integrity sha512-nPenwcrLM27KQ02iwSmMg//+43a9peJOxK8dFg1RVFIxfV2XDbXmdio+VK1n5sekQMDKDx6I3cmZ4AgVWrnjIA==
+  dependencies:
+    "@equinor/fusion-react-utils" "^2.0.4"
+    "@equinor/fusion-wc-skeleton" "^0.2.17"
+
 "@equinor/fusion-react-styles@^0.5.5":
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.5.tgz#dc97bc7c82142deb0e2f04668fab21fc6f1ead04"
@@ -1484,6 +1492,14 @@
     "@types/uuid" "^8.3.4"
     lit "2.4.1"
     uuid "^9.0.0"
+
+"@equinor/fusion-wc-skeleton@^0.2.17":
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-wc-skeleton/-/fusion-wc-skeleton-0.2.20.tgz#2588fc09da4a9b53c67dfd87106f1290ee960a1f"
+  integrity sha512-i7bO8G0FgohJcnsQ1kOF5lVPQNF7UkvUNfrkSRcyba5eVHNRF1/4Lp+yP3AdP2iYSOK0WDmFKTGlM9m+XzRrKw==
+  dependencies:
+    "@equinor/fusion-wc-core" "^1.0.5"
+    lit "2.4.1"
 
 "@equinor/fusion-wc-textinput@^0.5.15":
   version "0.5.15"
@@ -3383,6 +3399,11 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
+
+"@types/luxon@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.2.0.tgz#99901b4ab29a5fdffc88fff59b3b47fbfbe0557b"
+  integrity sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA==
 
 "@types/marked@^4.0.1":
   version "4.0.8"
@@ -8076,6 +8097,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+luxon@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.1.tgz#14f1af209188ad61212578ea7e3d518d18cee45f"
+  integrity sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==
+
 lz-string@^1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
@@ -10737,6 +10763,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vite-plugin-environment@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/vite-plugin-environment/-/vite-plugin-environment-1.1.3.tgz#d01a04abb2f69730a4866c9c9db51d3dab74645b"
+  integrity sha512-9LBhB0lx+2lXVBEWxFZC+WO7PKEyE/ykJ7EPWCq95NEcCpblxamTbs5Dm3DLBGzwODpJMEnzQywJU8fw6XGGGA==
 
 vite-svg-loader@^3.6.0:
   version "3.6.0"
