@@ -35,6 +35,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.AssetProxy
             proxyRequest.RequestUri = RequestUtilities.MakeDestinationAddress(_options.FusionPortalUrl!, $"/bundles/apps/{key}/resources/{resourcePath}", queryContext.QueryString);
 
             proxyRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            //proxyRequest.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
+            //{
+            //    MaxAge = TimeSpan.FromMilliseconds(1),
+
+            //};
+
             proxyRequest.Headers.Add("X-Fusion-App-Bundle-UniqueId", $"{httpContext.User.GetAzureUniqueId()}");
 
             // Suppress the original request header, use the one from the destination Uri.
