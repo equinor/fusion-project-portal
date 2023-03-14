@@ -26,7 +26,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("{workSurfaceId:guid}")]
         public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId)
         {
-            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurface(workSurfaceId));
+            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceQuery(workSurfaceId));
 
             if (workSurfaceWithAppsDto == null)
             {

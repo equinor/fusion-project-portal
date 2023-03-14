@@ -9,16 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
 
-public class GetWorkSurface : QueryBase<WorkSurfaceDto?>
+public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
 {
-    public GetWorkSurface(Guid workSurfaceId)
+    public GetWorkSurfaceQuery(Guid workSurfaceId)
     {
         WorkSurfaceId = workSurfaceId;
     }
 
     public Guid WorkSurfaceId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurface, WorkSurfaceDto?>
+    public class Handler : IRequestHandler<GetWorkSurfaceQuery, WorkSurfaceDto?>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ public class GetWorkSurface : QueryBase<WorkSurfaceDto?>
             _appService = appService;
         }
 
-        public async Task<WorkSurfaceDto?> Handle(GetWorkSurface request, CancellationToken cancellationToken)
+        public async Task<WorkSurfaceDto?> Handle(GetWorkSurfaceQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readWriteContext.Set<Domain.Entities.WorkSurface>()
             .AsNoTracking()
