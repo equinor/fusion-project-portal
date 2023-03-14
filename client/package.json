@@ -52,6 +52,7 @@
     "@equinor/fusion-framework-module-app": "^4.0.0",
     "@equinor/fusion-framework-module-context": "^2.0.0",
     "@equinor/fusion-framework-module-http": "^3.0.0",
+    "@equinor/fusion-framework-module-navigation": "^1.0.5",
     "@equinor/fusion-framework-module-services": "^2.0.0",
     "@equinor/fusion-framework-module-signalr": "^1.0.0",
     "@equinor/fusion-framework-react": "^3.0.0",
