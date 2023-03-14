@@ -1211,6 +1211,11 @@
     "@equinor/fusion-framework-module-http" "^3.0.0"
     "@equinor/fusion-framework-module-msal" "^2.0.0"
 
+"@equinor/fusion-framework-legacy-interopt@^2.1.11":
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-legacy-interopt/-/fusion-framework-legacy-interopt-2.1.11.tgz#f657a833aa659c3406ec2c72b610939376ce173a"
+  integrity sha512-isE9rqNpC+LgcorexsDgJhuQwB398jolzg3W3R6ikvbUbTLacB/U7FY3IlO8PdH0Vh3nJhhuXH1PO0XxJ2GxJg==
+
 "@equinor/fusion-framework-module-ag-grid@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-ag-grid/-/fusion-framework-module-ag-grid-3.0.0.tgz#42c41ad74e6fbd997bcd21cab8730be7f4061cef"
@@ -1274,8 +1279,10 @@
   dependencies:
     odata-query "^7.0.3"
 
-"@equinor/fusion-framework-module-signalr@^1.0.0", "@equinor/fusion-framework-module-signalr@file:.yalc/@equinor/fusion-framework-module-signalr":
+"@equinor/fusion-framework-module-signalr@^1.0.0":
   version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-signalr/-/fusion-framework-module-signalr-1.0.0.tgz#81f901b278eb14076d1ae30704a922dd4d79553b"
+  integrity sha512-WSepO/965j0woG/blq1cqnDYIEMJxgN+qmD7MUF0jpVq3knSBobiHjqdtk6OX+o7XcMPprkal5GyFOPdaqo4yg==
   dependencies:
     "@microsoft/signalr" "^7.0.0"
     rxjs "^7.5.7"
