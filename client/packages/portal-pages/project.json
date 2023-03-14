@@ -1,23 +1,24 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/portal-pages/src",
-  "projectType": "library",
-  "tags": [],
-  "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/portal-pages/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/portal-pages"],
-      "options": {
-        "jestConfig": "packages/portal-pages/jest.config.ts",
-        "passWithNoTests": true
-      }
-    }
-  }
+	"name": "portal-pages",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "packages/portal-pages/src",
+	"projectType": "library",
+	"tags": [],
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["packages/portal-pages/**/*.{ts,tsx,js,jsx}"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/packages/portal-pages"],
+			"options": {
+				"jestConfig": "packages/portal-pages/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	}
 }
