@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppBreadcrumb } from './AppBreadcrumb';
 import { AppGroupBreadCrumb } from './AppGroupBreadCrumb';
 
-import { StyledBreadcrumbs, StyledBreadcrumbItem } from './styles';
+import { StyledBreadcrumbs, StyledBreadcrumbItem, StyledBreadcrumbItemInteract } from './styles';
 
 export const Breadcrumbs = () => {
 	const context = useFrameworkCurrentContext();
@@ -21,13 +21,13 @@ export const Breadcrumbs = () => {
 			<StyledBreadcrumbs>
 				<span />
 				{context && location.pathname !== '/' && (
-					<StyledBreadcrumbItem
+					<StyledBreadcrumbItemInteract
 						onClick={() => {
 							navigate(`/context-page/$contextId=${context.id}`);
 						}}
 					>
 						Project Home
-					</StyledBreadcrumbItem>
+					</StyledBreadcrumbItemInteract>
 				)}
 				{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name} />}
 				{currentAppGroup && (

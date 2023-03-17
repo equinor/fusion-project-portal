@@ -1,4 +1,5 @@
 import { Breadcrumbs as EdsBreadcrumbs, Menu } from '@equinor/eds-core-react';
+import { tokens } from '@equinor/eds-tokens';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,6 +15,13 @@ export const StyledBreadcrumbItem = styled.span`
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: max-content;
+`;
+export const StyledBreadcrumbItemInteract = styled(StyledBreadcrumbItem)`
+	cursor: pointer;
+
+	:hover {
+		color: ${tokens.colors.interactive.primary__hover.hex};
+	}
 `;
 
 export const StyledMenuItem = styled(Link)`

@@ -17,8 +17,8 @@ export const PortalFrame = () => {
 								<MenuGroups />
 								<Outlet />
 							</MenuProvider>
-							<PortalSideSheet />
 						</ViewProvider>
+						<PortalSideSheet />
 					</NotificationService>
 				</ServiceMessageProvider>
 			</StyledWrapper>
