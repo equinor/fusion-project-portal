@@ -2,7 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
@@ -24,6 +26,6 @@
     "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
-    "../portal-core/src/components/PageRender.tsx"
+    "../portal-ui/src/lib/portal-message-page/PortalMessagePage.tsx",
   ]
 }

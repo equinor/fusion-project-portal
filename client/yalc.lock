@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@equinor/fusion-framework-module-signalr": {
+      "signature": "0525f3c268e5372442464018f62c42b7",
+      "file": true,
+      "replaced": "^1.0.0"
+    }
+  }
+}

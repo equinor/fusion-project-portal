@@ -17,12 +17,14 @@ const Wrapper = styled.section`
 
 const StyledAppSection = styled.section`
     flex: 1 1 auto;
+    overflow: auto;
 `;
 
 export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
     const ref = useRef<HTMLElement>(null);
+
     const { loading, error, appRef } = useAppLoader(appKey);
-    const { currentAppGroup } = useCurrentAppGroup(appKey)
+
 
     useEffect(() => {
         const refEl = ref.current;
@@ -53,9 +55,6 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
         </Wrapper>
     }
 
-    if (!currentAppGroup) {
-        return <AppNotAwaitable />;
-    }
 
     return <StyledAppSection ref={ref} />;
 };
