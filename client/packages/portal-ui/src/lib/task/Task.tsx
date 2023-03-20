@@ -1,14 +1,22 @@
-import { InfoMessage } from '../info-message/InfoMessage';
-import { SideSheetHeader } from '../side-sheet-header.tsx/SideSheetHeader';
+
+import styled from 'styled-components';
+import { SideSheetHeader } from '../side-sheet-header/SideSheetHeader';
+import { Tasks } from './work-assigned/WorkAssigned';
+
+const StyledContent = styled.div`
+ padding: 1.5rem;
+`
 
 export function Task() {
   return (
     <SideSheetHeader
-      title="Task"
+      title="My Work Assigned"
       subTitle="Your application related task"
       color={'#258800'}
     >
-      <InfoMessage>This functionality is not yet implemented.</InfoMessage>
+      <StyledContent>
+        <Tasks/>
+      </StyledContent>
     </SideSheetHeader>
   );
 }

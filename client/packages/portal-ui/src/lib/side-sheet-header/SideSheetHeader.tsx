@@ -2,6 +2,7 @@ import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { usePortalActions } from '@equinor/portal-core';
 import { PropsWithChildren, useRef } from 'react';
 import { FullscreenIcon } from '../fullscreen-icon/FullscreenIcon';
+
 import {
   ContentWrapper,
   StyledActionsWrapper,
@@ -13,12 +14,17 @@ import {
 } from './side-sheet-header-styles';
 import { HEXString } from './types';
 
+interface SideSheetHeaderProps {
+  title: string; subTitle: string; color?: HEXString
+}
+
 export function SideSheetHeader({
   children,
   title,
   subTitle,
   color,
-}: PropsWithChildren<{ title: string; subTitle: string; color: HEXString }>) {
+}: PropsWithChildren<SideSheetHeaderProps>) {
+
   const { closeActiveAction } = usePortalActions();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -34,7 +40,7 @@ export function SideSheetHeader({
     <StyledWrapper ref={ref}>
       <StyledHeader>
         <StyledTitleWrapper>
-          <StyledIndicator color={color} />
+          {color && <StyledIndicator color={color} />}
           <StyledTitleContentWrapper>
             <Typography variant="h4">{title}</Typography>
             <Typography variant="meta">{subTitle}</Typography>

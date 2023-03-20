@@ -3,13 +3,12 @@ import { AppConfigBuilderCallback } from "@equinor/fusion-framework-module-app/d
 
 const manifestMapper = (value: any): AppManifest => {
     const { key, name, version } = value;
-    return { appKey: key, name, version, entry: `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${key}` };
+    return { key, name, version, entry: `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${key}` };
 }
 
 export const appConfigurator: AppConfigBuilderCallback = async (builder) => {
     const serviceDiscovery = await builder.requireInstance("serviceDiscovery");
     const portal = await serviceDiscovery.createClient("portal");
-
     builder.setAppClient({
         getAppManifest: (query) => {
             return portal.json$(

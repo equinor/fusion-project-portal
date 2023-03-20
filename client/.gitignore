@@ -8,6 +8,7 @@
 # dependencies
 node_modules
 package.lock.json
+.yalc/*
 
 # IDEs and editors
 /.idea
@@ -24,6 +25,9 @@ package.lock.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+#Yalc
+.yalc/*
 
 # misc
 /.sass-cache

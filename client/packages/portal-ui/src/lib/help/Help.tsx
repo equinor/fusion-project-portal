@@ -1,5 +1,6 @@
 import { InfoMessage } from '../info-message/InfoMessage';
-import { SideSheetHeader } from '../side-sheet-header.tsx/SideSheetHeader';
+import { SideSheetHeader } from '../side-sheet-header/SideSheetHeader';
+
 
 export function Help() {
   return (

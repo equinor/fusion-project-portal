@@ -35,8 +35,10 @@ export const ViewProvider = ({ children }: ViewControllerProviderProps) => {
       return data?.find((view) => view.key === currentViewKey);
     }
 
-    const currentView = data?.find((view) => view.isDefault);
+    const currentView = data?.find((view) => view.isDefault) || data?.at(0);
+
     setViewId(currentView?.key);
+
     return currentView;
   }, [data, currentViewKey]);
 

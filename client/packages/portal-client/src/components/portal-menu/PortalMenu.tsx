@@ -1,36 +1,30 @@
 import { Search } from '@equinor/eds-core-react';
-import { useAppGroupsQuery, useMenuContext } from '@equinor/portal-core';
+import { useAppGroupsQuery } from '@equinor/portal-core';
 import { GroupWrapper, LoadingMenu, PortalMenu } from '@equinor/portal-ui';
 import { appsMatchingSearch } from '@equinor/portal-utils';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledWrapper = styled.div`
-  padding: 1rem 0;
+	padding: 1rem 0;
 `;
 
 export function MenuGroups() {
-  const { data, isLoading } = useAppGroupsQuery();
-  const [searchText, setSearchText] = useState<string | undefined>();
+	const { data, isLoading } = useAppGroupsQuery();
+	const [searchText, setSearchText] = useState<string | undefined>();
 
-  return (
-    <PortalMenu>
-      <Search
-        id="app-search"
-        placeholder="Search for apps"
-        onChange={(e) => {
-          setSearchText(e.target.value);
-        }}
-      />
-      <StyledWrapper>
-        {isLoading ? (
-          <LoadingMenu />
-        ) : (
-          <GroupWrapper
-            appGroups={appsMatchingSearch(data ?? [], searchText)}
-          />
-        )}
-      </StyledWrapper>
-    </PortalMenu>
-  );
+	return (
+		<PortalMenu>
+			<Search
+				id="app-search"
+				placeholder="Search for apps"
+				onChange={(e) => {
+					setSearchText(e.target.value);
+				}}
+			/>
+			<StyledWrapper>
+				{isLoading ? <LoadingMenu /> : <GroupWrapper appGroups={appsMatchingSearch(data ?? [], searchText)} />}
+			</StyledWrapper>
+		</PortalMenu>
+	);
 }

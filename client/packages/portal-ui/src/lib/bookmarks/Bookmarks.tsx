@@ -1,5 +1,6 @@
+import { SideSheetHeader } from '../side-sheet-header/SideSheetHeader';
 import { InfoMessage } from '../info-message/InfoMessage';
-import { SideSheetHeader } from '../side-sheet-header.tsx/SideSheetHeader';
+
 
 export function Bookmarks() {
   return (
