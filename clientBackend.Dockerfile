@@ -11,7 +11,7 @@ RUN ls
 
 WORKDIR /app-client
 
-COPY ["../../../client", "."]
+COPY ["/client", "."]
 
 
 #COPY ../../../client/ .
@@ -30,11 +30,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Equinor.ProjectExecutionPortal.ClientBackend.csproj", "Equinor.ProjectExecutionPortal.ClientBackend/"]
+COPY ["/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj", "Equinor.ProjectExecutionPortal.ClientBackend/"]
 
-COPY ["nuget.config", "Equinor.ProjectExecutionPortal.ClientBackend/"]
+COPY ["/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/nuget.config", "Equinor.ProjectExecutionPortal.ClientBackend/"]
 RUN dotnet restore "Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj" --configfile Equinor.ProjectExecutionPortal.ClientBackend/nuget.config
-COPY . "Equinor.ProjectExecutionPortal.ClientBackend/"
+COPY "/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/" "Equinor.ProjectExecutionPortal.ClientBackend/"
 WORKDIR "/src/Equinor.ProjectExecutionPortal.ClientBackend"
 RUN dotnet build "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/build
 

@@ -16,6 +16,14 @@ export default defineConfig({
 		port: 3000,
 		host: true,
 	},
+    build: {
+        rollupOptions: {
+            input: path.resolve(__dirname, './src/main.tsx'),
+            output: {
+                entryFileNames: `assets/portal-client-bundle.js`,
+            },
+        },
+    },
 	resolve: {
 		alias: {
 			'@equinor/portal-core': path.resolve(__dirname, '../portal-core/src/index.ts'),

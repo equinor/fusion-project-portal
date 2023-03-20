@@ -60,6 +60,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//app.UseDefaultFiles(); // For static redirect
 app.UseStaticFiles();
 
 app.UseRouting();

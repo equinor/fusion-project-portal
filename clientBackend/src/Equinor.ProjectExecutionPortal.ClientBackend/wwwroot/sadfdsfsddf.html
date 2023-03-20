@@ -10,19 +10,10 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fusion</title>
-    
-
-@*    <script type="module" crossorigin src="/assets/portal-client-bundle.js"></script>
-*@    
-
+    <script type="module" crossorigin src="/assets/portal-client-bundle.js"></script>
 </head>
 <body>
+<div id="root"></div>
 
-    <main role="main">
-        @RenderBody()
-    </main>
-
-
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

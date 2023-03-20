@@ -14,4 +14,8 @@
     <PackageReference Include="Yarp.ReverseProxy" Version="1.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\" />
+  </ItemGroup>
+
 </Project>
