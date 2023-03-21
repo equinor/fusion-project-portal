@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "update:core": "pwsh -NoProfile -ExecutionPolicy Unrestricted -Command .tools/updateFusionCore.ps1"
+    "update:fusion": "ncu -i -f /fusion/",
+    "dev": "nx serve"
   },
   "private": true,
   "devDependencies": {
