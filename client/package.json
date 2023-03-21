@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev": "nx serve",
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test",
+    "lint": "nx run-many --all --target=lint",
     "update:fusion": "ncu -i -f /fusion/",
-    "dev": "nx serve"
+    "update:nrwl": "ncu -i -f /nrwl/"
   },
   "private": true,
   "devDependencies": {
@@ -29,6 +34,10 @@
     "@typescript-eslint/parser": "^5.41.0",
     "@vitejs/plugin-react": "^2.1.0",
     "eslint": "^8.26.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-tsdoc": "^0.2.17",
     "jest": "29.4.3",
     "jest-environment-jsdom": "29.4.3",
