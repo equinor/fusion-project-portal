@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { QueryClientProvider } from 'react-query';
-// import * as portalConfig from './portal.config.json';
 import Framework from '@equinor/fusion-framework-react';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
