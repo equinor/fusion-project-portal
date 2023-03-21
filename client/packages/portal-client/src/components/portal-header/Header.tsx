@@ -1,33 +1,25 @@
 import { useMenuContext, useViewController } from '@equinor/portal-core';
-import { MenuButton, PortalHeader, } from '@equinor/portal-ui';
+import { MenuButton, Header } from '@equinor/portal-ui';
 import { appMounted } from '@equinor/portal-utils';
 
 import { useNavigate } from 'react-router-dom';
 
+export function MainHeader() {
+	const { getId, setViewId } = useViewController();
+	const navigate = useNavigate();
+	useMenuContext();
 
+	const handleLogoClick = () => {
+		const id = getId();
+		if (appMounted() && id) {
+			setViewId(id);
+		} else {
+			setViewId(undefined);
+		}
+		navigate('/');
+	};
 
-export function Header() {
-  const { getId, setViewId } = useViewController();
-  const navigate = useNavigate();
-  useMenuContext();
-
-  const handleLogoClick = () => {
-    const id = getId();
-    if (appMounted() && id) {
-      setViewId(id);
-    } else {
-      setViewId(undefined);
-    }
-    navigate('/');
-  };
-
-  return (
-    <PortalHeader
-      onLogoClick={handleLogoClick}
-      MenuButton={MenuButton}
-      title="Project Portal"
-    />
-  );
+	return <Header onLogoClick={handleLogoClick} MenuButton={MenuButton} title="Project Portal" />;
 }
 
-export default Header;
+export default MainHeader;
