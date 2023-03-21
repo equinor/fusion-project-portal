@@ -7,6 +7,7 @@ const StyledWrapper = styled.div`
 	gap: 1rem;
 	justify-content: center;
 	align-items: center;
+	height: 85vh;
 `;
 
 const StyledProgress = styled(StarProgress)`

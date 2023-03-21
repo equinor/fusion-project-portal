@@ -8,7 +8,7 @@ import { HandoverPackage } from './types';
 export async function getHandoverData(client: IHttpClient, contextId?: string): Promise<HandoverPackage[] | undefined> {
 	if (!contextId) return;
 	const res = await client.fetch(`/api/contexts/${contextId}/handover`);
-	if (res.ok) throw new Error('No data to display');
+	if (!res.ok) throw new Error('No data to display');
 	return (await res.json()) as HandoverPackage[];
 }
 
