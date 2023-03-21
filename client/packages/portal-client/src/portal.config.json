@@ -1,44 +1,37 @@
 {
-  "portalId": "some-portal-id",
   "title": "Project Portal",
   "description": "some description...",
-  "homepage": {
-    "widgetId": "1234"
+  "serviceDiscovery": {
+    "client": {
+      "baseUri": "https://fusion-s-portal-ci.azurewebsites.net/",
+      "defaultScopes": [
+        "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
+      ]
+    }
   },
-  "constext": true,
-  "config": {
-    "serviceDiscovery": {
-      "client": {
-        "baseUri": "https://fusion-s-portal-ci.azurewebsites.net/",
-        "defaultScopes": [
-          "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
-        ]
-      }
+  "portalClient": {
+    "client": {
+      "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
+      "defaultScopes": [
+        "api://9f166838-5d6b-4c44-8964-06db10eebd5d/ReadWrite"
+      ]
+    }
+  },
+  "masal": {
+    "client": {
+      "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
+      "clientId": "9f166838-5d6b-4c44-8964-06db10eebd5d",
+      "redirectUri": "/authentication/login-callback"
     },
-    "portalClient": {
-      "client": {
-        "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
-        "defaultScopes": [
-          "api://9f166838-5d6b-4c44-8964-06db10eebd5d/ReadWrite"
-        ]
-      }
-    },
-    "masal": {
-      "client": {
-        "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
-        "clientId": "9f166838-5d6b-4c44-8964-06db10eebd5d",
-        "redirectUri": "/authentication/login-callback"
-      },
-      "options": {
-        "requiresAuth": true
-      }
-    },
-    "logger": {
-      "level": 0,
-      "defaultClientLogger": {
-        "active": false,
-        "level": 0
-      }
+    "options": {
+      "requiresAuth": true
+    }
+  },
+  "logger": {
+    "level": 0,
+    "defaultClientLogger": {
+      "active": false,
+      "level": 0
     }
   }
 }
