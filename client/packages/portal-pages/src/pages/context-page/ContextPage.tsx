@@ -4,7 +4,7 @@ import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
 import { StyledMain } from '../common-styles/Styles';
 import { AlwaysSafe } from './components/kpis/AlwaysSafe';
-import { Handover } from './components/kpis/Handover';
+import { Handover } from './components/kpis/handover/Handover';
 import { LowCarbon } from './components/kpis/LowCarbon';
 
 import { Milestones } from './components/project-cards/milestones/Milestones';
@@ -23,14 +23,14 @@ function getBackgroundURL(instCode: string) {
 	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
 }
 
-interface ProjectMaster extends Record<string, unknown> {
+type ProjectMaster = {
 	facilities: string[];
 	projectCategory: string;
 	cvpid: string;
 	documentManagementId: string;
 	phase: string;
 	portfolioOrganizationalUnit: string;
-}
+} & Record<string, unknown>;
 
 export const ContextPage = () => {
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
@@ -55,7 +55,6 @@ export const ContextPage = () => {
 			<StyledContextPageGrid>
 				<StyledGridItem span={3} heightSpan={3}>
 					<ProjectDetails />
-					<ProjectDescription />
 				</StyledGridItem>
 
 				<StyledGridItem span={5}>
