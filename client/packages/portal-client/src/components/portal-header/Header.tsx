@@ -1,6 +1,5 @@
-import { useMenuContext, useViewController } from '@equinor/portal-core';
+import { useMenuContext, useViewController, appMounted } from '@equinor/portal-core';
 import { MenuButton, Header } from '@equinor/portal-ui';
-import { appMounted } from '@equinor/portal-utils';
 
 import { useNavigate } from 'react-router-dom';
 

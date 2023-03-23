@@ -45,7 +45,7 @@ export const ViewProvider = ({ children }: ViewControllerProviderProps) => {
   useEffect(() => {
     if (currentViewKey$.value) {
       setViewId(currentViewKey$.value);
-      return;
+      
     }
   }, []);
 

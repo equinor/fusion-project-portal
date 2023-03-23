@@ -1,8 +1,8 @@
-import { Button, EdsProvider, Icon, Slider, Table, Typography } from '@equinor/eds-core-react';
-import Skeleton, { SkeletonVariant } from '@equinor/fusion-react-skeleton';
+import { EdsProvider, Table, Typography } from '@equinor/eds-core-react';
 import { DateTime } from 'luxon';
 
 import { StyledCardWrapper, StyledContent, StyledHeader } from '../styles';
+import { LoadingSkeleton } from './LoadingSeceton';
 import { useMilestoneQuery } from './use-presence-query';
 
 function verifyDate(date: string): string {
@@ -10,67 +10,6 @@ function verifyDate(date: string): string {
 		? DateTime.fromJSDate(new Date(date)).toFormat('dd LLL yyyy')
 		: '-';
 }
-
-const LoadingSkeleton = () => (
-	<>
-		<Table.Row>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-		</Table.Row>
-		<Table.Row>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-		</Table.Row>
-		<Table.Row>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-		</Table.Row>
-		<Table.Row>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-		</Table.Row>
-	</>
-);
 
 export const Milestones = () => {
 	const { data } = useMilestoneQuery();

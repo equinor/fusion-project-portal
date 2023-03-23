@@ -1,7 +1,6 @@
 import { Search } from '@equinor/eds-core-react';
-import { useAppGroupsQuery } from '@equinor/portal-core';
+import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
 import { GroupWrapper, LoadingMenu, PortalMenu } from '@equinor/portal-ui';
-import { appsMatchingSearch } from '@equinor/portal-utils';
 import { useState } from 'react';
 import styled from 'styled-components';
 

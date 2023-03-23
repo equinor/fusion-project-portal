@@ -3,7 +3,7 @@ import { useFramework } from '@equinor/fusion-framework-react';
 
 import { useQuery } from 'react-query';
 
-interface Milestones {
+type Milestones = {
 	siteCodes: string[];
 	projectIdentifier: string;
 	milestone: string;
@@ -12,7 +12,7 @@ interface Milestones {
 	dateForecast: string;
 	dateActual: string;
 	contractMilestone: string;
-}
+};
 
 export async function getMilestones(
 	client: IHttpClient,
@@ -27,7 +27,7 @@ export async function getMilestones(
 
 export const useMilestoneQuery = () => {
 	const client = useFramework().modules.serviceDiscovery.createClient('data-proxy');
-	const currentContext = useFramework().modules.context.currentContext;
+	const { currentContext } = useFramework().modules.context;
 	const contextId = currentContext?.id;
 	return useQuery({
 		queryKey: ['milestones', contextId],

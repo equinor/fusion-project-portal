@@ -10,7 +10,6 @@ export * from './lib/widgets';
 export * from './lib/header/Icon';
 export * from './lib/header/Header';
 export * from './lib/portal-menu';
-export * from './lib/portal-side-sheet';
 export * from './lib/style-provider/styleProvider';
 export * from './lib/svg-icon-from-string';
 export * from './lib/task/Task';

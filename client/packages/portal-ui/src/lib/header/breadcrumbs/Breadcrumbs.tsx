@@ -17,8 +17,7 @@ export const Breadcrumbs = () => {
 	const location = useLocation();
 
 	return (
-		<>
-			<StyledBreadcrumbs>
+		<StyledBreadcrumbs>
 				<span />
 				{context && location.pathname !== '/' && (
 					<StyledBreadcrumbItemInteract
@@ -40,6 +39,5 @@ export const Breadcrumbs = () => {
 
 				<StyledBreadcrumbItem></StyledBreadcrumbItem>
 			</StyledBreadcrumbs>
-		</>
 	);
 };
