@@ -1,16 +1,11 @@
 import { Typography } from '@equinor/eds-core-react';
-
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
+
 import { StyledMain } from '../common-styles/Styles';
-import { AlwaysSafe } from './components/kpis/AlwaysSafe';
 import { Handover } from './components/kpis/handover/Handover';
-import { LowCarbon } from './components/kpis/LowCarbon';
-
 import { Milestones } from './components/project-cards/milestones/Milestones';
-import { ProjectDescription } from './components/project-cards/ProjectDescription';
 import { ProjectDetails } from './components/project-cards/ProjectDetails';
-
 import {
 	StyledBackground,
 	StyledContextPageGrid,
