@@ -13,7 +13,7 @@ spec:
     - name: prod
   components:
     - name: backend
-      src: ./src
+      src: ./backend/src
       variables:
         ASPNETCORE_URLS: "http://*:5000"
         AssetProxy__FusionPeopleUrl: ""
