@@ -1,20 +1,26 @@
 {
 	"name": "service-message",
-	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "packages/service-message",
 	"projectType": "library",
 	"tags": [],
 	"targets": {
 		"lint": {
 			"executor": "@nrwl/linter:eslint",
-			"outputs": ["{options.outputFile}"],
+			"outputs": [
+				"{options.outputFile}"
+			],
 			"options": {
-				"lintFilePatterns": ["packages/service-message/**/*.{ts,tsx,js,jsx}"]
+				"lintFilePatterns": [
+					"packages/service-message/**/*.{ts,tsx,js,jsx}"
+				]
 			}
 		},
 		"test": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["{workspaceRoot}/coverage/packages/service-message"],
+			"outputs": [
+				"{workspaceRoot}/coverage/packages/service-message"
+			],
 			"options": {
 				"jestConfig": "packages/service-message/jest.config.ts",
 				"passWithNoTests": true

@@ -1,5 +1,5 @@
 {
-    "extends": "../../tsconfig.base.json",
+    "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "jsx": "react-jsx",
         "allowJs": true,
@@ -12,7 +12,7 @@
         "noImplicitReturns": true,
         "resolveJsonModule": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "../../dist/out-tsc",
+        "outDir": "../../../dist/out-tsc",
         "types": [
             "node"
         ]

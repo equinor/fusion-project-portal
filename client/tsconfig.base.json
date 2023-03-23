@@ -21,7 +21,7 @@
 			"@equinor/portal-pages": ["packages/portal-pages/src/index.ts"],
 			"@equinor/portal-ui": ["packages/portal-ui/src/index.ts"],
 			"@equinor/portal-utils": ["packages/portal-utils/src/index.ts"],
-			"@equinor/service-message": ["packages/service-message/index.ts"],
+			"@equinor/service-message": ["packages/widgets/service-message/index.ts"],
 			"@equinor/bookmark": ["packages/widgets/bookmark/index.ts"]
 		}
 	},
