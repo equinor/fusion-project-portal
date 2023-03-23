@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
 		..\.gitignore = ..\.gitignore
+		Dockerfile = Dockerfile
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection
@@ -23,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1E2C7897
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.Tests.WebApi", "tests\Equinor.ProjectExecutionPortal.Tests.WebApi\Equinor.ProjectExecutionPortal.Tests.WebApi.csproj", "{9147F23E-3BA7-4978-A8BC-658F17FC3428}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equinor.ProjectExecutionPortal.FusionPortalApi", "Equinor.ProjectExecutionPortal.FusionPortalApi\Equinor.ProjectExecutionPortal.FusionPortalApi.csproj", "{70EE80AF-7EF4-484D-9220-B006217D0773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPortal.FusionPortalApi", "Equinor.ProjectExecutionPortal.FusionPortalApi\Equinor.ProjectExecutionPortal.FusionPortalApi.csproj", "{70EE80AF-7EF4-484D-9220-B006217D0773}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
