@@ -1,32 +1,48 @@
-﻿using Equinor.ProjectExecutionPortal.ClientBackend;
+﻿using System.Text.Json.Serialization;
+using Equinor.ProjectExecutionPortal.ClientBackend;
 using Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
-using Equinor.ProjectExecutionPortal.ClientBackend.DiModules;
 using Fusion.Integration;
 using Fusion.Integration.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// AppSettings configuration
+builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("CacheOptions"));
+builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
 
-// Add asset proxy
-builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
-
-//Add bearer auth
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration)
-//    .EnableTokenAcquisitionToCallDownstreamApi()
-//    .AddInMemoryTokenCaches();
+// TODO: https://weblog.west-wind.com/posts/2022/Mar/29/Combining-Bearer-Token-and-Cookie-Auth-in-ASPNET
+// https://medium.com/@niteshsinghal85/how-to-support-multiple-authentication-scheme-in-asp-net-core-api-581e47e38de3
+// https://stackoverflow.com/questions/68081122/getting-access-token-to-call-an-api-from-my-asp-net-core-5-mvc-web-app
 
 // Add cookie auth
 builder.Services
     .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration)
+    .EnableTokenAcquisitionToCallDownstreamApi(new string[] {  })
+    .AddInMemoryTokenCaches();
+
+// Add bearer auth
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
+
+// Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("default", policy =>
+    {
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+        policy.RequireAuthenticatedUser();
+    });
+});
 
 // Add fusion integration
 builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
@@ -44,8 +60,20 @@ builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal
     fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
 });
 
-// Custom modules
-builder.Services.AddApplicationModules(builder.Configuration);
+// .....................................
+
+builder.Services.AddControllersWithViews(config =>
+    {
+        //var policy = new AuthorizationPolicyBuilder()
+        //    .RequireAuthenticatedUser()
+        //    .Build();
+        //config.Filters.Add(new AuthorizeFilter(policy));
+    });
+
+// Add asset proxy
+builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddApplicationInsightsTelemetry();
 
@@ -63,10 +91,12 @@ app.UseHttpsRedirection();
 //app.UseDefaultFiles(); // For static redirect
 app.UseStaticFiles();
 
-app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRouting();
+
+
 
 app.UseEndpoints(endpoints =>
 {

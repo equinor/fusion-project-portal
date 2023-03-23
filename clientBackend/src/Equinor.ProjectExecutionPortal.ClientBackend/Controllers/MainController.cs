@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 using Equinor.ProjectExecutionPortal.ClientBackend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 {
@@ -9,14 +12,23 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
     {
         private readonly ILogger<MainController> _logger;
 
+        private const string AuthSchemes = OpenIdConnectDefaults.AuthenticationScheme + "," +
+                                           JwtBearerDefaults.AuthenticationScheme;
+
         public MainController(ILogger<MainController> logger)
         {
             _logger = logger;
         }
 
-        [Authorize]
-        public IActionResult Index()
+        [AllowAnonymous]
+        //[AuthorizeForScopes(Scopes = new string[] { })]
+        public async Task<IActionResult> Index([FromServices] ITokenAcquisition tokenProvider)
         {
+            //var scopes = new string[] { };
+            //var accessToken = await tokenProvider.GetAccessTokenForUserAsync(scopes);
+
+            //ViewData["accessToken"] = accessToken;
+
             return View();
         }
 
