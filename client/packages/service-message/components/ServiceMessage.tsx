@@ -4,12 +4,14 @@ import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { SideSheetHeader } from "./side-sheet-header.tsx/SideSheetHeader";
+
 
 import { ServiceMessageList } from "./ServiceMessageList";
 import { ServiceMessageCard } from "./ServiceMessageCard";
 import { AppServiceMessage } from "../provider/ServiceMessageProvider";
 import { useServiceMessage } from "../query/use-service-message";
+import { SideSheetHeader } from "@equinor/portal-ui";
+
 
 
 export function ServiceMessages() {

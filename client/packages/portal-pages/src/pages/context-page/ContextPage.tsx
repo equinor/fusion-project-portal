@@ -1,39 +1,67 @@
+import { Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { WorkAssigned } from '@equinor/portal-ui';
+
 import { StyledMain } from '../common-styles/Styles';
+import { Handover } from './components/kpis/handover/Handover';
+import { Milestones } from './components/project-cards/milestones/Milestones';
+import { ProjectDetails } from './components/project-cards/ProjectDetails';
 import {
-  StyledBackground,
-  StyledContextPageGrid,
-  StyledGridItem,
+	StyledBackground,
+	StyledContextPageGrid,
+	StyledGridItem,
+	StyledHeaderSection,
+	StyledCard,
 } from './ContextPage.Styles';
 
-export const ContextPage = () => {
-  const currentContext = useFrameworkCurrentContext();
+function getBackgroundURL(instCode: string) {
+	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
+}
 
-  return (
-    <StyledMain>
-      <StyledBackground />
-      <StyledContextPageGrid>
-        <StyledGridItem span={2}>
-          <StyledGridItem.Header>
-            <h5>{currentContext?.title}</h5>
-          </StyledGridItem.Header>
-        </StyledGridItem>
-        <StyledGridItem heightSpan={2}>
-          <StyledGridItem.Header>
-            <h5>Work Items</h5>
-          </StyledGridItem.Header>
-        </StyledGridItem>
-        <StyledGridItem heightSpan={2}>
-          <StyledGridItem.Header>
-            <h5>My Position</h5>
-          </StyledGridItem.Header>
-        </StyledGridItem>
-        <StyledGridItem span={2}>
-          <StyledGridItem.Header>
-            <h5>Some Content</h5>
-          </StyledGridItem.Header>
-        </StyledGridItem>
-      </StyledContextPageGrid>
-    </StyledMain>
-  );
+type ProjectMaster = {
+	facilities: string[];
+	projectCategory: string;
+	cvpid: string;
+	documentManagementId: string;
+	phase: string;
+	portfolioOrganizationalUnit: string;
+} & Record<string, unknown>;
+
+export const ContextPage = () => {
+	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
+
+	if (!currentContext) return null;
+
+	return (
+		<StyledMain>
+			<StyledBackground />
+			{currentContext.value.facilities && (
+				<StyledHeaderSection url={getBackgroundURL(currentContext.value.facilities[0])}>
+					<StyledCard>
+						<Typography variant="h3">
+							<b>{currentContext?.title}</b>
+						</Typography>
+						<Typography variant="h3">
+							{currentContext.value.projectCategory.replace(new RegExp('-|_/*'), ' ')}
+						</Typography>
+					</StyledCard>
+				</StyledHeaderSection>
+			)}
+			<StyledContextPageGrid>
+				<StyledGridItem span={3} heightSpan={3}>
+					<ProjectDetails />
+				</StyledGridItem>
+
+				<StyledGridItem span={5}>
+					<Handover />
+				</StyledGridItem>
+				<StyledGridItem span={4} heightSpan={3}>
+					<WorkAssigned />
+				</StyledGridItem>
+				<StyledGridItem span={5}>
+					<Milestones />
+				</StyledGridItem>
+			</StyledContextPageGrid>
+		</StyledMain>
+	);
 };

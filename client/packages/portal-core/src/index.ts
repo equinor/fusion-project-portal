@@ -6,5 +6,5 @@ export * from './portal-actions';
 export * from './providers';
 export * from './queries';
 export * from './types';
-export * from "./app-loader";
-export * from "./module-signalr";
+export * from './app-loader';
+export * from './app';
