@@ -1,0 +1,52 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: fusion-project-portal
+spec:
+  environments:
+    - name: dev
+      build:
+        from: main
+    - name: test
+      build:
+        from: main
+    - name: prod
+  components:
+    - name: backend
+      src: ./src
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        AssetProxy__FusionPeopleUrl: ""
+        FusionPortalApi__BaseAddress: ""
+      identity:
+        azure:
+          clientId: 9f166838-5d6b-4c44-8964-06db10eebd5d
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: dev
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-noe-backend-dev
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: Authenticator--ProjectPortalApiSecret
+                    type: secret
+                    envVar: Authenticator__ProjectPortalApiSecret
+                  - name: ConnectionStrings--ProjectPortalContext
+                    type: secret
+                    envVar: ConnectionStrings__ProjectPortalContext
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
