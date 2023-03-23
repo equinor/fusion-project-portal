@@ -1,0 +1,30 @@
+{
+	"name": "bookmark",
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "packages/widgets/bookmark",
+	"projectType": "library",
+	"tags": [],
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": [
+				"{options.outputFile}"
+			],
+			"options": {
+				"lintFilePatterns": [
+					"packages/widgets/bookmark/**/*.{ts,tsx,js,jsx}"
+				]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": [
+				"{workspaceRoot}/coverage/packages/widgets/bookmark"
+			],
+			"options": {
+				"jestConfig": "packages/widgets/bookmark/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	}
+}
