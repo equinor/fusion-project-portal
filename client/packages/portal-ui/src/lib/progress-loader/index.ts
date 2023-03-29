@@ -1,1 +1,2 @@
-export * from "./PortalProgressLoader"
+export * from './PortalProgressLoader';
+export * from './ProgressLoader';

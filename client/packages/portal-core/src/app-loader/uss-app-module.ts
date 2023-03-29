@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export const useAppModule = () => {
 	const fusion = useFramework<[AppModule]>();
-	const currentApp = useObservableState(fusion.modules.app.current$).value;
+	const currentApp = useObservableState(fusion.modules.app.current$)?.value;
 
 	const [appManifest, setAppManifest] = useState<AppManifest | undefined>();
 
