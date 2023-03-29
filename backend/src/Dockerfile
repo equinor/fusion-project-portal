@@ -6,8 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Equinor.ProjectExecutionPortal.WebApi/Equinor.ProjectExecutionPortal.WebApi.csproj", "Equinor.ProjectExecutionPortal.WebApi/"]
-COPY ["Equinor.ProjectExecutionPortal.WebApi/nuget.config", "Equinor.ProjectExecutionPortal.WebApi/"]
-RUN dotnet restore "Equinor.ProjectExecutionPortal.WebApi/Equinor.ProjectExecutionPortal.WebApi.csproj" --configfile Equinor.ProjectExecutionPortal.WebApi/nuget.config
+COPY ["/nuget.config", "/"]
+RUN dotnet restore "Equinor.ProjectExecutionPortal.WebApi/Equinor.ProjectExecutionPortal.WebApi.csproj" --configfile /nuget.config
 COPY . .
 WORKDIR "/src/Equinor.ProjectExecutionPortal.WebApi"
 RUN dotnet build "Equinor.ProjectExecutionPortal.WebApi.csproj" -c Release -o /app/build
