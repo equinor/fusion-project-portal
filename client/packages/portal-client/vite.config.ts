@@ -17,14 +17,14 @@ export default defineConfig({
 		host: true,
 	},
 	// Configuration needed fro new backend.
-	build: {
-		rollupOptions: {
-			input: path.resolve(__dirname, './src/main.tsx'),
-			output: {
-				entryFileNames: `assets/portal-client-bundle.js`,
-			},
-		},
-	},
+	// build: {
+	// 	rollupOptions: {
+	// 		input: path.resolve(__dirname, './src/main.tsx'),
+	// 		output: {
+	// 			entryFileNames: `assets/portal-client-bundle.js`,
+	// 		},
+	// 	},
+	// },
 	resolve: {
 		alias: {
 			'@equinor/portal-core': path.resolve(__dirname, '../portal-core/src/index.ts'),
