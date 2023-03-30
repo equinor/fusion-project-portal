@@ -4,7 +4,7 @@ metadata:
   name: fusion-project-portal
 spec:
   environments:
-    - name: dev
+    - name: feature
       build:
         from: radix
     - name: test
@@ -18,18 +18,18 @@ spec:
         ASPNETCORE_URLS: "http://*:5000"
         AssetProxy__FusionPeopleUrl: ""
         FusionPortalApi__BaseAddress: ""
-      identity:
-        azure:
-          clientId: 9f166838-5d6b-4c44-8964-06db10eebd5d
       ports:
         - name: http
           port: 5000
       publicPort: http
       environmentConfig:
-        - environment: dev
+        - environment: feature
+          identity:
+            azure:
+                clientId: a2d39bc8-9295-4334-ab21-603526e018e5
           secretRefs:
             azureKeyVaults:
-              - name: kv-pep-noe-backend-dev
+              - name: kv-pep-api-noe-feature
                 path: /mnt/key-vault
                 items:
                   - name: AzureAd--ClientSecret
