@@ -18,8 +18,10 @@ spec:
         ASPNETCORE_URLS: "http://*:5000"
         AzureAd__ClientId: ""
         FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__TokenScope: ""
       ports:
         - name: http
           port: 5000
