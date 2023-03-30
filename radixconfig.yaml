@@ -16,6 +16,7 @@ spec:
       src: ./backend/src
       variables:
         ASPNETCORE_URLS: "http://*:5000"
+        AzureAd__ClientId: ""
         FusionPortalApi__BaseAddress: ""
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
