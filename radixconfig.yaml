@@ -16,8 +16,9 @@ spec:
       src: ./backend/src
       variables:
         ASPNETCORE_URLS: "http://*:5000"
-        AssetProxy__FusionPeopleUrl: ""
         FusionPortalApi__BaseAddress: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
       ports:
         - name: http
           port: 5000
