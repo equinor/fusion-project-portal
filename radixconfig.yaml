@@ -17,6 +17,8 @@ spec:
       variables:
         ASPNETCORE_URLS: "http://*:5000"
         AzureAd__ClientId: ""
+        Authenticator__ProjectPortalApiClientId: ""
+        Swagger__ClientId: ""
         FusionPortalApi__BaseAddress: ""
         FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
