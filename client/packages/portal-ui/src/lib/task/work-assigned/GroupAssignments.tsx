@@ -27,13 +27,11 @@ const StyledTaskItem = styled.a`
 
 interface GroupAssignmentsProps {
 	assignments: FusionTask[];
-	groupTitle: string;
 }
 
-export const GroupAssignments = ({ assignments, groupTitle }: GroupAssignmentsProps) => {
+export const GroupAssignments = ({ assignments }: GroupAssignmentsProps) => {
 	return (
 		<>
-			<h6>{groupTitle}</h6>
 			{assignments.map((assignment) => (
 				<StyledTaskItem key={assignment.id} href={assignment.url}>
 					<div>

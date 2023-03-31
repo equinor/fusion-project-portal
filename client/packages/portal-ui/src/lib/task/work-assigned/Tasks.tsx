@@ -1,10 +1,10 @@
-import { Autocomplete, Icon, Typography } from '@equinor/eds-core-react';
+import { Accordion, Autocomplete, Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { GroupAssignments } from './GroupAssignments';
-import { testTasks } from './mockTasks';
 import { FusionTask } from './types/fusion-task';
+import { useAssignment } from './use-assignment';
 
 const StyledKpiWrapper = styled.div`
 	display: flex;
@@ -34,63 +34,46 @@ const StyledAssignmentsList = styled.div`
 `;
 
 const StyledAssignmentsListWrapper = styled.div`
-	overflow: hidden;
 	height: 600px;
 `;
 
-const groupByOptions = [
-	'Category',
-	'CreatedBy',
-	'OwnerApplication',
-	'Priority',
-	'SourceSystem',
-	'State',
-	'TaskMode',
-	'Type',
-] as const;
+const StyledAccordianItem = styled(Accordion.Item)`
+	border: none;
+`;
 
-const getKey = (option: (typeof groupByOptions)[number]): ((task: FusionTask) => string) => {
-	switch (option) {
-		case 'Category':
-			return (task) => task.category;
-		case 'CreatedBy':
-			return (task) => task.createdBy;
-		case 'OwnerApplication':
-			return (task) => task.ownerApplication.title;
-		case 'Priority':
-			return (task) => task.priority;
-		case 'SourceSystem':
-			return (task) => task.sourceSystem.subSystem;
-		case 'State':
-			return (task) => task.state;
-		case 'TaskMode':
-			return (task) => task.taskMode;
-		case 'Type':
-			return (task) => task.state;
+const StyledAccordianHeader = styled(Accordion.Header)`
+	border: none;
+`;
 
-		default:
-			throw new Error();
-	}
+const StyledAccordianPanel = styled(Accordion.Panel)`
+	border: none;
+`;
+
+const groupOption = {
+	Category: (task: FusionTask) => task.category,
+	OwnerApplication: (task: FusionTask) => task.ownerApplication.title,
+	Priority: (task: FusionTask) => task.priority,
+	SourceSystem: (task: FusionTask) => task.sourceSystem.subSystem,
+	State: (task: FusionTask) => task.state,
+	TaskMode: (task: FusionTask) => task.taskMode,
+	Type: (task: FusionTask) => task.type,
 };
 
+const groupBy = (arr: FusionTask[], getKey: (task: FusionTask) => string) =>
+	arr.reduce((groups, item) => {
+		const key = getKey(item);
+		(groups[key] ||= []).push(item);
+		return groups;
+	}, {} as Record<PropertyKey, FusionTask[]>);
 interface TasksProps {
 	maxDisplay?: number;
 }
 
 export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
-	const [groupedBy, setGroupedBy] = useState<(typeof groupByOptions)[number]>('Category');
-	// const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
-	const assignments = testTasks;
+	const [groupedBy, setGroupedBy] = useState<keyof typeof groupOption>('Category');
+	const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
 
-	const groupBy = (arr: FusionTask[]) =>
-		arr.reduce((groups, item) => {
-			const key = getKey(groupedBy);
-			(groups[key(item)] ||= []).push(item);
-			return groups;
-		}, {} as Record<PropertyKey, FusionTask[]>);
-
-	const results = groupBy(assignments);
-	console.log(results);
+	const groupedAssignments = groupBy(assignments, groupOption[groupedBy]);
 
 	return (
 		<>
@@ -104,7 +87,7 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 				</StyledKpiItem>
 				<StyledKpiItem>
 					<Autocomplete
-						options={groupByOptions as unknown as string[]}
+						options={Object.keys(groupOption)}
 						autoWidth={true}
 						hideClearButton={true}
 						label={'Group by'}
@@ -115,9 +98,16 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 			</StyledKpiWrapper>
 			<StyledAssignmentsListWrapper>
 				<StyledAssignmentsList>
-					{Object.entries(results).map(([groupName, tasks]) => (
-						<GroupAssignments key={groupName} assignments={tasks} groupTitle={groupName} />
-					))}
+					<Accordion>
+						{Object.entries(groupedAssignments).map(([groupName, tasks]) => (
+							<StyledAccordianItem isExpanded>
+								<StyledAccordianHeader>{groupName}</StyledAccordianHeader>
+								<StyledAccordianPanel>
+									<GroupAssignments assignments={tasks} />
+								</StyledAccordianPanel>
+							</StyledAccordianItem>
+						))}
+					</Accordion>
 				</StyledAssignmentsList>
 			</StyledAssignmentsListWrapper>
 		</>
