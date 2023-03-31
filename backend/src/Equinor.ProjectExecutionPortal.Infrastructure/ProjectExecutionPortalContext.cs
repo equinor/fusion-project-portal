@@ -29,7 +29,6 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        //SetGlobalContextFilter(modelBuilder); // Enables context filter on all queries
     }
 
     public static DateTimeKindConverter DateTimeKindConverter { get; } = new();
@@ -77,8 +76,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 
         if (addedEntries.Any() || modifiedEntries.Any())
         {
-            //var currentUserOid = _currentUserProvider.GetCurrentUserOid();
-            var currentUserOid = new Guid("d42814c3-4d50-4099-9216-b02702cf7014");
+            var currentUserOid = _currentUserProvider.GetCurrentUserOid();
 
             foreach (var entry in addedEntries)
             {
