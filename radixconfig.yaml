@@ -6,7 +6,7 @@ spec:
   environments:
     - name: feature
       build:
-        from: radix
+        from: feature/*
     - name: test
       build:
         from: main
