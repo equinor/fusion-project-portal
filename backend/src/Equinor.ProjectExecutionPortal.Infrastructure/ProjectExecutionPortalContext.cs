@@ -12,18 +12,15 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure;
 
 public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 {
-    private readonly IContextProvider _contextProvider;
     private readonly IEventDispatcher _eventDispatcher;
     private readonly ICurrentUserProvider _currentUserProvider;
 
     public ProjectExecutionPortalContext(
         DbContextOptions<ProjectExecutionPortalContext> options,
-        IContextProvider contextProvider,
         IEventDispatcher eventDispatcher,
         ICurrentUserProvider currentUserProvider)
         : base(options)
     {
-        _contextProvider = contextProvider;
         _eventDispatcher = eventDispatcher;
         _currentUserProvider = currentUserProvider;
     }
@@ -43,11 +40,6 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public DbSet<AppGroup> AppGroups { get; set; }
     public DbSet<OnboardedApp> OnboardedApps { get; set; }
 
-    public void SetGlobalQueryFilter<T>(ModelBuilder builder) where T : ContextEntityBase =>
-        builder
-            .Entity<T>()
-            .HasQueryFilter(e => (e.ExternalId == _contextProvider.ExternalId && e.Type == _contextProvider.Type) || _contextProvider.IsCrossContextQuery);
-
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await DispatchEventsAsync(cancellationToken);
@@ -60,19 +52,6 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
         catch (DbUpdateConcurrencyException concurrencyException)
         {
             throw new ConcurrencyException("Data store operation failed. Data may have been modified or deleted since entities were loaded.", concurrencyException);
-        }
-    }
-
-    private void SetGlobalContextFilter(ModelBuilder modelBuilder)
-    {
-        // Set global query filter on entities inheriting from ContextEntityBase
-        // https://gunnarpeipman.com/ef-core-global-query-filters/
-        foreach (var type in TypeProvider.GetEntityTypes(typeof(IDomainMarker).GetTypeInfo().Assembly, typeof(ContextEntityBase)))
-        {
-            typeof(ProjectExecutionPortalContext)
-                .GetMethod(nameof(SetGlobalQueryFilter))
-                ?.MakeGenericMethod(type)
-                .Invoke(this, new object[] { modelBuilder });
         }
     }
 
