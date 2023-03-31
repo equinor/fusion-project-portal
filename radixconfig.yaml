@@ -83,3 +83,30 @@ spec:
             limits:
               memory: "2048Mi"
               cpu: "800m"
+        - environment: prod
+          identity:
+            azure:
+                clientId: 0520a73c-9d8c-433a-a8a4-188a1088761a
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-prod
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: Authenticator--ProjectPortalApiSecret
+                    type: secret
+                    envVar: Authenticator__ProjectPortalApiSecret
+                  - name: ConnectionStrings--ProjectPortalContext
+                    type: secret
+                    envVar: ConnectionStrings__ProjectPortalContext
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
