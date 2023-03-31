@@ -6,14 +6,16 @@ spec:
   environments:
     - name: feature
       build:
-        from: feature/*
+        from: feature/* # Any repo named feature/*whatever* will trigger this build
     - name: test
       build:
         from: main
     - name: prod
   components:
+
+# Backend API
     - name: backend
-      src: ./backend/src
+      src: ./backend/src # Dockerfile location
       variables:
         ASPNETCORE_URLS: "http://*:5000"
         AzureAd__ClientId: ""
@@ -101,6 +103,88 @@ spec:
                   - name: ConnectionStrings--ProjectPortalContext
                     type: secret
                     envVar: ConnectionStrings__ProjectPortalContext
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+
+# Web Server (client backend)
+# TODO: We currently refer to AppRegs, KeyVaults for the Backend API. We need separate resources.
+    - name: webserver
+      src: .
+      dockerfileName: clientBackend.Dockerfile
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        AzureAd__ClientId: ""
+        FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__TokenScope: ""
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: feature
+          identity:
+            azure:
+                clientId: a2d39bc8-9295-4334-ab21-603526e018e5
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-feature
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: test
+          identity:
+            azure:
+                clientId: b25cacc1-d1ec-4b2a-b215-deabb25f9a46
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-test
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: prod
+          identity:
+            azure:
+                clientId: 0520a73c-9d8c-433a-a8a4-188a1088761a
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-prod
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
           replicas: 1
           monitoring: true
           resources:
