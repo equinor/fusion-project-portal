@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.WebApi;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
+using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation.AspNetCore;
 using Fusion.Integration;
 using Fusion.Integration.Http;
@@ -145,6 +146,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseMiddleware<CurrentUserMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
