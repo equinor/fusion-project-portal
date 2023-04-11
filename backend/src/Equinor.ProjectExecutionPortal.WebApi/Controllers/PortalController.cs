@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
+using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
 
             return new ApiPortal(portalDto);
+        }
+
+        // TODO: Used mainly during development. Remove afterwards
+        [HttpGet("fusion/{externalId}")]
+        public async Task<ActionResult<FusionContext>> GetFusionContext(string externalId)
+        {
+            // External id eg: FC5FFCBC-392F-4D7E-BB14-79A006579337
+            var contextIdentifier = ContextIdentifier.FromExternalId(externalId);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+            if (context == null)
+            {
+                return FusionApiError.NotFound(externalId, "Could not find context by external id");
+            }
+
+            return context;
         }
     }
 }
