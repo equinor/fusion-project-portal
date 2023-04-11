@@ -5,6 +5,7 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Fusion.Infrastructure.HttpClientNames;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -40,6 +41,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpPost("")]
         public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
         {
+            var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+            if (context == null)
+            {
+                return FusionApiError.NotFound(request.ExternalId, "Could not find any context with that external id");
+            }
+
             return await Mediator.Send(request.ToCommand());
         }
 
