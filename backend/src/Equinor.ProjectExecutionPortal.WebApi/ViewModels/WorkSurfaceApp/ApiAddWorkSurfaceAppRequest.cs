@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddWorkSurfaceApp;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddContextWorkSurfaceApp;
+using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddGlobalWorkSurfaceApp;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
@@ -7,9 +8,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
     {
         public string AppKey { get; set; }
 
-        public AddWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string? contextExternalId, string? contextType)
+        public AddContextWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string? contextExternalId, string? contextType)
         {
-            return new AddWorkSurfaceAppCommand(workSurfaceId, contextExternalId, contextType, AppKey);
+            return new AddContextWorkSurfaceAppCommand(workSurfaceId, contextExternalId, contextType, AppKey);
+        }
+
+        public AddGlobalWorkSurfaceAppCommand ToCommand(Guid workSurfaceId)
+        {
+            return new AddGlobalWorkSurfaceAppCommand(workSurfaceId, AppKey);
         }
 
         public class AddWorkSurfaceAppRequestValidator : AbstractValidator<ApiAddWorkSurfaceAppRequest>

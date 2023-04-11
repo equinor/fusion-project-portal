@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithContextApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithGlobalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
@@ -71,9 +72,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
             }
-
-            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithAppsQuery(workSurfaceId, contextExternalId));
-
+            
+            var appGroupsDto = contextExternalId != null ? 
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAppsQuery(workSurfaceId, contextExternalId)) : 
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
+            
             return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList();
         }
 
@@ -83,7 +86,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             if (contextExternalId == null)
             {
-                await Mediator.Send(request.ToCommand(workSurfaceId, null, null));
+                await Mediator.Send(request.ToCommand(workSurfaceId));
             }
             else
             {
