@@ -1,4 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +41,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
 
             return context;
+        }
+
+        [HttpGet("fusion/apps")]
+        public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionPortalApiService fusionPortalApiService)
+        {
+            try
+            {
+                var apps = await fusionPortalApiService.TryGetFusionPortalApps();
+
+                return apps.ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
