@@ -1,4 +1,3 @@
-export * from './app';
 export * from './list-modifiers';
 export * from './response-error-parser';
 export * from './rxjs';

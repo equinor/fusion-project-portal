@@ -5,7 +5,7 @@ import { moveItemToTopByIndex, storage } from '@equinor/portal-utils';
 const CONTEXT_HISTORY_SOCAGE_KEY = 'contextHistory';
 const CONTEXT_HISTORY_LENGTH_KEY = 'contextHistoryLength';
 
-let CONTEXT_HISTORY_LENGTH = 5;
+const CONTEXT_HISTORY_LENGTH = 5;
 
 type ContextHistoryItem = ContextItem<Record<string, unknown>>;
 

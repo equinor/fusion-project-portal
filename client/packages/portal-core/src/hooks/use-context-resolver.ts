@@ -1,137 +1,124 @@
-import context from '@equinor/fusion-framework-module-services/context';
-import ContextApiClient from '@equinor/fusion-framework-module-services/context';
 import { QueryContextResponse } from '@equinor/fusion-framework-module-services/context/query';
-import {
-  ContextResolver,
-  ContextResult,
-  ContextResultItem,
-} from '@equinor/fusion-react-context-selector';
+import { ContextResolver, ContextResult, ContextResultItem } from '@equinor/fusion-react-context-selector';
 import { useCallback } from 'react';
 import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 import { useFrameworkContext } from './use-framework-context';
-ContextApiClient;
+
 export const useContextResolver = (type: string[]): ContextResolver => {
-  const contextProvider = useFrameworkContext();
+	const contextProvider = useFrameworkContext();
 
-  const client = useContextClient('json');
-  const minQueryLength = 3;
+	const client = useContextClient('json');
+	const minQueryLength = 3;
 
-  const searchQuery = useCallback(
-    async (search: string): Promise<ContextResult> => {
-      let searchResult: ContextResult = [];
-      if (!client) {
-        return [
-          singleItem({
-            title: 'Client Error',
-            subTitle: 'No client provided to framework',
-            isDisabled: true,
-            isError: true,
-          }),
-        ];
-      }
+	const searchQuery = useCallback(
+		async (search: string): Promise<ContextResult> => {
+			let searchResult: ContextResult = [];
+			if (!client) {
+				return [
+					singleItem({
+						title: 'Client Error',
+						subTitle: 'No client provided to framework',
+						isDisabled: true,
+						isError: true,
+					}),
+				];
+			}
 
-      try {
-        if (!search || search.length < minQueryLength) {
-          searchResult.push(
-            singleItem({
-              title: `Need ${minQueryLength - search.length} more chars`,
-              isDisabled: true,
-            })
-          );
-          return searchResult;
-        }
+			try {
+				if (!search || search.length < minQueryLength) {
+					searchResult.push(
+						singleItem({
+							title: `Need ${minQueryLength - search.length} more chars`,
+							isDisabled: true,
+						})
+					);
+					return searchResult;
+				}
 
-        const contexts = await client.query('v1', {
-          query: { search, filter: { type } },
-        });
+				const contexts = await client.query('v1', {
+					query: { search, filter: { type } },
+				});
 
-        if (!contexts[0].id) return searchResult
-        // Structure as type
+				if (!contexts[0].id) return searchResult;
+				// Structure as type
 
-        searchResult =
-          type.length > 1
-            ? contextResultMappedByTypes(contexts)
-            : contextResultMapped(contexts);
+				searchResult = type.length > 1 ? contextResultMappedByTypes(contexts) : contextResultMapped(contexts);
 
-        if (searchResult.length === 0) {
-          searchResult.push(
-            singleItem({ title: 'No matches...', isDisabled: true })
-          );
-        }
+				if (searchResult.length === 0) {
+					searchResult.push(singleItem({ title: 'No matches...', isDisabled: true }));
+				}
 
-        return searchResult;
-      } catch (e) {
-        return [
-          singleItem({
-            title: 'API Error',
-            subTitle: e,
-            isDisabled: true,
-            isError: true,
-          }),
-        ];
-      }
-    },
-    [client]
-  );
+				return searchResult;
+			} catch (e) {
+				return [
+					singleItem({
+						title: 'API Error',
+						subTitle: e,
+						isDisabled: true,
+						isError: true,
+					}),
+				];
+			}
+		},
+		[client, type]
+	);
 
-  const children = getContextHistory()
+	const children = getContextHistory();
 
-  return {
-    searchQuery,
-    initialResult: children.length > 0 ? [singleItem({
-      id: 'history',
-      title: 'History',
-      type: 'section',
-      children,
-    })] : [],
-    closeHandler: (e: MouseEvent) => {
-      e.stopPropagation();
-      contextProvider.clearCurrentContext();
-    },
-  };
+	const historyItems = {
+		id: 'history',
+		title: 'History',
+		type: 'section',
+		children,
+	};
+
+	return {
+		searchQuery,
+		initialResult: children.length > 0 ? [singleItem(historyItems)] : [],
+		closeHandler: (e: MouseEvent) => {
+			e.stopPropagation();
+			contextProvider.clearCurrentContext();
+		},
+	};
 };
 
 const singleItem = (props: unknown): ContextResultItem => {
-  return Object.assign({ id: '0', title: 'Dummy title' }, props);
+	return Object.assign({ id: '0', title: 'Dummy title' }, props);
 };
 
-function contextResultMappedByTypes(
-  contexts: QueryContextResponse<'v1'>
-): ContextResult {
-  return contexts.reduce((result, context) => {
-    const index = result.findIndex((r) => r.title === context.type.id);
-    if (index === -1) {
-      result.push(
-        singleItem({
-          id: context.type.id,
-          title: context.type.id,
-          type: 'section',
-          children: [singleItem({ id: context.id, title: context.title!, subTitle: context.type?.id })],
-        })
-      );
-      return result;
-    }
+function contextResultMappedByTypes(contexts: QueryContextResponse<'v1'>): ContextResult {
+	return contexts.reduce((result, context) => {
+		const index = result.findIndex((r) => r.title === context.type.id);
+		if (index === -1) {
+			result.push(
+				singleItem({
+					id: context.type.id,
+					title: context.type.id,
+					type: 'section',
+					children: [singleItem({ id: context.id, title: context.title || '', subTitle: context.type?.id })],
+				})
+			);
+			return result;
+		}
 
-    result[index].children?.push(
-      singleItem({
-        id: context.id,
-        title: context.title!,
-      })
-    );
+		result[index].children?.push(
+			singleItem({
+				id: context.id,
+				title: context.title || '',
+			})
+		);
 
-    return result;
-  }, [] as ContextResult);
+		return result;
+	}, [] as ContextResult);
 }
 
-function contextResultMapped(
-  contexts: QueryContextResponse<'v1'>
-): ContextResult {
-  return contexts.map((context) =>
-    singleItem({
-      id: context.id,
-      title: context.title!,
-      subTitle: context.type?.id
-    })
-  );
+function contextResultMapped(contexts: QueryContextResponse<'v1'>): ContextResult {
+	return contexts.map((context) =>
+		singleItem({
+			id: context.id,
+			title: context.title || '',
+			subTitle: context.type?.id,
+		})
+	);
 }

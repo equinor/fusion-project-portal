@@ -18,12 +18,12 @@ export const TopBarAvatar = (): JSX.Element | null => {
   }
 
   if (error || !data)
-    return (
+    {return (
       <Icon
         color={tokens.colors.interactive.warning__resting.hex}
         name="error_outlined"
       />
-    );
+    );}
 
   const presenceInfo = getPresenceInfo(data.availability);
   return (
