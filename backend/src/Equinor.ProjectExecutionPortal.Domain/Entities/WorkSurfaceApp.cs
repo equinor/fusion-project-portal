@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
-/// The shared Portal Application base that all applications should inherit from
+/// The Work Surface App is the link between a Work Surface, an onboarded app and an onboarded context
 /// </summary>
 public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificationAuditable
 {

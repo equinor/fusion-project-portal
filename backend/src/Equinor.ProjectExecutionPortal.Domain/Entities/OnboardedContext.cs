@@ -25,8 +25,8 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
     }
 
     public string ExternalId { get; }
-    public string Type { get; } // Is this necessary?
-    public string? Title { get; set; } // Could this change? Should perhaps be fetched from Fusion Context resolver.
+    public string Type { get; } // TODO: Necessary? Type can alternatively be resolved by Fusion Context
+    public string? Title { get; set; } // TODO: Could this change? Should perhaps be fetched from Fusion Context resolver.
     public string? Description { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();

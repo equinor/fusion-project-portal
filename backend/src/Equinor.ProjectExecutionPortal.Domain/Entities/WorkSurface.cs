@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
-/// The portal master object which ties all relevant portal data together
+/// The Work Surface functions as a container for all apps and related information about a specific phase
 /// </summary>
 public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
