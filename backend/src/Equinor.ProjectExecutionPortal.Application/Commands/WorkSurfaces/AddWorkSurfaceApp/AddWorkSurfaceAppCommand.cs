@@ -83,13 +83,12 @@ public class AddWorkSurfaceAppCommand : IRequest<Unit>
                 throw new InvalidActionException($"Cannot add global app '{command.AppKey} to '{command.WorkSurfaceId}'. Missing context parameters.");
             }
 
-            var workSurfaceWithContextApps = await _readWriteContext.Set<WorkSurface>()
-                .Include(x => x.Apps.Where(app => app.ExternalId == command.ContextExternalId))
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+            var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
+                .FirstOrDefaultAsync(x => x.ExternalId == command.ContextExternalId, cancellationToken);
 
-            if (workSurfaceWithContextApps == null)
+            if (onboardedContext == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(OnboardedContext), command.ContextExternalId);
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
@@ -101,12 +100,21 @@ public class AddWorkSurfaceAppCommand : IRequest<Unit>
                 throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
             }
 
+            var workSurfaceWithContextApps = await _readWriteContext.Set<WorkSurface>()
+                .Include(x => x.Apps.Where(app => app.ExternalId == command.ContextExternalId))
+                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+
+            if (workSurfaceWithContextApps == null)
+            {
+                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+            }
+
             if (workSurfaceWithContextApps.Apps.Any(x => x.OnboardedAppId == onboardedApp.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, command.ContextExternalId, command.ContextType);
+            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);
 
             workSurfaceWithContextApps.AddApp(workSurfaceApp);
         }

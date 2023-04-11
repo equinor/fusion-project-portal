@@ -35,7 +35,8 @@ public class OnboardContextCommand : IRequest<string>
                 throw new InvalidActionException($"Onboarded context: {command.ExternalId} is already onboarded");
             }
 
-            var onboardedContext = new OnboardedContext(command.ExternalId, null, null);
+            // TODO: Resolve type
+            var onboardedContext = new OnboardedContext(command.ExternalId, "type", null, null);
 
             await _readWriteContext.Set<OnboardedContext>().AddAsync(onboardedContext, cancellationToken);
             await _readWriteContext.SaveChangesAsync(cancellationToken);

@@ -16,6 +16,15 @@ public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificati
         WorkSurfaceId = workSurfaceId;
     }
 
+    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, Guid onboardedContextId, bool isHidden = false)
+        : base(null, null)
+    {
+        OnboardedAppId = onboardedAppId;
+        IsHidden = isHidden;
+        WorkSurfaceId = workSurfaceId;
+        OnboardedContextId = onboardedContextId;
+    }
+
     public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, bool isHidden = false) : base(null, null)
     {
         OnboardedAppId = onboardedAppId;
@@ -30,4 +39,7 @@ public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificati
     
     public Guid WorkSurfaceId { get; set; }
     public WorkSurface WorkSurface { get; set; }
+
+    public Guid? OnboardedContextId { get; set; }
+    public OnboardedContext? OnboardedContext { get; set; }
 }
