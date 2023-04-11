@@ -8,12 +8,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedContexts.
 
 public class OnboardContextCommand : IRequest<string>
 {
-    public OnboardContextCommand(string externalId)
+    public OnboardContextCommand(string externalId, string description)
     {
         ExternalId = externalId;
+        Description = description;
     }
 
     public string ExternalId { get; }
+    public string Description { get; }
 
     public class Handler : IRequestHandler<OnboardContextCommand, string>
     {
@@ -36,7 +38,7 @@ public class OnboardContextCommand : IRequest<string>
             }
 
             // TODO: Resolve type
-            var onboardedContext = new OnboardedContext(command.ExternalId, "type", null, null);
+            var onboardedContext = new OnboardedContext(command.ExternalId, "type", null, command.Description);
 
             await _readWriteContext.Set<OnboardedContext>().AddAsync(onboardedContext, cancellationToken);
             await _readWriteContext.SaveChangesAsync(cancellationToken);

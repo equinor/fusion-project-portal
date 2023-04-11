@@ -6,11 +6,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
     public class ApiOnboardContextRequest
     {
         public string ExternalId { get; set; }
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public OnboardContextCommand ToCommand()
         {
-            return new OnboardContextCommand(ExternalId);
+            return new OnboardContextCommand(ExternalId, Description);
         }
 
         public class OnboardContextRequestValidator : AbstractValidator<ApiOnboardContextRequest>
