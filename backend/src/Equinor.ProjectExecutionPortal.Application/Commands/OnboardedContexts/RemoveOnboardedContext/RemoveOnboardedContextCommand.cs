@@ -27,11 +27,17 @@ public class RemoveOnboardedContextCommand : IRequest
         public async Task<Unit> Handle(RemoveOnboardedContextCommand command, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<OnboardedContext>()
+                .Include(x => x.Apps)
                 .SingleOrDefaultAsync(onboardedContext => onboardedContext.ExternalId == command.ExternalId, cancellationToken);
 
             if (entity == null)
             {
                 throw new NotFoundException(nameof(OnboardedContext), command.ExternalId);
+            }
+
+            if (entity.Apps.Any())
+            {
+                throw new InvalidActionException("Cannot remove onboarded context. Context have onboarded apps.");
             }
 
             _context.Set<OnboardedContext>().Remove(entity);

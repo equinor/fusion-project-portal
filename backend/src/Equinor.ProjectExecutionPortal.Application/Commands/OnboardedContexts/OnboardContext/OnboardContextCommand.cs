@@ -8,14 +8,16 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedContexts.
 
 public class OnboardContextCommand : IRequest<string>
 {
-    public OnboardContextCommand(string externalId, string description)
+    public OnboardContextCommand(string externalId, string type, string? description)
     {
         ExternalId = externalId;
+        Type = type;
         Description = description;
     }
 
     public string ExternalId { get; }
-    public string Description { get; }
+    public string Type { get; }
+    public string? Description { get; }
 
     public class Handler : IRequestHandler<OnboardContextCommand, string>
     {
@@ -37,8 +39,7 @@ public class OnboardContextCommand : IRequest<string>
                 throw new InvalidActionException($"Onboarded context: {command.ExternalId} is already onboarded");
             }
 
-            // TODO: Resolve type
-            var onboardedContext = new OnboardedContext(command.ExternalId, "type", null, command.Description);
+            var onboardedContext = new OnboardedContext(command.ExternalId, command.Type, null, command.Description);
 
             await _readWriteContext.Set<OnboardedContext>().AddAsync(onboardedContext, cancellationToken);
             await _readWriteContext.SaveChangesAsync(cancellationToken);

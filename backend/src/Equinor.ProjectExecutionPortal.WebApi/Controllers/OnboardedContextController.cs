@@ -5,7 +5,6 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Fusion.Infrastructure.HttpClientNames;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -14,9 +13,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     [Route("api/onboarded-contexts")]
     public class OnboardedContextController : ApiControllerBase
     {
-        // TODO: Onboard contexts, update context w. description field, remove onboarded context.
-        // Then validate onboarded context same as onboarded app is.
-
         [HttpGet("")]
         public async Task<ActionResult<IList<ApiOnboardedContext>>> OboardedContexts()
         {
@@ -44,12 +40,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
             var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-            if (context == null)
+            if (context == null || context.ExternalId == null)
             {
                 return FusionApiError.NotFound(request.ExternalId, "Could not find any context with that external id");
             }
 
-            return await Mediator.Send(request.ToCommand());
+            return await Mediator.Send(request.ToCommand(context.ExternalId, context.Type));
         }
 
         [HttpPut("{externalContextId}")]

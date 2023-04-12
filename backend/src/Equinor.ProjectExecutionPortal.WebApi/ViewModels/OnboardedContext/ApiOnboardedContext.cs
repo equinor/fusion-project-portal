@@ -8,13 +8,15 @@
 
         public ApiOnboardedContext(OnboardedContextDto onboardedAppDto)
         {
+            Id = onboardedAppDto.Id;
             ExternalId = onboardedAppDto.ExternalId;
-            Title = onboardedAppDto.Title;
+            Type = onboardedAppDto.Type;
             Description = onboardedAppDto.Description;
         }
 
+        public Guid Id { get; set; }
         public string ExternalId { get; set; }
-        public string? Title { get; set; }
+        public string Type { get; set; }
         public string? Description { get; set; }
     }
 }
