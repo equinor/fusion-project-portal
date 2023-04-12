@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
     public static class ApplicationDbContextExtension
     {
         private const string SeederOid = "00000000-0000-0000-0000-999999999999";
-
+        
         public static void CreateNewDatabaseWithCorrectSchema(this ProjectExecutionPortalContext dbContext)
         {
             //var migrations = dbContext.Database.GetPendingMigrations();
@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             //    dbContext.Database.Migrate();
             //}
         }
-
+        
         public static void Seed(this ProjectExecutionPortalContext dbContext, IServiceProvider serviceProvider)
         {
             var userProvider = serviceProvider.GetRequiredService<CurrentUserProvider>();
@@ -45,7 +45,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             dbContext.Add(portal);
             dbContext.SaveChanges();
 
-
             // Add apps groups
 
             var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
@@ -65,8 +64,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
             var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
 
-            //dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
-
             appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
             appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
 
@@ -81,10 +78,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             // Add onboarded contexts
 
             var jcaContext = OnboardedContextsData.InitialSeedData.JcaContext;
+            var ogpContext = OnboardedContextsData.InitialSeedData.OgpContext;
 
-            dbContext.Add(jcaContext);
+            dbContext.AddRange(jcaContext, ogpContext);
             dbContext.SaveChanges();
-            
+
             // Add apps to work surface
 
             var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, workSurfaceWithApps.Id);
@@ -93,11 +91,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
             var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
-            var anotherContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+
+            var ogpContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id, ogpContext.Id);
 
             // Add context specific apps to work surfaces
 
-            dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, anotherContextWorkOrderGardenApp);
+            dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, ogpContextWorkOrderGardenApp);
             dbContext.SaveChanges();
         }
     }
