@@ -134,10 +134,10 @@ spec:
         - environment: feature
           identity:
             azure:
-                clientId: a2d39bc8-9295-4334-ab21-603526e018e5
+                clientId: 2440e826-7642-4862-be77-2ce311780ac6
           secretRefs:
             azureKeyVaults:
-              - name: kv-pep-api-noe-feature
+              - name: kv-pep-ws-noe-feature
                 path: /mnt/key-vault
                 items:
                   - name: AzureAd--ClientSecret
@@ -155,10 +155,10 @@ spec:
         - environment: test
           identity:
             azure:
-                clientId: b25cacc1-d1ec-4b2a-b215-deabb25f9a46
+                clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
           secretRefs:
             azureKeyVaults:
-              - name: kv-pep-api-noe-test
+              - name: kv-pep-ws-noe-test
                 path: /mnt/key-vault
                 items:
                   - name: AzureAd--ClientSecret
@@ -176,10 +176,10 @@ spec:
         - environment: prod
           identity:
             azure:
-                clientId: 0520a73c-9d8c-433a-a8a4-188a1088761a
+                clientId: d4f30a66-e05b-4e17-bab2-6dd43b1ef91b
           secretRefs:
             azureKeyVaults:
-              - name: kv-pep-api-noe-prod
+              - name: kv-pep-ws-noe-prod
                 path: /mnt/key-vault
                 items:
                   - name: AzureAd--ClientSecret
