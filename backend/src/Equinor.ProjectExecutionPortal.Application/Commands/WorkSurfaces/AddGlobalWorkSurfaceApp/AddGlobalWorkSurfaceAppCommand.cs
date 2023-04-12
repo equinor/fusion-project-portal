@@ -29,7 +29,7 @@ public class AddGlobalWorkSurfaceAppCommand : IRequest<Unit>
         public async Task<Unit> Handle(AddGlobalWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
             var workSurfaceWithGlobalApps = await _readWriteContext.Set<WorkSurface>()
-                .Include(x => x.Apps.Where(app => app.ExternalId == null))
+                .Include(x => x.Apps.Where(app => app.OnboardedContextId == null))
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurfaceWithGlobalApps == null)

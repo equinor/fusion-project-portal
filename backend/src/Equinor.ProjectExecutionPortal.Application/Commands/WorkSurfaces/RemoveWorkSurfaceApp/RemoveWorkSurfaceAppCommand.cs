@@ -46,38 +46,40 @@ public class RemoveWorkSurfaceAppCommand : IRequest
 
         private async Task RemoveGlobalAppFromWorkSurface(Guid workSurfaceId, string appKey, CancellationToken cancellationToken)
         {
-            var entity = await _readWriteContext.Set<WorkSurfaceApp>()
+            var workSurfaceApp = await _readWriteContext.Set<WorkSurfaceApp>()
                 .Include(x => x.OnboardedApp)
                 .FirstOrDefaultAsync(x =>
                         x.WorkSurfaceId == workSurfaceId
-                        && x.ExternalId == null
+                        && x.OnboardedContextId == null
                         && x.OnboardedApp.AppKey == appKey,
                     cancellationToken);
 
-            if (entity == null)
+            if (workSurfaceApp == null)
             {
                 throw new NotFoundException(nameof(WorkSurfaceApp), appKey);
             }
 
-            _readWriteContext.Set<WorkSurfaceApp>().Remove(entity);
+            _readWriteContext.Set<WorkSurfaceApp>().Remove(workSurfaceApp);
         }
 
         private async Task RemoveContextAppFromWorkSurface(Guid workSurfaceId, string externalContextId, string appKey, CancellationToken cancellationToken)
         {
-            var entity = await _readWriteContext.Set<WorkSurfaceApp>()
+            var workSurfaceApp = await _readWriteContext.Set<WorkSurfaceApp>()
             .Include(x => x.OnboardedApp)
+            .Include(x => x.OnboardedContext)
             .FirstOrDefaultAsync(x =>
-                        x.WorkSurfaceId == workSurfaceId
-                        && x.ExternalId == externalContextId
+                        x.OnboardedContext != null
+                        && x.WorkSurfaceId == workSurfaceId
+                        && x.OnboardedContext.ExternalId == externalContextId
                         && x.OnboardedApp.AppKey == appKey,
                 cancellationToken);
 
-            if (entity == null)
+            if (workSurfaceApp == null)
             {
                 throw new NotFoundException(nameof(WorkSurfaceApp), appKey);
             }
 
-            _readWriteContext.Set<WorkSurfaceApp>().Remove(entity);
+            _readWriteContext.Set<WorkSurfaceApp>().Remove(workSurfaceApp);
         }
     }
 }

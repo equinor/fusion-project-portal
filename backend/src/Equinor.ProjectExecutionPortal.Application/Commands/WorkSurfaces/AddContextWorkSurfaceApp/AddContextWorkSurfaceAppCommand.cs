@@ -55,7 +55,9 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
             }
 
             var workSurfaceWithContextApps = await _readWriteContext.Set<WorkSurface>()
-                .Include(x => x.Apps.Where(app => app.ExternalId == command.ContextExternalId))
+                //.Include(x => x.Apps).ThenInclude(x => x.OnboardedContext) TODO: Check if sub include must be performed
+                .Include(x => x.Apps
+                    .Where(app => app.OnboardedContext != null && app.OnboardedContext.ExternalId == command.ContextExternalId))
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurfaceWithContextApps == null)
