@@ -31,9 +31,6 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
 
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
 
-    // TODO: Consider replacing ContextEntityBase with this, making it a direct relation
-    // TODO: Image upload
-
     public void Update(string? description)
     {
         Description = description;

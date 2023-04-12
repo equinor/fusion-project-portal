@@ -28,9 +28,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpDelete("{appKey}")]
         public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
         {
-            // TODO: Removing should come with a warning. E.g highlight affected work surfaces and contexts
-
             var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
+
             await Mediator.Send(request.ToCommand());
 
             return NoContent();
