@@ -95,7 +95,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
 
             // Act
-            var appGroups = await AssertGetAppsForWorksurface(workSurfaceToTest!.Id, FusionContextData.InitialSeedData.JcaExternalContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var appGroups = await AssertGetAppsForWorksurface(workSurfaceToTest!.Id, FusionContextData.InitialSeedData.JcaContextExternalId, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(appGroups);
@@ -133,7 +133,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForWorkSurface_WithValidContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var appGroups = await AssertGetAppsForWorksurface(new Guid(), FusionContextData.InitialSeedData.JcaExternalContextId, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var appGroups = await AssertGetAppsForWorksurface(new Guid(), FusionContextData.InitialSeedData.JcaContextExternalId, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(appGroups);
@@ -191,10 +191,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return workSurface;
         }
 
-        private static async Task<IList<ApiWorkSurfaceAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? externalContextId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiWorkSurfaceAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? contextExternalId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
-            var response = await GetAppsForWorksurface(workSurfaceId, externalContextId, userType);
+            var response = await GetAppsForWorksurface(workSurfaceId, contextExternalId, userType);
             var content = await response.Content.ReadAsStringAsync();
             var appGroups = JsonConvert.DeserializeObject<IList<ApiWorkSurfaceAppGroupWithApps>>(content);
 

@@ -21,14 +21,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return onboardedContextsDto.Select(onboardedContextDto => new ApiOnboardedContext(onboardedContextDto)).ToList();
         }
 
-        [HttpGet("{externalContextId}")]
-        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string externalContextId)
+        [HttpGet("{contextExternalId}")]
+        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string contextExternalId)
         {
-            var onboardedContext = await Mediator.Send(new GetOnboardedContextQuery(externalContextId));
+            var onboardedContext = await Mediator.Send(new GetOnboardedContextQuery(contextExternalId));
 
             if (onboardedContext == null)
             {
-                return FusionApiError.NotFound(externalContextId, "Could not find onboarded context");
+                return FusionApiError.NotFound(contextExternalId, "Could not find onboarded context");
             }
 
             return new ApiOnboardedContext(onboardedContext);
@@ -48,16 +48,16 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return await Mediator.Send(request.ToCommand(context.ExternalId, context.Type));
         }
 
-        [HttpPut("{externalContextId}")]
-        public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] string externalContextId, [FromBody] ApiUpdateOnboardedContextRequest request)
+        [HttpPut("{contextExternalId}")]
+        public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] string contextExternalId, [FromBody] ApiUpdateOnboardedContextRequest request)
         {
-            return await Mediator.Send(request.ToCommand(externalContextId));
+            return await Mediator.Send(request.ToCommand(contextExternalId));
         }
 
-        [HttpDelete("{externalContextId}")]
-        public async Task<ActionResult> RemoveOnboardedContext([FromRoute] string externalContextId)
+        [HttpDelete("{contextExternalId}")]
+        public async Task<ActionResult> RemoveOnboardedContext([FromRoute] string contextExternalId)
         {
-            var request = new ApiRemoveOnboardedContextRequest { ExternalId = externalContextId };
+            var request = new ApiRemoveOnboardedContextRequest { ExternalId = contextExternalId };
             await Mediator.Send(request.ToCommand());
 
             return NoContent();
