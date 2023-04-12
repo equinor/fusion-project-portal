@@ -72,11 +72,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
             }
-            
-            var appGroupsDto = contextExternalId != null ? 
-                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId)) : 
+
+            var appGroupsDto = contextExternalId != null ?
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId)) :
                 await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
-            
+
             return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList();
         }
 
@@ -109,6 +109,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
+            var request = new ApiRemoveWorkSurfaceAppRequest();
 
             if (contextExternalId != null)
             {
@@ -119,10 +120,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
-            }
 
-            var request = new ApiRemoveWorkSurfaceAppRequest();
-            await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
+                await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
+            }
+            else
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
+            }
 
             return NoContent();
         }
