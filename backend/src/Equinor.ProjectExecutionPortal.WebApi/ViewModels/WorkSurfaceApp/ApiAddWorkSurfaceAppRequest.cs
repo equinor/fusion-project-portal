@@ -8,9 +8,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
     {
         public string AppKey { get; set; }
 
-        public AddContextWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string? contextExternalId, string? contextType)
+        public AddContextWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string? contextExternalId)
         {
-            return new AddContextWorkSurfaceAppCommand(workSurfaceId, contextExternalId, contextType, AppKey);
+            return new AddContextWorkSurfaceAppCommand(workSurfaceId, contextExternalId, AppKey);
         }
 
         public AddGlobalWorkSurfaceAppCommand ToCommand(Guid workSurfaceId)

@@ -98,7 +98,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
 
-                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, context.Type));
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
             }
 
             return NoContent();

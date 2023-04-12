@@ -8,17 +8,15 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddCo
 
 public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
 {
-    public AddContextWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string? contextType, string appKey)
+    public AddContextWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
-        ContextType = contextType;
         AppKey = appKey;
     }
 
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
-    public string? ContextType { get; }
     public string AppKey { get; }
 
     public class Handler : IRequestHandler<AddContextWorkSurfaceAppCommand, Unit>
@@ -32,7 +30,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(AddContextWorkSurfaceAppCommand command, CancellationToken cancellationToken)
         {
-            if (command.ContextExternalId == null || command.ContextType == null)
+            if (command.ContextExternalId == null)
             {
                 throw new InvalidActionException($"Cannot add global app '{command.AppKey} to '{command.WorkSurfaceId}'. Missing context parameters.");
             }
