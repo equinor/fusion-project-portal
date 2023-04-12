@@ -38,6 +38,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
             }
 
             var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ExternalId == command.ContextExternalId, cancellationToken);
 
             if (onboardedContext == null)
@@ -55,9 +56,9 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
             }
 
             var workSurfaceWithContextApps = await _readWriteContext.Set<WorkSurface>()
-                //.Include(x => x.Apps).ThenInclude(x => x.OnboardedContext) TODO: Check if sub include must be performed
                 .Include(x => x.Apps
-                    .Where(app => app.OnboardedContext != null && app.OnboardedContext.ExternalId == command.ContextExternalId))
+                    .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.ExternalId == command.ContextExternalId))
+                    .ThenInclude(x => x.OnboardedContext)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurfaceWithContextApps == null)
@@ -67,7 +68,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
 
             if (workSurfaceWithContextApps.Apps.Any(x => x.OnboardedAppId == onboardedApp.Id))
             {
-                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
+                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface. Either globally or with the supplied context");
             }
 
             var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);

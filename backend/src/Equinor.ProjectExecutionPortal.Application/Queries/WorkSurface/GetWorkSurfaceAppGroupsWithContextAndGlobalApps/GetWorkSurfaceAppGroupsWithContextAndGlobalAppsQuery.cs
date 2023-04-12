@@ -7,11 +7,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithContextApps;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
 
-public class GetWorkSurfaceAppGroupsWithContextAppsQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>>
+public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>>
 {
-    public GetWorkSurfaceAppGroupsWithContextAppsQuery(Guid workSurfaceId, string? contextExternalId)
+    public GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(Guid workSurfaceId, string? contextExternalId)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
@@ -20,7 +20,7 @@ public class GetWorkSurfaceAppGroupsWithContextAppsQuery : QueryBase<IList<WorkS
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithContextAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>>
+    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
@@ -33,7 +33,7 @@ public class GetWorkSurfaceAppGroupsWithContextAppsQuery : QueryBase<IList<WorkS
             _workSurfaceService = workSurfaceService;
         }
 
-        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppGroupsWithContextAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery request, CancellationToken cancellationToken)
         {
             var workSurface = await _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()

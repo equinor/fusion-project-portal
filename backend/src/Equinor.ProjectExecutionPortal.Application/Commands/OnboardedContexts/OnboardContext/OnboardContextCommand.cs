@@ -36,7 +36,7 @@ public class OnboardContextCommand : IRequest<string>
 
             if (existingOnboardedContext != null)
             {
-                throw new InvalidActionException($"Onboarded context: {command.ExternalId} is already onboarded");
+                throw new InvalidActionException($"Context: '{command.ExternalId}' is already onboarded");
             }
 
             var onboardedContext = new OnboardedContext(command.ExternalId, command.Type, null, command.Description);
