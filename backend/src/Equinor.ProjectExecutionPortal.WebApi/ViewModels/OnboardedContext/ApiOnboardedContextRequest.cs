@@ -6,7 +6,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
     public class ApiOnboardContextRequest
     {
         public string ExternalId { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public OnboardContextCommand ToCommand(string externalId, string type)
         {
