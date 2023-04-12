@@ -82,6 +82,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             var jcaContext = OnboardedContextsData.InitialSeedData.JcaContext;
 
+            dbContext.Add(jcaContext);
             dbContext.SaveChanges();
             
             // Add apps to work surface
@@ -97,7 +98,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             // Add context specific apps to work surfaces
 
             dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, anotherContextWorkOrderGardenApp);
-
             dbContext.SaveChanges();
         }
     }
