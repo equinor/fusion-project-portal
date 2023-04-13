@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C6FBB91-DACF-4335-8DBC-59553E3755D3}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\clientBackend.Dockerfile = ..\..\clientBackend.Dockerfile
+		..\..\radixconfig.yaml = ..\..\radixconfig.yaml
 	EndProjectSection
 EndProject
 Global

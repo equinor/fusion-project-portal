@@ -4,6 +4,7 @@ using Fusion.Integration;
 using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 
@@ -81,6 +82,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 //app.UseDefaultFiles(); // For static redirect
 app.UseStaticFiles();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    //HttpOnly = HttpOnlyPolicy.Always,
+    //MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.Always
+});
 
 app.UseAuthentication();
 
