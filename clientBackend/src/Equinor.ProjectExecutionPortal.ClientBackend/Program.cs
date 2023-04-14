@@ -73,6 +73,12 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+    return next();
+});
+
 // Configure the HTTP request pipeline.
 //if (!app.Environment.IsDevelopment())
 //{
@@ -106,10 +112,5 @@ app.UseEndpoints(endpoints =>
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Main}/{action=Index}/{id?}");
-
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedProto
-});
 
 app.Run();
