@@ -38,13 +38,8 @@ COPY --from=publish /app/publish .
 # Copy the client bundle to the backend
 COPY --from=build-client /app-client/dist/packages/portal-client /app-backend/wwwroot
 
-RUN adduser \
-    --uid 1001 \
-    --home /app \
-    --gecos '' app \
-    --disabled-password \
-    && chown -R app /app
-
+# Add a new user "radix-non-root-user" with user id 1001
+RUN adduser -D --uid 1001 radix-non-root-user
 USER 1001
 
 ENTRYPOINT ["dotnet", "Equinor.ProjectExecutionPortal.ClientBackend.dll"]
