@@ -29,7 +29,7 @@ WORKDIR "/src/Equinor.ProjectExecutionPortal.ClientBackend"
 RUN dotnet build "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/build-backend
 
 FROM build-backend AS publish
-RUN dotnet publish "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
