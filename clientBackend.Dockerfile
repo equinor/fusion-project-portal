@@ -15,8 +15,6 @@ RUN npx nx run portal-client:build
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-backend
 WORKDIR /src
@@ -38,8 +36,13 @@ COPY --from=publish /app/publish .
 # Copy the client bundle to the backend
 COPY --from=build-client /app-client/dist/packages/portal-client /app-backend/wwwroot
 
-# Add a new user "radix-non-root-user" with user id 1001
-RUN adduser -D --uid 1001 radix-non-root-user
+RUN adduser \
+    --uid 1001 \
+    --home /app \
+    --gecos '' app \
+    --disabled-password \
+    && chown -R app /app
+
 USER 1001
 
 ENTRYPOINT ["dotnet", "Equinor.ProjectExecutionPortal.ClientBackend.dll"]
