@@ -12,9 +12,14 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
             _logger = logger;
         }
 
-        //[AllowAnonymous]
         [Authorize]
         public Task<IActionResult> Index()
+        {
+            return Task.FromResult<IActionResult>(View());
+        }
+
+        [Authorize]
+        public Task<IActionResult> Static()
         {
             return Task.FromResult<IActionResult>(View());
         }
