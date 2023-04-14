@@ -4,8 +4,6 @@ using Fusion.Integration;
 using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 
@@ -54,15 +52,7 @@ builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal
     fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
 });
 
-// .....................................
-
-builder.Services.AddControllersWithViews(config =>
-    {
-        //var policy = new AuthorizationPolicyBuilder()
-        //    .RequireAuthenticatedUser()
-        //    .Build();
-        //config.Filters.Add(new AuthorizeFilter(policy));
-    });
+builder.Services.AddControllersWithViews();
 
 // Add asset proxy
 builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
@@ -73,29 +63,21 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
+// Ensure proper redirect urls in Radix. Without this, the auth redirects uses HTTP instead of HTTPS
 app.Use((context, next) =>
 {
     context.Request.Scheme = "https";
     return next();
 });
 
-// Configure the HTTP request pipeline.
-//if (!app.Environment.IsDevelopment())
-//{
-//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//    app.UseHsts();
-//}
-
-//app.UseHttpsRedirection();
-//app.UseDefaultFiles(); // For static redirect
-app.UseStaticFiles();
-
+// Used for Radix
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    //HttpOnly = HttpOnlyPolicy.Always,
-    //MinimumSameSitePolicy = SameSiteMode.None,
     Secure = CookieSecurePolicy.Always
 });
+
+//app.UseDefaultFiles(); // For static redirect
+app.UseStaticFiles();
 
 app.UseAuthentication();
 
