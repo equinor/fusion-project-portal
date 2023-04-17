@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.WebApi;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
+using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation.AspNetCore;
 using Fusion.Integration;
 using Fusion.Integration.Http;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
 
@@ -76,7 +79,46 @@ builder.Services.AddFluentValidation(c =>
  });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    var scopes = new Dictionary<string, string>
+    {
+        { $"api://{builder.Configuration["Swagger:ClientId"]}/{builder.Configuration["Swagger:Scope"]}", "" }
+    };
+
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fusion Project Portal", Version = "v1" });
+
+    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            Implicit = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri(builder.Configuration["Swagger:AuthorizationUrl"]),
+                TokenUrl = new Uri(builder.Configuration["Swagger:TokenUrl"]),
+                Scopes = scopes
+            }
+        }
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "oauth2"
+                },
+                Scheme = "oauth2",
+                Name = "oauth2",
+                In = ParameterLocation.Header
+            },
+            new List <string> ()
+        }
+    });
+});
 
 builder.Services.AddApplicationInsightsTelemetry();
 
@@ -86,9 +128,16 @@ var app = builder.Build();
 
 app.UseCors(AllowAllOriginsCorsPolicy);
 
-// Always enable swagger
+// Use Swagger in all environments
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fusion Project Portal");
+    c.DocExpansion(DocExpansion.List);
+    c.DisplayRequestDuration();
+    c.OAuthAppName("Fusion Project Portal v1");
+    c.OAuthClientId(builder.Configuration["Swagger:ClientId"]);
+});
 
 app.UseHttpsRedirection();
 
@@ -97,6 +146,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseMiddleware<CurrentUserMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
