@@ -1,0 +1,73 @@
+{
+    "type":1,
+    "target":"notifications",
+    "arguments":[
+       {
+          "id":"784ef60d-7b0f-4dec-9e5e-80e077edf4b9",
+          "emailPriority":"High",
+          "targetAzureUniqueId":"780292c7-bc2b-4380-b270-d2349c4f3b95",
+          "title":"SCR-995-01 \"fgd\" is now ready for \"Initiate\"",
+          "card":{
+             "$schema":"http://adaptivecards.io/schemas/adaptive-card.json",
+             "type":"AdaptiveCard",
+             "version":"1.2",
+             "body":[
+                {
+                   "type":"Container",
+                   "items":[
+                      {
+                         "type":"ColumnSet",
+                         "columns":[
+                            {
+                               "type":"Column",
+                               "width":"stretch",
+                               "items":[
+                                  {
+                                     "type":"TextBlock",
+                                     "text":"SCR-995-01 \"fgd\" is now ready for \"Initiate\"",
+                                     "size":"Medium",
+                                     "weight":"Bolder",
+                                     "wrap":true
+                                  },
+                                  {
+                                     "type":"TextBlock",
+                                     "text":"You have been assigned on step \"Initiate\" in the following request SCR-995-01 \"fgd\"",
+                                     "wrap":true
+                                  }
+                               ]
+                            }
+                         ]
+                      }
+                   ]
+                },
+                {
+                   "type":"TextBlock",
+                   "text":"Monday, April 17, 2023",
+                   "size":"Small",
+                   "weight":"Lighter",
+                   "horizontalAlignment":"Right"
+                }
+             ]
+          },
+          "created":"2023-04-17T11:27:55.8633333+00:00",
+          "createdBy":{
+             "id":"50703f0e-9b5b-4989-8e63-bc9f1e59c8f2",
+             "name":"Lighthouse - Scope Change Control - Dev",
+             "jobTitle":null,
+             "mail":null,
+             "accountType":"Application"
+          },
+          "createdByApplication":{
+             "id":"df71f5b5-f034-4833-973f-a36c2d5f9e31",
+             "title":"Lighthouse - Scope Change Control - Dev"
+          },
+          "seenByUser":false,
+          "seen":null,
+          "sourceSystem":{
+             "name":"JCA",
+             "subSystem":"ScopeChangeControl",
+             "identifier":"53a2c2a7-7cb2-4916-09bf-08db292dd3ad"
+          }
+       }
+    ]
+ }

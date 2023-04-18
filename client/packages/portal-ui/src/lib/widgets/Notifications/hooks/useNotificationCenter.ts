@@ -1,10 +1,11 @@
 import { useFramework } from '@equinor/fusion-framework-react';
 import { HubConnectionState } from '@microsoft/signalr';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { notificationQueries } from '../queries/notificationQueries';
 import { Notification } from '../types/Notification';
-import { useSignalRHub } from './useSignalRHub';
+import { useSignalR } from '@equinor/fusion-framework-react/signalr';
+import { map } from 'rxjs';
 
 interface NotificationCenter {
 	isFetchingRead: boolean;
@@ -20,7 +21,9 @@ export type ConnectionState = 'Connected' | 'Reconnecting' | 'Disconnected';
 export function useNotificationCenter(onNotification?: (notification: Notification) => void): NotificationCenter {
 	const queryClient = useQueryClient();
 	const [state, setState] = useState<ConnectionState>('Disconnected');
+	const [notifications, setNotifications] = useState<Notification[]>();
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
+	// const notificationClient = useFramework().modules.services.createNotificationClient('json');
 
 	const { getReadNotificationsQuery, getUnreadNotificationsQuery } = notificationQueries;
 
@@ -30,6 +33,16 @@ export function useNotificationCenter(onNotification?: (notification: Notificati
 	const { data: unreadNotifications, isFetching: isFetchingUnRead } = useQuery<unknown, unknown, Notification[]>(
 		getUnreadNotificationsQuery(client)
 	);
+
+	const topic = useSignalR<unknown[]>('portal', 'notifications');
+
+	useLayoutEffect(() => {
+		const sub = topic.pipe(map((x) => x.shift() as Notification[])).subscribe(console.log);
+
+		return () => {
+			sub.unsubscribe();
+		};
+	}, [topic]);
 
 	// TODO: useFramework signalRframework
 	// const { hubConnection } = useSignalRHub(

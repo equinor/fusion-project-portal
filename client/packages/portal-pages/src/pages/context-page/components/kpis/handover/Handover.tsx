@@ -1,5 +1,5 @@
 import { KpiCard } from '@equinor/portal-ui';
-import { useHandoverQuery } from './useHndoverQuesry';
+import { useHandoverQuery } from './useHandoverQuery';
 import { getStatusBarData, numberFormat } from './utils';
 
 export const Handover = () => {
