@@ -4,4 +4,64 @@
 
 <div id="root"></div>
 
-<script type="module" src="~/assets/portal-client-bundle.js" asp-append-version="true"></script>
+@*<script asp-append-version="true">
+    var portalConfig = {
+        "title": "Project Portal",
+        "description": "some description...",
+        "serviceDiscovery": {
+            "client": {
+                "baseUri": "https://fusion-s-portal-ci.azurewebsites.net/",
+                "defaultScopes": [
+                    "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
+                ]
+            }
+        },
+        "portalClient": {
+            "client": {
+                //"baseUri": "https://backend-fusion-project-portal-feature.radix.equinor.com/",
+                //"defaultScopes": [
+                //    "api://7bf96dd1-39fe-47dd-8286-329c730ac76b/access_as_user"
+                //],
+                "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
+                "defaultScopes": [
+                    "api://9f166838-5d6b-4c44-8964-06db10eebd5d/access_as_user"
+                ]
+            }
+        },
+        "masal": {
+            "client": {
+                "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
+                //"clientId": "0cf88005-bda7-4bbb-acc7-db463c5a8ba4", // FEAT
+                "clientId": "9f166838-5d6b-4c44-8964-06db10eebd5d", // DEV
+                //"redirectUri": "/authentication/login-callback"
+                //"redirectUri": "https://app-pep-frontend-noe-dev.azurewebsites.net/authentication/login-callback"
+                //"redirectUri": "/signin-oidc",
+                
+                //"config": {
+                //    "auth": {
+                //        "clientId": "0cf88005-bda7-4bbb-acc7-db463c5a8ba4", // FEAT
+                //        "protocolMode": "OIDC"
+                //    }
+                //}
+
+                
+            },
+            "options": {
+                "requiresAuth": true
+            }
+        },
+        "logger": {
+            "level": 0,
+            "defaultClientLogger": {
+                "active": false,
+                "level": 0
+            }
+        }
+    }
+
+    window["_config_"] = portalConfig;
+
+    console.log("PORTAL CONFIG AFTER", window["_config_"]);
+</script>*@
+
+<script type="module" src="~/ClientApp/client.js" asp-append-version="true"></script>

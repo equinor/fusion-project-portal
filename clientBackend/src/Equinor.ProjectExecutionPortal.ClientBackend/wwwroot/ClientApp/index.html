@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-font.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fusion</title>
+
+    <script>
+        var portalConfig = {
+            "title": "Project Portal",
+            "description": "some description...",
+            "serviceDiscovery": {
+                "client": {
+                    "baseUri": "https://fusion-s-portal-ci.azurewebsites.net/",
+                    "defaultScopes": [
+                        "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
+                    ]
+                }
+            },
+            "portalClient": {
+                "client": {
+                    "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
+                    "defaultScopes": [
+                        "api://9f166838-5d6b-4c44-8964-06db10eebd5d/ReadWrite"
+                    ]
+                }
+            },
+            "masal": {
+                "client": {
+                    "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
+                    "clientId": "9f166838-5d6b-4c44-8964-06db10eebd5d",
+                    "redirectUri": "/app/authentication/login-callback"
+                },
+                "options": {
+                    "requiresAuth": true
+                }
+            },
+            "logger": {
+                "level": 0,
+                "defaultClientLogger": {
+                    "active": false,
+                    "level": 0
+                }
+            }
+        }
+
+        window["_config_"] = portalConfig;
+
+        console.log("PORTAL CONFIG (STATIC)", window["_config_"]);
+    </script>
+</head>
+<body>
+
+    <div id="root"></div>
+
+<script src="/client.js"></script>
+</body>
+</html>
