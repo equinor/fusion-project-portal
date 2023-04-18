@@ -115,7 +115,7 @@ app.Map("",
             spa.Options.SourcePath = "wwwroot/ClientApp";
             spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "clientApp"))
+                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "clientApp"))
             };
         });
     });
