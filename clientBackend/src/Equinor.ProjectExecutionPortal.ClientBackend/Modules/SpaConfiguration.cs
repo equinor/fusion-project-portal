@@ -10,6 +10,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
                 ? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp", "development")
                 : Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp", "production");
 
+            // Where to find the static resources (production builds) of the SPA
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = filePath;
@@ -24,6 +25,12 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
                 ? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp", "development")
                 : Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp", "production");
 
+            // New way
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapFallbackToController("Index", "Main");
+            });
+
             app.UseDefaultFiles(); // For static redirect
 
             app.UseSpaStaticFiles();
@@ -34,18 +41,18 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
                 RequestPath = "/assets"
             });
 
-            app.Map("",
-                portal =>
-                {
-                    portal.UseSpa(spa =>
-                    {
-                        spa.Options.SourcePath = "wwwroot/ClientApp/development";
-                        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
-                        {
-                            FileProvider = new PhysicalFileProvider(filePath)
-                        };
-                    });
-                });
+            // Old way
+            //app.Map("/", portal =>
+            //    {
+            //        portal.UseSpa(spa =>
+            //        {
+            //            spa.Options.SourcePath = filePath;
+            //            spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+            //            {
+            //                FileProvider = new PhysicalFileProvider(filePath)
+            //            };
+            //        });
+            //    });
 
             return app;
         }

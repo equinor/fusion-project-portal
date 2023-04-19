@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using Equinor.ProjectExecutionPortal.ClientBackend.Configurations;
+using Fusion;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;

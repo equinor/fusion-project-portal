@@ -1,4 +1,4 @@
-﻿namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
+﻿namespace Equinor.ProjectExecutionPortal.ClientBackend.Configurations
 {
     public class AssetProxyOptions
     {

@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.ClientBackend;
-using Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
+﻿using Equinor.ProjectExecutionPortal.ClientBackend.Configurations;
 using Equinor.ProjectExecutionPortal.ClientBackend.Modules;
 using Fusion.Integration;
 using Fusion.Integration.Http;
@@ -9,11 +8,19 @@ using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 using Constants = Equinor.ProjectExecutionPortal.ClientBackend.Constants;
 
+// TODO: Dynamic config inject into JS
+// TODO: Application Insights
+// TODO: Domain
+// TODO: Dynatrace ???
+
 var builder = WebApplication.CreateBuilder(args);
 
 // AppSettings configuration
-builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("CacheOptions"));
+builder.Services.Configure<ClientBundleOptions>(builder.Configuration.GetSection("ClientBundle"));
+builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSection("FusionPortalApi"));
+builder.Services.Configure<FusionProjectPortalApiOptions>(builder.Configuration.GetSection("FusionProjectPortalApi"));
 builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
+builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache"));
 
 // Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -88,11 +95,15 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Unless request matches any of these endpoint, the SPA will take control
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();
-    // Set up routes that the asset proxy should forward.
     endpoints.MapFusionPortalAssetProxy();
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Main}/{action=Index}/{id?}");
 });
 
 // SPA Configuration

@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
+using Equinor.ProjectExecutionPortal.ClientBackend.Configurations;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
 {
