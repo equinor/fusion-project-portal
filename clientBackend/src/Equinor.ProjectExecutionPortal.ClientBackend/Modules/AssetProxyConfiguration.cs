@@ -1,4 +1,6 @@
-﻿namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
+﻿using Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
+
+namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
 {
     public static class AssetProxyConfigurationExtensions
     {

@@ -1,6 +1,6 @@
 ﻿namespace Equinor.ProjectExecutionPortal.ClientBackend
 {
-    public class PortalConstants
+    public class Constants
     {
         public const string HttpClientPortal = "fusion-portal";
     }

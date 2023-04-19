@@ -1,12 +1,13 @@
 ﻿using Equinor.ProjectExecutionPortal.ClientBackend;
 using Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
+using Equinor.ProjectExecutionPortal.ClientBackend.Modules;
 using Fusion.Integration;
 using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
+using Constants = Equinor.ProjectExecutionPortal.ClientBackend.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
 });
 
 // Add http client to the fusion portal api. This can be fetched from the IHttpClientFactory
-builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal, fusionHttpClientOptions =>
+builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusionHttpClientOptions =>
 {
     fusionHttpClientOptions.UseDelegateToken = true;
     fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
@@ -44,10 +45,8 @@ builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSpaStaticFiles(configuration =>
-{
-    configuration.RootPath = "wwwroot/ClientApp";
-});
+// SPA Configuration
+builder.Services.AddSpa(builder);
 
 // Add asset proxy
 builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
@@ -96,28 +95,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapFusionPortalAssetProxy();
 });
 
-app.UseDefaultFiles(); // For static redirect
-
-app.UseSpaStaticFiles();
-
-app.UseSpaStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "assets")),
-    RequestPath = "/assets"
-});
-
-app.Map("",
-    portal =>
-    {
-        portal.UseSpa(spa =>
-        {
-            spa.Options.SourcePath = "wwwroot/ClientApp";
-            spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp"))
-            };
-        });
-    });
+// SPA Configuration
+app.MapSpaEndpoints(builder);
 
 app.Run();
