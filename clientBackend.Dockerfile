@@ -26,7 +26,8 @@ COPY "/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/" "Equinor
 WORKDIR "/src/Equinor.ProjectExecutionPortal.ClientBackend"
 
 # Copy the client bundle to the backend
-COPY --from=build-client /app-client/dist/packages/portal-client /wwwroot/ClientApp/production
+COPY --from=build-client /app-client/dist/packages/portal-client/assets /wwwroot/ClientApp/production/assets
+COPY --from=build-client /app-client/dist/packages/portal-client/portal-client-bundle.js /wwwroot/ClientApp/production/portal-client-bundle.js
 
 RUN dotnet build "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/build-backend
 
