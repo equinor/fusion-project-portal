@@ -8,11 +8,6 @@ using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 using Constants = Equinor.ProjectExecutionPortal.ClientBackend.Constants;
 
-// TODO: Dynamic config inject into JS
-// TODO: Application Insights
-// TODO: Domain
-// TODO: Dynatrace ???
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Application Insights
