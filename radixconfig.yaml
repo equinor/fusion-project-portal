@@ -115,7 +115,6 @@ spec:
               cpu: "800m"
 
 # Web Server (client backend)
-# TODO: We currently refer to AppRegs, KeyVaults for the Backend API. We need separate resources.
     - name: webserver
       src: .
       dockerfileName: clientBackend.Dockerfile
@@ -129,6 +128,8 @@ spec:
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
         AssetProxy__TokenScope: ""
+        FusionProjectPortalApi__BaseAddress: ""
+        FusionProjectPortalApi__Scope: ""
       ports:
         - name: http
           port: 5000
