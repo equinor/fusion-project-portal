@@ -21,7 +21,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: path.resolve(__dirname, './src/main.tsx'),
 			output: {
-				entryFileNames: `assets/portal-client-bundle.js`,
+				entryFileNames: `portal-client-bundle.js`,
 			},
 		},
 	},
