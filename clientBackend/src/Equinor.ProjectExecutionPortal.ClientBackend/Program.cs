@@ -15,6 +15,9 @@ using Constants = Equinor.ProjectExecutionPortal.ClientBackend.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
+
 // AppSettings configuration
 builder.Services.Configure<ClientBundleOptions>(builder.Configuration.GetSection("ClientBundle"));
 builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSection("FusionPortalApi"));

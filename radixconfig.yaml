@@ -18,6 +18,7 @@ spec:
       src: ./backend/src # Dockerfile location
       variables:
         ASPNETCORE_URLS: "http://*:5000"
+        ApplicationInsights__ConnectionString: ""
         AzureAd__ClientId: ""
         Authenticator__ProjectPortalApiClientId: ""
         Swagger__ClientId: ""
@@ -120,8 +121,9 @@ spec:
       dockerfileName: clientBackend.Dockerfile
       variables:
         ASPNETCORE_URLS: "http://*:5000"
-        ClientBundle__Msal__ClientId: ""
+        ApplicationInsights__ConnectionString: ""
         AzureAd__ClientId: ""
+        ClientBundle__Msal__ClientId: ""
         FusionPortalApi__BaseAddress: ""
         FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
