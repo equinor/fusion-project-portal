@@ -24,6 +24,10 @@ COPY ["/clientBackend/src/nuget.config", "Equinor.ProjectExecutionPortal.ClientB
 RUN dotnet restore "Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj" --configfile Equinor.ProjectExecutionPortal.ClientBackend/nuget.config
 COPY "/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/" "Equinor.ProjectExecutionPortal.ClientBackend/"
 WORKDIR "/src/Equinor.ProjectExecutionPortal.ClientBackend"
+
+# Copy the client bundle to the backend
+COPY --from=build-client /app-client/dist/packages/portal-client /wwwroot/ClientApp/production
+
 RUN dotnet build "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/build-backend
 
 FROM build-backend AS publish
@@ -34,7 +38,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Copy the client bundle to the backend
-COPY --from=build-client /app-client/dist/packages/portal-client /app-backend/wwwroot/ClientApp/production
+#COPY --from=build-client /app-client/dist/packages/portal-client /app-backend/wwwroot/ClientApp/production
 
 RUN adduser \
     --uid 1001 \
