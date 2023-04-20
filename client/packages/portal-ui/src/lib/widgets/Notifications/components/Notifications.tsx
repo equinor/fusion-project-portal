@@ -1,4 +1,4 @@
-import { Chip } from '@equinor/eds-core-react';
+import { Chip, Tabs } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
@@ -9,6 +9,7 @@ import { NotificationCard } from './NotificationCard';
 import { Notification } from '../types/Notification';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { SideSheetHeader } from '@equinor/portal-ui';
+import { StyledPanels, StyledTabListWrapper, StyledTabs, StyledTabsList } from './tabs.styles';
 
 const getCountForAppName = (x: string, notifications: Notification[]): number =>
 	notifications.reduce((acc, { appName }) => (appName === x ? acc + 1 : acc), 0);
@@ -18,6 +19,12 @@ interface NotificationsProps {
 }
 
 export function Notifications({ onClickNotification }: NotificationsProps): JSX.Element {
+	const [activeTab, setActiveTab] = useState(0);
+
+	const handleChange = (index: number) => {
+		setActiveTab(index);
+	};
+
 	const { getUnreadNotificationsQuery } = notificationQueries;
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
 	const capitalize = (name: string) => name.charAt(0).toUpperCase() + name.slice(1);
@@ -46,6 +53,43 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 
 	return (
 		<SideSheetHeader title="Notifications" subTitle="Portal notifications center" color={'#258800'}>
+			<StyledTabs activeTab={activeTab} onChange={handleChange}>
+				<StyledTabListWrapper>
+					<StyledTabsList>
+						<Tabs.Tab>Unread</Tabs.Tab>
+						<Tabs.Tab>Dismissed</Tabs.Tab>
+					</StyledTabsList>
+				</StyledTabListWrapper>
+				<StyledPanels>
+					<Tabs.Panel>
+						<StyledNotifications>
+							<StyledNotificationsList>
+								{sortAndFilterList(unreadNotificationCards).map((x, index) => (
+									<NotificationCard
+										key={x.id + index}
+										notification={x}
+										onNavigate={onClickNotification}
+									/>
+								))}
+							</StyledNotificationsList>
+						</StyledNotifications>
+					</Tabs.Panel>
+					<Tabs.Panel>
+						<StyledNotifications>
+							<StyledNotificationsList>
+								{sortAndFilterList(readNotificationCards).map((x, index) => (
+									<NotificationCard
+										key={x.id + index}
+										notification={x}
+										onNavigate={onClickNotification}
+									/>
+								))}
+							</StyledNotificationsList>
+						</StyledNotifications>
+					</Tabs.Panel>
+				</StyledPanels>
+			</StyledTabs>
+
 			<StyledNotifications>
 				<StyledActiveOrigins>
 					{origins.map((applicationName, index) => (
@@ -60,19 +104,12 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 							onClick={() => handleClick(applicationName)}
 							key={applicationName + index}
 						>
-							<div>{`${getCountForAppName(applicationName, [
-								...unreadNotificationCards,
-								...readNotificationCards,
-							])} ${capitalize(applicationName)}`}</div>
+							<div>{`${getCountForAppName(applicationName, unreadNotificationCards)} ${capitalize(
+								applicationName
+							)}`}</div>
 						</Chip>
 					))}
 				</StyledActiveOrigins>
-
-				<StyledNotificationsList>
-					{sortAndFilterList([...unreadNotificationCards, ...readNotificationCards]).map((x, index) => (
-						<NotificationCard key={x.id + index} notification={x} onNavigate={onClickNotification} />
-					))}
-				</StyledNotificationsList>
 			</StyledNotifications>
 		</SideSheetHeader>
 	);

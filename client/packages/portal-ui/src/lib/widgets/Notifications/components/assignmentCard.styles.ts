@@ -1,20 +1,20 @@
 import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 
-export const NotificationTitle = styled.div`
+export const StyledNotificationTitle = styled.div`
 	font-size: 14px;
 `;
-export const TimeStamp = styled.div`
+export const StyledTimeStamp = styled.div`
 	font-size: 10px;
 	font-weight: 500;
 	text-align: right;
 `;
 
-export const RightSection = styled.div`
+export const StyledRightSection = styled.div`
 	display: flex;
 `;
 
-export const LeftSection = styled.div`
+export const StyledLeftSection = styled.div`
 	display: flex;
 	gap: 1em;
 	flex-direction: row;
@@ -22,7 +22,7 @@ export const LeftSection = styled.div`
 	justify-content: flex-start;
 `;
 
-export const Wrapper = styled.div`
+export const StyledWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr auto 80px;
 	text-align: left;
@@ -33,7 +33,7 @@ export const Wrapper = styled.div`
 	cursor: pointer;
 `;
 
-export const DetailText = styled.div`
+export const StyledDetailText = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;

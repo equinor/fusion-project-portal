@@ -5,8 +5,17 @@ import { readNotificationAsync } from '../api/readNotification';
 import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKeys';
 import { notificationsBaseKey } from '../queries/notificationQueries';
 import { Notification } from '../types/Notification';
-import { DetailText, LeftSection, NotificationTitle, RightSection, TimeStamp, Wrapper } from './assignmentCard.styles';
+import {
+	StyledDetailText,
+	StyledLeftSection,
+	StyledNotificationTitle,
+	StyledRightSection,
+	StyledTimeStamp,
+	StyledWrapper,
+} from './assignmentCard.styles';
 import { StatusCircle } from './StatusCircle';
+import AdaptiveCardViewer from './adaptivCard/AdaptivCardViewer';
+import { css } from '@emotion/react';
 
 interface NotificationCardProps {
 	notification: Notification;
@@ -29,19 +38,30 @@ export const NotificationCard = ({ notification }: NotificationCardProps): JSX.E
 	};
 
 	return (
-		<Wrapper onClick={handleClick}>
-			<LeftSection>
-				<StatusCircle seenByUser={notification.seenByUser} />
-				<DetailText>
-					<NotificationTitle>{notification.title}</NotificationTitle>
-				</DetailText>
-			</LeftSection>
-			<RightSection></RightSection>
-			<TimeStamp>
-				{DateTime.fromJSDate(new Date(notification.created)).toRelative({
-					locale: 'en-GB',
-				})}
-			</TimeStamp>
-		</Wrapper>
+		<div className={styledNotificationCard.name}>
+			<AdaptiveCardViewer payload={notification.card} />
+		</div>
 	);
+
+	// return (
+	// 	<StyledWrapper onClick={handleClick}>
+	// 		<StyledLeftSection>
+	// 			<StatusCircle seenByUser={notification.seenByUser} />
+	// 			<StyledDetailText>
+	// 				<StyledNotificationTitle>{notification.title}</StyledNotificationTitle>
+	// 			</StyledDetailText>
+	// 		</StyledLeftSection>
+	// 		<StyledRightSection></StyledRightSection>
+	// 		<StyledTimeStamp>
+	// 			{DateTime.fromJSDate(new Date(notification.created)).toRelative({
+	// 				locale: 'en-GB',
+	// 			})}
+	// 		</StyledTimeStamp>
+	// 	</StyledWrapper>
+	// );
 };
+
+const styledNotificationCard = css`notificationCard: {
+	borderRadius: '4px',
+	backgroundColor: 'var(--color-black-alt5)',
+}`;
