@@ -103,7 +103,7 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Main}/{action=Index}/{id?}");
+        pattern: "{controller=Bundle}/{action=Index}/{id?}");
 });
 
 // SPA Configuration

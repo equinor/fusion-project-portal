@@ -28,7 +28,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
             // New way
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapFallbackToController("Index", "Main");
+                endpoints.MapFallbackToController("Index", "Bundle");
             });
 
             app.UseDefaultFiles(); // For static redirect
@@ -42,7 +42,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
             });
 
             // Old way
-            //app.Map("/", portal =>
+            //app.Map("", portal =>
             //    {
             //        portal.UseSpa(spa =>
             //        {
