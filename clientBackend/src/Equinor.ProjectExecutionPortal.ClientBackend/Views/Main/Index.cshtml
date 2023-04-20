@@ -1,12 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Fusion Project Portal";
-}
-
-@using Equinor.ProjectExecutionPortal.ClientBackend.Configurations
+﻿@using Equinor.ProjectExecutionPortal.ClientBackend.Configurations
 @using Microsoft.Extensions.Options
 @inject IOptions<ClientBundleOptions> ClientBundleOptions;
 @inject IOptions<FusionPortalApiOptions> FusionPortalApiOptions;
 @inject IOptions<FusionProjectPortalApiOptions> FusionProjectPortalApiOptions;
+@inject IWebHostEnvironment Env
 
 @{
     var clientBundle = ClientBundleOptions.Value;
@@ -60,4 +57,11 @@
     console.log("PORTAL CONFIG", window["_config_"]);
 </script>
 
-<script type="module" src="~/portal-client-bundle-dev.js"></script>
+@if (Env.IsDevelopment())
+{
+    <script type="module" src="~/portal-client-bundle-dev.js"></script>
+}
+else
+{
+    <script type="module" src="~/portal-client-bundle.js"></script>
+}
