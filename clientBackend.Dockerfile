@@ -12,7 +12,7 @@ COPY ["/client", "."]
 RUN yarn install --frozen-lockfile
 RUN npx nx run portal-client:build
 
-# 2: Build & run backend server
+# 2: Build & run web server
 # ----------------------------------------------------
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
