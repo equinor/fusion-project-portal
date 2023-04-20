@@ -3,16 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 {
-    public class MainController : Controller
+    public class BundleController : Controller
     {
-        private readonly ILogger<MainController> _logger;
+        private readonly ILogger<BundleController> _logger;
 
-        public MainController(ILogger<MainController> logger)
+        public BundleController(ILogger<BundleController> logger)
         {
             _logger = logger;
         }
 
-        //[AllowAnonymous]
         [Authorize]
         public Task<IActionResult> Index()
         {
