@@ -120,6 +120,7 @@ spec:
       dockerfileName: clientBackend.Dockerfile
       variables:
         ASPNETCORE_URLS: "http://*:5000"
+        ClientBundle__Msal__ClientId: ""
         AzureAd__ClientId: ""
         FusionPortalApi__BaseAddress: ""
         FusionPortalApi__Scope: ""
