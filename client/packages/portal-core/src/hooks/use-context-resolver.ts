@@ -40,7 +40,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 					query: { search, filter: { type } },
 				});
 
-				if (!contexts[0].id) return searchResult;
+				if (contexts[0] && !contexts[0].id) return searchResult;
 				// Structure as type
 
 				searchResult = type.length > 1 ? contextResultMappedByTypes(contexts) : contextResultMapped(contexts);
@@ -64,7 +64,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 		[client, type]
 	);
 
-	const children = getContextHistory();
+	const children = getContextHistory(type);
 
 	const historyItems = {
 		id: 'history',

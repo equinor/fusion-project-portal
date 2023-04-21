@@ -1,7 +1,7 @@
 import { Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { StyledMain } from '../common-styles/Styles';
 import { Handover } from './components/kpis/handover/Handover';
@@ -38,6 +38,10 @@ export const ProjectPage = () => {
 		!contextId?.match(/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/)
 	) {
 		return null;
+	}
+
+	if (currentContext.type.id !== 'ProjectMaster') {
+		return <Navigate to="/" />;
 	}
 
 	return (

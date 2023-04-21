@@ -1,6 +1,6 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
-import { enableNavigation } from '@equinor/fusion-framework-module-navigation';
+import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import {
@@ -45,11 +45,29 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized(async (fusion) => {
+		config.onInitialized<[NavigationModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
-			fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
+
+			fusion.context.currentContext$.subscribe((context) => {
+				const { navigator } = fusion.navigation;
+
+				if (!context) {
+					navigator.replace('/');
+				}
+
+				if (context && context.id && !window.location.pathname.includes(context.id)) {
+					const pathname = window.location.pathname.replace(
+						/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/,
+						context.id
+					);
+					const to = { pathname, search: window.location.search, hash: window.location.hash };
+
+					navigator.replace(to);
+				}
+			});
 
 			if (showInfo) {
+				fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 				console.debug('📒 subscribing to all events');
 
 				fusion.event.subscribe((e) => {
