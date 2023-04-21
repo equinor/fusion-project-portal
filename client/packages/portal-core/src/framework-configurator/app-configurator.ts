@@ -2,7 +2,6 @@ import { AppManifest } from '@equinor/fusion-framework-module-app';
 import { AppConfigBuilderCallback } from '@equinor/fusion-framework-module-app/dist/types/AppConfigBuilder';
 import { Client } from '../types';
 
-//https://app-pep-backend-noe-dev.azurewebsites.net
 const manifestMapper =
 	(basePath: string) =>
 	(value: any): AppManifest => {
