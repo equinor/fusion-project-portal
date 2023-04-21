@@ -21,7 +21,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
-		enableAppModule(config, appConfigurator);
+		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
 		config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
