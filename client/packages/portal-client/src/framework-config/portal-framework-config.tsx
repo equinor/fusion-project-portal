@@ -11,6 +11,7 @@ import {
 	PortalConfig,
 	appConfigurator,
 } from '@equinor/portal-core';
+import { last, skip } from 'rxjs';
 
 const showInfo = false;
 
@@ -48,7 +49,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		config.onInitialized<[NavigationModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
 
-			fusion.context.currentContext$.subscribe((context) => {
+			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
 
 				if (!context) {
