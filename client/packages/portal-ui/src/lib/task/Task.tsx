@@ -1,22 +1,24 @@
-
-import styled from 'styled-components';
-import { SideSheetHeader } from '../side-sheet-header/SideSheetHeader';
 import { Tasks } from './work-assigned/WorkAssigned';
 
-const StyledContent = styled.div`
- padding: 1.5rem;
-`
+import { PortalActionProps } from '@equinor/portal-core';
 
-export function Task() {
-  return (
-    <SideSheetHeader
-      title="My Work Assigned"
-      subTitle="Your application related task"
-      color={'#258800'}
-    >
-      <StyledContent>
-        <Tasks/>
-      </StyledContent>
-    </SideSheetHeader>
-  );
+import { SideSheet } from '@equinor/fusion-react-side-sheet';
+
+export function Task({ action, onClose, open }: PortalActionProps) {
+	return (
+		<SideSheet
+			isOpen={open}
+			onClose={onClose}
+			isDismissable={true}
+			enableFullscreen={true}
+			minWidth={action.minWidth}
+		>
+			<SideSheet.Indicator color={action.color} />
+			<SideSheet.Title title={action.name} />
+			<SideSheet.SubTitle subTitle={action.subTitle!} />
+			<SideSheet.Content>
+				<Tasks />
+			</SideSheet.Content>
+		</SideSheet>
+	);
 }
