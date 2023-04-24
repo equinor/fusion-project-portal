@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
@@ -10,10 +9,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         Task<IList<ApiFusionPortalAppInformation>> GetFusionApps();
 
-        Task<PortalDto> EnrichPortalWithFusionAppData(PortalDto portal, CancellationToken cancellationToken);
-
-        Task<WorkSurfaceDto> EnrichWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurface, CancellationToken cancellationToken);
-
-        Task<IList<WorkSurfaceAppDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceAppDto> apps, CancellationToken cancellationToken);
+        Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> apps, CancellationToken cancellationToken);
     }
 }

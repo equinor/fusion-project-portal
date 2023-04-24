@@ -5,15 +5,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
 {
     public class WorkSurfaceAppDto : BaseContextDto, IMapFrom<Domain.Entities.WorkSurfaceApp>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Order { get; set; }
+        public bool IsHidden { get; set; }
         public OnboardedAppDto OnboardedApp { get; set; }
-
-        public void SupplyWithFusionData(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
     }
 }

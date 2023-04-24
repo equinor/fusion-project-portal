@@ -47,9 +47,9 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
             var portal = _mapper.Map<Domain.Entities.Portal, PortalDto>(enitity);
 
-            var enrichedPortal = await _appService.EnrichPortalWithFusionAppData(portal, cancellationToken);
+            await _appService.EnrichAppsWithFusionAppData(portal.WorkSurfaces.SelectMany(x => x.Apps.Select(y => y.OnboardedApp)).ToList(), cancellationToken);
 
-            return enrichedPortal;
+            return portal;
         }
 
         private async Task TempMethodSeedDb(CancellationToken cancellationToken)

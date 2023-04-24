@@ -35,9 +35,9 @@ public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
                 .ToListAsync(cancellationToken);
 
             var onboardedApps = _mapper.Map<List<Domain.Entities.OnboardedApp>, List<OnboardedAppDto>>(enitity);
-
-            // TODO: Enrich with Fusion data
-
+            
+            await _appService.EnrichAppsWithFusionAppData(onboardedApps, cancellationToken);
+            
             return onboardedApps;
         }
     }

@@ -14,12 +14,16 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
             Id = onboardedAppDto.Id;
             AppKey = onboardedAppDto.AppKey;
             Order = onboardedAppDto.Order;
+            Name = onboardedAppDto.Name;
+            Description = onboardedAppDto.Description;
             AppGroup = new ApiAppGroup(onboardedAppDto.AppGroup);
         }
 
         public Guid Id { get; set; }
         public string AppKey { get; set; }
         public int Order { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public ApiAppGroup AppGroup { get; set; }
     }
 }

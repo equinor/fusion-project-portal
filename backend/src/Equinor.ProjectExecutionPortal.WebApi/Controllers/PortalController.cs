@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Fusion.Integration;
@@ -42,9 +42,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("fusion/apps")]
-        public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionPortalApiService fusionPortalApiService)
+        public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IAppService appService)
         {
-            var apps = await fusionPortalApiService.TryGetFusionPortalApps();
+            var apps = await appService.GetFusionApps();
 
             return apps.ToList();
         }

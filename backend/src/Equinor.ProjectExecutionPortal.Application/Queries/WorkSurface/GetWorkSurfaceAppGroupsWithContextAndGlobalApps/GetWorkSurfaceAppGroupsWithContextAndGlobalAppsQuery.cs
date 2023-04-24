@@ -50,7 +50,7 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IL
 
             var appGroupsWithApps = _workSurfaceService.MapWorkSurfaceToAppGroups(workSurface);
 
-            await _appService.EnrichAppsWithFusionAppData(appGroupsWithApps.SelectMany(x => x.Apps).ToList(), cancellationToken);
+            await _appService.EnrichAppsWithFusionAppData(appGroupsWithApps.SelectMany(x => x.Apps.Select(y => y.OnboardedApp)).ToList(), cancellationToken);
 
             return appGroupsWithApps;
         }
