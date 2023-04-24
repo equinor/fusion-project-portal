@@ -157,15 +157,33 @@ Updating, improving and correcting the documentation
 
 ### Commit Messages
 
-<!-- TODO
+The Conventional Commits specification is a lightweight convention on top of commit messages. It provides an easy set of rules for creating an explicit commit history; which makes it easier to write automated tools on top of. This convention dovetails with SemVer, by describing the features, fixes, and breaking changes made in commit messages.
 
--->
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification)
 
 ### Folder Structure
 
 <!-- TODO
 
 -->
+
+```PY
+.
+├── packages                        # Projects folder
+│   ├── portal-client               # Web client application project
+│   ├── portal-core                 # Core functionality project
+│   ├── portal-pages                # Pages Project
+│   ├── portal-ui                   # Ui components project
+│   ├── portal-utils                # Global Utils project
+├── docker                          # Files use by docker config
+├── config                          #
+├── .vscode                         #
+├── README.md                       #
+├── CODE_OF_CONDUCT.md              #
+├── CONTRIBUTING.md                 #
+├── yarn.lock                       #
+└── README.md                       #
+```
 
 ### Code Structure
 
