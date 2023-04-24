@@ -34,7 +34,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                     CreatedAtUtc = workSurfaceApp.CreatedAtUtc,
                     ModifiedAtUtc = workSurfaceApp.ModifiedAtUtc,
                     OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp),
-                }).ToList()
+                }).OrderBy(surfaceAppDto => surfaceAppDto.Order).ToList()
             })
                 .OrderBy(x => x.Order)
                 .ToList();
