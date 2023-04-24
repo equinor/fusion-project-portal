@@ -64,9 +64,9 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
             return _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps.Where(app => app.ExternalId == null))
-                .ThenInclude(app => app.OnboardedApp)
+                .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
-                .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
+                .OrderBy(workSurface => workSurface.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
         }
 
@@ -75,9 +75,9 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
             return _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
                 .Include(appGroup => appGroup.Apps.Where(app => app.ExternalId == null || app.ExternalId == contextExternalId))
-                .ThenInclude(app => app.OnboardedApp)
+                .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
-                .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
+                .OrderBy(workSurface => workSurface.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
         }
 
@@ -101,7 +101,7 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
                     CreatedAtUtc = workSurfaceApp.CreatedAtUtc,
                     ModifiedAtUtc = workSurfaceApp.ModifiedAtUtc,
                     OnboardedApp = _mapper.Map<Domain.Entities.OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp),
-                }).ToList()
+                }).OrderBy(x => x.Order).ToList()
             })
                 .OrderBy(x => x.Order)
                 .ToList();
