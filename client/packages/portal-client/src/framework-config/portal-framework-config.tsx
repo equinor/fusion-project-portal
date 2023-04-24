@@ -24,7 +24,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
-		config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
+		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
 		if (portalConfig.agGrid) {
 			addAgGrid(config, portalConfig.agGrid);
