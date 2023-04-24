@@ -1,14 +1,15 @@
 import { ContextProvider as FusionContextProvider } from '@equinor/fusion-react-context-selector';
 import { ReactNode } from 'react';
 import { useContextResolver } from '../hooks';
+import { useViewController } from '../providers';
 
 interface PortalContextProviderProps {
 	children: ReactNode;
 }
 
 export const ContextProvider = ({ children }: PortalContextProviderProps) => {
-	//Todo: get contest types from view / work-surface
-	const resolver = useContextResolver(['ProjectMaster']);
+	const { currentView } = useViewController();
+	const resolver = useContextResolver(currentView?.contextType || ['ProjectMaster']);
 
 	return <FusionContextProvider resolver={resolver}>{children}</FusionContextProvider>;
 };

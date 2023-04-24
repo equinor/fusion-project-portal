@@ -1,4 +1,4 @@
-import { useCurrentAppGroup, useFrameworkCurrentContext } from '@equinor/portal-core';
+import { useCurrentAppGroup, useFrameworkCurrentContext, useViewController } from '@equinor/portal-core';
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppBreadcrumb } from './AppBreadcrumb';
@@ -8,6 +8,7 @@ import { StyledBreadcrumbs, StyledBreadcrumbItem, StyledBreadcrumbItemInteract }
 
 export const Breadcrumbs = () => {
 	const context = useFrameworkCurrentContext();
+	const { currentView } = useViewController();
 	const navigate = useNavigate();
 
 	const { appKey } = useParams();
@@ -18,26 +19,26 @@ export const Breadcrumbs = () => {
 
 	return (
 		<StyledBreadcrumbs>
-				<span />
-				{context && location.pathname !== '/' && (
-					<StyledBreadcrumbItemInteract
-						onClick={() => {
-							navigate(`/context-page/$contextId=${context.id}`);
-						}}
-					>
-						Project Home
-					</StyledBreadcrumbItemInteract>
-				)}
-				{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name} />}
-				{currentAppGroup && (
-					<AppBreadcrumb
-						appGroup={currentAppGroup}
-						isMenuOpen={appSelectorOpen}
-						setMenuOpen={setAppSelectorOpen}
-					/>
-				)}
+			<span />
+			{context && location.pathname !== '/' && (
+				<StyledBreadcrumbItemInteract
+					onClick={() => {
+						currentView && navigate(`/${currentView.key}/${context.id}`);
+					}}
+				>
+					{currentView?.name}
+				</StyledBreadcrumbItemInteract>
+			)}
+			{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name} />}
+			{currentAppGroup && (
+				<AppBreadcrumb
+					appGroup={currentAppGroup}
+					isMenuOpen={appSelectorOpen}
+					setMenuOpen={setAppSelectorOpen}
+				/>
+			)}
 
-				<StyledBreadcrumbItem></StyledBreadcrumbItem>
-			</StyledBreadcrumbs>
+			<StyledBreadcrumbItem></StyledBreadcrumbItem>
+		</StyledBreadcrumbs>
 	);
 };
