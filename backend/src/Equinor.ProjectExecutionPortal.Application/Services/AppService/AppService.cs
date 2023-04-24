@@ -38,14 +38,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             }
 
             return apps;
-
-            //return CombineAppsWithFusionAppData(apps, fusionApps);
         }
 
         public async Task<WorkSurfaceDto> EnrichWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurface, CancellationToken cancellationToken)
         {
             var fusionApps = await _fusionAppsCache.GetFusionApps();
-
 
             foreach (var applicationDto in workSurface.Apps)
             {
@@ -53,15 +50,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             }
 
             return workSurface;
-
-            //return CombineWorkSurfaceWithFusionAppData(workSurface, fusionApps);
         }
 
-        // TEMP POC METHOD
         public async Task<PortalDto> EnrichPortalWithFusionAppData(PortalDto portal, CancellationToken cancellationToken)
         {
             var fusionApps = await _fusionAppsCache.GetFusionApps();
-
 
             foreach (var applicationDto in portal.WorkSurfaces.SelectMany(x => x.Apps))
             {
@@ -69,39 +62,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             }
 
             return portal;
-
-            //return CombinePortalWithFusionAppData(portal, fusionApps);
-        }
-
-        private static WorkSurfaceDto CombineWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurfaceDto, IList<ApiFusionPortalAppInformation> fusionApps)
-        {
-            foreach (var applicationDto in workSurfaceDto.Apps)
-            {
-                CombineAppWithFusionAppData(applicationDto, fusionApps);
-            }
-
-            return workSurfaceDto;
-        }
-
-        private static List<WorkSurfaceAppDto> CombineAppsWithFusionAppData(IList<WorkSurfaceAppDto> appDtos, IList<ApiFusionPortalAppInformation> fusionApps)
-        {
-            foreach (var applicationDto in appDtos)
-            {
-                CombineAppWithFusionAppData(applicationDto, fusionApps);
-            }
-
-            return appDtos.ToList();
-        }
-
-        // TEMP POC METHOD
-        private static PortalDto CombinePortalWithFusionAppData(PortalDto portalDto, IList<ApiFusionPortalAppInformation> fusionApps)
-        {
-            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.Apps))
-            {
-                CombineAppWithFusionAppData(applicationDto, fusionApps);
-            }
-
-            return portalDto;
         }
 
         private static void CombineAppWithFusionAppData(WorkSurfaceAppDto appDto, IEnumerable<ApiFusionPortalAppInformation> fusionApps)
