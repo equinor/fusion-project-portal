@@ -38,9 +38,8 @@ public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
             .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken) ?? throw new NotFoundException(nameof(WorkSurfaceApp), request.WorkSurfaceId);
 
             var workSurface = _mapper.Map<Domain.Entities.WorkSurface, WorkSurfaceDto>(entity);
-            var enrichedWorkSurface = await _appService.EnrichWorkSurfaceWithFusionAppData(workSurface, cancellationToken);
 
-            return enrichedWorkSurface;
+            return workSurface;
         }
     }
 }

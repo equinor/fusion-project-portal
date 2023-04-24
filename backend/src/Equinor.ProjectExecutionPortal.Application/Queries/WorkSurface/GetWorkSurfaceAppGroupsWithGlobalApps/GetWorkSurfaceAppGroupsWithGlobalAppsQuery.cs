@@ -38,7 +38,7 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
                 .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContextId == null))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
-                .OrderBy(appGroup => appGroup.Order)
+                .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);
 
             if (workSurface == null)
