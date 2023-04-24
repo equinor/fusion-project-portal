@@ -21,7 +21,7 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 				</ContextProvider>
 				{!isLoading && data && (
 					<div>
-						<p>Current apps are awaitable for the selected context</p>
+						<p>Current apps are available for the selected context</p>
 						<div>
 							<GroupWrapper appGroups={data} />
 						</div>

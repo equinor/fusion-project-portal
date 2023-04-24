@@ -12,6 +12,7 @@ import {
 	appConfigurator,
 } from '@equinor/portal-core';
 import { last, skip } from 'rxjs';
+import { replaceContextInPathname } from '../utils/context-utils';
 
 const showInfo = false;
 
@@ -57,10 +58,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				}
 
 				if (context && context.id && !window.location.pathname.includes(context.id)) {
-					const pathname = window.location.pathname.replace(
-						/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/,
-						context.id
-					);
+					const pathname = replaceContextInPathname(context.id);
 					const to = { pathname, search: window.location.search, hash: window.location.hash };
 
 					navigator.replace(to);
