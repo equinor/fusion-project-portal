@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 
@@ -22,12 +23,18 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 x.OnboardedApp.AppGroup.AccentColor
             });
 
-            return appGrouping.Select(x => new WorkSurfaceAppGroupWithAppsDto
+            return appGrouping.Select(grouping => new WorkSurfaceAppGroupWithAppsDto
             {
-                Name = x.Key.Name,
-                AccentColor = x.Key.AccentColor,
-                Order = x.Key.Order,
-                Apps = x.Select(y => _mapper.Map<WorkSurfaceApp, WorkSurfaceAppDto>(y)).ToList()
+                Name = grouping.Key.Name,
+                AccentColor = grouping.Key.AccentColor,
+                Order = grouping.Key.Order,
+                Apps = grouping.Select(workSurfaceApp => new WorkSurfaceAppDto
+                {
+                    Order = workSurfaceApp.OnboardedApp.Order,
+                    CreatedAtUtc = workSurfaceApp.CreatedAtUtc,
+                    ModifiedAtUtc = workSurfaceApp.ModifiedAtUtc,
+                    OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp),
+                }).ToList()
             })
                 .OrderBy(x => x.Order)
                 .ToList();
