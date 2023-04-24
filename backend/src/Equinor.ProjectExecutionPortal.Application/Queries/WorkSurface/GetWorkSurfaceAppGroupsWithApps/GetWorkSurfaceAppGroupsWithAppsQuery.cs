@@ -65,7 +65,7 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
                 .Include(workSurface => workSurface.Apps.Where(app => app.ExternalId == null))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
-                .OrderBy(appGroup => appGroup.Order)
+                .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
         }
 
@@ -76,7 +76,7 @@ public class GetWorkSurfaceAppGroupsWithAppsQuery : QueryBase<IList<WorkSurfaceA
                 .Include(appGroup => appGroup.Apps.Where(app => app.ExternalId == null || app.ExternalId == contextExternalId))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
-                .OrderBy(appGroup => appGroup.Order)
+                .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
                 .FirstOrDefaultAsync(x => x.Id == workSurfaceId, cancellationToken);
         }
 
