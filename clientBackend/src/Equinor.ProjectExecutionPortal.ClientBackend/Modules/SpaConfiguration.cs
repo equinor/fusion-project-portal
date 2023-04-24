@@ -25,7 +25,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
                 ? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp", "development")
                 : Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "ClientApp", "production");
 
-            // New way
+            // Setup router to fallback to SPA application if route is not mapped
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapFallbackToController("Index", "Bundle");
@@ -40,19 +40,6 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
                 FileProvider = new PhysicalFileProvider(Path.Combine(filePath, "assets")),
                 RequestPath = "/assets"
             });
-
-            // Old way
-            //app.Map("", portal =>
-            //    {
-            //        portal.UseSpa(spa =>
-            //        {
-            //            spa.Options.SourcePath = filePath;
-            //            spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
-            //            {
-            //                FileProvider = new PhysicalFileProvider(filePath)
-            //            };
-            //        });
-            //    });
 
             return app;
         }
