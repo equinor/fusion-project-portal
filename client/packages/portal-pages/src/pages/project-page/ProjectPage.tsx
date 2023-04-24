@@ -1,6 +1,7 @@
 import { Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { StyledMain } from '../common-styles/Styles';
 import { Handover } from './components/kpis/handover/Handover';
@@ -12,7 +13,7 @@ import {
 	StyledGridItem,
 	StyledHeaderSection,
 	StyledCard,
-} from './ContextPage.Styles';
+} from './ProjectPage.Styles';
 
 function getBackgroundURL(instCode: string) {
 	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
@@ -27,10 +28,21 @@ type ProjectMaster = {
 	portfolioOrganizationalUnit: string;
 } & Record<string, unknown>;
 
-export const ContextPage = () => {
+export const ProjectPage = () => {
+	const { contextId } = useParams();
+
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
 
-	if (!currentContext) return null;
+	if (
+		!currentContext ||
+		!contextId?.match(/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/)
+	) {
+		return null;
+	}
+
+	if (currentContext.type.id !== 'ProjectMaster') {
+		return <Navigate to="/" />;
+	}
 
 	return (
 		<StyledMain>

@@ -1,17 +1,16 @@
-import { useState, useEffect } from "react";
-import { useAppGroupsQuery } from "../queries";
-import { AppGroup } from "../types";
+import { useMemo } from 'react';
+import { useAppModule } from '../app-loader';
+import { useAppGroupsQuery } from '../queries';
 
 export const useCurrentAppGroup = (appKey?: string) => {
+	const { appManifest } = useAppModule();
 
-    const { data, isLoading } = useAppGroupsQuery()
-    const [currentAppGroup, setCurrentAppGroup] = useState<AppGroup>()
+	const { data, isLoading } = useAppGroupsQuery();
 
-    useEffect(() => {
-        const nextAppGroup = data?.find(app => !!app.apps.find(a => a.appKey === appKey));
-        setCurrentAppGroup(s => nextAppGroup ? nextAppGroup : undefined);
+	const currentAppGroup = useMemo(() => {
+		const nextAppGroup = data?.find((app) => !!app.apps.find((a) => a.appKey === appKey));
+		return nextAppGroup ? nextAppGroup : undefined;
+	}, [appKey, data]);
 
-    }, [appKey, data])
-
-    return { currentAppGroup, isLoading }
-}
+	return { currentAppGroup, isLoading, appManifest };
+};

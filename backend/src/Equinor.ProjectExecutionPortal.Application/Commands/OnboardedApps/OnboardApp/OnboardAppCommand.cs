@@ -31,7 +31,7 @@ public class OnboardAppCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(OnboardAppCommand command, CancellationToken cancellationToken)
         {
-            if (!await _appService.AppExist(command.AppKey, cancellationToken))
+            if (!await _appService.FusionAppExist(command.AppKey, cancellationToken))
             {
                 throw new NotFoundException($"Could not locate app '{command.AppKey}' in Fusion.");
             }

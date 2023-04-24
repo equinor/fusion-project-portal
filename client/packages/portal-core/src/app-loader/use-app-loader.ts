@@ -21,7 +21,9 @@ export const useAppLoader = (appKey: string) => {
 		subscription.add(
 			currentApp?.initialize().subscribe({
 				next: ({ manifest, script, config }) => {
-					const basename = window.location.pathname;
+					/** generate basename for application regex extracts /apps/:appKey */
+					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
+
 					appRef.current = document.createElement('div');
 					appRef.current.style.display = 'contents';
 

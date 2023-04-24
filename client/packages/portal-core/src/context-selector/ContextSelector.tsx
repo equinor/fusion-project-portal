@@ -1,14 +1,15 @@
 import FusionContextSelector from '@equinor/fusion-react-context-selector';
 import { NavigateFunction } from 'react-router-dom';
 import { useFrameworkContext, useFrameworkCurrentContext } from '../hooks';
-import { getContextPageUrl } from './utils';
+import { getPathUrl } from '../utils';
 
-interface PortalContextSelectorProps {
+interface ContextSelectorProps {
+	path: string;
 	variant?: string;
 	navigate?: NavigateFunction;
 }
 
-export const ContextSelector = ({ variant, navigate }: PortalContextSelectorProps) => {
+export const ContextSelector = ({ variant, path, navigate }: ContextSelectorProps) => {
 	const contextProvider = useFrameworkContext();
 	const currentContext = useFrameworkCurrentContext();
 
@@ -20,7 +21,7 @@ export const ContextSelector = ({ variant, navigate }: PortalContextSelectorProp
 				e.stopPropagation();
 				contextProvider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
 				navigate &&
-					navigate(getContextPageUrl(e.nativeEvent.detail.selected[0].id), {
+					navigate(getPathUrl(path, e.nativeEvent.detail.selected[0].id), {
 						relative: 'route',
 						replace: false,
 					});

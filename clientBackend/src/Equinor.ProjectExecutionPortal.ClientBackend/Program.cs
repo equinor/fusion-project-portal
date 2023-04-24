@@ -1,40 +1,36 @@
-﻿using Equinor.ProjectExecutionPortal.ClientBackend;
-using Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
+﻿using Equinor.ProjectExecutionPortal.ClientBackend.Configurations;
+using Equinor.ProjectExecutionPortal.ClientBackend.Modules;
 using Fusion.Integration;
 using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
+using Constants = Equinor.ProjectExecutionPortal.ClientBackend.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// AppSettings configuration
-builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("CacheOptions"));
-builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
+// Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
 
-// Add cookie auth
-builder.Services
-    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration)
-    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { })
-    .AddInMemoryTokenCaches();
+// AppSettings configuration
+builder.Services.Configure<ClientBundleOptions>(builder.Configuration.GetSection("ClientBundle"));
+builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSection("FusionPortalApi"));
+builder.Services.Configure<FusionProjectPortalApiOptions>(builder.Configuration.GetSection("FusionProjectPortalApi"));
+builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
+builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache"));
 
 // Add bearer auth
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration)
-//    .EnableTokenAcquisitionToCallDownstreamApi()
-//    .AddInMemoryTokenCaches();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration)
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddInMemoryTokenCaches();
 
-// Authorization
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("default", policy =>
-    {
-        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-        policy.RequireAuthenticatedUser();
-    });
-});
+// Add cookie auth
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration)
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddInMemoryTokenCaches();
 
 // Add fusion integration
 builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
@@ -46,24 +42,31 @@ builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
 });
 
 // Add http client to the fusion portal api. This can be fetched from the IHttpClientFactory
-builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal, fusionHttpClientOptions =>
+builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusionHttpClientOptions =>
 {
     fusionHttpClientOptions.UseDelegateToken = true;
     fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
 });
 
-// .....................................
+builder.Services.AddControllersWithViews();
 
-builder.Services.AddControllersWithViews(config =>
-    {
-        //var policy = new AuthorizationPolicyBuilder()
-        //    .RequireAuthenticatedUser()
-        //    .Build();
-        //config.Filters.Add(new AuthorizeFilter(policy));
-    });
+// SPA Configuration
+builder.Services.AddSpa(builder);
 
 // Add asset proxy
 builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
+
+builder.Services.AddApplicationInsightsTelemetry();
+
+// Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("default", policy =>
+    {
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+        policy.RequireAuthenticatedUser();
+    });
+});
 
 builder.Services.AddHttpContextAccessor();
 
@@ -71,16 +74,18 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Ensure proper redirect urls in Radix. Without this, the auth redirects uses HTTP instead of HTTPS
+app.Use((context, next) =>
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    context.Request.Scheme = "https";
+    return next();
+});
 
-app.UseHttpsRedirection();
-//app.UseDefaultFiles(); // For static redirect
-app.UseStaticFiles();
+// Used for Radix
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    Secure = CookieSecurePolicy.Always
+});
 
 app.UseAuthentication();
 
@@ -88,14 +93,18 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Unless request matches any of these endpoint, the SPA will take control
 app.UseEndpoints(endpoints =>
 {
-    // Set up routes that the asset proxy should forward.
+    endpoints.MapDefaultControllerRoute();
     endpoints.MapFusionPortalAssetProxy();
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Bundle}/{action=Index}/{id?}");
 });
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Main}/{action=Index}/{id?}");
+// SPA Configuration
+app.MapSpaEndpoints(builder);
 
 app.Run();

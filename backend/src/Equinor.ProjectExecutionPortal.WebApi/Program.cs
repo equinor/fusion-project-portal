@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Equinor.ProjectExecutionPortal.WebApi;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
@@ -12,10 +11,14 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Constants = Equinor.ProjectExecutionPortal.WebApi.Constants;
 
 const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddCors(options =>
 {
@@ -29,13 +32,6 @@ builder.Services.AddCors(options =>
                 .WithExposedHeaders("Allow");
         });
 });
-
-// Add cookie auth
-//builder.Services
-//    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApp(builder.Configuration)
-//    .EnableTokenAcquisitionToCallDownstreamApi()
-//    .AddInMemoryTokenCaches();
 
 //Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -56,7 +52,7 @@ builder.Services.AddFusionIntegration(f =>
 });
 
 // Add http client to the fusion portal api. This can be fetched from the IHttpClientFactory
-builder.Services.AddFusionIntegrationHttpClient(PortalConstants.HttpClientPortal, s =>
+builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, s =>
 {
     s.UseDelegateToken = true;
     s.UseFusionEndpoint(FusionEndpoint.Portal);
@@ -120,9 +116,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddApplicationInsightsTelemetry();
-
 builder.Services.AddApplicationModules(builder.Configuration);
+builder.Services.AddApplicationServicesModules();
+builder.Services.AddApplicationIntegrationsModule();
+builder.Services.AddCacheModules();
 
 var app = builder.Build();
 
@@ -161,4 +158,5 @@ app.UseEndpoints(endpoints =>
 app.Run();
 
 // Used for tests
-public partial class Program { }
+public partial class Program
+{ }

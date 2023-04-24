@@ -3,7 +3,7 @@
   "description": "some description...",
   "serviceDiscovery": {
     "client": {
-      "baseUri": "https://fusion-s-portal-ci.azurewebsites.net/",
+      "baseUri": "https://fusion-s-portal-ci.azurewebsites.net",
       "defaultScopes": [
         "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
       ]
@@ -11,16 +11,16 @@
   },
   "portalClient": {
     "client": {
-      "baseUri": "https://app-pep-backend-noe-dev.azurewebsites.net/",
+      "baseUri": "https://backend-fusion-project-portal-feature.radix.equinor.com",
       "defaultScopes": [
-        "api://9f166838-5d6b-4c44-8964-06db10eebd5d/ReadWrite"
+        "api://7bf96dd1-39fe-47dd-8286-329c730ac76b/access_as_user"
       ]
     }
   },
   "masal": {
     "client": {
       "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
-      "clientId": "9f166838-5d6b-4c44-8964-06db10eebd5d",
+      "clientId": "0cf88005-bda7-4bbb-acc7-db463c5a8ba4",
       "redirectUri": "/authentication/login-callback"
     },
     "options": {

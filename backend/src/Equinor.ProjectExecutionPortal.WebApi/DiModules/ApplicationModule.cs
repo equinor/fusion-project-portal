@@ -60,8 +60,5 @@ public static class ApplicationModule
         services.AddScoped<IBearerTokenProvider>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IBearerTokenSetter>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IAuthenticator>(x => x.GetRequiredService<Authenticator>());
-
-        services.AddApplicationServicesModules();
-        services.AddApplicationIntegrationsModule();
     }
 }

@@ -1,6 +1,6 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
-import { enableNavigation } from '@equinor/fusion-framework-module-navigation';
+import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import {
@@ -11,6 +11,8 @@ import {
 	PortalConfig,
 	appConfigurator,
 } from '@equinor/portal-core';
+import { last, skip } from 'rxjs';
+import { replaceContextInPathname } from '../utils/context-utils';
 
 const showInfo = false;
 
@@ -20,7 +22,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
-		enableAppModule(config, appConfigurator);
+		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
 		config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
 
@@ -45,11 +47,26 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized(async (fusion) => {
+		config.onInitialized<[NavigationModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
-			fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
+
+			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
+				const { navigator } = fusion.navigation;
+
+				if (!context) {
+					navigator.replace('/');
+				}
+
+				if (context && context.id && !window.location.pathname.includes(context.id)) {
+					const pathname = replaceContextInPathname(context.id);
+					const to = { pathname, search: window.location.search, hash: window.location.hash };
+
+					navigator.replace(to);
+				}
+			});
 
 			if (showInfo) {
+				fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
 				console.debug('📒 subscribing to all events');
 
 				fusion.event.subscribe((e) => {
