@@ -33,8 +33,8 @@ const StyledAssignmentsList = styled.div`
 	height: 100%;
 `;
 
-const StyledAssignmentsListWrapper = styled.div`
-	height: 600px;
+const StyledAssignmentsListWrapper = styled.div<{ height?: number }>`
+	height: ${({ height }) => (height ? `${height}px` : '100%')};
 `;
 
 const StyledAccordianItem = styled(Accordion.Item)`
@@ -51,9 +51,9 @@ const StyledAccordianPanel = styled(Accordion.Panel)`
 
 const groupOption = {
 	Category: (task: FusionTask) => task.category,
-	OwnerApplication: (task: FusionTask) => task.ownerApplication.title,
+	'Owner Application': (task: FusionTask) => task.ownerApplication?.title || 'Unknown',
 	Priority: (task: FusionTask) => task.priority,
-	SourceSystem: (task: FusionTask) => task.sourceSystem.subSystem,
+	'Source System': (task: FusionTask) => task.sourceSystem?.subSystem || 'Unknown',
 	State: (task: FusionTask) => task.state,
 	TaskMode: (task: FusionTask) => task.taskMode,
 	Type: (task: FusionTask) => task.type,
@@ -67,9 +67,10 @@ const groupBy = (arr: FusionTask[], getKey: (task: FusionTask) => string) =>
 	}, {} as Record<PropertyKey, FusionTask[]>);
 interface TasksProps {
 	maxDisplay?: number;
+	height?: number;
 }
 
-export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
+export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 	const [groupedBy, setGroupedBy] = useState<keyof typeof groupOption>('Category');
 	const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
 
@@ -96,7 +97,7 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 					/>
 				</StyledKpiItem>
 			</StyledKpiWrapper>
-			<StyledAssignmentsListWrapper>
+			<StyledAssignmentsListWrapper height={height}>
 				<StyledAssignmentsList>
 					<Accordion>
 						{Object.entries(groupedAssignments).map(([groupName, tasks]) => (
