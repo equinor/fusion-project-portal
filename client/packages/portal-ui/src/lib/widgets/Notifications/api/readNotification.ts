@@ -10,6 +10,7 @@ export async function readNotificationAsync({ notificationId, client }: ReadNoti
 
 	await fusionNotifications.fetch(`notifications/${notificationId}?api-version=1.0`, {
 		method: 'PATCH',
+		headers: { ['content-type']: 'application/JSON' },
 		body: JSON.stringify({
 			seenByUser: true,
 		}),

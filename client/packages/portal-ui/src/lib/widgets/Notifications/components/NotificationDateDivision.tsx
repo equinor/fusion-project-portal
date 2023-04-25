@@ -1,21 +1,8 @@
 import { useMemo } from 'react';
 import { Notification } from '../types/Notification';
-import styled from 'styled-components';
 import { NotificationCard } from './NotificationCard';
 import { tokens } from '@equinor/eds-tokens';
-
-type NotificationDateDivisionProps = {
-	notifications: Notification[];
-	collapsed?: boolean;
-};
-
-type AccordionOpenDictionary = {
-	[id: string]: boolean;
-};
-
-type DateDivisionsContainerProps = {
-	collapsed?: boolean;
-};
+import { css } from '@emotion/react';
 
 type DateDivisionKey = 'today' | 'this-week' | 'last-week' | 'more-than-one-week';
 
@@ -24,14 +11,6 @@ type DateDivision = {
 	label: string;
 	accessor: (notification: Notification) => boolean;
 	notifications: Notification[];
-};
-
-type NotificationContainerProps = {
-	notification: Notification;
-	openAccordions: AccordionOpenDictionary;
-	handleOpenAccordionChange: (accordionId: string) => void;
-	divisionKey: DateDivisionKey;
-	collapsed?: boolean;
 };
 
 const getMonday = (date: Date) => {
@@ -108,8 +87,8 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 			{notificationDivisions.map(
 				(division) =>
 					division.notifications.length > 0 && (
-						<StyledNotifications>
-							<StyledNotificationsList>
+						<div className={StyledNotifications.name}>
+							<div className={StyledNotificationsList.name}>
 								{division.label}
 								{sortList(division.notifications).map((notification, index) => (
 									<NotificationCard
@@ -118,22 +97,22 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 										onNavigate={onClickNotification}
 									/>
 								))}
-							</StyledNotificationsList>
-						</StyledNotifications>
+							</div>
+						</div>
 					)
 			)}
 		</>
 	);
 };
 
-const StyledNotifications = styled.div`
+const StyledNotifications = css`
 	display: flex;
 	flex-direction: column;
 	padding: 0em 1em;
 	height: 100%;
 `;
 
-const StyledNotificationsList = styled.div`
+const StyledNotificationsList = css`
 	display: flex;
 	flex-direction: column;
 	overflow: scroll;

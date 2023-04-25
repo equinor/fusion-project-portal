@@ -1,18 +1,16 @@
-interface NotificationKeys {
-    baseKey: string[];
-    read: string[];
-}
+type NotificationKeys = typeof mutationKeys;
+
+const baseKey = ['notifications'] as const;
+
+const mutationKeys = {
+	baseKey: baseKey,
+	read: [...baseKey, 'read'],
+	deleteMutation: [...baseKey, 'delete'],
+} as const;
 
 /**
  * MutationKeys for notifications
  */
-export function useNotificationMutationKeys(): NotificationKeys {
-    const baseKey = ['notifications'];
-
-    const mutationKeys = {
-        baseKey: baseKey,
-        read: [...baseKey, 'read'],
-    };
-
-    return mutationKeys;
+export function useNotificationMutationKeys(): Readonly<NotificationKeys> {
+	return mutationKeys;
 }
