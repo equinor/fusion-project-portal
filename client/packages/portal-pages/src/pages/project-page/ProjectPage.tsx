@@ -64,9 +64,6 @@ export const ProjectPage = () => {
 					<ProjectDetails />
 				</StyledGridItem>
 
-				<StyledGridItem span={5}>
-					<Handover />
-				</StyledGridItem>
 				<StyledGridItem span={4} heightSpan={3}>
 					<WorkAssigned />
 				</StyledGridItem>
