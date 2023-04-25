@@ -4,7 +4,6 @@ import { WorkAssigned } from '@equinor/portal-ui';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { StyledMain } from '../common-styles/Styles';
-import { Handover } from './components/kpis/handover/Handover';
 import { Milestones } from './components/project-cards/milestones/Milestones';
 import { ProjectDetails } from './components/project-cards/ProjectDetails';
 import {
