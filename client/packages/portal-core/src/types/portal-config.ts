@@ -12,7 +12,7 @@ export interface PortalConfig {
 	portalClient: {
 		client: Client;
 	};
-	masal: {
+	msal: {
 		client: AuthClientOptions;
 		options: {
 			requiresAuth: boolean;

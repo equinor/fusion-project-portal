@@ -4,7 +4,6 @@ import { WorkAssigned } from '@equinor/portal-ui';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { StyledMain } from '../common-styles/Styles';
-import { Handover } from './components/kpis/handover/Handover';
 import { Milestones } from './components/project-cards/milestones/Milestones';
 import { ProjectDetails } from './components/project-cards/ProjectDetails';
 import {
@@ -64,9 +63,6 @@ export const ProjectPage = () => {
 					<ProjectDetails />
 				</StyledGridItem>
 
-				<StyledGridItem span={5}>
-					<Handover />
-				</StyledGridItem>
 				<StyledGridItem span={4} heightSpan={3}>
 					<WorkAssigned />
 				</StyledGridItem>
