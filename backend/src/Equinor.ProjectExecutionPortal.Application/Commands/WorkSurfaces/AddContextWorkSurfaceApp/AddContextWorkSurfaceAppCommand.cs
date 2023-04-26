@@ -64,7 +64,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
                 throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
 
-            if (workSurfaceWithContextApps.Apps.Any(x => x.OnboardedAppId == onboardedApp.Id))
+            if (workSurfaceWithContextApps.HasApp(onboardedApp.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface. Either globally or with the supplied context");
             }

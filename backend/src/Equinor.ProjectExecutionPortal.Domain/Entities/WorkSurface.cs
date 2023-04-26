@@ -66,4 +66,9 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     {
         _apps.Add(app);
     }
+
+    public bool HasApp(Guid onboardedAppId)
+    {
+        return Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedAppId == onboardedAppId);
+    }
 }

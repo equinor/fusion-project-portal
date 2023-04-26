@@ -30,9 +30,9 @@ public class GetOnboardedContextQuery : QueryBase<OnboardedContextDto?>
         public async Task<OnboardedContextDto?> Handle(GetOnboardedContextQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readWriteContext.Set<Domain.Entities.OnboardedContext>()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.ExternalId == request.ExternalId, cancellationToken)
-                         ?? throw new NotFoundException(nameof(Domain.Entities.OnboardedContext), request.ExternalId);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ExternalId == request.ExternalId, cancellationToken)
+                ?? throw new NotFoundException(nameof(Domain.Entities.OnboardedContext), request.ExternalId);
 
             return _mapper.Map<Domain.Entities.OnboardedContext, OnboardedContextDto>(entity);
         }

@@ -30,11 +30,11 @@ public class OnboardContextCommand : IRequest<string>
 
         public async Task<string> Handle(OnboardContextCommand command, CancellationToken cancellationToken)
         {
-            var existingOnboardedContext = await _readWriteContext.Set<OnboardedContext>()
+            var onboardedContextExists = await _readWriteContext.Set<OnboardedContext>()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ExternalId == command.ExternalId, cancellationToken);
+                .AnyAsync(x => x.ExternalId == command.ExternalId, cancellationToken);
 
-            if (existingOnboardedContext != null)
+            if (onboardedContextExists)
             {
                 throw new InvalidActionException($"Context: '{command.ExternalId}' is already onboarded");
             }

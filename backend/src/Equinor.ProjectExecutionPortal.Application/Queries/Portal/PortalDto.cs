@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portal;
 
-public class PortalDto : BaseContextDto, IMapFrom<Domain.Entities.Portal>
+public class PortalDto : IMapFrom<Domain.Entities.Portal>
 {
     public string Name { get; set; }
     public string Description { get; set; }

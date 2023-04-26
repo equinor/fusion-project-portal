@@ -30,13 +30,6 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
         public async Task<PortalDto?> Handle(GetPortalWithAppsQuery request, CancellationToken cancellationToken)
         {
-            // TODO: Remove
-            // Seed db if no portals is found
-            if (!await _context.Set<Domain.Entities.Portal>().AnyAsync(cancellationToken))
-            {
-                await TempMethodSeedDb(cancellationToken);
-            }
-
             var enitity = await _context.Set<Domain.Entities.Portal>()
                 .AsNoTracking()
                 .Include(portal => portal.WorkSurfaces.OrderBy(workSurface => workSurface.Order))

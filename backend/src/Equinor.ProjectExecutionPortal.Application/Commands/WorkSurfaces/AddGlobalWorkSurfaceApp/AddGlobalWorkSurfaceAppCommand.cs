@@ -46,7 +46,7 @@ public class AddGlobalWorkSurfaceAppCommand : IRequest<Unit>
                 throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
             }
 
-            if (workSurfaceWithGlobalApps.Apps.Any(x => x.OnboardedAppId == onboardedApp.Id))
+            if (workSurfaceWithGlobalApps.HasApp(onboardedApp.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
             }

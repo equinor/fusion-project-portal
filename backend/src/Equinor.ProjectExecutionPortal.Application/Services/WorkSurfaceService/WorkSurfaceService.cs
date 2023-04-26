@@ -30,8 +30,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 Order = grouping.Key.Order,
                 Apps = grouping.Select(workSurfaceApp => new WorkSurfaceAppDto
                 {
-                    CreatedAtUtc = workSurfaceApp.CreatedAtUtc,
-                    ModifiedAtUtc = workSurfaceApp.ModifiedAtUtc,
                     OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp),
                 }).OrderBy(surfaceAppDto => surfaceAppDto.OnboardedApp.Order).ToList()
             })
