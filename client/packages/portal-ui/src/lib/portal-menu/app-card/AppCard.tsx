@@ -9,8 +9,9 @@ import styled from 'styled-components';
 type AppCardProps = {
 	name: string;
 	appKey: string;
+	isActive: boolean;
 };
-export const AppCard = ({ name, appKey }: AppCardProps) => {
+export const AppCard = ({ name, appKey, isActive }: AppCardProps) => {
 	const { closeMenu } = useMenuContext();
 	const isFavorited = Boolean(
 		useObservable(menuFavoritesController.favorites$.pipe(map((val) => val?.includes(appKey))))
@@ -25,7 +26,7 @@ export const AppCard = ({ name, appKey }: AppCardProps) => {
 				closeMenu();
 			}}
 		>
-			<span>{name}</span>
+			{isActive ? <b>{name}</b> : <span>{name}</span>}
 			<StyledIcon
 				id={`${appKey}-favorite-button`}
 				title={`App favorite button for ${name}`}
