@@ -1,17 +1,27 @@
 import { useCurrentUser } from '@equinor/fusion-framework-react/hooks';
 import { InfoMessage } from '../info-message/InfoMessage';
-import { SideSheetHeader } from '../side-sheet-header/SideSheetHeader';
 
-export function MyAccount() {
-  const user = useCurrentUser();
+import { PortalActionProps } from '@equinor/portal-core';
 
-  return (
-    <SideSheetHeader
-      title="My Account"
-      subTitle={user?.username || ''}
-      color={'#258800'}
-    >
-      <InfoMessage>This functionality is not yet implemented.</InfoMessage>
-    </SideSheetHeader>
-  );
+import { SideSheet } from '@equinor/fusion-react-side-sheet';
+
+export function MyAccount({ action, onClose, open }: PortalActionProps) {
+	const user = useCurrentUser();
+
+	return (
+		<SideSheet
+			isOpen={open}
+			onClose={onClose}
+			isDismissable={true}
+			enableFullscreen={true}
+			minWidth={action.minWidth}
+		>
+			<SideSheet.Indicator color={action.color} />
+			<SideSheet.Title title={action.name} />
+			<SideSheet.SubTitle subTitle={user?.username || ''} />
+			<SideSheet.Content>
+				<InfoMessage>This functionality is not yet implemented.</InfoMessage>
+			</SideSheet.Content>
+		</SideSheet>
+	);
 }

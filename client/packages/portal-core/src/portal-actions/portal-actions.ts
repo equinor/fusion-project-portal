@@ -7,23 +7,19 @@ const actions$ = new BehaviorSubject<PortalAction[]>(actions);
 const activeAction$ = new BehaviorSubject<PortalAction | undefined>(undefined);
 
 function setActiveActionById(actionId: string) {
-  const action = actions$.value.find(
-    (action: { actionId: string }) => action.actionId === actionId
-  );
-  action
-    ? activeAction$.next(action)
-    : console.warn(
-        `trying to open action not known to system with actionId: ${actionId}`
-      );
+	const action = actions$.value.find((action: { actionId: string }) => action.actionId === actionId);
+	action
+		? activeAction$.next(action)
+		: console.warn(`trying to open action not known to system with actionId: ${actionId}`);
 }
 
 function closeActiveAction() {
-  activeAction$.next(undefined);
+	activeAction$.next(undefined);
 }
 
 export const portalActions: PortalActions = {
-  actions$,
-  activeAction$,
-  setActiveActionById,
-  closeActiveAction,
+	actions$,
+	activeAction$,
+	setActiveActionById,
+	closeActiveAction,
 };
