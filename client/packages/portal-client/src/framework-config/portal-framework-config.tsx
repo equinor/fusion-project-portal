@@ -3,6 +3,7 @@ import { enableAppModule } from '@equinor/fusion-framework-module-app';
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
+import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
 import {
 	addAgGrid,
 	addPortalClient,
@@ -24,7 +25,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
-		config.configureMsal(portalConfig.masal.client, portalConfig.masal.options);
+		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
 		if (portalConfig.agGrid) {
 			addAgGrid(config, portalConfig.agGrid);
@@ -36,6 +37,14 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		enableSignalR(config, 'portal', {
 			service: 'portal',
 			path: '/signalr/hubs/portal/?negotiateVersion=1',
+		});
+
+		enableBookmark(config, (builder) => {
+			builder.setSourceSystem({
+				subSystem: 'Project Portal',
+				identifier: 'project-portal',
+				name: 'Project Portal',
+			});
 		});
 
 		/** Enable Navigation module  */
