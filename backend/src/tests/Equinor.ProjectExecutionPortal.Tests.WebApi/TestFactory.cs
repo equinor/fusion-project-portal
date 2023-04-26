@@ -158,8 +158,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
 
         private static void SeedData(ProjectExecutionPortalContext dbContext, IServiceProvider scopeServiceProvider)
         {
-            dbContext.Seed(scopeServiceProvider);
-        }
+            dbContext.Seed(scopeServiceProvider); }
 
         private void EnsureTestDatabaseDeletedAtTeardown(IServiceCollection services)
             => _teardownList.Add(() =>
@@ -216,7 +215,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
             var webHostBuilder = WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment(IntegrationTestEnvironment);
-                builder.ConfigureAppConfiguration((_, conf) => conf.AddJsonFile(_configPath));
+                builder.ConfigureAppConfiguration((_, conf) => conf
+                    .AddJsonFile(_configPath)
+                    .AddUserSecrets(_configPath));
             });
 
             CreateAuthenticatedHttpClients(webHostBuilder);
