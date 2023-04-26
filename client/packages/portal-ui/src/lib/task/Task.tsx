@@ -1,8 +1,6 @@
-import { Tasks } from './work-assigned/WorkAssigned';
-
 import { PortalActionProps } from '@equinor/portal-core';
-
 import { SideSheet } from '@equinor/fusion-react-side-sheet';
+import { Tasks } from './work-assigned/Tasks';
 
 export function Task({ action, onClose, open }: PortalActionProps) {
 	return (
