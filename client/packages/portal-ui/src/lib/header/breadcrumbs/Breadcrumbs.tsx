@@ -26,7 +26,7 @@ export const Breadcrumbs = () => {
 						currentView && navigate(`/${currentView.key}/${context.id}`);
 					}}
 				>
-					{currentView?.name}
+					{currentAppGroup ? <span>{currentView?.name}</span> : <b>{currentView?.name}</b>}
 				</StyledBreadcrumbItemInteract>
 			)}
 			{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name} />}

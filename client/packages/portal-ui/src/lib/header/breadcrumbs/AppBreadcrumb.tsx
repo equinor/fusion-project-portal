@@ -26,7 +26,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 						toggleMenuOpen((s) => !s);
 					}}
 				>
-					{currentApp.name}
+					<b>{currentApp.name}</b>
 				</StyledBreadcrumbItemInteract>
 			)}
 
