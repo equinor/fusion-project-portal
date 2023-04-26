@@ -56,7 +56,7 @@ const groupOption = {
 	'Source System': (task: FusionTask) => task.sourceSystem?.subSystem || 'Unknown',
 	State: (task: FusionTask) => task.state,
 	TaskMode: (task: FusionTask) => task.taskMode,
-	Type: (task: FusionTask) => task.type,
+	Type: (task: FusionTask) => task.type || 'Unknown',
 };
 
 const groupBy = (arr: FusionTask[], getKey: (task: FusionTask) => string) =>
@@ -101,7 +101,7 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 				<StyledAssignmentsList>
 					<Accordion>
 						{Object.entries(groupedAssignments).map(([groupName, tasks]) => (
-							<StyledAccordianItem isExpanded>
+							<StyledAccordianItem isExpanded key={groupName}>
 								<StyledAccordianHeader>{groupName}</StyledAccordianHeader>
 								<StyledAccordianPanel>
 									<GroupAssignments assignments={tasks} />
