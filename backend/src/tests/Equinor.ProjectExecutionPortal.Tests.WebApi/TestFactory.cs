@@ -217,7 +217,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                 builder.UseEnvironment(IntegrationTestEnvironment);
                 builder.ConfigureAppConfiguration((_, conf) => conf
                     .AddJsonFile(_configPath)
-                    .AddUserSecrets(_configPath));
+                    .AddUserSecrets<Program>());
             });
 
             CreateAuthenticatedHttpClients(webHostBuilder);
