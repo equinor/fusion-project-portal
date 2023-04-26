@@ -16,7 +16,7 @@ export const WorkAssigned = () => {
 				<Typography variant="h5">My Work Assigned</Typography>
 			</Card.Header>
 			<Card.Content>
-				<Tasks />
+				<Tasks height={600} />
 			</Card.Content>
 			<Card.Actions>
 				<Button
