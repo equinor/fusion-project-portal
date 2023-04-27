@@ -6,6 +6,7 @@ const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	cursor: pointer;
 `;
 
 const StyledTitle = styled(Typography)`
