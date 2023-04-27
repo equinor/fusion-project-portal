@@ -78,9 +78,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             // Add onboarded contexts
 
             var jcaContext = OnboardedContextsData.InitialSeedData.JcaContext;
-            var ogpContext = OnboardedContextsData.InitialSeedData.OgpContext;
 
-            dbContext.AddRange(jcaContext, ogpContext);
+            dbContext.AddRange(jcaContext);
             dbContext.SaveChanges();
 
             // Add apps to work surface
@@ -92,7 +91,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
             var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
 
-            var ogpContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id, ogpContext.Id);
+            var ogpContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id);
 
             // Add context specific apps to work surfaces
 
