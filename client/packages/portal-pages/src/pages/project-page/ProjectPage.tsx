@@ -13,6 +13,7 @@ import {
 	StyledHeaderSection,
 	StyledCard,
 } from './ProjectPage.Styles';
+import { Favorites } from './components/favorites/Favorites';
 
 function getBackgroundURL(instCode: string) {
 	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
@@ -59,15 +60,18 @@ export const ProjectPage = () => {
 				</StyledHeaderSection>
 			)}
 			<StyledContextPageGrid>
-				<StyledGridItem span={3} heightSpan={3}>
+				<StyledGridItem span={5}>
 					<ProjectDetails />
 				</StyledGridItem>
 
-				<StyledGridItem span={4} heightSpan={3}>
-					<WorkAssigned />
-				</StyledGridItem>
 				<StyledGridItem span={5}>
 					<Milestones />
+				</StyledGridItem>
+				<StyledGridItem span={5}>
+					<Favorites />
+				</StyledGridItem>
+				<StyledGridItem span={4}>
+					<WorkAssigned />
 				</StyledGridItem>
 			</StyledContextPageGrid>
 		</StyledMain>
