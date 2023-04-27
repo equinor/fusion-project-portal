@@ -53,25 +53,25 @@ export const ProjectPage = () => {
 						<Typography variant="h3">
 							<b>{currentContext?.title}</b>
 						</Typography>
-						<Typography variant="h3">
+						<Typography variant="h6">
 							{currentContext.value.projectCategory.replace(new RegExp('-|_/*'), ' ')}
 						</Typography>
 					</StyledCard>
 				</StyledHeaderSection>
 			)}
 			<StyledContextPageGrid>
-				<StyledGridItem span={5}>
-					<ProjectDetails />
-				</StyledGridItem>
-
-				<StyledGridItem span={5}>
-					<Milestones />
-				</StyledGridItem>
-				<StyledGridItem span={5}>
+				<StyledGridItem span={6}>
 					<Favorites />
 				</StyledGridItem>
-				<StyledGridItem span={4}>
+
+				<StyledGridItem span={3} heightSpan={3}>
 					<WorkAssigned />
+				</StyledGridItem>
+				<StyledGridItem span={3}>
+					<ProjectDetails />
+				</StyledGridItem>
+				<StyledGridItem span={3}>
+					<Milestones />
 				</StyledGridItem>
 			</StyledContextPageGrid>
 		</StyledMain>

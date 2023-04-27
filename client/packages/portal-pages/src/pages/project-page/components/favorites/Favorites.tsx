@@ -1,6 +1,6 @@
 import { useObservable } from '@equinor/portal-utils';
 import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
-import { Card, Icon, Typography } from '@equinor/eds-core-react';
+import { Card, Icon, Popover, Tooltip, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
@@ -8,12 +8,13 @@ import { combineLatest, map } from 'rxjs';
 import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
+import { useRef, useState } from 'react';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
 	display: flex;
 	width: 100px;
 	height: 100px;
-	background-color: ${({ color }) => (color ? color : '#52f6f8')};
+	background-color: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
 	align-items: center;
 	justify-content: center;
 	border-radius: 3px;
@@ -34,6 +35,9 @@ const styles = {
 		cursor: pointer;
 		overflow: hidden;
 		text-decoration: none;
+		:hover {
+			opacity: 0.9;
+		}
 	`,
 	cardList: css`
 		display: grid;
@@ -53,6 +57,8 @@ const styles = {
 };
 
 export const Favorites = () => {
+	const referenceElement = useRef<HTMLDivElement>(null);
+	const [isOpen, setIsOpen] = useState(false);
 	const { fusion } = useAppModule();
 	const favorites = useObservable(
 		combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
@@ -64,6 +70,20 @@ export const Favorites = () => {
 		<Card>
 			<Card.Header>
 				<Typography variant="h5">Favorites</Typography>
+				<div
+					onMouseOver={() => {
+						setIsOpen(true);
+					}}
+					onMouseLeave={() => {
+						setIsOpen(false);
+					}}
+					ref={referenceElement}
+				>
+					<Icon data={info_circle} color={tokens.colors.infographic.primary__moss_green_34.hex} />
+					<Popover placement="bottom" open={isOpen} anchorEl={referenceElement.current}>
+						<Popover.Content>Open menu and click on stars to add to favorites</Popover.Content>
+					</Popover>
+				</div>
 			</Card.Header>
 			<Card.Content>
 				<nav className={styles.cardList}>
@@ -92,7 +112,10 @@ export const Favorites = () => {
 								color={tokens.colors.infographic.primary__moss_green_34.hex}
 								size={48}
 							/>
-							<Typography variant="h4"> Open menu and add applications to favorites</Typography>
+							<Typography variant="h4" color={tokens.colors.text.static_icons__secondary.hex}>
+								{' '}
+								Open menu and click on stars to add to favorites
+							</Typography>
 						</div>
 					)}
 				</nav>
