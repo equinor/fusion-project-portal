@@ -189,6 +189,9 @@ spec:
                   - name: AzureAd--ClientSecret
                     type: secret
                     envVar: AzureAd__ClientSecret
+                  - name: ClientBundle--AgGrid--LicenseKey
+                    type: secret
+                    envVar: ClientBundle__AgGrid__LicenseKey
           replicas: 1
           monitoring: true
           resources:
