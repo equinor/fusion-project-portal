@@ -8,6 +8,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
         {
             public static string JcaContextExternalId = "fc5ffcbc-392f-4d7e-bb14-79a006579337";
             public static string OgpContextExternalId = "91dd6653-a364-40c7-af26-7af516d66c42";
+            public static string InvalidContextExternalId = "11111111-1111-1111-1111-111111111111";
             public static string ContextType = "ProjectMaster";
         }
 
