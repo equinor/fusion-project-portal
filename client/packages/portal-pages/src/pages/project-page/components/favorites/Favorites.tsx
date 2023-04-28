@@ -1,6 +1,6 @@
 import { useObservable } from '@equinor/portal-utils';
 import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
-import { Card, Icon, Popover, Tooltip, Typography } from '@equinor/eds-core-react';
+import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
@@ -45,6 +45,13 @@ const styles = {
 		grid-template-columns: repeat(3, 1fr);
 		gap: 1rem;
 		padding: 0;
+
+		@media only screen and (max-width: 60rem) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		@media only screen and (max-width: 45rem) {
+			grid-template-columns: repeat(1, 1fr);
+		}
 	`,
 	noData: css`
 		display: flex;
@@ -89,7 +96,7 @@ export const Favorites = () => {
 				<nav className={styles.cardList}>
 					{favorites?.length ? (
 						favorites.map((a) => (
-							<Link className={styles.appCard} to={`/apps/${a.key}`}>
+							<Link className={styles.appCard} to={`/apps/${a.key}`} key={a.key}>
 								<aside>
 									<AppIcon
 										color={a.accentColor}
@@ -113,7 +120,6 @@ export const Favorites = () => {
 								size={48}
 							/>
 							<Typography variant="h4" color={tokens.colors.text.static_icons__secondary.hex}>
-								{' '}
 								Open menu and click on stars to add to favorites
 							</Typography>
 						</div>

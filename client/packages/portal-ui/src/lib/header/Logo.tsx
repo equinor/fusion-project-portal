@@ -11,6 +11,9 @@ const StyledWrapper = styled.div`
 const StyledTitle = styled(Typography)`
 	padding-left: 0.5rem;
 	white-space: nowrap;
+	@media only screen and (max-width: 45rem) {
+		display: none;
+	}
 `;
 
 interface PortalLogoProps {

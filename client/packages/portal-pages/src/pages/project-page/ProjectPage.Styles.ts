@@ -25,7 +25,7 @@ export const StyledContextPageGrid = styled.div`
 	padding: 2rem;
 
 	@media only screen and (min-width: 45rem) and (max-width: 80rem) {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(6, 1fr);
 	}
 	@media only screen and (min-width: 80rem) {
 		grid-template-columns: repeat(9, 1fr);
