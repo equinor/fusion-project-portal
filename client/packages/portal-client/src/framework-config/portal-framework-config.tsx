@@ -5,7 +5,6 @@ import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
 import {
-	addAgGrid,
 	addPortalClient,
 	configurePortalContext,
 	LoggerLevel,
