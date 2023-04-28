@@ -14,6 +14,7 @@ import {
 } from '@equinor/portal-core';
 import { last, skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
+import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 
 const showInfo = false;
 
@@ -28,7 +29,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
 		if (portalConfig.agGrid) {
-			addAgGrid(config, portalConfig.agGrid);
+			enableAgGrid(config, portalConfig.agGrid);
 		}
 
 		addPortalClient(config, portalConfig.portalClient.client);
