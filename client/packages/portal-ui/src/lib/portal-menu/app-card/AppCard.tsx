@@ -28,6 +28,7 @@ export const AppCard = ({ name, appKey, isActive }: AppCardProps) => {
 		>
 			{isActive ? <b>{name}</b> : <span>{name}</span>}
 			<StyledIcon
+				isFavorite={isFavorited}
 				id={`${appKey}-favorite-button`}
 				title={`App favorite button for ${name}`}
 				onClick={(event) => {
@@ -41,8 +42,8 @@ export const AppCard = ({ name, appKey, isActive }: AppCardProps) => {
 	);
 };
 
-const StyledIcon = styled(Icon)`
-	visibility: hidden;
+const StyledIcon = styled(Icon)<{ isFavorite: boolean }>`
+	visibility: ${({ isFavorite }) => (isFavorite ? 'visible' : 'hidden')};
 `;
 const StyledAppCard = styled(Link)`
 	text-decoration: none;

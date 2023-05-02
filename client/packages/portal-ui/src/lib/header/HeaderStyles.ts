@@ -13,6 +13,9 @@ export const StyledTopBar = styled(TopBar)`
 export const StyledCustomContent = styled(TopBar.CustomContent)`
 	display: flex;
 	align-items: center;
+	@media only screen and (max-width: 45rem) {
+		display: none;
+	}
 `;
 
 export const StyledActionsWrapper = styled(TopBar.Actions)`

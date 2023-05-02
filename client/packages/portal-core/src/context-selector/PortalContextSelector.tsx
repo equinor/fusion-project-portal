@@ -17,6 +17,14 @@ const StyledWrapper = styled.div`
 	> fwc-searchable-dropdown-provider {
 		flex: 1;
 	}
+
+	@media only screen and (max-width: 60rem) {
+		width: 80vw;
+	}
+	@media only screen and (max-width: 45rem) {
+		width: 90vw;
+		flex-direction: column;
+	}
 `;
 
 const StyledButton = styled(Button)`
