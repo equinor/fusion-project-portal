@@ -11,7 +11,7 @@ import {
 	PortalConfig,
 	appConfigurator,
 } from '@equinor/portal-core';
-import { last, skip } from 'rxjs';
+import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 
