@@ -8,6 +8,7 @@ import PortalRouter from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
 import { createPortalFramework } from './framework-config';
 import { PortalConfig } from '../../portal-core/src';
+import './customElementsDefinePolyfill';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
