@@ -129,6 +129,9 @@ spec:
         AssetProxy__TokenScope: ""
         FusionProjectPortalApi__BaseAddress: ""
         FusionProjectPortalApi__Scope: ""
+        FusionBookmarks__Name: ""
+        FusionBookmarks__Identifier: ""
+        FusionBookmarks__Subsystem: "Project Portal"
       ports:
         - name: http
           port: 5000
