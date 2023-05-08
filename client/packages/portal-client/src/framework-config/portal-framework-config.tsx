@@ -27,7 +27,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
-		if (portalConfig.agGrid) {
+		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
 		}
 
