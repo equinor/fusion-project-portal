@@ -4,7 +4,8 @@ import { tokens } from '@equinor/eds-tokens';
 export const StyledGroup = styled.div`
 	display: flex;
 	gap: 0.5em;
-	width: 210px;
+	min-width: 300px;
+	width: auto;
 	align-items: flex-start;
 `;
 
