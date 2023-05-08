@@ -1,5 +1,6 @@
 import { AuthClientOptions } from '@equinor/fusion-framework-module-msal';
 import { View } from './view';
+import { SourceSystem } from '@equinor/fusion-framework-module-services/bookmarks';
 
 export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
 
@@ -35,6 +36,7 @@ export interface PortalConfig {
 	agGrid?: {
 		licenseKey: string;
 	};
+	bookmark: SourceSystem;
 	views?: View[];
 }
 
