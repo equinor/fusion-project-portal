@@ -6,7 +6,7 @@ const manifestMapper =
 	(basePath: string) =>
 	(value: any): AppManifest => {
 		const { key, name, version } = value;
-		return { key, name, version, entry: `${basePath}/api/bundles/${key}` };
+		return { ...value, key, name, version, entry: `${basePath}/api/bundles/${key}` };
 	};
 
 export const appConfigurator =

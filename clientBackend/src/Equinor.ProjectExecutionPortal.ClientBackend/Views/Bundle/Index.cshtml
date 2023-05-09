@@ -3,12 +3,14 @@
 @inject IOptions<ClientBundleOptions> ClientBundleOptions;
 @inject IOptions<FusionPortalApiOptions> FusionPortalApiOptions;
 @inject IOptions<FusionProjectPortalApiOptions> FusionProjectPortalApiOptions;
+@inject IOptions<FusionBookmarksOptions> FusionBookmarksOptions;
 @inject IWebHostEnvironment Env;
 
 @{
     var clientBundle = ClientBundleOptions.Value;
     var fusionPortalApi = FusionPortalApiOptions.Value;
     var fusionProjectPortalApi = FusionProjectPortalApiOptions.Value;
+    var fusionBookmarks = FusionBookmarksOptions.Value;
 }
 
 <div id="root"></div>
@@ -32,6 +34,11 @@
                     "@fusionProjectPortalApi.Scope"
                 ]
             }
+        },
+        "bookmarks": {
+            "name": "@fusionBookmarks.Name",
+            "identifier": "@fusionBookmarks.Identifier",
+            "subsystem": "@fusionBookmarks.Subsystem"
         },
         "msal": {
             "client": {

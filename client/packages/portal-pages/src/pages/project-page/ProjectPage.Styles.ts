@@ -13,7 +13,7 @@ export const StyledHeaderSection = styled.div<{ url: string }>(({ url }) => ({
 
 	backgroundRepeat: 'no-repeat',
 	backgroundSize: 'cover',
-	height: '250px',
+	height: '120px',
 	display: 'flex',
 	alignItems: 'center',
 	padding: '2rem',
@@ -25,10 +25,10 @@ export const StyledContextPageGrid = styled.div`
 	padding: 2rem;
 
 	@media only screen and (min-width: 45rem) and (max-width: 80rem) {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(6, 1fr);
 	}
 	@media only screen and (min-width: 80rem) {
-		grid-template-columns: repeat(12, 1fr);
+		grid-template-columns: repeat(9, 1fr);
 	}
 `;
 

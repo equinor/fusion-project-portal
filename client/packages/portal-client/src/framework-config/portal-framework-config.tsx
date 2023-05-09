@@ -5,15 +5,15 @@ import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
 import {
-	addAgGrid,
 	addPortalClient,
 	configurePortalContext,
 	LoggerLevel,
 	PortalConfig,
 	appConfigurator,
 } from '@equinor/portal-core';
-import { last, skip } from 'rxjs';
+import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
+import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 
 const showInfo = false;
 
@@ -27,8 +27,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
-		if (portalConfig.agGrid) {
-			addAgGrid(config, portalConfig.agGrid);
+		if (portalConfig.agGrid?.licenseKey) {
+			enableAgGrid(config, portalConfig.agGrid);
 		}
 
 		addPortalClient(config, portalConfig.portalClient.client);
