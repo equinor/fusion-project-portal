@@ -3,7 +3,7 @@ import * as icons from '@equinor/eds-icons';
 import { GlobalColorStyle } from './globalColors';
 import { GlobalStyle } from './globalStyles';
 
-import { theme, ThemeProvider } from '@equinor/fusion-react-styles';
+import { theme, ThemeProvider, StylesProvider } from '@equinor/fusion-react-styles';
 
 /** Consider adding the icons you use, Icons used:
  *  - menu
@@ -16,14 +16,16 @@ Icon.add(icons);
 const compact = 'compact';
 
 export function StyleProvider({ children }: React.PropsWithChildren) {
-  return (
-    <EdsProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
+	return (
+		<EdsProvider>
+			<ThemeProvider theme={theme}>
+				<StylesProvider seed="project-portal">
+					<GlobalStyle />
 
-        <GlobalColorStyle />
-        {children}
-      </ThemeProvider>
-    </EdsProvider>
-  );
+					<GlobalColorStyle />
+					{children}
+				</StylesProvider>
+			</ThemeProvider>
+		</EdsProvider>
+	);
 }
