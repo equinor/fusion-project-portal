@@ -8,7 +8,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddCo
 
 public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
 {
-    public AddContextAppToWorkSurfaceCommand(Guid workSurfaceId, string? contextExternalId, string appKey)
+    public AddContextAppToWorkSurfaceCommand(Guid workSurfaceId, string contextExternalId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
@@ -16,7 +16,7 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
     }
 
     public Guid WorkSurfaceId { get; }
-    public string? ContextExternalId { get; }
+    public string ContextExternalId { get; }
     public string AppKey { get; }
 
     public class Handler : IRequestHandler<AddContextAppToWorkSurfaceCommand, Unit>
