@@ -4,11 +4,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddContextWorkSurfaceApp;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddContextAppToWorkSurface;
 
-public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
+public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
 {
-    public AddContextWorkSurfaceAppCommand(Guid workSurfaceId, string? contextExternalId, string appKey)
+    public AddContextAppToWorkSurfaceCommand(Guid workSurfaceId, string? contextExternalId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
@@ -19,7 +19,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
     public string? ContextExternalId { get; }
     public string AppKey { get; }
 
-    public class Handler : IRequestHandler<AddContextWorkSurfaceAppCommand, Unit>
+    public class Handler : IRequestHandler<AddContextAppToWorkSurfaceCommand, Unit>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -28,7 +28,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Unit> Handle(AddContextWorkSurfaceAppCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddContextAppToWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
             if (command.ContextExternalId == null)
             {
@@ -41,7 +41,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
 
             if (onboardedContext == null)
             {
-                throw new NotFoundException(nameof(OnboardedContext), command.ContextExternalId);
+                throw new NotFoundException("Could not find any onboarded context with that id", command.ContextExternalId);
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
@@ -50,7 +50,7 @@ public class AddContextWorkSurfaceAppCommand : IRequest<Unit>
 
             if (onboardedApp == null)
             {
-                throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
+                throw new NotFoundException("Could not find any onboarded app with that id", command.AppKey);
             }
 
             var workSurfaceWithContextApps = await _readWriteContext.Set<WorkSurface>()

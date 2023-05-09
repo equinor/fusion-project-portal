@@ -4,11 +4,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddGlobalWorkSurfaceApp;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddGlobalAppToWorkSurface;
 
-public class AddGlobalWorkSurfaceAppCommand : IRequest<Unit>
+public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
 {
-    public AddGlobalWorkSurfaceAppCommand(Guid workSurfaceId, string appKey)
+    public AddGlobalAppToWorkSurfaceCommand(Guid workSurfaceId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
         AppKey = appKey;
@@ -17,7 +17,7 @@ public class AddGlobalWorkSurfaceAppCommand : IRequest<Unit>
     public Guid WorkSurfaceId { get; }
     public string AppKey { get; }
 
-    public class Handler : IRequestHandler<AddGlobalWorkSurfaceAppCommand, Unit>
+    public class Handler : IRequestHandler<AddGlobalAppToWorkSurfaceCommand, Unit>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -26,7 +26,7 @@ public class AddGlobalWorkSurfaceAppCommand : IRequest<Unit>
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Unit> Handle(AddGlobalWorkSurfaceAppCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddGlobalAppToWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
             var workSurfaceWithGlobalApps = await _readWriteContext.Set<WorkSurface>()
                 .Include(x => x.Apps.Where(app => app.OnboardedContextId == null))
@@ -43,7 +43,7 @@ public class AddGlobalWorkSurfaceAppCommand : IRequest<Unit>
 
             if (onboardedApp == null)
             {
-                throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
+                throw new NotFoundException("Could not find any onboarded app with that id", command.AppKey);
             }
 
             if (workSurfaceWithGlobalApps.HasApp(onboardedApp.Id))

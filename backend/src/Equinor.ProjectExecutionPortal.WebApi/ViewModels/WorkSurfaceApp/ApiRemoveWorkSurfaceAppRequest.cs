@@ -1,18 +1,18 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveContextWorkSurfaceApp;
-using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveGlobalWorkSurfaceApp;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveContextAppFromWorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveGlobalAppFromWorkSurface;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
     public class ApiRemoveWorkSurfaceAppRequest
     {
-        public RemoveContextWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string contextExternalId, string appKey)
+        public RemoveContextAppFromWorkSurfaceCommand ToCommand(Guid workSurfaceId, string contextExternalId, string appKey)
         {
-            return new RemoveContextWorkSurfaceAppCommand(workSurfaceId, contextExternalId, appKey);
+            return new RemoveContextAppFromWorkSurfaceCommand(workSurfaceId, contextExternalId, appKey);
         }
 
-        public RemoveGlobalWorkSurfaceAppCommand ToCommand(Guid workSurfaceId, string appKey)
+        public RemoveGlobalAppFromWorkSurfaceCommand ToCommand(Guid workSurfaceId, string appKey)
         {
-            return new RemoveGlobalWorkSurfaceAppCommand(workSurfaceId, appKey);
+            return new RemoveGlobalAppFromWorkSurfaceCommand(workSurfaceId, appKey);
         }
     }
 }

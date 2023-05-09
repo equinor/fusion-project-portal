@@ -4,11 +4,11 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveGlobalWorkSurfaceApp;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.RemoveGlobalAppFromWorkSurface;
 
-public class RemoveGlobalWorkSurfaceAppCommand : IRequest
+public class RemoveGlobalAppFromWorkSurfaceCommand : IRequest
 {
-    public RemoveGlobalWorkSurfaceAppCommand(Guid workSurfaceId, string appKey)
+    public RemoveGlobalAppFromWorkSurfaceCommand(Guid workSurfaceId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
         AppKey = appKey;
@@ -17,7 +17,7 @@ public class RemoveGlobalWorkSurfaceAppCommand : IRequest
     public Guid WorkSurfaceId { get; }
     public string AppKey { get; }
 
-    public class Handler : IRequestHandler<RemoveGlobalWorkSurfaceAppCommand>
+    public class Handler : IRequestHandler<RemoveGlobalAppFromWorkSurfaceCommand>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -26,7 +26,7 @@ public class RemoveGlobalWorkSurfaceAppCommand : IRequest
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Unit> Handle(RemoveGlobalWorkSurfaceAppCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RemoveGlobalAppFromWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
             var workSurfaceApp = await _readWriteContext.Set<WorkSurfaceApp>()
                 .Include(x => x.OnboardedApp)

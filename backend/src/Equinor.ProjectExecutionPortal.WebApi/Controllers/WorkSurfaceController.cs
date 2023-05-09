@@ -93,7 +93,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
+                if (context == null || context.ExternalId == null)
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
@@ -116,12 +116,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
+                if (context == null || context.ExternalId == null)
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
 
-                await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
             }
             else
             {
