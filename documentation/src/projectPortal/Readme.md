@@ -23,7 +23,7 @@ Identify the various applications or tools that can assist in completing these t
 
 ## Work Surface
 
-A work surface can be associated wit different types of contexts but currently, the only work surface that can be utilized is the Project.
+A work surface can be associated with different types of contexts but currently, the only work surface that can be utilized is the Project.
 It is planned that there will be at least three work surfaces available: 'project', 'facility', and 'contract'.
 The purpose behind this expansion is to enable us to more effectively scope and manage of applications.
 
