@@ -15,24 +15,27 @@ export default hope.config({
     comment: false,
     nav: [
       {
-        text: "Frontend",
-        link: "/frontend/",
+        text: "Project Portal",
+        link: "/projectPortal/",
       },
       {
-        text: "Backend",
+        text: "Project Portal API",
         link: "/backend/",
       },
     ],
     sidebar: [
       {
-        title: "Frontend",
-        path: "/frontend/",
+        title: "Project Portal",
+        path: "/projectPortal/",
         collapsable: false,
         sidebarDepth: 3,
-        children: ["/frontend/portal-actions.md"],
+        children: [
+          "/projectPortal/portal-actions.md",
+          "/projectPortal/portal-administration.md",
+        ],
       },
       {
-        title: "Backend",
+        title: "Project Portal API",
         path: "/backend/",
         collapsable: false,
         sidebarDepth: 3,
