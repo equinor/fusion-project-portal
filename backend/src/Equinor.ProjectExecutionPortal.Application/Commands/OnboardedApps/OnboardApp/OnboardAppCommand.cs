@@ -36,11 +36,11 @@ public class OnboardAppCommand : IRequest<Guid>
                 throw new NotFoundException($"Could not locate app '{command.AppKey}' in Fusion.");
             }
 
-            var existingOnboardedApp = await _readWriteContext.Set<OnboardedApp>()
+            var onboardedAppExists = await _readWriteContext.Set<OnboardedApp>()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
+                .AnyAsync(x => x.AppKey == command.AppKey, cancellationToken);
 
-            if (existingOnboardedApp != null)
+            if (onboardedAppExists)
             {
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }

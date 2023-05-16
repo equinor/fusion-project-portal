@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.AppGroup
 {
-    public class AppGroupDto : BaseContextDto, IMapFrom<Domain.Entities.AppGroup>
+    public class AppGroupDto : IMapFrom<Domain.Entities.AppGroup>
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

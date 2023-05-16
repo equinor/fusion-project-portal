@@ -202,9 +202,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
                 .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));
-            
+
             _fusionContextResolverMock.Setup(service => service.ResolveContextAsync(It.IsAny<ContextIdentifier>(), It.IsAny<FusionContextType>()))
-                .Returns(Task.FromResult(FusionContextData.ValidFusionContext)!);
+                .Returns((ContextIdentifier contextIdentifier, FusionContextType type) =>
+                {
+                    return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.ExternalId == contextIdentifier.Identifier));
+                });
         }
 
         private void SetupTestUsers()
@@ -216,7 +219,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
             var webHostBuilder = WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment(IntegrationTestEnvironment);
-                builder.ConfigureAppConfiguration((_, conf) => conf.AddJsonFile(_configPath));
+                builder.ConfigureAppConfiguration((_, conf) => conf
+                    .AddJsonFile(_configPath)
+                    .AddUserSecrets<Program>());
             });
 
             CreateAuthenticatedHttpClients(webHostBuilder);

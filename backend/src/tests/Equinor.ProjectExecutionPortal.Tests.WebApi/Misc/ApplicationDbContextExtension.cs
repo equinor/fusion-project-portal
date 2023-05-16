@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
     public static class ApplicationDbContextExtension
     {
         private const string SeederOid = "00000000-0000-0000-0000-999999999999";
-
+        
         public static void CreateNewDatabaseWithCorrectSchema(this ProjectExecutionPortalContext dbContext)
         {
             //var migrations = dbContext.Database.GetPendingMigrations();
@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             //    dbContext.Database.Migrate();
             //}
         }
-
+        
         public static void Seed(this ProjectExecutionPortalContext dbContext, IServiceProvider serviceProvider)
         {
             var userProvider = serviceProvider.GetRequiredService<CurrentUserProvider>();
@@ -45,7 +45,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             dbContext.Add(portal);
             dbContext.SaveChanges();
 
-
             // Add apps groups
 
             var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
@@ -65,8 +64,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
             var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
 
-            //dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
-
             appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
             appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
 
@@ -77,21 +74,28 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             appGroupWithMixedApps.AddApp(tasksApp);
 
             dbContext.SaveChanges();
-            
+
+            // Add onboarded contexts
+
+            var jcaContext = OnboardedContextsData.InitialSeedData.JcaContext;
+
+            dbContext.AddRange(jcaContext);
+            dbContext.SaveChanges();
+
             // Add apps to work surface
 
             var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, workSurfaceWithApps.Id);
             var globalReviewsApp = new WorkSurfaceApp(reviewsApp.Id, workSurfaceWithApps.Id);
             var globalTasksApp = new WorkSurfaceApp(tasksApp.Id, workSurfaceWithApps.Id);
 
-            var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.JcaExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
-            var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.JcaExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
-            var anotherContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id, FusionContextData.InitialSeedData.AnotherExternalContextId, FusionContextData.InitialSeedData.ExternalContextType);
+            var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+            var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+
+            var ogpContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id);
 
             // Add context specific apps to work surfaces
 
-            dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, anotherContextWorkOrderGardenApp);
-
+            dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, ogpContextWorkOrderGardenApp);
             dbContext.SaveChanges();
         }
     }

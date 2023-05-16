@@ -4,19 +4,19 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
-/// The shared Portal Application base that all applications should inherit from
+/// The Work Surface App is the link between a Work Surface, an onboarded app and an onboarded context
 /// </summary>
-public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificationAuditable
+public class WorkSurfaceApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, string externalContextId, string externalContextType, bool isHidden = false)
-        : base(externalContextId, externalContextType)
+    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, Guid onboardedContextId, bool isHidden = false)
     {
         OnboardedAppId = onboardedAppId;
         IsHidden = isHidden;
         WorkSurfaceId = workSurfaceId;
+        OnboardedContextId = onboardedContextId;
     }
 
-    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, bool isHidden = false) : base(null, null)
+    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, bool isHidden = false)
     {
         OnboardedAppId = onboardedAppId;
         IsHidden = isHidden;
@@ -30,4 +30,7 @@ public class WorkSurfaceApp : ContextEntityBase, ICreationAuditable, IModificati
     
     public Guid WorkSurfaceId { get; set; }
     public WorkSurface WorkSurface { get; set; }
+
+    public Guid? OnboardedContextId { get; set; }
+    public OnboardedContext? OnboardedContext { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
 {
-    public class WorkSurfaceDto : BaseContextDto, IMapFrom<Domain.Entities.WorkSurface>
+    public class WorkSurfaceDto : IMapFrom<Domain.Entities.WorkSurface>
     {
         public Guid Id { get; set; }
         public string Key { get; set; }

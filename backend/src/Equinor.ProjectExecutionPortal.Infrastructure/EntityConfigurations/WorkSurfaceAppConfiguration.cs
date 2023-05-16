@@ -9,7 +9,6 @@ public class WorkSurfaceAppConfiguration : IEntityTypeConfiguration<WorkSurfaceA
 {
     public void Configure(EntityTypeBuilder<WorkSurfaceApp> builder)
     {
-        builder.ConfigureContext();
         builder.ConfigureCreationAudit();
         builder.ConfigureModificationAudit();
     }

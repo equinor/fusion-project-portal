@@ -6,17 +6,21 @@ using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
+
 public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 {
     public GetPortalWithAppsQuery()
     {
     }
+
     public class Handler : IRequestHandler<GetPortalWithAppsQuery, PortalDto?>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
         private readonly IAppService _appService;
+
         public Handler(IReadWriteContext context, IMapper mapper, IAppService appService)
         {
             _context = context;
@@ -26,25 +30,19 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
         public async Task<PortalDto?> Handle(GetPortalWithAppsQuery request, CancellationToken cancellationToken)
         {
-            // Seed db if no portals is found
-            if (!await _context.Set<Domain.Entities.Portal>().AnyAsync(cancellationToken))
-            {
-                await TempMethodSeedDb(cancellationToken);
-            }
-
             var enitity = await _context.Set<Domain.Entities.Portal>()
+                .AsNoTracking()
                 .Include(portal => portal.WorkSurfaces.OrderBy(workSurface => workSurface.Order))
                         .ThenInclude(appGroup => appGroup.Apps.OrderBy(application => application.OnboardedApp.Order))
                             .ThenInclude(x => x.OnboardedApp)
                                 .ThenInclude(x => x.AppGroup)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException();
 
             var portal = _mapper.Map<Domain.Entities.Portal, PortalDto>(enitity);
 
-            var enrichedPortal = await _appService.EnrichPortalWithFusionAppData(portal, cancellationToken);
+            await _appService.EnrichAppsWithFusionAppData(portal.WorkSurfaces.SelectMany(x => x.Apps.Select(y => y.OnboardedApp)).ToList(), cancellationToken);
 
-            return enrichedPortal;
+            return portal;
         }
 
         private async Task TempMethodSeedDb(CancellationToken cancellationToken)
@@ -74,7 +72,7 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             await _context.Set<Domain.Entities.AppGroup>().AddRangeAsync(collaborationAppGroup, projectInformationAppGroup, ccAppGroup, demoAppGroup);
 
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             // Onboarded apps
 
             var meetingsApp = new Domain.Entities.OnboardedApp("meetings", 0);
@@ -82,8 +80,8 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             var tasksApp = new Domain.Entities.OnboardedApp("tasks", 2);
             var orgChartApp = new Domain.Entities.OnboardedApp("one-equinor", 3);
             var handoverGardenApp = new Domain.Entities.OnboardedApp("handover-garden", 4);
-            var workOrderGardenApp = new Domain.Entities.OnboardedApp("workorder-garden",5);
-            var demoApp = new Domain.Entities.OnboardedApp("test-app",6);
+            var workOrderGardenApp = new Domain.Entities.OnboardedApp("workorder-garden", 5);
+            var demoApp = new Domain.Entities.OnboardedApp("test-app", 6);
 
             collaborationAppGroup.AddApp(meetingsApp);
             collaborationAppGroup.AddApp(reviewsApp);
@@ -96,7 +94,7 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
             await _context.SaveChangesAsync(cancellationToken);
 
             // Add apps to work surfaces
-            
+
             var meetingsWsApp = new WorkSurfaceApp(meetingsApp.Id, workSurface2.Id);
             var reviewsWsApp = new WorkSurfaceApp(reviewsApp.Id, workSurface2.Id);
             var tasksWsApp = new WorkSurfaceApp(tasksApp.Id, workSurface2.Id);

@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithGlobalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
@@ -26,7 +27,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("{workSurfaceId:guid}")]
         public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId)
         {
-            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurface(workSurfaceId));
+            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceQuery(workSurfaceId));
 
             if (workSurfaceWithAppsDto == null)
             {
@@ -72,7 +73,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 }
             }
 
-            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithAppsQuery(workSurfaceId, contextExternalId));
+            var appGroupsDto = contextExternalId != null ?
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId)) :
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
 
             return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList();
         }
@@ -83,19 +86,19 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             if (contextExternalId == null)
             {
-                await Mediator.Send(request.ToCommand(workSurfaceId, null, null));
+                await Mediator.Send(request.ToCommand(workSurfaceId));
             }
             else
             {
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
+                if (context == null || context.ExternalId == null)
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
 
-                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, context.Type));
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
             }
 
             return NoContent();
@@ -106,20 +109,24 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
+            var request = new ApiRemoveWorkSurfaceAppRequest();
 
             if (contextExternalId != null)
             {
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
+                if (context == null || context.ExternalId == null)
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
-            }
 
-            var request = new ApiRemoveWorkSurfaceAppRequest();
-            await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
+            }
+            else
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
+            }
 
             return NoContent();
         }

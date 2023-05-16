@@ -2,7 +2,6 @@
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -65,7 +64,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         [Ignore] // TODO: Need to perform clean up after each test
         [TestMethod]
-        public async Task Get_AppsForWorkSurface_WithoutContext_AsAuthenticatedUser_ShouldReturnOkAndOnlyGlobalApps()
+        public async Task Get_OnlyGlobalAppsForWorkSurface_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
             var workSurfaces = await AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
@@ -88,14 +87,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         [Ignore] // TODO: Need to perform clean up after each test
         [TestMethod] // Limitation: Invalid context not currently tested
-        public async Task Get_AppsForWorkSurface_WithValidContext_AsAuthenticatedUser_ShouldReturnOkAndBothGlobalAndContextApps()
+        public async Task Get_BothGlobalAndContextAppsForWorkSurface_WithValidContext_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
             var workSurfaces = await AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
             var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
 
             // Act
-            var appGroups = await AssertGetAppsForWorksurface(workSurfaceToTest!.Id, FusionContextData.InitialSeedData.JcaExternalContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var appGroups = await AssertGetAppsForWorksurface(workSurfaceToTest!.Id, FusionContextData.InitialSeedData.JcaContextExternalId, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(appGroups);
@@ -111,6 +110,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
         }
 
+        [Ignore]
+        [TestMethod]
+        public async Task Get_BothGlobalAndContextAppsForWorkSurface_WithInvalidContext_AsAuthenticatedUser_ShouldReturn404()
+        {
+            // Arrange
+            var workSurfaces = await AssertGetAllWorksurfaces(UserType.Authenticated, HttpStatusCode.OK);
+            var workSurfaceToTest = workSurfaces?.Single(x => x.Order == 1);
+
+            // Act
+            var appGroups = await AssertGetAppsForWorksurface(workSurfaceToTest!.Id, FusionContextData.InitialSeedData.InvalidContextExternalId, UserType.Authenticated, HttpStatusCode.OK);
+
+            // Assert
+            // TODO Fusion 404 returned
+        }
 
         [TestMethod]
         public async Task Get_AppsForNonExistentWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
@@ -133,7 +146,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForWorkSurface_WithValidContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var appGroups = await AssertGetAppsForWorksurface(new Guid(), FusionContextData.InitialSeedData.JcaExternalContextId, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var appGroups = await AssertGetAppsForWorksurface(new Guid(), FusionContextData.InitialSeedData.JcaContextExternalId, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(appGroups);
@@ -191,10 +204,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return workSurface;
         }
 
-        private static async Task<IList<ApiWorkSurfaceAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? externalContextId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiWorkSurfaceAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? contextExternalId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
-            var response = await GetAppsForWorksurface(workSurfaceId, externalContextId, userType);
+            var response = await GetAppsForWorksurface(workSurfaceId, contextExternalId, userType);
             var content = await response.Content.ReadAsStringAsync();
             var appGroups = JsonConvert.DeserializeObject<IList<ApiWorkSurfaceAppGroupWithApps>>(content);
 
@@ -215,7 +228,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
                 foreach (var app in appGroup.Apps)
                 {
-
                     Assert.IsNotNull(app.AppKey);
                     Assert.IsNotNull(app.Name);
                     Assert.IsNotNull(app.Description);
