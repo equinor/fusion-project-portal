@@ -38,11 +38,11 @@ export const MenuWrapper = styled.div`
 	gap: '1.2em';
 	height: calc(100vh - 48px);
 	position: absolute;
-	width: 700px;
+	width: 900px;
 	background-color: white;
 	top: 0px;
 	left: 0px;
-	padding: 1rem;
+	padding: 1rem 2rem 1rem 2rem;
 	background: ${tokens.colors.ui.background__default.rgba};
 	transition: all 0.15s ease;
 	z-index: 1;

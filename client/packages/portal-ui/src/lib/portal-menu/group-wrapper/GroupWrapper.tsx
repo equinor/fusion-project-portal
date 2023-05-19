@@ -18,7 +18,7 @@ export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
 			{appGroups.length ? (
 				appGroups.map((appGroup) => <Group key={appGroup.name} group={appGroup} />)
 			) : (
-				<InfoMessage>No application awaitable </InfoMessage>
+				<InfoMessage>No applications found</InfoMessage>
 			)}
 		</StyledGroupWrapper>
 	);
