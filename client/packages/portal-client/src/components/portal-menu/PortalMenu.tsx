@@ -28,9 +28,9 @@ const MenyWrapper = styled.div`
 `;
 
 const CategoryWrapper = styled.div`
-	flex-direction: row;
+	display: flex;
+	flex-direction: column;
 	padding: 1rem 1rem 1rem 0;
-	display: inline-block;
 	white-space: nowrap;
 	border-right: 1px solid #dcdcdc;
 	height: 100%;
@@ -50,30 +50,26 @@ export function MenuGroups() {
 	);
 
 	const handleToggle = (name: string) => {
-		if (activeItem == name) {
+		if (activeItem === name) {
 			setClickedCategoryItems([]);
+			setActiveItem('');
 		} else if (name === 'All Apps') {
 			const filteredItems = categoryItems.filter((item) => item !== 'Pinned Apps');
 			setClickedCategoryItems(filteredItems);
+			setActiveItem(name);
 		} else {
 			setClickedCategoryItems([name]);
+			setActiveItem(name);
 		}
-		setActiveItem((prevItem) => (prevItem === name ? '' : name));
 	};
 
-	const categoryItems = ['Pinned Apps', 'All Apps'];
+	const categoryItems = ['Pinned Apps', 'All Apps', ...(data?.map((item) => item.name) ?? [])];
 
-	if (!isLoading && data != null) {
-		data.map((item) => {
-			categoryItems.push(item.name);
-		});
-	}
+	const searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems);
+	const searchResultsSelected = appsMatchingSearchByCat(data ?? [], searchText, clickedCategoryItems);
+	const searchResultsPinned = appsMatchingSearchByFav(data ?? [], searchText, favorites);
 
-	let searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems);
-	let searchResultsSelected = appsMatchingSearchByCat(data ?? [], searchText, clickedCategoryItems);
-	let searchResultsPinned = appsMatchingSearchByFav(data ?? [], searchText, favorites);
-
-	let searchHits = searchResultsOther.length + searchResultsSelected.length + searchResultsPinned.length;
+	const searchHits = searchResultsOther.length + searchResultsSelected.length + searchResultsPinned.length;
 
 	return (
 		<PortalMenu>
@@ -100,34 +96,31 @@ export function MenuGroups() {
 							))}
 						</CategoryWrapper>
 						<AppsWrapper>
-							{clickedCategoryItems.includes('Pinned Apps') && searchResultsPinned.length > 0 && (
+							{clickedCategoryItems.includes('Pinned Apps') && searchResultsPinned.length > 0 ? (
 								<>
 									{favorites?.length === 0 ? (
 										<InfoMessage>
-											Looks like you do not have any pinned apps yet. Clik the star icon on apps
+											Looks like you do not have any pinned apps yet. Click the star icon on apps
 											to add them to the pinned app section.
 										</InfoMessage>
 									) : (
 										<GroupWrapper appGroups={searchResultsPinned} />
 									)}
 								</>
-							)}
+							) : null}
 
 							{clickedCategoryItems.filter((item) => item !== 'All Apps' && item !== 'Pinned Apps')
-								.length > 0 &&
-								searchResultsSelected.length > 0 && (
-									<>
-										<GroupWrapper appGroups={searchResultsSelected} />
-									</>
-								)}
+								.length > 0 && searchResultsSelected.length > 0 ? (
+								<GroupWrapper appGroups={searchResultsSelected} />
+							) : null}
+
 							{searchText &&
-								!clickedCategoryItems.includes('All Apps') &&
-								searchResultsOther.length > 0 && (
-									<>
-										<GroupWrapper appGroups={searchResultsOther} />
-									</>
-								)}
-							{searchHits === 0 ? <InfoMessage>No results found for your search.</InfoMessage> : null}
+							!clickedCategoryItems.includes('All Apps') &&
+							searchResultsOther.length > 0 ? (
+								<GroupWrapper appGroups={searchResultsOther} />
+							) : null}
+
+							{searchHits === 0 && <InfoMessage>No results found for your search.</InfoMessage>}
 						</AppsWrapper>
 					</>
 				)}

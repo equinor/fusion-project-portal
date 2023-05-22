@@ -7,9 +7,7 @@ export const PortalMenu = ({ children }: PropsWithChildren<unknown>): JSX.Elemen
 	const { menuActive, closeMenu } = useMenuContext();
 	return (
 		<MenuScrim open={menuActive} isDismissable onClose={closeMenu}>
-			<MenuWrapper>
-				{children}
-			</MenuWrapper>
+			<MenuWrapper style={{ width: '1100px' }}>{children}</MenuWrapper>
 		</MenuScrim>
 	);
 };
