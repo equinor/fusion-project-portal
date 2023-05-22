@@ -5,7 +5,7 @@ export const StyledGroup = styled.div`
 	display: flex;
 	gap: 0.5em;
 	min-width: 300px;
-	width: auto;
+	width: 100%;
 	align-items: flex-start;
 `;
 

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { ItemToggled, Item } from './CategoryStyles';
 
 interface MyComponentProps {

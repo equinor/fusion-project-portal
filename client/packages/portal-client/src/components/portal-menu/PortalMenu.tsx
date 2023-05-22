@@ -15,6 +15,7 @@ import { InfoMessage } from 'packages/portal-ui/src/lib/info-message/InfoMessage
 
 const AppsWrapper = styled.div`
 	padding: 1rem 0 1rem 1rem;
+	width: 70%;
 `;
 
 const MenyWrapper = styled.div`
@@ -33,7 +34,7 @@ const CategoryWrapper = styled.div`
 	white-space: nowrap;
 	border-right: 1px solid #dcdcdc;
 	height: 100%;
-	width: 30%;
+	width: 300px;
 `;
 
 export function MenuGroups() {
@@ -68,6 +69,9 @@ export function MenuGroups() {
 		});
 	}
 
+	let searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems);
+	let searchResultsSelected = appsMatchingSearchByCat(data ?? [], searchText, clickedCategoryItems);
+
 	return (
 		<PortalMenu>
 			<Search
@@ -95,8 +99,7 @@ export function MenuGroups() {
 						<AppsWrapper>
 							{clickedCategoryItems.includes('Pinned Apps') && (
 								<>
-									{appsMatchingSearchByFav(data ?? [], searchText, favorites).length < 1 &&
-									!searchText ? (
+									{favorites?.length === 0 ? (
 										<InfoMessage>
 											Looks like you do not have any pinned apps yet. Clik the star icon on apps
 											to add them to the pinned app section.
@@ -110,24 +113,20 @@ export function MenuGroups() {
 							)}
 
 							{clickedCategoryItems.filter((item) => item !== 'All Apps' && item !== 'Pinned Apps')
-								.length > 0 && (
-								<>
-									<GroupWrapper
-										appGroups={appsMatchingSearchByCat(
-											data ?? [],
-											searchText,
-											clickedCategoryItems
-										)}
-									/>
-								</>
-							)}
-							{searchText && !clickedCategoryItems.includes('All Apps') && (
-								<>
-									<GroupWrapper
-										appGroups={appsMatchingSearch(data ?? [], searchText, clickedCategoryItems)}
-									/>
-								</>
-							)}
+								.length > 0 &&
+								(searchResultsSelected.length > 0 ||
+									(searchResultsSelected.length === 0 && searchResultsOther.length === 0)) && (
+									<>
+										<GroupWrapper appGroups={searchResultsSelected} />
+									</>
+								)}
+							{searchText &&
+								!clickedCategoryItems.includes('All Apps') &&
+								searchResultsOther.length > 0 && (
+									<>
+										<GroupWrapper appGroups={searchResultsOther} />
+									</>
+								)}
 						</AppsWrapper>
 					</>
 				)}
