@@ -71,6 +71,9 @@ export function MenuGroups() {
 
 	let searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems);
 	let searchResultsSelected = appsMatchingSearchByCat(data ?? [], searchText, clickedCategoryItems);
+	let searchResultsPinned = appsMatchingSearchByFav(data ?? [], searchText, favorites);
+
+	let searchHits = searchResultsOther.length + searchResultsSelected.length + searchResultsPinned.length;
 
 	return (
 		<PortalMenu>
@@ -97,7 +100,7 @@ export function MenuGroups() {
 							))}
 						</CategoryWrapper>
 						<AppsWrapper>
-							{clickedCategoryItems.includes('Pinned Apps') && (
+							{clickedCategoryItems.includes('Pinned Apps') && searchResultsPinned.length > 0 && (
 								<>
 									{favorites?.length === 0 ? (
 										<InfoMessage>
@@ -105,17 +108,14 @@ export function MenuGroups() {
 											to add them to the pinned app section.
 										</InfoMessage>
 									) : (
-										<GroupWrapper
-											appGroups={appsMatchingSearchByFav(data ?? [], searchText, favorites)}
-										/>
+										<GroupWrapper appGroups={searchResultsPinned} />
 									)}
 								</>
 							)}
 
 							{clickedCategoryItems.filter((item) => item !== 'All Apps' && item !== 'Pinned Apps')
 								.length > 0 &&
-								(searchResultsSelected.length > 0 ||
-									(searchResultsSelected.length === 0 && searchResultsOther.length === 0)) && (
+								searchResultsSelected.length > 0 && (
 									<>
 										<GroupWrapper appGroups={searchResultsSelected} />
 									</>
@@ -127,6 +127,7 @@ export function MenuGroups() {
 										<GroupWrapper appGroups={searchResultsOther} />
 									</>
 								)}
+							{searchHits === 0 ? <InfoMessage>No results found for your search.</InfoMessage> : null}
 						</AppsWrapper>
 					</>
 				)}
