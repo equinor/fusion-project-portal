@@ -66,9 +66,11 @@ export const NotificationCard = ({ notification }: NotificationCardProps): JSX.E
 					</Button>
 				</div>
 			</div>
-			<div className={styles.notificationActions}>
-				{!notification.seenByUser && <Button onClick={clickMarkAsRead}>Mark as read</Button>}
-			</div>
+			{!notification.seenByUser && (
+				<div className={styles.notificationActions}>
+					<Button onClick={clickMarkAsRead}>Mark as read</Button>
+				</div>
+			)}
 		</div>
 	);
 };
