@@ -65,7 +65,7 @@ export function MenuGroups() {
 
 	const categoryItems = ['Pinned Apps', 'All Apps', ...(data?.map((item) => item.name) ?? [])];
 
-	const searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems);
+	const searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems, favorites);
 	const searchResultsSelected = appsMatchingSearchByCat(data ?? [], searchText, clickedCategoryItems);
 	const searchResultsPinned = appsMatchingSearchByFav(data ?? [], searchText, favorites);
 
