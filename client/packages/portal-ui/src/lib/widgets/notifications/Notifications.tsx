@@ -1,8 +1,8 @@
 import { PortalActionProps } from '@equinor/portal-core';
-import { InfoMessage } from '../../info-message/InfoMessage';
+import { Notifications } from '@equinor/notification';
 import SideSheet from '@equinor/fusion-react-side-sheet';
 
-export function Notifications({ action, onClose, open }: PortalActionProps) {
+export function Notification({ action, onClose, open }: PortalActionProps) {
 	return (
 		<SideSheet
 			isOpen={open}
@@ -15,7 +15,7 @@ export function Notifications({ action, onClose, open }: PortalActionProps) {
 			<SideSheet.Title title={action.name} />
 			<SideSheet.SubTitle subTitle={action.subTitle!} />
 			<SideSheet.Content>
-				<InfoMessage>This functionality is not yet implemented.</InfoMessage>;
+				<Notifications />
 			</SideSheet.Content>
 		</SideSheet>
 	);
