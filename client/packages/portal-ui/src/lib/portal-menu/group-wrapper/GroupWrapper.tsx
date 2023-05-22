@@ -7,7 +7,7 @@ type GroupWrapperProps = {
 	appGroups: AppGroup[];
 };
 
-function setSize(appGroups: AppGroup[]): number {
+function getColumns(appGroups: AppGroup[]): number {
 	if (!appGroups || appGroups.length === 0) {
 		return 1;
 	} else if (appGroups.length > 1) {
@@ -19,7 +19,7 @@ function setSize(appGroups: AppGroup[]): number {
 
 const StyledGroupWrapper = styled.div<GroupWrapperProps>`
 	display: grid;
-	grid-template-columns: repeat(${(props) => setSize(props.appGroups)}, 1fr);
+	grid-template-columns: repeat(${(props) => getColumns(props.appGroups)}, 1fr);
 	grid-gap: 1em;
 	gap: 2em;
 	padding-bottom: 2rem;

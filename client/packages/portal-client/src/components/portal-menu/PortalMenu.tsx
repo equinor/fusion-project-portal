@@ -96,16 +96,15 @@ export function MenuGroups() {
 							))}
 						</CategoryWrapper>
 						<AppsWrapper>
+							{clickedCategoryItems.includes('Pinned Apps') && favorites?.length === 0 ? (
+								<InfoMessage>
+									Looks like you do not have any pinned apps yet. Click the star icon on apps to add
+									them to the pinned app section.
+								</InfoMessage>
+							) : null}
 							{clickedCategoryItems.includes('Pinned Apps') && searchResultsPinned.length > 0 ? (
 								<>
-									{favorites?.length === 0 ? (
-										<InfoMessage>
-											Looks like you do not have any pinned apps yet. Click the star icon on apps
-											to add them to the pinned app section.
-										</InfoMessage>
-									) : (
-										<GroupWrapper appGroups={searchResultsPinned} />
-									)}
+									<GroupWrapper appGroups={searchResultsPinned} />
 								</>
 							) : null}
 
