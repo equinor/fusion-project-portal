@@ -5,7 +5,7 @@ import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKey
 import { notificationsBaseKey } from '../queries/notificationQueries';
 import { Notification } from '../types/Notification';
 import AdaptiveCardViewer from './adaptivCard/AdaptivCardViewer';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 import { Button, Icon } from '@equinor/eds-core-react';
 import { delete_to_trash } from '@equinor/eds-icons';
 import { deleteNotificationAsync } from '../api/deleteNotification';
@@ -16,6 +16,22 @@ interface NotificationCardProps {
 	notification: Notification;
 	onNavigate?: () => void;
 }
+const styles = {
+	notificationCard: css`
+		border-radius: 4px;
+		background-color: var(--color-black-alt5);
+		border: 1px solid #000;
+	`,
+	notificationCardContent: css`
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+		overflow: hidden;
+	`,
+	notificationActions: css`
+		padding: 1rem;
+	`,
+};
 
 export const NotificationCard = ({ notification }: NotificationCardProps): JSX.Element => {
 	const queryClient = useQueryClient();
@@ -41,18 +57,18 @@ export const NotificationCard = ({ notification }: NotificationCardProps): JSX.E
 	};
 
 	return (
-		<div className={styledNotificationCard.name}>
-			<AdaptiveCardViewer payload={notification.card} />
-			{!notification.seenByUser ? <Button onClick={clickMarkAsRead}>Mark as read</Button> : null}
-			<Button onClick={clickDelete} variant="ghost_icon">
-				{' '}
-				<Icon name={delete_to_trash.name} />
-			</Button>
+		<div className={styles.notificationCard}>
+			<div className={styles.notificationCardContent}>
+				<AdaptiveCardViewer payload={notification.card} />
+				<div>
+					<Button onClick={clickDelete} variant="ghost_icon">
+						<Icon name={delete_to_trash.name} />
+					</Button>
+				</div>
+			</div>
+			<div className={styles.notificationActions}>
+				{!notification.seenByUser && <Button onClick={clickMarkAsRead}>Mark as read</Button>}
+			</div>
 		</div>
 	);
 };
-
-const styledNotificationCard = css`notificationCard: {
-	borderRadius: '4px',
-	backgroundColor: 'var(--color-black-alt5)',
-}`;

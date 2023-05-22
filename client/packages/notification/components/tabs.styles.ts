@@ -7,28 +7,13 @@ export const StyledContentWrapper = styled.div`
 `;
 
 export const StyledTabs: (props: TabsProps) => JSX.Element = styled(Tabs)`
-	overflow: hidden;
 	display: grid;
 	grid-template-rows: auto 1fr;
+	position: relative;
 `;
 
 export const StyledPanels = styled(Tabs.Panels)`
 	overflow: auto;
-	padding-left: 1em;
-	/** Removing padding from Tabs.Panel components */
-	> div {
-		padding: 0;
-	}
-`;
-
-export const StyledTabsList = styled(Tabs.List)`
-	overflow: auto;
-	::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-	}
-
-	scroll-behavior: smooth;
 `;
 
 export const StyledTabListWrapper = styled.div`

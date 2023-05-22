@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Notification } from '../types/Notification';
 import { NotificationCard } from './NotificationCard';
 import { tokens } from '@equinor/eds-tokens';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 
 type DateDivisionKey = 'today' | 'this-week' | 'last-week' | 'more-than-one-week';
 
@@ -87,8 +87,8 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 			{notificationDivisions.map(
 				(division) =>
 					division.notifications.length > 0 && (
-						<div className={StyledNotifications.name}>
-							<div className={StyledNotificationsList.name}>
+						<div className={styles.notifications}>
+							<div className={styles.notificationsList}>
 								{division.label}
 								{sortList(division.notifications).map((notification, index) => (
 									<NotificationCard
@@ -105,26 +105,28 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 	);
 };
 
-const StyledNotifications = css`
-	display: flex;
-	flex-direction: column;
-	padding: 0em 1em;
-	height: 100%;
-`;
+const styles = {
+	notifications: css`
+		display: flex;
+		flex-direction: column;
+		padding: 0em 1em;
+		height: 100%;
+	`,
 
-const StyledNotificationsList = css`
-	display: flex;
-	flex-direction: column;
-	overflow: scroll;
-	padding-bottom: 2rem;
-	padding-right: 1em;
-	height: 100%;
-
-	::-webkit-scrollbar {
-		height: 0.2rem;
-		width: 0.3rem;
-	}
-	&:last-child {
-		border-bottom: 1px ${tokens.colors.interactive.disabled__border.hex} solid;
-	}
-`;
+	notificationsList: css`
+		display: flex;
+		flex-direction: column;
+		overflow: scroll;
+		padding-bottom: 2rem;
+		padding-right: 1em;
+		height: 100%;
+		gap: 1rem;
+		::-webkit-scrollbar {
+			height: 0.2rem;
+			width: 0.3rem;
+		}
+		&:last-child {
+			border-bottom: 1px ${tokens.colors.interactive.disabled__border.hex} solid;
+		}
+	`,
+};
