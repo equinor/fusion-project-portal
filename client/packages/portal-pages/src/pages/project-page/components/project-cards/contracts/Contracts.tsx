@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { Relations } from '../types';
 import { css } from '@emotion/css';
+import { DateTime } from 'luxon';
 
 export async function getContextRelations(
 	client: IHttpClient,
@@ -40,8 +41,19 @@ const styles = {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		max-height: 500px;
+		width: 100%;
+		overflow: auto;
 	`,
 };
+
+function verifyDate(date?: string): string {
+	return date
+		? new Date(date).toString() !== 'Invalid Date'
+			? DateTime.fromJSDate(new Date(date)).toFormat('dd LLL yyyy')
+			: '-'
+		: '-';
+}
 
 export const Contracts = () => {
 	const contracts = useRelationsByType('Contract');
@@ -57,6 +69,7 @@ export const Contracts = () => {
 							<Typography variant="h6">{contract.title}</Typography>
 							<Typography variant="overline">
 								{contract.value.contractNumber} {contract.value.companyName}
+								{verifyDate(contract.value.endDate)}
 							</Typography>
 						</div>
 					))}
