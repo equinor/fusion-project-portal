@@ -14,6 +14,9 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Maps a WorkSurface to a grouping by AppGroups with respective destinct apps
+        /// </summary>
         public List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurface workSurface)
         {
             var appGrouping = workSurface.Apps.GroupBy(x => new
@@ -28,10 +31,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 Name = grouping.Key.Name,
                 AccentColor = grouping.Key.AccentColor,
                 Order = grouping.Key.Order,
-                Apps = grouping.Select(workSurfaceApp => new WorkSurfaceAppDto
-                {
-                    OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp),
-                }).OrderBy(surfaceAppDto => surfaceAppDto.OnboardedApp.Order).ToList()
+                Apps = grouping
+                    .DistinctBy(x => x.OnboardedAppId)
+                    .Select(workSurfaceApp => new WorkSurfaceAppDto
+                    {
+                        OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp)
+                    })
+                    .OrderBy(surfaceAppDto => surfaceAppDto.OnboardedApp.Order)
+                    .ToList()
             })
                 .OrderBy(x => x.Order)
                 .ToList();
