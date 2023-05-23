@@ -14,15 +14,11 @@ interface NotificationCenter {
 	unreadNotificationsCount: number;
 	unreadNotificationCards: Notification[];
 	readNotificationCards: Notification[];
-	hubConnectionState: ConnectionState;
 }
-
-export type ConnectionState = 'Connected' | 'Reconnecting' | 'Disconnected';
 
 export function useNotificationCenter(onNotification?: (notification: Notification) => void): NotificationCenter {
 	const queryClient = useQueryClient();
 
-	const [state, setState] = useState<ConnectionState>('Disconnected');
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
 
 	const { getReadNotificationsQuery, getUnreadNotificationsQuery } = notificationQueries;
@@ -37,14 +33,7 @@ export function useNotificationCenter(onNotification?: (notification: Notificati
 	const topic = useSignalR<Notification>('notifications', 'notifications');
 
 	useLayoutEffect(() => {
-		const onReconnecting = () => setState('Reconnecting');
-		const onClose = () => setState('Disconnected');
-		const onReconnected = () => setState('Connected');
-
 		const sub = topic.subscribe(onNotificationReceived);
-		topic.connection?.onclose(onClose);
-		topic.connection?.onreconnected(onReconnected);
-		topic.connection?.onreconnecting(onReconnecting);
 		return () => {
 			sub.unsubscribe();
 		};
@@ -59,7 +48,6 @@ export function useNotificationCenter(onNotification?: (notification: Notificati
 	);
 
 	return {
-		hubConnectionState: state,
 		isFetchingRead,
 		isFetchingUnRead,
 		isEstablishingHubConnection: false,

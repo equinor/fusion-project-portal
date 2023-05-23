@@ -1,11 +1,10 @@
-import { Button, Tabs } from '@equinor/eds-core-react';
+import { Button, Tabs, TabsProps } from '@equinor/eds-core-react';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
 import { notificationQueries, notificationsBaseKey } from '../queries/notificationQueries';
-import { Notification } from '../types/Notification';
 import { useFramework } from '@equinor/fusion-framework-react';
-import { StyledPanels, StyledTabs } from './tabs.styles';
+
 import { NotificationDateDivisions } from './NotificationDateDivision';
 import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKeys';
 import { readNotificationAsync } from '../api/readNotification';
@@ -14,12 +13,30 @@ import { css } from '@emotion/css';
 import { tokens } from '@equinor/eds-tokens';
 import styled from '@emotion/styled';
 
-const getCountForAppName = (x: string, notifications: Notification[]): number =>
-	notifications.reduce((acc, { appName }) => (appName === x ? acc + 1 : acc), 0);
-
 interface NotificationsProps {
 	onClickNotification?: () => void;
 }
+
+const StyledTabs = styled(Tabs)`
+	display: grid;
+	grid-template-rows: auto 1fr;
+	position: relative;
+`;
+
+const StyledPanels = styled(Tabs.Panels)`
+	overflow: auto;
+`;
+
+const StyledTabsList = styled(Tabs.List)`
+	overflow: auto;
+
+	width: auto;
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+	}
+	scroll-behavior: smooth;
+`;
 
 const styles = {
 	tabListWrapper: css`
@@ -42,17 +59,6 @@ const styles = {
 		padding-right: 1rem;
 	`,
 };
-
-const StyledTabsList = styled(Tabs.List)`
-	overflow: auto;
-
-	width: auto;
-	::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-	}
-	scroll-behavior: smooth;
-`;
 
 export function Notifications({ onClickNotification }: NotificationsProps): JSX.Element {
 	const [activeTab, setActiveTab] = useState(0);
@@ -86,7 +92,9 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 					<Tabs.Tab>Dismissed ({readNotificationCards.length})</Tabs.Tab>
 				</StyledTabsList>
 				<div className={styles.tabActions}>
-					<Button onClick={clickMarkAllAsRead}>Mark all as read</Button>
+					<Button variant="ghost" onClick={clickMarkAllAsRead}>
+						Mark all as read
+					</Button>
 				</div>
 			</div>
 			<StyledPanels>

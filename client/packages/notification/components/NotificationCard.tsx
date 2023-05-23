@@ -9,6 +9,7 @@ import { css } from '@emotion/css';
 import { Button, Icon } from '@equinor/eds-core-react';
 import { delete_to_trash } from '@equinor/eds-icons';
 import { deleteNotificationAsync } from '../api/deleteNotification';
+import { tokens } from '@equinor/eds-tokens';
 
 Icon.add({ delete_to_trash });
 
@@ -19,8 +20,8 @@ interface NotificationCardProps {
 const styles = {
 	notificationCard: css`
 		border-radius: 4px;
-		background-color: var(--color-black-alt5);
-		border: 1px solid #000;
+		background-color: ${tokens.colors.ui.background__light.hex};
+		border: 1px solid ${tokens.colors.ui.background__medium.hex};
 	`,
 	notificationCardContent: css`
 		display: flex;
@@ -68,7 +69,9 @@ export const NotificationCard = ({ notification }: NotificationCardProps): JSX.E
 			</div>
 			{!notification.seenByUser && (
 				<div className={styles.notificationActions}>
-					<Button onClick={clickMarkAsRead}>Mark as read</Button>
+					<Button variant="ghost" onClick={clickMarkAsRead}>
+						Mark as read
+					</Button>
 				</div>
 			)}
 		</div>

@@ -3,6 +3,7 @@ import { Notification } from '../types/Notification';
 import { NotificationCard } from './NotificationCard';
 import { tokens } from '@equinor/eds-tokens';
 import { css } from '@emotion/css';
+import { Typography } from '@equinor/eds-core-react';
 
 type DateDivisionKey = 'today' | 'this-week' | 'last-week' | 'more-than-one-week';
 
@@ -71,40 +72,6 @@ interface NotificationDateDivisionsProps {
 	onClickNotification?: () => void;
 }
 
-export const NotificationDateDivisions = ({ notifications, onClickNotification }: NotificationDateDivisionsProps) => {
-	const notificationDivisions = useMemo(() => {
-		return divisions.map((d) => ({
-			...d,
-			notifications: notifications.filter((n) => d.accessor(n)),
-		}));
-	}, [notifications, divisions]);
-
-	const sortList = (list: Notification[]) =>
-		list.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
-
-	return (
-		<>
-			{notificationDivisions.map(
-				(division) =>
-					division.notifications.length > 0 && (
-						<div className={styles.notifications}>
-							<div className={styles.notificationsList}>
-								{division.label}
-								{sortList(division.notifications).map((notification, index) => (
-									<NotificationCard
-										key={notification.id + index}
-										notification={notification}
-										onNavigate={onClickNotification}
-									/>
-								))}
-							</div>
-						</div>
-					)
-			)}
-		</>
-	);
-};
-
 const styles = {
 	notifications: css`
 		display: flex;
@@ -127,6 +94,41 @@ const styles = {
 		}
 		&:last-child {
 			border-bottom: 1px ${tokens.colors.interactive.disabled__border.hex} solid;
+			margin-bottom: 1rem;
 		}
 	`,
+};
+
+export const NotificationDateDivisions = ({ notifications, onClickNotification }: NotificationDateDivisionsProps) => {
+	const notificationDivisions = useMemo(() => {
+		return divisions.map((d) => ({
+			...d,
+			notifications: notifications.filter((n) => d.accessor(n)),
+		}));
+	}, [notifications, divisions]);
+
+	const sortList = (list: Notification[]) =>
+		list.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+
+	return (
+		<>
+			{notificationDivisions.map(
+				(division) =>
+					division.notifications.length > 0 && (
+						<div className={styles.notifications}>
+							<div className={styles.notificationsList}>
+								<Typography variant="h5">{division.label}</Typography>
+								{sortList(division.notifications).map((notification, index) => (
+									<NotificationCard
+										key={notification.id + index}
+										notification={notification}
+										onNavigate={onClickNotification}
+									/>
+								))}
+							</div>
+						</div>
+					)
+			)}
+		</>
+	);
 };
