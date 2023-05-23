@@ -18,7 +18,7 @@ export function NotificationBell(): JSX.Element {
 	return (
 		<div className={styles.pointer}>
 			{notificationCenter.unreadNotificationsCount > 0 && (
-				<div className={styles.redCircle}>{notificationCenter.unreadNotificationsCount}</div>
+				<div className={styles.circle}>{notificationCenter.unreadNotificationsCount}</div>
 			)}
 			<Icon
 				className={styles.pointer}
@@ -30,14 +30,14 @@ export function NotificationBell(): JSX.Element {
 }
 
 const styles = {
-	redCircle: css`
+	circle: css`
 		justify-content: center;
 		position: absolute;
 		align-items: center;
 		display: flex;
 		border-radius: 50%;
-		width: 24px;
-		height: 24px;
+		width: 16px;
+		height: 16px;
 		color: white;
 		font-size: 14px;
 		background: ${tokens.colors.interactive.warning__resting.hex};
