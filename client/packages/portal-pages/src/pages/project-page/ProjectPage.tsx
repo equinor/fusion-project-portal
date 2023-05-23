@@ -44,18 +44,6 @@ export const ProjectPage = () => {
 	return (
 		<StyledMain>
 			<StyledBackground />
-			{/* {currentContext.value.facilities && (
-				<StyledHeaderSection url={getBackgroundURL(currentContext.value.facilities[0])}>
-					<StyledCard>
-						<Typography variant="h3">
-							<b>{currentContext?.title}</b>
-						</Typography>
-						<Typography variant="h6">
-							{currentContext.value.projectCategory.replace(new RegExp('-|_/*'), ' ')}
-						</Typography>
-					</StyledCard>
-				</StyledHeaderSection>
-			)} */}
 			<StyledContextPageGrid>
 				<StyledGridItem span={6}>
 					<ProjectDetails />
