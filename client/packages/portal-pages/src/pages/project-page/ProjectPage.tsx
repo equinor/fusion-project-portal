@@ -14,10 +14,7 @@ import {
 	StyledCard,
 } from './ProjectPage.Styles';
 import { Favorites } from './components/favorites/Favorites';
-
-function getBackgroundURL(instCode: string) {
-	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
-}
+import { Contracts } from './components/project-cards/contracts/Contracts';
 
 type ProjectMaster = {
 	facilities: string[];
@@ -47,7 +44,7 @@ export const ProjectPage = () => {
 	return (
 		<StyledMain>
 			<StyledBackground />
-			{currentContext.value.facilities && (
+			{/* {currentContext.value.facilities && (
 				<StyledHeaderSection url={getBackgroundURL(currentContext.value.facilities[0])}>
 					<StyledCard>
 						<Typography variant="h3">
@@ -58,20 +55,23 @@ export const ProjectPage = () => {
 						</Typography>
 					</StyledCard>
 				</StyledHeaderSection>
-			)}
+			)} */}
 			<StyledContextPageGrid>
 				<StyledGridItem span={6}>
-					<Favorites />
+					<ProjectDetails />
 				</StyledGridItem>
 
 				<StyledGridItem span={3} heightSpan={3}>
 					<WorkAssigned />
 				</StyledGridItem>
-				<StyledGridItem span={3}>
-					<ProjectDetails />
+				<StyledGridItem span={3} heightSpan={2}>
+					<Favorites />
 				</StyledGridItem>
 				<StyledGridItem span={3}>
 					<Milestones />
+				</StyledGridItem>
+				<StyledGridItem span={3}>
+					<Contracts />
 				</StyledGridItem>
 			</StyledContextPageGrid>
 		</StyledMain>

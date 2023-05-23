@@ -3,8 +3,16 @@ import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useQuery } from 'react-query';
-import { StyledCardWrapper, StyledContent, StyledHeader, StyledContentRow, StyledContentItem } from './styles';
+import {
+	StyledCardWrapper,
+	StyledContent,
+	StyledHeader,
+	StyledContentRow,
+	StyledContentItem,
+	StyledCardWithBackgroundWrapper,
+} from './styles';
 import { Relations } from './types';
+import { css } from '@emotion/css';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -43,58 +51,54 @@ export function useRelationsByType(type: RelationsTypes) {
 	return data?.filter((relation) => relation.type.id === type) || [];
 }
 
+function getBackgroundURL(instCode?: string) {
+	if (!instCode) return;
+	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
+}
+const styles = {
+	headerTitle: css`
+		margin: 2rem;
+	`,
+};
+
 export const ProjectDetails = () => {
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
 	const equinorTask = useRelationsByType('EquinorTask');
 	return (
-		<StyledCardWrapper>
-			<StyledHeader>
-				<Typography variant="h5">Project Details</Typography>
+		<StyledCardWithBackgroundWrapper imageURL={getBackgroundURL(currentContext?.value.facilities[0])}>
+			<StyledHeader className={styles.headerTitle}>
+				<Typography variant="h5">{currentContext?.title}</Typography>
+				<Typography variant="h6">
+					{currentContext?.value.projectCategory.replace(new RegExp('-|_/*'), ' ')}
+				</Typography>
 			</StyledHeader>
-			<StyledContent>
-				<StyledContentRow>
-					<StyledContentItem>
-						<Typography variant="overline">WBS</Typography>
-						<Typography>-</Typography>
-					</StyledContentItem>
-					<StyledContentItem>
-						<Typography variant="overline">CVP ID</Typography>
-						<Typography>{currentContext?.value.cvpid}</Typography>
-					</StyledContentItem>
-					<StyledContentItem>
-						<Typography variant="overline">Type</Typography>
-						<Typography>{currentContext?.value.projectCategory}</Typography>
-					</StyledContentItem>
-				</StyledContentRow>
-				<StyledContentRow>
-					<StyledContentItem>
-						<Typography variant="overline">Document Management Id</Typography>
-						<Typography>{currentContext?.value.documentManagementId}</Typography>
-					</StyledContentItem>
+			<StyledContentRow>
+				<StyledContent>
 					<StyledContentItem>
 						<Typography variant="overline">Phase</Typography>
 						<Typography>{currentContext?.value.phase}</Typography>
 					</StyledContentItem>
+
 					<StyledContentItem>
-						<Typography variant="overline">Organization</Typography>
-						<Typography>{currentContext?.value.portfolioOrganizationalUnit}</Typography>
+						<Typography variant="overline">CVP ID</Typography>
+						<Typography>{currentContext?.value.cvpid}</Typography>
 					</StyledContentItem>
-				</StyledContentRow>
-			</StyledContent>
-			{equinorTask[0]?.value.orgUnitSapId && (
-				<StyledCardWrapper.Actions alignRight={true}>
-					<Button
-						as="a"
-						variant="ghost"
-						href={`https://fusion.equinor.com/apps/one-equinor/org-unit/${equinorTask[0].value.orgUnitSapId}/info`}
-						aria-label="View in this project master in One Equinor"
-						target="_blank"
-					>
-						View in One Equinor
-						<Icon name="chevron_right" />
-					</Button>
-				</StyledCardWrapper.Actions>
-			)}
-		</StyledCardWrapper>
+				</StyledContent>
+				{equinorTask[0]?.value.orgUnitSapId && (
+					<StyledCardWrapper.Actions alignRight={true}>
+						<Button
+							as="a"
+							variant="ghost"
+							href={`https://fusion.equinor.com/apps/one-equinor/org-unit/${equinorTask[0].value.orgUnitSapId}/info`}
+							aria-label="View in this project master in One Equinor"
+							target="_blank"
+						>
+							View in One Equinor
+							<Icon name="chevron_right" />
+						</Button>
+					</StyledCardWrapper.Actions>
+				)}
+			</StyledContentRow>
+		</StyledCardWithBackgroundWrapper>
 	);
 };

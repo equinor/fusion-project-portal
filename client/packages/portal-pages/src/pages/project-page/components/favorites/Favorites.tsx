@@ -42,13 +42,10 @@ const styles = {
 	cardList: css`
 		display: grid;
 		grid-auto-rows: 100px;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 		gap: 1rem;
 		padding: 0;
 
-		@media only screen and (max-width: 60rem) {
-			grid-template-columns: repeat(2, 1fr);
-		}
 		@media only screen and (max-width: 45rem) {
 			grid-template-columns: repeat(1, 1fr);
 		}
@@ -76,7 +73,7 @@ export const Favorites = () => {
 	return (
 		<Card>
 			<Card.Header>
-				<Typography variant="h5">Favorites</Typography>
+				<Typography variant="h5">Pinned Apps</Typography>
 				<div
 					onMouseOver={() => {
 						setIsOpen(true);
