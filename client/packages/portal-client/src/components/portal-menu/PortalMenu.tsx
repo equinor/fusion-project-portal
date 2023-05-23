@@ -1,13 +1,8 @@
 import { Search } from '@equinor/eds-core-react';
-import {
-	useAppGroupsQuery,
-	appsMatchingSearch,
-	appsMatchingSearchByCat,
-	appsMatchingSearchByFav,
-} from '@equinor/portal-core';
+import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
 import { GroupWrapper, LoadingMenu, PortalMenu, CategoryItem } from '@equinor/portal-ui';
 import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useObservable } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
 import styled from 'styled-components';
@@ -15,7 +10,12 @@ import { InfoMessage } from 'packages/portal-ui/src/lib/info-message/InfoMessage
 
 const AppsWrapper = styled.div`
 	padding: 1rem 0 1rem 1rem;
-	width: 70%;
+	height: 350px;
+	display: block;
+	grid-template-columns: auto;
+	padding-bottom: 2rem;
+	column-width: auto;
+	column-count: 2;
 `;
 
 const MenyWrapper = styled.div`
@@ -41,35 +41,64 @@ export function MenuGroups() {
 	const { data, isLoading } = useAppGroupsQuery();
 	const [searchText, setSearchText] = useState<string | undefined>();
 	const { fusion } = useAppModule();
-	const [clickedCategoryItems, setClickedCategoryItems] = useState<string[]>([]);
-	const [activeItem, setActiveItem] = useState('');
+	const [activeItem, setActiveItem] = useState('All Apps');
+
 	const favorites = useObservable(
 		combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
 			map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
 		)
 	);
 
-	const handleToggle = (name: string) => {
-		if (activeItem === name) {
-			setClickedCategoryItems([]);
-			setActiveItem('');
-		} else if (name === 'All Apps') {
-			const filteredItems = categoryItems.filter((item) => item !== 'Pinned Apps');
-			setClickedCategoryItems(filteredItems);
-			setActiveItem(name);
-		} else {
-			setClickedCategoryItems([name]);
-			setActiveItem(name);
+	const categoryItems = ['Pinned Apps', ...(data?.map((item) => item.name) ?? []), 'All Apps'];
+
+	const getPinned = () => {
+		if (favorites) {
+			const favoriteKeys = favorites?.map((obj) => obj.key.toLowerCase());
+			return data
+				.map((group) => ({
+					...group,
+					apps: group.apps.filter((app) => favoriteKeys.includes(app.appKey.toLowerCase())),
+				}))
+				.filter((group) => group.apps.length);
 		}
 	};
 
-	const categoryItems = ['Pinned Apps', 'All Apps', ...(data?.map((item) => item.name) ?? [])];
+	const customSort = (a, b) => {
+		if (a.name === activeItem) {
+			return -1;
+		} else if (b.name === activeItem) {
+			return 1;
+		}
 
-	const searchResultsOther = appsMatchingSearch(data ?? [], searchText, clickedCategoryItems, favorites);
-	const searchResultsSelected = appsMatchingSearchByCat(data ?? [], searchText, clickedCategoryItems);
-	const searchResultsPinned = appsMatchingSearchByFav(data ?? [], searchText, favorites);
+		if (a.order < b.order) {
+			return -1;
+		} else if (a.order > b.order) {
+			return 1;
+		} else {
+			return 0;
+		}
+	};
 
-	const searchHits = searchResultsOther.length + searchResultsSelected.length + searchResultsPinned.length;
+	const memoizedResult = useMemo(() => {
+		const filteredApps = data?.filter((obj) => obj.name === activeItem);
+		if (activeItem.includes('Pinned Apps') && searchText === '') {
+			return getPinned();
+		}
+		if (searchText != '' || activeItem.includes('All Apps')) {
+			const appSearch = appsMatchingSearch(data ?? [], searchText);
+			return appSearch.sort(customSort);
+		}
+
+		return filteredApps;
+	}, [searchText, activeItem]);
+
+	const handleToggle = (name: string) => {
+		if (activeItem === name) {
+			setActiveItem('');
+		} else {
+			setActiveItem(name);
+		}
+	};
 
 	return (
 		<PortalMenu>
@@ -96,30 +125,18 @@ export function MenuGroups() {
 							))}
 						</CategoryWrapper>
 						<AppsWrapper>
-							{clickedCategoryItems.includes('Pinned Apps') && favorites?.length === 0 ? (
+							{activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 								<InfoMessage>
 									Looks like you do not have any pinned apps yet. Click the star icon on apps to add
 									them to the pinned app section.
 								</InfoMessage>
 							) : null}
-							{clickedCategoryItems.includes('Pinned Apps') && searchResultsPinned.length > 0 ? (
-								<>
-									<GroupWrapper appGroups={searchResultsPinned} />
-								</>
-							) : null}
 
-							{clickedCategoryItems.filter((item) => item !== 'All Apps' && item !== 'Pinned Apps')
-								.length > 0 && searchResultsSelected.length > 0 ? (
-								<GroupWrapper appGroups={searchResultsSelected} />
-							) : null}
+							{searchText && memoizedResult?.length === 0 && (
+								<InfoMessage>No results found for your search.</InfoMessage>
+							)}
 
-							{searchText &&
-							!clickedCategoryItems.includes('All Apps') &&
-							searchResultsOther.length > 0 ? (
-								<GroupWrapper appGroups={searchResultsOther} />
-							) : null}
-
-							{searchHits === 0 && <InfoMessage>No results found for your search.</InfoMessage>}
+							{memoizedResult?.length > 0 ? <GroupWrapper appGroups={memoizedResult} /> : null}
 						</AppsWrapper>
 					</>
 				)}

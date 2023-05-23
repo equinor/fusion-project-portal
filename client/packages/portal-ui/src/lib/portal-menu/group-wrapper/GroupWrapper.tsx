@@ -7,23 +7,15 @@ type GroupWrapperProps = {
 	appGroups: AppGroup[];
 };
 
-function getColumns(appGroups: AppGroup[]): number {
-	if (!appGroups || appGroups.length === 0) {
-		return 1;
-	} else if (appGroups.length > 1) {
-		return 2;
-	} else {
-		return 1;
-	}
-}
-
 const StyledGroupWrapper = styled.div<GroupWrapperProps>`
-	display: grid;
-	grid-template-columns: repeat(${(props) => getColumns(props.appGroups)}, 1fr);
-	grid-gap: 1em;
-	gap: 2em;
-	padding-bottom: 2rem;
-	height: 100%;
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	gap: 1em;
+	width: inherit;
+	break-inside: avoid;
+	margin-bottom: 1rem;
 `;
 
 export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
