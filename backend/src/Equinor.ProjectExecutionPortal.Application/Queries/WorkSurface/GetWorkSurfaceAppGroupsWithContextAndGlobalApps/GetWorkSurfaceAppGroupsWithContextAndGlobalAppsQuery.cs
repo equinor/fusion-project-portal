@@ -37,7 +37,7 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IL
         {
             var workSurface = await _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
-                .Include(appGroup => appGroup.Apps.Where(app => app.OnboardedContext == null || app.OnboardedContext.ExternalId == request.ContextExternalId))
+                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || app.OnboardedContext.ExternalId == request.ContextExternalId))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
