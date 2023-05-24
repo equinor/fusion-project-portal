@@ -27,7 +27,7 @@
 			"requiresAuth": true
 		}
 	},
-	"bookmark": {
+	"bookmarks": {
 		"subSystem": "Project Portal",
 		"identifier": "project-portal",
 		"name": "Project Portal"
