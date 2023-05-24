@@ -7,6 +7,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/bundles")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class BundleController : ApiControllerBase
     {
         [AllowAnonymous]
