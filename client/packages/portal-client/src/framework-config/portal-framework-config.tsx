@@ -40,11 +40,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		});
 
 		enableBookmark(config, (builder) => {
-			builder.setSourceSystem({
-				subSystem: 'Project Portal',
-				identifier: 'project-portal',
-				name: 'Project Portal',
-			});
+			builder.setSourceSystem(portalConfig.bookmark);
 		});
 
 		/** Enable Navigation module  */

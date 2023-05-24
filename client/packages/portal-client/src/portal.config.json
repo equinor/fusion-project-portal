@@ -27,6 +27,11 @@
 			"requiresAuth": true
 		}
 	},
+	"bookmark": {
+		"subSystem": "Project Portal",
+		"identifier": "project-portal",
+		"name": "Project Portal"
+	},
 	"logger": {
 		"level": 0,
 		"defaultClientLogger": {
