@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.lib.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "allowJs": true,
@@ -11,16 +11,9 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "resolveJsonModule": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
   },
   "files": [],
   "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
 }

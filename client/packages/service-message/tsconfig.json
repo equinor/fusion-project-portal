@@ -1,5 +1,6 @@
 {
-    "extends": "../../tsconfig.base.json",
+    "extends": "../../tsconfig.lib.json",
+    "compileOnSave": false,
     "compilerOptions": {
         "jsx": "react-jsx",
         "allowJs": true,
@@ -22,6 +23,7 @@
         "**/*.js",
         "**/*.jsx",
         "**/*.ts",
-        "**/*.tsx"
+        "**/*.tsx",
+        "dompurify.d.ts" 
     ]
 }

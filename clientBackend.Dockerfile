@@ -10,7 +10,7 @@ WORKDIR /app-client
 COPY ["/client", "."]
 
 RUN yarn install --frozen-lockfile
-RUN npx nx run portal-client:build
+RUN npx yarn run build
 
 # 2: Build & run web server
 # ----------------------------------------------------
