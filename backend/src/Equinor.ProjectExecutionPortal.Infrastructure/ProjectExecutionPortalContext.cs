@@ -38,6 +38,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public DbSet<WorkSurfaceApp> WorkSurfaceApps { get; set; }
     public DbSet<AppGroup> AppGroups { get; set; }
     public DbSet<OnboardedApp> OnboardedApps { get; set; }
+    public DbSet<OnboardedContext> OnboardedContexts { get; set; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
