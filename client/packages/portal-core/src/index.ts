@@ -8,3 +8,4 @@ export * from './queries';
 export * from './types';
 export * from './app-loader';
 export * from './app';
+export * from './error';

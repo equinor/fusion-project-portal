@@ -1,18 +1,39 @@
+// eslint-disable-next-line max-classes-per-file
 import { EdsProvider, Table, Typography } from '@equinor/eds-core-react';
 import { DateTime } from 'luxon';
 
 import { StyledCardWrapper, StyledContent, StyledHeader } from '../styles';
 import { LoadingSkeleton } from './LoadingSeceton';
 import { useMilestoneQuery } from './use-presence-query';
+import { useEffect } from 'react';
 
 function verifyDate(date: string): string {
 	return new Date(date).toString() !== 'Invalid Date'
 		? DateTime.fromJSDate(new Date(date)).toFormat('dd LLL yyyy')
 		: '-';
 }
+class BasePortalError extends Error {
+	override name: string;
 
+	constructor(message: string, options?: { cause: unknown }) {
+		super(message, options);
+		this.name = this.constructor.name;
+	}
+}
+
+class Test extends BasePortalError {
+	constructor(message: string) {
+		super(message);
+	}
+}
 export const Milestones = () => {
-	const { data } = useMilestoneQuery();
+	const { data, error } = useMilestoneQuery();
+
+	useEffect(() => {
+		if (error) {
+			throw new Test('This is a test Error');
+		}
+	}, [error]);
 
 	return (
 		<StyledCardWrapper>

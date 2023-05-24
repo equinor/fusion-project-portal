@@ -1,7 +1,7 @@
 import { Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { ErrorBoundary, useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, json, useParams } from 'react-router-dom';
 
 import { StyledMain } from '../common-styles/Styles';
 import { Milestones } from './components/project-cards/milestones/Milestones';
@@ -71,7 +71,25 @@ export const ProjectPage = () => {
 					<ProjectDetails />
 				</StyledGridItem>
 				<StyledGridItem span={3}>
-					<Milestones />
+					<ErrorBoundary
+						customComponents={{
+							Test: ({ error }) => (
+								<div>
+									<b>wooohooooooo!!</b>
+									{error.message}
+								</div>
+							),
+						}}
+						fallback={({ error }) => {
+							return (
+								<div>
+									{error.message} - {error.name}
+								</div>
+							);
+						}}
+					>
+						<Milestones />
+					</ErrorBoundary>
 				</StyledGridItem>
 			</StyledContextPageGrid>
 		</StyledMain>
