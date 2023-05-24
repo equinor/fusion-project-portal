@@ -18,6 +18,8 @@ export const StyledBreadcrumbItem = styled.span`
 `;
 export const StyledBreadcrumbItemInteract = styled(StyledBreadcrumbItem)`
 	cursor: pointer;
+	display: flex;
+	align-items: center;
 
 	:hover {
 		color: ${tokens.colors.interactive.primary__hover.hex};

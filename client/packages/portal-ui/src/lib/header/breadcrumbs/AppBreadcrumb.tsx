@@ -1,8 +1,9 @@
-import { Menu } from '@equinor/eds-core-react';
+import { Icon, Menu } from '@equinor/eds-core-react';
 import { AppGroup } from '@equinor/portal-core';
 import { FC, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { StyledBreadcrumbItemInteract, StyledMenuItem } from './styles';
+import { arrow_drop_down } from '@equinor/eds-icons';
 
 interface AppBreadcrumbProp {
 	appGroup: AppGroup | undefined;
@@ -16,6 +17,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 	const currentApp = appGroup?.apps.find((a) => a.appKey === appKey);
 
 	const ref = useRef<HTMLSpanElement>(null);
+	const hasApps = Boolean(appGroup?.apps.length);
 
 	return (
 		<>
@@ -27,6 +29,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 					}}
 				>
 					<b>{currentApp.name}</b>
+					{hasApps && <Icon data={arrow_drop_down} />}
 				</StyledBreadcrumbItemInteract>
 			)}
 
@@ -46,7 +49,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 									toggleMenuOpen(false);
 								}}
 							>
-								{app.name}
+								{currentApp?.appKey === app.appKey ? <b>{app.name}</b> : app.name}
 							</Menu.Item>
 						</StyledMenuItem>
 					))}
