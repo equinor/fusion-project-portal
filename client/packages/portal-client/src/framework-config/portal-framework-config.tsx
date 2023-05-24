@@ -14,6 +14,7 @@ import {
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
+import { signalRConfigurator } from './utils';
 
 const showInfo = false;
 
@@ -34,10 +35,26 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		addPortalClient(config, portalConfig.portalClient.client);
 
 		/** Enabling signal-r module for portal used for service messages */
-		enableSignalR(config, 'portal', {
-			service: 'portal',
-			path: '/signalr/hubs/portal/?negotiateVersion=1',
-		});
+		enableSignalR(
+			config,
+			'portal',
+			signalRConfigurator({
+				name: 'portal',
+				service: 'portal',
+				path: '/signalr/hubs/portal/?negotiateVersion=1',
+			})
+		);
+
+		/** Enabling signal-r module for portal used for notifications*/
+		enableSignalR(
+			config,
+			'notifications',
+			signalRConfigurator({
+				path: '/signalr/hubs/notifications/?negotiateVersion=1',
+				name: 'notifications',
+				service: 'portal',
+			})
+		);
 
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);
