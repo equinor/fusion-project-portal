@@ -36,7 +36,7 @@ export interface PortalConfig {
 	agGrid?: {
 		licenseKey: string;
 	};
-	bookmark: SourceSystem;
+	bookmarks: SourceSystem;
 	views?: View[];
 }
 

@@ -40,7 +40,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		});
 
 		enableBookmark(config, (builder) => {
-			builder.setSourceSystem(portalConfig.bookmark);
+			builder.setSourceSystem(portalConfig.bookmarks);
 		});
 
 		/** Enable Navigation module  */
