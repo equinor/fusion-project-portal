@@ -17,7 +17,7 @@ export interface App {
 	description: string;
 	order: number;
 	appGroup?: string;
-	isAvailable?: boolean
+	isDisabled?: boolean
 
 }
 

@@ -8,7 +8,7 @@ const StylesWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 60% 0;
+	padding: 20% 0;
 	justify-content: center;
 	place-self: auto center;
 `;

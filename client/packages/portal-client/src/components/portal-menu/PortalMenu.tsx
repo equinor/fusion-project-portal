@@ -1,5 +1,5 @@
 import { Search } from '@equinor/eds-core-react';
-import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
+import { useAppGroupsQuery, appsMatchingSearch, AppGroup, App } from '@equinor/portal-core';
 import { GroupWrapper, LoadingMenu, PortalMenu, CategoryItem } from '@equinor/portal-ui';
 import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
 import { useState, useMemo } from 'react';
@@ -39,31 +39,56 @@ const CategoryWrapper = styled.div`
 
 export function MenuGroups() {
 	const { data, isLoading } = useAppGroupsQuery();
-	const [searchText, setSearchText] = useState<string | undefined>();
+	const [searchText, setSearchText] = useState<string | undefined>('');
 	const { fusion } = useAppModule();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
-	const favorites = useObservable(
-		combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
-			map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
-		)
-	);
+	const favorites =
+		useObservable(
+			combineLatest([fusion.modules.app.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
+				map(([appManifest, favorites]) =>
+					appManifest.filter((appManifest) => favorites.includes(appManifest.key))
+				)
+			)
+		) ?? [];
+
+	const favoriteAppKeys = favorites.map((favorites) => favorites.key);
+	const enabledApps = (data?.map((group) => group.apps) ?? []).flat();
+	const favortiedApps = enabledApps
+		.filter((app) => favoriteAppKeys.includes(app.appKey))
+		.map(
+			(app): App => ({
+				appKey: app.appKey,
+				description: app.description ?? '',
+				name: app.name,
+				isDisabled: false,
+				order: app.order ?? 0,
+			})
+		);
+
+	const allAppKeys = enabledApps.map((app) => app.appKey);
+	const disabledApps = favorites
+		.filter((favorite) => !allAppKeys.includes(favorite.key))
+		.map(
+			(disabledApp): App => ({
+				appKey: disabledApp.key,
+				description: disabledApp.description ?? '',
+				name: disabledApp.name,
+				isDisabled: true,
+				order: disabledApp.order ?? 0,
+			})
+		);
+
+	const favoriteGroup: AppGroup = {
+		name: 'Pinned Apps',
+		order: 0,
+		accentColor: '#ece90f',
+		apps: [...favortiedApps, ...disabledApps],
+	};
 
 	const categoryItems = ['Pinned Apps', ...(data?.map((item) => item.name) ?? []), 'All Apps'];
 
-	const getPinned = () => {
-		if (favorites) {
-			const favoriteKeys = favorites?.map((obj) => obj.key.toLowerCase());
-			return data
-				.map((group) => ({
-					...group,
-					apps: group.apps.filter((app) => favoriteKeys.includes(app.appKey.toLowerCase())),
-				}))
-				.filter((group) => group.apps.length);
-		}
-	};
-
-	const customSort = (a, b) => {
+	const customSort = (a: AppGroup, b: AppGroup) => {
 		if (a.name === activeItem) {
 			return -1;
 		} else if (b.name === activeItem) {
@@ -80,15 +105,15 @@ export function MenuGroups() {
 	};
 
 	const memoizedResult = useMemo(() => {
-		const filteredApps = data?.filter((obj) => obj.name === activeItem);
 		if (activeItem.includes('Pinned Apps') && searchText === '') {
-			return getPinned();
+			return [favoriteGroup];
 		}
 		if (searchText != '' || activeItem.includes('All Apps')) {
 			const appSearch = appsMatchingSearch(data ?? [], searchText);
+			console.log(appSearch);
 			return appSearch.sort(customSort);
 		}
-
+		const filteredApps = data?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
 	}, [searchText, activeItem]);
 
@@ -124,20 +149,20 @@ export function MenuGroups() {
 								/>
 							))}
 						</CategoryWrapper>
-						<AppsWrapper>
-							{activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
-								<InfoMessage>
-									Looks like you do not have any pinned apps yet. Click the star icon on apps to add
-									them to the pinned app section.
-								</InfoMessage>
-							) : null}
+						{memoizedResult?.length > 0 ? (
+							<AppsWrapper>
+								{activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
+									<InfoMessage>
+										Looks like you do not have any pinned apps yet. Click the star icon on apps to
+										add them to the pinned app section.
+									</InfoMessage>
+								) : null}
 
-							{searchText && memoizedResult?.length === 0 && (
-								<InfoMessage>No results found for your search.</InfoMessage>
-							)}
-
-							{memoizedResult?.length > 0 ? <GroupWrapper appGroups={memoizedResult} /> : null}
-						</AppsWrapper>
+								{<GroupWrapper appGroups={memoizedResult} />}
+							</AppsWrapper>
+						) : (
+							<InfoMessage>No results found for your search.</InfoMessage>
+						)}
 					</>
 				)}
 			</MenyWrapper>

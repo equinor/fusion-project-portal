@@ -7,6 +7,7 @@ export const StyledGroup = styled.div`
 	min-width: 300px;
 	width: 100%;
 	align-items: flex-start;
+	break-inside: avoid;
 `;
 
 export const StyledChildrenWrapper = styled.div`
