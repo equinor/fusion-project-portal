@@ -26,8 +26,8 @@ COPY ["/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/Equinor.P
 COPY ["/clientBackend/src/nuget.config", "Equinor.ProjectExecutionPortal.ClientBackend/"]
 
 # Copy the client bundle to the backend
-COPY --from=build-client /app-client/dist/packages/portal-client Equinor.ProjectExecutionPortal.ClientBackend/wwwroot/ClientApp/production
-COPY --from=build-client /app-client/dist/packages/portal-client/assets Equinor.ProjectExecutionPortal.ClientBackend/wwwroot/ClientApp/production/assets
+COPY --from=build-client /app-client/dist/portal-client Equinor.ProjectExecutionPortal.ClientBackend/wwwroot/ClientApp/production
+COPY --from=build-client /app-client/dist/portal-client/assets Equinor.ProjectExecutionPortal.ClientBackend/wwwroot/ClientApp/production/assets
 
 RUN dotnet restore "Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj" --configfile Equinor.ProjectExecutionPortal.ClientBackend/nuget.config
 
