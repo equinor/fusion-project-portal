@@ -1,8 +1,7 @@
 import { Button, Icon, Typography } from '@equinor/eds-core-react';
-import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { useFramework } from '@equinor/fusion-framework-react';
+
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
-import { useQuery } from 'react-query';
+
 import {
 	StyledCardWrapper,
 	StyledContent,
@@ -11,8 +10,9 @@ import {
 	StyledContentItem,
 	StyledCardWithBackgroundWrapper,
 } from './styles';
-import { Relations } from './types';
+
 import { css } from '@emotion/css';
+import { useRelationsByType } from '@equinor/portal-core';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -22,34 +22,6 @@ export type ProjectMaster = {
 	phase: string;
 	portfolioOrganizationalUnit: string;
 } & Record<string, unknown>;
-
-export async function getContextRelations(
-	client: IHttpClient,
-	contextId?: string,
-	signal?: AbortSignal
-): Promise<Relations[] | undefined> {
-	if (!contextId) return;
-	const res = await client.fetch(`/contexts/${contextId}/relations`, { signal });
-	if (!res.ok) throw res;
-	return (await res.json()) as Relations[];
-}
-
-export const useContextRelationsQuery = () => {
-	const client = useFramework().modules.serviceDiscovery.createClient('context');
-	const { currentContext } = useFramework().modules.context;
-	const contextId = currentContext?.id;
-	return useQuery({
-		queryKey: ['context-relations', contextId],
-		queryFn: async ({ signal }) => getContextRelations(await client, contextId, signal),
-	});
-};
-
-type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project';
-
-export function useRelationsByType(type: RelationsTypes) {
-	const { data } = useContextRelationsQuery();
-	return data?.filter((relation) => relation.type.id === type) || [];
-}
 
 function getBackgroundURL(instCode?: string) {
 	if (!instCode) return;
@@ -65,7 +37,7 @@ export const ProjectDetails = () => {
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
 	const equinorTask = useRelationsByType('EquinorTask');
 	return (
-		<StyledCardWithBackgroundWrapper imageURL={getBackgroundURL(currentContext?.value.facilities[0])}>
+		<StyledCardWithBackgroundWrapper imageURL={getBackgroundURL(currentContext?.value?.facilities[0])}>
 			<StyledHeader className={styles.headerTitle}>
 				<Typography variant="h5">{currentContext?.title}</Typography>
 				<Typography variant="h6">

@@ -58,6 +58,9 @@ const styles = {
 		gap: 0.5rem;
 		grid-column: span 3;
 	`,
+	fullHeight: css`
+		height: 100%;
+	`,
 };
 
 export const Favorites = () => {
@@ -71,7 +74,7 @@ export const Favorites = () => {
 	);
 
 	return (
-		<Card>
+		<Card className={styles.fullHeight}>
 			<Card.Header>
 				<Typography variant="h5">Pinned Apps</Typography>
 				<div
