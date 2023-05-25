@@ -31,14 +31,14 @@ export const MenuScrim = styled(Scrim)`
 	}
 `;
 
-export const MenuWrapper = styled.div`
+export const MenuWrapper = styled.div<{ widthAmount: number }>`
 	max-height: 100% !important;
 	display: 'flex';
 	flex-direction: 'column';
 	gap: '1.2em';
 	height: calc(100vh - 48px);
 	position: absolute;
-	width: 1100px;
+	width: ${({ widthAmount }) => widthAmount+"px"};
 	background-color: white;
 	top: 0px;
 	left: 0px;

@@ -1,4 +1,4 @@
-import { ItemToggled, Item } from './CategoryStyles';
+import { StyledItemToggled, StyledItem } from './CategoryStyles';
 
 interface MyComponentProps {
 	name: string;
@@ -6,7 +6,7 @@ interface MyComponentProps {
 	isActive: boolean;
 }
 
-export const CategoryItem: React.FC<MyComponentProps> = (props) => {
+export const StyledCategoryItem: React.FC<MyComponentProps> = (props) => {
 	const handleClick = () => {
 		props.onClick(props.name);
 	};
@@ -14,16 +14,16 @@ export const CategoryItem: React.FC<MyComponentProps> = (props) => {
 	return (
 		<>
 			{props.isActive ? (
-				<ItemToggled onClick={handleClick}>
+				<StyledItemToggled onClick={handleClick}>
 					<p>{props.name}</p>
-				</ItemToggled>
+				</StyledItemToggled>
 			) : (
-				<Item onClick={handleClick}>
+				<StyledItem onClick={handleClick}>
 					<p>{props.name}</p>
-				</Item>
+				</StyledItem>
 			)}
 		</>
 	);
 };
 
-export default CategoryItem;
+export default StyledCategoryItem;

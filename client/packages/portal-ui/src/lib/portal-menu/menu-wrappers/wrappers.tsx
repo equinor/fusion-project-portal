@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const AppsWrapper = styled.div<{ count: number }>`
+export const StyledAppsWrapper = styled.div<{ count: number }>`
 	padding: 1rem 0 1rem 1rem;
 	height: 600px;
 	display: block;
@@ -10,7 +10,7 @@ export const AppsWrapper = styled.div<{ count: number }>`
 	column-count: ${({ count }) => count};
 `;
 
-export const MenuWrapper = styled.div`
+export const StyledMenuWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
@@ -19,7 +19,7 @@ export const MenuWrapper = styled.div`
 	height: 90%;
 `;
 
-export const CategoryWrapper = styled.div`
+export const StyledCategoryWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 1rem 1rem 1rem 0;

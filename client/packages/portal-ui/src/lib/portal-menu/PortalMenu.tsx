@@ -10,7 +10,7 @@ export const PortalMenu = ({ width, children }: PropsWithChildren<PortalMenuProp
 	const { menuActive, closeMenu } = useMenuContext();
 	return (
 		<MenuScrim open={menuActive} isDismissable onClose={closeMenu}>
-			<MenuWrapper style={{ width: `${width}px` }}>{children}</MenuWrapper>
+			<MenuWrapper widthAmount={width}>{children}</MenuWrapper>
 		</MenuScrim>
 	);
 };
