@@ -31,18 +31,18 @@ export const MenuScrim = styled(Scrim)`
 	}
 `;
 
-export const MenuWrapper = styled.div`
+export const MenuWrapper = styled.div<{ widthAmount: number }>`
 	max-height: 100% !important;
 	display: 'flex';
 	flex-direction: 'column';
 	gap: '1.2em';
 	height: calc(100vh - 48px);
 	position: absolute;
-	width: 700px;
+	width: ${({ widthAmount }) => widthAmount}px;
 	background-color: white;
 	top: 0px;
 	left: 0px;
-	padding: 1rem;
+	padding: 1rem 2rem 1rem 2rem;
 	background: ${tokens.colors.ui.background__default.rgba};
 	transition: all 0.15s ease;
 	z-index: 1;

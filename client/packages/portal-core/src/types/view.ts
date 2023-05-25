@@ -17,6 +17,8 @@ export interface App {
 	description: string;
 	order: number;
 	appGroup?: string;
+	isDisabled?: boolean
+
 }
 
 export interface AppGroup {

@@ -23,6 +23,7 @@ export const Group = ({ group }: GroupProps) => {
 							key={child.appKey}
 							appKey={child.appKey}
 							name={child.name}
+							isDisabled={child.isDisabled !== undefined ? child.isDisabled : false}
 							isActive={appKey === child.appKey}
 						/>
 					))}

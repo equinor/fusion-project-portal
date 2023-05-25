@@ -3,22 +3,28 @@ import styled from 'styled-components';
 import { InfoMessage } from '../../info-message/InfoMessage';
 import { Group } from '../group/Group';
 
-const StyledGroupWrapper = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 2em;
-`;
-
 type GroupWrapperProps = {
 	appGroups: AppGroup[];
 };
+
+const StyledGroupWrapper = styled.div<GroupWrapperProps>`
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	gap: 1em;
+	width: inherit;
+	break-inside: avoid;
+	margin-bottom: 1rem;
+`;
+
 export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
 	return (
-		<StyledGroupWrapper>
+		<StyledGroupWrapper appGroups={appGroups}>
 			{appGroups.length ? (
 				appGroups.map((appGroup) => <Group key={appGroup.name} group={appGroup} />)
 			) : (
-				<InfoMessage>No application awaitable </InfoMessage>
+				<InfoMessage>No applications found</InfoMessage>
 			)}
 		</StyledGroupWrapper>
 	);
