@@ -38,7 +38,7 @@ export const MenuWrapper = styled.div<{ widthAmount: number }>`
 	gap: '1.2em';
 	height: calc(100vh - 48px);
 	position: absolute;
-	width: ${({ widthAmount }) => widthAmount+"px"};
+	width: ${({ widthAmount }) => widthAmount}px;
 	background-color: white;
 	top: 0px;
 	left: 0px;

@@ -15,7 +15,7 @@ import {
 	getColumnCount,
 	customAppgroupArraySort,
 	getDisabledApps,
-	GetPinnedAppsGroup,
+	GetPinnedAppsgroup,
 } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
 import { InfoMessage } from 'packages/portal-ui/src/lib/info-message/InfoMessage';
@@ -42,7 +42,7 @@ export function MenuGroups() {
 	const favoriteGroup = useMemo(() => {
 		const enabledApps = (data?.map((group) => group.apps) ?? []).flat();
 		const disabledApps = getDisabledApps(enabledApps, favorites);
-		return GetPinnedAppsGroup(enabledApps, disabledApps, favorites);
+		return GetPinnedAppsgroup(enabledApps, disabledApps, favorites);
 	}, [favorites, data]);
 
 	const displayAppGroups = useMemo(() => {
