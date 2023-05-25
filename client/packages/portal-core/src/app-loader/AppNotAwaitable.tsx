@@ -14,7 +14,7 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 	const navigate = useNavigate();
 
 	return (
-		<PortalMessagePage title={`${name} is not awaitable for the selected context`} type="Warning">
+		<PortalMessagePage title={`${name} is not available for the selected context`} type="Warning">
 			<div>
 				<ContextProvider>
 					<ContextSelector navigate={navigate} path={`/${currentView?.key}`} />
