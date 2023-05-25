@@ -2,14 +2,21 @@ import { EdsProvider, Table, Typography } from '@equinor/eds-core-react';
 import { DateTime } from 'luxon';
 
 import { StyledCardWrapper, StyledContent, StyledHeader } from '../styles';
-import { LoadingSkeleton } from './LoadingSeceton';
+import { LoadingSkeleton } from './LoadingSection';
 import { useMilestoneQuery } from './use-presence-query';
+import { css } from '@emotion/css';
 
 function verifyDate(date: string): string {
 	return new Date(date).toString() !== 'Invalid Date'
 		? DateTime.fromJSDate(new Date(date)).toFormat('dd LLL yyyy')
 		: '-';
 }
+
+const styles = {
+	fullWidth: css`
+		width: 100%;
+	`,
+};
 
 export const Milestones = () => {
 	const { data } = useMilestoneQuery();
@@ -21,7 +28,7 @@ export const Milestones = () => {
 			</StyledHeader>
 			<StyledContent>
 				<EdsProvider density="compact">
-					<Table>
+					<Table className={styles.fullWidth}>
 						<Table.Head>
 							<Table.Row>
 								<Table.Cell>Milestone</Table.Cell>
