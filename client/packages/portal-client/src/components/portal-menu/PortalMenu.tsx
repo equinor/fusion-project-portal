@@ -1,9 +1,9 @@
 import { Search } from '@equinor/eds-core-react';
 import { useAppGroupsQuery, appsMatchingSearch, AppGroup, App } from '@equinor/portal-core';
-import { GroupWrapper, LoadingMenu, PortalMenu, CategoryItem } from '@equinor/portal-ui';
+import { GroupWrapper, LoadingMenu, PortalMenu, CategoryItem, MenuWrapper, AppsWrapper, CategoryWrapper } from '@equinor/portal-ui';
 import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
 import { useState, useMemo } from 'react';
-import { useObservable } from '@equinor/portal-utils';
+import { useObservable, getMenuWidth, getColumnCount, customAppgroupArraySort } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
 import styled from 'styled-components';
 import { InfoMessage } from 'packages/portal-ui/src/lib/info-message/InfoMessage';
@@ -25,63 +25,8 @@ export function MenuGroups() {
 
 	const categoryItems = ['Pinned Apps', ...(data?.map((item) => item.name) ?? []), 'All Apps'];
 
-	const getColumnCount = () => {
-		if (!data) {
-			return 1;
-		}
-
-		if (data?.length > 3 && data?.length < 10) {
-			return 2;
-		} else if (data?.length < 3) {
-			return 1;
-		}
-		return 3;
-	};
-
-	const getMenuWidth = () => {
-		if (!data) {
-			return 750;
-		}
-		if (data?.length > 3 && data?.length < 10) {
-			return 1100;
-		} else if (data.length < 3) {
-			return 750;
-		}
-		return 1450;
-	};
-
-	const customSort = (a: AppGroup, b: AppGroup) => {
-		if (a.name === activeItem) {
-			return -1;
-		} else if (b.name === activeItem) {
-			return 1;
-		}
-
-		if (a.order < b.order) {
-			return -1;
-		} else if (a.order > b.order) {
-			return 1;
-		} else {
-			return 0;
-		}
-	};
-
-
 	const favoriteGroup = useMemo(() => {
-		const favoriteAppKeys = favorites.map((favorites) => favorites.key);
 		const enabledApps = (data?.map((group) => group.apps) ?? []).flat();
-		const favortiedApps = enabledApps
-			.filter((app) => favoriteAppKeys.includes(app.appKey))
-			.map(
-				(app): App => ({
-					appKey: app.appKey,
-					description: app.description ?? '',
-					name: app.name,
-					isDisabled: false,
-					order: app.order ?? 0,
-				})
-			);
-
 		const allAppKeys = enabledApps.map((app) => app.appKey);
 		const disabledApps = favorites
 			.filter((favorite) => !allAppKeys.includes(favorite.key))
@@ -95,25 +40,39 @@ export function MenuGroups() {
 				})
 			);
 
-		return {
-			name: 'Pinned Apps',
-			order: 0,
-			accentColor: '#ece90f',
-			apps: [...favortiedApps, ...disabledApps],
-		};
-	}, [favorites, data, []]);
+		return favorites.reduce(
+			(acc, curr) => {
+				const enabledApp =
+					enabledApps.find((app) => app.appKey === curr.key) ??
+					disabledApps.find((app) => app.appKey === curr.key);
+				if (enabledApp) {
+					return {
+						...acc,
+						apps: [...acc.apps, enabledApp],
+					};
+				}
+				return acc;
+			},
+			{
+				name: 'Pinned Apps',
+				order: 0,
+				accentColor: '#ece90f',
+				apps: [],
+			} as AppGroup
+		);
+	}, [favorites, data]);
 
 	const displayAppGroups = useMemo(() => {
 		if (activeItem.includes('Pinned Apps') && searchText === '') {
 			return [favoriteGroup];
 		}
-		if (searchText != '' || activeItem.includes('All Apps')) {
+		if (activeItem.includes('All Apps') || searchText != '') {
 			const appSearch = appsMatchingSearch(data ?? [], searchText);
-			return appSearch.sort(customSort);
+			return appSearch.sort((a, b) => customAppgroupArraySort(a, b, activeItem));
 		}
 		const filteredApps = data?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
-	}, [searchText, activeItem, []]);
+	}, [searchText, activeItem, data, favoriteGroup]);
 
 	const handleToggle = (name: string) => {
 		if (activeItem === name) {
@@ -123,37 +82,8 @@ export function MenuGroups() {
 		}
 	};
 
-	const AppsWrapper = styled.div`
-		padding: 1rem 0 1rem 1rem;
-		height: 350px;
-		display: block;
-		grid-template-columns: auto;
-		padding-bottom: 2rem;
-		column-width: auto;
-		column-count: ${getColumnCount()};
-	`;
-
-	const MenyWrapper = styled.div`
-		display: flex;
-		flex-direction: row;
-		align-items: flex-start;
-		padding: 1rem 0 1rem 0;
-		gap: 3rem;
-		height: 90%;
-	`;
-
-	const CategoryWrapper = styled.div`
-		display: flex;
-		flex-direction: column;
-		padding: 1rem 1rem 1rem 0;
-		white-space: nowrap;
-		border-right: 1px solid #dcdcdc;
-		height: 100%;
-		width: 300px;
-	`;
-
 	return (
-		<PortalMenu width={getMenuWidth()}>
+		<PortalMenu width={getMenuWidth(data)}>
 			<Search
 				id="app-search"
 				placeholder="Search for apps"
@@ -161,7 +91,7 @@ export function MenuGroups() {
 					setSearchText(e.target.value);
 				}}
 			/>
-			<MenyWrapper>
+			<MenuWrapper>
 				{isLoading ? (
 					<LoadingMenu />
 				) : (
@@ -176,14 +106,14 @@ export function MenuGroups() {
 								/>
 							))}
 						</CategoryWrapper>
-						{displayAppGroups?.length > 0 ? (
+						{displayAppGroups && !!displayAppGroups?.length ? (
 							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 								<InfoMessage>
 									Looks like you do not have any pinned apps yet. Click the star icon on apps to add
 									them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<AppsWrapper>
+								<AppsWrapper count={getColumnCount(data)}>
 									<GroupWrapper appGroups={displayAppGroups} />
 								</AppsWrapper>
 							)
@@ -192,7 +122,7 @@ export function MenuGroups() {
 						)}
 					</>
 				)}
-			</MenyWrapper>
+			</MenuWrapper>
 		</PortalMenu>
 	);
 }

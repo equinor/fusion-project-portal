@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ItemToggled = styled.div`
+	width: 300px;
 	font-family: 'Equinor';
 	font-style: normal;
 	font-weight: 700;
@@ -13,11 +14,10 @@ export const ItemToggled = styled.div`
 	order: 0;
 	flex-grow: 0;
 	cursor: pointer;
-
 `;
 
 export const Item = styled.div`
-
+	width: 300px;
 	font-family: 'Equinor';
 	font-style: normal;
 	font-weight: 400;
@@ -30,5 +30,4 @@ export const Item = styled.div`
 	order: 0;
 	flex-grow: 0;
 	cursor: pointer;
-
 `;

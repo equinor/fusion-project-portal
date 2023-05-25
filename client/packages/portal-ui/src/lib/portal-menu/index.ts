@@ -5,3 +5,4 @@ export * from './LoadingMenu';
 export * from './MenuButton';
 export * from './PortalMenu';
 export * from './menu-items'
+export * from './menu-wrappers'

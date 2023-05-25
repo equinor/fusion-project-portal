@@ -24,7 +24,6 @@ export const Group = ({ group }: GroupProps) => {
 							appKey={child.appKey}
 							name={child.name}
 							isDisabled={child.isDisabled !== undefined ? child.isDisabled : false}
-							isActive={appKey === child.appKey}
 						/>
 					))}
 				</StyledChildrenWrapper>

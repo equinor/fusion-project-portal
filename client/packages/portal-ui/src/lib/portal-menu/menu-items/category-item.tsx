@@ -3,15 +3,13 @@ import { ItemToggled, Item } from './CategoryStyles';
 interface MyComponentProps {
 	name: string;
 	onClick: (name: string) => void;
-    isActive: boolean;
+	isActive: boolean;
 }
 
 export const CategoryItem: React.FC<MyComponentProps> = (props) => {
-    const handleClick = () => {
-
-          props.onClick(props.name);
-        
-      };
+	const handleClick = () => {
+		props.onClick(props.name);
+	};
 
 	return (
 		<>

@@ -39,24 +39,23 @@ const StyledAppCardDisabled = styled(Link)`
 	width: inherit;
 	justify-content: space-between;
 	align-items: center;
-	cursor: pointer;
+	cursor: not-allowed;
 `;
 
 type AppCardProps = {
 	name: string;
 	appKey: string;
-	isActive: boolean;
 	isDisabled: boolean;
 };
-export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) => {
+export const AppCard = ({ name, appKey, isDisabled }: AppCardProps) => {
 	const { closeMenu } = useMenuContext();
 	const isFavorited = Boolean(
 		useObservable(menuFavoritesController.favorites$.pipe(map((val) => val?.includes(appKey))))
 	);
 
 	return isDisabled ? (
-		<StyledAppCardDisabled title={`${name} is not available for the selected context`}>
-			{isActive ? <b>{name}</b> : <span>{name}</span>}
+		<StyledAppCardDisabled title={`${name} is not available for the selected context`} to={"/"} onClick={(e) => e.preventDefault()}>
+			<span>{name}</span>
 			<StyledIcon isFavorite={isFavorited} id={`${appKey}-favorite-button`} name="star_filled" />
 		</StyledAppCardDisabled>
 	) : (
@@ -66,7 +65,7 @@ export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) =>
 			title={`Application button for the application ${name}`}
 			onClick={closeMenu}
 		>
-			{isActive ? <b>{name}</b> : <span>{name}</span>}
+			<span>{name}</span>
 			<StyledIcon
 				isFavorite={isFavorited}
 				id={`${appKey}-favorite-button`}
