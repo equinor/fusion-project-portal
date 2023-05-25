@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 
 RUN yarn install --frozen-lockfile
-RUN npx nx run portal-client:build
+RUN npx lerna run dev
 
 FROM nginx:1.20.2-alpine
 
