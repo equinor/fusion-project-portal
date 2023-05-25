@@ -52,7 +52,7 @@ export function getDisabledApps(enabledApps: App[], favorites: AppManifest[]) {
 }
 
 // Returns an object containing pinned apps based on the enabled apps, disabled apps, and favorites
-export function GetPinnedAppsgroup(enabledApps: App[], disabledApps: App[], favorites: AppManifest[]) {
+export function getPinnedAppsGroup(enabledApps: App[], disabledApps: App[], favorites: AppManifest[]) {
 	return favorites.reduce(
 		(acc, curr) => {
 			// Find the enabled app that matches the current favorite app key
