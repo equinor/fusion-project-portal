@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 
 RUN yarn install --frozen-lockfile
-RUN npx lerna run dev
+RUN npx lerna run build
 
 FROM nginx:1.20.2-alpine
 
