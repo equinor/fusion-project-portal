@@ -24,7 +24,6 @@ export const StyledCategoryWrapper = styled.div`
 	flex-direction: column;
 	padding: 1rem 1rem 1rem 0;
 	white-space: nowrap;
-	border-right: 1px solid #dcdcdc;
 	height: 100%;
 	width: 300px;
 `;
