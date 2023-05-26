@@ -33,7 +33,13 @@ export const GroupAssignments = ({ assignments }: GroupAssignmentsProps) => {
 	return (
 		<>
 			{assignments.map((assignment) => (
-				<StyledTaskItem key={assignment.id} href={assignment.url}>
+				<StyledTaskItem
+					key={assignment.id}
+					href={assignment.url}
+					onClick={(e) => {
+						e.preventDefault();
+					}}
+				>
 					<div>
 						<Typography>{assignment.title}</Typography>
 						<Typography variant="overline">{assignment.sourceSystem.subSystem}</Typography>
