@@ -5,23 +5,28 @@ import { useObservable } from '@equinor/portal-utils';
 import { Link } from 'react-router-dom';
 import { map } from 'rxjs';
 import styled from 'styled-components';
+import { styles } from '../styles';
 
 const StyledIcon = styled(Icon)<{ isFavorite: boolean }>`
 	visibility: ${({ isFavorite }) => (isFavorite ? 'visible' : 'hidden')};
 `;
-const StyledAppCard = styled(Link)<{ isDisabled: boolean }>`
+
+type StyledAppCardPops = {
+	disabled?: boolean;
+	selected: boolean;
+};
+const StyledAppCard = styled(Link)<StyledAppCardPops>`
 	text-decoration: none;
-	color: ${({ isDisabled }) =>
-		isDisabled ? tokens.colors.text.static_icons__default.hex : tokens.colors.text.static_icons__default.hex};
+	color: ${({ disabled }) =>
+		disabled ? tokens.colors.text.static_icons__default.hex : tokens.colors.text.static_icons__default.hex};
 	background: none;
-	opacity: ${({ isDisabled }) => (isDisabled ? 0.5 : 'none')};
-	border: none;
-	height: 24px;
+	opacity: ${({ disabled }) => (disabled ? 0.5 : 'none')};
 	display: flex;
 	width: inherit;
 	justify-content: space-between;
 	align-items: center;
-	cursor: ${({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer')};
+	font-weight: ${({ selected }) => (selected ? 700 : 400)};
+	cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 	&:hover {
 		background-color: ${tokens.colors.ui.background__light.hex};
 		${StyledIcon} {
@@ -36,6 +41,7 @@ type AppCardProps = {
 	isActive: boolean;
 	isDisabled: boolean;
 };
+
 export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) => {
 	const { closeMenu } = useMenuContext();
 	const isFavorited = Boolean(
@@ -43,39 +49,39 @@ export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) =>
 	);
 
 	return (
-		<>
-			{isDisabled ? (
-				<StyledAppCard
-					title={`${name} is not available for the selected context`}
-					to={'/'}
-					onClick={(e) => e.preventDefault()}
-					isDisabled={isDisabled}
-				>
-					{isActive ? <b>{name}</b> : <span>{name}</span>}
-					<StyledIcon isFavorite={isFavorited} name={isFavorited ? 'star_filled' : 'star_outlined'} />
-				</StyledAppCard>
-			) : (
-				<StyledAppCard
-					isDisabled={isDisabled}
-					to={`/apps/${appKey}`}
-					id={`${appKey}-button`}
-					title={`Application button for the application ${name}`}
-					onClick={closeMenu}
-				>
-					{isActive ? <b>{name}</b> : <span>{name}</span>}
-					<StyledIcon
-						isFavorite={isFavorited}
-						id={`${appKey}-favorite-button`}
-						title={`App favorite button for ${name}`}
-						onClick={(event) => {
-							event.stopPropagation();
-							event.preventDefault();
-							menuFavoritesController.onClickFavorite(appKey);
-						}}
-						name={isFavorited ? 'star_filled' : 'star_outlined'}
-					/>
-				</StyledAppCard>
-			)}
-		</>
+		<li>
+			<StyledAppCard
+				className={styles.menuItem}
+				disabled={isDisabled}
+				selected={isActive}
+				to={`/apps/${appKey}`}
+				id={`${appKey}-button`}
+				title={
+					isDisabled
+						? `${name} is not available for the selected context`
+						: `Application button for the application ${name}`
+				}
+				onClick={(e) => {
+					if (isDisabled) {
+						e.preventDefault();
+						return;
+					}
+					closeMenu();
+				}}
+			>
+				{name}
+				<StyledIcon
+					isFavorite={isFavorited}
+					id={`${appKey}-favorite-button`}
+					title={`App favorite button for ${name}`}
+					onClick={(event) => {
+						event.stopPropagation();
+						event.preventDefault();
+						menuFavoritesController.onClickFavorite(appKey);
+					}}
+					name={isFavorited ? 'star_filled' : 'star_outlined'}
+				/>
+			</StyledAppCard>
+		</li>
 	);
 };

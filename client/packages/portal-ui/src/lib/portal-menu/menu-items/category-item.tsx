@@ -1,4 +1,5 @@
-import { StyledItemToggled, StyledItem } from './CategoryStyles';
+import { css } from '@emotion/css';
+import { styles } from '../styles';
 
 interface MyComponentProps {
 	name: string;
@@ -12,17 +13,9 @@ export const StyledCategoryItem: React.FC<MyComponentProps> = (props) => {
 	};
 
 	return (
-		<>
-			{props.isActive ? (
-				<StyledItemToggled onClick={handleClick}>
-					<p>{props.name}</p>
-				</StyledItemToggled>
-			) : (
-				<StyledItem onClick={handleClick}>
-					<p>{props.name}</p>
-				</StyledItem>
-			)}
-		</>
+		<button className={(styles.menuItem, styles.categoryItem(props.isActive))} onClick={handleClick}>
+			{props.name}
+		</button>
 	);
 };
 
