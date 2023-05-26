@@ -36,6 +36,7 @@ const styles = {
 		align-items: center;
 		display: flex;
 		border-radius: 50%;
+		padding: 0.2rem;
 		width: 16px;
 		height: 16px;
 		color: white;
