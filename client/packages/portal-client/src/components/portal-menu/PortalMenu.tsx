@@ -39,7 +39,7 @@ const styles = {
 	`,
 	appsWrapper: (count: number) => css`
 		padding: 0 0 1rem 1rem;
-		height: 550px;
+		height: 600px;
 		display: block;
 		grid-template-columns: auto;
 		padding-bottom: 2rem;
@@ -101,8 +101,8 @@ export function MenuGroups() {
 		}
 	};
 
-	const BREAK_COL_2 = 3;
-	const BREAK_COL_3 = 10;
+	const BREAK_COL_2 = 12;
+	const BREAK_COL_3 = 25;
 
 	return (
 		<PortalMenu width={getMenuWidth(BREAK_COL_2, BREAK_COL_3, data)}>

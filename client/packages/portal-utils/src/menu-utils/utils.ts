@@ -3,20 +3,30 @@ import { tokens } from '@equinor/eds-tokens';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 
 export const getColumnCount = (MIN: number, MAX: number, data?: AppGroup[]) => {
-	if (!data || data.length < MIN) {
+	const count =
+		data?.reduce((acc, group) => {
+			return acc + group.apps.length;
+		}, 0) || 0;
+
+	if (!data || count < MIN) {
 		return 1;
 	}
-	if (data?.length > MIN && data?.length < MAX) {
+	if (count > MIN && count < MAX) {
 		return 2;
 	}
 	return 3;
 };
 
 export const getMenuWidth = (MIN: number, MAX: number, data?: AppGroup[]) => {
-	if (!data || data.length < MIN) {
+	const count =
+		data?.reduce((acc, group) => {
+			return acc + group.apps.length;
+		}, 0) || 0;
+
+	if (!data || count < MIN) {
 		return 750;
 	}
-	if (data.length > MIN && data?.length < MAX) {
+	if (count > MIN && count < MAX) {
 		return 1100;
 	}
 	return 1450;
