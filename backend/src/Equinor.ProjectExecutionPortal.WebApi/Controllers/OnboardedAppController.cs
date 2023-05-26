@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp.GetOnboardedApps;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,12 +21,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPost("")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
             return await Mediator.Send(request.ToCommand());
         }
 
         [HttpDelete("{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
         {
             var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
@@ -36,6 +39,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPut("reorder")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> ReorderOnboardedApps([FromBody] ApiReorderOnboardedAppsRequest request)
         {
             await Mediator.Send(request.ToCommand());

@@ -8,6 +8,7 @@ using Equinor.ProjectExecutionPortal.FusionPortalApi;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using FluentValidation;
@@ -37,6 +38,8 @@ public static class ApplicationModule
                 policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
                 policy.RequireAuthenticatedUser();
             });
+
+            options.UseApplicationPolicies();
         });
 
         services.AddInfrastructureModules(configuration);
