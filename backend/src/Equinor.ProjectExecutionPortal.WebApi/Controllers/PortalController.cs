@@ -27,7 +27,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return new ApiPortal(portalDto);
         }
 
-        [HttpGet("fusion/{externalId}")]
+        [HttpGet("fusion/contexts/{externalId}")]
         public async Task<ActionResult<FusionContext>> GetFusionContext(string externalId)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(externalId);
