@@ -40,7 +40,7 @@ export const styles = {
 		width: 100%;
 		align-items: flex-start;
 		break-inside: avoid;
-		margin-bottom: 1rem;
+		margin-bottom: 2rem;
 	`,
 	list: css`
 		display: flex;
