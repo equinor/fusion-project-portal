@@ -4,10 +4,7 @@ import {
 	GroupWrapper,
 	LoadingMenu,
 	PortalMenu,
-	StyledCategoryItem,
-	StyledMenuWrapper,
-	StyledAppsWrapper,
-	StyledCategoryWrapper,
+	StyledCategoryItem
 } from '@equinor/portal-ui';
 import {
 	useObservable,
@@ -19,7 +16,7 @@ import {
 } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
 import { InfoMessage } from 'packages/portal-ui/src/lib/info-message/InfoMessage';
-import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
+import { menuFavoritesController, useAppModule, useMenuContext } from '@equinor/portal-core';
 import { useState, useMemo } from 'react';
 import { css } from '@emotion/css';
 
@@ -60,7 +57,7 @@ const styles = {
 
 export function MenuGroups() {
 	const { data, isLoading } = useAppGroupsQuery();
-	const [searchText, setSearchText] = useState<string | undefined>('');
+	const { searchText, setSearchText } = useMenuContext();
 	const { fusion } = useAppModule();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
@@ -108,7 +105,8 @@ export function MenuGroups() {
 		<PortalMenu width={getMenuWidth(BREAK_COL_2, BREAK_COL_3, data)}>
 			<Search
 				id="app-search"
-				placeholder="Search for apps"
+				placeholder={"Search for apps"}
+				value={searchText}
 				onChange={(e) => {
 					setSearchText(e.target.value);
 				}}
