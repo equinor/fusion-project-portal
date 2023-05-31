@@ -39,7 +39,7 @@ const styles = {
 	`,
 	appsWrapper: (count: number) => css`
 		padding: 0 0 1rem 1rem;
-		height: 600px;
+		height: 650px;
 		display: block;
 		grid-template-columns: auto;
 		padding-bottom: 2rem;
