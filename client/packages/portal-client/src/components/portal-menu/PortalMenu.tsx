@@ -109,7 +109,6 @@ export function MenuGroups() {
 				value={searchText}
 				onChange={(e) => {
 					setSearchText(e.target.value);
-					console.log(searchText)
 				}}
 			/>
 			<div className={styles.menuWrapper}>
