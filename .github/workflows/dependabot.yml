@@ -1,4 +1,4 @@
-version: 2
+version: 3
 registries:
   fusion-public:
     type: nuget-feed
@@ -8,7 +8,28 @@ registries:
     url: https://api.nuget.org/v3/index.json
 updates:
   - package-ecosystem: nuget
-    directory: /
+    directory: /backend
     registries: "*"
     schedule:
       interval: daily
+    target-branch: "main"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: nuget
+    directory: /clientBackend
+    registries: "*"
+    schedule:
+      interval: daily
+    target-branch: "main"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: npm
+    directory: /client
+    registries: "*"
+    schedule:
+      interval: daily
+    target-branch: "main"
+    labels:
+      - "dependencies"
