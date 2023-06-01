@@ -8,7 +8,7 @@ import { combineLatest, map } from 'rxjs';
 import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
 	display: flex;
@@ -67,11 +67,16 @@ export const Favorites = () => {
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const { fusion } = useAppModule();
-	const favorites = useObservable(
-		combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
-			map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
-		)
+
+	const favorite$ = useMemo(
+		() =>
+			combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
+				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
+			),
+		[fusion.modules.app.getAllAppManifests]
 	);
+
+	const favorites = useObservable(favorite$);
 
 	return (
 		<Card className={styles.fullHeight}>
