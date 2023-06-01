@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
@@ -23,12 +24,14 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
         private readonly IWorkSurfaceService _workSurfaceService;
+        private readonly IMapper _mapper;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService, IWorkSurfaceService workSurfaceService)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IWorkSurfaceService workSurfaceService, IMapper mapper)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
             _workSurfaceService = workSurfaceService;
+            _mapper = mapper;
         }
 
         public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppGroupsWithGlobalAppsQuery request, CancellationToken cancellationToken)
@@ -36,9 +39,8 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
             var workSurface = await _readWriteContext.Set<Domain.Entities.WorkSurface>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContextId == null))
-                .ThenInclude(app => app.OnboardedApp)
+                .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
-                .OrderBy(appGroup => appGroup.Order).ThenBy(app => app.Order)
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);
 
             if (workSurface == null)
@@ -46,9 +48,11 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
                 throw new NotFoundException(nameof(WorkSurfaceApp), request.WorkSurfaceId);
             }
 
-            var appGroupsWithApps = _workSurfaceService.MapWorkSurfaceToAppGroups(workSurface);
+            var workSurfaceDto = _mapper.Map<Domain.Entities.WorkSurface, WorkSurfaceDto>(workSurface);
 
-            await _appService.EnrichAppsWithFusionAppData(appGroupsWithApps.SelectMany(x => x.Apps).Select(y => y.OnboardedApp).ToList(), cancellationToken);
+            await _appService.EnrichAppsWithFusionAppData(workSurfaceDto.Apps.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
+
+            var appGroupsWithApps = _workSurfaceService.MapWorkSurfaceToAppGroups(workSurfaceDto);
 
             return appGroupsWithApps;
         }
