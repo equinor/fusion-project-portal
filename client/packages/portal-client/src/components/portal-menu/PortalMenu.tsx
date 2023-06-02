@@ -1,11 +1,6 @@
 import { Search } from '@equinor/eds-core-react';
 import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
-import {
-	GroupWrapper,
-	LoadingMenu,
-	PortalMenu,
-	StyledCategoryItem
-} from '@equinor/portal-ui';
+import { GroupWrapper, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
 import {
 	useObservable,
 	getMenuWidth,
@@ -61,14 +56,17 @@ export function MenuGroups() {
 	const { fusion } = useAppModule();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
-	const favorites =
-		useObservable(
+	const favorites$ = useMemo(
+		() =>
 			combineLatest([fusion.modules.app.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
 				map(([appManifest, favorites]) =>
 					appManifest.filter((appManifest) => favorites.includes(appManifest.key))
 				)
-			)
-		) ?? [];
+			),
+		[fusion.modules.app.getAllAppManifests]
+	);
+
+	const favorites = useObservable(favorites$) ?? [];
 
 	const categoryItems = ['Pinned Apps', ...(data?.map((item) => item.name) ?? []), 'All Apps'];
 
@@ -105,7 +103,7 @@ export function MenuGroups() {
 		<PortalMenu width={getMenuWidth(BREAK_COL_2, BREAK_COL_3, data)}>
 			<Search
 				id="app-search"
-				placeholder={"Search for apps"}
+				placeholder={'Search for apps'}
 				value={searchText}
 				onChange={(e) => {
 					setSearchText(e.target.value);
