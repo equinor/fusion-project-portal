@@ -13,11 +13,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
         /// </summary>
         public List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface)
         {
-            var appGrouping = workSurface.Apps.GroupBy(x => new
+            var appGrouping = workSurface.Apps.GroupBy(workSurfaceApp => new
             {
-                x.OnboardedApp.AppGroup.Name,
-                x.OnboardedApp.AppGroup.Order,
-                x.OnboardedApp.AppGroup.AccentColor
+                workSurfaceApp.OnboardedApp.AppGroup.Name,
+                workSurfaceApp.OnboardedApp.AppGroup.Order,
+                workSurfaceApp.OnboardedApp.AppGroup.AccentColor
             });
 
             return appGrouping.Select(grouping => new WorkSurfaceAppGroupWithAppsDto
@@ -26,11 +26,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 AccentColor = grouping.Key.AccentColor,
                 Order = grouping.Key.Order,
                 Apps = grouping
-                    .DistinctBy(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp.Id)
-                    .OrderBy(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp.Name)
+                    .DistinctBy(workSurfaceApp => workSurfaceApp.OnboardedApp.Id)
+                    .OrderBy(workSurfaceApp => workSurfaceApp.OnboardedApp.Name)
                     .ToList()
             })
-                .OrderBy(x => x.Order)
+                .OrderBy(appGroup => appGroup.Name)
                 .ToList();
         }
     }
