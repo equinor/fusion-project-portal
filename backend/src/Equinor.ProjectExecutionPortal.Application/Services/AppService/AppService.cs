@@ -29,7 +29,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         public async Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
         {
-            var fusionApps = await _fusionAppsCache.GetFusionApps();
+            var fusionApps = await GetFusionApps();
 
             foreach (var onboardedAppDto in onboardedApps)
             {
