@@ -26,8 +26,8 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 AccentColor = grouping.Key.AccentColor,
                 Order = grouping.Key.Order,
                 Apps = grouping
-                    .DistinctBy(x => x.OnboardedApp.Id)
-                    .OrderBy(surfaceAppDto => surfaceAppDto.OnboardedApp.AppKey)
+                    .DistinctBy(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp.Id)
+                    .OrderBy(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp.Name)
                     .ToList()
             })
                 .OrderBy(x => x.Order)
