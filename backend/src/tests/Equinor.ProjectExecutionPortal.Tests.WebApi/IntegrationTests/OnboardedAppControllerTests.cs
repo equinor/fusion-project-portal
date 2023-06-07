@@ -27,6 +27,18 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Get_OnboardedApps_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Act
+            var onboardedApps = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(onboardedApps);
+            Assert.IsTrue(onboardedApps.Count > 0);
+            Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
+        }
+
+        [TestMethod]
         public async Task Get_OnboardedApps_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act
@@ -37,11 +49,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Add_Valid_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
-            var getAllBeforeAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+            var getAllBeforeAdded = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
             var totalCountBeforeAdded = getAllBeforeAdded?.Count;
 
             var payload = new ApiOnboardAppRequest
@@ -51,16 +63,16 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await AddOnboardedApp(UserType.Authenticated, payload);
+            var response = await AddOnboardedApp(UserType.Administrator, payload);
 
             // Assert
-            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
             var totalCountAfterAdded = getAllAfterAdded?.Count;
 
             Assert.IsNotNull(totalCountBeforeAdded);
             Assert.IsNotNull(totalCountAfterAdded);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(totalCountBeforeAdded + 1, totalCountAfterAdded);
         }
 
         [TestMethod]
@@ -79,25 +91,41 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        [Ignore] // TODO: Mock service must accept dynamic values
         [TestMethod]
-        public async Task Add_Invalid_OnboardedApp_AsAuthenticatedUser_ShouldThrowExeption()
+        public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist"
+                AppKey = "test-app"
             };
 
             // Act
-            var response = await AddOnboardedApp(UserType.Anonymous, payload);
+            var response = await AddOnboardedApp(UserType.Authenticated, payload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [Ignore] // TODO: Mock service must accept dynamic values
+        [TestMethod]
+        public async Task Add_Invalid_OnboardedApp_AsAdministratorUser_ShouldThrowExeption()
+        {
+            // Arrange
+            var payload = new ApiOnboardAppRequest
+            {
+                AppKey = "i-do-not-exist-in-fusion"
+            };
+
+            // Act
+            var response = await AddOnboardedApp(UserType.Administrator, payload);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [TestMethod]
-        public async Task Add_Duplicate_OnboardedApp_AsAuthenticatedUser_ShouldThrowException()
+        public async Task Add_Duplicate_OnboardedApp_AsAdministratorUser_ShouldThrowException()
         {
             // Arrange
             var payload = new ApiOnboardAppRequest
@@ -106,14 +134,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedApp(UserType.Authenticated, payload));
+            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedApp(UserType.Administrator, payload));
         }
 
         [TestMethod]
-        public async Task Remove_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Remove_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
 
             var payload = new ApiOnboardAppRequest
             {
@@ -122,22 +150,36 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            await AddOnboardedApp(UserType.Authenticated, payload);
+            await AddOnboardedApp(UserType.Administrator, payload);
 
-            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
             var totalCountAfterAdded = getAllAfterAdded?.Count;
 
-            var removeResponse = await RemoveOnboardedApp(UserType.Authenticated, payload.AppKey);
+            var removeResponse = await RemoveOnboardedApp(UserType.Administrator, payload.AppKey);
 
-            var getAllAfterRemoval = await AssertGetAllOnboardedApps(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterRemoval = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
             var totalCountAfterRemoval = getAllAfterRemoval?.Count;
 
             // Assert
             Assert.IsNotNull(totalCountAfterAdded);
             Assert.IsNotNull(totalCountAfterRemoval);
-            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
-            Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
+            Assert.AreEqual(HttpStatusCode.NoContent, removeResponse.StatusCode);
+            Assert.AreEqual(totalCountAfterAdded - 1, totalCountAfterRemoval);
         }
+
+        [TestMethod]
+        public async Task Remove_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var existingOnboardedAppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey;
+
+            // Act
+            var removeResponse = await RemoveOnboardedApp(UserType.Authenticated, existingOnboardedAppKey);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, removeResponse.StatusCode);
+        }
+
 
         [TestMethod]
         public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
@@ -149,7 +191,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var removeResponse = await RemoveOnboardedApp(UserType.Anonymous, existingOnboardedAppKey);
 
             // Assert
-            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);
+            Assert.AreEqual(HttpStatusCode.Unauthorized, removeResponse.StatusCode);
         }
 
         #region Helpers
