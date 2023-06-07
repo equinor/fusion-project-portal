@@ -25,6 +25,17 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Get_AppGroups_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Act
+            var appGroups = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(appGroups);
+            Assert.IsTrue(appGroups.Count > 0);
+        }
+
+        [TestMethod]
         public async Task Get_AppGroups_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act & Assert
@@ -32,7 +43,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Create_Valid_AppGroup_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Create_Valid_AppGroup_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
             var getAllBeforeAdded = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
@@ -45,7 +56,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await CreateAppGroup(payload, UserType.Authenticated);
+            var response = await CreateAppGroup(payload, UserType.Administrator);
 
             // Assert
             var getAllAfterAdded = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
@@ -53,8 +64,25 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.IsNotNull(totalCountBeforeAdded);
             Assert.IsNotNull(totalCountAfterAdded);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(totalCountBeforeAdded + 1, totalCountAfterAdded);
+        }
+
+        [TestMethod]
+        public async Task Create_Valid_AppGroup_AsAuthorizedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiCreateAppGroupRequest
+            {
+                Name = "A newly added appGroup",
+                AccentColor = "#e62cba"
+            };
+
+            // Act
+            var response = await CreateAppGroup(payload, UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [TestMethod]
@@ -75,10 +103,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Update_Valid_AppGroup_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Update_Valid_AppGroup_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllBeforeAdded = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllBeforeAdded = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
             var theOneToUpdate = getAllBeforeAdded!.First();
 
             var payload = new ApiUpdateAppGroupRequest
@@ -88,16 +116,33 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await UpdateAppGroup(payload, theOneToUpdate.Id, UserType.Authenticated);
+            var response = await UpdateAppGroup(payload, theOneToUpdate.Id, UserType.Administrator);
 
             // Assert
-            var getAllAfterAdded = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterAdded = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
             var theOneAfterUpdate = getAllAfterAdded!.First(x => x.Id == theOneToUpdate.Id);
 
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.Id, theOneAfterUpdate.Id);
             Assert.AreNotEqual(theOneToUpdate.Name, theOneAfterUpdate.Name);
             Assert.AreNotEqual(theOneToUpdate.AccentColor, theOneAfterUpdate.AccentColor);
+        }
+
+        [TestMethod]
+        public async Task Update_Valid_AppGroup_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiUpdateAppGroupRequest
+            {
+                Name = "Forbidden update",
+                AccentColor = "#93f542"
+            };
+
+            // Act
+            var response = await UpdateAppGroup(payload, Guid.NewGuid(), UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [TestMethod]
@@ -118,10 +163,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Reorder_AppGroups_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Reorder_AppGroups_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllBefore = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllBefore = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
 
             var payload = new ApiReorderAppGroupsRequest
             {
@@ -129,10 +174,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await ReorderAppGroups(payload, UserType.Authenticated);
+            var response = await ReorderAppGroups(payload, UserType.Administrator);
 
             // Assert
-            var getAllAfter = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfter = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
             Assert.AreEqual(getAllBefore!.Count, getAllAfter!.Count);
@@ -157,7 +202,23 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Delete_AppGroup_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Reorder_AppGroups_AsAuthorizedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiReorderAppGroupsRequest
+            {
+                ReorderedAppGroupIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() }
+            };
+
+            // Act
+            var response = await ReorderAppGroups(payload, UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Delete_AppGroup_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
             var payload = new ApiCreateAppGroupRequest
@@ -167,13 +228,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            await CreateAppGroup(payload, UserType.Authenticated);
+            await CreateAppGroup(payload, UserType.Administrator);
 
-            var getAllAfterAdded = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterAdded = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
             var totalCountAfterAdded = getAllAfterAdded?.Count;
             var createdAppGroupId = getAllAfterAdded!.First(x => x.Name == payload.Name).Id;
 
-            var removeResponse = await DeleteAppGroup(createdAppGroupId, UserType.Authenticated);
+            var removeResponse = await DeleteAppGroup(createdAppGroupId, UserType.Administrator);
 
             var getAllAfterRemoval = await AssertGetAllAppGroups(UserType.Authenticated, HttpStatusCode.OK);
             var totalCountAfterRemoval = getAllAfterRemoval?.Count;
@@ -181,16 +242,27 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(totalCountAfterAdded);
             Assert.IsNotNull(totalCountAfterRemoval);
-            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
-            Assert.AreEqual(totalCountAfterRemoval, totalCountAfterAdded - 1);
+            Assert.AreEqual(HttpStatusCode.NoContent, removeResponse.StatusCode);
+            Assert.AreEqual(totalCountAfterAdded - 1, totalCountAfterRemoval);
         }
 
         [TestMethod]
-        public async Task Delete_NonExistentAppGroup_AsAuthenticatedUser_ShouldReturnNotFound()
+        public async Task Delete_NonExistentAppGroup_AsAdministratorUser_ShouldReturnNotFound()
         {
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() => DeleteAppGroup(Guid.NewGuid(), UserType.Authenticated));
+            await Assert.ThrowsExceptionAsync<NotFoundException>(() => DeleteAppGroup(Guid.NewGuid(), UserType.Administrator));
         }
+
+        [TestMethod]
+        public async Task Delete_AppGroup_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Act
+            var removeResponse = await DeleteAppGroup(Guid.NewGuid(), UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, removeResponse.StatusCode);
+        }
+
 
         [TestMethod]
         public async Task Delete_AppGroup_AsAnonymousUser_ShouldReturnUnauthorized()

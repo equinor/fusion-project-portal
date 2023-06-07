@@ -213,8 +213,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupTestUsers()
         {
             SetupAnonymousUser();
-
             SetupAuthenticatedUser();
+            SetupAdministratorUser();
 
             var webHostBuilder = WithWebHostBuilder(builder =>
             {
@@ -247,6 +247,21 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                             FirstName = "Authenticated",
                             LastName = "Authenticated",
                             Oid = AuthenticatedUserOid
+                        },
+                });
+
+        // TODO
+        private static void SetupAdministratorUser()
+            => TestUsersDictionary.Add(UserType.Administrator,
+                new TestUser
+                {
+                    Profile =
+                        new TokenProfile
+                        {
+                            FirstName = "Administrator",
+                            LastName = "Administrator",
+                            Oid = AuthenticatedUserOid,
+                            AppRoles = new[] { "Fusion.ProjectPortal.Admin" }
                         },
                 });
 
