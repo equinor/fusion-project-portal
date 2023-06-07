@@ -76,6 +76,8 @@ export function MenuGroups() {
 		return getPinnedAppsGroup(enabledApps, disabledApps, favorites);
 	}, [favorites, data]);
 
+	
+
 	const displayAppGroups = useMemo(() => {
 		if (activeItem.includes('Pinned Apps') && searchText === '') {
 			return [favoriteGroup];
@@ -90,7 +92,7 @@ export function MenuGroups() {
 
 	const handleToggle = (name: string) => {
 		if (activeItem === name) {
-			setActiveItem('');
+			setActiveItem('All Apps');
 		} else {
 			setActiveItem(name);
 		}
