@@ -4,6 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Misc;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
@@ -250,7 +251,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                         },
                 });
 
-        // TODO
         private static void SetupAdministratorUser()
             => TestUsersDictionary.Add(UserType.Administrator,
                 new TestUser
@@ -258,10 +258,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                     Profile =
                         new TokenProfile
                         {
-                            FirstName = "Administrator",
-                            LastName = "Administrator",
+                            FirstName = "Admin",
+                            LastName = "Straterson",
                             Oid = AuthenticatedUserOid,
-                            AppRoles = new[] { "Fusion.ProjectPortal.Admin" }
+                            AppRoles = new[] { Scopes.ProjectPortalAdmin }
                         },
                 });
 
