@@ -13,7 +13,7 @@ spec:
     - name: prod
   dnsExternalAlias:
     - alias: project.fusion.equinor.com
-      environment: feature
+      environment: prod
       component: webserver 
   components:
     # Backend API
