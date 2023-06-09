@@ -106,8 +106,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Update_Valid_AppGroup_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllBeforeAdded = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
-            var theOneToUpdate = getAllBeforeAdded!.First();
+            var getAllBeforeUpdated = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+            var theOneToUpdate = getAllBeforeUpdated!.First();
 
             var payload = new ApiUpdateAppGroupRequest
             {
@@ -119,8 +119,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var response = await UpdateAppGroup(payload, theOneToUpdate.Id, UserType.Administrator);
 
             // Assert
-            var getAllAfterAdded = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
-            var theOneAfterUpdate = getAllAfterAdded!.First(x => x.Id == theOneToUpdate.Id);
+            var getAllAfterUpdated = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+            var theOneAfterUpdate = getAllAfterUpdated!.First(x => x.Id == theOneToUpdate.Id);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.Id, theOneAfterUpdate.Id);
