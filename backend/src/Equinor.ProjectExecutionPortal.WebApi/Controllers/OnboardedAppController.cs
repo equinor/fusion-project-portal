@@ -30,7 +30,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPut("{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> UpdateOnboardedContext([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
+        public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
         {
             return await Mediator.Send(request.ToCommand(appKey));
         }
