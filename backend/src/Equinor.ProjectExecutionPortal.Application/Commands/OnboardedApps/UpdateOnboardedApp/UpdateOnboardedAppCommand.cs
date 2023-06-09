@@ -33,7 +33,7 @@ public class UpdateOnboardedAppCommand : IRequest<Guid>
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
+                throw new NotFoundException("App is not onboarded", command.AppKey);
             }
 
             entity.Update(command.AppGroupId);
