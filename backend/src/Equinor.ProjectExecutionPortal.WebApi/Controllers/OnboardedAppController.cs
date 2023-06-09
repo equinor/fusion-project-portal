@@ -1,6 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp.GetOnboardedApps;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
             return await Mediator.Send(request.ToCommand());
+        }
+
+        [HttpPut("{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> UpdateOnboardedContext([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(appKey));
         }
 
         [HttpDelete("{appKey}")]

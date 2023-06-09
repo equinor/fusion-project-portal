@@ -1,4 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.Domain.Common;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
@@ -30,4 +32,10 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
 
     public Guid AppGroupId { get; set; }
     public AppGroup AppGroup { get; set; }
+
+    public void Update(Guid appGroupId)
+    {
+        AppGroupId = appGroupId;
+    }
+
 }
