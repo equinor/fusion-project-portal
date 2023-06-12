@@ -4,6 +4,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
 {
     public class ApiOnboardedContext
     {
+        public ApiOnboardedContext() { }
+
         public ApiOnboardedContext(OnboardedContextDto onboardedAppDto)
         {
             Id = onboardedAppDto.Id;
@@ -13,8 +15,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
         }
 
         public Guid Id { get; set; }
-        public string ExternalId { get; set; }
-        public string Type { get; set; }
+        public string ExternalId { get; set; } = null!;
+        public string Type { get; set; } = null!;
         public string? Description { get; set; }
     }
 }

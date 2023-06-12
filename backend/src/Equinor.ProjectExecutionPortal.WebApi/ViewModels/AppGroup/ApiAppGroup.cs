@@ -4,6 +4,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
     public class ApiAppGroup
     {
+        public ApiAppGroup() { }
+
         public ApiAppGroup(AppGroupDto appGroupDto)
         {
             Id = appGroupDto.Id;
@@ -13,8 +15,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
         }
 
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public int Order { get; set; }
-        public string AccentColor { get; set; }
+        public string AccentColor { get; set; } = null!;
     }
 }
