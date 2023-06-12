@@ -5,9 +5,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
 {
     public class TokenProfile
     {
-        public string Oid { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Oid { get; set; } = null!;
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
         public string FullName => $"{FirstName} {LastName}";
         public bool IsAppToken { get; set; } = false;
         public string[]? AppRoles { get; set; }

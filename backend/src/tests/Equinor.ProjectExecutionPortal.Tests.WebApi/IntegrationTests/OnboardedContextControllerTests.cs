@@ -4,7 +4,6 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -174,7 +173,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, removeResponse.StatusCode);
         }
-
 
         [TestMethod]
         public async Task Remove_OnboardedContext_AsAnonymousUser_ShouldReturnUnauthorized()

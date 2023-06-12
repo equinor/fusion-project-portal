@@ -2,7 +2,7 @@
 
 public class AuthenticatorOptions
 {
-    public string Instance { get; set; }
-    public string ProjectPortalApiClientId { get; set; }
-    public string ProjectPortalApiSecret { get; set; }
+    public string Instance { get; set; } = null!;
+    public string ProjectPortalApiClientId { get; set; } = null!;
+    public string ProjectPortalApiSecret { get; set; } = null!;
 }

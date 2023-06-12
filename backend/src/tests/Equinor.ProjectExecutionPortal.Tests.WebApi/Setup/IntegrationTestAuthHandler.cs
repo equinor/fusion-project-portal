@@ -69,9 +69,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
                     ex);
             }
 
-            var authType = profile.IsAppToken ? AuthType.Application : AuthType.Delegated;
+            var authType = profile!.IsAppToken ? AuthType.Application : AuthType.Delegated;
 
-            var claims = new List<Claim> { new Claim(ClaimsExtensions.Oid, profile.Oid) };
+            var claims = new List<Claim> { new(ClaimsExtensions.Oid, profile.Oid) };
 
             switch (authType)
             {

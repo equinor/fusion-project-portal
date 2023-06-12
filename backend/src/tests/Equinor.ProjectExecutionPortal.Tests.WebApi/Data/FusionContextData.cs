@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
             ExternalId = InitialSeedData.JcaContextExternalId,
             Title = "Johan Castberg",
             Type = FusionContextType.ProjectMaster,
-            Value = null,
+            Value = null!,
             Source = null
         };
 
@@ -30,7 +30,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
             ExternalId = InitialSeedData.OgpContextExternalId,
             Title = "Oseberg",
             Type = FusionContextType.ProjectMaster,
-            Value = null,
+            Value = null!,
             Source = null
         };
 
