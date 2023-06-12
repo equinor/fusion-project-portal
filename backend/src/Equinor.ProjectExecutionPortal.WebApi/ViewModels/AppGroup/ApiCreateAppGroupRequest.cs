@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.CreateAppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.CreateAppGroup;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup

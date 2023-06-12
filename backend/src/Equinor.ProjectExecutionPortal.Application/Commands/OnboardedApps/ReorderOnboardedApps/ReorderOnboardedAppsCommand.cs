@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppsOrder;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.ReorderOnboardedApps;
 
 public class ReorderOnboardedAppsCommand : IRequest<Guid>
 {
@@ -37,7 +37,6 @@ public class ReorderOnboardedAppsCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(WorkSurface), command.AppGroupId);
             }
 
-            //var allAppIdsExists = appGroup.Apps.All(x => command.ReorderedAppIds.Any(y => x.Id == y));
             var hasUnmatchedIds = appGroup.Apps.Select(x => x.Id).Except(command.ReorderedAppIds).Any();
 
             if (hasUnmatchedIds || appGroup.Apps.Count != command.ReorderedAppIds.Count)

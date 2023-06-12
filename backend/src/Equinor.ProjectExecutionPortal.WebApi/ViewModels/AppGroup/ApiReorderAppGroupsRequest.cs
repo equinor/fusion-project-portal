@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.ReorderAppGroups;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.ReorderAppGroups;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {

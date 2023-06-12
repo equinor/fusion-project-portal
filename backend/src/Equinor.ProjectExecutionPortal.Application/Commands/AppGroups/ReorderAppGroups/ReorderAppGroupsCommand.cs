@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.ReorderAppGroups;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.ReorderAppGroups;
 
 public class ReorderAppGroupsCommand : IRequest<Unit>
 {

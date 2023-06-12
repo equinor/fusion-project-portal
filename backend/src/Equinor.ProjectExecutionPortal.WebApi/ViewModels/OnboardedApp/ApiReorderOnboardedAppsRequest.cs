@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppsOrder;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.ReorderOnboardedApps;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {

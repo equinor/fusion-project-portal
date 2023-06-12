@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.DeleteAppGroup;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.DeleteAppGroup;
 
 public class DeleteAppGroupCommand : IRequest<Guid>
 {

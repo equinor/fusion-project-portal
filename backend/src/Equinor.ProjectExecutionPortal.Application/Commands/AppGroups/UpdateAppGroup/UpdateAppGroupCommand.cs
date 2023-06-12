@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppGroup;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.UpdateAppGroup;
 
 public class UpdateAppGroupCommand : IRequest<Guid>
 {

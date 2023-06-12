@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.CreateAppGroup;
+namespace Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.CreateAppGroup;
 
 public class CreateAppGroupCommand : IRequest<Guid>
 {
