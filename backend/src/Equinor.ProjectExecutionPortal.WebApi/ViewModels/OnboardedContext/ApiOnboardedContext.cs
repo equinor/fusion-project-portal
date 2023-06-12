@@ -1,4 +1,6 @@
-﻿namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts;
+
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
 {
     public class ApiOnboardedContext
     {

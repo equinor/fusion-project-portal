@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal

@@ -1,7 +1,7 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithGlobalApps;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithGlobalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;

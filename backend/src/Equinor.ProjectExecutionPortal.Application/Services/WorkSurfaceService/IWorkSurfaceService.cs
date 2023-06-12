@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
 {

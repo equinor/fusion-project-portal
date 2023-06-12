@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
 {
     public class WorkSurfaceDto : IMapFrom<Domain.Entities.WorkSurface>
     {

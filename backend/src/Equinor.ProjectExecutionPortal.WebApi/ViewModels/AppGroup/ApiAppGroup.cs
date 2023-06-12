@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroups;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {

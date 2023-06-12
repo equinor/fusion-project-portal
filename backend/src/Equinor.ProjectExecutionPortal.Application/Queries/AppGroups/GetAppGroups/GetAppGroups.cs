@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.AppGroup.GetAppGroups;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.AppGroups.GetAppGroups;
 
 public class GetAppGroups : QueryBase<IList<AppGroupDto>>
 {

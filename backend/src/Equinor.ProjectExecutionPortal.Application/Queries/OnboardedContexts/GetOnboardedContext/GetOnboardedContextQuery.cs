@@ -5,7 +5,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContext.GetOnboardedContext;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
 
 public class GetOnboardedContextQuery : QueryBase<OnboardedContextDto?>
 {

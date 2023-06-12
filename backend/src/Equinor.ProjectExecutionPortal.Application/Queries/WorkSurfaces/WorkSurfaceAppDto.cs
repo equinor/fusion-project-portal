@@ -1,7 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
 {
     public class WorkSurfaceAppDto : IMapFrom<Domain.Entities.WorkSurfaceApp>
     {

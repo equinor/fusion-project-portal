@@ -1,4 +1,4 @@
-﻿namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface
+﻿namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
 {
     public class WorkSurfaceAppGroupWithAppsDto
     {

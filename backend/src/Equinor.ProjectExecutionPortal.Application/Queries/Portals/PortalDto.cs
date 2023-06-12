@@ -1,7 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.Portal;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 
 public class PortalDto : IMapFrom<Domain.Entities.Portal>
 {

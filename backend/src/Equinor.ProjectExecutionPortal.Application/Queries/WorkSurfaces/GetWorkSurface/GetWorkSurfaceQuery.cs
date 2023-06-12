@@ -7,7 +7,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurface;
 
 public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
 {

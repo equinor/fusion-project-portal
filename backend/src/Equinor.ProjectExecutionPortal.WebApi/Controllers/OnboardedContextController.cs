@@ -1,5 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContext.GetOnboardedContext;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContext.GetOnboardedContexts;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 using Fusion.Integration;

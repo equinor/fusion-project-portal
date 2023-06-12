@@ -6,7 +6,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalWithApps;
 
 public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 {

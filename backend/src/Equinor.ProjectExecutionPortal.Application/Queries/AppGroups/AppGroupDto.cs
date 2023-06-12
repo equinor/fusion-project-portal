@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.AppGroup
+namespace Equinor.ProjectExecutionPortal.Application.Queries.AppGroups
 {
     public class AppGroupDto : IMapFrom<Domain.Entities.AppGroup>
     {

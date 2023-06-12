@@ -5,7 +5,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp.GetOnboardedApps;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 
 public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
 {
