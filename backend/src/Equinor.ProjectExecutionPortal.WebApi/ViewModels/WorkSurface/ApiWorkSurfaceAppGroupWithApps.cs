@@ -5,9 +5,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
     public class ApiWorkSurfaceAppGroupWithApps
     {
-        public ApiWorkSurfaceAppGroupWithApps()
-        { }
-
         public ApiWorkSurfaceAppGroupWithApps(WorkSurfaceAppGroupWithAppsDto appGroupDto)
         {
             Name = appGroupDto.Name;

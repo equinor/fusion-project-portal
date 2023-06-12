@@ -10,10 +10,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalWi
 
 public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 {
-    public GetPortalWithAppsQuery()
-    {
-    }
-
     public class Handler : IRequestHandler<GetPortalWithAppsQuery, PortalDto?>
     {
         private readonly IReadWriteContext _context;

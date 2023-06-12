@@ -5,9 +5,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
     public class ApiWorkSurface
     {
-        public ApiWorkSurface()
-        { }
-
         public ApiWorkSurface(WorkSurfaceDto workSurfaceDto)
         {
             Id = workSurfaceDto.Id;

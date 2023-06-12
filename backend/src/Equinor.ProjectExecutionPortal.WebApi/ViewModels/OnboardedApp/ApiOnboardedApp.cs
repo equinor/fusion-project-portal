@@ -5,10 +5,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
     public class ApiOnboardedApp
     {
-        public ApiOnboardedApp()
-        {
-        }
-
         public ApiOnboardedApp(OnboardedAppDto onboardedAppDto)
         {
             Id = onboardedAppDto.Id;

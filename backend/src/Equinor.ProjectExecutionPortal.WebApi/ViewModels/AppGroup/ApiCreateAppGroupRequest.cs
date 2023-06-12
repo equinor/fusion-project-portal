@@ -5,8 +5,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
     public class ApiCreateAppGroupRequest
     {
-        public string Name { get; set; }
-        public string AccentColor { get; set; }
+        public string Name { get; set; } = null!;
+        public string AccentColor { get; set; } = null!;
 
         public CreateAppGroupCommand ToCommand()
         {

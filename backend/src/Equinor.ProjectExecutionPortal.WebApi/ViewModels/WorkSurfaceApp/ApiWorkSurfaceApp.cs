@@ -4,8 +4,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
     public class ApiWorkSurfaceApp
     {
-        public ApiWorkSurfaceApp() { }
-
         public ApiWorkSurfaceApp(WorkSurfaceAppDto workSurfaceAppDto)
         {
             AppKey = workSurfaceAppDto.OnboardedApp.AppKey;
