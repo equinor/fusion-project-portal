@@ -76,28 +76,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Add_Valid_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
-        {
-            // Arrange
-            var payload = new ApiOnboardAppRequest
-            {
-                AppKey = "test-app"
-            };
-
-            // Act
-            var response = await AddOnboardedApp(UserType.Anonymous, payload);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-
-        [TestMethod]
         public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app"
+                AppKey = "test-app",
+                AppGroupId = Guid.NewGuid()
             };
 
             // Act
@@ -105,6 +90,23 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Add_Valid_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var payload = new ApiOnboardAppRequest
+            {
+                AppKey = "test-app",
+                AppGroupId = Guid.NewGuid()
+            };
+
+            // Act
+            var response = await AddOnboardedApp(UserType.Anonymous, payload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Ignore] // TODO: Mock service must accept dynamic values
@@ -135,6 +137,65 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Act & Assert
             await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedApp(UserType.Administrator, payload));
+        }
+
+        [TestMethod]
+        public async Task Update_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Arrange
+            var getAllBeforeUpdated = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
+            var theOneToUpdate = getAllBeforeUpdated!.First();
+            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+            var theNewAppGroup = getAllAppGroups!.First(x => x.Id != theOneToUpdate.AppGroup.Id);
+
+            var payload = new ApiUpdateOnboardedAppRequest
+            {
+                AppGroupId = theNewAppGroup.Id
+            };
+
+            // Act
+            var response = await UpdateOnboardedApp(UserType.Administrator, payload, theOneToUpdate.AppKey);
+
+            // Assert
+            var getAllAfterAdded = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
+            var theOneAfterUpdate = getAllAfterAdded!.First(x => x.Id == theOneToUpdate.Id);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
+            Assert.AreEqual(theOneAfterUpdate.AppGroup.Id, theNewAppGroup.Id);
+            Assert.AreNotEqual(theOneToUpdate.AppGroup.Id, theOneAfterUpdate.AppGroup.Id);
+        }
+
+        [TestMethod]
+        public async Task Update_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiUpdateOnboardedAppRequest
+            {
+                AppGroupId = Guid.NewGuid()
+            };
+
+            // Act
+            var response = await UpdateOnboardedApp(UserType.Authenticated, payload, "some-app-key");
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Update_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var payload = new ApiUpdateOnboardedAppRequest
+            {
+                AppGroupId = Guid.NewGuid()
+            };
+
+            // Act
+            var response = await UpdateOnboardedApp(UserType.Anonymous, payload, "some-app-key");
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [TestMethod]
@@ -180,7 +241,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Forbidden, removeResponse.StatusCode);
         }
 
-
         [TestMethod]
         public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
@@ -217,6 +277,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return onboardedApps;
         }
 
+        private static async Task<HttpResponseMessage> GetAllOnboardedApps(UserType userType)
+        {
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync($"{Route}");
+
+            return response;
+        }
+
         private static async Task<HttpResponseMessage> AddOnboardedApp(UserType userType, ApiOnboardAppRequest onboardApp)
         {
             var serializePayload = JsonConvert.SerializeObject(onboardApp);
@@ -228,10 +296,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return response;
         }
 
-        private static async Task<HttpResponseMessage> GetAllOnboardedApps(UserType userType)
+        private static async Task<HttpResponseMessage> UpdateOnboardedApp(UserType userType, ApiUpdateOnboardedAppRequest updatedOnboardedApp, string appKey)
         {
+            var serializePayload = JsonConvert.SerializeObject(updatedOnboardedApp);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+
             var client = TestFactory.Instance.GetHttpClient(userType);
-            var response = await client.GetAsync($"{Route}");
+            var response = await client.PutAsync($"{string.Format(Route)}/{appKey}", content);
 
             return response;
         }

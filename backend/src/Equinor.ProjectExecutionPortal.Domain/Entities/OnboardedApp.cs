@@ -30,4 +30,9 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
 
     public Guid AppGroupId { get; set; }
     public AppGroup AppGroup { get; set; }
+
+    public void Update(Guid appGroupId)
+    {
+        AppGroupId = appGroupId;
+    }
 }

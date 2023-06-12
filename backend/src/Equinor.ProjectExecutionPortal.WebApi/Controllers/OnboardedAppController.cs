@@ -27,6 +27,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return await Mediator.Send(request.ToCommand());
         }
 
+        [HttpPut("{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
+        {
+            return await Mediator.Send(request.ToCommand(appKey));
+        }
+
         [HttpDelete("{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
