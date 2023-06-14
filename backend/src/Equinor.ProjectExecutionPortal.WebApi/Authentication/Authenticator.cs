@@ -9,7 +9,7 @@ public class Authenticator : IBearerTokenProvider, IBearerTokenSetter, IAuthenti
 {
     private readonly IOptions<AuthenticatorOptions> _options;
     private readonly ILogger<Authenticator> _logger;
-    private string _requestToken;
+    private string? _requestToken;
     private string? _onBehalfOfUserToken;
     private string? _applicationToken;
     private readonly string _secretInfo;
@@ -19,7 +19,7 @@ public class Authenticator : IBearerTokenProvider, IBearerTokenSetter, IAuthenti
         _options = options;
         _logger = logger;
         var apiSecret = _options.Value.ProjectPortalApiSecret;
-        _secretInfo = $"{apiSecret?[..2]}***{apiSecret?.Substring(apiSecret.Length - 1, 1)}";
+        _secretInfo = $"{apiSecret[..2]}***{apiSecret.Substring(apiSecret.Length - 1, 1)}";
         AuthenticationType = AuthenticationType.OnBehalfOf;
     }
 

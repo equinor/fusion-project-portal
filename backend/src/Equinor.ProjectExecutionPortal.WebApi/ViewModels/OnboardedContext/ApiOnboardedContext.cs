@@ -1,10 +1,10 @@
-﻿namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts;
+
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
 {
     public class ApiOnboardedContext
     {
-        public ApiOnboardedContext()
-        {
-        }
+        public ApiOnboardedContext() { }
 
         public ApiOnboardedContext(OnboardedContextDto onboardedAppDto)
         {
@@ -15,8 +15,8 @@
         }
 
         public Guid Id { get; set; }
-        public string ExternalId { get; set; }
-        public string Type { get; set; }
+        public string ExternalId { get; set; } = null!;
+        public string Type { get; set; } = null!;
         public string? Description { get; set; }
     }
 }

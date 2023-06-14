@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
     public class ApiOnboardAppRequest
     {
-        public string AppKey { get; set; }
+        public string AppKey { get; set; } = null!;
         public Guid AppGroupId { get; set; }
 
         public OnboardAppCommand ToCommand()

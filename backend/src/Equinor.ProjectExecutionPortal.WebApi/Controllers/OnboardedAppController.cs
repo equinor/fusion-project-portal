@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp.GetOnboardedApps;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

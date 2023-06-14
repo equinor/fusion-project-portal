@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroup.GetAppGroups;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroups.GetAppGroups;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
