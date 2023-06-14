@@ -7,12 +7,24 @@
   resolved "https://registry.yarnpkg.com/@ag-grid-community/core/-/core-28.1.1.tgz#b0454ee818dd960d68b3bdd2bfaa80516f054dfe"
   integrity sha512-0Mrvg1lERglcFd4oQijxvGpECnx1ZX1L/fPlmfxYPGAFMJzIKxfXtF1tL2h20QrntTZSHuDnm3aWkTFB1ybp2A==
 
-"@ag-grid-enterprise/core@28.1.1", "@ag-grid-enterprise/core@~28.1.1":
+"@ag-grid-community/core@~29.3.5":
+  version "29.3.5"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/core/-/core-29.3.5.tgz#f6fd10f5a612290c4dfbc8a78adc2af587008c99"
+  integrity sha512-r86bOCscnKVtaYyKqlN2UCtfbjf4UcmxHfVuXzJ94iN8Jy3iiQVrbQnbNArnjR589Bt/1VR/m+SdAMsOLcdpag==
+
+"@ag-grid-enterprise/core@28.1.1":
   version "28.1.1"
   resolved "https://registry.yarnpkg.com/@ag-grid-enterprise/core/-/core-28.1.1.tgz#734091acd7114cdd79371dade46459eb9d6518c0"
   integrity sha512-klHrh4M7sSBLD+xrRNb+r6tT5uqtgNaHbB7XneormdpU/V+U1A77DcaKTCXzcxjeF3XE6RRfCEAqwWNGbFOy+Q==
   dependencies:
     "@ag-grid-community/core" "~28.1.0"
+
+"@ag-grid-enterprise/core@~29.3.4":
+  version "29.3.5"
+  resolved "https://registry.yarnpkg.com/@ag-grid-enterprise/core/-/core-29.3.5.tgz#ec362b9c0e336b92d26b24881272a06f0ef413e9"
+  integrity sha512-S52slJDY+1dn3q3SmbgCHw1xx8UlcdeA6/InzFamsCJOq347MXQ1gfoQS9ELpe6MRFUo+sOgadQSpBFsq0kGxw==
+  dependencies:
+    "@ag-grid-community/core" "~29.3.5"
 
 "@ampproject/remapping@^2.2.0":
   version "2.2.1"
@@ -1262,105 +1274,97 @@
     babel-jest "^29.1.2"
     react-popper "2.3.0"
 
-"@equinor/fusion-framework-app@^7.0.14", "@equinor/fusion-framework-app@^7.0.5":
-  version "7.0.14"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-app/-/fusion-framework-app-7.0.14.tgz#14d308c594f1a02b728e9735949c306bebfb703f"
-  integrity sha512-8ZQH1wAzp0Q1jDQ0QaKbr8gwyjEnPl+5w7/2SRTE40FbLovDhKB2FngUuus8QQvMbRWEGzwqowyu5zXjqM10sA==
+"@equinor/fusion-framework-app@^7.0.16":
+  version "7.0.16"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-app/-/fusion-framework-app-7.0.16.tgz#3a7e041a3991a5d139c7581a55f33e09f101232d"
+  integrity sha512-AEMRXnMrnKiZlWFZkh841qvLXZOJEw56DkfWR4fu4iqJwS+4LA/41i4Ei+McB38DbZ59PwlLU5MohkXlmx1IDg==
   dependencies:
-    "@equinor/fusion-framework" "^7.0.13"
-    "@equinor/fusion-framework-module" "^4.1.0"
-    "@equinor/fusion-framework-module-app" "^5.1.2"
-    "@equinor/fusion-framework-module-event" "^4.0.1"
-    "@equinor/fusion-framework-module-http" "^5.0.2"
-    "@equinor/fusion-framework-module-msal" "^3.0.2"
+    "@equinor/fusion-framework" "^7.0.15"
+    "@equinor/fusion-framework-module" "^4.2.1"
+    "@equinor/fusion-framework-module-app" "^5.2.1"
+    "@equinor/fusion-framework-module-event" "^4.0.2"
+    "@equinor/fusion-framework-module-http" "^5.0.4"
+    "@equinor/fusion-framework-module-msal" "^3.0.4"
 
-"@equinor/fusion-framework-module-ag-grid@^4.0.0":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-ag-grid/-/fusion-framework-module-ag-grid-4.0.1.tgz#26ebabacec9663d12536d9ed51aede319143c64a"
-  integrity sha512-MUi6P1LXeSnk60OTwKx/6f2d4K6098xtfSclPHonB/PAk/FoOExNAlKxrfDyOd+f+S44ibj514adGd5r94NIDQ==
+"@equinor/fusion-framework-module-ag-grid@^29.3.3":
+  version "29.3.3"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-ag-grid/-/fusion-framework-module-ag-grid-29.3.3.tgz#2be032e819f45193317f8d7d6e6b038f254b0a03"
+  integrity sha512-2qLtmAvi6Z5hne9wrS9UNyFx+56k6akFlavSKw7DMJ/C+N3NgIAKChI9XJSnRC2OtBrT3/46/hj6hLSHdMp//Q==
   dependencies:
-    "@ag-grid-enterprise/core" "~28.1.1"
+    "@ag-grid-enterprise/core" "~29.3.4"
 
-"@equinor/fusion-framework-module-app@^5.0.0", "@equinor/fusion-framework-module-app@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-app/-/fusion-framework-module-app-5.1.2.tgz#46d7603ac1b1728f9a362511c62bc8c096985952"
-  integrity sha512-WgBYMuH6c5r+25evudwgwMauslIfysjk9SBzIzMESGJpiljFnyVdcp+1JzGMLeDWLSgUnc80BoJ9D+SD154TuA==
+"@equinor/fusion-framework-module-app@^5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-app/-/fusion-framework-module-app-5.2.1.tgz#d414d08a3100d52565d16d388b48c5480613b0b9"
+  integrity sha512-73diCE7kR3rKoMBkzfu/UAHSYVnoTndIXTjX+YB9IQYTAGeJaoRx2tzszS26lrZjzjEA5lTcfPVpm3umPJzOTg==
   dependencies:
     "@equinor/fusion-query" "^3.0.2"
     rxjs "^7.5.7"
 
-"@equinor/fusion-framework-module-bookmark@^1.0.3":
+"@equinor/fusion-framework-module-bookmark@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-bookmark/-/fusion-framework-module-bookmark-1.0.6.tgz#02e40d1da8f04a5ed557e8d15f9d4a872c46ae64"
   integrity sha512-6vYY4ytQA/TvVhbSZb/IQLdmKJ6KDLvFesfY0e0bWbQFkWsVtFlfuS6DsvJVzd/eLD2wY5O8gU6k25TMFebWqg==
   dependencies:
     "@equinor/fusion-query" "^3.0.2"
 
-"@equinor/fusion-framework-module-context@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-context/-/fusion-framework-module-context-3.1.2.tgz#8051458a03e6ad74cf87433681f0b7e3f95c3052"
-  integrity sha512-VHgGq7t8Wtau+hkilPtURnFafhfDRnVGmrdQUWuViIljP4uFKrXh64zIdpRUF/LdF0M3hrY/di6klKEoOBiXsQ==
-  dependencies:
-    "@equinor/fusion-query" "^3.0.0"
-    fast-deep-equal "^3.1.3"
-
-"@equinor/fusion-framework-module-context@^4.0.7":
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-context/-/fusion-framework-module-context-4.0.7.tgz#fed2169708dda88a279441ce4f6363405fa3e1bd"
-  integrity sha512-/GbBgLm+U9RwYrfJcwc/MeA4Y+KGhYG+DDOnM2EWe/Uk69fdcohIqalaFgV6ydHoc6QeMW7231dmgm+DAQsYYQ==
+"@equinor/fusion-framework-module-context@^4.0.10", "@equinor/fusion-framework-module-context@^4.0.9":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-context/-/fusion-framework-module-context-4.0.10.tgz#81c8aa87e94872772d1c692bc4ad3e253bdb4126"
+  integrity sha512-kHgUorpuKU8dtQKjwlNaZo7LuEF8HgvGkjJNiSjT67FLsytoI8bYNEshO1uaBWdd5HRjfaqZni0yJIyjGdQkUA==
   dependencies:
     "@equinor/fusion-query" "^3.0.2"
     fast-deep-equal "^3.1.3"
 
-"@equinor/fusion-framework-module-event@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-event/-/fusion-framework-module-event-4.0.1.tgz#108a1d1620fab1daa5d8df60be2cb896a8a193f0"
-  integrity sha512-MCt/AfQXL/mBjuz3xWN0HCy5wo5bKh3IaBlqoK914/IbndQ4bzOpNLfAj+n2w9az/rmK9NKeSLFikFjnqxVUXw==
+"@equinor/fusion-framework-module-event@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-event/-/fusion-framework-module-event-4.0.2.tgz#f211d1f45ca19d583126a006a8099375cff05974"
+  integrity sha512-OHgmkJ3IMRaWfC3ISQh5t1uIOUPa8ex0RE1g6bzJXAwgjh1gZoHp2yQCQTKDzRaw3sYKIP3ExNK6pX4SsBk79w==
   dependencies:
-    "@equinor/fusion-framework-module" "^4.1.0"
+    "@equinor/fusion-framework-module" "^4.2.1"
 
-"@equinor/fusion-framework-module-http@^5.0.0", "@equinor/fusion-framework-module-http@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-http/-/fusion-framework-module-http-5.0.2.tgz#68aa82b776611499728ff462dc21fbc731280378"
-  integrity sha512-ScogmI2MAgQdnOUNbYKv4uaw4pVV91g8ldt4ZT1TKlceT23/wjNDCpXl2ZI6gaI92RXqlP+gVqlQaF/7Z7NC5w==
+"@equinor/fusion-framework-module-http@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-http/-/fusion-framework-module-http-5.0.4.tgz#de7f19b30f5fc9cd3658ac0f7576440df2ca0874"
+  integrity sha512-39apFi+QyGx3oAOVHXj+DdmHLIIiy4PjlRvDnfqQOGsm30svDrfjlDro0CfkiRRfxVNbhNRnNTzj6lH95gYSIw==
   dependencies:
-    "@equinor/fusion-framework-module" "^4.1.0"
-    "@equinor/fusion-framework-module-msal" "^3.0.2"
+    "@equinor/fusion-framework-module" "^4.2.1"
+    "@equinor/fusion-framework-module-msal" "^3.0.4"
     rxjs "^7.5.7"
 
-"@equinor/fusion-framework-module-msal@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-msal/-/fusion-framework-module-msal-3.0.2.tgz#06a01fd878377aacc5b50db8e8b64169bebf4cc6"
-  integrity sha512-68zQTAKwRg3afClDU9F+uqbb17p/jtR7eVDjOIkGBdXifGAnzgbjRIlYafuhh6f3VUYCiyQI5wdiRGfuhm81hA==
+"@equinor/fusion-framework-module-msal@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-msal/-/fusion-framework-module-msal-3.0.4.tgz#616344d537f86af5a4d2cd3132e085672296be8d"
+  integrity sha512-ICpcGIoQIadb3rpvaRovtS1pDuJjsdnBPdf4PY/txExuWXmf0uR8p//eqsZHHW0ApwprC2TOkD4nXyh1+rhDpA==
   dependencies:
     "@azure/msal-browser" "^2.21.0"
-    "@equinor/fusion-framework-module" "^4.1.0"
+    "@equinor/fusion-framework-module" "^4.2.1"
 
-"@equinor/fusion-framework-module-navigation@^2.0.1":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-navigation/-/fusion-framework-module-navigation-2.1.2.tgz#1821e3aabd3c1aa209f5900dd363d34e98c1b521"
-  integrity sha512-C4NEWw2zy3ourw6XnAysOQyDQdwOfYTQR89xeYTzbPUVS2ndZ+kE8boQg9X2F0KyQx7F1XzN1rlkh/dmTIzBQQ==
+"@equinor/fusion-framework-module-navigation@^3.0.1", "@equinor/fusion-framework-module-navigation@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-navigation/-/fusion-framework-module-navigation-3.0.2.tgz#84a447adbe03d3a5703b570cbe096334d687950c"
+  integrity sha512-z9TZZF3BXmZClxglWBHEqDapU11v1n+uHQ2t7bW8mBBcyN9bSxTlkVcvb2KGcNHQgUocbtKKrhwBfJLayUXKpQ==
   dependencies:
     "@remix-run/router" "^1.6.1"
 
-"@equinor/fusion-framework-module-service-discovery@^7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-service-discovery/-/fusion-framework-module-service-discovery-7.0.3.tgz#4817d246fd4d713795ba61333b3e22805d724750"
-  integrity sha512-bLGB7ubjvwoDtsTb5gifpcnzxPYgDfHqCsUh0QwDl+D089N6jm2KRt3N4j+GuJIRgtvQdu0+l3074NnLXriHTw==
+"@equinor/fusion-framework-module-service-discovery@^7.0.5":
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-service-discovery/-/fusion-framework-module-service-discovery-7.0.5.tgz#8a961d7f1817fa0891641e7a25a76d6b4665f900"
+  integrity sha512-pWdsPM7jzRowk6otsHEyZddzpQAkagvqne+yNGJL2Zp5CyyjOik7rRdXYqmaQrZFCvE6NB9GrSAcvuGs6Rvc6Q==
   dependencies:
-    "@equinor/fusion-framework-module" "^4.1.0"
-    "@equinor/fusion-framework-module-http" "^5.0.2"
+    "@equinor/fusion-framework-module" "^4.2.1"
+    "@equinor/fusion-framework-module-http" "^5.0.4"
     "@equinor/fusion-query" "^3.0.2"
     rxjs "^7.5.7"
 
-"@equinor/fusion-framework-module-services@^3.0.3", "@equinor/fusion-framework-module-services@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-services/-/fusion-framework-module-services-3.1.2.tgz#1b07c07ee65f83adf5480e4543d4a521597de427"
-  integrity sha512-9n7YKe6HdokdREkwFvw0783XJqBQucmDCJo6ZBDzQUwC41E9/PRfB+CBJkdiES+ES27QQ11CTG7OEkPhW2FGXg==
+"@equinor/fusion-framework-module-services@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-services/-/fusion-framework-module-services-3.1.3.tgz#15bd2feeca5e19ab5c2d7b78fa4c67c2b07f85e7"
+  integrity sha512-PYMDguQLaVQsSdGyxblPJBjrDiHsT3kvh/ItrnnQdl6HXTuTq21NckYf5vFOScqLzoGqgAIHkwnY/1EN9RlAdg==
   dependencies:
     odata-query "^7.0.3"
 
-"@equinor/fusion-framework-module-signalr@^2.0.0", "@equinor/fusion-framework-module-signalr@^2.0.3":
+"@equinor/fusion-framework-module-signalr@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-signalr/-/fusion-framework-module-signalr-2.0.3.tgz#f28d8f01fff6eed4e18382e7dfcaa4d48f7180bd"
   integrity sha512-cveZ8mTy0EL273Tjz2bnrBe7Qm07BaTNobUdk8EsPWLeZz4yusq0zxIOhGAsh1l0i/X62qttj6z4i6E3YBbAbA==
@@ -1368,94 +1372,104 @@
     "@microsoft/signalr" "^7.0.0"
     rxjs "^7.5.7"
 
-"@equinor/fusion-framework-module@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module/-/fusion-framework-module-4.1.0.tgz#69fe67d1f99f4651ca9738d65ab16415b43deb0b"
-  integrity sha512-sReb9ULXSvjlKrQ/Pb45B95Q+XM7/n6fbhkJT7E4BLFj72DjBkFL1OwhJqskDHfKzbYBQfQkomDnNkOd/7GQsw==
+"@equinor/fusion-framework-module-signalr@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-signalr/-/fusion-framework-module-signalr-2.0.4.tgz#58e566afbca0fc29c1c386594c7813a2eaa6e65e"
+  integrity sha512-MKvo9dLqMZN4qM6W8KLP8+zxkVBBv4hUXn6QZdJYwENIFQqF7gHFuSVUEBnuOVeMLcxXXpSJk9w18yb24/p/9Q==
   dependencies:
+    "@microsoft/signalr" "^7.0.0"
     rxjs "^7.5.7"
 
-"@equinor/fusion-framework-react-app@^4.0.5":
-  version "4.0.16"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-app/-/fusion-framework-react-app-4.0.16.tgz#d6208eb298782cb2a027904ab936c25fa032484c"
-  integrity sha512-Ldc9z+R+8B2hYzXVcYwf4WniO0NgLU4rJX9m4r/Qc07Xl+Jnxqkav5fHAb6zCegtsPQzQjHW8mgu4p1W1S/SJA==
+"@equinor/fusion-framework-module@^4.2.0", "@equinor/fusion-framework-module@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module/-/fusion-framework-module-4.2.1.tgz#147e3c59158823a344d80cbff189aaa88b88134f"
+  integrity sha512-mdVrgy++ci2krVasPAhWn3yNaqazaH3jrzYnYErcdvhQkuJURoQkG0g4FsALuO8Pssb7VDutpq6+rf446+PoGA==
   dependencies:
-    "@equinor/fusion-framework-app" "^7.0.14"
-    "@equinor/fusion-framework-react" "^5.1.3"
-    "@equinor/fusion-framework-react-module-http" "^3.0.2"
+    rxjs "^7.5.7"
+    semver "^7.5.0"
 
-"@equinor/fusion-framework-react-components-bookmark@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-components-bookmark/-/fusion-framework-react-components-bookmark-0.1.0.tgz#7ecbf551a8c4dbf9551568c8b32ae494ddf48490"
-  integrity sha512-M/5f9syEOil/OGPJb3tfVAUH5znD+F8pvvvE1A5GoA6ajXDs1sfvu1Dm6tZJVouTLh8axUh8zpR9VO1ocrwvew==
+"@equinor/fusion-framework-react-app@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-app/-/fusion-framework-react-app-4.1.1.tgz#7614edf60e9710b11e9fd651a09eecb6ec9d1327"
+  integrity sha512-z/y3mofyxe4S3HG1eFJ82SXfE+UjAWvKUKCUKHiQvj9EZSGd5Oq5GPZBAgwLG85WMm9jZW6T8cVekUbEJ2bznA==
+  dependencies:
+    "@equinor/fusion-framework-app" "^7.0.16"
+    "@equinor/fusion-framework-module-navigation" "^3.0.1"
+    "@equinor/fusion-framework-react" "^5.2.2"
+    "@equinor/fusion-framework-react-module-http" "^3.0.3"
+
+"@equinor/fusion-framework-react-components-bookmark@0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-components-bookmark/-/fusion-framework-react-components-bookmark-0.1.13.tgz#6adca335b73d7e5f6ebd5ead158d3db062970fbb"
+  integrity sha512-4GwGDn8XE154s+Y4ahV7T0t3aUis7iciT4CRRGWwmKzVgVWTYxiuFJ2QJMi2KnXX2YDib6jp43yZZ/66KZ+qYQ==
   dependencies:
     "@equinor/eds-utils" "^0.7.0"
-    "@equinor/fusion-framework-react-module-bookmark" "^1.0.5"
+    "@equinor/fusion-framework-react-module-bookmark" "^2.0.12"
 
-"@equinor/fusion-framework-react-module-bookmark@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-bookmark/-/fusion-framework-react-module-bookmark-1.0.5.tgz#408b1a55090b4ca3d7f512c7cc921a7c672bec04"
-  integrity sha512-f536FAGpk58A7r64ZJ5bNXEGSLfrZOsxlHW565sepa4uwJW77SUX5mEKWKVtPV6pjQVJ0HPjHZQmh0wf4CumXA==
+"@equinor/fusion-framework-react-module-bookmark@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-bookmark/-/fusion-framework-react-module-bookmark-2.0.12.tgz#57043e351acd14d56b03c382dd0ce149928bb159"
+  integrity sha512-qv1ebXOYUI4XdsprhoA85HgDJW+WdXQ78YxIUxe/9Y1io7UVnqd+Gse+86KrB5XD2NTWkhroK4EmheZ014qEYQ==
   dependencies:
-    "@equinor/fusion-framework-module-bookmark" "^1.0.3"
-    "@equinor/fusion-framework-module-context" "^3.1.2"
-    "@equinor/fusion-framework-react" "^5.0.5"
-    "@equinor/fusion-framework-react-module" "^3.0.0"
-    "@equinor/fusion-query" "^3.0.0"
-
-"@equinor/fusion-framework-react-module-context@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-context/-/fusion-framework-react-module-context-6.0.7.tgz#6c7b11b8f13b4007c137bda622fdd07938e03931"
-  integrity sha512-oHUxoUxF3TQetk8LWiaqGRqSsODcv4JJMCuJ0qJEUrKFIglPqLewUqAtTW7Cjr/oiC5bB88DGQ4nZ2xLQ2vkgg==
-  dependencies:
-    "@equinor/fusion-framework-module-context" "^4.0.7"
-    "@equinor/fusion-framework-react-module" "^3.0.2"
+    "@equinor/fusion-framework-module-bookmark" "^1.0.6"
+    "@equinor/fusion-framework-module-context" "^4.0.9"
+    "@equinor/fusion-framework-react" "^5.1.4"
+    "@equinor/fusion-framework-react-module" "^3.0.3"
     "@equinor/fusion-query" "^3.0.2"
 
-"@equinor/fusion-framework-react-module-http@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-http/-/fusion-framework-react-module-http-3.0.2.tgz#889df9d1ff1f93d4f1ddc82906f5060880728c61"
-  integrity sha512-f2H0O17+iic9VFulb3I8ANWuCwwjz8yiNSwrAdCQAt5sQWUpt/MLpgadx+UPh3bVddFh35i5X1vPb3xSVkYlnw==
+"@equinor/fusion-framework-react-module-context@^6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-context/-/fusion-framework-react-module-context-6.0.9.tgz#12ffb08d85161d86922efaa57a1821f470d3053d"
+  integrity sha512-g+g1lCnl2GmjA6eRc0YVyNub9nZzwpa+DKaK95nxLjPOcNsJOCRay9K9Fts5I1RWGiJLxF/C3PsJOBx2+ey17A==
+  dependencies:
+    "@equinor/fusion-framework-module-context" "^4.0.9"
+    "@equinor/fusion-framework-react-module" "^3.0.3"
+    "@equinor/fusion-query" "^3.0.2"
 
-"@equinor/fusion-framework-react-module-signalr@^2.0.0":
+"@equinor/fusion-framework-react-module-http@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-http/-/fusion-framework-react-module-http-3.0.3.tgz#7224f39b730e4750e2c19ee202151559adf8cef0"
+  integrity sha512-Kqh13yacTdEcMF965OpHnEeWAW3a2cgo81RPca+xZcMJbVXTIsYgHqSr3rRaejvL6a/RYa8VJbVnI5bUwzwI4w==
+
+"@equinor/fusion-framework-react-module-signalr@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-signalr/-/fusion-framework-react-module-signalr-2.0.3.tgz#4baea5ba920bf8c9c0cda3867608451b104f251f"
   integrity sha512-rR3x23Rt/YsRHL3W2dHu/qfVPyTcdrCSOFChwXW67x7Wt78sulEBCtFpxvC4l44T4QX1Qk7XefKAJw/w3ny+8Q==
   dependencies:
     "@equinor/fusion-framework-module-signalr" "^2.0.3"
 
-"@equinor/fusion-framework-react-module@^3.0.0", "@equinor/fusion-framework-react-module@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module/-/fusion-framework-react-module-3.0.2.tgz#0677244e5dd0559bb103bede04989f8101f970fa"
-  integrity sha512-5VRRnZ/IT0W2UC/0G+/MIMBRHtwYmaPZKvR9OIW6sKhqKCPj/1JwTWZY1+0OIiUqf4GhpbYfH5kNObgw6SDQZg==
+"@equinor/fusion-framework-react-module@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module/-/fusion-framework-react-module-3.0.3.tgz#60509a6c350ea84bb562d051c01696d7905c499f"
+  integrity sha512-fWTOamfp4kJrAeOWXMF/izwoLvqVr9gO9w7qZoita1+eGzCcupMskqhIyBGFuaUPIPXIkqhH2ijc5odeoAUw7w==
   dependencies:
-    "@equinor/fusion-framework-module" "^4.1.0"
+    "@equinor/fusion-framework-module" "^4.2.0"
 
-"@equinor/fusion-framework-react@^5.0.5", "@equinor/fusion-framework-react@^5.1.3":
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react/-/fusion-framework-react-5.1.3.tgz#94885bf5b334bf5c3280588f00f597e9f36be5db"
-  integrity sha512-AzKjRke69x7RnTbqtH0dWziJ7z+fSRMfE+w36kSprL8jmuwQusJ8Ou7GQEw+nse4KufxnKGAXlEQUQ9889reKg==
+"@equinor/fusion-framework-react@^5.1.4", "@equinor/fusion-framework-react@^5.2.2":
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react/-/fusion-framework-react-5.2.2.tgz#e3bd6dae494b87afffb72574db3cd184d598c8fe"
+  integrity sha512-uXy0LNPagT79YywlOEwprWOWk+m33aWxNqP1xe4ELWWSivgoddk5SIXES/C/1bo3FcmbW1Egf4700J1oyozERQ==
   dependencies:
-    "@equinor/fusion-framework" "^7.0.13"
-    "@equinor/fusion-framework-react-module-context" "^6.0.7"
-    "@equinor/fusion-framework-react-module-http" "^3.0.2"
+    "@equinor/fusion-framework" "^7.0.15"
+    "@equinor/fusion-framework-react-module-context" "^6.0.9"
+    "@equinor/fusion-framework-react-module-http" "^3.0.3"
     rxjs "^7.5.7"
 
-"@equinor/fusion-framework@^7.0.13":
-  version "7.0.13"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework/-/fusion-framework-7.0.13.tgz#70ae67edd5e2edbbddc7b572264b9ead39830c69"
-  integrity sha512-/zqm7xM/9Cg3CIvQYw2Fz44QSEKumAfE9jF5QTdwo/yOT8fGiY4s+IjVFnq72lxh9Ku0BBzWYvRS3mCPTl8C+A==
+"@equinor/fusion-framework@^7.0.15":
+  version "7.0.15"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework/-/fusion-framework-7.0.15.tgz#fa0474bad2cfe0ed45a1aa51356f12de75220d9d"
+  integrity sha512-h+0UygFUFUIwTMfZ8w9PhMFdUaPr/t2M1VPGizqwhrqIpH5JzFpoYmiFVbCNOPInMwIVh9MYrvgAPw6IYBcS4Q==
   dependencies:
-    "@equinor/fusion-framework-module" "^4.1.0"
-    "@equinor/fusion-framework-module-context" "^4.0.7"
-    "@equinor/fusion-framework-module-event" "^4.0.1"
-    "@equinor/fusion-framework-module-http" "^5.0.2"
-    "@equinor/fusion-framework-module-msal" "^3.0.2"
-    "@equinor/fusion-framework-module-service-discovery" "^7.0.3"
-    "@equinor/fusion-framework-module-services" "^3.1.2"
+    "@equinor/fusion-framework-module" "^4.2.1"
+    "@equinor/fusion-framework-module-context" "^4.0.10"
+    "@equinor/fusion-framework-module-event" "^4.0.2"
+    "@equinor/fusion-framework-module-http" "^5.0.4"
+    "@equinor/fusion-framework-module-msal" "^3.0.4"
+    "@equinor/fusion-framework-module-service-discovery" "^7.0.5"
+    "@equinor/fusion-framework-module-services" "^3.1.3"
     rxjs "^7.5.7"
 
-"@equinor/fusion-observable@^8.0.0", "@equinor/fusion-observable@^8.0.1":
+"@equinor/fusion-observable@^8.0.1":
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-observable/-/fusion-observable-8.0.1.tgz#dfd2483fb97d5d6bccb54358188e9a1394b368bc"
   integrity sha512-lAcwEvzfhGrRPLsMwg2rfFJpN71AFml/spkSg6To0h8rl9fwQ//SIxWwVjl1WSFp7NJAAnzYmusmH6sWk56c2A==
@@ -1463,7 +1477,15 @@
     rxjs "^7.5.7"
     uuid "^8.3.2"
 
-"@equinor/fusion-query@^3.0.0", "@equinor/fusion-query@^3.0.2":
+"@equinor/fusion-observable@^8.0.2":
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-observable/-/fusion-observable-8.0.2.tgz#e7201ce0950ccd47c9338636c85588481096ac38"
+  integrity sha512-wvO4vcqmSv4G9nSJsLhimURc+hhtgk7uAEGNEv11590b+C4pFplArpa47Q2b6dj2yNhp4ZJB8ZyTJ8cr0QKaNg==
+  dependencies:
+    rxjs "^7.5.7"
+    uuid "^8.3.2"
+
+"@equinor/fusion-query@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-query/-/fusion-query-3.0.2.tgz#b47f32781c22181856dc0b43422ceb84bb89a35b"
   integrity sha512-7D9NlffELk85i6aulsIKoSbbe6F9sDX5QX39vTWE3ZW5JEIZrIJNJ9AZhsGe5oqH9kKyE9skcVaFxlUCjoKo6Q==
@@ -9536,7 +9558,7 @@ semver@7.3.4:
   dependencies:
     lru-cache "^6.0.0"
 
-semver@7.x, semver@^7.3.4, semver@^7.3.5, semver@^7.3.7, semver@^7.3.8:
+semver@7.x, semver@^7.3.4, semver@^7.3.5, semver@^7.3.7, semver@^7.3.8, semver@^7.5.0:
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.1.tgz#c90c4d631cf74720e46b21c1d37ea07edfab91ec"
   integrity sha512-Wvss5ivl8TMRZXXESstBA4uR5iXgEN/VC5/sOcuXdVLzcdkz4HWetIoRfG5gb5X+ij/G9rw9YoGn3QoQ8OCSpw==
