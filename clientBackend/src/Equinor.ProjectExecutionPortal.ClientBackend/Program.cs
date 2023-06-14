@@ -51,7 +51,10 @@ builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusi
 
 builder.Services.AddControllersWithViews();
 
-// SPA Configuration
+// Add services
+builder.Services.AddServiceModule();
+
+// Add SPA configuration
 builder.Services.AddSpa(builder);
 
 // Add asset proxy
