@@ -12,7 +12,7 @@
 
         public static string GetClientBundleFolderPath(IWebHostEnvironment environment)
         {
-            return Path.Combine(environment.ContentRootPath, "wwwroot", "ClientApp", environment.IsDevelopment() ? "development" : "production");
+            return Path.Combine(environment.ContentRootPath, "wwwroot", "ClientApp", environment.IsDevelopment() ? "development" : "production", "assets");
         }
 
         public string GetClientBundleFileName()

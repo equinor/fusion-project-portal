@@ -32,11 +32,11 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
 
             app.UseSpaStaticFiles();
 
-            app.UseSpaStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(filePath, "assets")),
-                RequestPath = "/assets"
-            });
+            //app.UseSpaStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(filePath, "assets")),
+            //    RequestPath = "/assets"
+            //});
 
             return app;
         }
