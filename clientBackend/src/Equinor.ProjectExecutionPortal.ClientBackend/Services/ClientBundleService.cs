@@ -3,7 +3,7 @@
     public class ClientBundleService : IClientBundleService
     {
         private readonly IWebHostEnvironment _environment;
-        private const string PortalClientFileName = "index*";
+        private const string PortalClientFileName = "index*.js";
 
         public ClientBundleService(IWebHostEnvironment environment)
         {
