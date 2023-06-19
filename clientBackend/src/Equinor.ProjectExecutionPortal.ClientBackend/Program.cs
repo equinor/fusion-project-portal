@@ -51,6 +51,8 @@ builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusi
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddResponseCaching();
+
 // Add services
 builder.Services.AddServiceModule();
 
@@ -90,6 +92,8 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
+
+app.UseResponseCaching();
 
 app.UseAuthentication();
 
