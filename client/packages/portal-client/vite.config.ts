@@ -25,6 +25,14 @@ export default defineConfig({
 	define: {
 		'process.env': {},
 	},
+	build: {
+		rollupOptions: {
+			input: path.resolve(__dirname, './src/main.tsx'),
+			output: {
+				entryFileNames: `index.[hash].js`,
+			},
+		},
+	},
 	server: {
 		port: 3000,
 		host: true,
