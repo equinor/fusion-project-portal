@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -12,6 +13,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         // - https://www.radix.equinor.com/guides/monitoring/#metrics-visualisation
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetMetrics()
         {
             return Ok();
