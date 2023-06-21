@@ -51,7 +51,12 @@ builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusi
 
 builder.Services.AddControllersWithViews();
 
-// SPA Configuration
+builder.Services.AddResponseCaching();
+
+// Add services
+builder.Services.AddServiceModule();
+
+// Add SPA configuration
 builder.Services.AddSpa(builder);
 
 // Add asset proxy
@@ -87,6 +92,8 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
+
+app.UseResponseCaching();
 
 app.UseAuthentication();
 

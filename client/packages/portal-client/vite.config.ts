@@ -25,18 +25,17 @@ export default defineConfig({
 	define: {
 		'process.env': {},
 	},
-	server: {
-		port: 3000,
-		host: true,
-	},
-	// Configuration needed for new backend.
 	build: {
 		rollupOptions: {
 			input: path.resolve(__dirname, './src/main.tsx'),
 			output: {
-				entryFileNames: `portal-client-bundle.js`,
+				entryFileNames: `index.[hash].js`,
 			},
 		},
+	},
+	server: {
+		port: 3000,
+		host: true,
 	},
 	resolve: {
 		alias: {
