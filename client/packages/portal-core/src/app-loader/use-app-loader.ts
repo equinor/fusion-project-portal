@@ -20,16 +20,34 @@ export const useAppLoader = (appKey: string) => {
 		const subscription = new Subscription();
 		subscription.add(
 			currentApp?.initialize().subscribe({
-				next: ({ manifest, script, config }) => {
-					/** generate basename for application regex extracts /apps/:appKey */
-					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
+				next: async ({ manifest, script, config }) => {
+					if (manifest.key === 'meetings') {
+						/** generate basename for application regex extracts /apps/:appKey */
+						const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
 
-					appRef.current = document.createElement('div');
-					appRef.current.style.display = 'contents';
+						appRef.current = document.createElement('div');
+						appRef.current.style.display = 'contents';
+						const uri = './appLoader.js';
 
-					const render = script.renderApp ?? script.default;
+						const legacyAppScript = await import(/* @vite-ignore */ uri);
 
-					subscription.add(render(appRef.current, { fusion, env: { basename, config, manifest } }));
+						console.log(legacyAppScript);
+						const render = legacyAppScript.renderApp ?? legacyAppScript.default;
+
+						subscription.add(
+							render(appRef.current, { fusion, env: { basename, config, manifest, appKey } })
+						);
+					} else {
+						/** generate basename for application regex extracts /apps/:appKey */
+						const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
+
+						appRef.current = document.createElement('div');
+						appRef.current.style.display = 'contents';
+
+						const render = script.renderApp ?? script.default;
+
+						subscription.add(render(appRef.current, { fusion, env: { basename, config, manifest } }));
+					}
 				},
 				complete: () => {
 					setLoading(false);

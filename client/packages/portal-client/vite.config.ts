@@ -18,6 +18,10 @@ export default defineConfig({
 					src: 'src/assets/favicon.ico',
 					dest: '',
 				},
+				{
+					src: 'src/assets/globalResources.js',
+					dest: '',
+				},
 			],
 		}),
 	],

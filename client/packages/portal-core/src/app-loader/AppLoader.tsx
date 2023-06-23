@@ -17,9 +17,9 @@ export const AppLoader = () => {
 		navigate(`${location.pathname}/${context.id}`);
 	}
 
-	if (!currentAppGroup && appManifest && !isLoading) {
-		return <AppNotAwaitable name={appManifest.name} />;
-	}
+	// if (!currentAppGroup && appManifest && !isLoading) {
+	// 	return <AppNotAwaitable name={appManifest.name} />;
+	// }
 
 	if (appKey) {
 		return <AppModuleLoader appKey={appKey} />;
