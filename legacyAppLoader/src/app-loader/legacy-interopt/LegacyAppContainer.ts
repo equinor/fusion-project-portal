@@ -30,12 +30,6 @@ type AppContainerEvents = {
   fetch: (status: boolean) => void;
 };
 
-// export type EventHandlerParameter<
-//     TEvent extends Record<string, (...args: any[]) => void>,
-//     TKey extends keyof TEvent,
-//     THandler extends TEvent[TKey] = TEvent[TKey]
-// > = THandler extends (arg: infer P) => void ? P : never;
-
 export const actions = {
   updateManifests: createAction(
     "update_manifest",
@@ -281,7 +275,6 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
         // currentApp.updateManifest(manifest);
         return await currentApp.getConfigAsync();
       } else {
-        console.log(appKey, currentApp?.appKey);
         if (currentApp?.appKey !== appKey) {
           console.warn(
             "LegacyAppContainer::setCurrentAppAsync",
