@@ -43,7 +43,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 					anchorEl={ref.current}
 				>
 					{appGroup.apps.map((app) => (
-						<StyledMenuItem key={app.appKey} to={`/apps/${app.appKey}`}>
+						<StyledMenuItem key={app.appKey} to={`/apps/${app.appKey}/`}>
 							<Menu.Item
 								onClick={() => {
 									toggleMenuOpen(false);
