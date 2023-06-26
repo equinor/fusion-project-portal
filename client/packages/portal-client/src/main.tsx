@@ -7,7 +7,7 @@ import { PortalProgressLoader } from '@equinor/portal-ui';
 import PortalRouter from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
 import { createPortalFramework } from './framework-config';
-import { PortalConfig } from '../../portal-core/src';
+import { PortalConfig, configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -15,6 +15,10 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const portalConfig = window['_config_'];
 
 document.title = `${portalConfig.title} | Fusion`;
+
+/* fusion core is spamming the console form module this will remove it in production */
+configureDebug();
+
 const configure = createPortalFramework(portalConfig);
 
 root.render(
