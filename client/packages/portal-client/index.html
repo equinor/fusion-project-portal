@@ -4,8 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://cdn.eds.equinor.com/font/equinor-font.css" />
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <script>
+      /**
+       * When defining a custom element the browser would throw an error if already defined.
+       * We would like the portal to provide the latest components
+      */
+      const _customElementsDefine = window.customElements.define;
+      window.customElements.define = (name, cl, conf) => {
+        if (!customElements.get(name)) {
+          _customElementsDefine.call(window.customElements, name, cl, conf);
+        } else {
+          console.debug(`duplicate registration of ${name}`);
+        }
+      };
+    </script>
 
-    <script type="module">
+  <script src="./globalResources.js"></script>   
+  <script type="module">
       import * as portalConfig from './src/portal.config.json';
       window["_config_"] = portalConfig;
     </script>

@@ -21,7 +21,7 @@
             "dom.iterable"
         ],
         "composite": true,
-        "outDir": "../../dist/out-tsc", 
+        "outDir": "./dist/out-tsc", 
     },
     "include": [
         "./src",

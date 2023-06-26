@@ -72,6 +72,17 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		config.onInitialized<[NavigationModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
 
+			fusion.navigation.subscribe((nav) => {
+				if (nav.action !== 'PUSH') return;
+
+				if (
+					nav.path.pathname.split('/').filter((path) => path === fusion.context.currentContext?.id).length > 1
+				) {
+					fusion.navigation.navigator.go(-1);
+				}
+				console.log('---------->', event);
+			});
+
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
 

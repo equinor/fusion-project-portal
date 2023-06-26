@@ -276,10 +276,10 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
       const appProvider = this.#framework.modules.app;
 
       const currentApp = appProvider.current;
-      console.log(currentApp);
+
       if (currentApp && currentApp.appKey === appKey) {
         currentApp.updateManifest(manifest);
-        await currentApp.getConfigAsync();
+        return await currentApp.getConfigAsync();
       } else {
         console.log(appKey, currentApp?.appKey);
         if (currentApp?.appKey !== appKey) {
@@ -296,9 +296,7 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
         }
 
         const newApp = appProvider.createApp({ appKey, manifest });
-        const config = await newApp.getConfigAsync();
-
-        return config;
+        return await newApp.getConfigAsync();
       }
     } else {
       this.#framework.modules.app.clearCurrentApp();

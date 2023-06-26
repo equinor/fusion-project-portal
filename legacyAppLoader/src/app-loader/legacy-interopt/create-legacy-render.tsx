@@ -1,33 +1,33 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { useEffect, type PropsWithChildren, memo } from 'react';
+import { useEffect, type PropsWithChildren, memo } from "react";
 
-import { concat, filter, from, take } from 'rxjs';
+import { concat, filter, from, take } from "rxjs";
 
-import { createBrowserHistory, createLocation, type History } from 'history';
+import { createBrowserHistory, createLocation, type History } from "history";
 
 import {
   HistoryContext,
   type AppManifest,
   type IFusionContext,
-} from '@equinor/fusion';
+} from "@equinor/fusion";
 
 import {
   enableContext,
   type ContextItem,
   type ContextModule,
-} from '@equinor/fusion-framework-module-context';
+} from "@equinor/fusion-framework-module-context";
 
-import { resolveInitialContext } from '@equinor/fusion-framework-module-context/utils';
+import { resolveInitialContext } from "@equinor/fusion-framework-module-context/utils";
 
 import {
   enableNavigation,
   NavigationModule,
-} from '@equinor/fusion-framework-module-navigation';
+} from "@equinor/fusion-framework-module-navigation";
 
-import { createComponent } from '@equinor/fusion-framework-react-app';
-import { useFramework } from '@equinor/fusion-framework-react';
-import { Router } from 'react-router-dom';
+import { createComponent } from "@equinor/fusion-framework-react-app";
+import { useFramework } from "@equinor/fusion-framework-react";
+import { Router } from "react-router-dom";
 
 const AppWrapper = (
   props: PropsWithChildren<{
@@ -44,8 +44,8 @@ const AppWrapper = (
         if (
           location.pathname.indexOf(basename) === -1 ||
           (location.pathname ===
-            [basename, history.location.pathname.replace(/^\//, '')].join(
-              '/'
+            [basename, history.location.pathname.replace(/^\//, "")].join(
+              "/"
             ) &&
             location.search === history.location.search)
         ) {
@@ -53,7 +53,7 @@ const AppWrapper = (
         }
 
         const appLocation = createLocation(
-          location.pathname.replace(basename, ''),
+          location.pathname.replace(basename, ""),
           location.state,
           location.key,
           history.location
@@ -61,11 +61,11 @@ const AppWrapper = (
 
         // eslint-disable-next-line default-case
         switch (action) {
-          case 'PUSH':
+          case "PUSH":
             history.push(appLocation);
             break;
-          case 'POP':
-          case 'REPLACE':
+          case "POP":
+          case "REPLACE":
             // TODO ?!?! should all be replaced?
             history.replace(appLocation);
             break;
@@ -89,9 +89,10 @@ export const createLegacyRender = (
 ) => {
   const { key: appKey, AppComponent, context: contextConfig } = manifest;
 
-  const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
-    '',
-  ];
+  // const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
+  //   "",
+  // ];
+  const basename = `apps/${appKey}/`;
 
   const history = createBrowserHistory({ basename });
   return createComponent<[ContextModule, NavigationModule]>(
@@ -133,8 +134,8 @@ export const createLegacyRender = (
             return concat(
               resolver(args),
               from(
-                legacy.contextManager.getAsync<'current', ContextItem>(
-                  'current'
+                legacy.contextManager.getAsync<"current", ContextItem>(
+                  "current"
                 )
               ).pipe(filter((x): x is ContextItem => !!x))
             ).pipe(

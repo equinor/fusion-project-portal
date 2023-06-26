@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import * as fusion from "@equinor/fusion";
 import * as fusionComponents from "@equinor/fusion-components";
 import * as fusionReactStyles from "@equinor/fusion-react-styles";
@@ -16,9 +16,9 @@ declare global {
     clientBaseUri: string;
   }
 }
-function addGlobalDependencies() {
-  window["FusionReact"] = React;
+export function addGlobalDependencies() {
   window["FusionReactDOM"] = ReactDOM;
+  window["FusionReact"] = React;
   window["FusionReactRouter"] = FusionReactRouter;
   window["FusionAPI"] = fusion;
   window["FusionComponents"] = fusionComponents;

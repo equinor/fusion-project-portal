@@ -4,6 +4,10 @@ import { enableAppModule } from "@equinor/fusion-framework-module-app";
 import { AppManifest } from "@equinor/fusion-framework-module-app";
 import { AppConfigBuilderCallback } from "@equinor/fusion-framework-module-app/dist/types/AppConfigBuilder";
 import { Fusion, FusionConfigurator } from "@equinor/fusion-framework-react";
+import {
+  NavigationModule,
+  enableNavigation,
+} from "@equinor/fusion-framework-module-navigation";
 
 interface Client {
   baseUri: string;
@@ -52,7 +56,7 @@ const appConfigurator =
   };
 
 export const configure: AppModuleInitiator<
-  [],
+  [NavigationModule],
   Fusion<unknown>,
   { config: { environment: { client: Client; portal: Client } } }
 > = (configurator, env) => {
@@ -65,6 +69,7 @@ export const configure: AppModuleInitiator<
     env.env.config?.environment.portal
   );
   window["clientBaseUri"] = env.env.config?.environment.client.baseUri;
+
   enableAppModule(
     configurator,
     appConfigurator(env.env.config?.environment.client)
@@ -79,6 +84,20 @@ export const configure: AppModuleInitiator<
 
   /** callback when the application modules has initialized */
   configurator.onInitialized((instance) => {
+    instance.navigation.navigator.subscribe((nav) => {
+      if (nav.action !== "PUSH") return;
+
+      if (
+        nav.location.pathname
+          .split("/")
+          .filter(
+            (path) => path === env.fusion.modules.context.currentContext?.id
+          ).length > 1
+      ) {
+        instance.navigation.navigator.go(-1);
+      }
+    });
+
     console.log("application config initialized", instance);
   });
 };

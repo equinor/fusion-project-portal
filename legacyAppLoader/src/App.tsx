@@ -5,7 +5,9 @@ import { AppModuleLoader } from "./app-loader/AppModuleLoader";
 import { AppModule } from "@equinor/fusion-framework-module-app";
 import { Fusion, useFramework } from "@equinor/fusion-framework-react";
 import { useAppModules } from "@equinor/fusion-framework-react-app";
+import { addGlobalDependencies } from "./globalResources";
 
+addGlobalDependencies();
 export const App = (props: {
   fusion: Fusion;
   env: { config: { environment: { appKey: string } } };
