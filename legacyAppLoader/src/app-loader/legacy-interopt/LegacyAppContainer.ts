@@ -278,7 +278,7 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
       const currentApp = appProvider.current;
 
       if (currentApp && currentApp.appKey === appKey) {
-        currentApp.updateManifest(manifest);
+        // currentApp.updateManifest(manifest);
         return await currentApp.getConfigAsync();
       } else {
         console.log(appKey, currentApp?.appKey);
