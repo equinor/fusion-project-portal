@@ -22,6 +22,10 @@ export default defineConfig({
 					src: 'src/assets/globalResources.js',
 					dest: '',
 				},
+				{
+					src: 'src/assets/appLoader.js',
+					dest: '',
+				},
 			],
 		}),
 	],
