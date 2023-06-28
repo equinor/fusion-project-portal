@@ -1,4 +1,4 @@
 export * from "./uss-app-module";
-export * from "./leagasy";
+export * from "./components";
 export * from "./legacy-interopt";
 export * from "./legacy-interopt/components";

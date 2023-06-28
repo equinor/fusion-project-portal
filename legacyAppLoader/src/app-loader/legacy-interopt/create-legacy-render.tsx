@@ -89,10 +89,9 @@ export const createLegacyRender = (
 ) => {
   const { key: appKey, AppComponent, context: contextConfig } = manifest;
 
-  // const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
-  //   "",
-  // ];
-  const basename = `apps/${appKey}/`;
+  const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
+    "",
+  ];
 
   const history = createBrowserHistory({ basename });
   return createComponent<[ContextModule, NavigationModule]>(

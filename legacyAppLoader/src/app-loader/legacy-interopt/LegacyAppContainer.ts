@@ -18,7 +18,7 @@ import {
 import { original } from "immer";
 
 import type { PortalFramework } from "./types";
-import { Fusion } from "@equinor/fusion-framework-react";
+
 import {
   AppConfig,
   AppModulesInstance,
@@ -180,10 +180,17 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
       {},
       eventHub
     );
+
     apps.on("change", (apps) => {
-      console.debug("app-container changed", apps);
-      return this.#manifests.next(actions.updateManifests(apps));
+      if (
+        Object.keys(apps).length > 0 &&
+        Object.keys(apps).toString() !== Object.keys(this.allApps).toString()
+      ) {
+        console.debug("app-container changed", apps);
+        this.#manifests.next(actions.updateManifests(apps));
+      }
     });
+
     this.#manifests.subscribe((value) => (apps.state = value));
 
     /** legacy wrapper */
@@ -199,17 +206,17 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
     framework.modules.event.addEventListener("onCurrentAppChanged", (e) => {
       const { next, previous } = e.detail;
 
-      console.debug("📦 current application changed", next, previous);
-
       const currentManifest = next
         ? this.#manifests.value[next.appKey] || null
         : null;
       currentApp.state = currentManifest;
+
       this.emit("change", currentManifest);
 
       const previousManifest = previous
         ? this.#manifests.value[previous.appKey] || null
         : null;
+
       if (previousManifest) {
         previousApps.state = {
           ...previousApps.state,
@@ -254,6 +261,8 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
   async setCurrentAppAsync(
     appKey: string | null
   ): Promise<AppConfig | undefined> {
+    console.log("setCurrentAppAsync", appKey);
+    const appProvider = this.#framework.modules.app;
     if (appKey) {
       const { key, AppComponent, render } = this.#manifests.value[appKey];
 
@@ -267,12 +276,10 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
       await new Promise((resolve) => window.requestAnimationFrame(resolve));
 
       const manifest = this.#manifests.value[appKey] as unknown as AppManifest;
-      const appProvider = this.#framework.modules.app;
 
       const currentApp = appProvider.current;
 
       if (currentApp && currentApp.appKey === appKey) {
-        // currentApp.updateManifest(manifest);
         return await currentApp.getConfigAsync();
       } else {
         if (currentApp?.appKey !== appKey) {
@@ -326,9 +333,6 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
       script.async = true;
       script.id = appKey;
 
-      if (document.getElementById(appKey)) {
-        return;
-      }
       document.head.appendChild(script);
 
       script.addEventListener("load", () => resolve());

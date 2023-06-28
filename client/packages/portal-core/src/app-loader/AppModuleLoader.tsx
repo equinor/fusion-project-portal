@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import { ErrorViewer } from './ErrorView';
 import { useAppLoader } from './use-app-loader';
-import { AppNotAwaitable } from './AppNotAwaitable';
-import { useCurrentAppGroup } from '../hooks';
 
 interface CurrentAppLoaderProps {
 	appKey: string;
@@ -15,24 +13,20 @@ const Wrapper = styled.section`
 	width: 100vw;
 `;
 
-const StyledAppSection = styled.section`
+const StyledAppSection = styled.section<{ isLegacy?: boolean }>`
 	flex: 1 1 auto;
 	overflow: auto;
-`;
-
-const StyledLegacyAppSection = styled.section`
-	flex: 1 1 auto;
-	overflow: hidden;
 `;
 
 export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
 	const ref = useRef<HTMLElement>(null);
 
-	const { loading, error, appRef, isLegacy } = useAppLoader(appKey);
+	const { loading, error, appRef } = useAppLoader(appKey);
 
 	useEffect(() => {
 		const refEl = ref.current;
 		const appEl = appRef.current;
+
 		if (!(appEl && refEl)) {
 			return;
 		}
@@ -57,10 +51,6 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
 				<PortalProgressLoader title="Loading App" />
 			</Wrapper>
 		);
-	}
-
-	if (isLegacy) {
-		return <StyledLegacyAppSection ref={ref} />;
 	}
 
 	return <StyledAppSection ref={ref} />;

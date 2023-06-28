@@ -72,6 +72,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		config.onInitialized<[NavigationModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
 
+			/** Fusion Legacy App Loader should be removed when all application are migrated -- Start --> */
 			fusion.navigation.subscribe((nav) => {
 				if (nav.action !== 'PUSH') return;
 
@@ -80,8 +81,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				) {
 					fusion.navigation.navigator.go(-1);
 				}
-				console.log('---------->', event);
 			});
+			/** --> End*/
 
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;

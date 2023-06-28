@@ -1,17 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Subscription } from 'rxjs';
 import { useAppModule } from './uss-app-module';
 import { PortalConfig } from '../types';
 import { AppScriptModule } from '@equinor/fusion-framework-module-app';
 
+let count = 0;
+
 export const useAppLoader = (appKey: string) => {
 	const { app, fusion, currentApp } = useAppModule();
-	const [isLegacy, setIsLegacy] = useState(false);
+	const [legacyAppScript, setLegacyAppScript] = useState<AppScriptModule>();
 
 	const appRef = useRef<HTMLDivElement>(document.createElement('div'));
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | undefined>();
+
+	useLayoutEffect(() => {
+		const setupLegacy = async () => {
+			const uri = '/app-bundle.js';
+			setLegacyAppScript((await import(/* @vite-ignore */ uri)) as AppScriptModule);
+		};
+		setupLegacy();
+	}, []);
 
 	useEffect(() => {
 		appKey && app.setCurrentApp(appKey);
@@ -24,21 +34,18 @@ export const useAppLoader = (appKey: string) => {
 		subscription.add(
 			currentApp?.initialize().subscribe({
 				next: async ({ manifest, script, config }) => {
+					appRef.current = document.createElement('div');
+					appRef.current.style.display = 'contents';
+					console.log('ohh no!', count);
+					count++;
+					/** generate basename for application regex extracts /apps/:appKey */
+					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
+
 					if (
 						['meetings', 'query', 'handover-analytics', 'handover-garden', 'reviews'].includes(manifest.key)
 					) {
-						setIsLegacy(true);
-						/** generate basename for application regex extracts /apps/:appKey */
-						const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
-
-						appRef.current = document.createElement('div');
-						appRef.current.style.display = 'contents';
-						const uri = '/appLoader.js';
-
-						const legacyAppScript = (await import(/* @vite-ignore */ uri)) as AppScriptModule;
-
-						console.log(legacyAppScript);
-						const render = legacyAppScript.renderApp ?? legacyAppScript.default;
+						if (!legacyAppScript) return;
+						const render = legacyAppScript.renderApp ?? legacyAppScript?.default;
 
 						subscription.add(
 							render(appRef.current, {
@@ -60,15 +67,7 @@ export const useAppLoader = (appKey: string) => {
 							})
 						);
 					} else {
-						setIsLegacy(false);
-						/** generate basename for application regex extracts /apps/:appKey */
-						const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
-
-						appRef.current = document.createElement('div');
-						appRef.current.style.display = 'contents';
-
 						const render = script.renderApp ?? script.default;
-
 						subscription.add(render(appRef.current, { fusion, env: { basename, config, manifest } }));
 					}
 				},
@@ -81,14 +80,15 @@ export const useAppLoader = (appKey: string) => {
 			})
 		);
 
-		return () => subscription.unsubscribe();
-	}, [currentApp, appRef, fusion]);
+		return () => {
+			subscription.unsubscribe();
+		};
+	}, [currentApp, appRef, fusion, legacyAppScript]);
 
 	return {
 		loading,
 		error,
 		appRef,
-		isLegacy,
 	};
 };
 

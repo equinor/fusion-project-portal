@@ -23,7 +23,11 @@ export default defineConfig({
 					dest: '',
 				},
 				{
-					src: 'src/assets/appLoader.js',
+					src: 'src/assets/appLegacyLoader.js',
+					dest: '',
+				},
+				{
+					src: 'src/assets/app-bundle.js',
 					dest: '',
 				},
 			],

@@ -1,4 +1,4 @@
-const DEBUG_KEY = 'PORTAL_DEBUG';
+export const DEBUG_KEY = 'PORTAL_DEBUG';
 
 export const configureDebug = () => {
 	/* fusion core is spamming the console form module this will remove it in production */
