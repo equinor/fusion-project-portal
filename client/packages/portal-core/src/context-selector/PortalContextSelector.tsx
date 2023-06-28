@@ -2,9 +2,9 @@ import { Button } from '@equinor/eds-core-react';
 
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useFrameworkCurrentContext } from '../hooks';
 import { getPathUrl } from '../utils';
 import { ContextSelector } from './ContextSelector';
+import { useOnboardedContexts } from '../hooks/use-onboarded-contexts';
 
 const StyledWrapper = styled.div`
 	display: flex;
@@ -40,14 +40,15 @@ type PortalContextSelectorProps = {
 };
 
 export const PortalContextSelector = ({ path, title }: PortalContextSelectorProps) => {
-	const currentContext = useFrameworkCurrentContext();
+	const { hasContext, currentContext } = useOnboardedContexts();
+
 	const navigate = useNavigate();
 
 	return (
 		<StyledWrapper>
 			<ContextSelector path={path} navigate={navigate} />
 			<StyledActionWrapper>
-				{currentContext && (
+				{currentContext && hasContext && (
 					<StyledButton
 						variant="ghost"
 						onClick={() => {
