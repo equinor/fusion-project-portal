@@ -28,7 +28,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("fusion/contexts/{externalId}")]
-        public async Task<ActionResult<FusionContext>> GetFusionContext(string externalId)
+        public async Task<ActionResult<FusionContext>> GetFusionContext([FromRoute] string externalId)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(externalId);
             var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
@@ -47,6 +47,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var apps = await appService.GetFusionApps();
 
             return apps.ToList();
+        }
+
+        [HttpGet("fusion/apps/{appKey}")]
+        public async Task<ActionResult<ApiFusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IAppService appService)
+        {
+            return await appService.GetFusionApp(appKey);
         }
     }
 }

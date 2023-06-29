@@ -22,9 +22,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         public async Task<IList<ApiFusionPortalAppInformation>> GetFusionApps()
         {
-            var fusionApps = await _fusionAppsCache.GetFusionApps();
+            return await _fusionAppsCache.GetFusionApps();
+        }
 
-            return fusionApps;
+        public async Task<ApiFusionPortalAppInformation?> GetFusionApp(string appKey)
+        {
+            return await _fusionAppsCache.GetFusionApp(appKey);
         }
 
         public async Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)

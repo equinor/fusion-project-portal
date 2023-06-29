@@ -9,6 +9,8 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         Task<IList<ApiFusionPortalAppInformation>> GetFusionApps();
 
+        Task<ApiFusionPortalAppInformation?> GetFusionApp(string appKey);
+
         Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> apps, CancellationToken cancellationToken);
     }
 }
