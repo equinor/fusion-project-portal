@@ -28,7 +28,10 @@ export const ViewPage = (): JSX.Element => {
 						<PasePageHeader {...currentView} />
 						<StyledContentWrapper>
 							<Typography>
-								Please select a {currentView.name.toLowerCase()} from the search field to proceed.
+								Please choose a {currentView.name.toLowerCase()} from the search field to continue. This
+								will direct you to the {currentView.name.toLowerCase()}'s homepage, where you can access
+								the applications associated with the selected {currentView.name.toLowerCase()} through
+								the menu.
 							</Typography>
 							<PortalContextSelector path={`/${currentView.key}`} title={currentView.name} />
 							<ViewContextAvailableDialog title={currentView.name} />
