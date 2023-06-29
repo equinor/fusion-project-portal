@@ -33,4 +33,7 @@ public class WorkSurfaceApp : AuditableEntityBase, ICreationAuditable, IModifica
 
     public Guid? OnboardedContextId { get; set; }
     public OnboardedContext? OnboardedContext { get; set; }
+
+    public bool IsGlobal => OnboardedContextId == null;
+    public bool IsContextual => OnboardedContextId.HasValue;
 }

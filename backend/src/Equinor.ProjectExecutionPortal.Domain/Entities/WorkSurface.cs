@@ -71,4 +71,19 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     {
         return Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedAppId == onboardedAppId);
     }
+
+    public bool HasGlobalApp(Guid onboardedAppId)
+    {
+        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.IsGlobal);
+    }
+
+    public bool HasAppForContext(Guid onboardedAppId, Guid onboardedContextId)
+    {
+        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedContextId == onboardedContextId);
+    }
+
+    public bool HasAppForContexts(Guid onboardedAppId)
+    {
+        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedContextId.HasValue);
+    }
 }

@@ -8,14 +8,22 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddGl
 
 public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
 {
-    public AddGlobalAppToWorkSurfaceCommand(Guid workSurfaceId, string appKey)
+    public AddGlobalAppToWorkSurfaceCommand(Guid workSurfaceId, string appKey, bool removeAppForContexts)
     {
         WorkSurfaceId = workSurfaceId;
         AppKey = appKey;
+        RemoveAppForContexts = removeAppForContexts;
     }
 
     public Guid WorkSurfaceId { get; }
     public string AppKey { get; }
+
+    /// <summary>
+    /// When set to true, this will potentially remove the app from all contexts where it has previously been specifically set.
+    /// This is done to avoid conflict where we have both a global and contextual instance of the same app.
+    /// If set to false and the app already has been added to specific contexts, an error will be thrown.
+    /// </summary>
+    public bool RemoveAppForContexts { get; }
 
     public class Handler : IRequestHandler<AddGlobalAppToWorkSurfaceCommand, Unit>
     {
@@ -28,11 +36,11 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(AddGlobalAppToWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithGlobalApps = await _readWriteContext.Set<WorkSurface>()
-                .Include(x => x.Apps.Where(app => app.OnboardedContextId == null))
+            var workSurfaceWithAllApps = await _readWriteContext.Set<WorkSurface>()
+                .Include(x => x.Apps)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
-            if (workSurfaceWithGlobalApps == null)
+            if (workSurfaceWithAllApps == null)
             {
                 throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
@@ -46,14 +54,26 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
                 throw new NotFoundException("Could not find any onboarded app with that id", command.AppKey);
             }
 
-            if (workSurfaceWithGlobalApps.HasApp(onboardedApp.Id))
+            if (workSurfaceWithAllApps.HasGlobalApp(onboardedApp.Id))
             {
-                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface.");
+                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added globally to this Work Surface.");
+            }
+
+            // Perform cleanup of all contextual instances of this app to avoid duplicates. 
+            if (command.RemoveAppForContexts && workSurfaceWithAllApps.HasAppForContexts(onboardedApp.Id))
+            {
+                var allWorkSurfaceContextsWithApp = workSurfaceWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
+
+                _readWriteContext.Set<WorkSurfaceApp>().RemoveRange(allWorkSurfaceContextsWithApp);
+            }
+            else
+            {
+                throw new InvalidActionException($"App {onboardedApp.AppKey} already exists as a contextual app in this Work Surface. Please perform cleanup before adding as a global app");
             }
 
             var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId);
 
-            workSurfaceWithGlobalApps.AddApp(workSurfaceApp);
+            workSurfaceWithAllApps.AddApp(workSurfaceApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
