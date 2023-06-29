@@ -12,6 +12,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
             Id = onboardedAppDto.Id;
             AppKey = onboardedAppDto.AppKey;
             Order = onboardedAppDto.Order;
+            IsLegacy = onboardedAppDto.IsLegacy;
             Name = onboardedAppDto.Name;
             Description = onboardedAppDto.Description;
             AppGroup = new ApiAppGroup(onboardedAppDto.AppGroup);
@@ -20,6 +21,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         public Guid Id { get; set; }
         public string AppKey { get; set; } = null!;
         public int Order { get; set; }
+        public bool IsLegacy { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public ApiAppGroup AppGroup { get; set; } = null!;
