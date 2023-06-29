@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
@@ -23,7 +24,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(onboardedApps);
             Assert.IsTrue(onboardedApps.Count > 0);
-            Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApps.FirstOrDefault());
         }
 
         [TestMethod]
@@ -35,7 +37,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(onboardedApps);
             Assert.IsTrue(onboardedApps.Count > 0);
-            Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
+            AssertHelpers.AssertOnboardedAppValues(onboardedApps.FirstOrDefault());
         }
 
         [TestMethod]
@@ -59,6 +61,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
+                IsLegacy = false,
                 AppGroupId = getAllAppGroups!.First().Id
             };
 
@@ -82,6 +85,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
+                IsLegacy = false,
                 AppGroupId = Guid.NewGuid()
             };
 
@@ -99,6 +103,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
+                IsLegacy = false,
                 AppGroupId = Guid.NewGuid()
             };
 
@@ -116,7 +121,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist-in-fusion"
+                AppKey = "i-do-not-exist-in-fusion",
+                IsLegacy = false
             };
 
             // Act
@@ -132,7 +138,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey
+                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey,
+                IsLegacy = false
             };
 
             // Act & Assert
@@ -150,7 +157,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                AppGroupId = theNewAppGroup.Id
+                AppGroupId = theNewAppGroup.Id,
+                IsLegacy = false
             };
 
             // Act
@@ -162,6 +170,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
+            Assert.AreEqual(theOneToUpdate.IsLegacy, theOneAfterUpdate.IsLegacy);
             Assert.AreEqual(theOneAfterUpdate.AppGroup.Id, theNewAppGroup.Id);
             Assert.AreNotEqual(theOneToUpdate.AppGroup.Id, theOneAfterUpdate.AppGroup.Id);
         }
@@ -207,6 +216,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "app-to-be-removed",
+                IsLegacy = false,
                 AppGroupId = getAllAppGroups!.First().Id
             };
 
@@ -273,6 +283,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.IsNotNull(content);
             Assert.IsNotNull(onboardedApps);
+
+            foreach (var app in onboardedApps)
+            {
+                AssertHelpers.AssertOnboardedAppValues(app);
+            }
 
             return onboardedApps;
         }

@@ -59,6 +59,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             }
 
             Assert.IsNotNull(app.AppKey);
+            Assert.IsNotNull(app.IsLegacy);
         }
     }
 }
