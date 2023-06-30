@@ -3,7 +3,7 @@ import { useFramework } from '@equinor/fusion-framework-react';
 import { useObservableState } from '@equinor/fusion-observable/react';
 import { useEffect, useState } from 'react';
 
-type Manifest = AppManifest & { context: {} };
+type Manifest = AppManifest & { context: unknown };
 
 export const useAppModule = () => {
 	const fusion = useFramework<[AppModule]>();
