@@ -37,7 +37,6 @@ export interface PortalConfig {
 		licenseKey: string;
 	};
 	bookmarks: SourceSystem;
-	views?: View[];
 }
 
 export interface Client {
