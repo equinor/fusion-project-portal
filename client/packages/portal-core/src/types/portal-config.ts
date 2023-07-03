@@ -33,6 +33,9 @@ export interface PortalConfig {
 	appConfig?: {
 		client: Client;
 	};
+	applicationInsight?: {
+		connectionString: string;
+	};
 	agGrid?: {
 		licenseKey: string;
 	};

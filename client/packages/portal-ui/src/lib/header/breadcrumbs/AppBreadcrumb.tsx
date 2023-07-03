@@ -1,5 +1,5 @@
 import { Icon, Menu } from '@equinor/eds-core-react';
-import { AppGroup } from '@equinor/portal-core';
+import { AppGroup, useTelemetry } from '@equinor/portal-core';
 import { FC, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { StyledBreadcrumbItemInteract, StyledMenuItem } from './styles';
@@ -13,6 +13,7 @@ interface AppBreadcrumbProp {
 
 export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, setMenuOpen: toggleMenuOpen }) => {
 	const { appKey } = useParams();
+	const { dispatchEvent } = useTelemetry();
 
 	const currentApp = appGroup?.apps.find((a) => a.appKey === appKey);
 
@@ -47,6 +48,12 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 							<Menu.Item
 								onClick={() => {
 									toggleMenuOpen(false);
+									dispatchEvent(
+										{
+											name: 'onAppNavigation',
+										},
+										{ appKey, source: 'top-bar-navigation' }
+									);
 								}}
 							>
 								{currentApp?.appKey === app.appKey ? <b>{app.name}</b> : app.name}

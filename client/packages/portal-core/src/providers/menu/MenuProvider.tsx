@@ -9,7 +9,7 @@ const initialState: IMenuState = {
 	menuActive: false,
 	appGroups: [],
 	isLoading: false,
-	searchText: "",
+	searchText: '',
 };
 
 export const MenuContext = createContext<IMenuContext>({} as IMenuContext);
@@ -33,7 +33,7 @@ export const MenuProvider = ({ children }: PropsWithChildren<unknown>): JSX.Elem
 	}
 	function closeMenu() {
 		setMenuState((s) => {
-			const ns = { ...s, menuActive: false, searchText: ""};
+			const ns = { ...s, menuActive: false, searchText: '' };
 			storage.setItem(MENU_KEY, ns);
 			return ns;
 		});
@@ -41,7 +41,7 @@ export const MenuProvider = ({ children }: PropsWithChildren<unknown>): JSX.Elem
 
 	function setSearchText(search: string) {
 		setMenuState((s) => {
-			const ns = { ...s, searchText: search};
+			const ns = { ...s, searchText: search };
 			storage.setItem(MENU_KEY, ns);
 			return ns;
 		});

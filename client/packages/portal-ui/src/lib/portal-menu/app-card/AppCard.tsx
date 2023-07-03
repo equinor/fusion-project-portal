@@ -1,6 +1,6 @@
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { menuFavoritesController, useMenuContext } from '@equinor/portal-core';
+import { menuFavoritesController, useMenuContext, useTelemetry } from '@equinor/portal-core';
 import { useObservable } from '@equinor/portal-utils';
 import { Link } from 'react-router-dom';
 import { map } from 'rxjs';
@@ -44,6 +44,7 @@ type AppCardProps = {
 
 export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) => {
 	const { closeMenu } = useMenuContext();
+	const { dispatchEvent } = useTelemetry();
 	const isFavorited = Boolean(
 		useObservable(menuFavoritesController.favorites$.pipe(map((val) => val?.includes(appKey))))
 	);
@@ -62,6 +63,13 @@ export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) =>
 						: `Application button for the application ${name}`
 				}
 				onClick={(e) => {
+					dispatchEvent(
+						{
+							name: 'onAppNavigation',
+						},
+
+						{ appKey, isFavorite: isFavorited, source: 'app-menu' }
+					);
 					if (isDisabled) {
 						e.preventDefault();
 						return;
