@@ -60,11 +60,5 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             return await appService.GetFusionAppConfig(appKey);
         }
-
-        [HttpGet("fusion/apps/{appKey}/configs")]
-        public async Task<ActionResult<dynamic>?> GetFusionAppConfigs([FromRoute] string appKey, [FromServices] IAppService appService)
-        {
-            return await appService.GetFusionAppConfigs(appKey);
-        }
     }
 }

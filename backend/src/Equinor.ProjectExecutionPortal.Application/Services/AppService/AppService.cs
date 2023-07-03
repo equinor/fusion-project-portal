@@ -37,12 +37,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         {
             return await _fusionPortalApiService.TryGetFusionPortalAppConfig(appKey);
         }
-
-        public async Task<dynamic?> GetFusionAppConfigs(string appKey)
-        {
-            return await _fusionPortalApiService.TryGetFusionPortalAppConfigs(appKey);
-        }
-
+        
         public async Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
         {
             var fusionApp = await GetFusionApp(onboardedApp.AppKey);

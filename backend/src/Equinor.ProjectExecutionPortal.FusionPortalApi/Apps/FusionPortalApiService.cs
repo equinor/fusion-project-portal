@@ -79,25 +79,6 @@ public class FusionPortalApiService : IFusionPortalApiService
         }
     }
 
-    public async Task<dynamic?> TryGetFusionPortalAppConfigs(string appKey)
-    {
-        var url = $"{_baseAddress}/api/apps/" +
-                  $"{appKey}/configs" +
-                  $"?api-version={_apiVersion}";
-
-        var oldAuthType = _authenticator.AuthenticationType;
-        _authenticator.AuthenticationType = AuthenticationType.AsApplication;
-
-        try
-        {
-            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<dynamic>(url);
-        }
-        finally
-        {
-            _authenticator.AuthenticationType = oldAuthType;
-        }
-    }
-
     public async Task<byte[]> TryGetFusionPortalAppBundle(string appKey)
     {
         var url = $"{_baseAddress}/scripts/apps/" +

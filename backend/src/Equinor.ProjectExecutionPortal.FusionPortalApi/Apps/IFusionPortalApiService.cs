@@ -10,7 +10,5 @@ public interface IFusionPortalApiService
 
     Task<dynamic?> TryGetFusionPortalAppConfig(string appKey);
 
-    Task<dynamic?> TryGetFusionPortalAppConfigs(string appKey);
-
     Task<byte[]> TryGetFusionPortalAppBundle(string appKey);
 }
