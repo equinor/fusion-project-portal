@@ -1,5 +1,5 @@
 import { useObservable } from '@equinor/portal-utils';
-import { menuFavoritesController, useAppModule } from '@equinor/portal-core';
+import { menuFavoritesController, useAppModule, useTelemetry } from '@equinor/portal-core';
 import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
@@ -67,6 +67,7 @@ export const Favorites = () => {
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const { fusion } = useAppModule();
+	const { dispatchEvent } = useTelemetry();
 
 	const favorite$ = useMemo(
 		() =>
@@ -101,7 +102,20 @@ export const Favorites = () => {
 				<nav className={styles.cardList}>
 					{favorites?.length ? (
 						favorites.map((a) => (
-							<Link className={styles.appCard} to={`/apps/${a.key}`} key={a.key}>
+							<Link
+								className={styles.appCard}
+								to={`/apps/${a.key}`}
+								key={a.key}
+								onClick={() => {
+									dispatchEvent(
+										{
+											name: 'onAppNavigation',
+										},
+
+										{ appKey: a.key, isFavorite: true, source: 'pinned-apps' }
+									);
+								}}
+							>
 								<aside>
 									<AppIcon
 										color={a.accentColor}
