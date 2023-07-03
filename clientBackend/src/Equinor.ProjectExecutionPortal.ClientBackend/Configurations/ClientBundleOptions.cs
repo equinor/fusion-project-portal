@@ -19,4 +19,5 @@
     {
         public string? LicenseKey { get; set; }
     }
+
 }
