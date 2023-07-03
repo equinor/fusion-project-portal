@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroup.GetAppGroups;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroups.GetAppGroups;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,18 +21,21 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPost("")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> CreateAppGroup([FromBody] ApiCreateAppGroupRequest request)
         {
             return await Mediator.Send(request.ToCommand());
         }
 
         [HttpPut("{appGroupId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid appGroupId, [FromBody] ApiUpdateAppGroupRequest request)
         {
             return await Mediator.Send(request.ToCommand(appGroupId));
         }
 
         [HttpDelete("{appGroupId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid appGroupId)
         {
             var request = new ApiDeleteAppGroupRequest();
@@ -41,6 +45,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPut("reorder")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> ReorderAppGroups([FromBody] ApiReorderAppGroupsRequest request)
         {
             await Mediator.Send(request.ToCommand());

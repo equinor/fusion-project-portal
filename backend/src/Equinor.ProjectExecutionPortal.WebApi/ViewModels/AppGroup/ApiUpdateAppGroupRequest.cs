@@ -1,12 +1,12 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.UpdateAppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.UpdateAppGroup;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
     public class ApiUpdateAppGroupRequest
     {
-        public string Name { get; set; }
-        public string AccentColor { get; set; }
+        public string Name { get; set; } = null!;
+        public string AccentColor { get; set; } = null!;
 
         public UpdateAppGroupCommand ToCommand(Guid appGroupId)
         {

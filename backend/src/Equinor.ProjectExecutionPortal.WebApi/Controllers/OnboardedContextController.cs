@@ -1,5 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContext.GetOnboardedContext;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContext.GetOnboardedContexts;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,6 +36,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPost("")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
@@ -49,12 +51,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPut("{contextExternalId}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] string contextExternalId, [FromBody] ApiUpdateOnboardedContextRequest request)
         {
             return await Mediator.Send(request.ToCommand(contextExternalId));
         }
 
         [HttpDelete("{contextExternalId}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult> RemoveOnboardedContext([FromRoute] string contextExternalId)
         {
             var request = new ApiRemoveOnboardedContextRequest { ExternalId = contextExternalId };

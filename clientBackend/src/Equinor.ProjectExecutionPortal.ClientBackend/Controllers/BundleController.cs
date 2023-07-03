@@ -5,14 +5,8 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 {
     public class BundleController : Controller
     {
-        private readonly ILogger<BundleController> _logger;
-
-        public BundleController(ILogger<BundleController> logger)
-        {
-            _logger = logger;
-        }
-
         [Authorize]
+        [ResponseCache(Duration = 1209600, Location = ResponseCacheLocation.Client)]
         public Task<IActionResult> Index()
         {
             return Task.FromResult<IActionResult>(View());

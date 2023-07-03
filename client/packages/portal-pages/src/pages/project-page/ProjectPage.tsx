@@ -1,23 +1,14 @@
 import { Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { StyledMain } from '../common-styles/Styles';
 import { Milestones } from './components/project-cards/milestones/Milestones';
 import { ProjectDetails } from './components/project-cards/ProjectDetails';
-import {
-	StyledBackground,
-	StyledContextPageGrid,
-	StyledGridItem,
-	StyledHeaderSection,
-	StyledCard,
-} from './ProjectPage.Styles';
+import { StyledBackground, StyledContextPageGrid, StyledGridItem } from './ProjectPage.Styles';
 import { Favorites } from './components/favorites/Favorites';
-
-function getBackgroundURL(instCode: string) {
-	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
-}
+import { Contracts } from './components/project-cards/contracts/Contracts';
 
 type ProjectMaster = {
 	facilities: string[];
@@ -32,6 +23,7 @@ export const ProjectPage = () => {
 	const { contextId } = useParams();
 
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
+	const { hasContext } = useOnboardedContexts();
 
 	if (
 		!currentContext ||
@@ -40,38 +32,29 @@ export const ProjectPage = () => {
 		return null;
 	}
 
-	if (currentContext.type.id !== 'ProjectMaster') {
+	if (currentContext.type.id !== 'ProjectMaster' || !hasContext) {
 		return <Navigate to="/" />;
 	}
 
 	return (
 		<StyledMain>
 			<StyledBackground />
-			{currentContext.value.facilities && (
-				<StyledHeaderSection url={getBackgroundURL(currentContext.value.facilities[0])}>
-					<StyledCard>
-						<Typography variant="h3">
-							<b>{currentContext?.title}</b>
-						</Typography>
-						<Typography variant="h6">
-							{currentContext.value.projectCategory.replace(new RegExp('-|_/*'), ' ')}
-						</Typography>
-					</StyledCard>
-				</StyledHeaderSection>
-			)}
 			<StyledContextPageGrid>
 				<StyledGridItem span={6}>
-					<Favorites />
+					<ProjectDetails />
 				</StyledGridItem>
 
 				<StyledGridItem span={3} heightSpan={3}>
 					<WorkAssigned />
 				</StyledGridItem>
-				<StyledGridItem span={3}>
-					<ProjectDetails />
+				<StyledGridItem span={3} heightSpan={2}>
+					<Favorites />
 				</StyledGridItem>
 				<StyledGridItem span={3}>
 					<Milestones />
+				</StyledGridItem>
+				<StyledGridItem span={3}>
+					<Contracts />
 				</StyledGridItem>
 			</StyledContextPageGrid>
 		</StyledMain>

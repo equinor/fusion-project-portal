@@ -1,13 +1,11 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
     public class ApiOnboardedApp
     {
-        public ApiOnboardedApp()
-        {
-        }
+        public ApiOnboardedApp() { }
 
         public ApiOnboardedApp(OnboardedAppDto onboardedAppDto)
         {
@@ -20,10 +18,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         }
 
         public Guid Id { get; set; }
-        public string AppKey { get; set; }
+        public string AppKey { get; set; } = null!;
         public int Order { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public ApiAppGroup AppGroup { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public ApiAppGroup AppGroup { get; set; } = null!;
     }
 }

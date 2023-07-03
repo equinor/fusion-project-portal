@@ -14,14 +14,14 @@ export const actions: PortalAction[] = [
 		onClick: handleFullscreenClick,
 		topParOnly: true,
 	},
-	{
-		actionId: 'my-account',
-		name: 'My Account',
-		color: '#258800',
-		icon: 'account_circle',
-		component: MyAccount,
-		dropDownOnly: true,
-	},
+	// {
+	// 	actionId: 'my-account',
+	// 	name: 'My Account',
+	// 	color: '#258800',
+	// 	icon: 'account_circle',
+	// 	component: MyAccount,
+	// 	dropDownOnly: true,
+	// },
 	{
 		actionId: 'bookmarks',
 		name: 'Bookmarks',

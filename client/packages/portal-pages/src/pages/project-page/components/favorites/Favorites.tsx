@@ -8,7 +8,7 @@ import { combineLatest, map } from 'rxjs';
 import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
 	display: flex;
@@ -42,13 +42,10 @@ const styles = {
 	cardList: css`
 		display: grid;
 		grid-auto-rows: 100px;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 		gap: 1rem;
 		padding: 0;
 
-		@media only screen and (max-width: 60rem) {
-			grid-template-columns: repeat(2, 1fr);
-		}
 		@media only screen and (max-width: 45rem) {
 			grid-template-columns: repeat(1, 1fr);
 		}
@@ -61,22 +58,30 @@ const styles = {
 		gap: 0.5rem;
 		grid-column: span 3;
 	`,
+	fullHeight: css`
+		height: 100%;
+	`,
 };
 
 export const Favorites = () => {
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const { fusion } = useAppModule();
-	const favorites = useObservable(
-		combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
-			map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
-		)
+
+	const favorite$ = useMemo(
+		() =>
+			combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
+				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
+			),
+		[fusion.modules.app.getAllAppManifests]
 	);
 
+	const favorites = useObservable(favorite$);
+
 	return (
-		<Card>
+		<Card className={styles.fullHeight}>
 			<Card.Header>
-				<Typography variant="h5">Favorites</Typography>
+				<Typography variant="h5">Pinned Apps</Typography>
 				<div
 					onMouseOver={() => {
 						setIsOpen(true);

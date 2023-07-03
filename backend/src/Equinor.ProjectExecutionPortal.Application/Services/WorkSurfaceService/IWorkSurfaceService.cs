@@ -1,10 +1,9 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
 {
     public interface IWorkSurfaceService
     {
-        List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurface workSurface);
+        List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface);
     }
 }

@@ -3,6 +3,7 @@
     public enum UserType
     {
         Anonymous,
-        Authenticated
+        Authenticated,
+        Administrator
     }
 }

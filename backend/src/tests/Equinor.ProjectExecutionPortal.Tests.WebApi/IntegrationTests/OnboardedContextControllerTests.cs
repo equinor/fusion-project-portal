@@ -4,7 +4,6 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -28,6 +27,18 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Get_OnboardedContexts_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Act
+            var onboardedContext = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(onboardedContext);
+            Assert.IsTrue(onboardedContext.Count > 0);
+            Assert.IsNotNull(onboardedContext.FirstOrDefault()?.ExternalId);
+        }
+
+        [TestMethod]
         public async Task Get_OnboardedContexts_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act
@@ -38,10 +49,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Add_Valid_OnboardedContext_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Add_Valid_OnboardedContext_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllBeforeAdded = await AssertGetAllOnboardedContexts(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllBeforeAdded = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
             var totalCountBeforeAdded = getAllBeforeAdded?.Count;
 
             var payload = new ApiOnboardContextRequest
@@ -51,16 +62,33 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await AddOnboardedContext(UserType.Authenticated, payload);
+            var response = await AddOnboardedContext(UserType.Administrator, payload);
 
             // Assert
-            var getAllAfterAdded = await AssertGetAllOnboardedContexts(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterAdded = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
             var totalCountAfterAdded = getAllAfterAdded?.Count;
 
             Assert.IsNotNull(totalCountBeforeAdded);
             Assert.IsNotNull(totalCountAfterAdded);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.AreEqual(totalCountAfterAdded, totalCountBeforeAdded + 1);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(totalCountBeforeAdded + 1, totalCountAfterAdded);
+        }
+
+        [TestMethod]
+        public async Task Add_Valid_OnboardedContext_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiOnboardContextRequest
+            {
+                ExternalId = OnboardedContextsData.InitialSeedData.JcaContext.ExternalId,
+                Description = "Description from test method"
+            };
+
+            // Act
+            var response = await AddOnboardedContext(UserType.Authenticated, payload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [TestMethod]
@@ -81,7 +109,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        public async Task Add_NonExistent_OnboardedContext_AsAuthenticatedUser_ShouldThrowExeption()
+        public async Task Add_NonExistent_OnboardedContext_AsAdministratorUser_ShouldThrowExeption()
         {
             // Arrange
             var payload = new ApiOnboardContextRequest
@@ -91,14 +119,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act
-            var response = await AddOnboardedContext(UserType.Authenticated, payload);
+            var response = await AddOnboardedContext(UserType.Administrator, payload);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [TestMethod]
-        public async Task Add_Duplicate_OnboardedContext_AsAuthenticatedUser_ShouldThrowException()
+        public async Task Add_Duplicate_OnboardedContext_AsAdministratorUser_ShouldThrowException()
         {
             // Arrange
             var payload = new ApiOnboardContextRequest
@@ -108,29 +136,42 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             };
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedContext(UserType.Authenticated, payload));
+            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedContext(UserType.Administrator, payload));
         }
 
         [TestMethod]
-        public async Task Remove_OnboardedContext_AsAuthenticatedUser_ShouldReturnOk()
+        public async Task Remove_OnboardedContext_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
             var payload = OnboardedContextsData.InitialSeedData.OgpContext.ExternalId;
 
             // Act
-            var getAll = await AssertGetAllOnboardedContexts(UserType.Authenticated, HttpStatusCode.OK);
+            var getAll = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
             var totalCount = getAll?.Count;
 
-            var removeResponse = await RemoveOnboardedContext(UserType.Authenticated, payload);
+            var removeResponse = await RemoveOnboardedContext(UserType.Administrator, payload);
 
-            var getAllAfterRemoval = await AssertGetAllOnboardedContexts(UserType.Authenticated, HttpStatusCode.OK);
+            var getAllAfterRemoval = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
             var totalCountAfterRemoval = getAllAfterRemoval?.Count;
 
             // Assert
             Assert.IsNotNull(totalCount);
             Assert.IsNotNull(totalCountAfterRemoval);
-            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.NoContent);
-            Assert.AreEqual(totalCountAfterRemoval, totalCount - 1);
+            Assert.AreEqual(HttpStatusCode.NoContent, removeResponse.StatusCode);
+            Assert.AreEqual(totalCount - 1, totalCountAfterRemoval);
+        }
+
+        [TestMethod]
+        public async Task Remove_OnboardedContext_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var existingOnboardedContextExternalId = OnboardedContextsData.InitialSeedData.JcaContext.ExternalId;
+
+            // Act
+            var removeResponse = await RemoveOnboardedContext(UserType.Authenticated, existingOnboardedContextExternalId);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, removeResponse.StatusCode);
         }
 
         [TestMethod]
@@ -143,7 +184,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var removeResponse = await RemoveOnboardedContext(UserType.Anonymous, existingOnboardedContextExternalId);
 
             // Assert
-            Assert.AreEqual(removeResponse.StatusCode, HttpStatusCode.Unauthorized);
+            Assert.AreEqual(HttpStatusCode.Unauthorized, removeResponse.StatusCode);
         }
 
         #region Helpers

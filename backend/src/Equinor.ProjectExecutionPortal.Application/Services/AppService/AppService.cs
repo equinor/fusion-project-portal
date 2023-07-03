@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Cache;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
@@ -29,7 +29,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         public async Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
         {
-            var fusionApps = await _fusionAppsCache.GetFusionApps();
+            var fusionApps = await GetFusionApps();
 
             foreach (var onboardedAppDto in onboardedApps)
             {

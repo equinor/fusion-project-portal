@@ -10,7 +10,8 @@ export const useAppModule = () => {
 	const [appManifest, setAppManifest] = useState<AppManifest | undefined>();
 
 	useEffect(() => {
-		currentApp?.manifest$.subscribe(setAppManifest);
+		const sub = currentApp?.manifest$.subscribe(setAppManifest);
+		return () => sub?.unsubscribe();
 	}, [currentApp]);
 
 	return {

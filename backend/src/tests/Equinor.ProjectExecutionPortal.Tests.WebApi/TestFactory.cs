@@ -4,6 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Misc;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
@@ -213,8 +214,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupTestUsers()
         {
             SetupAnonymousUser();
-
             SetupAuthenticatedUser();
+            SetupAdministratorUser();
 
             var webHostBuilder = WithWebHostBuilder(builder =>
             {
@@ -247,6 +248,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                             FirstName = "Authenticated",
                             LastName = "Authenticated",
                             Oid = AuthenticatedUserOid
+                        },
+                });
+
+        private static void SetupAdministratorUser()
+            => TestUsersDictionary.Add(UserType.Administrator,
+                new TestUser
+                {
+                    Profile =
+                        new TokenProfile
+                        {
+                            FirstName = "Admin",
+                            LastName = "Straterson",
+                            Oid = AuthenticatedUserOid,
+                            AppRoles = new[] { Scopes.ProjectPortalAdmin }
                         },
                 });
 

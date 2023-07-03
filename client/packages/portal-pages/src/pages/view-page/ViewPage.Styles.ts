@@ -11,7 +11,10 @@ export const StyledContentSection = styled.section`
 	}
 `;
 export const StyledContentWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
 	padding: 2rem 0rem;
+	gap: 1rem;
 `;
 
 export const StyledPaseSectionWrapper = styled.section`

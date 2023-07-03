@@ -1,5 +1,3 @@
 export const ColorTab = ({ color }: { color: string }) => {
-  return (
-    <div style={{ height: '16px', width: '4px', backgroundColor: color }}></div>
-  );
+	return <div style={{ height: '15px', width: '10px', borderRadius: '5px' ,backgroundColor: color}}></div>;
 };

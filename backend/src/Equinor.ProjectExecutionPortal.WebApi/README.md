@@ -13,7 +13,7 @@ An application for managing projects.
 1. For development, a local database is preferred, but you can also use a remote service.
    1. You don't have to create a new database manually. Just add the connection string with your local server and run the database update command. The database will be created for you.
 2. Add user secrets to the project. See `appSetttings.json` for schema.
-   1. Azure AppConfiguration is configed by default. You will have to specify AppConfig connection string to use it. Otherwise you will need to set up `secrets.json` to reflet the whole `appSettings.json`.
+   1. You will need to set up `secrets.json` to reflet the whole `appSettings.json`.
    2. Add your database connection string
 
 ### Nuget Feeds

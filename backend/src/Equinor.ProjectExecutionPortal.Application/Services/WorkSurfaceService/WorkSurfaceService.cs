@@ -1,29 +1,23 @@
-﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
 {
     public class WorkSurfaceService : IWorkSurfaceService
     {
-        private readonly IMapper _mapper;
-
-        public WorkSurfaceService(IMapper mapper)
+        public WorkSurfaceService()
         {
-            _mapper = mapper;
         }
 
         /// <summary>
-        /// Maps a WorkSurface to a grouping by AppGroups with respective destinct apps
+        /// Maps a WorkSurface to an ordered grouping by AppGroups with respective destinct and ordered apps
         /// </summary>
-        public List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurface workSurface)
+        public List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface)
         {
-            var appGrouping = workSurface.Apps.GroupBy(x => new
+            var appGrouping = workSurface.Apps.GroupBy(workSurfaceApp => new
             {
-                x.OnboardedApp.AppGroup.Name,
-                x.OnboardedApp.AppGroup.Order,
-                x.OnboardedApp.AppGroup.AccentColor
+                workSurfaceApp.OnboardedApp.AppGroup.Name,
+                workSurfaceApp.OnboardedApp.AppGroup.Order,
+                workSurfaceApp.OnboardedApp.AppGroup.AccentColor
             });
 
             return appGrouping.Select(grouping => new WorkSurfaceAppGroupWithAppsDto
@@ -32,15 +26,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 AccentColor = grouping.Key.AccentColor,
                 Order = grouping.Key.Order,
                 Apps = grouping
-                    .DistinctBy(x => x.OnboardedAppId)
-                    .Select(workSurfaceApp => new WorkSurfaceAppDto
-                    {
-                        OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(workSurfaceApp.OnboardedApp)
-                    })
-                    .OrderBy(surfaceAppDto => surfaceAppDto.OnboardedApp.Order)
+                    .DistinctBy(workSurfaceApp => workSurfaceApp.OnboardedApp.Id)
+                    .OrderBy(workSurfaceApp => workSurfaceApp.OnboardedApp.Name)
                     .ToList()
             })
-                .OrderBy(x => x.Order)
+                .OrderBy(appGroup => appGroup.Name)
                 .ToList();
         }
     }

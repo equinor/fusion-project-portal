@@ -69,15 +69,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
                     ex);
             }
 
-            var authType = profile.IsAppToken ? AuthType.Application : AuthType.Delegated;
+            var authType = profile!.IsAppToken ? AuthType.Application : AuthType.Delegated;
 
-            var claims = new List<Claim> { new Claim(ClaimsExtensions.Oid, profile.Oid) };
+            var claims = new List<Claim> { new(ClaimsExtensions.Oid, profile.Oid) };
 
             switch (authType)
             {
                 case AuthType.Delegated:
                     claims.Add(new Claim(ClaimTypes.GivenName, profile.FirstName));
                     claims.Add(new Claim(ClaimTypes.Surname, profile.LastName));
+
+                    if (profile.AppRoles != null)
+                    {
+                        claims.AddRange(profile.AppRoles.Select(role => new Claim(ClaimTypes.Role, role)));
+                    }
                     break;
 
                 case AuthType.Application:

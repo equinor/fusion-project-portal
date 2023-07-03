@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal.GetPortalWithApps;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalWithApps;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
@@ -27,7 +27,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return new ApiPortal(portalDto);
         }
 
-        [HttpGet("fusion/{externalId}")]
+        [HttpGet("fusion/contexts/{externalId}")]
         public async Task<ActionResult<FusionContext>> GetFusionContext(string externalId)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(externalId);

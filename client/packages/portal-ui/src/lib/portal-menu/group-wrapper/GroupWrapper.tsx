@@ -1,25 +1,20 @@
 import { AppGroup } from '@equinor/portal-core';
-import styled from 'styled-components';
 import { InfoMessage } from '../../info-message/InfoMessage';
 import { Group } from '../group/Group';
-
-const StyledGroupWrapper = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 2em;
-`;
+import { styles } from '../styles';
 
 type GroupWrapperProps = {
 	appGroups: AppGroup[];
 };
+
 export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
 	return (
-		<StyledGroupWrapper>
+		<div className={styles.groupWrapper}>
 			{appGroups.length ? (
 				appGroups.map((appGroup) => <Group key={appGroup.name} group={appGroup} />)
 			) : (
-				<InfoMessage>No application awaitable </InfoMessage>
+				<InfoMessage>No applications found</InfoMessage>
 			)}
-		</StyledGroupWrapper>
+		</div>
 	);
 };

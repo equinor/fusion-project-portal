@@ -8,7 +8,11 @@ const CONTEXT_SOCAGE_KEY = 'context';
 
 export function storeCurrentContext(contextProvider: IContextProvider) {
 	contextProvider.currentContext$.subscribe((context) => {
-		if (context?.title === 'Unexpected error' || !context?.id || !context) return;
+		if (context?.title === 'Unexpected error' || !context?.id || !context) {
+			storage.removeItem(CONTEXT_SOCAGE_KEY);
+			return;
+		}
+
 		const storedContextId = storage.getItem<string>(CONTEXT_SOCAGE_KEY);
 
 		// Update the history with the current context selected.

@@ -1,12 +1,11 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 {
     public class ApiWorkSurface
     {
-        public ApiWorkSurface()
-        { }
+        public ApiWorkSurface() { }
 
         public ApiWorkSurface(WorkSurfaceDto workSurfaceDto)
         {
@@ -23,14 +22,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
         }
 
         public Guid Id { get; set; }
-        public string Key { get; set; }
-        public string Name { get; set; }
-        public string ShortName { get; set; }
-        public string Subtext { get; set; }
+        public string Key { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string ShortName { get; set; } = null!;
+        public string Subtext { get; set; } = null!;
         public string? Description { get; set; }
         public int Order { get; set; }
-        public string Icon { get; set; }
+        public string Icon { get; set; } = null!;
         public bool IsDefault { get; set; }
-        public List<ApiWorkSurfaceApp> Apps { get; set; }
+        public List<ApiWorkSurfaceApp> Apps { get; set; } = null!;
     }
 }

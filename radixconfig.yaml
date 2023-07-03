@@ -11,6 +11,10 @@ spec:
       build:
         from: main
     - name: prod
+  dnsExternalAlias:
+    - alias: project.fusion.equinor.com
+      environment: prod
+      component: webserver 
   components:
     # Backend API
     - name: backend
@@ -106,7 +110,7 @@ spec:
 
     # Web Server (client backend)
     - name: webserver
-      src: .
+      src: . # Dockerfile location
       dockerfileName: clientBackend.Dockerfile
       variables:
         ASPNETCORE_URLS: "http://*:5000"
