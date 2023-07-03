@@ -63,8 +63,8 @@ public class FusionPortalApiService : IFusionPortalApiService
     public async Task<dynamic?> TryGetFusionPortalAppConfig(string appKey)
     {
         var url = $"{_baseAddress}/api/apps/" +
-                  $"{appKey}" +
-                  $"?api-version={_apiVersion}/config";
+                  $"{appKey}/config" +
+                  $"?api-version={_apiVersion}";
 
         var oldAuthType = _authenticator.AuthenticationType;
         _authenticator.AuthenticationType = AuthenticationType.AsApplication;
@@ -82,8 +82,8 @@ public class FusionPortalApiService : IFusionPortalApiService
     public async Task<dynamic?> TryGetFusionPortalAppConfigs(string appKey)
     {
         var url = $"{_baseAddress}/api/apps/" +
-                  $"{appKey}" +
-                  $"?api-version={_apiVersion}/configs";
+                  $"{appKey}/configs" +
+                  $"?api-version={_apiVersion}";
 
         var oldAuthType = _authenticator.AuthenticationType;
         _authenticator.AuthenticationType = AuthenticationType.AsApplication;
