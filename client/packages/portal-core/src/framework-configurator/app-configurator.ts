@@ -13,15 +13,17 @@ export const appConfigurator =
 	(client: Client): AppConfigBuilderCallback =>
 	async (builder) => {
 		const serviceDiscovery = await builder.requireInstance('serviceDiscovery');
+		const http = await builder.requireInstance('http');
 		const portal = await serviceDiscovery.createClient('portal');
+		const portalClient = await http.createClient('portal-client');
 		builder.setAppClient({
 			getAppManifest: (query) => {
-				return portal.json$(`/api/apps/${query.appKey}`, {
+				return portalClient.json$(`/api/portal/fusion/apps/${query.appKey}`, {
 					selector: async (res) => manifestMapper(client.baseUri)(await res.json()),
 				});
 			},
 			getAppManifests: () =>
-				portal.json$(`/api/apps`, {
+				portalClient.json$(`/api/portal/fusion/apps`, {
 					selector: async (res) => (await res.json()).map(manifestMapper(client.baseUri)),
 				}),
 

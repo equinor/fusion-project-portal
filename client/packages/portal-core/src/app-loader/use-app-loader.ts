@@ -18,7 +18,7 @@ export const useAppLoader = (appKey: string) => {
 	useLayoutEffect(() => {
 		const setupLegacy = async () => {
 			const uri = '/app-bundle.js';
-			setLegacyAppScript((await import(/* @vite-ignore */ uri)) as AppScriptModule);
+			setLegacyAppScript((await import(/* @vite-ignore */ uri /* @vite-ignore */)) as AppScriptModule);
 		};
 		setupLegacy();
 	}, []);
