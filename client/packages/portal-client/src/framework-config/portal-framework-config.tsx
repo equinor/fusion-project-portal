@@ -93,18 +93,18 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 				if (!context) {
 					navigator.replace('/');
+				} else {
+					client.trackEvent(
+						{
+							name: 'onContextChange',
+						},
+						{
+							contextId: context?.id,
+							contextTitle: context?.title,
+							source: 'context',
+						}
+					);
 				}
-
-				client.trackEvent(
-					{
-						name: 'onContextChange',
-					},
-					{
-						contextId: context?.id,
-						contextTitle: context?.title,
-						source: 'context',
-					}
-				);
 
 				if (context && context.id && !window.location.pathname.includes(context.id)) {
 					const pathname = replaceContextInPathname(context.id);
