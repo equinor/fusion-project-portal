@@ -33,7 +33,7 @@ export interface PortalConfig {
 	appConfig?: {
 		client: Client;
 	};
-	applicationInsight?: {
+	applicationInsights?: {
 		connectionString: string;
 	};
 	agGrid?: {

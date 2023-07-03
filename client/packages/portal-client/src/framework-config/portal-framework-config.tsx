@@ -37,9 +37,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		addPortalClient(config, portalConfig.portalClient.client);
 
 		/** Enabling application insight module */
-		if (portalConfig.applicationInsight) {
+		if (portalConfig.applicationInsights) {
 			enableTelemetry(config, {
-				connectionString: portalConfig.applicationInsight.connectionString,
+				connectionString: portalConfig.applicationInsights.connectionString,
 				customConfig: {
 					aiCloudRole: 'project-portal',
 					trackPageView: true,
