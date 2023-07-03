@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Text;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
@@ -48,6 +47,40 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Assert
             Assert.IsNull(onboardedApps);
+        }
+
+        [TestMethod]
+        public async Task Get_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Act
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Authenticated, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(onboardedApp);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+        }
+
+        [TestMethod]
+        public async Task Get_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Act
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Administrator, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(onboardedApp);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+        }
+
+        [TestMethod]
+        public async Task Get_OnboardedApp_AsAnonymous_ShouldReturnUnauthorized()
+        {
+            // Act
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Anonymous, HttpStatusCode.Unauthorized);
+
+            // Assert
+            Assert.IsNull(onboardedApp);
         }
 
         [TestMethod]
@@ -292,10 +325,41 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return onboardedApps;
         }
 
+        private static async Task<ApiOnboardedApp?> AssertGetOnboardedApp(string appKey, UserType userType, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            var response = await GetOnboardedApp(userType, appKey);
+            var content = await response.Content.ReadAsStringAsync();
+            var onboardedApp = JsonConvert.DeserializeObject<ApiOnboardedApp>(content);
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return onboardedApp;
+            }
+
+            Assert.IsNotNull(content);
+            Assert.IsNotNull(onboardedApp);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+
+            return onboardedApp;
+        }
+
         private static async Task<HttpResponseMessage> GetAllOnboardedApps(UserType userType)
         {
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.GetAsync($"{Route}");
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> GetOnboardedApp(UserType userType, string appKey)
+        {
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync($"{Route}/{appKey}");
 
             return response;
         }

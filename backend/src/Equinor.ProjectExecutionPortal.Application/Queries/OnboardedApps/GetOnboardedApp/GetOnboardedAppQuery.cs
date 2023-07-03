@@ -1,0 +1,49 @@
+﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
+using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
+using Equinor.ProjectExecutionPortal.Infrastructure;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
+
+public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto>
+{
+    public GetOnboardedAppQuery(string appKey)
+    {
+        AppKey = appKey;
+    }
+
+    public string AppKey { get; set; }
+
+    public class Handler : IRequestHandler<GetOnboardedAppQuery, OnboardedAppDto>
+    {
+        private readonly IReadWriteContext _context;
+        private readonly IMapper _mapper;
+        private readonly IAppService _appService;
+
+        public Handler(IReadWriteContext context, IMapper mapper, IAppService appService)
+        {
+            _context = context;
+            _mapper = mapper;
+            _appService = appService;
+        }
+
+        public async Task<OnboardedAppDto> Handle(GetOnboardedAppQuery request, CancellationToken cancellationToken)
+        {
+            var enitity = await _context.Set<OnboardedApp>()
+                .Include(x => x.AppGroup)
+                .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.AppKey == request.AppKey, cancellationToken) ?? throw new NotFoundException(nameof(OnboardedApp), request.AppKey);
+
+            var onboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(enitity);
+            
+            await _appService.EnrichAppWithFusionAppData(onboardedApp, cancellationToken);
+            
+            return onboardedApp;
+        }
+    }
+}

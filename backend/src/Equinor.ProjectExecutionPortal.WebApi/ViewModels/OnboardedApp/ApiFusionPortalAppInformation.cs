@@ -22,7 +22,7 @@ public class ApiFusionPortalAppInformation
         AccentColor = fusionAppInformation.AccentColor;
         Icon = fusionAppInformation.Icon;
         CategoryId = fusionAppInformation.CategoryId;
-        Category = fusionAppInformation.Category != null ? new ApiFusionPortalAppInformationCategory(fusionAppInformation.Category) : null;
+        Category = fusionAppInformation.Category = fusionAppInformation.Category;
     }
 
     public string Key { get; set; } = null!;
@@ -38,36 +38,9 @@ public class ApiFusionPortalAppInformation
     public string? AccentColor { get; set; }
     public string? Icon { get; set; }
     public Guid? CategoryId { get; set; }
-    public ApiFusionPortalAppInformationCategory? Category { get; set; }
-
+    public FusionPortalAppInformationCategory? Category { get; set; }
     public Guid[] Owners { get; set; }
     public FusionPortalAppInformationAdmin[] Admins { get; set; }
     public FusionPortalHealthCheck[] HealthChecks { get; set; }
     public FusionPortalRole[] RequiredRoles { get; set; }
-}
-
-public class ApiFusionPortalAppInformationCategory
-{
-    public ApiFusionPortalAppInformationCategory()
-    { }
-
-    public ApiFusionPortalAppInformationCategory(FusionPortalAppInformationCategory fusionCategory)
-    {
-        Id = fusionCategory.Id;
-        Name = fusionCategory.Name;
-        Color = fusionCategory.Color;
-        DefaultIcon = fusionCategory.DefaultIcon;
-    }
-
-    public Guid Id { get; set; }
-    public string Name { get; set; } = null!;
-    public string? Color { get; set; }
-    public string? DefaultIcon { get; set; }
-}
-
-public class ApiFusionPortalAppInformationAdmin
-{
-    public Guid AzureUniqueId { get; set; }
-    public string FusionRole { get; set; }
-    public FusionPortalProfile Profile { get; set; }
 }
