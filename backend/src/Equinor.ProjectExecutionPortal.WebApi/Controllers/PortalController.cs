@@ -6,6 +6,7 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ApiFusionPortalAppInformation = Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp.ApiFusionPortalAppInformation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -42,7 +43,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("fusion/apps")]
-        public async Task<ActionResult<IList<ApiFusionPortalAppInformation>>> GetAllFusionApps([FromServices] IAppService appService)
+        public async Task<ActionResult<IList<FusionPortalAppInformation>>> GetAllFusionApps([FromServices] IAppService appService)
         {
             var apps = await appService.GetFusionApps();
 
@@ -50,7 +51,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("fusion/apps/{appKey}")]
-        public async Task<ActionResult<ApiFusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IAppService appService)
+        public async Task<ActionResult<FusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IAppService appService)
         {
             return await appService.GetFusionApp(appKey);
         }

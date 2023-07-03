@@ -4,7 +4,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Cache;
 
 public interface IFusionAppsCache
 {
-    Task<List<ApiFusionPortalAppInformation>> GetFusionApps();
+    Task<List<FusionPortalAppInformation>> GetFusionApps();
 
-    Task<ApiFusionPortalAppInformation?> GetFusionApp(string appKey);
+    Task<FusionPortalAppInformation?> GetFusionApp(string appKey);
 }

@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models
 {
-    public class ApiFusionPortalProfile
+    public class FusionPortalProfile
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }

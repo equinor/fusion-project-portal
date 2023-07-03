@@ -20,14 +20,26 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return fusionApps.Any(app => app.Key == appKey);
         }
 
-        public async Task<IList<ApiFusionPortalAppInformation>> GetFusionApps()
+        public async Task<IList<FusionPortalAppInformation>> GetFusionApps()
         {
             return await _fusionAppsCache.GetFusionApps();
         }
 
-        public async Task<ApiFusionPortalAppInformation?> GetFusionApp(string appKey)
+        public async Task<FusionPortalAppInformation?> GetFusionApp(string appKey)
         {
             return await _fusionAppsCache.GetFusionApp(appKey);
+        }
+
+        public async Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
+        {
+            var fusionApp = await GetFusionApp(onboardedApp.AppKey);
+
+            if (fusionApp != null)
+            {
+                onboardedApp.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.All);
+            }
+
+            return onboardedApp;
         }
 
         public async Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
@@ -42,7 +54,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return onboardedApps;
         }
 
-        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<ApiFusionPortalAppInformation> fusionApps)
+        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<FusionPortalAppInformation> fusionApps)
         {
             if (onboardedAppDto == null)
             {
@@ -53,9 +65,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
             if (fusionApp != null)
             {
-                onboardedAppDto.SupplyWithFusionData(
-                    fusionApp.Name,
-                    fusionApp.Description);
+                onboardedAppDto.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.Minimal);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
-public class ApiFusionPortalAppInformation
+public class FusionPortalAppInformation
 {
     [JsonPropertyName("key")]
     public string Key { get; set; }
@@ -44,22 +44,22 @@ public class ApiFusionPortalAppInformation
     public Guid? CategoryId { get; set; }
 
     [JsonPropertyName("category")]
-    public ApiFusionPortalAppInformationCategory Category { get; set; }
+    public FusionPortalAppInformationCategory? Category { get; set; }
 
     [JsonPropertyName("owners")]
     public Guid[] Owners { get; set; }
 
     [JsonPropertyName("admins")]
-    public ApiFusionPortalAppInformationAdmin[] Admins { get; set; }
+    public FusionPortalAppInformationAdmin[] Admins { get; set; }
 
     [JsonPropertyName("healthChecks")]
-    public ApiFusionPortalHealthChek[] HealthChecks { get; set; }
+    public FusionPortalHealthCheck[] HealthChecks { get; set; }
 
     [JsonPropertyName("requiredRoles")]
-    public ApiFusionPortalRole[] RequiredRoles { get; set; }
+    public FusionPortalRole[] RequiredRoles { get; set; }
 }
 
-public class ApiFusionPortalAppInformationCategory
+public class FusionPortalAppInformationCategory
 {
     [JsonPropertyName("id")]
     public Guid Id { get; set; }
@@ -74,7 +74,7 @@ public class ApiFusionPortalAppInformationCategory
     public string DefaultIcon { get; set; }
 }
 
-public class ApiFusionPortalAppInformationAdmin
+public class FusionPortalAppInformationAdmin
 {
     [JsonPropertyName("azureUniqueId")]
     public Guid AzureUniqueId { get; set; }
@@ -83,5 +83,5 @@ public class ApiFusionPortalAppInformationAdmin
     public string FusionRole { get; set; }
 
     [JsonPropertyName("profile")]
-    public ApiFusionPortalProfile Profile { get; set; }
+    public FusionPortalProfile Profile { get; set; }
 }
