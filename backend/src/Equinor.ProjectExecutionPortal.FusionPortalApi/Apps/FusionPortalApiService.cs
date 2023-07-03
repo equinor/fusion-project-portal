@@ -43,7 +43,7 @@ public class FusionPortalApiService : IFusionPortalApiService
 
     public async Task<FusionPortalAppInformation?> TryGetFusionPortalApp(string appKey)
     {
-        var url = $"{_baseAddress}/api/apps/" + 
+        var url = $"{_baseAddress}/api/apps/" +
                   $"{appKey}" +
                   $"?api-version={_apiVersion}";
 
@@ -53,6 +53,44 @@ public class FusionPortalApiService : IFusionPortalApiService
         try
         {
             return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<FusionPortalAppInformation>(url);
+        }
+        finally
+        {
+            _authenticator.AuthenticationType = oldAuthType;
+        }
+    }
+
+    public async Task<dynamic?> TryGetFusionPortalAppConfig(string appKey)
+    {
+        var url = $"{_baseAddress}/api/apps/" +
+                  $"{appKey}" +
+                  $"?api-version={_apiVersion}/config";
+
+        var oldAuthType = _authenticator.AuthenticationType;
+        _authenticator.AuthenticationType = AuthenticationType.AsApplication;
+
+        try
+        {
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<dynamic>(url);
+        }
+        finally
+        {
+            _authenticator.AuthenticationType = oldAuthType;
+        }
+    }
+
+    public async Task<dynamic?> TryGetFusionPortalAppConfigs(string appKey)
+    {
+        var url = $"{_baseAddress}/api/apps/" +
+                  $"{appKey}" +
+                  $"?api-version={_apiVersion}/configs";
+
+        var oldAuthType = _authenticator.AuthenticationType;
+        _authenticator.AuthenticationType = AuthenticationType.AsApplication;
+
+        try
+        {
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<dynamic>(url);
         }
         finally
         {

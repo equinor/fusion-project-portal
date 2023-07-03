@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Cache;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
@@ -7,10 +8,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
     public class AppService : IAppService
     {
         private readonly IFusionAppsCache _fusionAppsCache;
+        private readonly IFusionPortalApiService _fusionPortalApiService;
 
-        public AppService(IFusionAppsCache fusionAppsCache)
+        public AppService(IFusionAppsCache fusionAppsCache, IFusionPortalApiService fusionPortalApiService)
         {
             _fusionAppsCache = fusionAppsCache;
+            _fusionPortalApiService = fusionPortalApiService;
         }
 
         public async Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken)
@@ -28,6 +31,16 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         public async Task<FusionPortalAppInformation?> GetFusionApp(string appKey)
         {
             return await _fusionAppsCache.GetFusionApp(appKey);
+        }
+
+        public async Task<dynamic?> GetFusionAppConfig(string appKey)
+        {
+            return await _fusionPortalApiService.TryGetFusionPortalAppConfig(appKey);
+        }
+
+        public async Task<dynamic?> GetFusionAppConfigs(string appKey)
+        {
+            return await _fusionPortalApiService.TryGetFusionPortalAppConfigs(appKey);
         }
 
         public async Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
