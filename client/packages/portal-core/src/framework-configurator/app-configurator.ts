@@ -4,6 +4,7 @@ import { Client } from '../types';
 
 const manifestMapper =
 	(basePath: string) =>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(value: any): AppManifest => {
 		const { key, name, version } = value;
 		return { ...value, key, name, version, entry: `${basePath}/api/bundles/${key}` };

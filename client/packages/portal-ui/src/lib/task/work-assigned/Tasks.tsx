@@ -93,7 +93,9 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 						hideClearButton={true}
 						label={'Group by'}
 						selectedOptions={[groupedBy]}
-						onOptionsChange={(changes) => setGroupedBy(changes.selectedItems[0] as any)}
+						onOptionsChange={(changes) =>
+							setGroupedBy(changes.selectedItems[0] as keyof typeof groupOption)
+						}
 					/>
 				</StyledKpiItem>
 			</StyledKpiWrapper>

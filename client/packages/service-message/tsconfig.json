@@ -1,6 +1,5 @@
 {
-    "extends": "../../tsconfig.lib.json",
-    "compileOnSave": false,
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "jsx": "react-jsx",
         "allowJs": true,
@@ -14,9 +13,9 @@
         "resolveJsonModule": true,
         "noFallthroughCasesInSwitch": true,
         "outDir": "../../dist/out-tsc",
-        "types": [
-            "node"
-        ]
+        "types": ["node"],
+        "declarationMap": true,
+        "declaration": true,
     },
     "files": [],
     "include": [
@@ -25,5 +24,16 @@
         "**/*.ts",
         "**/*.tsx",
         "dompurify.d.ts" 
-    ]
+    ],
+    "exclude": [
+        "jest.config.ts",
+        "**/*.spec.ts",
+        "**/*.test.ts",
+        "**/*.spec.tsx",
+        "**/*.test.tsx",
+        "**/*.spec.js",
+        "**/*.test.js",
+        "**/*.spec.jsx",
+        "**/*.test.jsx"
+      ],
 }

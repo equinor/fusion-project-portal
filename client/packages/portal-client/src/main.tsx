@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from 'react';
+import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { QueryClientProvider } from 'react-query';
 import Framework from '@equinor/fusion-framework-react';

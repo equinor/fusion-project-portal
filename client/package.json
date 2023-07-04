@@ -7,7 +7,7 @@
     "start": "npx lerna run serve",
     "build": "npx lerna run build",
     "test": "lerna test",
-    "lint": "lerna run-many --all --target=lint",
+    "lint": "eslint 'packages/**'",
     "update:fusion": "ncu -i -f /fusion/"
   },
   "private": true,

@@ -49,7 +49,7 @@ declare module 'dompurify' {
 			removeAllHooks(): void;
 
 			version: string;
-			removed: any[];
+			removed: unknown[];
 			isSupported: boolean;
 		}
 
@@ -87,7 +87,6 @@ declare module 'dompurify' {
 			RETURN_TRUSTED_TYPE?: boolean | undefined;
 			SAFE_FOR_TEMPLATES?: boolean | undefined;
 			SANITIZE_DOM?: boolean | undefined;
-			/** @default false */
 			SANITIZE_NAMED_PROPS?: boolean | undefined;
 			USE_PROFILES?:
 				| false

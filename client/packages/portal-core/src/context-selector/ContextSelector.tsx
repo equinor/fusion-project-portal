@@ -20,6 +20,7 @@ export const ContextSelector = ({ variant, path, navigate }: ContextSelectorProp
 		<FusionContextSelector
 			id="context-selector"
 			variant={variant}
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			onSelect={(e: any) => {
 				e.stopPropagation();
 

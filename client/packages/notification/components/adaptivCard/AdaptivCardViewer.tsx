@@ -3,8 +3,6 @@ import * as AdaptiveCards from 'adaptivecards';
 import { marked } from 'marked';
 import { css } from '@emotion/react';
 import getDefaultHostConfig from './defaultHostConfig';
-import { clsx } from '@equinor/fusion-react-styles';
-import styled from 'styled-components';
 
 type AdaptiveCardViewerProps = {
 	/** The hostConfig object that is passed along to the native AdaptiveCards. [More Info](https://docs.microsoft.com/en-us/adaptive-cards/display/hostconfig) */
@@ -74,7 +72,7 @@ const AdaptiveCardViewer: FC<AdaptiveCardViewerProps> = ({
 	}, [payload]);
 
 	useEffect(() => {
-		const current = cardContainerRef.current;
+		const { current } = cardContainerRef;
 		if (result && current) {
 			result.className = styledAdaptivCard.name;
 			current && result && current.appendChild(result);
@@ -92,7 +90,7 @@ export default AdaptiveCardViewer;
 const styledAdaptivCard = css`
 	&:hover {
 		background: red;
-		boxshadow: none;
+		box-shadow: none;
 		outline: none;
 	}
 `;
