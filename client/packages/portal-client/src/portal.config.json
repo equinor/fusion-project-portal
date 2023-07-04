@@ -1,4 +1,5 @@
 {
+	"$schema": "../schema/portal.config.schema.json",
 	"title": "Project Portal",
 	"description": "some description...",
 	"serviceDiscovery": {
