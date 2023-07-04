@@ -116,10 +116,11 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddApplicationModules(builder.Configuration);
-builder.Services.AddApplicationServicesModules();
-builder.Services.AddApplicationIntegrationsModule();
-builder.Services.AddCacheModules();
+builder.Services.AddConfigurationModule(builder.Configuration);
+builder.Services.AddApplicationModule(builder.Configuration);
+builder.Services.AddServicesModule();
+builder.Services.AddIntegrationsModule();
+builder.Services.AddCacheModule();
 
 var app = builder.Build();
 
@@ -132,7 +133,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fusion Project Portal");
     c.DocExpansion(DocExpansion.List);
     c.DisplayRequestDuration();
-    c.OAuthAppName("Fusion Project Portal v1");
+    c.OAuthAppName("Fusion Project Portal");
     c.OAuthClientId(builder.Configuration["Swagger:ClientId"]);
 });
 

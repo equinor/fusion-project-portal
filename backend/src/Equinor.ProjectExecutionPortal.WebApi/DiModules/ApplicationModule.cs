@@ -4,9 +4,7 @@ using Equinor.ProjectExecutionPortal.Application.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
-using Equinor.ProjectExecutionPortal.FusionPortalApi;
 using Equinor.ProjectExecutionPortal.Infrastructure;
-using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
@@ -14,22 +12,16 @@ using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Client;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.DiModules;
 
 public static class ApplicationModule
 {
-    public static void AddApplicationModules(this IServiceCollection services, IConfiguration configuration)
+    public static void AddApplicationModule(this IServiceCollection services, IConfiguration configuration)
     {
         TimeService.SetProvider(new SystemTimeProvider());
 
         var applicationAssembly = typeof(IApplicationMarker).GetTypeInfo().Assembly;
-
-        services.Configure<CacheOptions>(configuration.GetSection("CacheOptions"));
-        services.Configure<AuthenticatorOptions>(configuration.GetSection("Authenticator"));
-        services.Configure<FusionPortalApiOptions>(configuration.GetSection("FusionPortalApi"));
-        services.Configure<AssetProxyOptions>(configuration.GetSection("AssetProxy"));
 
         services.AddAuthorization(options =>
         {

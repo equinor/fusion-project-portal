@@ -3,9 +3,9 @@ using Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.DiModules;
 
-public static class ApplicationServicesModule
+public static class ServicesModule
 {
-    public static void AddApplicationServicesModules(this IServiceCollection services)
+    public static void AddServicesModule(this IServiceCollection services)
     {
         services.AddScoped<IAppService, AppService>();
         services.AddScoped<IWorkSurfaceService, WorkSurfaceService>();

@@ -4,7 +4,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.DiModules;
 
 public static class CacheModule
 {
-    public static void AddCacheModules(this IServiceCollection services)
+    public static void AddCacheModule(this IServiceCollection services)
     {
         services.AddSingleton<ICacheManager, CacheManager>();
 
