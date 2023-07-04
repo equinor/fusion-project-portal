@@ -4,10 +4,9 @@ import { enableAppModule } from "@equinor/fusion-framework-module-app";
 import { AppManifest } from "@equinor/fusion-framework-module-app";
 import { AppConfigBuilderCallback } from "@equinor/fusion-framework-module-app/dist/types/AppConfigBuilder";
 import { Fusion, FusionConfigurator } from "@equinor/fusion-framework-react";
-import {
-  NavigationModule,
-  enableNavigation,
-} from "@equinor/fusion-framework-module-navigation";
+import { NavigationModule } from "@equinor/fusion-framework-module-navigation";
+
+const DEBUG_LOG = false;
 
 interface Client {
   baseUri: string;
@@ -75,11 +74,11 @@ export const configure: AppModuleInitiator<
     appConfigurator(env.env.config?.environment.client)
   );
   /** print render environment arguments */
-  console.log("configuring application", env);
+  DEBUG_LOG && console.log("configuring application", env);
 
   /** callback when configurations is created */
   configurator.onConfigured((config) => {
-    console.log("application config created", config);
+    DEBUG_LOG && console.log("application config created", config);
   });
 
   /** callback when the application modules has initialized */
@@ -98,7 +97,7 @@ export const configure: AppModuleInitiator<
       }
     });
 
-    console.log("application config initialized", instance);
+    DEBUG_LOG && console.log("application config initialized", instance);
   });
 };
 

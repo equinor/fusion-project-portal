@@ -18,12 +18,18 @@ const StyledProgress = styled(StarProgress)`
 type ProgressLoaderProps = {
   title: string;
 };
+const Wrapper = styled.section`
+  height: calc(100vh - var(--header-height));
+  width: 100vw;
+`;
 
 export function ProgressLoader({ title }: ProgressLoaderProps) {
   return (
-    <StyledWrapper>
-      <StyledProgress />
-      <Typography variant="h5"> {title}</Typography>
-    </StyledWrapper>
+    <Wrapper>
+      <StyledWrapper>
+        <StyledProgress />
+        <Typography variant="h5"> {title}</Typography>
+      </StyledWrapper>
+    </Wrapper>
   );
 }

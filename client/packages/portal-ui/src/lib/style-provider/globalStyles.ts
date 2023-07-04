@@ -2,6 +2,11 @@ import { tokens } from '@equinor/eds-tokens';
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+
+   :root {
+		--header-height: 48px;
+	} 
+
     body {
         font-family: Equinor;
         margin: 0;

@@ -9,13 +9,17 @@ interface CurrentAppLoaderProps {
 }
 
 const Wrapper = styled.section`
-	height: calc(100vh - 48px);
+	height: calc(100vh - var(--header-height));
 	width: 100vw;
 `;
 
-const StyledAppSection = styled.section<{ isLegacy?: boolean }>`
-	flex: 1 1 auto;
+const StyledAppSection = styled.section`
+	width: 100%;
+	z-index: 1;
 	overflow: auto;
+	position: relative;
+	grid-area: content;
+	max-width: 100%;
 `;
 
 export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {

@@ -5,6 +5,13 @@ import { Client } from '../types';
 const manifestMapper =
 	(basePath: string) =>
 	(value: any): AppManifest => {
+		const { appKey, appInformation, isLegacy } = value;
+		return { ...appInformation, entry: `${basePath}/api/bundles/${appKey}`, isLegacy };
+	};
+
+const manifestMappers =
+	(basePath: string) =>
+	(value: any): AppManifest => {
 		const { key, name, version } = value;
 		return { ...value, key, name, version, entry: `${basePath}/api/bundles/${key}` };
 	};
@@ -18,13 +25,13 @@ export const appConfigurator =
 		const portalClient = await http.createClient('portal-client');
 		builder.setAppClient({
 			getAppManifest: (query) => {
-				return portalClient.json$(`/api/portal/fusion/apps/${query.appKey}`, {
+				return portalClient.json$(`/api/onboarded-apps/${query.appKey}`, {
 					selector: async (res) => manifestMapper(client.baseUri)(await res.json()),
 				});
 			},
 			getAppManifests: () =>
 				portalClient.json$(`/api/portal/fusion/apps`, {
-					selector: async (res) => (await res.json()).map(manifestMapper(client.baseUri)),
+					selector: async (res) => (await res.json()).map(manifestMappers(client.baseUri)),
 				}),
 
 			getAppConfig: (query) => portal.json$(`/api/apps/${query.appKey}/config`),

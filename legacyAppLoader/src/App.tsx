@@ -19,7 +19,7 @@ export const App = (props: {
   return (
     <LegacyFusionWrapper
       framework={fusion}
-      loader={<ProgressLoader title={"1. Loading"} />}
+      loader={<ProgressLoader title={"Loading App"} />}
       appFramework={appFramework}
     >
       <AppModuleLoader appKey={props.env.config.environment.appKey} />

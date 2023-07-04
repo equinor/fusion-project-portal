@@ -5,7 +5,9 @@ import { AppNotAwaitable } from './AppNotAwaitable';
 
 export const AppLoader = () => {
 	const { appKey, contextId } = useParams();
+
 	const navigate = useNavigate();
+
 	const { currentAppGroup, isLoading, appManifest } = useCurrentAppGroup(appKey);
 
 	const context = useFrameworkCurrentContext();

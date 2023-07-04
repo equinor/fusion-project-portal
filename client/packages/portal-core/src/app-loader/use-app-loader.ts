@@ -1,31 +1,19 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Subscription } from 'rxjs';
 import { useAppModule } from './uss-app-module';
 import { PortalConfig } from '../types';
-import { AppScriptModule } from '@equinor/fusion-framework-module-app';
-
-let count = 0;
+import { AppManifest } from '@equinor/fusion-framework-module-app';
+import { useLegacyAppLoader } from './use-legacy-app-loader';
+import { createAppElement } from './app-util';
 
 export const useAppLoader = (appKey: string) => {
-	const { app, fusion, currentApp } = useAppModule();
-	const [legacyAppScript, setLegacyAppScript] = useState<AppScriptModule>();
+	const { fusion, currentApp } = useAppModule(appKey);
+	const legacyAppLoader = useLegacyAppLoader();
 
-	const appRef = useRef<HTMLDivElement>(document.createElement('div'));
+	const appRef = useRef<HTMLDivElement>(createAppElement());
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | undefined>();
-
-	useLayoutEffect(() => {
-		const setupLegacy = async () => {
-			const uri = '/app-bundle.js';
-			setLegacyAppScript((await import(/* @vite-ignore */ uri /* @vite-ignore */)) as AppScriptModule);
-		};
-		setupLegacy();
-	}, []);
-
-	useEffect(() => {
-		appKey && app.setCurrentApp(appKey);
-	}, [app, appKey]);
 
 	useEffect(() => {
 		setLoading(true);
@@ -34,18 +22,17 @@ export const useAppLoader = (appKey: string) => {
 		subscription.add(
 			currentApp?.initialize().subscribe({
 				next: async ({ manifest, script, config }) => {
-					appRef.current = document.createElement('div');
-					appRef.current.style.display = 'contents';
-					console.log('ohh no!', count);
-					count++;
+					appRef.current = createAppElement();
+
 					/** generate basename for application regex extracts /apps/:appKey */
 					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
 
-					if (
-						['meetings', 'query', 'handover-analytics', 'handover-garden', 'reviews'].includes(manifest.key)
-					) {
-						if (!legacyAppScript) return;
-						const render = legacyAppScript.renderApp ?? legacyAppScript?.default;
+					//Casting to se if manifest is for fusion legacy application
+					const isLegacy = (manifest as AppManifest & { isLegacy?: boolean }).isLegacy;
+
+					if (isLegacy) {
+						if (!legacyAppLoader) return;
+						const render = legacyAppLoader.renderApp ?? legacyAppLoader?.default;
 
 						subscription.add(
 							render(appRef.current, {
@@ -76,6 +63,7 @@ export const useAppLoader = (appKey: string) => {
 				},
 				error: (err) => {
 					setError(err);
+					setLoading(false);
 				},
 			})
 		);
@@ -83,7 +71,7 @@ export const useAppLoader = (appKey: string) => {
 		return () => {
 			subscription.unsubscribe();
 		};
-	}, [currentApp, appRef, fusion, legacyAppScript]);
+	}, [currentApp, appRef, fusion, legacyAppLoader]);
 
 	return {
 		loading,

@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 
 type Manifest = AppManifest & { context: unknown };
 
-export const useAppModule = () => {
+export const useAppModule = (appKey?: string) => {
 	const fusion = useFramework<[AppModule]>();
 	const currentApp = useObservableState(fusion.modules.app.current$)?.value;
+	const app = fusion.modules.app;
 
 	const [appManifest, setAppManifest] = useState<Manifest | undefined>();
 
@@ -16,8 +17,12 @@ export const useAppModule = () => {
 		return () => sub?.unsubscribe();
 	}, [currentApp]);
 
+	useEffect(() => {
+		appKey && app.setCurrentApp(appKey);
+	}, [app, appKey]);
+
 	return {
-		app: fusion.modules.app,
+		app,
 		fusion,
 		currentApp,
 		appManifest,

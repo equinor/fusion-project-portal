@@ -32,7 +32,7 @@ import legacySignIn from "./legacy-api-signin";
 import LegacyContextManager from "./LegacyContextManager";
 
 import { GLOBAL_FUSION_CONTEXT_KEY } from "./static";
-import { Fusion } from "@equinor/fusion-framework-react";
+
 import { AppModule } from "@equinor/fusion-framework-module-app";
 import { AppModulesInstance } from "@equinor/fusion-framework-react-app";
 

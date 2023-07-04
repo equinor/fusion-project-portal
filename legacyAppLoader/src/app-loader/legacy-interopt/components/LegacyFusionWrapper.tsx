@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import { PropsWithChildren, ReactNode, Suspense, useMemo, useRef } from "react";
 import { FusionRoot } from "@equinor/fusion-components";
-
 import { createLegacyContextComponent } from "./create-legacy-context-component";
 import type { PortalFramework } from "../types";
 import { FusionContextOptions } from "../create-fusion-context";
@@ -22,6 +21,7 @@ const StyleFix = styled.span`
   width: 100%;
   > div > div {
     display: block !important;
+    overflow: hidden;
   }
 `;
 

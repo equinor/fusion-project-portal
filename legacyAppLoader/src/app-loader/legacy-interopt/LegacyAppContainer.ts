@@ -24,6 +24,7 @@ import {
   AppModulesInstance,
 } from "@equinor/fusion-framework-react-app";
 
+const DEBUG_LOG = false;
 type AppContainerEvents = {
   update: (app: Record<string, LegacyAppManifest>) => void;
   change: (app: LegacyAppManifest | null) => void;
@@ -58,12 +59,12 @@ const compareApp = (a: LegacyAppManifest, b?: LegacyAppManifest) => {
 
       case "tags": {
         if (a.tags.length !== b.tags.length) {
-          console.debug("tags changed", a.tags, b.tags);
+          DEBUG_LOG && console.debug("tags changed", a.tags, b.tags);
           return true;
         }
         for (const tag of b.tags ?? []) {
           if (!a.tags.includes(tag)) {
-            console.debug(`tag [${tag}] changed`, a.tags, b.tags);
+            DEBUG_LOG && console.debug(`tag [${tag}] changed`, a.tags, b.tags);
             return true;
           }
         }
@@ -73,7 +74,8 @@ const compareApp = (a: LegacyAppManifest, b?: LegacyAppManifest) => {
       case "category": {
         const hasChanged = a.category?.id !== b.category?.id;
         if (hasChanged) {
-          console.debug("category changed", a.category, b.category);
+          DEBUG_LOG &&
+            console.debug("category changed", a.category, b.category);
         }
         return hasChanged;
       }
@@ -81,11 +83,12 @@ const compareApp = (a: LegacyAppManifest, b?: LegacyAppManifest) => {
       case "publishedDate": {
         const hasChanged = String(a[key]) !== String(b[key]);
         if (hasChanged) {
-          console.debug(
-            "publishedDate changed",
-            a.publishedDate,
-            b.publishedDate
-          );
+          DEBUG_LOG &&
+            console.debug(
+              "publishedDate changed",
+              a.publishedDate,
+              b.publishedDate
+            );
         }
         return String(a[key]) !== String(b[key]);
       }
@@ -166,7 +169,12 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
               if (!current) {
                 state[appKey] = next;
               } else if (compareApp(current, next)) {
-                console.debug(`🔥 [${appKey}] manifest changed`, current, next);
+                DEBUG_LOG &&
+                  console.debug(
+                    `🔥 [${appKey}] manifest changed`,
+                    current,
+                    next
+                  );
                 state[appKey] = { ...current, ...next };
               }
             }
@@ -186,7 +194,6 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
         Object.keys(apps).length > 0 &&
         Object.keys(apps).toString() !== Object.keys(this.allApps).toString()
       ) {
-        console.debug("app-container changed", apps);
         this.#manifests.next(actions.updateManifests(apps));
       }
     });
@@ -261,7 +268,6 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
   async setCurrentAppAsync(
     appKey: string | null
   ): Promise<AppConfig | undefined> {
-    console.log("setCurrentAppAsync", appKey);
     const appProvider = this.#framework.modules.app;
     if (appKey) {
       const { key, AppComponent, render } = this.#manifests.value[appKey];
@@ -283,16 +289,18 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
         return await currentApp.getConfigAsync();
       } else {
         if (currentApp?.appKey !== appKey) {
-          console.warn(
-            "LegacyAppContainer::setCurrentAppAsync",
-            "miss match of application keys!, should not happen"
-          );
+          DEBUG_LOG &&
+            console.warn(
+              "LegacyAppContainer::setCurrentAppAsync",
+              "miss match of application keys!, should not happen"
+            );
         } else {
-          console.error(
-            "🚨",
-            "LegacyAppContainer::setCurrentAppAsync",
-            "these lines should newer been reached"
-          );
+          DEBUG_LOG &&
+            console.error(
+              "🚨",
+              "LegacyAppContainer::setCurrentAppAsync",
+              "these lines should newer been reached"
+            );
         }
 
         const newApp = appProvider.createApp({ appKey, manifest });

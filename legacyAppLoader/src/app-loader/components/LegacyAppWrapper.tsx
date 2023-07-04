@@ -4,10 +4,13 @@ import { useFramework } from "@equinor/fusion-framework-react";
 
 import { GLOBAL_FUSION_CONTEXT_KEY } from "../legacy-interopt/static";
 import { createLegacyRender } from "../legacy-interopt";
-import { LegacyEnv } from "./LegasyAppLoader";
+
 import { MessagePage } from "../components/MessagePage";
 import { ProgressLoader } from "../components/ProgressLoader";
 
+import { LegacyEnv } from "./LegacyAppLoader";
+
+const DEBUG_LOG = false;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const getLegacyFusion = () => window[GLOBAL_FUSION_CONTEXT_KEY];
@@ -33,14 +36,16 @@ export const AppWrapperLegacy = (props: {
 
     /** sanity check if the `registerApp` has been loaded */
     if (!manifest.render && !manifest.AppComponent) {
-      console.warn(
-        "🌍❗️ Portal Legacy:",
-        "no render or component, make sure app script is loading"
-      );
+      DEBUG_LOG &&
+        console.warn(
+          "🌍❗️ Portal Legacy:",
+          "no render or component, make sure app script is loading"
+        );
       return null;
     }
 
-    console.debug("🌍 Portal:", "creating application component", manifest);
+    DEBUG_LOG &&
+      console.debug("🌍 Portal:", "creating application component", manifest);
 
     const render =
       manifest.render ?? createLegacyRender(manifest, legacyFusion);
@@ -57,7 +62,7 @@ export const AppWrapperLegacy = (props: {
     );
   }
   return (
-    <Suspense fallback={<ProgressLoader title="3. Loading" />}>
+    <Suspense fallback={<ProgressLoader title="Loading App" />}>
       <AppComponent />
     </Suspense>
   );

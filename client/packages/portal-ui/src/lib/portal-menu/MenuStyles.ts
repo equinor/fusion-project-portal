@@ -17,8 +17,8 @@ export const MenuScrim = styled(Scrim)`
 	animation: MenuScrimAnimation ease 0.3s;
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;
-	top: 48px !important;
-	height: calc(100vh - 48px);
+	top: var(--header-height) !important;
+	height: calc(100vh - var(--header-height));
 	overflow: hidden !important;
 	z-index: 2;
 	@keyframes MenuScrimAnimation {
@@ -36,7 +36,7 @@ export const MenuWrapper = styled.div<{ widthAmount: number }>`
 	display: 'flex';
 	flex-direction: 'column';
 	gap: '1.2em';
-	height: calc(100vh - 48px);
+	height: calc(100vh - var(--header-height));
 	position: absolute;
 	width: ${({ widthAmount }) => widthAmount}px;
 	background-color: white;
