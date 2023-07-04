@@ -88,11 +88,12 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			configurePortalContext(fusion.context);
 
 			/** Fusion Legacy App Loader should be removed when all application are migrated -- Start --> */
-			fusion.navigation.subscribe((nav) => {
+			fusion.navigation.state$.subscribe((nav) => {
 				if (nav.action !== 'PUSH') return;
 
 				if (
-					nav.path.pathname.split('/').filter((path) => path === fusion.context.currentContext?.id).length > 1
+					nav.location.pathname.split('/').filter((path) => path === fusion.context.currentContext?.id)
+						.length > 1
 				) {
 					fusion.navigation.navigator.go(-1);
 				}
