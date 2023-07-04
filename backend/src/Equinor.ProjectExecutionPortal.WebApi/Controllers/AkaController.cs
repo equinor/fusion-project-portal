@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ControllerName("AKA")]
     public class AkaController : Controller
     {
         [HttpGet("/aka/{*shortpath}")]
