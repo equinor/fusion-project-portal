@@ -10,11 +10,13 @@ import {
 	LoggerLevel,
 	PortalConfig,
 	appConfigurator,
+	TelemetryModule,
 } from '@equinor/portal-core';
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './utils';
+import { enableTelemetry } from '@equinor/portal-core';
 
 const showInfo = false;
 
@@ -33,6 +35,19 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		}
 
 		addPortalClient(config, portalConfig.portalClient.client);
+
+		/** Enabling application insight module */
+		if (portalConfig.applicationInsights) {
+			enableTelemetry(config, {
+				connectionString: portalConfig.applicationInsights.connectionString,
+				customConfig: {
+					aiCloudRole: 'project-portal',
+					trackPageView: true,
+				},
+				enableAutoRouteTracking: true,
+				autoTrackPageVisitTime: true,
+			});
+		}
 
 		/** Enabling signal-r module for portal used for service messages */
 		enableSignalR(
@@ -69,7 +84,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized<[NavigationModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
 
 			/** Fusion Legacy App Loader should be removed when all application are migrated -- Start --> */
@@ -86,9 +101,21 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
+				const { client } = fusion.telemetry;
 
 				if (!context) {
 					navigator.replace('/');
+				} else {
+					client.trackEvent(
+						{
+							name: 'onContextChange',
+						},
+						{
+							contextId: context?.id,
+							contextTitle: context?.title,
+							source: 'context',
+						}
+					);
 				}
 
 				if (context && context.id && !window.location.pathname.includes(context.id)) {

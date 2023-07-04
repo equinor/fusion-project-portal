@@ -19,6 +19,7 @@ builder.Services.Configure<FusionBookmarksOptions>(builder.Configuration.GetSect
 builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSection("FusionPortalApi"));
 builder.Services.Configure<FusionProjectPortalApiOptions>(builder.Configuration.GetSection("FusionProjectPortalApi"));
 builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
+builder.Services.Configure<ApplicationInsightsOptions>(builder.Configuration.GetSection("ApplicationInsights"));
 builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache"));
 
 // Add bearer auth
