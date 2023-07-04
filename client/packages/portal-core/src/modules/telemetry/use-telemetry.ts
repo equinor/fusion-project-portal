@@ -4,12 +4,12 @@ import { ICustomProperties, IEventTelemetry } from '@microsoft/applicationinsigh
 
 export const useTelemetry = () => {
 	const fusion = useFramework<[TelemetryModule]>();
-	const { client } = fusion.modules.telemetry;
+	const client = fusion.modules.telemetry?.client;
 	return {
 		client,
 		dispatchEvent: (event: IEventTelemetry, customProperties?: ICustomProperties | undefined) => {
 			try {
-				client.trackEvent(event, customProperties);
+				client?.trackEvent(event, customProperties);
 			} catch (error) {
 				console.error(error);
 			}

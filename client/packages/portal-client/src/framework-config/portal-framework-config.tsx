@@ -89,12 +89,12 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
-				const { client } = fusion.telemetry;
+				const client = fusion.telemetry?.client;
 
 				if (!context) {
 					navigator.replace('/');
 				} else {
-					client.trackEvent(
+					client?.trackEvent(
 						{
 							name: 'onContextChange',
 						},
