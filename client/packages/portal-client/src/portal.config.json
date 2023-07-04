@@ -1,6 +1,6 @@
 {
 	"title": "Project Portal",
-	"description": "some description...",
+	"description": "Welcome to the project portal powered by Fusion",
 	"serviceDiscovery": {
 		"client": {
 			"baseUri": "https://fusion-s-portal-ci.azurewebsites.net",

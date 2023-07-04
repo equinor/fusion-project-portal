@@ -1,6 +1,7 @@
 import { Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { PortalIcon } from './Icon';
+import { usePortalConfig } from '@equinor/portal-core';
 
 const StyledWrapper = styled.div`
 	display: flex;
@@ -18,15 +19,17 @@ const StyledTitle = styled(Typography)`
 `;
 
 interface PortalLogoProps {
-	title: string;
 	onClick: () => void;
 }
 
-export function PortalLogo({ title, onClick }: PortalLogoProps): JSX.Element {
+export function PortalLogo({ onClick }: PortalLogoProps): JSX.Element {
+	const { title, description } = usePortalConfig();
 	return (
 		<StyledWrapper onClick={onClick}>
 			<PortalIcon />
-			<StyledTitle variant="h6">{title}</StyledTitle>
+			<StyledTitle variant="h6" title={description}>
+				{title}
+			</StyledTitle>
 		</StyledWrapper>
 	);
 }

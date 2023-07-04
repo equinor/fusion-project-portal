@@ -18,7 +18,7 @@ export function MainHeader() {
 		navigate('/');
 	};
 
-	return <Header onLogoClick={handleLogoClick} MenuButton={MenuButton} title="Project Portal" />;
+	return <Header onLogoClick={handleLogoClick} MenuButton={MenuButton} />;
 }
 
 export default MainHeader;
