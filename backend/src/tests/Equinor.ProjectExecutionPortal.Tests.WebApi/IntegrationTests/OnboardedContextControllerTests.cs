@@ -157,7 +157,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(totalCount);
             Assert.IsNotNull(totalCountAfterRemoval);
-            Assert.AreEqual(HttpStatusCode.NoContent, removeResponse.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, removeResponse.StatusCode);
             Assert.AreEqual(totalCount - 1, totalCountAfterRemoval);
         }
 
