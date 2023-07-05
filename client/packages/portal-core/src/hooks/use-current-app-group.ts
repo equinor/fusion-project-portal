@@ -12,5 +12,10 @@ export const useCurrentAppGroup = (appKey?: string) => {
 		return nextAppGroup ? nextAppGroup : undefined;
 	}, [appKey, data]);
 
-	return { currentAppGroup, isLoading, appManifest };
+	return {
+		isOnboarded: Boolean(currentAppGroup),
+		currentAppGroup,
+		isLoading,
+		appManifest,
+	};
 };

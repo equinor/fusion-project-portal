@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ContextSelector, useViewController } from '@equinor/portal-core';
+import { ContextSelector, useFrameworkContext, useViewController } from '@equinor/portal-core';
 import { useNavigate, useParams } from 'react-router-dom';
 export { ContextProvider } from '@equinor/portal-core';
 
@@ -12,13 +12,16 @@ export const TopBarContextSelector = () => {
 	const { currentView } = useViewController();
 	const { contextId } = useParams();
 	const navigate = useNavigate();
+
+	const shouldAddNavigate = !contextId && !location.pathname.includes('apps');
+
 	if (!currentView) return null;
 	return (
 		<StyledWrapper>
 			<ContextSelector
 				path={`/${currentView.key}`}
 				variant={'header'}
-				navigate={!contextId ? navigate : undefined}
+				navigate={shouldAddNavigate ? navigate : undefined}
 			/>
 		</StyledWrapper>
 	);
