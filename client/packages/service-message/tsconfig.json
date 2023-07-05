@@ -22,7 +22,6 @@
         "**/*.jsx",
         "**/*.ts",
         "**/*.tsx",
-        "dompurify.d.ts" 
     ],
     "exclude": [
         "jest.config.ts",
@@ -30,9 +29,5 @@
         "**/*.test.ts",
         "**/*.spec.tsx",
         "**/*.test.tsx",
-        "**/*.spec.js",
-        "**/*.test.js",
-        "**/*.spec.jsx",
-        "**/*.test.jsx"
       ],
 }

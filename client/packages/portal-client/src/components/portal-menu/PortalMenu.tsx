@@ -1,6 +1,6 @@
 import { Search } from '@equinor/eds-core-react';
 import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
-import { GroupWrapper, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
+import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
 import {
 	useObservable,
 	getMenuWidth,
@@ -10,7 +10,7 @@ import {
 	getPinnedAppsGroup,
 } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
-import { InfoMessage } from 'packages/portal-ui/src/lib/info-message/InfoMessage';
+
 import { menuFavoritesController, useAppModule, useMenuContext } from '@equinor/portal-core';
 import { useState, useMemo } from 'react';
 import { css } from '@emotion/css';
@@ -75,8 +75,6 @@ export function MenuGroups() {
 		const disabledApps = getDisabledApps(enabledApps, favorites);
 		return getPinnedAppsGroup(enabledApps, disabledApps, favorites);
 	}, [favorites, data]);
-
-	
 
 	const displayAppGroups = useMemo(() => {
 		if (activeItem.includes('Pinned Apps') && searchText === '') {
