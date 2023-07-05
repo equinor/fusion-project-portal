@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var onboardedContextsDto = await Mediator.Send(new GetOnboardedContextsQuery());
 
-            return onboardedContextsDto.Select(onboardedContextDto => new ApiOnboardedContext(onboardedContextDto)).ToList();
+            return Ok(onboardedContextsDto.Select(onboardedContextDto => new ApiOnboardedContext(onboardedContextDto)).ToList());
         }
 
         [HttpGet("{contextExternalId}")]
@@ -32,7 +32,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(contextExternalId, "Could not find onboarded context");
             }
 
-            return new ApiOnboardedContext(onboardedContext);
+            return Ok(new ApiOnboardedContext(onboardedContext));
         }
 
         [HttpPost("")]
@@ -47,14 +47,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(request.ExternalId, "Could not find any context with that external id");
             }
 
-            return await Mediator.Send(request.ToCommand(context.ExternalId, context.Type));
+            await Mediator.Send(request.ToCommand(context.ExternalId, context.Type));
+
+            return Ok();
         }
 
         [HttpPut("{contextExternalId}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] string contextExternalId, [FromBody] ApiUpdateOnboardedContextRequest request)
         {
-            return await Mediator.Send(request.ToCommand(contextExternalId));
+            await Mediator.Send(request.ToCommand(contextExternalId));
+
+            return Ok();
         }
 
         [HttpDelete("{contextExternalId}")]
@@ -64,7 +68,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var request = new ApiRemoveOnboardedContextRequest { ExternalId = contextExternalId };
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
     }
 }

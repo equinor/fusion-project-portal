@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -25,15 +24,20 @@ public class GetPortalWithAppsQuery : QueryBase<PortalDto?>
 
         public async Task<PortalDto?> Handle(GetPortalWithAppsQuery request, CancellationToken cancellationToken)
         {
-            var enitity = await _context.Set<Domain.Entities.Portal>()
+            var entity = await _context.Set<Domain.Entities.Portal>()
                 .AsNoTracking()
                 .Include(portal => portal.WorkSurfaces.OrderBy(workSurface => workSurface.Order))
                         .ThenInclude(appGroup => appGroup.Apps.OrderBy(application => application.OnboardedApp.Order))
                             .ThenInclude(x => x.OnboardedApp)
                                 .ThenInclude(x => x.AppGroup)
-                .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException();
+                .FirstOrDefaultAsync(cancellationToken);
 
-            var portal = _mapper.Map<Domain.Entities.Portal, PortalDto>(enitity);
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var portal = _mapper.Map<Domain.Entities.Portal, PortalDto>(entity);
 
             await _appService.EnrichAppsWithFusionAppData(portal.WorkSurfaces.SelectMany(x => x.Apps.Select(y => y.OnboardedApp)).ToList(), cancellationToken);
 

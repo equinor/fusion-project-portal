@@ -23,7 +23,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(userId, "Could not find profile");
             }
 
-            return profile;
+            return Ok(profile);
         }
     }
 }

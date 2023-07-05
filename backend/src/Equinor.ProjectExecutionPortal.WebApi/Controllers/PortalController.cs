@@ -24,7 +24,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound("Portal", "Could not find portal");
             }
 
-            return new ApiPortal(portalDto);
+            return Ok(new ApiPortal(portalDto));
         }
 
         [HttpGet("fusion/contexts/{externalId}")]
@@ -38,7 +38,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(externalId, "Could not find context by external id");
             }
 
-            return context;
+            return Ok(context);
         }
 
         [HttpGet("fusion/apps")]
@@ -46,7 +46,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var apps = await appService.GetFusionApps();
 
-            return apps.ToList();
+            return Ok(apps.ToList());
         }
     }
 }

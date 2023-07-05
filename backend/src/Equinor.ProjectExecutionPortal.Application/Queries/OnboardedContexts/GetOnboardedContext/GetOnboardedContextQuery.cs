@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -31,10 +30,9 @@ public class GetOnboardedContextQuery : QueryBase<OnboardedContextDto?>
         {
             var entity = await _readWriteContext.Set<Domain.Entities.OnboardedContext>()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ExternalId == request.ExternalId, cancellationToken)
-                ?? throw new NotFoundException(nameof(Domain.Entities.OnboardedContext), request.ExternalId);
+                .FirstOrDefaultAsync(x => x.ExternalId == request.ExternalId, cancellationToken);
 
-            return _mapper.Map<Domain.Entities.OnboardedContext, OnboardedContextDto>(entity);
+            return _mapper.Map<Domain.Entities.OnboardedContext?, OnboardedContextDto?>(entity);
         }
     }
 }
