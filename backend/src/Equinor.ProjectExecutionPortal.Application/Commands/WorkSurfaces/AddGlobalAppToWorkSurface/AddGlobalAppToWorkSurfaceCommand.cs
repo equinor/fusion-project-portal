@@ -19,9 +19,9 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
     public string AppKey { get; }
 
     /// <summary>
-    /// When set to true, this will potentially remove the app from all contexts where it has previously been specifically set.
+    /// When set to true, this will remove the app from all contexts where it has previously been specifically set.
     /// This is done to avoid conflict where we have both a global and contextual instance of the same app.
-    /// If set to false and the app already has been added to specific contexts, an error will be thrown.
+    /// If set to false and the app already has been added to specific contexts, adding will be prevented.
     /// </summary>
     public bool RemoveAppForContexts { get; }
 
