@@ -60,7 +60,7 @@ public class FusionPortalApiService : IFusionPortalApiService
         }
     }
 
-    public async Task<dynamic?> TryGetFusionPortalAppConfig(string appKey)
+    public async Task<FusionAppEnvironmentConfig?> TryGetFusionPortalAppConfig(string appKey)
     {
         var url = $"{_baseAddress}/api/apps/" +
                   $"{appKey}/config" +
@@ -71,7 +71,7 @@ public class FusionPortalApiService : IFusionPortalApiService
 
         try
         {
-            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<dynamic>(url);
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<FusionAppEnvironmentConfig>(url);
         }
         finally
         {

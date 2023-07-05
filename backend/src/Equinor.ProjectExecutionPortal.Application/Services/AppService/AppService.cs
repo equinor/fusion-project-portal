@@ -33,7 +33,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return await _fusionAppsCache.GetFusionApp(appKey);
         }
 
-        public async Task<dynamic?> GetFusionAppConfig(string appKey)
+        public async Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey)
         {
             return await _fusionPortalApiService.TryGetFusionPortalAppConfig(appKey);
         }

@@ -11,7 +11,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         Task<FusionPortalAppInformation?> GetFusionApp(string appKey);
 
-        Task<dynamic?> GetFusionAppConfig(string appKey);
+        Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey);
 
         Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken);
 

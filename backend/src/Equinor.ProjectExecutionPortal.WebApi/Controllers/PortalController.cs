@@ -56,9 +56,16 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("fusion/apps/{appKey}/config")]
-        public async Task<ActionResult<dynamic>?> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IAppService appService)
+        public async Task<ActionResult<FusionAppEnvironmentConfig?>> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IAppService appService)
         {
-            return await appService.GetFusionAppConfig(appKey);
+            var appConfig = await appService.GetFusionAppConfig(appKey);
+
+            if (appConfig == null)
+            {
+                return FusionApiError.NotFound(appKey, "Could not locate config for the specified appKey");
+            }
+
+            return Ok(appConfig);
         }
     }
 }
