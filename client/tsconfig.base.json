@@ -23,8 +23,8 @@
 			"@equinor/portal-utils": ["packages/portal-utils/src/index.ts"],
 			"@equinor/service-message": ["packages/service-message/index.ts"],
 			"@equinor/notification": ["packages/notification/index.ts"]
-		},
-		"references": [{ "path": "../packages/**" }]
+		}
 	},
-	"exclude": ["node_modules", "tmp"]
+	"include": ["dompurify.d.ts"],
+	"exclude": ["node_modules", "tmp", "dist"]
 }

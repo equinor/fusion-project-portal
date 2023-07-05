@@ -14,8 +14,7 @@
         "noFallthroughCasesInSwitch": true,
         "outDir": "../../dist/out-tsc",
         "types": ["node"],
-        "declarationMap": true,
-        "declaration": true,
+
     },
     "files": [],
     "include": [
