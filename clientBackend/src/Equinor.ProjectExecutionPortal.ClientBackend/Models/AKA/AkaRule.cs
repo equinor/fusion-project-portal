@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Equinor.ProjectExecutionPortal.Domain.AKA
+namespace Equinor.ProjectExecutionPortal.ClientBackend.Models.AKA
 {
     public class AkaRule
     {
