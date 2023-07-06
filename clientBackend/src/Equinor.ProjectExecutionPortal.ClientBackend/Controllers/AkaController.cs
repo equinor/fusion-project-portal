@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("aka")]
     public class AkaController : Controller
     {
