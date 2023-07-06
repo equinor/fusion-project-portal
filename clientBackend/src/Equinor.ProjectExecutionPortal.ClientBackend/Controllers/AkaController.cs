@@ -11,6 +11,11 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
         [HttpGet("/aka/{*shortpath}")]
         public async Task<IActionResult> RedirectHandler(string shortpath)
         {
+            if (string.IsNullOrEmpty(shortpath))
+            {
+                return new BadRequestObjectResult(new { error = new { message = "Shortcut path cannot be empty" } });
+            }
+
             var config = await GetConfigurationAsync();
 
             var tokens = shortpath.Split(new[] { '/' }, 2);
