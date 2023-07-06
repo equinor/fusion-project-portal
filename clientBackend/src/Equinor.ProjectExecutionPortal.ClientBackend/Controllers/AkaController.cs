@@ -1,12 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using Equinor.ProjectExecutionPortal.ClientBackend.Models.AKA;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class AkaController : Controller
     {
         [HttpGet("/aka/{*shortpath}")]
