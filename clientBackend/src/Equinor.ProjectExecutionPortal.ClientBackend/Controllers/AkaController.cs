@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Equinor.ProjectExecutionPortal.ClientBackend.Domain.Exceptions;
 using Equinor.ProjectExecutionPortal.ClientBackend.Models.AKA;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,16 +7,56 @@ using Microsoft.AspNetCore.Mvc;
 namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 {
     [Authorize]
+    [Route("aka")]
     public class AkaController : Controller
     {
-        [HttpGet("/aka/{*shortpath}")]
-        public async Task<IActionResult> RedirectHandler(string shortpath)
+        [HttpGet("v2/{*shortpath}")]
+        public async Task<ActionResult<string>> GetPath([FromRoute] string shortpath)
         {
             if (string.IsNullOrEmpty(shortpath))
             {
                 return new BadRequestObjectResult(new { error = new { message = "Shortcut path cannot be empty" } });
             }
 
+            try
+            {
+                return await GenerateNewPath(shortpath);
+            }
+            catch (NotFoundException ex)
+            {
+                return new NotFoundObjectResult(new { error = new { message = ex.Message } });
+            }
+            catch (BadRequestException ex)
+            {
+                return new BadRequestObjectResult(new { error = new { message = ex.Message } });
+            }
+        }
+
+        [HttpGet("{*shortpath}")]
+        public async Task<IActionResult> RedirectToPath([FromRoute] string shortpath)
+        {
+            if (string.IsNullOrEmpty(shortpath))
+            {
+                return new BadRequestObjectResult(new { error = new { message = "Shortcut path cannot be empty" } });
+            }
+
+            try
+            {
+                var newPath = await GenerateNewPath(shortpath);
+                return LocalRedirectPermanent(newPath);
+            }
+            catch (NotFoundException ex)
+            {
+                return new NotFoundObjectResult(new { error = new { message = ex.Message } });
+            }
+            catch (BadRequestException ex)
+            {
+                return new BadRequestObjectResult(new { error = new { message = ex.Message } });
+            }
+        }
+
+        private static async Task<string> GenerateNewPath(string shortpath)
+        {
             var config = await GetConfigurationAsync();
 
             var tokens = shortpath.Split(new[] { '/' }, 2);
@@ -26,7 +67,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 
             if (ruleSection == null)
             {
-                return new NotFoundObjectResult(new { error = new { message = "Could not locate shortcut path: " + ruleGroup } });
+                throw new NotFoundException("Could not locate shortcut path", ruleGroup);
             }
 
             switch (ruleSection.Type)
@@ -36,15 +77,15 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
 
                     if (!match.Success)
                     {
-                        return new NotFoundObjectResult(new { error = new { message = "Redirect rule could not find any match, might be an issue with the rule." } });
+                        throw new NotFoundException("Redirect rule could not find any match, might be an issue with the rule.");
                     }
 
                     var newPath = Regex.Replace(akaPath, ruleSection.Regex.Pattern, ruleSection.Regex.Replace);
 
-                    return LocalRedirectPermanent(newPath);
+                    return newPath;
 
                 default:
-                    return new BadRequestObjectResult(new { error = new { message = "Redirect rule is not supported" } });
+                    throw new BadRequestException("Redirect rule is not supported");
             }
         }
 
