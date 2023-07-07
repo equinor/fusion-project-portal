@@ -1,6 +1,6 @@
 # Docs app build
 docs/
-
+node_modules
 # Visual Studio cache/options directory
 
 .vs/
