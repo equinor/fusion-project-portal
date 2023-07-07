@@ -8,7 +8,8 @@
     "build": "npx lerna run build",
     "test": "lerna test",
     "lint": "eslint 'packages/**'",
-    "update:fusion": "ncu -i -f /fusion/"
+    "update:fusion": "ncu -i -f /fusion/",
+    "postinstall": "cd .. && yarn"
   },
   "private": true,
   "devDependencies": {
