@@ -12,7 +12,6 @@ interface ConditionalWrapperProps {
 }
 
 const ConditionalWrapper = ({ condition, children, ...props }: PropsWithChildren<ConditionalWrapperProps>) =>
-	// eslint-disable-next-line react/jsx-no-useless-fragment
 	condition ? <props.wrapper>{children}</props.wrapper> : <>{children}</>;
 
 export function TopBarActionList(): JSX.Element {

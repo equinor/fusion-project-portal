@@ -21,11 +21,11 @@ const getMonday = (date: Date) => {
 	return new Date(d.setDate(diff));
 };
 
-const get24HTime = (date: Date) => {
-	const d = new Date(date);
-	const min = d.getMinutes();
-	return `${d.getHours()}:${min.toString().length === 1 ? '0' + min : min}`;
-};
+// const get24HTime = (date: Date) => {
+// 	const d = new Date(date);
+// 	const min = d.getMinutes();
+// 	return `${d.getHours()}:${min.toString().length === 1 ? '0' + min : min}`;
+// };
 
 const isNotificationFromToday = (notification: Notification) =>
 	!!(new Date(notification.created).toDateString() === new Date().toDateString());

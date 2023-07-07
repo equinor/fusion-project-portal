@@ -13,7 +13,7 @@ const StylesWrapper = styled.div`
 	place-self: auto center;
 `;
 
-export function InfoMessage({ children }: PropsWithChildren<{}>) {
+export function InfoMessage({ children }: PropsWithChildren) {
 	return (
 		<StylesWrapper>
 			<Icon size={48} color={tokens.colors.text.static_icons__tertiary.hex} name="info_circle" />

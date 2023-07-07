@@ -58,7 +58,7 @@ const routes: RouteObject[] = [
 export function PortalRouter() {
 	const { navigation } = useFramework<[NavigationModule]>().modules;
 
-	let router = useMemo(() => navigation.createRouter(routes), []);
+	const router = useMemo(() => navigation.createRouter(routes), []);
 
 	return <RouterProvider router={router} />;
 }

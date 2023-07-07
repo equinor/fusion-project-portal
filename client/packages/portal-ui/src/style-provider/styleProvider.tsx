@@ -13,8 +13,6 @@ import { theme, ThemeProvider, StylesProvider } from '@equinor/fusion-react-styl
 
 Icon.add(icons);
 
-const compact = 'compact';
-
 export function StyleProvider({ children }: React.PropsWithChildren) {
 	return (
 		<EdsProvider>

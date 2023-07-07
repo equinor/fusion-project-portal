@@ -1,4 +1,3 @@
-import { Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
 import { Navigate, useParams } from 'react-router-dom';

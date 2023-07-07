@@ -1,7 +1,6 @@
-import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
-import { getFusionTasks, getPimsTasks, getProCoSysAssignments } from './asignment-queries';
+import { getFusionTasks, getPimsTasks, getProCoSysAssignments } from './assignment-queries';
 
 export function useAssignment() {
 	const fusionAssignments = useAssignmentQuery();

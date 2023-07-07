@@ -1,6 +1,6 @@
 import { Checkbox, Menu } from '@equinor/eds-core-react';
 import { PortalAction, usePortalActions, useTopBarActions } from '@equinor/portal-core';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TopBarAvatar } from '../avatar/TopBarAvatar';
 import { TopBarActionItem } from './TopBarActionItem';
 
@@ -68,7 +68,7 @@ export function TopBarActionMenuDropdown(): JSX.Element {
 				<Menu.Section title="Settings">
 					<StyledItem>
 						<Checkbox
-							onChange={(e: ChangeEvent<HTMLInputElement>) => {
+							onChange={() => {
 								toggleTopBarAllActions();
 							}}
 							checked={allActionsChecked}

@@ -3,6 +3,7 @@ import { Notifications } from '@equinor/notification';
 import SideSheet from '@equinor/fusion-react-side-sheet';
 
 export function Notification({ action, onClose, open }: PortalActionProps) {
+	const subTitle = action.subTitle || '';
 	return (
 		<SideSheet
 			isOpen={open}
@@ -13,7 +14,7 @@ export function Notification({ action, onClose, open }: PortalActionProps) {
 		>
 			<SideSheet.Indicator color={action.color} />
 			<SideSheet.Title title={action.name} />
-			<SideSheet.SubTitle subTitle={action.subTitle!} />
+			<SideSheet.SubTitle subTitle={subTitle} />
 			<SideSheet.Content>
 				<Notifications />
 			</SideSheet.Content>

@@ -21,7 +21,7 @@ export function Bookmarks({ action, onClose, open }: PortalActionProps) {
 		>
 			<SideSheet.Indicator color={action.color} />
 			<SideSheet.Title title={action.name} />
-			<SideSheet.SubTitle subTitle={action.subTitle!} />
+			<SideSheet.SubTitle subTitle={action.subTitle || ''} />
 			<SideSheet.Actions>
 				<Button
 					disabled={!hasBookmark}
