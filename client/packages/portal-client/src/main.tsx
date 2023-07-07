@@ -14,6 +14,8 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 const portalConfig = window['_config_'];
 
+const a: any = 1235;
+
 document.title = `${portalConfig.title} | Fusion`;
 const configure = createPortalFramework(portalConfig);
 
