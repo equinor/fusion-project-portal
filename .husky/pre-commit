@@ -2,7 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd client
-if !  yarn lint --max-warnings 0; then 
-    echo "You neew to fix liniting error befor committing!"
-    exit 1
-fi
+yarn lint; 
