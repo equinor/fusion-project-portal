@@ -29,7 +29,7 @@ jobs:
 
       - name: Save Code Linting Report JSON
         if: ${{ github.actor != 'dependabot[bot]' }}
-        run: yarn lint --max-warnings 0;
+        run: cd client  && yarn lint --max-warnings 0;
 
       - name: Annotate Code Linting Results
         if: ${{ github.actor != 'dependabot[bot]' }}
