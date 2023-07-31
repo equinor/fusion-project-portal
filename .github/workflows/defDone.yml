@@ -2,6 +2,8 @@ name: Definition of Done
 on:
   pull_request:
     types: [opened, edited]
+    branches-ignore:
+      - "dependabot/*"
 
 jobs:
   check-dod:
