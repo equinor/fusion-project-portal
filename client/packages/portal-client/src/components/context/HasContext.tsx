@@ -8,4 +8,5 @@ export const HasContext = () => {
 	if (isContextLoading) return null;
 
 	if (!hasContext) return <Navigate to="/" />;
+	return null;
 };
