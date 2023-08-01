@@ -115,7 +115,7 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 			{notificationDivisions.map(
 				(division) =>
 					division.notifications.length > 0 && (
-						<div className={styles.notifications}>
+						<div className={styles.notifications} key={division.key}>
 							<div className={styles.notificationsList}>
 								<Typography variant="h5">{division.label}</Typography>
 								{sortList(division.notifications).map((notification, index) => (

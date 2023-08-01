@@ -8,17 +8,17 @@ import { TopBarContextSelector, ContextProvider } from './HeaderContextSelector'
 
 interface PortalHeaderProps {
 	MenuButton: React.FC;
-	title: string;
+
 	onLogoClick: () => void;
 }
 
-export function Header({ MenuButton, title, onLogoClick }: PortalHeaderProps): JSX.Element {
+export function Header({ MenuButton, onLogoClick }: PortalHeaderProps): JSX.Element {
 	return (
 		<ContextProvider>
 			<StyledTopBar>
 				<StyledHeader>
 					<MenuButton />
-					<PortalLogo title={title} onClick={onLogoClick} />
+					<PortalLogo onClick={onLogoClick} />
 				</StyledHeader>
 				<StyledCustomContent>
 					<Breadcrumbs />

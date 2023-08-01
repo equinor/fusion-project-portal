@@ -10,3 +10,4 @@ export * from './app-loader';
 export * from './app';
 export * from './context-relations';
 export * from './modules';
+export * from './debug';
