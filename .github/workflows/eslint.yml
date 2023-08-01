@@ -4,6 +4,8 @@ on:
   pull_request:
     branch:
       - main
+    paths:
+      - "client/**"
 
 jobs:
   eslint:
