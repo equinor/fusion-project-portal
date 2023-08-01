@@ -1,4 +1,4 @@
-import { MenuProvider, ViewProvider, useOnboardedContexts } from '@equinor/portal-core';
+import { MenuProvider, ViewProvider } from '@equinor/portal-core';
 import { StyleProvider } from '@equinor/portal-ui';
 import { NotificationService, ServiceMessageProvider } from '@equinor/service-message';
 import { Outlet } from 'react-router-dom';
