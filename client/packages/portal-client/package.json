@@ -1,9 +1,10 @@
 {
   "name": "@equinor/portal-client",
   "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc  && vite build",
     "serve": "vite preview"
   }
 }

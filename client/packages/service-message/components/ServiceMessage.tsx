@@ -13,6 +13,7 @@ import SideSheet from '@equinor/fusion-react-side-sheet';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
+	const subTitle = action.subTitle || '';
 	return (
 		<SideSheet
 			isOpen={open}
@@ -23,7 +24,7 @@ export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 		>
 			<SideSheet.Indicator color={action.color} />
 			<SideSheet.Title title={action.name} />
-			<SideSheet.SubTitle subTitle={action.subTitle!} />
+			<SideSheet.SubTitle subTitle={subTitle} />
 			<SideSheet.Content>
 				<ServiceMessageWidget appKey={appKey} />
 			</SideSheet.Content>
@@ -43,7 +44,7 @@ const StyledWrapper = styled.div`
 
 export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
 	const { appsMessages, portalMessages, messages } = useServiceMessage();
-	const [compact, setCompact] = useState(false);
+	const [compact] = useState(false);
 
 	return (
 		<>
@@ -70,7 +71,7 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 	);
 };
 
-const sortCurrentAppToTop = (appKey: string = '') => {
+const sortCurrentAppToTop = (appKey?: string) => {
 	return (a: AppServiceMessage, b: AppServiceMessage) => {
 		return a.key !== appKey && b.key === appKey ? 1 : -1;
 	};

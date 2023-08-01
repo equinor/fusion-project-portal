@@ -16,7 +16,7 @@ export default defineConfig({
 			targets: [
 				{
 					src: 'src/assets/favicon.ico',
-					dest: '',
+					dest: '../../../dist/portal-client',
 				},
 			],
 		}),
@@ -30,6 +30,7 @@ export default defineConfig({
 			input: path.resolve(__dirname, './src/main.tsx'),
 			output: {
 				entryFileNames: `index.[hash].js`,
+				dir: '../../dist/portal-client',
 			},
 		},
 	},
