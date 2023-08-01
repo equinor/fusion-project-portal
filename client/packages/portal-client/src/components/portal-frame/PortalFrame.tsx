@@ -8,6 +8,7 @@ import { MenuGroups } from '../portal-menu/PortalMenu';
 import { PortalSideSheet } from '../portal-side-sheet';
 import { useBookmarkNavigate } from '@equinor/fusion-framework-react-module-bookmark/portal';
 import { BookmarkProvider } from '@equinor/fusion-framework-react-components-bookmark';
+import { HasContext } from '../context/HasContext';
 
 export const PortalFrame = () => {
 	useBookmarkNavigate({ resolveAppPath: (appKey: string) => `/apps/${appKey}` });
@@ -22,6 +23,7 @@ export const PortalFrame = () => {
 								<MenuProvider>
 									<MainHeader />
 									<MenuGroups />
+									<HasContext />
 									<Outlet />
 								</MenuProvider>
 							</ViewProvider>
