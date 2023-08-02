@@ -8,7 +8,6 @@ const DEBUG_LOG = false;
 
 const global = window as unknown as Window & { clientId: string };
 
-// TODO - get from msal module
 type BrowserAuthError = {
   errorCode: string;
   /**

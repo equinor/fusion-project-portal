@@ -17,7 +17,6 @@ import {
   UserMenuContainer,
   FusionContextRefs,
   IFusionContext,
-  // appContainerFactory,
 } from "@equinor/fusion";
 import { appContainerFactory } from "@equinor/fusion/lib/app/AppContainer";
 

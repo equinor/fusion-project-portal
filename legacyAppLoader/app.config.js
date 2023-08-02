@@ -1,6 +1,5 @@
 // demo
 export default () => ({
-  // "appKey": "",
   "manifest": {
     "key": "fusion-app-loader"
   },
