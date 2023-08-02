@@ -20,15 +20,11 @@ export default defineConfig({
 				},
 				{
 					src: 'src/assets/globalResources.js',
-					dest: '',
+					dest: '../../../dist/portal-client',
 				},
 				{
 					src: 'src/assets/appLegacyLoader.js',
-					dest: '',
-				},
-				{
-					src: 'src/assets/app-bundle.js',
-					dest: '',
+					dest: '../../../dist/portal-client',
 				},
 			],
 		}),
