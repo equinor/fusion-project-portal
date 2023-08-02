@@ -19,7 +19,7 @@ export async function getUnreadNotificationCardsAsync(client: Promise<IHttpClien
 	return list.value.map(
 		(notif): Notification => ({
 			...notif,
-			appName: notif.appKey ? notif.appKey : notif.sourceSystem.subSystem ?? 'Unknown',
+			appName: notif.appKey ? notif.appKey : notif.sourceSystem?.subSystem ?? 'Unknown',
 			actionType: notif.appKey ? 'URL' : 'Identifier',
 		})
 	);

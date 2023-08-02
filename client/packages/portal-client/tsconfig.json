@@ -10,7 +10,7 @@
       "DOM.Iterable",
       "ESNext"
     ],
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -24,13 +24,5 @@
   "files": [],
   "include": [
     "./src",
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
   ]
 }

@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from 'react';
+import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { QueryClientProvider } from 'react-query';
 import Framework from '@equinor/fusion-framework-react';
@@ -20,6 +20,9 @@ document.title = `${portalConfig.title} | Fusion`;
 configureDebug();
 
 const configure = createPortalFramework(portalConfig);
+
+/* fusion core is spamming the console form module this will remove it in production */
+configureDebug();
 
 root.render(
 	<StrictMode>

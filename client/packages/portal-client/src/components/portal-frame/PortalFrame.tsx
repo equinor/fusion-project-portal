@@ -7,6 +7,7 @@ import { MenuGroups } from '../portal-menu/PortalMenu';
 import { PortalSideSheet } from '../portal-side-sheet';
 import { useBookmarkNavigate } from '@equinor/fusion-framework-react-module-bookmark/portal';
 import { BookmarkProvider } from '@equinor/fusion-framework-react-components-bookmark';
+import { HasContext } from '../context/HasContext';
 import { css } from '@emotion/css';
 
 const style = css`
@@ -33,6 +34,7 @@ export const PortalFrame = () => {
 								<section className={style}>
 									<MainHeader />
 									<MenuGroups />
+									<HasContext />
 									<Outlet />
 								</section>
 							</MenuProvider>

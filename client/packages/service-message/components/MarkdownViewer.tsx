@@ -5,19 +5,26 @@ import { Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 
 type MarkdownViewerProps = {
-    markdown: string;
+	markdown: string;
 };
 
 const StyledTypography = styled(Typography)`
-    overflow: auto;
+	overflow: auto;
 `;
 
 const MarkdownViewer: FC<MarkdownViewerProps> = ({ markdown }) => {
-    return (
-        < StyledTypography variant="body_long"
-            dangerouslySetInnerHTML={{ __html: dompurify.sanitize(marked.parse(markdown)) }}
-        />
-    );
+	return (
+		<StyledTypography
+			variant="body_long"
+			dangerouslySetInnerHTML={{ __html: dompurify.sanitize(marked.parse(markdown)) }}
+		/>
+	);
 };
 
 export default MarkdownViewer;
+
+declare module 'dompurify' {
+	interface DOMPurifyI {
+		sanitize(source: string | Node): string;
+	}
+}

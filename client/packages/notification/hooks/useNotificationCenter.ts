@@ -1,11 +1,9 @@
 import { useFramework } from '@equinor/fusion-framework-react';
-import { HubConnectionState } from '@microsoft/signalr';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { notificationQueries } from '../queries/notificationQueries';
 import { Notification } from '../types/Notification';
 import { useSignalR } from '@equinor/fusion-framework-react/signalr';
-import { map } from 'rxjs';
 
 interface NotificationCenter {
 	isFetchingRead: boolean;

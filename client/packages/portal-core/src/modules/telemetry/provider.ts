@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IAuthProvider } from '@equinor/fusion-framework-module-msal';
 import { ApplicationInsights, ITelemetryItem } from '@microsoft/applicationinsights-web';
 
