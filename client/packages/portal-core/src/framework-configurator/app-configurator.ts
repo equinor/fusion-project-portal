@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 import { AppConfigBuilderCallback } from '@equinor/fusion-framework-module-app/dist/types/AppConfigBuilder';
 import { Client } from '../types';

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ContextSelector, useFrameworkContext, useViewController } from '@equinor/portal-core';
+import { ContextSelector, useViewController } from '@equinor/portal-core';
 import { useNavigate, useParams } from 'react-router-dom';
 export { ContextProvider } from '@equinor/portal-core';
 

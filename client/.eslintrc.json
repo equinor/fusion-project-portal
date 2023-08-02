@@ -6,11 +6,11 @@
 
   "parser": "@typescript-eslint/parser",
   "ignorePatterns": [
-    "*.md", "*.svg", "*.d.ts", "*.ico", "*.html"
+    "*.md", "*.svg", "*.d.ts", "*.ico", "*.html", "*.js"
   ],
   "rules": {
     "tsdoc/syntax": "warn",
-    "prefer-destructuring": "warn",
+    "prefer-destructuring": "off",
     "prefer-arrow-callback": "warn",
     "prefer-const": "warn",
     "lines-between-class-members": "warn",

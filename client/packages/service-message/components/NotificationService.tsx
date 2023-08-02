@@ -17,7 +17,7 @@ const messageListWrapper = css`
 	z-index: 1;
 `;
 
-export const NotificationService: FC<PropsWithChildren<{}>> = ({ children }) => {
+export const NotificationService: FC<PropsWithChildren> = ({ children }) => {
 	const { appKey } = useParams();
 	const { currentMessages } = useServiceMessage(appKey);
 	return (

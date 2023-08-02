@@ -87,7 +87,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
 
-			/** Fusion Legacy App Loader should be removed when all application are migrated -- Start --> */
+			/** Fusion Legacy App Loader should be removed when all application are migrated -- Start */
 			fusion.navigation.state$.subscribe((nav) => {
 				if (nav.action !== 'PUSH') return;
 
@@ -98,7 +98,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					fusion.navigation.navigator.go(-1);
 				}
 			});
-			/** --> End*/
+			/**  End*/
 
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
