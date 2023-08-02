@@ -53,25 +53,25 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
                 throw new NotFoundException("Could not find any onboarded app with that id", command.AppKey);
             }
 
-            var workSurfaceWithContextApps = await _readWriteContext.Set<WorkSurface>()
+            var workSurfaceWithGlobalAndContextApps = await _readWriteContext.Set<WorkSurface>()
                 .Include(x => x.Apps
                     .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.ExternalId == command.ContextExternalId))
                     .ThenInclude(x => x.OnboardedContext)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
-            if (workSurfaceWithContextApps == null)
+            if (workSurfaceWithGlobalAndContextApps == null)
             {
                 throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
 
-            if (workSurfaceWithContextApps.HasApp(onboardedApp.Id))
+            if (workSurfaceWithGlobalAndContextApps.HasApp(onboardedApp.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface. Either globally or with the supplied context");
             }
 
             var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);
 
-            workSurfaceWithContextApps.AddApp(workSurfaceApp);
+            workSurfaceWithGlobalAndContextApps.AddApp(workSurfaceApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

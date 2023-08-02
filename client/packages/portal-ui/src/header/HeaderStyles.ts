@@ -7,7 +7,7 @@ export const StyledHeader = styled(TopBar.Header)`
 
 export const StyledTopBar = styled(TopBar)`
 	padding: 0px;
-	height: 48px;
+	height: var(--header-height);
 `;
 
 export const StyledCustomContent = styled(TopBar.CustomContent)`

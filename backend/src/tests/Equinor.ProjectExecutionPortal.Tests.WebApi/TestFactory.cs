@@ -199,7 +199,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupServiceMock()
         {
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApps())
-                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps as IList<ApiFusionPortalAppInformation>));
+                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps as IList<FusionPortalAppInformation>));
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
                 .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));

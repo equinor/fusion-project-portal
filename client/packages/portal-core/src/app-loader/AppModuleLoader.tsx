@@ -9,13 +9,17 @@ interface CurrentAppLoaderProps {
 }
 
 const Wrapper = styled.section`
-	height: calc(100vh - 48px);
+	height: calc(100vh - var(--header-height));
 	width: 100vw;
 `;
 
 const StyledAppSection = styled.section`
-	flex: 1 1 auto;
+	width: 100%;
+	z-index: 1;
 	overflow: auto;
+	position: relative;
+	grid-area: content;
+	max-width: 100%;
 `;
 
 export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
@@ -26,6 +30,7 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
 	useEffect(() => {
 		const refEl = ref.current;
 		const appEl = appRef.current;
+
 		if (!(appEl && refEl)) {
 			return;
 		}

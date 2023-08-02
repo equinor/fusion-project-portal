@@ -4,9 +4,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
     internal class FusionPortalAppsData
     {
-        public static List<ApiFusionPortalAppInformation> ValidFusionApps => new()
+        public static List<FusionPortalAppInformation> ValidFusionApps => new()
         {
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "meetings",
                 Name = "Meetings",
@@ -18,7 +18,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "reviews",
                 Name = "Reviews",
@@ -30,7 +30,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "tasks",
                 Name = "Tasks",
@@ -42,7 +42,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "one-equinor",
                 Name = "One Equinor",
@@ -54,7 +54,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "handover-garden",
                 Name = "Handover Garden",
@@ -66,7 +66,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "workorder-garden",
                 Name = "Workorder Garden",
@@ -78,7 +78,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "test-app",
                 Name = "A test app",
@@ -90,7 +90,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 AccentColor = null,
                 Icon = null
             },
-            new ApiFusionPortalAppInformation
+            new FusionPortalAppInformation
             {
                 Key = "app-to-be-removed",
                 Name = "An app to be deleted by tests",

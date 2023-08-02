@@ -4,7 +4,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {
     public class ApiAppGroup
     {
-        public ApiAppGroup() { }
+        public ApiAppGroup()
+        { }
 
         public ApiAppGroup(AppGroupDto appGroupDto)
         {

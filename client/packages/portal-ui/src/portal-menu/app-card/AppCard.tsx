@@ -55,7 +55,7 @@ export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) =>
 				className={styles.menuItem}
 				disabled={isDisabled}
 				selected={isActive}
-				to={`/apps/${appKey}`}
+				to={`/apps/${appKey}/`}
 				id={`${appKey}-button`}
 				title={
 					isDisabled

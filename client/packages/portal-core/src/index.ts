@@ -9,5 +9,6 @@ export * from './types';
 export * from './app-loader';
 export * from './app';
 export * from './context-relations';
+export * from './debug';
 export * from './modules';
 export * from './debug';

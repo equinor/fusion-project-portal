@@ -7,7 +7,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
     {
         Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken);
 
-        Task<IList<ApiFusionPortalAppInformation>> GetFusionApps();
+        Task<IList<FusionPortalAppInformation>> GetFusionApps();
+
+        Task<FusionPortalAppInformation?> GetFusionApp(string appKey);
+
+        Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey);
+
+        Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken);
 
         Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> apps, CancellationToken cancellationToken);
     }

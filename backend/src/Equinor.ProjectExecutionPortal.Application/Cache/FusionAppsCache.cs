@@ -14,7 +14,7 @@ public class FusionAppsCache : IFusionAppsCache
         _fusionPortalApiService = fusionPortalApiService;
     }
 
-    public async Task<List<ApiFusionPortalAppInformation>> GetFusionApps()
+    public async Task<List<FusionPortalAppInformation>> GetFusionApps()
     {
         return await _cacheManager.GetOrCreateAsync("FUSION_APP",
             async () =>
@@ -23,6 +23,14 @@ public class FusionAppsCache : IFusionAppsCache
 
                 return fusionApps.ToList();
             },
+            CacheDuration.Minutes,
+            60);
+    }
+
+    public async Task<FusionPortalAppInformation?> GetFusionApp(string appKey)
+    {
+        return await _cacheManager.GetOrCreateAsync("FUSION_APP",
+            async () => await _fusionPortalApiService.TryGetFusionPortalApp(appKey),
             CacheDuration.Minutes,
             60);
     }

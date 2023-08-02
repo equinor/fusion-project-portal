@@ -1,11 +1,12 @@
 import { FC, PropsWithChildren } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
+
 import { useServiceMessage } from '../query/use-service-message';
 
 import { MessageWrapper } from './MessageWrapper';
+import { css } from '@emotion/css';
 
-const StyledMessageListWrapper = styled.div`
+const messageListWrapper = css`
 	position: fixed;
 	bottom: 1rem;
 	right: 1rem;
@@ -16,19 +17,13 @@ const StyledMessageListWrapper = styled.div`
 	z-index: 1;
 `;
 
-const StyledWrapper = styled.div`
-	height: inherit;
-	display: flex;
-	flex-direction: column;
-`;
-
 export const NotificationService: FC<PropsWithChildren> = ({ children }) => {
 	const { appKey } = useParams();
 	const { currentMessages } = useServiceMessage(appKey);
 	return (
-		<StyledWrapper>
+		<>
 			{children}
-			<StyledMessageListWrapper>
+			<div className={messageListWrapper}>
 				{currentMessages.length > 0
 					? currentMessages.map((message) => (
 							<MessageWrapper
@@ -38,7 +33,7 @@ export const NotificationService: FC<PropsWithChildren> = ({ children }) => {
 							/>
 					  ))
 					: null}
-			</StyledMessageListWrapper>
-		</StyledWrapper>
+			</div>
+		</>
 	);
 };

@@ -27,7 +27,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
                 Order = grouping.Key.Order,
                 Apps = grouping
                     .DistinctBy(workSurfaceApp => workSurfaceApp.OnboardedApp.Id)
-                    .OrderBy(workSurfaceApp => workSurfaceApp.OnboardedApp.Name)
+                    .OrderBy(workSurfaceApp => workSurfaceApp.OnboardedApp.AppInformation?.Name)
                     .ToList()
             })
                 .OrderBy(appGroup => appGroup.Name)
