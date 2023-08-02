@@ -11,7 +11,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
         /// <summary>
         /// Maps a WorkSurface to an ordered grouping by AppGroups with respective destinct and ordered apps
         /// </summary>
-        public List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface)
+        public List<WorkSurfaceAppGroupWithAppsDto>? MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface)
         {
             var appGrouping = workSurface.Apps.GroupBy(workSurfaceApp => new
             {

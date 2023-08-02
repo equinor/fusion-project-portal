@@ -17,21 +17,25 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var appGroupsDto = await Mediator.Send(new GetAppGroups());
 
-            return appGroupsDto.Select(x => new ApiAppGroup(x)).ToList();
+            return Ok(appGroupsDto.Select(x => new ApiAppGroup(x)).ToList());
         }
 
         [HttpPost("")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> CreateAppGroup([FromBody] ApiCreateAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            await Mediator.Send(request.ToCommand());
+
+            return Ok();
         }
 
         [HttpPut("{appGroupId:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid appGroupId, [FromBody] ApiUpdateAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand(appGroupId));
+            await Mediator.Send(request.ToCommand(appGroupId));
+
+            return Ok();
         }
 
         [HttpDelete("{appGroupId:guid}")]
@@ -41,7 +45,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var request = new ApiDeleteAppGroupRequest();
             await Mediator.Send(request.ToCommand(appGroupId));
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPut("reorder")]
@@ -50,7 +54,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
     }
 }

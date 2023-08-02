@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
@@ -49,7 +48,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_NonExistentWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
         {
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() => GetWorksurface(Guid.NewGuid(), UserType.Authenticated));
+            var response = await GetAppsForWorksurface(Guid.NewGuid(), null, UserType.Authenticated);
+
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [TestMethod]
@@ -129,7 +130,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForNonExistentWorkSurface_AsAuthenticatedUser_ShouldReturnNotFound()
         {
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() => GetAppsForWorksurface(Guid.NewGuid(), null, UserType.Authenticated));
+            var response = await GetAppsForWorksurface(Guid.NewGuid(), null, UserType.Authenticated);
+
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [TestMethod]

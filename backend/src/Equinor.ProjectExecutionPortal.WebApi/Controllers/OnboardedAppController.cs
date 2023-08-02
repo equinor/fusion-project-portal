@@ -18,7 +18,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
 
-            return onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList();
+            return Ok(onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList());
         }
 
         [HttpGet("{appKey}")]
@@ -33,14 +33,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            await Mediator.Send(request.ToCommand());
+
+            return Ok();
         }
 
         [HttpPut("{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
         {
-            return await Mediator.Send(request.ToCommand(appKey));
+            await Mediator.Send(request.ToCommand(appKey));
+
+            return Ok();
         }
 
         [HttpDelete("{appKey}")]
@@ -51,7 +55,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPut("reorder")]
@@ -60,7 +64,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
     }
 }

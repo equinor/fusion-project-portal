@@ -19,7 +19,7 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
 
     public Guid WorkSurfaceId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithGlobalAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>>
+    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithGlobalAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>?>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
@@ -34,9 +34,9 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
             _mapper = mapper;
         }
 
-        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>> Handle(GetWorkSurfaceAppGroupsWithGlobalAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>?> Handle(GetWorkSurfaceAppGroupsWithGlobalAppsQuery request, CancellationToken cancellationToken)
         {
-            var workSurface = await _readWriteContext.Set<Domain.Entities.WorkSurface>()
+            var workSurface = await _readWriteContext.Set<WorkSurface>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContextId == null))
                 .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
@@ -45,10 +45,10 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
 
             if (workSurface == null)
             {
-                throw new NotFoundException(nameof(WorkSurfaceApp), request.WorkSurfaceId);
+                return null;
             }
 
-            var workSurfaceDto = _mapper.Map<Domain.Entities.WorkSurface, WorkSurfaceDto>(workSurface);
+            var workSurfaceDto = _mapper.Map<WorkSurface, WorkSurfaceDto>(workSurface);
 
             await _appService.EnrichAppsWithFusionAppData(workSurfaceDto.Apps.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
 

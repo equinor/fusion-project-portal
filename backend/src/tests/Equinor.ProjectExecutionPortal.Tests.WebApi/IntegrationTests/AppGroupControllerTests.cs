@@ -179,7 +179,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             var getAllAfter = await AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
 
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(getAllBefore!.Count, getAllAfter!.Count);
             Assert.AreNotEqual(getAllBefore.First().Name, getAllAfter.First().Name);
             Assert.AreNotEqual(getAllBefore.Last().Name, getAllAfter.Last().Name);
@@ -242,7 +242,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(totalCountAfterAdded);
             Assert.IsNotNull(totalCountAfterRemoval);
-            Assert.AreEqual(HttpStatusCode.NoContent, removeResponse.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, removeResponse.StatusCode);
             Assert.AreEqual(totalCountAfterAdded - 1, totalCountAfterRemoval);
         }
 

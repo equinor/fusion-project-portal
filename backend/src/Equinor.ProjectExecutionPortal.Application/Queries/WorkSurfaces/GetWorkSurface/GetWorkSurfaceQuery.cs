@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -32,9 +31,9 @@ public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
         {
             var entity = await _readWriteContext.Set<WorkSurface>()
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken) ?? throw new NotFoundException(nameof(WorkSurfaceApp), request.WorkSurfaceId);
+            .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);
 
-            var workSurface = _mapper.Map<WorkSurface, WorkSurfaceDto>(entity);
+            var workSurface = _mapper.Map<WorkSurface?, WorkSurfaceDto?>(entity);
 
             return workSurface;
         }

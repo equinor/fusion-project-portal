@@ -4,6 +4,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService
 {
     public interface IWorkSurfaceService
     {
-        List<WorkSurfaceAppGroupWithAppsDto> MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface);
+        List<WorkSurfaceAppGroupWithAppsDto>? MapWorkSurfaceToAppGroups(WorkSurfaceDto workSurface);
     }
 }
