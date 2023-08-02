@@ -21,11 +21,11 @@ const getMonday = (date: Date) => {
 	return new Date(d.setDate(diff));
 };
 
-const get24HTime = (date: Date) => {
-	const d = new Date(date);
-	const min = d.getMinutes();
-	return `${d.getHours()}:${min.toString().length === 1 ? '0' + min : min}`;
-};
+// const get24HTime = (date: Date) => {
+// 	const d = new Date(date);
+// 	const min = d.getMinutes();
+// 	return `${d.getHours()}:${min.toString().length === 1 ? '0' + min : min}`;
+// };
 
 const isNotificationFromToday = (notification: Notification) =>
 	!!(new Date(notification.created).toDateString() === new Date().toDateString());
@@ -115,7 +115,7 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 			{notificationDivisions.map(
 				(division) =>
 					division.notifications.length > 0 && (
-						<div className={styles.notifications}>
+						<div className={styles.notifications} key={division.key}>
 							<div className={styles.notificationsList}>
 								<Typography variant="h5">{division.label}</Typography>
 								{sortList(division.notifications).map((notification, index) => (

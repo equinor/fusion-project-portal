@@ -11,10 +11,11 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
 {
     public const int AppKeyLengthMax = 200;
 
-    public OnboardedApp(string appKey, int order)
+    public OnboardedApp(string appKey, int order, bool isLegacy)
     {
         AppKey = appKey;
         Order = order;
+        IsLegacy = isLegacy;
     }
 
     /// <summary>
@@ -28,11 +29,17 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     /// </summary>
     public int Order { get; set; }
 
+    /// <summary>
+    /// This flag is used for conditional rendering of legacy apps on the client application
+    /// </summary>
+    public bool IsLegacy { get; set; }
+
     public Guid AppGroupId { get; set; }
     public AppGroup AppGroup { get; set; }
 
-    public void Update(Guid appGroupId)
+    public void Update(bool isLegacy, Guid appGroupId)
     {
+        IsLegacy = isLegacy;
         AppGroupId = appGroupId;
     }
 }

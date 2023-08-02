@@ -9,13 +9,15 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, Guid appGroupId)
+    public OnboardAppCommand(string appKey, bool isLegacy, Guid appGroupId)
     {
         AppKey = appKey;
+        IsLegacy = isLegacy;
         AppGroupId = appGroupId;
     }
 
     public string AppKey { get; }
+    public bool IsLegacy { get; }
     public Guid AppGroupId { get; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
@@ -56,7 +58,7 @@ public class OnboardAppCommand : IRequest<Guid>
 
             var onboardedAppsCount = appGroup.Apps.Count;
 
-            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount);
+            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount, command.IsLegacy);
 
             appGroup.AddApp(onboardedApp);
 

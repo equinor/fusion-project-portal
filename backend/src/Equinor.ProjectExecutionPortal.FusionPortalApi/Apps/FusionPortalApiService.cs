@@ -23,7 +23,7 @@ public class FusionPortalApiService : IFusionPortalApiService
         _apiVersion = options.CurrentValue.ApiVersion;
     }
 
-    public async Task<IList<ApiFusionPortalAppInformation>> TryGetFusionPortalApps()
+    public async Task<IList<FusionPortalAppInformation>> TryGetFusionPortalApps()
     {
         var url = $"{_baseAddress}/api/apps/" +
                   $"?api-version={_apiVersion}";
@@ -33,7 +33,7 @@ public class FusionPortalApiService : IFusionPortalApiService
 
         try
         {
-            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<List<ApiFusionPortalAppInformation>>(url);
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<List<FusionPortalAppInformation>>(url);
         }
         finally
         {
@@ -41,9 +41,9 @@ public class FusionPortalApiService : IFusionPortalApiService
         }
     }
 
-    public async Task<ApiFusionPortalAppInformation?> TryGetFusionPortalApp(string appKey)
+    public async Task<FusionPortalAppInformation?> TryGetFusionPortalApp(string appKey)
     {
-        var url = $"{_baseAddress}/api/apps/" + 
+        var url = $"{_baseAddress}/api/apps/" +
                   $"{appKey}" +
                   $"?api-version={_apiVersion}";
 
@@ -52,7 +52,26 @@ public class FusionPortalApiService : IFusionPortalApiService
 
         try
         {
-            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<ApiFusionPortalAppInformation>(url);
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<FusionPortalAppInformation>(url);
+        }
+        finally
+        {
+            _authenticator.AuthenticationType = oldAuthType;
+        }
+    }
+
+    public async Task<FusionAppEnvironmentConfig?> TryGetFusionPortalAppConfig(string appKey)
+    {
+        var url = $"{_baseAddress}/api/apps/" +
+                  $"{appKey}/config" +
+                  $"?api-version={_apiVersion}";
+
+        var oldAuthType = _authenticator.AuthenticationType;
+        _authenticator.AuthenticationType = AuthenticationType.AsApplication;
+
+        try
+        {
+            return await _fusionPortalApiClient.TryQueryAndDeserializeAsync<FusionAppEnvironmentConfig>(url);
         }
         finally
         {

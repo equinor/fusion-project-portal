@@ -1,5 +1,4 @@
-import { Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { WorkAssigned } from '@equinor/portal-ui';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -23,7 +22,6 @@ export const ProjectPage = () => {
 	const { contextId } = useParams();
 
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
-	const { hasContext } = useOnboardedContexts();
 
 	if (
 		!currentContext ||
@@ -32,7 +30,7 @@ export const ProjectPage = () => {
 		return null;
 	}
 
-	if (currentContext.type.id !== 'ProjectMaster' || !hasContext) {
+	if (currentContext.type.id !== 'ProjectMaster') {
 		return <Navigate to="/" />;
 	}
 

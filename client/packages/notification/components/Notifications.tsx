@@ -1,4 +1,4 @@
-import { Button, Tabs, TabsProps } from '@equinor/eds-core-react';
+import { Button, Tabs } from '@equinor/eds-core-react';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';

@@ -22,3 +22,9 @@ const MarkdownViewer: FC<MarkdownViewerProps> = ({ markdown }) => {
 };
 
 export default MarkdownViewer;
+
+declare module 'dompurify' {
+	interface DOMPurifyI {
+		sanitize(source: string | Node): string;
+	}
+}

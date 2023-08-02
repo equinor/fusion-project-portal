@@ -23,7 +23,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(onboardedApps);
             Assert.IsTrue(onboardedApps.Count > 0);
-            Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApps.FirstOrDefault());
         }
 
         [TestMethod]
@@ -35,7 +36,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(onboardedApps);
             Assert.IsTrue(onboardedApps.Count > 0);
-            Assert.IsNotNull(onboardedApps.FirstOrDefault()?.AppKey);
+            AssertHelpers.AssertOnboardedAppValues(onboardedApps.FirstOrDefault());
         }
 
         [TestMethod]
@@ -49,6 +50,40 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Get_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Act
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Authenticated, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(onboardedApp);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+        }
+
+        [TestMethod]
+        public async Task Get_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Act
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Administrator, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(onboardedApp);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+        }
+
+        [TestMethod]
+        public async Task Get_OnboardedApp_AsAnonymous_ShouldReturnUnauthorized()
+        {
+            // Act
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Anonymous, HttpStatusCode.Unauthorized);
+
+            // Assert
+            Assert.IsNull(onboardedApp);
+        }
+
+        [TestMethod]
         public async Task Add_Valid_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
@@ -59,6 +94,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
+                IsLegacy = false,
                 AppGroupId = getAllAppGroups!.First().Id
             };
 
@@ -82,6 +118,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
+                IsLegacy = false,
                 AppGroupId = Guid.NewGuid()
             };
 
@@ -99,6 +136,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
+                IsLegacy = false,
                 AppGroupId = Guid.NewGuid()
             };
 
@@ -116,7 +154,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist-in-fusion"
+                AppKey = "i-do-not-exist-in-fusion",
+                IsLegacy = false
             };
 
             // Act
@@ -132,7 +171,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey
+                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey,
+                IsLegacy = false
             };
 
             // Act & Assert
@@ -150,7 +190,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                AppGroupId = theNewAppGroup.Id
+                AppGroupId = theNewAppGroup.Id,
+                IsLegacy = false
             };
 
             // Act
@@ -162,6 +203,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
+            Assert.AreEqual(theOneToUpdate.IsLegacy, theOneAfterUpdate.IsLegacy);
             Assert.AreEqual(theOneAfterUpdate.AppGroup.Id, theNewAppGroup.Id);
             Assert.AreNotEqual(theOneToUpdate.AppGroup.Id, theOneAfterUpdate.AppGroup.Id);
         }
@@ -207,6 +249,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "app-to-be-removed",
+                IsLegacy = false,
                 AppGroupId = getAllAppGroups!.First().Id
             };
 
@@ -274,13 +317,49 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(content);
             Assert.IsNotNull(onboardedApps);
 
+            foreach (var app in onboardedApps)
+            {
+                AssertHelpers.AssertOnboardedAppValues(app);
+            }
+
             return onboardedApps;
+        }
+
+        private static async Task<ApiOnboardedApp?> AssertGetOnboardedApp(string appKey, UserType userType, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            var response = await GetOnboardedApp(userType, appKey);
+            var content = await response.Content.ReadAsStringAsync();
+            var onboardedApp = JsonConvert.DeserializeObject<ApiOnboardedApp>(content);
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return onboardedApp;
+            }
+
+            Assert.IsNotNull(content);
+            Assert.IsNotNull(onboardedApp);
+
+            AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+
+            return onboardedApp;
         }
 
         private static async Task<HttpResponseMessage> GetAllOnboardedApps(UserType userType)
         {
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.GetAsync($"{Route}");
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> GetOnboardedApp(UserType userType, string appKey)
+        {
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync($"{Route}/{appKey}");
 
             return response;
         }

@@ -7,14 +7,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
         public ApiWorkSurfaceApp(WorkSurfaceAppDto workSurfaceAppDto)
         {
             AppKey = workSurfaceAppDto.OnboardedApp.AppKey;
-            Name = workSurfaceAppDto.OnboardedApp.Name;
-            Description = workSurfaceAppDto.OnboardedApp.Description;
+            Name = workSurfaceAppDto.OnboardedApp.AppInformation?.Name;
+            Description = workSurfaceAppDto.OnboardedApp.AppInformation?.Description;
             Order = workSurfaceAppDto.OnboardedApp.Order;
         }
 
         public string AppKey { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public int Order { get; set; }
     }
 }

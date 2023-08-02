@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 import { useFrameworkContext } from './use-framework-context';
+import { clearLocalContext } from '../framework-configurator';
 
 export const useContextResolver = (type: string[]): ContextResolver => {
 	const contextProvider = useFrameworkContext();
@@ -79,6 +80,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 		closeHandler: (e: MouseEvent) => {
 			e.stopPropagation();
 			contextProvider.clearCurrentContext();
+			clearLocalContext();
 		},
 	};
 };

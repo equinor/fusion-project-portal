@@ -19,57 +19,77 @@
 
 <div id="root"></div>
 
-<script>
-    var portalConfig = {
-        "title": "@clientBundle.Title",
-        "description": "@clientBundle.Description",
-        "serviceDiscovery": {
-            "client": {
-                "baseUri": "@fusionPortalApi.BaseAddress",
-                "defaultScopes": [
-                    "@fusionPortalApi.Scope"
-                ]
-            }
-        },
-        "portalClient": {
-            "client": {
-                "baseUri": "@fusionProjectPortalApi.BaseAddress",
-                "defaultScopes": [
-                    "@fusionProjectPortalApi.Scope"
-                ]
-            }
-        },
-        "bookmarks": {
-            "name": "@fusionBookmarks.Name",
-            "identifier": "@fusionBookmarks.Identifier",
-            "subsystem": "@fusionBookmarks.Subsystem"
-        },
-        "msal": {
-            "client": {
-                "tenantId": "@clientBundle.Msal!.TenantId",
-                "clientId": "@clientBundle.Msal!.ClientId",
-                "redirectUri": "@clientBundle.Msal!.RedirectUri"
-            },
-            "options": {
-                "requiresAuth": true
-            }
-        },
-        "logger": {
-            "level": 0,
-            "defaultClientLogger": {
-                "active": false,
-                "level": 0
-            }
-        },
-        "applicationInsights": {
-		    "connectionString": "@applicationInsights.ConnectionString"
-	    },
-        "agGrid": {
-            "licenseKey": "@clientBundle.AgGrid!.LicenseKey"
-        }
-    };
-
-    window["_config_"] = portalConfig;
-</script>
-
 <script type="module" src="~/@clientBundleFileName"></script>
+
+
+@section Headers {
+    <script>
+        var portalConfig = {
+            "title": "@clientBundle.Title",
+            "description": "@clientBundle.Description",
+            "serviceDiscovery": {
+                "client": {
+                    "baseUri": "@fusionPortalApi.BaseAddress",
+                    "defaultScopes": [
+                        "@fusionPortalApi.Scope"
+                    ]
+                }
+            },
+            "portalClient": {
+                "client": {
+                    "baseUri": "@fusionProjectPortalApi.BaseAddress",
+                    "defaultScopes": [
+                        "@fusionProjectPortalApi.Scope"
+                    ]
+                }
+            },
+            "bookmarks": {
+                "name": "@fusionBookmarks.Name",
+                "identifier": "@fusionBookmarks.Identifier",
+                "subsystem": "@fusionBookmarks.Subsystem"
+            },
+            "msal": {
+                "client": {
+                    "tenantId": "@clientBundle.Msal!.TenantId",
+                    "clientId": "@clientBundle.Msal!.ClientId",
+                    "redirectUri": "@clientBundle.Msal!.RedirectUri"
+                },
+                "options": {
+                    "requiresAuth": true
+                }
+            },
+            "logger": {
+                "level": 0,
+                "defaultClientLogger": {
+                    "active": false,
+                    "level": 0
+                }
+            },
+            "applicationInsights": {
+                "connectionString": "@applicationInsights.ConnectionString"
+            },
+            "agGrid": {
+                "licenseKey": "@clientBundle.AgGrid!.LicenseKey"
+            }
+        };
+
+        window["_config_"] = portalConfig;
+    </script>
+
+    <script>
+      /**
+       * When defining a custom element the browser would throw an error if already defined.
+       * We would like the portal to provide the latest components
+      */
+      const _customElementsDefine = window.customElements.define;
+      window.customElements.define = (name, cl, conf) => {
+        if (!customElements.get(name)) {
+          _customElementsDefine.call(window.customElements, name, cl, conf);
+        } else {
+          console.debug(`duplicate registration of ${name}`);
+        }
+      };
+    </script>
+    
+    <script src="/globalResources.js"></script>
+}

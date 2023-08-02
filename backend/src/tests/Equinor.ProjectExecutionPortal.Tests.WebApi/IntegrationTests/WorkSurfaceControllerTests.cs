@@ -231,10 +231,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
                 foreach (var app in appGroup.Apps)
                 {
-                    Assert.IsNotNull(app.AppKey);
-                    Assert.IsNotNull(app.Name);
-                    Assert.IsNotNull(app.Description);
-                    Assert.IsNotNull(app.Order);
+                    AssertHelpers.AssertWorkSurfaceAppValues(app);
                 }
             }
 

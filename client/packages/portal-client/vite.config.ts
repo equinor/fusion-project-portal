@@ -18,6 +18,18 @@ export default defineConfig({
 					src: 'src/assets/favicon.ico',
 					dest: '../../../dist/portal-client',
 				},
+				{
+					src: 'src/assets/globalResources.js',
+					dest: '',
+				},
+				{
+					src: 'src/assets/appLegacyLoader.js',
+					dest: '',
+				},
+				{
+					src: 'src/assets/app-bundle.js',
+					dest: '',
+				},
 			],
 		}),
 	],

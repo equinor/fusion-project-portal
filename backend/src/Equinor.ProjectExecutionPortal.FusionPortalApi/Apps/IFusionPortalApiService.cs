@@ -4,9 +4,11 @@ namespace Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 
 public interface IFusionPortalApiService
 {
-    Task<IList<ApiFusionPortalAppInformation>> TryGetFusionPortalApps();
+    Task<IList<FusionPortalAppInformation>> TryGetFusionPortalApps();
 
-    Task<ApiFusionPortalAppInformation?> TryGetFusionPortalApp(string appKey);
+    Task<FusionPortalAppInformation?> TryGetFusionPortalApp(string appKey);
+
+    Task<FusionAppEnvironmentConfig?> TryGetFusionPortalAppConfig(string appKey);
 
     Task<byte[]> TryGetFusionPortalAppBundle(string appKey);
 }
