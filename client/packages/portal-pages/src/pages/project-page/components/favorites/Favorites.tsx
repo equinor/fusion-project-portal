@@ -135,7 +135,6 @@ export const Favorites = () => {
 									<div>
 										<Typography>{app.name}</Typography>
 										<Typography variant="overline">{app.category?.name}</Typography>
-										<Typography>{app.description}</Typography>
 									</div>
 								</Link>
 							);
