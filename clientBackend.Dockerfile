@@ -10,7 +10,7 @@ WORKDIR /app-client
 COPY ["/client", "."]
 
 RUN yarn install --frozen-lockfile
-RUN npx yarn run build
+RUN npx yarn run build --mode prod
 
 # 2: Build & run web server
 # ----------------------------------------------------
