@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			tsconfig(),
-			env({ NODE_ENV: isProduction ? 'production' : 'development' }),
+			env({ NODE_ENV: 'development' }),
 			viteStaticCopy({
 				targets: [
 					{
