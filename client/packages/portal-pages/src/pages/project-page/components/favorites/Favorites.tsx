@@ -1,14 +1,12 @@
-import { getDisabledApps, useObservable } from '@equinor/portal-utils';
-import { menuFavoritesController, useAppGroupsQuery, useAppModule, useTelemetry } from '@equinor/portal-core';
+import { useTelemetry } from '@equinor/portal-core';
 import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
-import { combineLatest, map } from 'rxjs';
 import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useFavorites } from '../../hooks/use-favorites';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
@@ -27,34 +25,26 @@ const AppIcon = styled.span<{ color: string | null | undefined }>`
 		fill: #fff;
 	}
 `;
-type StyledAppCardPops = {
-	disabled?: boolean;
+
+type AppCardPops = {
+	isDisabled?: boolean;
 };
 
-const StyledLink = styled(Link)<StyledAppCardPops>`
-	color: ${({ disabled }) =>
-		disabled ? tokens.colors.text.static_icons__default.hex : tokens.colors.text.static_icons__default.hex};
-	opacity: ${({ disabled }) => (disabled ? 0.5 : 'none')};
-	cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-	&:hover {
-		opacity: ${({ disabled }) => (disabled ? 0.5 : 'none')};
-		color: ${({ disabled }) =>
-			disabled ? tokens.colors.text.static_icons__default.hex : tokens.colors.text.static_icons__default.hex};
-	}
-`;
-
 const styles = {
-	appCard: css`
-		display: flex;
-		flex-direction: row;
-		gap: 1rem;
-		cursor: pointer;
-		overflow: hidden;
-		text-decoration: none;
-		:hover {
-			opacity: 0.9;
-		}
-	`,
+	appCard: ({ isDisabled }: AppCardPops) => {
+		return css`
+			opacity: ${isDisabled ? 0.5 : 'none'};
+			cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+			overflow: hidden;
+			text-decoration: none;
+			:hover {
+				opacity: ${isDisabled ? 0.6 : 'none'};
+			}
+		`;
+	},
 	cardList: css`
 		display: grid;
 		grid-auto-rows: 100px;
@@ -111,11 +101,10 @@ export const Favorites = () => {
 						favorites.map((app) => {
 							const isDisabled = disabledAppKeys.includes(app.key);
 							return (
-								<StyledLink
-									className={styles.appCard}
+								<Link
+									className={styles.appCard({ isDisabled })}
 									to={`/apps/${app.key}`}
 									key={app.key}
-									disabled={isDisabled}
 									title={
 										isDisabled
 											? `${app.name} is not available for the selected context`
@@ -148,7 +137,7 @@ export const Favorites = () => {
 										<Typography variant="overline">{app.category?.name}</Typography>
 										<Typography>{app.description}</Typography>
 									</div>
-								</StyledLink>
+								</Link>
 							);
 						})
 					) : (
