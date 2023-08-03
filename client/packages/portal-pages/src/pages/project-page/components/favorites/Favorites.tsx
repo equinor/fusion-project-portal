@@ -1,5 +1,5 @@
-import { useObservable } from '@equinor/portal-utils';
-import { menuFavoritesController, useAppModule, useTelemetry } from '@equinor/portal-core';
+import { getDisabledApps, useObservable } from '@equinor/portal-utils';
+import { menuFavoritesController, useAppGroupsQuery, useAppModule, useTelemetry } from '@equinor/portal-core';
 import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { useMemo, useRef, useState } from 'react';
+import { useFavorites } from '../../hooks/use-favorites';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
 	display: flex;
@@ -24,6 +25,21 @@ const AppIcon = styled.span<{ color: string | null | undefined }>`
 			fill: #fff;
 		}
 		fill: #fff;
+	}
+`;
+type StyledAppCardPops = {
+	disabled?: boolean;
+};
+
+const StyledLink = styled(Link)<StyledAppCardPops>`
+	color: ${({ disabled }) =>
+		disabled ? tokens.colors.text.static_icons__default.hex : tokens.colors.text.static_icons__default.hex};
+	opacity: ${({ disabled }) => (disabled ? 0.5 : 'none')};
+	cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+	&:hover {
+		opacity: ${({ disabled }) => (disabled ? 0.5 : 'none')};
+		color: ${({ disabled }) =>
+			disabled ? tokens.colors.text.static_icons__default.hex : tokens.colors.text.static_icons__default.hex};
 	}
 `;
 
@@ -66,18 +82,9 @@ const styles = {
 export const Favorites = () => {
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const { fusion } = useAppModule();
 	const { dispatchEvent } = useTelemetry();
 
-	const favorite$ = useMemo(
-		() =>
-			combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
-				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
-			),
-		[fusion.modules.app.getAllAppManifests]
-	);
-
-	const favorites = useObservable(favorite$);
+	const { favorites, disabledAppKeys, hasFavorites } = useFavorites();
 
 	return (
 		<Card className={styles.fullHeight}>
@@ -100,37 +107,50 @@ export const Favorites = () => {
 			</Card.Header>
 			<Card.Content>
 				<nav className={styles.cardList}>
-					{favorites?.length ? (
-						favorites.map((a) => (
-							<Link
-								className={styles.appCard}
-								to={`/apps/${a.key}`}
-								key={a.key}
-								onClick={() => {
-									dispatchEvent(
-										{
-											name: 'onAppNavigation',
-										},
+					{hasFavorites ? (
+						favorites.map((app) => {
+							const isDisabled = disabledAppKeys.includes(app.key);
+							return (
+								<StyledLink
+									className={styles.appCard}
+									to={`/apps/${app.key}`}
+									key={app.key}
+									disabled={isDisabled}
+									title={
+										isDisabled
+											? `${app.name} is not available for the selected context`
+											: `Application button for the application ${app.name}`
+									}
+									onClick={(e) => {
+										if (isDisabled) {
+											e.preventDefault();
+											return;
+										}
+										dispatchEvent(
+											{
+												name: 'onAppNavigation',
+											},
 
-										{ appKey: a.key, isFavorite: true, source: 'pinned-apps' }
-									);
-								}}
-							>
-								<aside>
-									<AppIcon
-										color={a.accentColor}
-										dangerouslySetInnerHTML={{
-											__html: a.icon || a.category?.defaultIcon || '<svg />',
-										}}
-									></AppIcon>
-								</aside>
-								<div>
-									<Typography>{a.name}</Typography>
-									<Typography variant="overline">{a.category?.name}</Typography>
-									<Typography>{a.description}</Typography>
-								</div>
-							</Link>
-						))
+											{ appKey: app.key, isFavorite: true, source: 'pinned-apps' }
+										);
+									}}
+								>
+									<aside>
+										<AppIcon
+											color={app.accentColor}
+											dangerouslySetInnerHTML={{
+												__html: app.icon || app.category?.defaultIcon || '<svg />',
+											}}
+										></AppIcon>
+									</aside>
+									<div>
+										<Typography>{app.name}</Typography>
+										<Typography variant="overline">{app.category?.name}</Typography>
+										<Typography>{app.description}</Typography>
+									</div>
+								</StyledLink>
+							);
+						})
 					) : (
 						<div className={styles.noData}>
 							<Icon
