@@ -1,44 +1,56 @@
-import { useObservable } from '@equinor/portal-utils';
-import { menuFavoritesController, useAppModule, useTelemetry } from '@equinor/portal-core';
+import { useTelemetry } from '@equinor/portal-core';
 import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
-import { combineLatest, map } from 'rxjs';
 import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useFavorites } from '../../hooks/use-favorites';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
 	display: flex;
-	width: 100px;
-	height: 100px;
-	background-color: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
+	width: 65px;
+	height: 65px;
+	background-color: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex) + '33'};
 	align-items: center;
 	justify-content: center;
 	border-radius: 3px;
 
 	> svg {
+		width: 2rem;
+		height: 2rem;
 		> path {
-			fill: #fff;
+			fill: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
 		}
-		fill: #fff;
+		fill: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
 	}
 `;
 
+type AppCardPops = {
+	isDisabled?: boolean;
+	color?: string;
+};
+
 const styles = {
-	appCard: css`
-		display: flex;
-		flex-direction: row;
-		gap: 1rem;
-		cursor: pointer;
-		overflow: hidden;
-		text-decoration: none;
-		:hover {
-			opacity: 0.9;
-		}
-	`,
+	appCard: ({ isDisabled, color }: AppCardPops) => {
+		const iconBackgroundColor = (color ? color : tokens.colors.infographic.primary__moss_green_100.hex) + '66';
+		return css`
+			opacity: ${isDisabled ? 0.5 : 'none'};
+			cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+			overflow: hidden;
+			text-decoration: none;
+			:hover {
+				> aside > span {
+					background-color: ${!isDisabled && iconBackgroundColor};
+				}
+			}
+		`;
+	},
 	cardList: css`
 		display: grid;
 		grid-auto-rows: 100px;
@@ -66,18 +78,9 @@ const styles = {
 export const Favorites = () => {
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const { fusion } = useAppModule();
 	const { dispatchEvent } = useTelemetry();
 
-	const favorite$ = useMemo(
-		() =>
-			combineLatest([fusion?.modules?.app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
-				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
-			),
-		[fusion.modules.app.getAllAppManifests]
-	);
-
-	const favorites = useObservable(favorite$);
+	const { favorites, disabledAppKeys, hasFavorites } = useFavorites();
 
 	return (
 		<Card className={styles.fullHeight}>
@@ -100,37 +103,48 @@ export const Favorites = () => {
 			</Card.Header>
 			<Card.Content>
 				<nav className={styles.cardList}>
-					{favorites?.length ? (
-						favorites.map((a) => (
-							<Link
-								className={styles.appCard}
-								to={`/apps/${a.key}`}
-								key={a.key}
-								onClick={() => {
-									dispatchEvent(
-										{
-											name: 'onAppNavigation',
-										},
+					{hasFavorites ? (
+						favorites.map((app) => {
+							const isDisabled = disabledAppKeys.includes(app.key);
+							return (
+								<Link
+									className={styles.appCard({ isDisabled, color: app.accentColor })}
+									to={`/apps/${app.key}`}
+									key={app.key}
+									title={
+										isDisabled
+											? `${app.name} is not available for the selected context`
+											: `Application button for the application ${app.name}`
+									}
+									onClick={(e) => {
+										if (isDisabled) {
+											e.preventDefault();
+											return;
+										}
+										dispatchEvent(
+											{
+												name: 'onAppNavigation',
+											},
 
-										{ appKey: a.key, isFavorite: true, source: 'pinned-apps' }
-									);
-								}}
-							>
-								<aside>
-									<AppIcon
-										color={a.accentColor}
-										dangerouslySetInnerHTML={{
-											__html: a.icon || a.category?.defaultIcon || '<svg />',
-										}}
-									></AppIcon>
-								</aside>
-								<div>
-									<Typography>{a.name}</Typography>
-									<Typography variant="overline">{a.category?.name}</Typography>
-									<Typography>{a.description}</Typography>
-								</div>
-							</Link>
-						))
+											{ appKey: app.key, isFavorite: true, source: 'pinned-apps' }
+										);
+									}}
+								>
+									<aside>
+										<AppIcon
+											color={app.accentColor}
+											dangerouslySetInnerHTML={{
+												__html: app.icon || app.category?.defaultIcon || '<svg />',
+											}}
+										></AppIcon>
+									</aside>
+									<div>
+										<Typography>{app.name}</Typography>
+										<Typography variant="overline">{app.category?.name}</Typography>
+									</div>
+								</Link>
+							);
+						})
 					) : (
 						<div className={styles.noData}>
 							<Icon
