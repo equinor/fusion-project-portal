@@ -11,27 +11,31 @@ import { useFavorites } from '../../hooks/use-favorites';
 
 const AppIcon = styled.span<{ color: string | null | undefined }>`
 	display: flex;
-	width: 100px;
-	height: 100px;
-	background-color: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
+	width: 65px;
+	height: 65px;
+	background-color: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex) + '33'};
 	align-items: center;
 	justify-content: center;
 	border-radius: 3px;
 
 	> svg {
+		width: 2rem;
+		height: 2rem;
 		> path {
-			fill: #fff;
+			fill: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
 		}
-		fill: #fff;
+		fill: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
 	}
 `;
 
 type AppCardPops = {
 	isDisabled?: boolean;
+	color?: string;
 };
 
 const styles = {
-	appCard: ({ isDisabled }: AppCardPops) => {
+	appCard: ({ isDisabled, color }: AppCardPops) => {
+		const iconBackgroundColor = (color ? color : tokens.colors.infographic.primary__moss_green_100.hex) + '66';
 		return css`
 			opacity: ${isDisabled ? 0.5 : 'none'};
 			cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
@@ -41,7 +45,9 @@ const styles = {
 			overflow: hidden;
 			text-decoration: none;
 			:hover {
-				opacity: ${isDisabled ? 0.6 : 'none'};
+				> aside > span {
+					background-color: ${!isDisabled && iconBackgroundColor};
+				}
 			}
 		`;
 	},
@@ -102,7 +108,7 @@ export const Favorites = () => {
 							const isDisabled = disabledAppKeys.includes(app.key);
 							return (
 								<Link
-									className={styles.appCard({ isDisabled })}
+									className={styles.appCard({ isDisabled, color: app.accentColor })}
 									to={`/apps/${app.key}`}
 									key={app.key}
 									title={
