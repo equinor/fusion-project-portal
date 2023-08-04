@@ -839,14 +839,14 @@
     rxjs "^7.5.7"
     uuid "^9.0.0"
 
-"@equinor/fusion-react-context-selector@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-context-selector/-/fusion-react-context-selector-0.4.4.tgz#a49fe05ca5e44b1bc9d8ab93b0bcc0c64e08ba14"
-  integrity sha512-AnlSzmV6Jr9ggfGMt+rp04/a8cHv0eWAthIwb9C+EOEzmBJqpn+30BekK/aC8CrG5hHopPMTc1fWp2GyPUd68Q==
+"@equinor/fusion-react-context-selector@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-context-selector/-/fusion-react-context-selector-0.4.5.tgz#5b52d617e73ea2133ce52dbc5cbad0824c9b5484"
+  integrity sha512-+x1YKkptv00glNKjfAERflJrxvmHAmz915/6s2B8GQ/HdIciaH4R3UPr/1fylGrgSX8IKCXmHoi3UPLOIN8c7Q==
   dependencies:
     "@equinor/fusion-react-icon" "^0.2.15"
     "@equinor/fusion-react-searchable-dropdown" "^0.3.4"
-    "@equinor/fusion-react-styles" "^0.5.6"
+    "@equinor/fusion-react-styles" "^0.5.7"
     "@equinor/fusion-react-utils" "^2.0.4"
 
 "@equinor/fusion-react-icon@^0.2.15":
@@ -865,10 +865,10 @@
     "@equinor/fusion-react-utils" "^2.0.4"
     "@equinor/fusion-wc-searchable-dropdown" "^2.5.1"
 
-"@equinor/fusion-react-side-sheet@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-side-sheet/-/fusion-react-side-sheet-0.1.0.tgz#30a5a7beb6d7f32149222494a7b3becfdd159105"
-  integrity sha512-xfgoTqDSJ3eRSUnR3WZpaIYum+kqOT42zR01VjhUeNvnQZtudkWNoPqTv9nNgwSUd+MTR0vglcnGzlp+VB0BGg==
+"@equinor/fusion-react-side-sheet@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-side-sheet/-/fusion-react-side-sheet-1.0.1.tgz#3299ab65a62631b4c7c23db63aab28cb63a562a4"
+  integrity sha512-XKl0yrPgodBtooVlY48U+0jczEENaE08tfycDnw4Jo1uSL8lGaOge4xlDYrxiayF3j2SB6Sz9lWU9HYbUr2SgQ==
   dependencies:
     re-resizable "^6.9.9"
 
@@ -880,22 +880,22 @@
     "@equinor/fusion-react-utils" "^2.0.4"
     "@equinor/fusion-wc-skeleton" "^0.2.17"
 
-"@equinor/fusion-react-styles@^0.5.6":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.6.tgz#fd5322fa4345efdca154c20a37a64c1a14dfe40d"
-  integrity sha512-gxM8q6MLRxEZ3WA+h/gmBfCmpXGztC2tU9a4quTRKvmAX9bgKCpOaVdx4TzVMq3fyalO2p+3C4ju5j4RT4IapA==
+"@equinor/fusion-react-styles@^0.5.7":
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.7.tgz#7c9263de40985b3e6599d4daad3bfde5246f6dcb"
+  integrity sha512-P6HGpeyBie/xZz0aKGRF6xwoW3RzI6lmLBJPEUlZcn3K8A5qt32AbIbvV514er+sfLpcxjAEzpTQX6eI5P8j5w==
   dependencies:
-    "@equinor/fusion-wc-theme" "^0.2.31"
+    "@equinor/fusion-wc-theme" "^0.2.33"
     "@equinor/fusion-web-theme" "^0.1.7"
     "@material-ui/styles" "^4.11.4"
     clsx "^1.1.1"
 
-"@equinor/fusion-react-tooltip@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-tooltip/-/fusion-react-tooltip-1.1.6.tgz#e1a296bd4007f46fde78e77131f033a69a0af9e5"
-  integrity sha512-ElKWG9pd4UHh2csOXk/H2bUhGGdmchVCgOOp9doBvQ4lQJ/fBVdUjacvRg0sh2L3QMhdMc68DahjHKPITSE6qw==
+"@equinor/fusion-react-tooltip@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-tooltip/-/fusion-react-tooltip-1.1.7.tgz#3f8df4d7e1b5e65c7d9177a39fe2eac8c9cbc165"
+  integrity sha512-JyE08bFrKUMMc0CPmKggrglH4CAoaqUdrM6+/5hiluHD9KEQxDF3SNTeGV1py7PJo73Trp8GgGkK5HC62UoD4A==
   dependencies:
-    "@equinor/fusion-react-styles" "^0.5.6"
+    "@equinor/fusion-react-styles" "^0.5.7"
     "@tippyjs/react" "^4.2.6"
 
 "@equinor/fusion-react-utils@^2.0.4":
@@ -991,7 +991,7 @@
     "@material/mwc-textfield" "^0.27.0"
     lit "2.7.0"
 
-"@equinor/fusion-wc-theme@^0.2.31":
+"@equinor/fusion-wc-theme@^0.2.33":
   version "0.2.33"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-wc-theme/-/fusion-wc-theme-0.2.33.tgz#0550831afd950340d534bea5ba0e8f06cffcafb5"
   integrity sha512-tsNc8/9DTi55Ol50U21fOymrds6FREnhGy6oNTIWKH0NiySA2tR1JQkxR0Us3/5mxJoeckYj23YwkRLaS5CV4g==
