@@ -25,6 +25,6 @@
 			"@equinor/notification": ["packages/notification/src/index.ts"]
 		}
 	},
-	"include": ["dompurify.d.ts"],
-	"exclude": ["node_modules", "tmp", "dist"]
+	"include": ["dompurify.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules", "tmp", "dist", "**.test.ts", "**.test.tsx"]
 }
