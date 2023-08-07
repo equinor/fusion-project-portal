@@ -55,8 +55,8 @@ export default defineConfig(({ mode }) => {
 				'@equinor/portal-pages': path.resolve(__dirname, '../portal-pages/src/index.ts'),
 				'@equinor/portal-ui': path.resolve(__dirname, '../portal-ui/src/index.ts'),
 				'@equinor/portal-utils': path.resolve(__dirname, '../portal-utils/src/index.ts'),
-				'@equinor/service-message': path.resolve(__dirname, '../service-message/index.ts'),
-				'@equinor/notification': path.resolve(__dirname, '../notification/index.ts'),
+				'@equinor/service-message': path.resolve(__dirname, '../service-message/src/index.ts'),
+				'@equinor/notification': path.resolve(__dirname, '../notification/src/index.ts'),
 			},
 		},
 	};

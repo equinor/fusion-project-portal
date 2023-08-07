@@ -4,5 +4,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc"
+  },
+  "dependencies": {
+    "adaptivecards": "^2.11.2",
+    "marked": "^4.2.5",
+    "swiper": "^9.3.2"
   }
 }
