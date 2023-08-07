@@ -74,7 +74,7 @@ const AdaptiveCardViewer: FC<AdaptiveCardViewerProps> = ({
 	useEffect(() => {
 		const { current } = cardContainerRef;
 		if (result && current) {
-			result.className = styledAdaptivCard.name;
+			result.className = styledAdaptiveCard.name;
 			current && result && current.appendChild(result);
 		}
 		return () => {
@@ -87,7 +87,7 @@ const AdaptiveCardViewer: FC<AdaptiveCardViewerProps> = ({
 
 export default AdaptiveCardViewer;
 
-const styledAdaptivCard = css`
+const styledAdaptiveCard = css`
 	&:hover {
 		background: red;
 		box-shadow: none;
