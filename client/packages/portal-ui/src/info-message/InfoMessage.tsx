@@ -16,7 +16,12 @@ const StylesWrapper = styled.div`
 export function InfoMessage({ children }: PropsWithChildren) {
 	return (
 		<StylesWrapper>
-			<Icon size={48} color={tokens.colors.text.static_icons__tertiary.hex} name="info_circle" />
+			<Icon
+				id="InfoMessageIcon"
+				size={48}
+				color={tokens.colors.text.static_icons__tertiary.hex}
+				name="info_circle"
+			/>
 			<Typography color={tokens.colors.text.static_icons__tertiary.hex} variant="h6">
 				{children}
 			</Typography>

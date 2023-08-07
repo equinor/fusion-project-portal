@@ -13,6 +13,6 @@
     "outDir": "../../dist/out-tsc",
   },
   "files": [],
-  "include": ["**/*.tsx"]
+  "include": ["**/*.tsx", "*.test.ts", "*.test.tsx", ]
 
 }

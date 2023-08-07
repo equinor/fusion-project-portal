@@ -16,18 +16,11 @@
     "outDir": "../../dist/out-tsc",
     "types": ["node"],
     "declarationMap": true,
+    
   },
   "files": [],
   "exclude": [
-    "jest.config.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "**/*.spec.js",
-    "**/*.test.js",
-    "**/*.spec.jsx",
-    "**/*.test.jsx"
+
   ],
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx",  "**/*.d.ts", "src/mock"]
+  "include": ["**/*.ts", "**/*.tsx",  "**/*.d.ts",  "*.test.ts", "*.test.tsx", ]
 }

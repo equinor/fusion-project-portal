@@ -4,7 +4,7 @@ export function getPathUrl(path: string, contextId?: string): string {
 }
 
 export function getContextPageUrl(contextId?: string): string {
-	if (!contextId) return 'context-page/';
+	if (!contextId) return '/context-page/';
 	return `/context-page/${contextId}`;
 }
 
