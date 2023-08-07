@@ -16,13 +16,7 @@
     "outDir": "../../dist/out-tsc",
     "types": ["node"],
     "declarationMap": true,
+    
   },
-  "files": [],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-  ],
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx",  "**/*.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx",  "**/*.d.ts",  "*.test.ts", "*.test.tsx", ]
 }
