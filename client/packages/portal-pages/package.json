@@ -4,5 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc"
+  },
+  "dependencies": {
+    "luxon": "^3.2.1"
   }
 }

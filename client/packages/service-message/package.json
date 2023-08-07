@@ -4,5 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc"
+  },
+  "dependencies": {
+    "dompurify": "^2.4.1"
   }
 }

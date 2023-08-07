@@ -15,7 +15,6 @@
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
     "@types/dompurify": "^3.0.2",
-    "@types/jest": "29.4.0",
     "@types/luxon": "^3.2.0",
     "@types/marked": "^4.0.1",
     "@types/react": "18.0.25",
@@ -64,8 +63,6 @@
     "@equinor/fusion-react-tooltip": "^1.1.6",
     "@microsoft/applicationinsights-web": "^3.0.2",
     "@microsoft/signalr": "^7.0.0",
-    "dompurify": "^2.4.1",
-    "luxon": "^3.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.2",
