@@ -8,7 +8,7 @@
     "prebuild": "rm -f ../client/packages/portal-client/src/assets/appLegacyLoader.js",
     "build": "fusion-framework-cli app build && mv ./dist/app-bundle.js ../client/packages/portal-client/src/assets/appLegacyLoader.js",
     "build:resources": "tsc && vite build",
-    "dev": "fusion-framework-cli app dev",
+    "dev": "fusion-framework-cli app dev -c vite.config.js",
     "docker": "cd .. && sh docker-script.sh app-react"
   },
   "keywords": [],
@@ -38,6 +38,7 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "vite-plugin-static-copy": "^0.17.0"
   }
 }

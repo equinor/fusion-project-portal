@@ -5,7 +5,7 @@ export default () => ({
   },
   "environment": {
     "appKey": "meetings",
-    "basename": "localhost:3000/apps/meetings",
+    "basename": "localhost:3000/apps/meetings/",
     "client": {
     	"baseUri": "https://backend-fusion-project-portal-test.radix.equinor.com",
 			"defaultScopes": [

@@ -347,7 +347,8 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
       script.addEventListener("abort", () => reject());
       script.addEventListener("error", () => reject());
 
-      script.src = `${window["clientBaseUri"]}/api/bundles/${appKey}.js`;
+      script.src = "/assets/app-bundle.js";
+      // script.src = `${window["clientBaseUri"]}/api/bundles/${appKey}.js`;
     });
   }
 

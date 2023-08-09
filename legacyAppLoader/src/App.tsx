@@ -5,10 +5,12 @@ import { AppModuleLoader } from "./app-loader/components/AppModuleLoader";
 import { AppModule } from "@equinor/fusion-framework-module-app";
 import { Fusion, useFramework } from "@equinor/fusion-framework-react";
 import { useAppModules } from "@equinor/fusion-framework-react-app";
-import { addGlobalDependencies } from "./globalResources";
-import { ProgressLoader } from "./app-loader/components/ProgressLoader";
 
-addGlobalDependencies();
+import { ProgressLoader } from "./app-loader/components/ProgressLoader";
+import { globalResources } from "./assets/globalResources.js";
+
+globalResources();
+
 export const App = (props: {
   fusion: Fusion;
   env: { config: { environment: { appKey: string } } };
