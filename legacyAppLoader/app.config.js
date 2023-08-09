@@ -1,10 +1,10 @@
 // demo
 export default () => ({
   "manifest": {
-    "key": "fusion-app-loader"
+    "key": "meetings"
   },
   "environment": {
-    "appKey": "handover-garden",
+    "appKey": "meetings",
     "basename": "localhost:3000/apps/meetings",
     "client": {
     	"baseUri": "https://backend-fusion-project-portal-test.radix.equinor.com",
