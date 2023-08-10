@@ -4,12 +4,21 @@ import { AppModuleLoader } from "./app-loader/components/AppModuleLoader";
 
 import { AppModule } from "@equinor/fusion-framework-module-app";
 import { Fusion, useFramework } from "@equinor/fusion-framework-react";
-import { useAppModules } from "@equinor/fusion-framework-react-app";
+
+import {
+  ComponentRenderArgs,
+  makeComponent,
+  useAppModules,
+  createLegacyApp,
+} from "@equinor/fusion-framework-react-app";
 
 import { ProgressLoader } from "./app-loader/components/ProgressLoader";
-import { globalResources } from "./assets/globalResources.js";
 
-globalResources();
+import { addGlobalDependencies } from "./globalResources";
+import { Suspense, createElement } from "react";
+import configure from "./config";
+
+addGlobalDependencies();
 
 export const App = (props: {
   fusion: Fusion;
@@ -17,16 +26,30 @@ export const App = (props: {
 }) => {
   const fusion = useFramework<[AppModule, NavigationModule]>();
   const appFramework = useAppModules<[AppModule]>();
-
+  console.log(props);
   return (
     <LegacyFusionWrapper
       framework={fusion}
       loader={<ProgressLoader title={"Loading App"} />}
       appFramework={appFramework}
     >
-      <AppModuleLoader appKey={props.env.config.environment.appKey} />
+      <AppModuleLoader appKey={props.env?.config.environment.appKey} />
     </LegacyFusionWrapper>
   );
 };
 
-export default App;
+const appComponent = (args: any) => createElement(App, args);
+
+/** create React render root component */
+export const createApp = (args: ComponentRenderArgs) => {
+  return makeComponent(appComponent(args), args, configure as any);
+};
+
+export const AppComponent = (args: ComponentRenderArgs) => {
+  const AppComponent = createApp(args);
+  return (
+    <Suspense fallback={<></>}>
+      <AppComponent />
+    </Suspense>
+  );
+};
