@@ -9,7 +9,6 @@ import {
   ComponentRenderArgs,
   makeComponent,
   useAppModules,
-  createLegacyApp,
 } from "@equinor/fusion-framework-react-app";
 
 import { ProgressLoader } from "./app-loader/components/ProgressLoader";
