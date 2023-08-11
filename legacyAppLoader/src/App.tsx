@@ -25,7 +25,7 @@ export const App = (props: {
 }) => {
   const fusion = useFramework<[AppModule, NavigationModule]>();
   const appFramework = useAppModules<[AppModule]>();
-  console.log(props);
+
   return (
     <LegacyFusionWrapper
       framework={fusion}

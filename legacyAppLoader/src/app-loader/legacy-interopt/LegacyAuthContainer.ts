@@ -78,7 +78,7 @@ export class LegacyAuthContainer extends AuthContainer {
       console.trace(
         `FusionAuthContainer::logoutAsync for client id [${clientId}]`
       );
-    // TODO
+
     if (!clientId || this._registeredApps[clientId]) {
       return this.#auth.defaultClient.logoutRedirect({
         postLogoutRedirectUri: "/sign-out",
@@ -101,22 +101,18 @@ export class LegacyAuthContainer extends AuthContainer {
   }
 
   async acquireTokenAsync(resource: string): Promise<string | null> {
-    // window.Fusion
     const app = this.resolveApp(resource);
     if (app === null) {
       throw new FusionAuthAppNotFoundError(resource);
     }
     if (this._registeredApps[app.clientId]) {
-      // TODO
       const defaultScope = app.clientId + "/.default";
       const res = await this.#auth.acquireToken({ scopes: [defaultScope] });
       if (res && res.accessToken) {
         return res.accessToken;
       }
-      // if (!accessToken) {
-      throw Error("failed to aquire token");
-      // }
-      // return accessToken;
+
+      throw Error("failed to acquire token");
     }
     DEBUG_LOG &&
       console.trace(`FusionAuthContainer::acquireTokenAsync ${resource}`);
@@ -165,7 +161,6 @@ export class LegacyAuthContainer extends AuthContainer {
           return response.text();
         }
       } catch (err) {
-        // @todo AI
         console.error(err);
       }
     }

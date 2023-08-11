@@ -27,7 +27,6 @@ export const useAppModule = (appKey: string) => {
 
   useEffect(() => {
     from(setup(appKey)).subscribe((a) => {
-      console.log("hello", a);
       setAppManifest(a);
     });
   }, [appKey]);
