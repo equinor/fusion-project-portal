@@ -1,7 +1,7 @@
 import { AuthToken } from "@equinor/fusion";
 import AuthUser, { AuthUserJSON } from "@equinor/fusion/lib/auth/AuthUser";
 const DEBUG_LOG = false;
-// from msal
+
 type AccountInfo = {
   homeAccountId: string;
   environment: string;

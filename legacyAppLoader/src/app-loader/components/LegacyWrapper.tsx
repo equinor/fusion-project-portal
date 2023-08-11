@@ -7,7 +7,7 @@ import { LegacyFusionWrapper } from "../legacy-interopt/components";
 import { useAppModules } from "@equinor/fusion-framework-react-app";
 import { ProgressLoader } from "../components/ProgressLoader";
 
-export const LegacyWrapper = ({ children }: PropsWithChildren) => {
+export const LegacyWrapper = ({ children }: PropsWithChildren<unknown>) => {
   const framework = useFramework<[AppModule, NavigationModule]>();
   const appFramework = useAppModules<[AppModule]>();
 

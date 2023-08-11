@@ -334,8 +334,6 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
   }
 
   async #loadScript(appKey: string): Promise<void> {
-    // const { uri } = await this.#framework.modules.serviceDiscovery.resolveService('portal');
-    // const source = new URL(`/bundles/apps/${appKey}.js`, uri);
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.async = true;

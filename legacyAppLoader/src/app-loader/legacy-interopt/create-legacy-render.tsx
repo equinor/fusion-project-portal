@@ -66,7 +66,6 @@ const AppWrapper = (
             break;
           case "POP":
           case "REPLACE":
-            // TODO ?!?! should all be replaced?
             history.replace(appLocation);
             break;
         }
@@ -98,6 +97,7 @@ export const createLegacyRender = (
     // eslint-disable-next-line react/no-multi-comp, react/display-name
     memo(() => (
       <AppWrapper history={history} basename={basename} appKey={appKey}>
+        {/*@ts-ignore*/}
         <AppComponent />
       </AppWrapper>
     )),
