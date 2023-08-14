@@ -1,2 +1,1 @@
-export * from './appMounted';
-export * from './appsMatchingSearch';
+export * from './utils';
