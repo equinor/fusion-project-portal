@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Subscription } from 'rxjs';
-import { useAppModule } from './uss-app-module';
-import { PortalConfig } from '../types';
+import { useAppModule } from './use-app-module';
+import { PortalConfig } from '../../types';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 import { useLegacyAppLoader } from './use-legacy-app-loader';
-import { createAppElement } from './app-util';
+import { createAppElement } from '../utils/app-element';
 
 export const useAppLoader = (appKey: string) => {
 	const { fusion, currentApp } = useAppModule(appKey);
+
 	const legacyAppLoader = useLegacyAppLoader();
 
 	const appRef = useRef<HTMLDivElement>(createAppElement());

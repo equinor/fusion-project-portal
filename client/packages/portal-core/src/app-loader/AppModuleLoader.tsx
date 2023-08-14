@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import { ErrorViewer } from './ErrorView';
-import { useAppLoader } from './use-app-loader';
+import { useAppLoader } from '../app/hooks/use-app-loader';
 
 interface CurrentAppLoaderProps {
 	appKey: string;

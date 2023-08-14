@@ -1,22 +1,20 @@
+import { useEffect } from 'react';
+import { lastValueFrom } from 'rxjs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCurrentAppGroup, useFrameworkCurrentContext } from '../hooks';
 import AppModuleLoader from './AppModuleLoader';
 import { AppNotAwaitable } from './AppNotAwaitable';
 
-import { useEffect } from 'react';
-import { AppManifest, AppModule } from '@equinor/fusion-framework-module-app';
-import { useFramework } from '@equinor/fusion-framework-react';
-import { lastValueFrom } from 'rxjs';
+import { AppManifest } from '@equinor/fusion-framework-module-app';
+import { useAppModule } from '../app/hooks/use-app-module';
 
 export const AppLoader = () => {
 	const { appKey, contextId } = useParams();
-	const fusion = useFramework<[AppModule]>();
-
-	const app = fusion.modules.app;
-
 	const navigate = useNavigate();
 
-	const { isOnboarded, isLoading, appManifest } = useCurrentAppGroup(appKey);
+	const { appManifest, app } = useAppModule();
+
+	const { isOnboarded, isLoading } = useCurrentAppGroup(appKey);
 
 	const context = useFrameworkCurrentContext();
 
@@ -37,7 +35,7 @@ export const AppLoader = () => {
 		) {
 			isLegacyFusionApplication(appKey).then(
 				// navigation should only be performed on new applications and not legacy applications
-				(isLegacy) => !isLegacy && navigate(`${location.pathname}${context.id}`)
+				(isLegacy) => !isLegacy && navigate(`${location.pathname}/${context.id}`)
 			);
 		}
 	}, [appKey, context, contextId]);

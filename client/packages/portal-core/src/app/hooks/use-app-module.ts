@@ -1,16 +1,24 @@
 import { AppManifest, AppModule } from '@equinor/fusion-framework-module-app';
-import { useFramework } from '@equinor/fusion-framework-react';
+import { Fusion, useFramework } from '@equinor/fusion-framework-react';
 import { useObservableState } from '@equinor/fusion-observable/react';
 import { useEffect, useState } from 'react';
 
 type Manifest = AppManifest & { context: unknown };
 
+export const useCurrentApp = (appKey?: string) => {
+	const fusion = useFramework<[AppModule]>();
+	return useInternalAppModule(fusion, appKey).currentApp;
+};
+
 export const useAppModule = (appKey?: string) => {
 	const fusion = useFramework<[AppModule]>();
-	const currentApp = useObservableState(fusion.modules.app.current$)?.value;
-	// eslint-disable-next-line prefer-destructuring
+	return useInternalAppModule(fusion, appKey);
+};
+
+export const useInternalAppModule = (fusion: Fusion<[AppModule]>, appKey?: string) => {
 	const app = fusion.modules.app;
 
+	const currentApp = useObservableState(app.current$)?.value;
 	const [appManifest, setAppManifest] = useState<Manifest | undefined>();
 
 	useEffect(() => {
