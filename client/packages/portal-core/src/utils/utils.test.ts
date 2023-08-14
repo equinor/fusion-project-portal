@@ -1,12 +1,13 @@
 import { getContextPageUrl } from './utils';
+import { describe, test, expect } from 'vitest';
 
 describe('context url utils', () => {
-	it('it should return url with context', () => {
+	test('it should return url with context', () => {
 		const url = getContextPageUrl('1234');
-		expect(url).toBe('/context-page/?contextId=1234');
+		expect(url).toEqual('/context-page/1234');
 	});
-	it('it should return url with no context', () => {
+	test('it should return url with no context', () => {
 		const url = getContextPageUrl(undefined);
-		expect(url).toBe('/context-page/');
+		expect(url).toEqual('/context-page/');
 	});
 });
