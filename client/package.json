@@ -6,7 +6,7 @@
     "dev": "npx lerna run dev",
     "start": "npx lerna run serve",
     "build": "npx lerna run build",
-    "test": "lerna test",
+    "test": "lerna  run test",
     "lint": "eslint 'packages/**'",
     "update:fusion": "ncu -i -f /fusion/",
     "update:vite": "ncu -i -f /vite/",

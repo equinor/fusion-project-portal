@@ -120,9 +120,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				}
 
 				if (context && context.id && !window.location.pathname.includes(context.id)) {
-					const pathname = replaceContextInPathname(context.id);
+					const pathname = replaceContextInPathname(context.id, window.location.pathname);
 					const to = { pathname, search: window.location.search, hash: window.location.hash };
-
 					navigator.replace(to);
 				}
 			});
