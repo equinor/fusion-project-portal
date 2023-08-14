@@ -12,10 +12,9 @@
     "noImplicitReturns": true,
     "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
-    "declaration": true,
     "outDir": "../../dist/out-tsc",
     "types": ["node"],
-    "declarationMap": true,
+
   },
   "files": [],
   "exclude": [

@@ -12,8 +12,6 @@
     "noFallthroughCasesInSwitch": true,
     "outDir": "../../dist/out-tsc",
     "types": ["node"],
-    "declarationMap": true,
-    "declaration": true,
     "allowJs": true,
     "esModuleInterop": true,
   },
