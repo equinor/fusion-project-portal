@@ -10,12 +10,13 @@ export const styles = {
 		height: 24px;
 	`,
 	groupWrapper: css`
-		display: flex;
-		-webkit-flex-direction: column;
-		-ms-flex-direction: column;
-		flex-direction: column;
-		width: inherit;
+		align-items: flex-start;
 		break-inside: avoid;
+		display: flex;
+		flex-direction: row;
+		-webkit-flex-direction: row;
+		-ms-flex-direction: row;
+		width: inherit;
 	`,
 	groupName: (isActive: boolean) => css`
 		font-weight: ${isActive ? 700 : 500};
