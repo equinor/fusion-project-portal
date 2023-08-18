@@ -2,8 +2,6 @@ import { useCurrentAppGroup } from '../../hooks';
 import { AppModuleLoader } from '../app-module-loader/AppModuleLoader';
 import { AppNotAwaitable } from '../app-not-awaitable/AppNotAvailable';
 
-import { ErrorViewer } from '../error-view/ErrorView';
-
 export const AppContainer = ({
 	hasContext,
 	appName,
@@ -24,5 +22,5 @@ export const AppContainer = ({
 		return <AppModuleLoader appKey={appKey} />;
 	}
 
-	return <ErrorViewer error={new Error('No appKey provided.')} />;
+	throw new Error('No appKey provided.');
 };

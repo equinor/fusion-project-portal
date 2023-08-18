@@ -1,7 +1,8 @@
 import { Button, Typography } from '@equinor/eds-core-react';
-import { PortalMessagePage } from '@equinor/portal-ui';
+
 import { FC, useState } from 'react';
 import styled from 'styled-components';
+import { PortalMessagePage } from '../portal-message-page';
 
 const StyledWrapper = styled.div`
 	display: flex;

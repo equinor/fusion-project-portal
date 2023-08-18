@@ -19,3 +19,4 @@ export * from './portal-message-page';
 export * from './task/work-assigned/WorkAssigned';
 export * from './kpis';
 export * from './info-message/InfoMessage';
+export * from './error-view/ErrorView';

@@ -15,7 +15,7 @@ import {
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
-import { signalRConfigurator } from './utils';
+import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
 
 const showInfo = false;

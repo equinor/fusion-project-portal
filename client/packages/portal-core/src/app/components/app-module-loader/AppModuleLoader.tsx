@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { PortalProgressLoader } from '@equinor/portal-ui';
-import { ErrorViewer } from '../error-view/ErrorView';
 import { useAppLoader } from '../../hooks/use-app-loader';
 
 interface CurrentAppLoaderProps {
@@ -46,7 +45,7 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
 	}, [ref.current, appRef.current]);
 
 	if (error) {
-		return <ErrorViewer error={error} />;
+		throw error;
 	}
 
 	if (loading) {
