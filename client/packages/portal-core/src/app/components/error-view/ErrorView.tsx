@@ -30,6 +30,7 @@ export const ErrorViewer: FC<ErrorViewProps> = ({ error }) => {
 				{cause && <Typography>{cause.message}</Typography>}
 				<Button
 					variant="ghost"
+					id={'showStackButton'}
 					onClick={() => {
 						setShowStack((s) => !s);
 					}}

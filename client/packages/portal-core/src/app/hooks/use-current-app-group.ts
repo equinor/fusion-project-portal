@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { useAppModule } from '../app-loader';
-import { useAppGroupsQuery } from '../queries';
+
+import { useAppGroupsQuery } from '../../queries';
+import { useAppModule } from './use-app-module';
 
 export const useCurrentAppGroup = (appKey?: string) => {
 	const { appManifest } = useAppModule();

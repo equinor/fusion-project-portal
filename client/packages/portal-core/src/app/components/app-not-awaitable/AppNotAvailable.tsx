@@ -1,8 +1,8 @@
 import { GroupWrapper, PortalMessagePage } from '@equinor/portal-ui';
 import { useNavigate } from 'react-router-dom';
-import { ContextProvider, ContextSelector } from '../context-selector';
-import { useViewController } from '../providers';
-import { useAppGroupsQuery } from '../queries';
+import { ContextProvider, ContextSelector } from '../../../context-selector';
+import { useViewController } from '../../../providers';
+import { useAppGroupsQuery } from '../../../queries';
 
 type AppNotAwaitableProps = {
 	name: string;
@@ -11,6 +11,7 @@ type AppNotAwaitableProps = {
 export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 	const { data, isLoading } = useAppGroupsQuery();
 	const { currentView } = useViewController();
+
 	const navigate = useNavigate();
 
 	return (

@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { Subscription } from 'rxjs';
 import { useAppModule } from './use-app-module';
-import { PortalConfig } from '../../types';
-import { AppManifest } from '@equinor/fusion-framework-module-app';
+
 import { useLegacyAppLoader } from './use-legacy-app-loader';
 import { createAppElement } from '../utils/app-element';
+import { appRender } from '../render';
+import { isLegacyManifest, getLegacyClientConfig } from '../utils';
 
 export const useAppLoader = (appKey: string) => {
-	const { fusion, currentApp } = useAppModule(appKey);
-
-	const legacyAppLoader = useLegacyAppLoader();
-
-	const appRef = useRef<HTMLDivElement>(createAppElement());
-
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | undefined>();
+
+	const { fusion, currentApp } = useAppModule(appKey);
+
+	const legacyAppScript = useLegacyAppLoader();
+
+	const appRef = useRef<HTMLDivElement>(createAppElement());
 
 	useEffect(() => {
 		setLoading(true);
@@ -22,41 +23,51 @@ export const useAppLoader = (appKey: string) => {
 		const subscription = new Subscription();
 		subscription.add(
 			currentApp?.initialize().subscribe({
-				next: async ({ manifest, script, config }) => {
+				next: ({ manifest, script, config }) => {
+					// Application Element for mounting
 					appRef.current = createAppElement();
 
-					/** generate basename for application regex extracts /apps/:appKey */
+					// Generate basename for application regex extracts /apps/:appKey
 					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
 
-					//Casting to se if manifest is for fusion legacy application
-					const isLegacy = (manifest as AppManifest & { isLegacy?: boolean }).isLegacy;
-
-					if (isLegacy) {
-						if (!legacyAppLoader) return;
-						const render = legacyAppLoader.renderApp ?? legacyAppLoader?.default;
-
-						subscription.add(
-							render(appRef.current, {
-								fusion,
-								env: {
-									basename,
-									manifest,
+					try {
+						//Casting to se if manifest is for fusion legacy application
+						if (isLegacyManifest(manifest)) {
+							subscription.add(
+								appRender({
+									script: legacyAppScript,
+									element: appRef.current,
 									config: {
-										...config,
-										environment: {
-											appKey,
-											client: {
-												baseUri: window._config_.portalClient.client.baseUri,
-												defaultScopes: window._config_.portalClient.client.defaultScopes,
+										fusion,
+										env: {
+											basename,
+											manifest,
+											config: {
+												...config,
+												environment: {
+													appKey,
+													client: getLegacyClientConfig(),
+												},
 											},
 										},
 									},
-								},
-							})
-						);
-					} else {
-						const render = script.renderApp ?? script.default;
-						subscription.add(render(appRef.current, { fusion, env: { basename, config, manifest } }));
+								})
+							);
+						} else {
+							subscription.add(
+								appRender({
+									script,
+									element: appRef.current,
+									config: {
+										fusion,
+										env: { basename, config, manifest },
+									},
+								})
+							);
+						}
+					} catch (error) {
+						setError(error as Error);
+						setLoading(false);
 					}
 				},
 				complete: () => {
@@ -72,7 +83,7 @@ export const useAppLoader = (appKey: string) => {
 		return () => {
 			subscription.unsubscribe();
 		};
-	}, [currentApp, appRef, fusion, legacyAppLoader]);
+	}, [currentApp, appRef, fusion, legacyAppScript]);
 
 	return {
 		loading,
@@ -80,9 +91,3 @@ export const useAppLoader = (appKey: string) => {
 		appRef,
 	};
 };
-
-declare global {
-	interface Window {
-		_config_: PortalConfig;
-	}
-}

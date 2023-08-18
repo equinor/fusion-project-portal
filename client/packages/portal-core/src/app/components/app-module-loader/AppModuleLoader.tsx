@@ -1,8 +1,8 @@
 import { FC, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { PortalProgressLoader } from '@equinor/portal-ui';
-import { ErrorViewer } from './ErrorView';
-import { useAppLoader } from '../app/hooks/use-app-loader';
+import { ErrorViewer } from '../error-view/ErrorView';
+import { useAppLoader } from '../../hooks/use-app-loader';
 
 interface CurrentAppLoaderProps {
 	appKey: string;
@@ -59,5 +59,3 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
 
 	return <StyledAppSection ref={ref} />;
 };
-
-export default AppModuleLoader;
