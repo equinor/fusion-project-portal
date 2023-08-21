@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-b31616ba","path":"/tag/api/","title":"Tag: api","lang":"en-US","frontmatter":{"title":"Tag: api","dir":{"index":false},"feed":false,"sitemap":false,"blog":{"type":"category","name":"api","key":"tag"},"layout":"BlogCategory"},"headers":[],"git":{},"readingTime":{"minutes":0,"words":0},"filePathRelative":null,"excerpt":""}');export{e as data};

@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o,c as t,a as n}from"./app-43f6af59.js";const c={},r=n("p",null,"Front end documentation will come here...",-1),_=[r];function s(a,l){return o(),t("div",null,_)}const m=e(c,[["render",s],["__file","index.html.vue"]]);export{m as default};
