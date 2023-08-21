@@ -1,6 +1,5 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { PortalProgressLoader } from '@equinor/portal-ui';
 import { useAppLoader } from '../../hooks/use-app-loader';
 
 interface CurrentAppLoaderProps {
@@ -21,7 +20,7 @@ const StyledAppSection = styled.section`
 	max-width: 100%;
 `;
 
-export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
+export const AppModuleLoader: FC<PropsWithChildren<CurrentAppLoaderProps>> = ({ appKey, children }) => {
 	const ref = useRef<HTMLElement>(null);
 
 	const { loading, error, appRef } = useAppLoader(appKey);
@@ -49,11 +48,7 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
 	}
 
 	if (loading) {
-		return (
-			<Wrapper>
-				<PortalProgressLoader title="Loading App" />
-			</Wrapper>
-		);
+		return <Wrapper>{children}</Wrapper>;
 	}
 
 	return <StyledAppSection ref={ref} />;

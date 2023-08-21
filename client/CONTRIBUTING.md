@@ -167,14 +167,16 @@ The Conventional Commits specification is a lightweight convention on top of com
 
 -->
 
+## Root
+
 ```PY
 .
-├── packages                        # Projects folder
-│   ├── portal-client               # Web client application project
-│   ├── portal-core                 # Core functionality project
-│   ├── portal-pages                # Pages Project
-│   ├── portal-ui                   # Ui components project
-│   ├── portal-utils                # Global Utils project
+├── packages                        # Client Projects folder
+│   ├── client                      # Web client application
+│   ├── core                        # Core functionality
+│   ├── components                  # Components
+│   ├── ui                          # Ui components
+│   ├── utils                       # Global Utils
 ├── docker                          # Files use by docker config
 ├── config                          #
 ├── .vscode                         #
@@ -182,6 +184,45 @@ The Conventional Commits specification is a lightweight convention on top of com
 ├── CODE_OF_CONDUCT.md              #
 ├── CONTRIBUTING.md                 #
 ├── yarn.lock                       #
+└── README.md                       #
+```
+
+## Core Project
+
+```PY
+.
+├── src                             #
+│   ├── features                    #
+│   │   ├── app                     #
+│   │   ├── context                 #
+│   │   ├── framework               #
+│   │   ├── work-surface            #
+│   │   ├── header-actions          #
+│   │   ├── error                   #
+│   ├── components                  #
+│   ├── hooks                       #
+│   ├── utils                       #
+│   ├── types                       #
+├── index.ts                        #
+├── config                          #
+├── .vscode                         #
+└── README.md                       #
+```
+
+## Feature App
+
+```PY
+.
+├── src                             #
+│   ├── components                  #
+│   ├── api                         #
+│   ├── hooks                       #
+│   ├── pages                       #
+│   ├── utils                       #
+│   ├── error                       #
+├── index.ts                        #
+├── config                          #
+├── .vscode                         #
 └── README.md                       #
 ```
 

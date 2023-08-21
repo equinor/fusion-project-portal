@@ -1,6 +1,7 @@
 import { useCurrentAppGroup } from '../../hooks';
 import { AppModuleLoader } from '../app-module-loader/AppModuleLoader';
 import { AppNotAwaitable } from '../app-not-awaitable/AppNotAvailable';
+import { PortalProgressLoader } from '@equinor/portal-ui';
 
 export const AppContainer = ({
 	hasContext,
@@ -19,7 +20,11 @@ export const AppContainer = ({
 	}
 
 	if (appKey) {
-		return <AppModuleLoader appKey={appKey} />;
+		return (
+			<AppModuleLoader appKey={appKey}>
+				<PortalProgressLoader title="Loading App" />
+			</AppModuleLoader>
+		);
 	}
 
 	throw new Error('No appKey provided.');
