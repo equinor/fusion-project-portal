@@ -1,9 +1,9 @@
 ---
 title: Frontend
 category: frontend
-tags:
-    - web
-    - react
+tag:
+  - web
+  - react
 ---
 
 Front end documentation will come here...
