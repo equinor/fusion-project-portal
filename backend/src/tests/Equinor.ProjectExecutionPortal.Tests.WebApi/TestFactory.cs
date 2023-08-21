@@ -4,6 +4,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Misc;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
@@ -198,25 +199,30 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupServiceMock()
         {
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApps())
-                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps as IList<ApiFusionPortalAppInformation>));
+                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps as IList<FusionPortalAppInformation>));
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
                 .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));
-            
+
             _fusionContextResolverMock.Setup(service => service.ResolveContextAsync(It.IsAny<ContextIdentifier>(), It.IsAny<FusionContextType>()))
-                .Returns(Task.FromResult(FusionContextData.ValidFusionContext)!);
+                .Returns((ContextIdentifier contextIdentifier, FusionContextType type) =>
+                {
+                    return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.ExternalId == contextIdentifier.Identifier));
+                });
         }
 
         private void SetupTestUsers()
         {
             SetupAnonymousUser();
-
             SetupAuthenticatedUser();
+            SetupAdministratorUser();
 
             var webHostBuilder = WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment(IntegrationTestEnvironment);
-                builder.ConfigureAppConfiguration((_, conf) => conf.AddJsonFile(_configPath));
+                builder.ConfigureAppConfiguration((_, conf) => conf
+                    .AddJsonFile(_configPath)
+                    .AddUserSecrets<Program>());
             });
 
             CreateAuthenticatedHttpClients(webHostBuilder);
@@ -242,6 +248,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                             FirstName = "Authenticated",
                             LastName = "Authenticated",
                             Oid = AuthenticatedUserOid
+                        },
+                });
+
+        private static void SetupAdministratorUser()
+            => TestUsersDictionary.Add(UserType.Administrator,
+                new TestUser
+                {
+                    Profile =
+                        new TokenProfile
+                        {
+                            FirstName = "Admin",
+                            LastName = "Straterson",
+                            Oid = AuthenticatedUserOid,
+                            AppRoles = new[] { Scopes.ProjectPortalAdmin }
                         },
                 });
 

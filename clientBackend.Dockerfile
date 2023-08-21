@@ -1,4 +1,5 @@
-# Generate client bundle
+# 1: Generate the client javascript bundle 
+# ----------------------------------------------------
 
 FROM node:current-alpine as build-client
 
@@ -9,33 +10,49 @@ WORKDIR /app-client
 COPY ["/client", "."]
 
 RUN yarn install --frozen-lockfile
-RUN npx nx run portal-client:build
+RUN npx yarn run build
 
-# Build & run backend server
+# 2: Build & run web server
+# ----------------------------------------------------
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-backend
 WORKDIR /src
-COPY ["/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj", "Equinor.ProjectExecutionPortal.ClientBackend/"]
 
-COPY ["/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/nuget.config", "Equinor.ProjectExecutionPortal.ClientBackend/"]
+# Copy config files
+COPY ["/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj", "Equinor.ProjectExecutionPortal.ClientBackend/"]
+COPY ["/clientBackend/src/nuget.config", "Equinor.ProjectExecutionPortal.ClientBackend/"]
+
+# Copy the client bundle to the backend
+COPY --from=build-client /app-client/dist/portal-client Equinor.ProjectExecutionPortal.ClientBackend/wwwroot/ClientApp/production
+COPY --from=build-client /app-client/dist/portal-client/assets Equinor.ProjectExecutionPortal.ClientBackend/wwwroot/ClientApp/production/assets
+
 RUN dotnet restore "Equinor.ProjectExecutionPortal.ClientBackend/Equinor.ProjectExecutionPortal.ClientBackend.csproj" --configfile Equinor.ProjectExecutionPortal.ClientBackend/nuget.config
+
+# Copy the rest
 COPY "/clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend/" "Equinor.ProjectExecutionPortal.ClientBackend/"
+
 WORKDIR "/src/Equinor.ProjectExecutionPortal.ClientBackend"
+
+# Build and publish
 RUN dotnet build "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/build-backend
 
 FROM build-backend AS publish
-RUN dotnet publish "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Equinor.ProjectExecutionPortal.ClientBackend.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Copy the client bundle to the backend
-COPY --from=build-client /app-client/dist/packages/portal-client /app-backend/wwwroot
+RUN adduser \
+    --uid 1001 \
+    --home /app \
+    --gecos '' app \
+    --disabled-password \
+    && chown -R app /app
+
+USER 1001
 
 ENTRYPOINT ["dotnet", "Equinor.ProjectExecutionPortal.ClientBackend.dll"]

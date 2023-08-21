@@ -23,7 +23,7 @@ export function useObservable<T, R = T>(
   useEffect(() => {
     const sub = observable$.subscribe(setState);
     return () => sub.unsubscribe();
-  }, []);
+  }, [observable$]);
 
   return state as R;
 }

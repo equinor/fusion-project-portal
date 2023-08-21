@@ -1,5 +1,5 @@
 import { AuthClientOptions } from '@equinor/fusion-framework-module-msal';
-import { View } from './view';
+import { SourceSystem } from '@equinor/fusion-framework-module-services/bookmarks';
 
 export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
 
@@ -12,7 +12,7 @@ export interface PortalConfig {
 	portalClient: {
 		client: Client;
 	};
-	masal: {
+	msal: {
 		client: AuthClientOptions;
 		options: {
 			requiresAuth: boolean;
@@ -32,10 +32,13 @@ export interface PortalConfig {
 	appConfig?: {
 		client: Client;
 	};
+	applicationInsights?: {
+		connectionString: string;
+	};
 	agGrid?: {
 		licenseKey: string;
 	};
-	views?: View[];
+	bookmarks: SourceSystem;
 }
 
 export interface Client {

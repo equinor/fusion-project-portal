@@ -9,13 +9,15 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, Guid appGroupId)
+    public OnboardAppCommand(string appKey, bool isLegacy, Guid appGroupId)
     {
         AppKey = appKey;
+        IsLegacy = isLegacy;
         AppGroupId = appGroupId;
     }
 
     public string AppKey { get; }
+    public bool IsLegacy { get; }
     public Guid AppGroupId { get; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
@@ -31,16 +33,16 @@ public class OnboardAppCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(OnboardAppCommand command, CancellationToken cancellationToken)
         {
-            if (!await _appService.AppExist(command.AppKey, cancellationToken))
+            if (!await _appService.FusionAppExist(command.AppKey, cancellationToken))
             {
                 throw new NotFoundException($"Could not locate app '{command.AppKey}' in Fusion.");
             }
 
-            var existingOnboardedApp = await _readWriteContext.Set<OnboardedApp>()
+            var onboardedAppExists = await _readWriteContext.Set<OnboardedApp>()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
+                .AnyAsync(x => x.AppKey == command.AppKey, cancellationToken);
 
-            if (existingOnboardedApp != null)
+            if (onboardedAppExists)
             {
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }
@@ -56,7 +58,7 @@ public class OnboardAppCommand : IRequest<Guid>
 
             var onboardedAppsCount = appGroup.Apps.Count;
 
-            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount);
+            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount, command.IsLegacy);
 
             appGroup.AddApp(onboardedApp);
 

@@ -1,6 +1,8 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurface;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaceAppGroupsWithApps;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface.GetWorkSurfaces;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithGlobalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaces;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 using Fusion.Integration;
@@ -20,39 +22,48 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var workSurfaceDtos = await Mediator.Send(new GetWorkSurfacesQuery());
 
-            return workSurfaceDtos.Select(dto => new ApiWorkSurface(dto)).ToList();
+            return Ok(workSurfaceDtos.Select(dto => new ApiWorkSurface(dto)).ToList());
         }
 
         [HttpGet("{workSurfaceId:guid}")]
         public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid workSurfaceId)
         {
-            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurface(workSurfaceId));
+            var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceQuery(workSurfaceId));
 
             if (workSurfaceWithAppsDto == null)
             {
                 return FusionApiError.NotFound(workSurfaceId, "Could not find work surface");
             }
 
-            return new ApiWorkSurface(workSurfaceWithAppsDto);
+            return Ok(new ApiWorkSurface(workSurfaceWithAppsDto));
         }
 
         [HttpPost("")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> CreateWorkSurface([FromBody] ApiCreateWorkSurfaceRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            await Mediator.Send(request.ToCommand());
+
+            return Ok();
         }
 
         [HttpPut("{workSurfaceId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateWorkSurfaceRequest request)
         {
-            return await Mediator.Send(request.ToCommand(workSurfaceId));
+            await Mediator.Send(request.ToCommand(workSurfaceId));
+
+            return Ok();
         }
 
         [HttpPut("{workSurfaceId:guid}/setAsDefault")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> SetWorkSurfaceAsDefault([FromRoute] Guid workSurfaceId)
         {
             var request = new ApiSetWorkSurfaceAsDefaultRequest();
-            return await Mediator.Send(request.ToCommand(workSurfaceId));
+            await Mediator.Send(request.ToCommand(workSurfaceId));
+
+            return Ok();
         }
 
         // Apps
@@ -72,56 +83,69 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 }
             }
 
-            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithAppsQuery(workSurfaceId, contextExternalId));
+            var appGroupsDto = contextExternalId != null ?
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId)) :
+                await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
 
-            return appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList();
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
+            }
+
+            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
         [HttpPost("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromBody] ApiAddWorkSurfaceAppRequest request)
         {
             if (contextExternalId == null)
             {
-                await Mediator.Send(request.ToCommand(workSurfaceId, null, null));
+                await Mediator.Send(request.ToCommand(workSurfaceId));
             }
             else
             {
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
+                if (context == null || context.ExternalId == null)
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
 
-                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, context.Type));
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
         [HttpDelete("{workSurfaceId:guid}/contexts/{contextExternalId}/apps/{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
+            var request = new ApiRemoveWorkSurfaceAppRequest();
 
             if (contextExternalId != null)
             {
                 var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
                 var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
+                if (context == null || context.ExternalId == null)
                 {
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
+
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
+            }
+            else
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
             }
 
-            var request = new ApiRemoveWorkSurfaceAppRequest();
-            await Mediator.Send(request.ToCommand(workSurfaceId, contextExternalId, appKey));
-
-            return NoContent();
+            return Ok();
         }
     }
 }

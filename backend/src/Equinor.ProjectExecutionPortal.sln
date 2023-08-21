@@ -13,10 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equinor.ProjectExecutionPor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{09C989BD-D361-45EB-97F3-DBDE30A3D97B}"
 	ProjectSection(SolutionItems) = preProject
-		..\.editorconfig = ..\.editorconfig
+		..\..\.editorconfig = ..\..\.editorconfig
 		..\.gitignore = ..\.gitignore
+		..\..\.github\dependabot.yml = ..\..\.github\dependabot.yml
 		Dockerfile = Dockerfile
-		..\LICENSE = ..\LICENSE
+		nuget.config = nuget.config
 		..\..\radixconfig.yaml = ..\..\radixconfig.yaml
 	EndProjectSection
 EndProject

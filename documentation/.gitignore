@@ -11,3 +11,7 @@ dist
 config.local.js
 basement_dist
 
+src/.vuepress/.cache
+src/.vuepress/.temp
+
+!package-lock.json

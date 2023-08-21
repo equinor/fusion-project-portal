@@ -1,28 +1,41 @@
-import { AppManifest } from "@equinor/fusion-framework-module-app";
-import { AppConfigBuilderCallback } from "@equinor/fusion-framework-module-app/dist/types/AppConfigBuilder";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AppManifest } from '@equinor/fusion-framework-module-app';
+import { AppConfigBuilderCallback } from '@equinor/fusion-framework-module-app/dist/types/AppConfigBuilder';
+import { Client } from '../types';
 
-const manifestMapper = (value: any): AppManifest => {
-    const { key, name, version } = value;
-    return { key, name, version, entry: `https://app-pep-backend-noe-dev.azurewebsites.net/api/bundles/${key}` };
-}
+const manifestMapper =
+	(basePath: string) =>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(value: any): AppManifest => {
+		const { appKey, appInformation, isLegacy } = value;
+		return { ...appInformation, entry: `${basePath}/api/bundles/${appKey}`, isLegacy };
+	};
 
-export const appConfigurator: AppConfigBuilderCallback = async (builder) => {
-    const serviceDiscovery = await builder.requireInstance("serviceDiscovery");
-    const portal = await serviceDiscovery.createClient("portal");
-    builder.setAppClient({
-        getAppManifest: (query) => {
-            return portal.json$(
-                `/api/apps/${query.appKey}`,
-                { selector: async (res) => manifestMapper(await res.json()) }
-            )
-        },
-        getAppManifests: () => portal.json$(
-            `/api/apps`,
-            { selector: async (res) => (await res.json()).map(manifestMapper) }
-        ),
+const manifestMappers =
+	(basePath: string) =>
+	(value: any): AppManifest => {
+		const { key, name, version } = value;
+		return { ...value, key, name, version, entry: `${basePath}/api/bundles/${key}` };
+	};
 
-        getAppConfig: (query) => portal.json$(
-            `/api/apps/${query.appKey}/config`,
-        ),
-    });
-}
+export const appConfigurator =
+	(client: Client): AppConfigBuilderCallback =>
+	async (builder) => {
+		const serviceDiscovery = await builder.requireInstance('serviceDiscovery');
+		const http = await builder.requireInstance('http');
+		const portal = await serviceDiscovery.createClient('portal');
+		const portalClient = await http.createClient('portal-client');
+		builder.setAppClient({
+			getAppManifest: (query) => {
+				return portalClient.json$(`/api/onboarded-apps/${query.appKey}`, {
+					selector: async (res) => manifestMapper(client.baseUri)(await res.json()),
+				});
+			},
+			getAppManifests: () =>
+				portalClient.json$(`/api/portal/fusion/apps`, {
+					selector: async (res) => (await res.json()).map(manifestMappers(client.baseUri)),
+				}),
+
+			getAppConfig: (query) => portal.json$(`/api/apps/${query.appKey}/config`),
+		});
+	};

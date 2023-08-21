@@ -1,2 +1,2 @@
-export * from './pages/context-page/ContextPage';
+export * from './pages/project-page/ProjectPage';
 export * from './pages/view-page/ViewPage';

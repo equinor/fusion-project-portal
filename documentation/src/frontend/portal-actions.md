@@ -1,12 +1,11 @@
 ---
-title: Portal Actions 
+title: Portal Actions
 category: frontend
-tags:
-    - actions
-    - favorites
-    - settings
+tag:
+  - actions
+  - favorites
+  - settings
 ---
-
 
 ## Add New Action
 

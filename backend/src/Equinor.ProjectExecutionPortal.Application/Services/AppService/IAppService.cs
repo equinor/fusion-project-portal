@@ -1,16 +1,20 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
+using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {
     public interface IAppService
     {
-        Task<bool> AppExist(string appKey, CancellationToken cancellationToken);
+        Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken);
 
-        Task<PortalDto> EnrichPortalWithFusionAppData(PortalDto portal, CancellationToken cancellationToken);
+        Task<IList<FusionPortalAppInformation>> GetFusionApps();
 
-        Task<WorkSurfaceDto> EnrichWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurface, CancellationToken cancellationToken);
+        Task<FusionPortalAppInformation?> GetFusionApp(string appKey);
 
-        Task<IList<WorkSurfaceAppDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceAppDto> apps, CancellationToken cancellationToken);
+        Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey);
+
+        Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken);
+
+        Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> apps, CancellationToken cancellationToken);
     }
 }

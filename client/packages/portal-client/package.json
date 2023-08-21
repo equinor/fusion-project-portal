@@ -1,9 +1,21 @@
 {
   "name": "@equinor/portal-client",
   "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview"
+    "dev": "vite --mode dev",
+    "build": "tsc  && vite build --mode prod",
+    "serve": "vite preview",
+    "test": "vitest --silent --run"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "@types/testing-library__jest-dom": "^5.14.9",
+    "@vitejs/plugin-react": "^4.0.4",
+    "@vitest/ui": "^0.34.1",
+    "jsdom": "^22.1.0",
+    "vite": "^4.4.8",
+    "vitest": "^0.34.1"
   }
 }

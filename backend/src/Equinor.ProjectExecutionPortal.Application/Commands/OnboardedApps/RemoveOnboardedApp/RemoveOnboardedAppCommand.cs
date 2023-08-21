@@ -27,7 +27,7 @@ public class RemoveOnboardedAppCommand : IRequest
         public async Task<Unit> Handle(RemoveOnboardedAppCommand command, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<OnboardedApp>()
-                .SingleOrDefaultAsync(onboardedApp => onboardedApp.AppKey == command.AppKey, cancellationToken);
+                .FirstOrDefaultAsync(onboardedApp => onboardedApp.AppKey == command.AppKey, cancellationToken);
 
             if (entity == null)
             {

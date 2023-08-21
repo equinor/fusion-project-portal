@@ -2,26 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://eds-static.equinor.com/font/equinor-font.css" />
-    <!--<link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />-->
-    <!-- DO NOT ROLL OUT TO PRODUCTION, TEST ONLY -->
-    <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.eds.equinor.com/font/equinor-font.css"
+    />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fusion</title>
-    
-
-@*    <script type="module" crossorigin src="/assets/portal-client-bundle.js"></script>
-*@    
-
+    @await RenderSectionAsync("Headers", required: false)
+ 
+    <title>Project Portal</title>
 </head>
+
 <body>
-
-    <main role="main">
-        @RenderBody()
-    </main>
-
+    @RenderBody()
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

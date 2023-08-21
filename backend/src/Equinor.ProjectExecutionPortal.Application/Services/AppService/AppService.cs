@@ -1,5 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portal;
-using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurface;
+﻿using Equinor.ProjectExecutionPortal.Application.Cache;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
@@ -7,85 +7,74 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {
     public class AppService : IAppService
     {
+        private readonly IFusionAppsCache _fusionAppsCache;
         private readonly IFusionPortalApiService _fusionPortalApiService;
 
-        public AppService(IFusionPortalApiService fusionPortalApiService)
+        public AppService(IFusionAppsCache fusionAppsCache, IFusionPortalApiService fusionPortalApiService)
         {
+            _fusionAppsCache = fusionAppsCache;
             _fusionPortalApiService = fusionPortalApiService;
         }
 
-        public async Task<bool> AppExist(string appKey, CancellationToken cancellationToken)
+        public async Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken)
         {
-            var fusionApp = await _fusionPortalApiService.TryGetFusionPortalApp(appKey);
+            var fusionApps = await _fusionAppsCache.GetFusionApps();
 
-            return fusionApp != null;
+            return fusionApps.Any(app => app.Key == appKey);
         }
 
-        public async Task<IList<WorkSurfaceAppDto>> EnrichAppsWithFusionAppData(IList<WorkSurfaceAppDto> apps, CancellationToken cancellationToken)
+        public async Task<IList<FusionPortalAppInformation>> GetFusionApps()
         {
-            var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
-
-            return CombineAppsWithFusionAppData(apps, fusionApps);
+            return await _fusionAppsCache.GetFusionApps();
         }
 
-        private static List<WorkSurfaceAppDto> CombineAppsWithFusionAppData(IList<WorkSurfaceAppDto> appDtos, IList<ApiFusionPortalAppInformation> fusionApps)
+        public async Task<FusionPortalAppInformation?> GetFusionApp(string appKey)
         {
-            foreach (var applicationDto in appDtos)
-            {
-                CombineAppWithFusionAppData(applicationDto, fusionApps);
-            }
-
-            return appDtos.ToList();
+            return await _fusionAppsCache.GetFusionApp(appKey);
         }
 
-        public async Task<WorkSurfaceDto> EnrichWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurface, CancellationToken cancellationToken)
+        public async Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey)
         {
-            var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
-
-            return CombineWorkSurfaceWithFusionAppData(workSurface, fusionApps);
+            return await _fusionPortalApiService.TryGetFusionPortalAppConfig(appKey);
         }
-
-        private static WorkSurfaceDto CombineWorkSurfaceWithFusionAppData(WorkSurfaceDto workSurfaceDto, IList<ApiFusionPortalAppInformation> fusionApps)
+        
+        public async Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
         {
-            foreach (var applicationDto in workSurfaceDto.Apps)
-            {
-                CombineAppWithFusionAppData(applicationDto, fusionApps);
-            }
-
-            return workSurfaceDto;
-        }
-
-        // TEMP POC METHOD
-        public async Task<PortalDto> EnrichPortalWithFusionAppData(PortalDto portal, CancellationToken cancellationToken)
-        {
-            var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
-
-            return CombinePortalWithFusionAppData(portal, fusionApps);
-        }
-
-        // TEMP POC METHOD
-        private static PortalDto CombinePortalWithFusionAppData(PortalDto portalDto, IList<ApiFusionPortalAppInformation> fusionApps)
-        {
-            foreach (var applicationDto in portalDto.WorkSurfaces.SelectMany(x => x.Apps))
-            {
-                CombineAppWithFusionAppData(applicationDto, fusionApps);
-            }
-
-            return portalDto;
-        }
-
-        private static WorkSurfaceAppDto CombineAppWithFusionAppData(WorkSurfaceAppDto appDto, IEnumerable<ApiFusionPortalAppInformation> fusionApps)
-        {
-            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, appDto.OnboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
+            var fusionApp = await GetFusionApp(onboardedApp.AppKey);
 
             if (fusionApp != null)
             {
-                appDto.SupplyWithFusionData(
-                    fusionApp.Name,
-                    fusionApp.Description);
+                onboardedApp.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.All);
             }
 
-            return appDto;
+            return onboardedApp;
+        }
+
+        public async Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
+        {
+            var fusionApps = await GetFusionApps();
+
+            foreach (var onboardedAppDto in onboardedApps)
+            {
+                CombineAppWithFusionAppData(onboardedAppDto, fusionApps);
+            }
+
+            return onboardedApps;
+        }
+
+        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<FusionPortalAppInformation> fusionApps)
+        {
+            if (onboardedAppDto == null)
+            {
+                return;
+            }
+
+            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, onboardedAppDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
+
+            if (fusionApp != null)
+            {
+                onboardedAppDto.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.Minimal);
+            }
         }
     }
 }

@@ -1,0 +1,194 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: fusion-project-portal
+spec:
+  environments:
+    - name: feature
+      build:
+        from: feature/* # Any repo named feature/*whatever* will trigger this build
+    - name: test
+      build:
+        from: main
+    - name: prod
+  dnsExternalAlias:
+    - alias: project.fusion.equinor.com
+      environment: prod
+      component: webserver 
+  components:
+    # Backend API
+    - name: backend
+      src: ./backend/src # Dockerfile location
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        ApplicationInsights__ConnectionString: ""
+        AzureAd__ClientId: ""
+        Authenticator__ProjectPortalApiClientId: ""
+        Swagger__ClientId: ""
+        FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__TokenScope: ""
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: feature
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-feature
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: Authenticator--ProjectPortalApiSecret
+                    type: secret
+                    envVar: Authenticator__ProjectPortalApiSecret
+                  - name: ConnectionStrings--ProjectPortalContext
+                    type: secret
+                    envVar: ConnectionStrings__ProjectPortalContext
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: test
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-test
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: Authenticator--ProjectPortalApiSecret
+                    type: secret
+                    envVar: Authenticator__ProjectPortalApiSecret
+                  - name: ConnectionStrings--ProjectPortalContext
+                    type: secret
+                    envVar: ConnectionStrings__ProjectPortalContext
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: prod
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-api-noe-prod
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: Authenticator--ProjectPortalApiSecret
+                    type: secret
+                    envVar: Authenticator__ProjectPortalApiSecret
+                  - name: ConnectionStrings--ProjectPortalContext
+                    type: secret
+                    envVar: ConnectionStrings__ProjectPortalContext
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+
+    # Web Server (client backend)
+    - name: webserver
+      src: . # Dockerfile location
+      dockerfileName: clientBackend.Dockerfile
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        ApplicationInsights__ConnectionString: ""
+        AzureAd__ClientId: ""
+        ClientBundle__Msal__ClientId: ""
+        FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__TokenScope: ""
+        FusionProjectPortalApi__BaseAddress: ""
+        FusionProjectPortalApi__Scope: ""
+        FusionBookmarks__Name: ""
+        FusionBookmarks__Identifier: ""
+        FusionBookmarks__Subsystem: "Project Portal"
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: feature
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-ws-noe-feature
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: test
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-ws-noe-test
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: ClientBundle--AgGrid--LicenseKey
+                    type: secret
+                    envVar: ClientBundle__AgGrid__LicenseKey
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: prod
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-ws-noe-prod
+                path: /mnt/key-vault
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: ClientBundle--AgGrid--LicenseKey
+                    type: secret
+                    envVar: ClientBundle__AgGrid__LicenseKey
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"

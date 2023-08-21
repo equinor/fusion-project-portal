@@ -1,4 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApp.GetOnboardedApps;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,32 +18,53 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
 
-            return onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList();
+            return Ok(onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList());
+        }
+
+        [HttpGet("{appKey}")]
+        public async Task<ActionResult<ApiOnboardedApp>> OnboardedApp([FromRoute] string appKey)
+        {
+            var onboardedAppDto = await Mediator.Send(new GetOnboardedAppQuery(appKey));
+
+            return new ApiOnboardedApp(onboardedAppDto);
         }
 
         [HttpPost("")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            await Mediator.Send(request.ToCommand());
+
+            return Ok();
+        }
+
+        [HttpPut("{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
+        {
+            await Mediator.Send(request.ToCommand(appKey));
+
+            return Ok();
         }
 
         [HttpDelete("{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
         {
-            // TODO: Removing should come with a warning. E.g highlight affected work surfaces and contexts
-
             var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
+
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPut("reorder")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> ReorderOnboardedApps([FromBody] ApiReorderOnboardedAppsRequest request)
         {
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
     }
 }

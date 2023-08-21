@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroup.GetAppGroups;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroups.GetAppGroups;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,36 +17,44 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var appGroupsDto = await Mediator.Send(new GetAppGroups());
 
-            return appGroupsDto.Select(x => new ApiAppGroup(x)).ToList();
+            return Ok(appGroupsDto.Select(x => new ApiAppGroup(x)).ToList());
         }
 
         [HttpPost("")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> CreateAppGroup([FromBody] ApiCreateAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand());
+            await Mediator.Send(request.ToCommand());
+
+            return Ok();
         }
 
         [HttpPut("{appGroupId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid appGroupId, [FromBody] ApiUpdateAppGroupRequest request)
         {
-            return await Mediator.Send(request.ToCommand(appGroupId));
+            await Mediator.Send(request.ToCommand(appGroupId));
+
+            return Ok();
         }
 
         [HttpDelete("{appGroupId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid appGroupId)
         {
             var request = new ApiDeleteAppGroupRequest();
             await Mediator.Send(request.ToCommand(appGroupId));
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPut("reorder")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> ReorderAppGroups([FromBody] ApiReorderAppGroupsRequest request)
         {
             await Mediator.Send(request.ToCommand());
 
-            return NoContent();
+            return Ok();
         }
     }
 }

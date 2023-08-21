@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.DeleteAppGroup;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.AppGroups.DeleteAppGroup;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup
 {

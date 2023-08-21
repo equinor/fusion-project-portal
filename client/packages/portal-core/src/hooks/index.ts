@@ -5,4 +5,6 @@ export * from './use-framework-current-context';
 export * from './use-portal-client';
 export * from './use-store-current-view-id';
 export * from './use-top-bar-actions';
-export * from './use-current-app-group'
+export * from './use-current-app-group';
+export * from './use-onboarded-contexts';
+export * from './use-portal-config';

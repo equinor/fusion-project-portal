@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
-/// The portal master object which ties all relevant portal data together
+/// The Work Surface functions as a container for all apps and related information about a specific phase
 /// </summary>
 public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
@@ -65,5 +65,25 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public void AddApp(WorkSurfaceApp app)
     {
         _apps.Add(app);
+    }
+
+    public bool HasApp(Guid onboardedAppId)
+    {
+        return Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedAppId == onboardedAppId);
+    }
+
+    public bool HasGlobalApp(Guid onboardedAppId)
+    {
+        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.IsGlobal);
+    }
+
+    public bool HasAppForContext(Guid onboardedAppId, Guid onboardedContextId)
+    {
+        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedContextId == onboardedContextId);
+    }
+
+    public bool HasAppForContexts(Guid onboardedAppId)
+    {
+        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedContextId.HasValue);
     }
 }

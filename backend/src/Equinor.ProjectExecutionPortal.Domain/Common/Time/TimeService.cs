@@ -2,9 +2,9 @@
 
 public static class TimeService
 {
-    private static ITimeProvider s_provider;
+    private static ITimeProvider _sProvider = null!;
 
-    public static DateTime UtcNow => s_provider.UtcNow;
+    public static DateTime UtcNow => _sProvider.UtcNow;
 
     public static void SetProvider(ITimeProvider provider)
     {
@@ -18,6 +18,6 @@ public static class TimeService
             throw new ArgumentException("Time must be in UTC format");
         }
 
-        s_provider = provider;
+        _sProvider = provider;
     }
 }

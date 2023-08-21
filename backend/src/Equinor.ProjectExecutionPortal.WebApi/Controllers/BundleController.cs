@@ -7,6 +7,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/bundles")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class BundleController : ApiControllerBase
     {
         [AllowAnonymous]
@@ -20,10 +21,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
                 return File(appBundle, "application/javascript");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                return FusionApiError.NotFound(appKey, ex.Message);
             }
         }
     }

@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 import { useFrameworkContext } from './use-framework-context';
+import { clearLocalContext } from '../framework-configurator';
 
 export const useContextResolver = (type: string[]): ContextResolver => {
 	const contextProvider = useFrameworkContext();
@@ -40,7 +41,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 					query: { search, filter: { type } },
 				});
 
-				if (!contexts[0].id) return searchResult;
+				if (contexts[0] && !contexts[0].id) return searchResult;
 				// Structure as type
 
 				searchResult = type.length > 1 ? contextResultMappedByTypes(contexts) : contextResultMapped(contexts);
@@ -64,7 +65,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 		[client, type]
 	);
 
-	const children = getContextHistory();
+	const children = getContextHistory(type);
 
 	const historyItems = {
 		id: 'history',
@@ -79,6 +80,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 		closeHandler: (e: MouseEvent) => {
 			e.stopPropagation();
 			contextProvider.clearCurrentContext();
+			clearLocalContext();
 		},
 	};
 };

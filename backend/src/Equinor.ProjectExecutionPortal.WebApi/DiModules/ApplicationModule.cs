@@ -8,6 +8,7 @@ using Equinor.ProjectExecutionPortal.FusionPortalApi;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using FluentValidation;
@@ -37,6 +38,8 @@ public static class ApplicationModule
                 policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
                 policy.RequireAuthenticatedUser();
             });
+
+            options.UseApplicationPolicies();
         });
 
         services.AddInfrastructureModules(configuration);
@@ -60,12 +63,5 @@ public static class ApplicationModule
         services.AddScoped<IBearerTokenProvider>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IBearerTokenSetter>(x => x.GetRequiredService<Authenticator>());
         services.AddScoped<IAuthenticator>(x => x.GetRequiredService<Authenticator>());
-
-        services.AddScoped<ContextProvider>();
-        services.AddScoped<IContextProvider>(x => x.GetRequiredService<ContextProvider>());
-        services.AddScoped<IContextSetter>(x => x.GetRequiredService<ContextProvider>());
-
-        services.AddApplicationServicesModules();
-        services.AddApplicationIntegrationsModule();
     }
 }
