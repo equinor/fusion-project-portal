@@ -9,14 +9,13 @@ export const styles = {
 		line-height: 16px;
 		height: 24px;
 	`,
-	groupWrapper: css`
-		align-items: flex-start;
-		break-inside: avoid;
+	groupWrapper: (columnStyle : string) => css`
 		display: flex;
-		flex-direction: row;
-		-webkit-flex-direction: row;
-		-ms-flex-direction: row;
+		flex-direction: ${columnStyle};
+		-webkit-flex-direction: ${columnStyle};
+		-ms-flex-direction: ${columnStyle};
 		width: inherit;
+		break-inside: avoid;
 	`,
 	groupName: (isActive: boolean) => css`
 		font-weight: ${isActive ? 700 : 500};

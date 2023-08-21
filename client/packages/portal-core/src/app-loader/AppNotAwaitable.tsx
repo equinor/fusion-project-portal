@@ -23,7 +23,7 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 					<div>
 						<p>Current apps are available for the selected context</p>
 						<div>
-							<GroupWrapper appGroups={data} />
+							<GroupWrapper appGroups={data} columnStyle="row" />
 						</div>
 					</div>
 				)}

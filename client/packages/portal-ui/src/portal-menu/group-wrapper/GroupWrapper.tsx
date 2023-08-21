@@ -5,11 +5,12 @@ import { styles } from '../styles';
 
 type GroupWrapperProps = {
 	appGroups: AppGroup[];
+	columnStyle?: string;
 };
 
-export const GroupWrapper = ({ appGroups }: GroupWrapperProps) => {
+export const GroupWrapper = ({ appGroups, columnStyle }: GroupWrapperProps) => {
 	return (
-		<div className={styles.groupWrapper}>
+		<div className={styles.groupWrapper(columnStyle ?? 'column')}>
 			{appGroups.length ? (
 				appGroups.map((appGroup) => <Group key={appGroup.name} group={appGroup} />)
 			) : (
