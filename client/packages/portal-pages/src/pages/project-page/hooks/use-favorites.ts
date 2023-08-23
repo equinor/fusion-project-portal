@@ -4,16 +4,16 @@ import { combineLatest, map } from 'rxjs';
 import { useMemo } from 'react';
 
 export const useFavorites = () => {
-	const { app } = useAppModule();
+	const { appModule } = useAppModule();
 
 	const { data } = useAppGroupsQuery();
 
 	const favorite$ = useMemo(
 		() =>
-			combineLatest([app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
+			combineLatest([appModule?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
 				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
 			),
-		[app.getAllAppManifests]
+		[appModule.getAllAppManifests]
 	);
 
 	const favorites = useObservable(favorite$) || [];

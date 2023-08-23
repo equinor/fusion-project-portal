@@ -27,7 +27,7 @@ describe('useAppModule', () => {
 	test('should return app with handover appKey', async () => {
 		const { result } = renderHook(() => useAppModule('handover'));
 
-		expect(result.current.app.current?.appKey).toEqual('handover');
+		expect(result.current.appModule.current?.appKey).toEqual('handover');
 	});
 	test('should return fusion modules', async () => {
 		const { result } = renderHook(() => useAppModule('query'));

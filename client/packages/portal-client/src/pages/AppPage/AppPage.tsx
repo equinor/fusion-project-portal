@@ -17,12 +17,12 @@ export const AppPage = () => {
 
 	const navigate = useNavigate();
 
-	const { app, appManifest } = useAppModule();
+	const { appModule, appManifest } = useAppModule();
 
 	useEffect(() => {
 		// Todo use context util
 		if (context && !contextId && !verifyContextInURL(window.location.pathname)) {
-			isLegacyFusionApplication({ appKey, appProvider: app }).then(
+			isLegacyFusionApplication({ appKey, appProvider: appModule }).then(
 				// navigation should only be performed on new applications and not legacy applications
 				(isLegacy) => !isLegacy && navigate(`${window.location.pathname}${context.id}`)
 			);
