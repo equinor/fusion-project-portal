@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ContextProvider, ContextSelector } from '../context-selector';
 import { useViewController } from '../providers';
 import { useAppGroupsQuery } from '../queries';
-
+import { StyledGroupWrapper } from './styles';
 type AppNotAwaitableProps = {
 	name: string;
 };
@@ -21,10 +21,10 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 				</ContextProvider>
 				{!isLoading && data && (
 					<div>
-						<p>Current apps are available for the selected context</p>
-						<div>
-							<GroupWrapper appGroups={data} />
-						</div>
+						<p>Current apps are available for the selected context:</p>
+						<StyledGroupWrapper>
+							<GroupWrapper appGroups={data} maxAppsInColumn={10} />
+						</StyledGroupWrapper>
 					</div>
 				)}
 			</div>
