@@ -1,12 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import {
-	useFrameworkCurrentContext,
-	useAppModule,
-	isLegacyFusionApplication,
-	AppContainer,
-} from '@equinor/portal-core';
+import { useFrameworkCurrentContext, useAppModule, isLegacyFusionApplication, AppProvider } from '@equinor/portal-core';
 
 import { verifyContextInURL } from '../../utils/context-utils';
 
@@ -29,5 +24,5 @@ export const AppPage = () => {
 		}
 	}, [appKey, context, contextId]);
 
-	return <AppContainer hasContext={Boolean(context)} appKey={appKey} />;
+	return <AppProvider hasContext={Boolean(context)} appKey={appKey} />;
 };

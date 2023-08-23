@@ -1,9 +1,9 @@
 import { useCurrentAppGroup } from '../../hooks';
-import { AppModuleLoader } from '../app-module-loader/AppModuleLoader';
+import { AppElementProvider } from '../app-element-provider/AppElementProvider';
 import { AppNotAwaitable } from '../app-not-awaitable/AppNotAvailable';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 
-export const AppContainer = ({ hasContext, appKey }: { hasContext: boolean; appKey?: string }) => {
+export const AppProvider = ({ hasContext, appKey }: { hasContext: boolean; appKey?: string }) => {
 	const { isAppNotAvailable, appName } = useCurrentAppGroup(appKey);
 
 	if (isAppNotAvailable(hasContext)) {
@@ -12,9 +12,9 @@ export const AppContainer = ({ hasContext, appKey }: { hasContext: boolean; appK
 
 	if (appKey) {
 		return (
-			<AppModuleLoader appKey={appKey}>
+			<AppElementProvider appKey={appKey}>
 				<PortalProgressLoader title="Loading App" />
-			</AppModuleLoader>
+			</AppElementProvider>
 		);
 	}
 

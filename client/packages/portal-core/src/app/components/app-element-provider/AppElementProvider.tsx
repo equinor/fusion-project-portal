@@ -20,7 +20,7 @@ const StyledAppSection = styled.section`
 	max-width: 100%;
 `;
 
-export const AppModuleLoader: FC<PropsWithChildren<CurrentAppLoaderProps>> = ({ appKey, children }) => {
+export const AppElementProvider: FC<PropsWithChildren<CurrentAppLoaderProps>> = ({ appKey, children }) => {
 	const ref = useRef<HTMLElement>(null);
 
 	const { loading, error, appRef } = useAppLoader(appKey);
