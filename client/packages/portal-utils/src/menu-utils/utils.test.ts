@@ -47,7 +47,6 @@ describe('getColumnCount', () => {
 	});
 	test('Should return 1', () => {
 		const columnCount = getColumnCount(10, singleAppGroup);
-		console.log(columnCount);
 		expect(columnCount).toBe(1);
 	});
 });
