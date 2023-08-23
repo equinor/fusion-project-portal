@@ -2,21 +2,21 @@ import { AppGroup, App } from '@equinor/portal-core';
 import { tokens } from '@equinor/eds-tokens';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 
-export const getColumnCount = (MAX: number, data?: AppGroup[]) => {
+export const getColumnCount = (MAX: number, appGroup?: AppGroup[]) => {
 	const count =
-		data?.reduce((acc, group) => {
+		appGroup?.reduce((acc, group) => {
 			return acc + group.apps.length;
 		}, 0) || 0;
 	return Math.ceil(count / MAX);
 };
 
-export const getMenuWidth = (MIN: number, MAX: number, data?: AppGroup[]) => {
+export const getMenuWidth = (MIN: number, MAX: number, appGroup?: AppGroup[]) => {
 	const count =
-		data?.reduce((acc, group) => {
+		appGroup?.reduce((acc, group) => {
 			return acc + group.apps.length;
 		}, 0) || 0;
 
-	if (!data || count < MIN) {
+	if (!appGroup || count < MIN) {
 		return 750;
 	}
 	if (count > MIN && count < MAX) {

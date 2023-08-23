@@ -2,9 +2,8 @@ import { css } from '@emotion/css';
 import { tokens } from '@equinor/eds-tokens';
 
 export const styles = {
-		appsWrapper: (count: number) => css`
+	appsWrapper: (count: number) => css`
 		padding: 0 0 1rem 1rem;
-
 		display: block;
 		grid-template-columns: auto;
 		padding-bottom: 2rem;
@@ -61,7 +60,6 @@ export const styles = {
 		margin-inline-end: 0px;
 		padding-inline-start: 0;
 		gap: 1rem;
-		overflow-wrap: none;
 	`,
 	categoryItem: (isActive: boolean) => css`
 		background: none;

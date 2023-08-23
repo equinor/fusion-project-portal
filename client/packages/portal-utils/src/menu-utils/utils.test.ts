@@ -33,29 +33,36 @@ const appGroups: AppGroup[] = [
 		apps: [{ appKey: 'Test17' } as App, { appKey: 'Test18' } as App, { appKey: 'Test19' } as App],
 	} as AppGroup,
 ];
+const singleAppGroup: AppGroup[] = [
+	{
+		name: 'Group 1',
+		apps: [{ appKey: 'testSingleApp' } as App],
+	} as AppGroup,
+];
 
 describe('getColumnCount', () => {
 	test('Should return 2', () => {
 		const columnCount = getColumnCount(10, appGroups);
 		expect(columnCount).toBe(2);
 	});
+	test('Should return 1', () => {
+		const columnCount = getColumnCount(10, singleAppGroup);
+		console.log(columnCount);
+		expect(columnCount).toBe(1);
+	});
 });
 
-describe('getMenuWidth 1100', () => {
+describe('getMenuWidth', () => {
+	test('Should return 1450', () => {
+		const currWidth = getMenuWidth(10, 15, appGroups);
+		expect(currWidth).toBe(1450);
+	});
 	test('Should return 1100', () => {
 		const currWidth = getMenuWidth(12, 25, appGroups);
 		expect(currWidth).toBe(1100);
 	});
-});
-describe('getMenuWidth 750', () => {
 	test('Should return 750', () => {
 		const currWidth = getMenuWidth(20, 25, appGroups);
 		expect(currWidth).toBe(750);
-	});
-});
-describe('getMenuWidth 1450', () => {
-	test('Should return 1450', () => {
-		const currWidth = getMenuWidth(10, 15, appGroups);
-		expect(currWidth).toBe(1450);
 	});
 });
