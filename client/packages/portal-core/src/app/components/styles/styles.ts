@@ -35,7 +35,3 @@ export const StyledContent = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-
-export const StyledGroupWrapper = styled.div`
-	padding-top: 1rem;
-`;

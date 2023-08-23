@@ -6,7 +6,7 @@
 
   "parser": "@typescript-eslint/parser",
   "ignorePatterns": [
-    "*.md", "*.svg", "*.d.ts", "*.ico", "*.html", "*.js"
+    "*.md", "*.svg", "*.d.ts", "*.ico", "*.html", "*.js", "**/coverage/**"
   ],
   "rules": {
     "tsdoc/syntax": "warn",

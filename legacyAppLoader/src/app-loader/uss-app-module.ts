@@ -1,8 +1,5 @@
 import { AppManifest as LegacyAppManifest } from "@equinor/fusion";
-import {
-  AppManifest as Manifest,
-  AppModule,
-} from "@equinor/fusion-framework-module-app";
+import { AppModule } from "@equinor/fusion-framework-module-app";
 import { useAppModules } from "@equinor/fusion-framework-react-app";
 import { useEffect, useState } from "react";
 

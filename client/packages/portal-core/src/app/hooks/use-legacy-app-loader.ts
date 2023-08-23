@@ -7,7 +7,8 @@ export const useLegacyAppLoader = () => {
 	useLayoutEffect(() => {
 		const setupLegacy = async () => {
 			const uri = '/appLegacyLoader.js';
-			setLegacyAppScript((await import(/* @vite-ignore */ uri /* @vite-ignore */)) as AppScriptModule);
+			const script = await import(/* @vite-ignore */ uri /* @vite-ignore */);
+			setLegacyAppScript(script);
 		};
 		setupLegacy();
 	}, []);

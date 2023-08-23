@@ -10,7 +10,7 @@ export function MainHeader() {
 
 	const handleLogoClick = () => {
 		const id = getId();
-		if (appMounted() && id) {
+		if (appMounted(window.location.pathname) && id) {
 			setViewId(id);
 		} else {
 			setViewId(undefined);

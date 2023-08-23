@@ -15,7 +15,7 @@ import {
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
-import { signalRConfigurator } from './utils';
+import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
 
 const showInfo = false;
@@ -86,19 +86,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
 			configurePortalContext(fusion.context);
-
-			/** Fusion Legacy App Loader should be removed when all application are migrated -- Start */
-			fusion.navigation.state$.subscribe((nav) => {
-				if (nav.action !== 'PUSH') return;
-
-				if (
-					nav.location.pathname.split('/').filter((path) => path === fusion.context.currentContext?.id)
-						.length > 1
-				) {
-					fusion.navigation.navigator.go(-1);
-				}
-			});
-			/**  End*/
 
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;

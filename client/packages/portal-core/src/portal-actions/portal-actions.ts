@@ -1,8 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
-import { actions } from './portal-actions-config';
 import { PortalAction, PortalActions } from './types';
 
-const actions$ = new BehaviorSubject<PortalAction[]>(actions);
+const actions$ = new BehaviorSubject<PortalAction[]>([]);
 
 const activeAction$ = new BehaviorSubject<PortalAction | undefined>(undefined);
 
@@ -16,9 +15,13 @@ function setActiveActionById(actionId: string) {
 function closeActiveAction() {
 	activeAction$.next(undefined);
 }
+function configureActions(actions: PortalAction[]) {
+	actions$.next(actions);
+}
 
 export const portalActions: PortalActions = {
 	actions$,
+	configureActions,
 	activeAction$,
 	setActiveActionById,
 	closeActiveAction,

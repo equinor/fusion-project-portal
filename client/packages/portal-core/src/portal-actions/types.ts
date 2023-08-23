@@ -22,6 +22,7 @@ export type PortalActionProps = { open: boolean; onClose: VoidFunction; action: 
 
 export interface PortalActions {
 	actions$: BehaviorSubject<PortalAction[]>;
+	configureActions: (actions: PortalAction[]) => void;
 	activeAction$: BehaviorSubject<PortalAction | undefined>;
 	setActiveActionById(actionId: string): void;
 	closeActiveAction(): void;

@@ -6,7 +6,7 @@ import Framework from '@equinor/fusion-framework-react';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import PortalRouter from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
-import { createPortalFramework } from './framework-config';
+import { createPortalFramework } from './lib';
 import { PortalConfig, configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 
