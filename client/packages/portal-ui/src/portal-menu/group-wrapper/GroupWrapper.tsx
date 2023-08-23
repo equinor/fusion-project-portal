@@ -2,20 +2,23 @@ import { AppGroup } from '@equinor/portal-core';
 import { InfoMessage } from '../../info-message/InfoMessage';
 import { Group } from '../group/Group';
 import { styles } from '../styles';
+import { getColumnCount } from '@equinor/portal-utils';
 
 type GroupWrapperProps = {
 	appGroups: AppGroup[];
-	columnStyle?: string;
+	maxAppsInColumn: number;
 };
 
-export const GroupWrapper = ({ appGroups, columnStyle }: GroupWrapperProps) => {
+export const GroupWrapper = ({ appGroups, maxAppsInColumn }: GroupWrapperProps) => {
 	return (
-		<div className={styles.groupWrapper(columnStyle ?? 'column')}>
-			{appGroups.length ? (
-				appGroups.map((appGroup) => <Group key={appGroup.name} group={appGroup} />)
-			) : (
-				<InfoMessage>No applications found</InfoMessage>
-			)}
+		<div className={styles.appsWrapper(getColumnCount(maxAppsInColumn, appGroups))}>
+			<div className={styles.groupWrapper}>
+				{appGroups.length ? (
+					appGroups.map((appGroup) => <Group key={appGroup.name} group={appGroup} />)
+				) : (
+					<InfoMessage>No applications found</InfoMessage>
+				)}
+			</div>
 		</div>
 	);
 };

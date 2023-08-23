@@ -2,19 +2,12 @@ import { AppGroup, App } from '@equinor/portal-core';
 import { tokens } from '@equinor/eds-tokens';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 
-export const getColumnCount = (MIN: number, MAX: number, data?: AppGroup[]) => {
+export const getColumnCount = (MAX: number, data?: AppGroup[]) => {
 	const count =
 		data?.reduce((acc, group) => {
 			return acc + group.apps.length;
 		}, 0) || 0;
-
-	if (!data || count < MIN) {
-		return 1;
-	}
-	if (count > MIN && count < MAX) {
-		return 2;
-	}
-	return 3;
+	return Math.ceil(count / MAX);
 };
 
 export const getMenuWidth = (MIN: number, MAX: number, data?: AppGroup[]) => {
@@ -83,7 +76,7 @@ export function getPinnedAppsGroup(enabledApps: App[], disabledApps: App[], favo
 			apps: [],
 		} as AppGroup
 	);
-	
+
 	pinnedApps.apps.sort((a, b) => a.name.localeCompare(b.name));
 
 	return pinnedApps;
