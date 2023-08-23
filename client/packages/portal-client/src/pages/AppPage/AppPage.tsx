@@ -17,7 +17,7 @@ export const AppPage = () => {
 
 	const navigate = useNavigate();
 
-	const { appModule, appManifest } = useAppModule();
+	const { appModule } = useAppModule();
 
 	useEffect(() => {
 		// Todo use context util
@@ -29,5 +29,5 @@ export const AppPage = () => {
 		}
 	}, [appKey, context, contextId]);
 
-	return <AppContainer hasContext={Boolean(context)} appKey={appKey} appName={appManifest?.name} />;
+	return <AppContainer hasContext={Boolean(context)} appKey={appKey} />;
 };

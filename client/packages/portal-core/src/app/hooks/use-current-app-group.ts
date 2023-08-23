@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useAppGroupsQuery } from '../../queries';
 import { useAppModule } from './use-app-module';
@@ -13,10 +13,18 @@ export const useCurrentAppGroup = (appKey?: string) => {
 		return nextAppGroup ? nextAppGroup : undefined;
 	}, [appKey, data]);
 
+	const isAppNotAvailable = useCallback(
+		(hasContext: boolean) => {
+			return Boolean(!currentAppGroup && appManifest?.name && !isLoading && hasContext);
+		},
+		[currentAppGroup, isLoading, appManifest]
+	);
+
 	return {
-		isOnboarded: Boolean(currentAppGroup),
+		isAppNotAvailable,
 		currentAppGroup,
 		isLoading,
 		appManifest,
+		appName: appManifest?.name,
 	};
 };

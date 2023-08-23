@@ -3,19 +3,10 @@ import { AppModuleLoader } from '../app-module-loader/AppModuleLoader';
 import { AppNotAwaitable } from '../app-not-awaitable/AppNotAvailable';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 
-export const AppContainer = ({
-	hasContext,
-	appName,
-	appKey,
-}: {
-	hasContext: boolean;
-	appKey?: string;
-	appName?: string;
-}) => {
-	// Todo refactor this to hook with all needed to simplify first if check
-	const { isOnboarded, isLoading } = useCurrentAppGroup(appKey);
+export const AppContainer = ({ hasContext, appKey }: { hasContext: boolean; appKey?: string }) => {
+	const { isAppNotAvailable, appName } = useCurrentAppGroup(appKey);
 
-	if (!isOnboarded && appName && !isLoading && hasContext) {
+	if (isAppNotAvailable(hasContext)) {
 		return <AppNotAwaitable name={appName} />;
 	}
 

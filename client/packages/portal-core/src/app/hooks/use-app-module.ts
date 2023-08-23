@@ -4,7 +4,6 @@ import { useCurrentAppManifest } from './use-current-app-manifest';
 import { useFrameWorkAndAppModule } from './use-framework-and-app-module';
 
 export const useAppModule = (appKey?: string) => {
-	// rename app to app module
 	const { appModule, fusion } = useFrameWorkAndAppModule();
 	const currentApp = useCurrentApp(appModule);
 	const appManifest = useCurrentAppManifest(currentApp);

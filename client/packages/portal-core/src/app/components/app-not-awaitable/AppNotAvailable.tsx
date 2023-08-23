@@ -5,7 +5,7 @@ import { useViewController } from '../../../providers';
 import { useAppGroupsQuery } from '../../../queries';
 
 type AppNotAwaitableProps = {
-	name: string;
+	name?: string;
 };
 
 export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
@@ -15,7 +15,7 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 	const navigate = useNavigate();
 
 	return (
-		<PortalMessagePage title={`${name} is not available for the selected context`} type="Warning">
+		<PortalMessagePage title={`${name || 'Unknown'} is not available for the selected context`} type="Warning">
 			<div>
 				<ContextProvider>
 					<ContextSelector navigate={navigate} path={`/${currentView?.key}`} />
