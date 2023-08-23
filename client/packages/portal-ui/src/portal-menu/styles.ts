@@ -2,6 +2,15 @@ import { css } from '@emotion/css';
 import { tokens } from '@equinor/eds-tokens';
 
 export const styles = {
+	appsWrapper: (count: number) => css`
+		padding: 0 0 1rem 1rem;
+		display: block;
+		grid-template-columns: auto;
+		padding-bottom: 2rem;
+		column-width: auto;
+		gap: 1rem;
+		column-count: ${count};
+	`,
 	menuItem: css`
 		font-style: normal;
 		font-weight: 400;
@@ -11,11 +20,10 @@ export const styles = {
 	`,
 	groupWrapper: css`
 		display: flex;
+		flex-direction: column;
 		-webkit-flex-direction: column;
 		-ms-flex-direction: column;
-		flex-direction: column;
 		width: inherit;
-		break-inside: avoid;
 	`,
 	groupName: (isActive: boolean) => css`
 		font-weight: ${isActive ? 700 : 500};

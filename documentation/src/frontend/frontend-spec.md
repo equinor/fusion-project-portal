@@ -1,9 +1,9 @@
 ---
 title: Frontend spec
 category: frontend
-tags:
-    - web
-    - react
+tag:
+  - web
+  - react
 ---
 
 ## Menu

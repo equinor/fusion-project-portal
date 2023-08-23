@@ -8,7 +8,7 @@
     "build": "npx lerna run build",
     "test": "lerna  run test",
     "test:coverage": "lerna run test:coverage",
-    "lint": "eslint 'packages/**'",
+    "lint": "eslint \"packages/**\"",
     "update:fusion": "ncu -i -f /fusion/",
     "update:vite": "ncu -i -f /vite/",
     "postinstall": "cd .. && yarn"

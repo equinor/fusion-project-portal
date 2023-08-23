@@ -1,83 +1,33 @@
-import hope from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import theme from "./theme";
+import { getDirname, path } from "@vuepress/utils";
+import { registerComponentsPlugin } from "@vuepress/plugin-register-components";
 
-export default hope.config({
+export default defineUserConfig({
   base: "/fusion-project-portal/",
   title: "Fusion Project Portal",
   description:
     "Fusion Project Portal is a mono repository for all frontend and backend services associated project portal.",
-  themeConfig: {
-    logo: "/fusion.png",
-    repo: "equinor/fusion-project-portal",
-    docsBranch: "main",
-    editLinks: true,
-    docsDir: "docs/",
-    darkmode: "auto-switch",
-    comment: false,
-    nav: [
+  head: [
+    [
+      "link",
       {
-        text: "Frontend",
-        link: "/frontend/",
-      },
-      {
-        text: "Backend",
-        link: "/backend/",
+        href: "https://cdn.eds.equinor.com/font/equinor-font.css",
+        rel: "stylesheet",
       },
     ],
-    sidebar: [
-      {
-        title: "Frontend",
-        path: "/frontend/",
-        collapsable: false,
-        sidebarDepth: 3,
-        children: ["/frontend/portal-actions.md"],
-      },
-      {
-        title: "Backend",
-        path: "/backend/",
-        collapsable: false,
-        sidebarDepth: 3,
-        children: [
-          // {
-          // 	title: 'Section',
-          // 	path: '/frontend/section',
-          // 	children: [
-          // 	],
-          // },
-        ],
-      },
-      {
-        title: "Project Portal Study",
-        path: "/projectPortalStudy/",
-        collapsable: false,
-        sidebarDepth: 3,
-        children: [
-          // {
-          // 	title: 'Section',
-          // 	path: '/frontend/section',
-          // 	children: [
-          // 	],
-          // },
-        ],
-      },
-    ],
-
-    mdEnhance: {
-      mermaid: true,
-      codegroup: true,
-      container: true,
-      tasklist: true,
-      presentation: {
-        plugins: [
-          "highlight",
-          "math",
-          "search",
-          "notes",
-          "zoom",
-          "anything",
-          "audio",
-          "chalkboard",
-        ],
-      },
+  ],
+  theme,
+  // plugins: [
+  //   registerComponentsPlugin({
+  //     components: {
+  //       ModuleBadge: path.resolve(__dirname, "./components/ModuleBadge.vue"),
+  //     },
+  //   }),
+  // ],
+  markdown: {
+    code: {
+      lineNumbers: false,
     },
   },
 });

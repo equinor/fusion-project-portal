@@ -4,7 +4,6 @@ import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem 
 import {
 	useObservable,
 	getMenuWidth,
-	getColumnCount,
 	customAppgroupArraySort,
 	getDisabledApps,
 	getPinnedAppsGroup,
@@ -29,16 +28,7 @@ const styles = {
 		width: 300px;
 		gap: 1rem;
 	`,
-	appsWrapper: (count: number) => css`
-		padding: 0 0 1rem 1rem;
-		height: 650px;
-		display: block;
-		grid-template-columns: auto;
-		padding-bottom: 2rem;
-		column-width: auto;
-		gap: 1rem;
-		column-count: ${count};
-	`,
+
 	menuWrapper: css`
 		display: flex;
 		flex-direction: row;
@@ -97,7 +87,7 @@ export function MenuGroups() {
 	};
 
 	const BREAK_COL_2 = 12;
-	const BREAK_COL_3 = 25;
+	const BREAK_COL_3 = 20;
 
 	return (
 		<PortalMenu width={getMenuWidth(BREAK_COL_2, BREAK_COL_3, data)}>
@@ -133,9 +123,7 @@ export function MenuGroups() {
 									them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<div className={styles.appsWrapper(getColumnCount(BREAK_COL_2, BREAK_COL_3, data))}>
-									<GroupWrapper appGroups={displayAppGroups} />
-								</div>
+								<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_3} />
 							)
 						) : (
 							<>{searchText ? <InfoMessage>No results found for your search.</InfoMessage> : null}</>

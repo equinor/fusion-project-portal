@@ -8,7 +8,10 @@ backend:
   - backend/**
 
 frontend:
-  - frontend/**
+  - client/**
+
+web-server:
+  - clientBackend/**
 
 pipelines:
   - pipelines/**
