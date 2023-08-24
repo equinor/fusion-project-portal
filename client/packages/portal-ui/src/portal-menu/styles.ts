@@ -8,7 +8,7 @@ export const styles = {
 		grid-template-columns: auto;
 		padding-bottom: 2rem;
 		column-width: auto;
-		gap: 1rem;
+		gap: 2rem;
 		column-count: ${count};
 	`,
 	menuItem: css`

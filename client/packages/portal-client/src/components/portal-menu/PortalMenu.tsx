@@ -1,13 +1,7 @@
 import { Search } from '@equinor/eds-core-react';
 import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
 import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import {
-	useObservable,
-	getMenuWidth,
-	customAppgroupArraySort,
-	getDisabledApps,
-	getPinnedAppsGroup,
-} from '@equinor/portal-utils';
+import { useObservable, customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
 
 import { menuFavoritesController, useAppModule, useMenuContext } from '@equinor/portal-core';
@@ -72,7 +66,7 @@ export function MenuGroups() {
 		}
 		if (activeItem.includes('All Apps') || searchText != '') {
 			const appSearch = appsMatchingSearch(data ?? [], searchText);
-			return appSearch.sort((a, b) => customAppgroupArraySort(a, b, activeItem));
+			return appSearch.sort((a, b) => customAppGroupArraySort(a, b, activeItem));
 		}
 		const filteredApps = data?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
@@ -86,11 +80,10 @@ export function MenuGroups() {
 		}
 	};
 
-	const BREAK_COL_2 = 12;
-	const BREAK_COL_3 = 20;
+	const BREAK_COL_COUNT = 20;
 
 	return (
-		<PortalMenu width={getMenuWidth(BREAK_COL_2, BREAK_COL_3, data)}>
+		<PortalMenu>
 			<Search
 				id="app-search"
 				placeholder={'Search for apps'}
@@ -123,7 +116,7 @@ export function MenuGroups() {
 									them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_3} />
+								<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_COUNT} />
 							)
 						) : (
 							<>{searchText ? <InfoMessage>No results found for your search.</InfoMessage> : null}</>
