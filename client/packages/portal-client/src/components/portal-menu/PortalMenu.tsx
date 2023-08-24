@@ -80,7 +80,7 @@ export function MenuGroups() {
 		}
 	};
 
-	const BREAK_COL_COUNT = 20;
+	const BREAK_COL_COUNT = 15;
 
 	return (
 		<PortalMenu>
