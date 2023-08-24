@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { PortalAction, PortalActions } from './types';
+import { actions } from './portal-actions-config';
 
 const actions$ = new BehaviorSubject<PortalAction[]>([]);
 
@@ -26,3 +27,5 @@ export const portalActions: PortalActions = {
 	setActiveActionById,
 	closeActiveAction,
 };
+
+configureActions(actions);
