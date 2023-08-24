@@ -10,22 +10,7 @@ export const getColumnCount = (MAX: number, appGroup?: AppGroup[]) => {
 	return Math.ceil(count / MAX);
 };
 
-export const getMenuWidth = (MIN: number, MAX: number, appGroup?: AppGroup[]) => {
-	const count =
-		appGroup?.reduce((acc, group) => {
-			return acc + group.apps.length;
-		}, 0) || 0;
-
-	if (!appGroup || count < MIN) {
-		return 750;
-	}
-	if (count > MIN && count < MAX) {
-		return 1100;
-	}
-	return 1450;
-};
-
-export const customAppgroupArraySort = (a: AppGroup, b: AppGroup, activeItem: string) => {
+export const customAppGroupArraySort = (a: AppGroup, b: AppGroup, activeItem: string) => {
 	if (a.name === activeItem || a.name < b.name) {
 		return -1;
 	} else if (b.name === activeItem || a.name > b.name) {

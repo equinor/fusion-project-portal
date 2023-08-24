@@ -1,6 +1,6 @@
 import { expect, test, describe } from 'vitest';
 import { AppGroup, App } from '@equinor/portal-core';
-import { getColumnCount, getMenuWidth } from './utils';
+import { getColumnCount } from './utils';
 const appGroups: AppGroup[] = [
 	{
 		name: 'Group 1',
@@ -48,20 +48,5 @@ describe('getColumnCount', () => {
 	test('Should return 1', () => {
 		const columnCount = getColumnCount(10, singleAppGroup);
 		expect(columnCount).toBe(1);
-	});
-});
-
-describe('getMenuWidth', () => {
-	test('Should return 1450', () => {
-		const currWidth = getMenuWidth(10, 15, appGroups);
-		expect(currWidth).toBe(1450);
-	});
-	test('Should return 1100', () => {
-		const currWidth = getMenuWidth(12, 25, appGroups);
-		expect(currWidth).toBe(1100);
-	});
-	test('Should return 750', () => {
-		const currWidth = getMenuWidth(20, 25, appGroups);
-		expect(currWidth).toBe(750);
 	});
 });
