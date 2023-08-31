@@ -91,7 +91,8 @@
     "react-router-dom": "^6.9.0",
     "rxjs": "^7.5.7",
     "styled-components": "5.3.6",
-    "swiper": "^9.3.2"
+    "swiper": "^9.3.2",
+    "jwt-decode": "^3.1.2"
   },
   "workspaces": [
     "packages/**"
