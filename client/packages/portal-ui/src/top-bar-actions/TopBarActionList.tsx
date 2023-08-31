@@ -5,6 +5,7 @@ import { PortalAction, useTopBarActions } from '@equinor/portal-core';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { StyledActionListWrapper, StyledActionMenuButton } from './TopBarActionStyles';
 import { Divider } from '../divider/Divider';
+import { useIsAdmin } from '../../../portal-core/src/admin/hooks/useIsAdmin';
 
 interface ConditionalWrapperProps {
 	condition: boolean;
@@ -15,6 +16,7 @@ const ConditionalWrapper = ({ condition, children, ...props }: PropsWithChildren
 	condition ? <props.wrapper>{children}</props.wrapper> : <>{children}</>;
 
 export function TopBarActionList(): JSX.Element {
+	const isAdmin = useIsAdmin();
 	const { topBarActions$, setActiveActionById } = useTopBarActions();
 
 	const [topBarActions, setTopBarActions] = useState<PortalAction[]>([]);
@@ -28,42 +30,44 @@ export function TopBarActionList(): JSX.Element {
 
 	return (
 		<>
-			{topBarActions.map((action, index) => {
-				if (action.dropDownOnly) return <span key={action.actionId}></span>;
+			{topBarActions
+				.filter((action) => !action.admin || (action.admin && isAdmin))
+				.map((action, index) => {
+					if (action.dropDownOnly) return <span key={action.actionId}></span>;
 
-				const customIcon =
-					typeof action.icon === 'string' ? (
-						<Icon color={tokens.colors.interactive.primary__resting.hex} name={action.icon} />
-					) : (
-						<action.icon.component />
-					);
+					const customIcon =
+						typeof action.icon === 'string' ? (
+							<Icon color={tokens.colors.interactive.primary__resting.hex} name={action.icon} />
+						) : (
+							<action.icon.component />
+						);
 
-				return (
-					<StyledActionListWrapper key={action.actionId}>
-						<ConditionalWrapper
-							condition={!!action.tooltip}
-							wrapper={({ children }) => (
-								<Tooltip content={action.tooltip ? action.tooltip : action.name}>
-									<span>{children}</span>
-								</Tooltip>
-							)}
-						>
-							<StyledActionMenuButton
-								title={!action.tooltip ? action.name : undefined}
-								variant="ghost_icon"
-								onClick={() => {
-									action.onClick
-										? action.onClick(action.actionId)
-										: setActiveActionById(action.actionId);
-								}}
+					return (
+						<StyledActionListWrapper key={action.actionId}>
+							<ConditionalWrapper
+								condition={!!action.tooltip}
+								wrapper={({ children }) => (
+									<Tooltip content={action.tooltip ? action.tooltip : action.name}>
+										<span>{children}</span>
+									</Tooltip>
+								)}
 							>
-								{customIcon}
-							</StyledActionMenuButton>
-						</ConditionalWrapper>
-						{action.appendDivider && !!topBarActions[index + 1] && <Divider />}
-					</StyledActionListWrapper>
-				);
-			})}
+								<StyledActionMenuButton
+									title={!action.tooltip ? action.name : undefined}
+									variant="ghost_icon"
+									onClick={() => {
+										action.onClick
+											? action.onClick(action.actionId)
+											: setActiveActionById(action.actionId);
+									}}
+								>
+									{customIcon}
+								</StyledActionMenuButton>
+							</ConditionalWrapper>
+							{action.appendDivider && !!topBarActions[index + 1] && <Divider />}
+						</StyledActionListWrapper>
+					);
+				})}
 			{topBarActions.length > 0 && <Divider />}
 		</>
 	);

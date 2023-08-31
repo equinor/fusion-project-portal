@@ -4,6 +4,7 @@ import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equ
 import { NotificationBell } from '@equinor/notification';
 import { PortalAction } from './types';
 import { handleFullscreenClick } from './utils';
+import { Admin, AdminButton } from '../admin';
 
 export const actions: PortalAction[] = [
 	{
@@ -13,6 +14,13 @@ export const actions: PortalAction[] = [
 		appendDivider: true,
 		onClick: handleFullscreenClick,
 		topParOnly: true,
+	},
+	{
+		actionId: 'portal-admin',
+		name: 'Portal Admin',
+		icon: 'settings',
+		component: Admin,
+		admin: true,
 	},
 	// {
 	// 	actionId: 'my-account',

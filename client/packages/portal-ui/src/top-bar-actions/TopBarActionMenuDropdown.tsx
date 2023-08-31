@@ -5,6 +5,7 @@ import { TopBarAvatar } from '../avatar/TopBarAvatar';
 import { TopBarActionItem } from './TopBarActionItem';
 
 import { StyledItem, StyledTopBarButton } from './TopBarActionStyles';
+import { useIsAdmin } from '../../../portal-core/src/admin/hooks/useIsAdmin';
 
 export function TopBarActionMenuDropdown(): JSX.Element {
 	const topBarMenuAnchorEl = useRef<HTMLDivElement>(null);
@@ -16,6 +17,7 @@ export function TopBarActionMenuDropdown(): JSX.Element {
 
 	const { actions$ } = usePortalActions();
 	const { toggleTopBarAllActions, topBarActions$ } = useTopBarActions();
+	const isAdmin = useIsAdmin();
 
 	useEffect(() => {
 		const actionsSubscription = actions$.subscribe(setActions);
@@ -59,11 +61,17 @@ export function TopBarActionMenuDropdown(): JSX.Element {
 				onClose={handleCloseMenu}
 				placement="bottom-start"
 			>
-				{actions.map((action) => (
-					<span key={action.actionId}>
-						<TopBarActionItem action={action} isFavorite={favorites.includes(action)} showAsMenu={true} />
-					</span>
-				))}
+				{actions
+					.filter((action) => !action.admin || (action.admin && isAdmin))
+					.map((action) => (
+						<span key={action.actionId}>
+							<TopBarActionItem
+								action={action}
+								isFavorite={favorites.includes(action)}
+								showAsMenu={true}
+							/>
+						</span>
+					))}
 
 				<Menu.Section title="Settings">
 					<StyledItem>
