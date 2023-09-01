@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 using Fusion.Integration;
@@ -47,7 +48,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(request.ExternalId, "Could not find any context with that external id");
             }
 
-            await Mediator.Send(request.ToCommand(context.ExternalId, context.Type));
+            try
+            {
+                await Mediator.Send(request.ToCommand(context.ExternalId, context.Type));
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while onboarding context");
+            }
 
             return Ok();
         }
@@ -56,7 +68,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] string contextExternalId, [FromBody] ApiUpdateOnboardedContextRequest request)
         {
-            await Mediator.Send(request.ToCommand(contextExternalId));
+            try
+            {
+                await Mediator.Send(request.ToCommand(contextExternalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(contextExternalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while updating onboarded context");
+            }
 
             return Ok();
         }
@@ -66,7 +89,23 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult> RemoveOnboardedContext([FromRoute] string contextExternalId)
         {
             var request = new ApiRemoveOnboardedContextRequest { ExternalId = contextExternalId };
-            await Mediator.Send(request.ToCommand());
+
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(contextExternalId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing onboarded context");
+            }
 
             return Ok();
         }

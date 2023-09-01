@@ -60,7 +60,7 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
             }
 
             // Perform cleanup of all contextual instances of this app to avoid duplicates. 
-            if (command.RemoveAppForContexts && workSurfaceWithAllApps.HasAppForContexts(onboardedApp.Id))
+            if (command.RemoveAppForContexts && workSurfaceWithAllApps.HasAppForAnyContexts(onboardedApp.Id))
             {
                 var allWorkSurfaceContextsWithApp = workSurfaceWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
 

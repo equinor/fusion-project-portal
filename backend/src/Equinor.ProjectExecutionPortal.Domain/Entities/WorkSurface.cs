@@ -67,23 +67,41 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
         _apps.Add(app);
     }
 
+    public List<WorkSurfaceApp> GlobalApps()
+    {
+        return _apps.Where(workSurfaceApp => workSurfaceApp.IsGlobal).ToList();
+    }
+
+    public List<WorkSurfaceApp> ContextualApps(Guid? onboardedContextId = null)
+    {
+        if (onboardedContextId == null)
+        {
+            return _apps.Where(workSurfaceApp => workSurfaceApp.IsContextual).ToList();
+        }
+
+        return _apps.Where(workSurfaceApp => workSurfaceApp.IsContextual && workSurfaceApp.OnboardedContextId == onboardedContextId).ToList();
+    }
+
     public bool HasApp(Guid onboardedAppId)
     {
-        return Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedAppId == onboardedAppId);
+        return _apps.Any(workSurfaceApp => workSurfaceApp.OnboardedAppId == onboardedAppId);
     }
 
     public bool HasGlobalApp(Guid onboardedAppId)
     {
-        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.IsGlobal);
+        return HasApp(onboardedAppId) &&
+               GlobalApps().Any(x => x.OnboardedAppId == onboardedAppId);
     }
 
     public bool HasAppForContext(Guid onboardedAppId, Guid onboardedContextId)
     {
-        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedContextId == onboardedContextId);
+        return HasApp(onboardedAppId) &&
+               ContextualApps(onboardedContextId).Any(x => x.OnboardedAppId == onboardedAppId);
     }
 
-    public bool HasAppForContexts(Guid onboardedAppId)
+    public bool HasAppForAnyContexts(Guid onboardedAppId)
     {
-        return HasApp(onboardedAppId) && Apps.Any(workSurfaceApp => workSurfaceApp.OnboardedContextId.HasValue);
+        return HasApp(onboardedAppId) &&
+               _apps.Any(workSurfaceApp => workSurfaceApp.IsContextual);
     }
 }

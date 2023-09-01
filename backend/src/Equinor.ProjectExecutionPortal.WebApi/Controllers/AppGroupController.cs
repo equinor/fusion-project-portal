@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.AppGroups.GetAppGroups;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,7 +25,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> CreateAppGroup([FromBody] ApiCreateAppGroupRequest request)
         {
-            await Mediator.Send(request.ToCommand());
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while creating app group");
+            }
 
             return Ok();
         }
@@ -33,7 +41,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateAppGroup([FromRoute] Guid appGroupId, [FromBody] ApiUpdateAppGroupRequest request)
         {
-            await Mediator.Send(request.ToCommand(appGroupId));
+            try
+            {
+                await Mediator.Send(request.ToCommand(appGroupId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appGroupId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while updating app group");
+            }
 
             return Ok();
         }
@@ -43,7 +62,23 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult<Guid>> DeleteAppGroup([FromRoute] Guid appGroupId)
         {
             var request = new ApiDeleteAppGroupRequest();
-            await Mediator.Send(request.ToCommand(appGroupId));
+
+            try
+            {
+                await Mediator.Send(request.ToCommand(appGroupId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appGroupId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while deleting app group");
+            }
 
             return Ok();
         }
@@ -52,7 +87,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> ReorderAppGroups([FromBody] ApiReorderAppGroupsRequest request)
         {
-            await Mediator.Send(request.ToCommand());
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while reordering app groups");
+            }
 
             return Ok();
         }
