@@ -6,6 +6,7 @@
 @inject IOptions<FusionProjectPortalApiOptions> FusionProjectPortalApiOptions;
 @inject IOptions<FusionBookmarksOptions> FusionBookmarksOptions;
 @inject IOptions<ApplicationInsightsOptions> ApplicationInsightsOptions;
+@inject IOptions<FusionLegacyPortalOptions> FusionLegacyPortalOptions;
 @inject IClientBundleService ClientBundleService;
 
 @{
@@ -15,6 +16,7 @@
     var fusionBookmarks = FusionBookmarksOptions.Value;
     var applicationInsights = ApplicationInsightsOptions.Value;
     var clientBundleFileName = ClientBundleService.GetClientBundleFileName();
+    var fusionLegacyPortalOptions = FusionLegacyPortalOptions.Value;
 }
 
 <div id="root"></div>
@@ -71,6 +73,7 @@
             "agGrid": {
                 "licenseKey": "@clientBundle.AgGrid!.LicenseKey"
             }
+            "fusionLegacyEnvIdentifier": "@fusionLegacyPortalOptions.FusionLegacyEnvIdentifier"
         };
 
         window["_config_"] = portalConfig;

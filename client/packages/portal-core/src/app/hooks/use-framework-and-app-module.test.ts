@@ -26,8 +26,8 @@ describe('useFrameWorkAndAppModule', () => {
 	test('should return app', async () => {
 		const { result } = renderHook(() => useFrameWorkAndAppModule());
 
-		expect(!!result.current.app).toEqual(true);
-		expect(result.current.app.current?.appKey).toEqual(appProvider.current?.appKey);
+		expect(!!result.current.appModule).toEqual(true);
+		expect(result.current.appModule.current?.appKey).toEqual(appProvider.current?.appKey);
 	});
 	test('should return auth', async () => {
 		const { result } = renderHook(() => useFrameWorkAndAppModule());
@@ -35,7 +35,7 @@ describe('useFrameWorkAndAppModule', () => {
 	});
 	test('should return not return context', async () => {
 		const { result } = renderHook(() => useFrameWorkAndAppModule());
-		expect(!!result.current.app).toEqual(true);
+		expect(!!result.current.appModule).toEqual(true);
 		expect(result.current.fusion.modules.context).toBe(undefined);
 	});
 });
