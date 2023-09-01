@@ -127,7 +127,7 @@ spec:
         FusionBookmarks__Name: ""
         FusionBookmarks__Identifier: ""
         FusionBookmarks__Subsystem: "Project Portal"
-        ClientBundleOptions__FusionLegacyEnvIdentifier: "ci"
+        ClientBundle__FusionLegacyEnvIdentifier: "ci"
       ports:
         - name: http
           port: 5000
