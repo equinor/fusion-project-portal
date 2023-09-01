@@ -135,6 +135,11 @@
                     }
                 }
             }
+        },
+        "fusionLegacyEnvIdentifier": {
+            "type": "string",
+            "additionalProperties": false,
+            "description": "Environment identifier for Fusion legacy application loader"
         }
     }
 }
