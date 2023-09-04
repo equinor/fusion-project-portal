@@ -1,24 +1,25 @@
 name: Release
 on:
-    push:
-      branches:
-        - 'test'
-    release:
-        types:
-            - published
-    
+  push:
+    branches:
+      - "test"
+  release:
+    types:
+      - published
+
 jobs:
-    release:
-         name: Create release
-         runs-on: ubuntu-latest
-         steps: 
-          - name: Deploy on Radix
-            uses: equinor/radix-github-actions@v1
-            with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              args: >
-                create job
-                promote
-                -a fusion-project-portal
-                -e test
-                -f 
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on Radix
+        uses: equinor/radix-github-actions@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          args: >
+            create job
+            promote
+            --deploymentName: "test-from-action",
+            --fromEnvironment: "test",
+            --toEnvironment: "feature",
+            --triggeredBy: "chbh@equinor.com"
