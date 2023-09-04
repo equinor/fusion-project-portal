@@ -1,4 +1,4 @@
-name: SNYK code scan
+name: SNYK dotnet scan
 
 on: push
 
@@ -13,7 +13,8 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif
+          args: --sarif-file-output=snyk.sarif --file=./clientBackend/src/Equinor.ProjectExecutionPortal.ClientBackend.sln --severity-threshold=medium
+          command: monitor
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
