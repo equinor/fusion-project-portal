@@ -1,13 +1,8 @@
 name: Post PRs to Teams
+description: This action wil post the pull-request to out pr teams channel
 
-on:
-  pull_request:
-    types: [opened, reopened]
-
-jobs:
+run:
   notify:
-    runs-on: ubuntu-latest
-    
     steps:
       - name: Notify
         uses: davidwengier/PostAdaptiveCard@v1.0.0

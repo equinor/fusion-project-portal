@@ -1,0 +1,8 @@
+name: Web Client Tests
+Description: Running Web Client Tests
+
+runs:
+  test:
+    steps:
+      - name: Run Test
+        run: yarn test

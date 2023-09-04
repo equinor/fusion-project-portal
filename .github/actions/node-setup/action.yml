@@ -1,0 +1,14 @@
+name: Node Setup
+Description: Running Echo
+
+runs:
+  labeler:
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.version }}
+          cache: "yarn"

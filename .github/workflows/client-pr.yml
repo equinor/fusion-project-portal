@@ -1,0 +1,44 @@
+name: Web Clinet Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "client/**"
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  echo:
+    name: Version or publish packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: ./.github/actions/node-setup
+
+      - name: Install Dependesies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Client Build
+        uses: ./.github/actions/clinet-build
+
+      - name: Client Test
+        uses: ./.github/actions/clinet-test
+
+      - name: Es Lint
+        uses: ./.github/actions/es-lint
+
+      - name: Post Pull Request
+        uses: ./.github/actions/post-pull-request
+
+      - name: Labler
+        uses: ./.github/actions/labler
+
+      - name: Size Labler
+        uses: ./.github/actions/size-labler
