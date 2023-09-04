@@ -6,7 +6,6 @@
 # https://github.com/actions/labeler
 
 name: Labeler
-Description: Running Echo
 
 runs:
   labeler:

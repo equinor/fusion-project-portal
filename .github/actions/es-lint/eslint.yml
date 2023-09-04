@@ -3,7 +3,7 @@ description: Run es lint on the web client code
 
 runs:
   eslint:
-    - name: Save Code Linting Report JSON
+    - name: Lint Project
       if: ${{ github.actor != 'dependabot[bot]' }}
       run: cd client  && yarn lint --max-warnings 0;
 
