@@ -21,4 +21,4 @@ jobs:
                 promote
                 -a fusion-project-portal
                 -e test
-                -f feature
+                -f 
