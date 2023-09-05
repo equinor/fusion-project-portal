@@ -4,5 +4,7 @@ Description: Running Echo
 runs:
   steps:
     - name: Install Node Dependencies
-      run: yarn install --frozen-lockfile
+      run: |
+        ll
+        yarn install --frozen-lockfile
       shell: bash
