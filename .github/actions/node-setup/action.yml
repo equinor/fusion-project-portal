@@ -1,0 +1,16 @@
+name: Node Setup
+Description: Running node setup on provided versions
+
+inputs:
+  versions:
+    description: "node versions to run"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.versions }}
+        cache: "yarn"

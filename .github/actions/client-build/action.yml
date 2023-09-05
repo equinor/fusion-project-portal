@@ -2,6 +2,7 @@ name: Web Client Build
 Description: Running Web Client Tests
 
 runs:
+  using: "composite"
   build:
     steps:
       - name: Run Client Build

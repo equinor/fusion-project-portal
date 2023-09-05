@@ -2,6 +2,7 @@ name: Lint Web Client
 description: Run es lint on the web client code
 
 runs:
+  using: "composite"
   eslint:
     - name: Lint Project
       if: ${{ github.actor != 'dependabot[bot]' }}

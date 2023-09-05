@@ -2,9 +2,8 @@ name: Node Setup Dependencies
 Description: Running Echo
 
 runs:
+  using: "composite"
   steps:
     - name: Install Node Dependencies
-      run: |
-        ll
-        yarn install --frozen-lockfile
+      run: yarn install --frozen-lockfile
       shell: bash

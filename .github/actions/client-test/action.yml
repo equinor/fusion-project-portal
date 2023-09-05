@@ -2,6 +2,7 @@ name: Web Client Tests
 Description: Running Web Client Tests
 
 runs:
+  using: ubuntu-latest
   test:
     steps:
       - name: Run Test

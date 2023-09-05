@@ -8,6 +8,7 @@
 name: Labeler
 
 runs:
+  using: "composite"
   labeler:
     steps:
       - uses: actions/labeler@v2
