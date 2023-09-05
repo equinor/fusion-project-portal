@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "clinetBackend/**"
+      - "clientBackend/**"
     types:
       - opened
       - edited
