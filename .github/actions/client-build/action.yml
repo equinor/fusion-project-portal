@@ -7,6 +7,6 @@ runs:
     - name: Run Client Build
       run: |
         cd client
-        ll
+        pwd
         yarn build
       shell: bash
