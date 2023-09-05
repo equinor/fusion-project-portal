@@ -1,9 +1,14 @@
 name: Post PRs to Teams
 description: This action wil post the pull-request to out pr teams channel
 
+inputs:
+  webhook-uri:
+    description: "teams webhook url"
+    required: true
+
 run:
   steps:
     - name: Notify
       uses: davidwengier/PostAdaptiveCard@v1.0.0
       with:
-        webhook-uri: ${{ secrets.TEAMS_PR_WEBHOOK }}
+        webhook-uri: ${{ inputs.webhook-uri }}
