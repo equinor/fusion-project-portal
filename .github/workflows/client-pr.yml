@@ -1,4 +1,4 @@
-name: Web Client Pull Request
+name: Web Client
 
 on:
   pull_request:
@@ -6,17 +6,14 @@ on:
       - main
     paths:
       - "client/**"
-    types:
-      - opened
-      - edited
-      - synchronize
+    types: [opened, synchronize]
 
 jobs:
-  echo:
-    name: Web Client Pull Request
+  web-client-pr:
+    name: Open Pull Request
     strategy:
       matrix:
-        node-version: [16.x]
+        version: [16.x]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,6 +21,8 @@ jobs:
 
       - name: Setup Node
         uses: ./.github/actions/node-setup
+        with:
+          versions: ${{ matrix.version }}
 
       - name: Install Dependecies
         uses: ./.github/actions/install-dependencies
@@ -35,16 +34,7 @@ jobs:
         uses: ./.github/actions/client-test
 
       - name: Es Lint
+        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: ./.github/actions/es-lint
-
-      - name: Post Pull Request
-        uses: ./.github/actions/post-pull-request
-
-      - name: Labler
-        uses: ./.github/actions/labler
-
-      - name: Size Labler
-        uses: ./.github/actions/size-labler
-
-      - name: Snyk scan
-        uses: ./.github/actions/snyk-node
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

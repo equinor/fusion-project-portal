@@ -1,10 +1,16 @@
 name: Node Setup
-description: Runs Setup Node with the provided matrix versions
+description: Running node setup on provided versions
+
+inputs:
+  versions:
+    description: "node versions to run"
+    required: true
 
 runs:
+  using: "composite"
   steps:
-    - name: Setup Node.js
+    - name: Setup Node
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.version }}
+        node-version: ${{ inputs.versions }}
         cache: "yarn"

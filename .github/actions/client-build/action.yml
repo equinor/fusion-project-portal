@@ -2,7 +2,10 @@ name: Web Client Build
 Description: Running Web Client Tests
 
 runs:
-  build:
-    steps:
-      - name: Run Client Build
-        run: yarn build
+  using: "composite"
+  steps:
+    - name: Run Client Build
+      run: |
+        cd client
+        yarn build
+      shell: bash
