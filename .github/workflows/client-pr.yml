@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node
         uses: ./.github/actions/node-setup
         with:
-          matrix: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node-version }}
 
       - name: Install Dependecies
         uses: ./.github/actions/install-dependencies
