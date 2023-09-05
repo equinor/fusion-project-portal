@@ -22,7 +22,7 @@ jobs:
       - name: Post Pull Request
         uses: ./.github/actions/post-pull-request
         with:
-          webhook-uri: ${{ secrets.TEAMS_PR_WEBHOOK }}
+          uri: ${{ secrets.TEAMS_PR_WEBHOOK }}
 
       - name: Labler
         uses: ./.github/actions/labler
