@@ -25,7 +25,11 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
 
+      - name: echo
+        run: echo "${{ secrets.TEAMS_PR_WEBHOOK }}"
+        shell: bash
+
       - name: Post Pull Request
         uses: ./.github/actions/post-pull-request
         with:
-          uri: "${{ secrets.TEAMS_PR_WEBHOOK }}"
+          webhook_uri: "${{ secrets.TEAMS_PR_WEBHOOK }}"
