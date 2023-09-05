@@ -19,11 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Labler
-        uses: ./.github/actions/labler
+      - name: Labeler
+        uses: ./.github/actions/labeler
 
-      - name: Size Labler
-        uses: ./.github/actions/size-labler
+      - name: Size Labeler
+        uses: ./.github/actions/size-labeler
 
       - name: Post Pull Request
         uses: ./.github/actions/post-pull-request
