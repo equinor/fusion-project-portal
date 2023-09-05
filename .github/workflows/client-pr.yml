@@ -25,14 +25,14 @@ jobs:
       - name: Setup Node
         uses: ./.github/actions/node-setup
 
-      - name: Install Dependesies
+      - name: Install Dependecies
         uses: ./.github/actions/install-dependencies
 
       - name: Client Build
-        uses: ./.github/actions/clinet-build
+        uses: ./.github/actions/client-build
 
       - name: Client Test
-        uses: ./.github/actions/clinet-test
+        uses: ./.github/actions/client-test
 
       - name: Es Lint
         uses: ./.github/actions/es-lint
@@ -45,3 +45,6 @@ jobs:
 
       - name: Size Labler
         uses: ./.github/actions/size-labler
+
+      - name: Snyk scan
+        uses: ./.github/actions/snyk-node

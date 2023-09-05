@@ -1,15 +1,13 @@
-name: SNYK node scan
+name: Snyk javascript
+description: Security Snyk scan on javascript
 
-on: push
-
-jobs:
+run:
   security:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+
       - name: Run Snyk on Node
         uses: snyk/actions/node@master
-        continue-on-error: true
+        continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
