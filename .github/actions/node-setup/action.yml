@@ -1,5 +1,5 @@
 name: Node Setup
-Description: Running Echo
+description: Runs Setup Node with the provided matrix versions
 
 runs:
   steps:
