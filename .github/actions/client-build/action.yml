@@ -6,5 +6,7 @@ runs:
   build:
     steps:
       - name: Run Client Build
-        run: yarn build
+        run: |
+          cd client
+          yarn build
         shell: bash

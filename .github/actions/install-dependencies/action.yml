@@ -5,5 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Node Dependencies
-      run: yarn install --frozen-lockfile
+      run: |
+        cd client
+        yarn install --frozen-lockfile
       shell: bash

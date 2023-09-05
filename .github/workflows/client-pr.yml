@@ -27,10 +27,6 @@ jobs:
         with:
           versions: ${{ matrix.version }}
 
-      - name: Set root folter to client
-        run: cd client
-        shell: bash
-
       - name: Install Dependecies
         uses: ./.github/actions/install-dependencies
 

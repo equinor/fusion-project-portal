@@ -6,7 +6,9 @@ runs:
   eslint:
     - name: Lint Project
       if: ${{ github.actor != 'dependabot[bot]' }}
-      run: yarn lint --max-warnings 0;
+      run: |
+        cd client
+        yarn lint --max-warnings 0;
       shell: bash
 
     - name: Annotate Code Linting Results
