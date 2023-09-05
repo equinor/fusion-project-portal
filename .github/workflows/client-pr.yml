@@ -13,7 +13,10 @@ on:
 
 jobs:
   echo:
-    name: Version or publish packages
+    name: Web Client Pull Request
+    strategy:
+      matrix:
+        node-version: [16.x]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
