@@ -12,7 +12,7 @@ on:
       - synchronize
 
 jobs:
-  echo:
+  web-client-pr:
     name: Web Client Pull Request
     strategy:
       matrix:

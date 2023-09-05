@@ -3,12 +3,10 @@ Description: Running Web Client Tests
 
 runs:
   using: "composite"
-  build:
-    steps:
-      - name: Run Client Build
-        run: |
-          cd client
-          echo "before build"
-          ll
-          yarn build
-        shell: bash
+  steps:
+    - name: Run Client Build
+      run: |
+        cd client
+        ll
+        yarn build
+      shell: bash
