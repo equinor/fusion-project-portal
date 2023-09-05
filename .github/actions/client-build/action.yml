@@ -8,5 +8,7 @@ runs:
       - name: Run Client Build
         run: |
           cd client
+          echo "before build"
+          ll
           yarn build
         shell: bash
