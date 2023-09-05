@@ -1,5 +1,4 @@
 name: Node Setup
-Description: Running Echo
 
 runs:
   steps:
