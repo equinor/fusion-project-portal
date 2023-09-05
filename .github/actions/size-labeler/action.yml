@@ -9,7 +9,7 @@ run:
   name: "Label the PR"
   steps:
     - name: Echo
-      run: echo ${{input.token}}
+      run: echo ${{inputs.token}}
       shell: bash
 
     - name: Pull request size labelling
