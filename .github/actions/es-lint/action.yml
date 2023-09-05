@@ -1,29 +1,29 @@
 name: Lint Web Client
 description: Run es lint on the web client code
 
-inputs: 
+inputs:
   token:
     required: true
 
-
 runs:
   using: "composite"
-  - name: Lint Project
-    run: |
-      cd client
-      yarn lint --max-warnings 0;
-    shell: bash
+  steps:
+    - name: Lint Project
+      run: |
+        cd client
+        yarn lint --max-warnings 0;
+      shell: bash
 
-  - name: Annotate Code Linting Results
-    uses: ataylorme/eslint-annotate-action@1.1.2
-    continue-on-error: true
-    with:
-      repo-token: "${{ inputs.token }}"
-      report-json: "eslint-report.log.json"
+    - name: Annotate Code Linting Results
+      uses: ataylorme/eslint-annotate-action@1.1.2
+      continue-on-error: true
+      with:
+        repo-token: "${{ inputs.token }}"
+        report-json: "eslint-report.log.json"
 
-  - name: Upload ESLint report
-    uses: actions/upload-artifact@v2
-    continue-on-error: true
-    with:
-      name: eslint-report.log.json
-      path: eslint-report.log.json
+    - name: Upload ESLint report
+      uses: actions/upload-artifact@v2
+      continue-on-error: true
+      with:
+        name: eslint-report.log.json
+        path: eslint-report.log.json
