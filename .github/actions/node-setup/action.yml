@@ -9,5 +9,5 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ input.matrix }}
+        node-version: ${{ inputs.matrix }}
         cache: "yarn"
