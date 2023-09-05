@@ -7,10 +7,14 @@
 
 name: Labeler
 
+inputs:
+  token:
+    required: true
+
 runs:
   using: "composite"
   steps:
     - uses: actions/labeler@v2
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        repo-token: "${{ inputs.token }}"
         sync-labels: true

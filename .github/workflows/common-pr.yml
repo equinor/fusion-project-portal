@@ -22,6 +22,8 @@ jobs:
 
       - name: Labeler
         uses: ./.github/actions/labeler
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Size Labeler
         uses: ./.github/actions/size-labeler
@@ -29,4 +31,4 @@ jobs:
       - name: Post Pull Request
         uses: ./.github/actions/post-pull-request
         with:
-          uri: ${{ secrets.TEAMS_PR_WEBHOOK }}
+          uri: "${{ secrets.TEAMS_PR_WEBHOOK }}"
