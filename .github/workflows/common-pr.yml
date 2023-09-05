@@ -8,8 +8,6 @@ on:
       - "client/**"
     types:
       - opened
-      - edited
-      - synchronize
 
 jobs:
   web-client-pr:
