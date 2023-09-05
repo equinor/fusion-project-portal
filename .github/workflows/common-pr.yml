@@ -25,11 +25,7 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: echo
-        run: echo "${{ secrets.TEAMS_PR_WEBHOOK }}"
-        shell: bash
-
       - name: Post Pull Request
-        uses: ./.github/actions/post-pull-request
+        uses: davidwengier/PostAdaptiveCard@v1.0.0
         with:
-          webhook_uri: "${{ secrets.TEAMS_PR_WEBHOOK }}"
+          webhook-uri: "${{ secrets.TEAMS_PR_WEBHOOK }}"
