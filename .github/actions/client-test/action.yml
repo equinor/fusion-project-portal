@@ -2,11 +2,10 @@ name: Web Client Tests
 Description: Running Web Client Tests
 
 runs:
-  using: ubuntu-latest
-  test:
-    steps:
-      - name: Run Test
-        run: |
-          cd client
-          yarn test
-        shell: bash
+  using: "composite"
+  steps:
+    - name: Run Test
+      run: |
+        cd client
+        yarn test
+      shell: bash

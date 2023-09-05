@@ -1,0 +1,29 @@
+name: Web Client Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "client/**"
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  web-client-pr:
+    name: Web Client Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Post Pull Request
+        uses: ./.github/actions/post-pull-request
+
+      - name: Labler
+        uses: ./.github/actions/labler
+
+      - name: Size Labler
+        uses: ./.github/actions/size-labler

@@ -18,15 +18,3 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Labler
-        uses: ./.github/actions/labler
-
-      - name: Size Labler
-        uses: ./.github/actions/size-labler
-
-      - name: Post Pull Request
-        uses: ./.github/actions/post-pull-request
-
-      - name: Snyk scan
-        uses: ./.github/actions/snyk-dotnet
