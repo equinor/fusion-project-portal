@@ -3,10 +3,15 @@ name: Size Labeler
 inputs:
   token:
     required: true
+    default: "ohh nooo!!"
 
 run:
   name: "Label the PR"
   steps:
+    - name: Echo
+      run: echo ${{input.token}}
+      shell: bash
+
     - name: Pull request size labelling
       uses: alexromer0/pull-request-labeler@2.1.1
       with:
