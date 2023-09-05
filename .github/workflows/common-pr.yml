@@ -15,6 +15,7 @@ jobs:
   web-client-pr:
     name: Common Actions Pull Request
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
