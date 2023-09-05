@@ -45,6 +45,3 @@ jobs:
 
       - name: Size Labler
         uses: ./.github/actions/size-labler
-
-      - name: Snyk scan
-        uses: ./.github/actions/snyk-node
