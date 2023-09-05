@@ -7,7 +7,7 @@ on:
     types: [opened, reopened]
 
 jobs:
-  web-client-pr:
+  common:
     name: Open Pull Request
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
