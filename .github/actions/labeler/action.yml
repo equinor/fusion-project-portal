@@ -7,10 +7,23 @@
 
 name: Labeler
 
+inputs:
+  token:
+    required: true
+
 runs:
-  labeler:
-    steps:
-      - uses: actions/labeler@v2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          sync-labels: true
+  using: "composite"
+  steps:
+    - uses: actions/labeler@v2
+      with:
+        repo-token: "${{ inputs.token }}"
+        sync-labels: true
+
+    - name: Pull request size labelling
+      uses: alexromer0/pull-request-labeler@2.1.1
+      with:
+        GITHUB_TOKEN: "${{ inputs.token }}"
+        xs_limit: "50"
+        sm_limit: "100"
+        md_limit: "300"
+        lg_limit: "600"
