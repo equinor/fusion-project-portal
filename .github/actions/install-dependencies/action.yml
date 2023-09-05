@@ -2,7 +2,6 @@ name: Node Setup Dependencies
 Description: Running Echo
 
 runs:
-  install-node-dependencies:
-    steps:
-      - name: Install Node Dependencies
-        run: cd client && yarn install --frozen-lockfile
+  steps:
+    - name: Install Node Dependencies
+      run: cd client && yarn install --frozen-lockfile
