@@ -6,3 +6,4 @@ runs:
     steps:
       - name: Run Client Build
         run: yarn build
+        shell: bash

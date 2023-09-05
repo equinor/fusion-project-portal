@@ -6,3 +6,4 @@ runs:
     steps:
       - name: Run Test
         run: yarn test
+        shell: bash

@@ -28,6 +28,10 @@ jobs:
           node-version: ${{ matrix.version }}
           cache: "yarn"
 
+      - name: Set root folter to client
+        run: cd client
+        shell: bash
+
       - name: Install Dependecies
         uses: ./.github/actions/install-dependencies
 
