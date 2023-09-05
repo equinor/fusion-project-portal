@@ -1,15 +1,13 @@
-name: SNYK dotnet scan
+name: Snyk .net
+description: Security Snyk scan on dotnet
 
-on: push
-
-jobs:
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+run:
+  security:   
+    steps:     
+      
       - name: Run Snyk on dotnet
         uses: snyk/actions/dotnet@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+        continue-on-error: true 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
