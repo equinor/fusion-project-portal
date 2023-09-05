@@ -1,4 +1,4 @@
-name: Web Client Pull Request
+name: Web Client
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ on:
 
 jobs:
   web-client-pr:
-    name: Web Client Pull Request
+    name: Open Pull Request
     strategy:
       matrix:
         version: [16.x]
