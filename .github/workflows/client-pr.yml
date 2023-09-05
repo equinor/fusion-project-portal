@@ -37,4 +37,7 @@ jobs:
         uses: ./.github/actions/client-test
 
       - name: Es Lint
+        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: ./.github/actions/es-lint
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
