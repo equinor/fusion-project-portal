@@ -25,11 +25,6 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Size Labeler
-        uses: ./.github/actions/size-labeler
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-
       - name: Post Pull Request
         uses: ./.github/actions/post-pull-request
         with:
