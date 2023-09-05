@@ -6,5 +6,7 @@ runs:
   test:
     steps:
       - name: Run Test
-        run: yarn test
+        run: |
+          cd client
+          yarn test
         shell: bash
