@@ -59,16 +59,19 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added globally to this Work Surface.");
             }
 
-            // Perform cleanup of all contextual instances of this app to avoid duplicates. 
-            if (command.RemoveAppForContexts && workSurfaceWithAllApps.HasAppForAnyContexts(onboardedApp.Id))
+            // Perform cleanup of all contextual instances of this app to avoid duplicates.
+            if (workSurfaceWithAllApps.HasAppForAnyContexts(onboardedApp.Id))
             {
-                var allWorkSurfaceContextsWithApp = workSurfaceWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
+                if (command.RemoveAppForContexts)
+                {
+                    var allWorkSurfaceContextsWithApp = workSurfaceWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
 
-                _readWriteContext.Set<WorkSurfaceApp>().RemoveRange(allWorkSurfaceContextsWithApp);
-            }
-            else
-            {
-                throw new InvalidActionException($"App {onboardedApp.AppKey} already exists as a contextual app in this Work Surface. Please perform cleanup before adding as a global app");
+                    _readWriteContext.Set<WorkSurfaceApp>().RemoveRange(allWorkSurfaceContextsWithApp);
+                }
+                else
+                {
+                    throw new InvalidActionException($"App {onboardedApp.AppKey} already exists as a contextual app in this Work Surface. Contextual app must be removed before adding globally");
+                }
             }
 
             var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId);

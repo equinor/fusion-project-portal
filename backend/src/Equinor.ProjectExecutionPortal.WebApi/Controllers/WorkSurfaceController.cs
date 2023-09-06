@@ -131,55 +131,56 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, [FromBody] ApiAddGlobalAppToWorkSurfaceRequest request)
+        {
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
+            }
+
+            return Ok();
+        }
+
         [HttpPost("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromBody] ApiAddWorkSurfaceAppRequest request)
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string contextExternalId, [FromBody] ApiAddContextAppToWorkSurfaceRequest request)
         {
-            if (contextExternalId == null)
+            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+            if (context == null || context.ExternalId == null)
             {
-                try
-                {
-                    await Mediator.Send(request.ToCommand(workSurfaceId));
-                }
-                catch (NotFoundException ex)
-                {
-                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
-                }
-                catch (InvalidActionException ex)
-                {
-                    return FusionApiError.InvalidOperation("500", ex.Message);
-                }
-                catch (Exception)
-                {
-                    return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
-                }
+                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
             }
-            else
+
+            try
             {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-                if (context == null || context.ExternalId == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
-
-                try
-                {
-                    await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
-                }
-                catch (NotFoundException ex)
-                {
-                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
-                }
-                catch (InvalidActionException ex)
-                {
-                    return FusionApiError.InvalidOperation("500", ex.Message);
-                }
-                catch (Exception)
-                {
-                    return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
-                }
+                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
             }
 
             return Ok();
