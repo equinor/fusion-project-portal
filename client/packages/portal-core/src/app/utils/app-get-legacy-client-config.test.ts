@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { getLegacyClientConfig } from './app-get-legacy-client-config';
+import { getFusionLegacyEnvIdentifier, getLegacyClientConfig } from './app-get-legacy-client-config';
 import { JSDOM } from 'jsdom';
 import { PortalConfig } from '../../types';
 
@@ -14,6 +14,7 @@ window['_config_'] = {
 			defaultScopes: ['test'],
 		},
 	},
+	fusionLegacyEnvIdentifier: 'ci',
 } as PortalConfig;
 
 describe('getLegacyClientConfig', () => {
@@ -21,5 +22,11 @@ describe('getLegacyClientConfig', () => {
 		const client = getLegacyClientConfig();
 		expect(client.baseUri).toBe('test');
 		expect(client.defaultScopes[0]).toBe('test');
+	});
+});
+describe('getFusionLegacyEnvIdentifier', () => {
+	test('should return env identifier', () => {
+		const env = getFusionLegacyEnvIdentifier();
+		expect(env).toBe('ci');
 	});
 });

@@ -6,6 +6,7 @@
         public string? Description { get; set; }
         public ClientBundleMsalOptions? Msal { get; set; }
         public ClientBundleAgGridOptions? AgGrid { get; set; }
+        public string? FusionLegacyEnvIdentifier { get; set; }
     }
 
     public class ClientBundleMsalOptions

@@ -39,5 +39,6 @@
 			"active": false,
 			"level": 0
 		}
-	}
+	},
+	"fusionLegacyEnvIdentifier": "ci"
 }

@@ -1,195 +1,170 @@
-<!-- omit in toc -->
+#  Contributing to Project Portal
 
-# Contributing to Fusion Project Portal
+Thanks for taking the time to contribute to this project! ❤️
 
-First off, thanks for taking the time to contribute! ❤️
+##  1. Table of Contents
 
-All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
+- [Contributing to Project Portal](#contributing-to-project-portal)
+  - [1. Table of Contents](#1-table-of-contents)
+  - [2. Code of Conduct](#2-code-of-conduct)
+  - [3. Code Review and Contribution](#3-code-review-and-contribution)
+    - [3.1.  Commit Messages](#31--commit-messages)
+    - [3.2. Linting](#32-linting)
+    - [3.3. Testing](#33-testing)
+    - [3.4. Code Refactoring](#34-code-refactoring)
+    - [3.5. Improving The Documentation](#35-improving-the-documentation)
+  - [4. Bug reporting and Issues](#4-bug-reporting-and-issues)
+    - [4.1. Bug report](#41-bug-report)
+    - [4.2. Enhancement](#42-enhancement)
+    - [4.3. New Functionality](#43-new-functionality)
+  - [5. Project Structure](#5-project-structure)
+  - [6. Core Project](#6-core-project)
+  - [7. Feature App](#7-feature-app)
 
-> And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
->
-> -   Star the project
-> -   Tweet about it
-> -   Refer this project in your project's readme
-> -   Mention the project at local meetups and tell your friends/colleagues
 
-<!-- omit in toc -->
-
-## Table of Contents
-
--   [Code of Conduct](#code-of-conduct)
--   [I Have a Question](#i-have-a-question)
-    -   [I Want To Contribute](#i-want-to-contribute)
-    -   [Reporting Bugs](#reporting-bugs)
-    -   [Suggesting Enhancements](#suggesting-enhancements)
-    -   [Your First Code Contribution](#your-first-code-contribution)
-    -   [Improving The Documentation](#improving-the-documentation)
--   [Styleguides](#styleguides)
-    -   [Commit Messages](#commit-messages)
--   [Join The Project Team](#join-the-project-team)
-
-## Code of Conduct
+##  2. Code of Conduct
 
 This project and everyone participating in it is governed by the
-[Fusion Project Portal Code of Conduct](/blob//CODE_OF_CONDUCT.md).
-By participating, you are expected to uphold this code. Please report unacceptable behaviour
-to <>.
+[Project Portal Code of Conduct](/blob//CODE_OF_CONDUCT.md).
+By participating, you are expected to uphold this code.
 
-## I Have a Question
+##  3. Code Review and Contribution
 
-> If you want to ask a question, we assume that you have read the available [Documentation]().
+When contributing to the codebase, it's essential to uphold coding standards that promote clean, maintainable code. Here are some key principles to follow, which will also guide code reviews and pull requests:
 
-Before you ask a question, it is best to search for existing [Issues](/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+1. **Descriptive Naming**: Employ well-defined function and variable names that convey their purpose clearly. A clear name is superior to comments, which tend to become outdated.
 
-If you then still feel the need to ask a question and need clarification, we recommend the following:
+2. **Function Clarity**: Ensure that function names effectively describe their actions. Avoid vague names like `onClick()` or `handleOnClick()`; instead, opt for names like `openMenu()` or `selectWorkSurfaceById` that explicitly state the function's purpose.
 
--   Open an [Issue](/issues/new).
--   Provide as much context as you can about what you're running into.
--   Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
+3. **Single Responsibility**: Maintain the single responsibility principle, where functions and classes perform one distinct task. If necessary, split complex functions into smaller, more focused sub-functions.
 
-We will then take care of the issue as soon as possible.
+4. **Pure Functions**: Embrace pure functions to avoid hidden side effects. Not only does this simplify unit testing, but it also enhances code predictability and maintainability.
 
-<!--
-You might want to create a separate issue tag for questions and include it in this description. People should then tag their issues accordingly.
+5. **Code Quality**: Be vigilant about eliminating code smells such as duplication, lengthy methods, extensive classes, and excessive parameter lists. Refactor to keep your code concise and readable.
 
-Depending on how large the project is, you may want to outsource the questioning, e.g. to Stack Overflow or Gitter. You may add additional contact and information possibilities:
-- IRC
-- Slack
-- Gitter
-- Stack Overflow tag
-- Blog
-- FAQ
-- Roadmap
-- E-Mail List
-- Forum
--->
+6. **Constants**: Refrain from using magic numbers or strings; instead, define constants with meaningful names. For example, use `const millisecondsInTenMinutes = 10 * 60 * 1000` instead of `const time = 600000`.
 
-## I Want To Contribute
+7. **Type Safety**: Write code that leverages type checking to catch bugs during compilation. Avoid the use of `any` types and define variables as optional or nullable in interfaces.
 
-> ### Legal Notice <!-- omit in toc -->
->
-> When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project licence.
+8. **Separation of Concerns**: Aim to separate user interface (UI) components from the underlying logic. Ideally, UI elements should remain devoid of logic to facilitate unit testing.
 
-### Reporting Bugs
+9. **Functional Programming**: Prioritize functional programming constructs like `map`, `filter`, and `find` over traditional loops and conditionals. This promotes cleaner, more declarative code.
 
-<!-- omit in toc -->
+10. **Immutability**: Favor the use of immutable objects and interfaces, reducing the risk of unintended side effects and simplifying code reasoning.
 
-#### Before Submitting a Bug Report
+11. **Optimization**: Resist the urge for premature optimization. Instead, benchmark and profile code before making performance improvements.
 
-A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
+> Additionally, make sure to address all ESLint warnings and errors within your code files, and always strive to enhance the quality of the code you touch. Continuous improvement and adherence to these coding practices will contribute to a more robust and maintainable codebase.
 
--   Make sure that you are using the latest version.
--   Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](). If you are looking for support, you might want to check [this section](#i-have-a-question)).
--   To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](/issues?q=label%3Abug).
--   Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
--   Collect information about the bug:
-    -   Stack trace (Traceback)
-    -   OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
-    -   Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on what seems relevant.
-    -   Possibly your input and the output
-    -   Can you reliably reproduce the issue? And can you also reproduce it with older versions?
-
-<!-- omit in toc -->
-
-#### How Do I Submit a Good Bug Report?
-
-> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <>.
-
-<!-- You may add a PGP key to allow the messages to be sent encrypted as well. -->
-
-We use GitHub issues to track bugs and errors. If you run into an issue with the project:
-
--   Open an [Issue](/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
--   Explain the behaviour you would expect and the actual behaviour.
--   Please provide as much context as possible and describe the _reproduction steps_ that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
--   Provide the information you collected in the previous section.
-
-Once it's filed:
-
--   The project team will label the issue accordingly.
--   A team member will try to reproduce the issue with your provided steps. If there are no reproduction steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the issue as `needs-repro`. Bugs with the `needs-repro` tag will not be addressed until they are reproduced.
--   If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
-
-<!-- You might want to create an issue template for bugs and errors that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
-
-### Suggesting Enhancements
-
-This section guides you through submitting an enhancement suggestion for Fusion Project Portal, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
-
-<!-- omit in toc -->
-
-#### Before Submitting an Enhancement
-
--   Make sure that you are using the latest version.
--   Read the [documentation]() carefully and find out if the functionality is already covered, maybe by an individual configuration.
--   Perform a [search](/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
--   Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.
-
-<!-- omit in toc -->
-
-#### How Do I Submit a Good Enhancement Suggestion?
-
-Enhancement suggestions are tracked as [GitHub issues](/issues).
-
--   Use a **clear and descriptive title** for the issue to identify the suggestion.
--   Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
--   **Describe the current behaviour** and **explain which behaviour you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
--   You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. <!-- this should only be included if the project has a GUI -->
--   **Explain why this enhancement would be useful** to most Fusion Project Portal users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
-
-<!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
-
-### Your First Code Contribution
-
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
-
--->
-
-### Improving The Documentation
-
-<!-- TODO
-Updating, improving and correcting the documentation
-
--->
-
-## Styleguides
-
-### Commit Messages
+### 3.1.  Commit Messages
 
 The Conventional Commits specification is a lightweight convention on top of commit messages. It provides an easy set of rules for creating an explicit commit history; which makes it easier to write automated tools on top of. This convention dovetails with SemVer, by describing the features, fixes, and breaking changes made in commit messages.
 
-[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification)
+> For a more in-depth understanding of Conventional Commits, I recommend exploring the official documentation, available here [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification). It provides valuable insights into this widely adopted convention for structured commit messages.
 
-### Folder Structure
 
-<!-- TODO
+###  3.2. Linting
 
--->
+This project enforces a strict zero-tolerance linting policy to uphold code quality and consistency. Before any contribution can be merged into the `main` branch, it is essential that all linting warnings and errors are addressed. This practice not only fosters a cleaner and more maintainable codebase but also streamlines the review process, enabling our team to deliver higher-quality software.
 
-## Root
+###  3.3. Testing
 
-```PY
+When submitting new code or making modifications to existing code, it is crucial that all associated tests run without errors. We hold a strong commitment to maintaining robust test coverage throughout our codebase. If you identify any areas where code lacks sufficient test coverage, we strongly encourage you to take the initiative and create appropriate tests for that code. This collaborative effort ensures that our software remains reliable, and your contributions in this regard are highly valued in upholding our commitment to quality assurance and code reliability.
+###  3.4. Code Refactoring
+
+Code is a living entity, constantly evolving to meet the demands of our project. We encourage and value contributions from our team members who may feel that certain parts of the codebase require refactoring or find the code challenging to comprehend. Your insights and efforts in improving the codebase are highly appreciated, as they not only enhance its quality but also contribute to the overall success of our project.
+
+###   3.5. Improving The Documentation
+
+If your contribution requires documentation updates, kindly ensure that you make the necessary adjustments. Should you identify any gaps or missing information in the documentation, please don't hesitate to enhance and contribute to its improvement.
+
+##  4. Bug reporting and Issues
+
+> If you want to ask a question, we assume that you have read the available [Documentation](https://github.com/equinor/lighthouse/blob/main/docs/README.md).
+
+Before submitting an bug or issue, it is best to search for existing [Issues](/issues) that might help you. In case you find a suitable issue and still need clarification, you can write your question in this issue.
+
+### 4.1. Bug report
+To ensure efficient bug resolution, please investigate the issue thoroughly and provide detailed information in your report. Completing these steps in advance helps expedite the bug-fixing process.
+
+Please complete the following steps in advance to help us fix any potential bug as fast as possible:
+
+1.  Determine if your bug is really a bug and not an error on your side e.g.
+2.  To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](/issues?q=label%3Abug).
+3.  Collect information about the bug:
+    -   Stack trace (Traceback)
+    -   OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
+    -   Possibly your input and the output
+    -   Can you reliably reproduce the issue? 
+
+
+### 4.2. Enhancement
+To ensure efficient enhancement implementation, please thoroughly investigate the proposed changes and provide detailed information in your request. Completing these steps in advance helps expedite the enhancement process.
+
+1. Use a **clear and descriptive title** for the issue to identify the suggestion.
+2. Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
+3. **Describe the current behaviour** and **explain which behaviour you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
+4. You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to.
+5.  **Explain why this enhancement would be useful** to most Project Portal users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
+### 4.3. New Functionality
+
+To facilitate the implementation of a new feature, please follow these guidelines when submitting your request:
+
+1. **Clear and Descriptive Title**: Use a title that clearly identifies the proposed feature.
+2. **Detailed Description**: Provide a step-by-step description of the feature you'd like to see, offering as much detail as possible.
+3. **Current vs. Expected Behavior**: Describe the current behavior and explain what behavior you expect to see instead. Additionally, clarify why this new feature is necessary, and if applicable, mention any alternatives that were considered.
+4. **Visual Aids**: If relevant, include screenshots and animated GIFs to illustrate the suggested feature and demonstrate the steps involved.
+5. **User Benefit**: Explain why this new feature would be valuable to most Project Portal users. If other projects have successfully implemented similar features, please mention them as sources of inspiration.
+
+Your cooperation in adhering to these guidelines will greatly assist in expediting the feature implementation process and ensuring that your valuable input is effectively incorporated into the Project Portal.
+
+##  5. Project Structure
+
+The project structure is organized to ensure clarity and efficiency in development. It follows a hierarchical layout as shown below:
+
+
+```BASH
 .
-├── packages                        # Client Projects folder
-│   ├── client                      # Web client application
-│   ├── core                        # Core functionality
-│   ├── components                  # Components
-│   ├── ui                          # Ui components
-│   ├── utils                       # Global Utils
-├── docker                          # Files use by docker config
-├── config                          #
-├── .vscode                         #
-├── README.md                       #
-├── CODE_OF_CONDUCT.md              #
-├── CONTRIBUTING.md                 #
-├── yarn.lock                       #
-└── README.md                       #
+├── packages                       
+│   ├── client                      
+│   ├── core                        
+│   ├── components                  
+│   ├── ui                         
+│   ├── utils                       
+├── config                          
+├── README.md                       
+├── CODE_OF_CONDUCT.md              
+├── CONTRIBUTING.md                 
+├── package.Json                    
+├── yarn.lock                       
+└── README.md                       
 ```
+- **packages**: This directory houses various subdirectories, each dedicated to a specific aspect of the project.
+  - **client**: The "client" folder is reserved for the web client application, where the main frontend code resides.
+  - **core**: In "core," you'll find the core functionality of the project, serving as a foundation for other components.
+  - **components**: Here, you can locate individual components, which can be reused throughout the application for modularity and consistency.
+  - **ui**: The "ui" directory is home to UI components, ensuring a consistent and visually appealing user interface.
+  - **utils**: "Utils" contains global utility functions that can be utilized across different parts of the project.
 
-## Core Project
+- **config**: This directory holds configuration files and settings crucial for project configuration and setup.
 
-```PY
+- **README.md**: The project's main README file provides an overview of the project, its purpose, and instructions on getting started.
+
+- **CODE_OF_CONDUCT.md**: This file outlines the code of conduct for contributors and community members, ensuring a respectful and inclusive environment.
+
+- **CONTRIBUTING.md**: The contributing guidelines document assists potential contributors in understanding how to participate in the project effectively.
+
+- **package.json**: The project's package.json file manages dependencies and scripts essential for running and building the project.
+
+- **yarn.lock**: Yarn's lock file helps maintain consistent package versions across different development environments.
+
+This well-structured project layout enhances maintainability, fosters collaboration among team members, and facilitates a clear understanding of the project's architecture. It also promotes reusability and scalability, making it easier to extend the project's functionality as needed.
+
+
+
+## 6. Core Project
+
+```BASH
 .
 ├── src                             #
 │   ├── features                    #
@@ -209,9 +184,9 @@ The Conventional Commits specification is a lightweight convention on top of com
 └── README.md                       #
 ```
 
-## Feature App
+## 7. Feature App
 
-```PY
+```BASH
 .
 ├── src                             #
 │   ├── components                  #
@@ -225,16 +200,3 @@ The Conventional Commits specification is a lightweight convention on top of com
 ├── .vscode                         #
 └── README.md                       #
 ```
-
-### Code Structure
-
-## How to review
-
--   [ ] Is the pull request title according to conventional commit standard.
--   [ ] Is the code following the style guides.
-
-## Join The Project Team
-
-The project team is a Bouvet team situated in Stavanger and Kristiansand Norway
-
-## Attribution

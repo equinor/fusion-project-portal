@@ -14,7 +14,7 @@ spec:
   dnsExternalAlias:
     - alias: project.fusion.equinor.com
       environment: prod
-      component: webserver 
+      component: webserver
   components:
     # Backend API
     - name: backend
@@ -127,6 +127,7 @@ spec:
         FusionBookmarks__Name: ""
         FusionBookmarks__Identifier: ""
         FusionBookmarks__Subsystem: "Project Portal"
+        ClientBundle__FusionLegacyEnvIdentifier: "ci"
       ports:
         - name: http
           port: 5000

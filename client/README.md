@@ -55,7 +55,7 @@ To get a local copy up and running follow these simple example steps.
 4. Run in development
 
 ```sh
-   nx serve
+   yarn run dev
 ```
 
 [react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB

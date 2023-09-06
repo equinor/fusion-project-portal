@@ -5,7 +5,7 @@ import { useAppModule } from './use-app-module';
 import { useLegacyAppLoader } from './use-legacy-app-loader';
 import { createAppElement } from '../utils/app-element';
 import { appRender } from '../render';
-import { isLegacyManifest, getLegacyClientConfig } from '../utils';
+import { isLegacyManifest, getLegacyClientConfig, getFusionLegacyEnvIdentifier } from '../utils';
 
 export const useAppLoader = (appKey: string) => {
 	const [loading, setLoading] = useState(false);
@@ -46,6 +46,7 @@ export const useAppLoader = (appKey: string) => {
 												...config,
 												environment: {
 													appKey,
+													env: getFusionLegacyEnvIdentifier(),
 													client: getLegacyClientConfig(),
 												},
 											},
