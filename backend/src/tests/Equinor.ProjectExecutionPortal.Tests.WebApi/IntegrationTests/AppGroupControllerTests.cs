@@ -248,9 +248,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         [TestMethod]
         public async Task Delete_NonExistentAppGroup_AsAdministratorUser_ShouldReturnNotFound()
         {
+            // Act
             var removeResponse = await DeleteAppGroup(Guid.NewGuid(), UserType.Administrator);
 
-            // Act & Assert
+            // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, removeResponse.StatusCode);
         }
 

@@ -134,9 +134,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 Description = "Description from test method"
             };
 
+            // Act
             var addDuplicateResponse = await AddOnboardedContext(UserType.Administrator, payload);
 
-            // Act & Assert
+            // Assert
             Assert.AreEqual(HttpStatusCode.BadRequest, addDuplicateResponse.StatusCode);
         }
 

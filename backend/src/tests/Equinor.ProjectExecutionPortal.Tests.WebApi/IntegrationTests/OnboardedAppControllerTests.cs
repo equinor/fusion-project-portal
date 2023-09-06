@@ -174,9 +174,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 IsLegacy = false
             };
 
+            // Act
             var addDuplicateResponse = await AddOnboardedApp(UserType.Administrator, payload);
 
-            // Act & Assert
+            // Assert
             Assert.AreEqual(HttpStatusCode.BadRequest, addDuplicateResponse.StatusCode);
         }
 
