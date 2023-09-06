@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
@@ -135,8 +134,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 Description = "Description from test method"
             };
 
-            // Act & Assert
-            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedContext(UserType.Administrator, payload));
+            // Act
+            var addDuplicateResponse = await AddOnboardedContext(UserType.Administrator, payload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, addDuplicateResponse.StatusCode);
         }
 
         [TestMethod]

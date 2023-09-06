@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithGlobalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaces;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
@@ -42,7 +43,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> CreateWorkSurface([FromBody] ApiCreateWorkSurfaceRequest request)
         {
-            await Mediator.Send(request.ToCommand());
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(request.Name, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while creating work surface");
+            }
 
             return Ok();
         }
@@ -51,7 +63,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateWorkSurface([FromRoute] Guid workSurfaceId, [FromBody] ApiUpdateWorkSurfaceRequest request)
         {
-            await Mediator.Send(request.ToCommand(workSurfaceId));
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while updating work surface");
+            }
 
             return Ok();
         }
@@ -61,7 +84,19 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult<Guid>> SetWorkSurfaceAsDefault([FromRoute] Guid workSurfaceId)
         {
             var request = new ApiSetWorkSurfaceAsDefaultRequest();
-            await Mediator.Send(request.ToCommand(workSurfaceId));
+
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while setting default work surface");
+            }
 
             return Ok();
         }
@@ -96,25 +131,56 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
-        [HttpPost("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromBody] ApiAddWorkSurfaceAppRequest request)
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, [FromBody] ApiAddGlobalAppToWorkSurfaceRequest request)
         {
-            if (contextExternalId == null)
+            try
             {
                 await Mediator.Send(request.ToCommand(workSurfaceId));
             }
-            else
+            catch (NotFoundException ex)
             {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
+            }
 
-                if (context == null || context.ExternalId == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
+            return Ok();
+        }
 
+        [HttpPost("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string contextExternalId, [FromBody] ApiAddContextAppToWorkSurfaceRequest request)
+        {
+            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+            if (context == null || context.ExternalId == null)
+            {
+                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
+            }
+
+            try
+            {
                 await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
             }
 
             return Ok();
@@ -138,11 +204,33 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                     return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
                 }
 
-                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
+                try
+                {
+                    await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
+                }
+                catch (NotFoundException ex)
+                {
+                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
+                }
+                catch (Exception)
+                {
+                    return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
+                }
             }
             else
             {
-                await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
+                try
+                {
+                    await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
+                }
+                catch (NotFoundException ex)
+                {
+                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
+                }
+                catch (Exception)
+                {
+                    return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
+                }
             }
 
             return Ok();

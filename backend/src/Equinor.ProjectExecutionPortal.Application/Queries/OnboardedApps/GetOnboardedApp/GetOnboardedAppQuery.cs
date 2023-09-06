@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
 
-public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto>
+public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto?>
 {
     public GetOnboardedAppQuery(string appKey)
     {
@@ -18,7 +17,7 @@ public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto>
 
     public string AppKey { get; set; }
 
-    public class Handler : IRequestHandler<GetOnboardedAppQuery, OnboardedAppDto>
+    public class Handler : IRequestHandler<GetOnboardedAppQuery, OnboardedAppDto?>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
@@ -31,18 +30,23 @@ public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto>
             _appService = appService;
         }
 
-        public async Task<OnboardedAppDto> Handle(GetOnboardedAppQuery request, CancellationToken cancellationToken)
+        public async Task<OnboardedAppDto?> Handle(GetOnboardedAppQuery request, CancellationToken cancellationToken)
         {
             var enitity = await _context.Set<OnboardedApp>()
                 .Include(x => x.AppGroup)
                 .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.AppKey == request.AppKey, cancellationToken) ?? throw new NotFoundException(nameof(OnboardedApp), request.AppKey);
+                .FirstOrDefaultAsync(x => x.AppKey == request.AppKey, cancellationToken);
+
+            if (enitity == null)
+            {
+                return null;
+            }
 
             var onboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(enitity);
-            
+
             await _appService.EnrichAppWithFusionAppData(onboardedApp, cancellationToken);
-            
+
             return onboardedApp;
         }
     }

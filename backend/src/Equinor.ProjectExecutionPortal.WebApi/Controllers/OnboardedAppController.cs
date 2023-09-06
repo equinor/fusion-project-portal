@@ -1,5 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,6 +28,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var onboardedAppDto = await Mediator.Send(new GetOnboardedAppQuery(appKey));
 
+            if (onboardedAppDto == null)
+            {
+                return FusionApiError.NotFound(appKey, "Could not find onboarded app");
+            }
+
             return new ApiOnboardedApp(onboardedAppDto);
         }
 
@@ -33,7 +40,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
-            await Mediator.Send(request.ToCommand());
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(null, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while onboarding app");
+            }
 
             return Ok();
         }
@@ -42,7 +64,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
         {
-            await Mediator.Send(request.ToCommand(appKey));
+            try
+            {
+                await Mediator.Send(request.ToCommand(appKey));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while updating the onboarded app");
+            }
 
             return Ok();
         }
@@ -53,7 +86,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
 
-            await Mediator.Send(request.ToCommand());
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing the onboarded app");
+            }
 
             return Ok();
         }
@@ -62,7 +106,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> ReorderOnboardedApps([FromBody] ApiReorderOnboardedAppsRequest request)
         {
-            await Mediator.Send(request.ToCommand());
+            try
+            {
+                await Mediator.Send(request.ToCommand());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(request.AppGroupId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while reordering onboarded apps");
+            }
 
             return Ok();
         }

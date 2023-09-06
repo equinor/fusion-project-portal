@@ -19,12 +19,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var portalDto = await Mediator.Send(new GetPortalWithAppsQuery());
 
-            if (portalDto == null)
-            {
-                return FusionApiError.NotFound("Portal", "Could not find portal");
-            }
-
-            return Ok(new ApiPortal(portalDto));
+            return portalDto == null ? FusionApiError.NotFound("Portal", "Could not find portal") : Ok(new ApiPortal(portalDto));
         }
 
         [HttpGet("fusion/contexts/{externalId}")]
@@ -33,12 +28,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var contextIdentifier = ContextIdentifier.FromExternalId(externalId);
             var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-            if (context == null)
-            {
-                return FusionApiError.NotFound(externalId, "Could not find context by external id");
-            }
-
-            return Ok(context);
+            return context == null ? FusionApiError.NotFound(externalId, "Could not find context by external id") : Ok(context);
         }
 
         [HttpGet("fusion/apps")]
@@ -52,7 +42,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("fusion/apps/{appKey}")]
         public async Task<ActionResult<FusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IAppService appService)
         {
-            return await appService.GetFusionApp(appKey);
+            var fusionApp = await appService.GetFusionApp(appKey);
+
+            return fusionApp == null ? FusionApiError.NotFound(appKey, "Could not find fusion app") : Ok(fusionApp);
         }
 
         [HttpGet("fusion/apps/{appKey}/config")]
@@ -60,12 +52,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var appConfig = await appService.GetFusionAppConfig(appKey);
 
-            if (appConfig == null)
-            {
-                return FusionApiError.NotFound(appKey, "Could not locate config for the specified appKey");
-            }
-
-            return Ok(appConfig);
+            return appConfig == null ? FusionApiError.NotFound(appKey, "Could not locate config for the specified appKey") : Ok(appConfig);
         }
     }
 }
