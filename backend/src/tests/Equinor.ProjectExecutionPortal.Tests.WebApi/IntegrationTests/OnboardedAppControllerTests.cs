@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
@@ -175,8 +174,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 IsLegacy = false
             };
 
+            var addDuplicateResponse = await AddOnboardedApp(UserType.Administrator, payload);
+
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<InvalidActionException>(() => AddOnboardedApp(UserType.Administrator, payload));
+            Assert.AreEqual(HttpStatusCode.BadRequest, addDuplicateResponse.StatusCode);
         }
 
         [TestMethod]

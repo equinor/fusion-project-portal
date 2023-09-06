@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -249,8 +248,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         [TestMethod]
         public async Task Delete_NonExistentAppGroup_AsAdministratorUser_ShouldReturnNotFound()
         {
+            var removeResponse = await DeleteAppGroup(Guid.NewGuid(), UserType.Administrator);
+
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() => DeleteAppGroup(Guid.NewGuid(), UserType.Administrator));
+            Assert.AreEqual(HttpStatusCode.NotFound, removeResponse.StatusCode);
         }
 
         [TestMethod]
@@ -262,7 +263,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, removeResponse.StatusCode);
         }
-
 
         [TestMethod]
         public async Task Delete_AppGroup_AsAnonymousUser_ShouldReturnUnauthorized()
