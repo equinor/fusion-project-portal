@@ -1493,10 +1493,10 @@
     "@equinor/eds-tokens" "0.5.5"
     csstype "^3.0.10"
 
-"@equinor/fusion@^3.4.10":
-  version "3.4.10"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion/-/fusion-3.4.10.tgz#c151917fc41beedad365aff644f3a0e4c2319c9b"
-  integrity sha512-3dbGiPiTP5ogFe78SE1lu2ya6sDXeDtQY+lIfxa10VV2PeMZZe7uPqz3GKbevWBe+43j1qwoCpqU9wC7PN1WPA==
+"@equinor/fusion@^3.4.11":
+  version "3.4.11"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion/-/fusion-3.4.11.tgz#b935543ac7e8af2f41511f370815e8592a3b42ab"
+  integrity sha512-VNwx4ASiTcok02f66k70in0Vaq0bpUY8TW4wJsA+X9x7ovBvZV+SHC6dYkaMHWAeltT8Hj7TO5gy3FSNhOdWrQ==
   dependencies:
     "@equinor/eslint-config-fusion" "^0.1.2"
     "@microsoft/applicationinsights-web" "^2.4.3"
