@@ -1418,10 +1418,20 @@
     "@equinor/fusion-react-utils" "^2.0.4"
     "@equinor/fusion-wc-icon" "^1.0.24"
 
-"@equinor/fusion-react-styles@^0.5.6", "@equinor/fusion-react-styles@^0.5.7":
+"@equinor/fusion-react-styles@^0.5.7":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.7.tgz#7c9263de40985b3e6599d4daad3bfde5246f6dcb"
   integrity sha512-P6HGpeyBie/xZz0aKGRF6xwoW3RzI6lmLBJPEUlZcn3K8A5qt32AbIbvV514er+sfLpcxjAEzpTQX6eI5P8j5w==
+  dependencies:
+    "@equinor/fusion-wc-theme" "^0.2.33"
+    "@equinor/fusion-web-theme" "^0.1.7"
+    "@material-ui/styles" "^4.11.4"
+    clsx "^1.1.1"
+
+"@equinor/fusion-react-styles@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.9.tgz#48f021b2697ee12c341a68ebe2459f7681588f24"
+  integrity sha512-k+1HuN8Gxf9O8b0q71Ix25Vh4CCs5A/EfckWhijD64ah3LiuRSujB1AbHPZiGeCEAVwQmcA7kpu8iUdRpDAbyg==
   dependencies:
     "@equinor/fusion-wc-theme" "^0.2.33"
     "@equinor/fusion-web-theme" "^0.1.7"
