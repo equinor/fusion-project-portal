@@ -1172,13 +1172,11 @@
     eslint-plugin-react "^7.26.1"
     eslint-plugin-react-hooks "^4.2.0"
 
-"@equinor/fusion-components@^2.11.5":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-components/-/fusion-components-2.11.7.tgz#f85e8bf1482b1d120927fec8b242e59a0394553b"
-  integrity sha512-XjyPrGDcK5Krw2IuMKlpSXVjyWD4uBATTQyrm5t3RZ9hoJcrup/nMW1QziUa02ExENn2qyuNdHYBhNCXkjP0Kg==
+"@equinor/fusion-components@^2.12.0":
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-components/-/fusion-components-2.12.0.tgz#4deacbca3b92d2772e9e312db2d02d20ee726e62"
+  integrity sha512-cpFLf9kx7Xe7ov9tilZA1BuhHyxQb4k6RPqLEJILoxDcaSGF4fm5UjTsdzFE2bvFwnRU6qepTeAFJ9SpSO61wA==
   dependencies:
-    "@equinor/fusion-framework-module-app" "^5.2.1"
-    "@equinor/fusion-framework-react" "^5.2.2"
     "@equinor/fusion-observable" "^8.0.2"
     "@equinor/fusion-react-checkbox" "^0.5.15"
     "@equinor/fusion-react-divider" "^0.2.12"
