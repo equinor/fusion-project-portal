@@ -9,6 +9,12 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  # SNYK auto PRs does not always update yarn.lock file
+  check-lock-file:
+    name: Update yarn.lock for Snyk updates
+    if: startsWith(github.head_ref, 'snyk-')
+    uses: ./.github/workflows/update-lockfile.yml
+
   web-client-pr:
     name: Open Pull Request
     strategy:
@@ -22,10 +28,10 @@ jobs:
       - name: Setup Node
         uses: ./.github/actions/node-setup
         with:
-          versions: ${{ matrix.version }}
+          versions: ${{ matrix.version }}              
 
       - name: Install Dependecies
-        uses: ./.github/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies          
 
       - name: Client Build
         uses: ./.github/actions/client-build
