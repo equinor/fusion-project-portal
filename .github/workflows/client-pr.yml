@@ -28,10 +28,10 @@ jobs:
       - name: Setup Node
         uses: ./.github/actions/node-setup
         with:
-          versions: ${{ matrix.version }}              
+          versions: ${{ matrix.version }}   
 
       - name: Install Dependecies
-        uses: ./.github/actions/install-dependencies          
+        uses: ./.github/actions/install-dependencies
 
       - name: Client Build
         uses: ./.github/actions/client-build
