@@ -1172,13 +1172,11 @@
     eslint-plugin-react "^7.26.1"
     eslint-plugin-react-hooks "^4.2.0"
 
-"@equinor/fusion-components@^2.11.5":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-components/-/fusion-components-2.11.7.tgz#f85e8bf1482b1d120927fec8b242e59a0394553b"
-  integrity sha512-XjyPrGDcK5Krw2IuMKlpSXVjyWD4uBATTQyrm5t3RZ9hoJcrup/nMW1QziUa02ExENn2qyuNdHYBhNCXkjP0Kg==
+"@equinor/fusion-components@^2.12.0":
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-components/-/fusion-components-2.12.0.tgz#4deacbca3b92d2772e9e312db2d02d20ee726e62"
+  integrity sha512-cpFLf9kx7Xe7ov9tilZA1BuhHyxQb4k6RPqLEJILoxDcaSGF4fm5UjTsdzFE2bvFwnRU6qepTeAFJ9SpSO61wA==
   dependencies:
-    "@equinor/fusion-framework-module-app" "^5.2.1"
-    "@equinor/fusion-framework-react" "^5.2.2"
     "@equinor/fusion-observable" "^8.0.2"
     "@equinor/fusion-react-checkbox" "^0.5.15"
     "@equinor/fusion-react-divider" "^0.2.12"
@@ -1418,10 +1416,20 @@
     "@equinor/fusion-react-utils" "^2.0.4"
     "@equinor/fusion-wc-icon" "^1.0.24"
 
-"@equinor/fusion-react-styles@^0.5.6", "@equinor/fusion-react-styles@^0.5.7":
+"@equinor/fusion-react-styles@^0.5.7":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.7.tgz#7c9263de40985b3e6599d4daad3bfde5246f6dcb"
   integrity sha512-P6HGpeyBie/xZz0aKGRF6xwoW3RzI6lmLBJPEUlZcn3K8A5qt32AbIbvV514er+sfLpcxjAEzpTQX6eI5P8j5w==
+  dependencies:
+    "@equinor/fusion-wc-theme" "^0.2.33"
+    "@equinor/fusion-web-theme" "^0.1.7"
+    "@material-ui/styles" "^4.11.4"
+    clsx "^1.1.1"
+
+"@equinor/fusion-react-styles@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-styles/-/fusion-react-styles-0.5.9.tgz#48f021b2697ee12c341a68ebe2459f7681588f24"
+  integrity sha512-k+1HuN8Gxf9O8b0q71Ix25Vh4CCs5A/EfckWhijD64ah3LiuRSujB1AbHPZiGeCEAVwQmcA7kpu8iUdRpDAbyg==
   dependencies:
     "@equinor/fusion-wc-theme" "^0.2.33"
     "@equinor/fusion-web-theme" "^0.1.7"
