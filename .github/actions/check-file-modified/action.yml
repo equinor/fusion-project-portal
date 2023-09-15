@@ -1,0 +1,22 @@
+name: Check if given file is updated
+
+inputs:
+  files:  # Note the syntax 
+    description: Files to check if modified
+    required: true
+
+runs:
+  using: "composite"  
+  steps:
+    - name: Changed Files
+      id: changed-files-yaml
+      uses: tj-actions/changed-files@v39.0.2
+      with:
+         files: ${{ inputs.files }}
+    
+    - name: Output changed files
+        if: steps.changed-files-yaml.outputs.test_any_changed == 'true'  
+        run: |
+          echo "One or more test file(s) has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-yaml.outputs.test_all_changed_files }}"
+                  

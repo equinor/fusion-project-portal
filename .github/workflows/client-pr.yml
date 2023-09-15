@@ -1,22 +1,18 @@
 name: Web Client
 
 on:
-  pull_request:
+  pull_request:    
     branches:
       - main
     paths:
-      - "client/**"
+      - "client/**"  
     types: [opened, synchronize]
 
 jobs:
-  # SNYK auto PRs does not always update yarn.lock file
-  check-lock-file:
-    name: Update yarn.lock for Snyk updates
-    if: startsWith(github.head_ref, 'snyk-')
-    uses: ./.github/workflows/update-lockfile.yml
 
   web-client-pr:
     name: Open Pull Request
+    if: false == startsWith(github.head_ref, 'snyk-')
     strategy:
       matrix:
         version: [16.x]

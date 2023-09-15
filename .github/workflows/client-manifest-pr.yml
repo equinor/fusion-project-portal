@@ -1,0 +1,39 @@
+name: Update lockfile
+run-name: Updating yarn.lock if needed
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "client/**package.json"        
+    types: [opened, synchronize]
+
+jobs:
+  update-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update lockfile
+        run: |
+          cd client
+          yarn install
+        shell: bash
+
+      - name: Check if file yarn.lock has changed
+        id: changed-files
+        uses: tj-actions/changed-files@v39.0.2
+        with:
+          files: client/yarn.lock
+
+      - name: Commit modified file
+        if: steps.changed-files.outputs.only_changed == 'true'
+        run: |
+          git add ./client/yarn.lock
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -n -m "chore(snyk): update lockfile"
+          git push
+            
