@@ -1381,6 +1381,15 @@
     rxjs "^7.5.7"
     uuid "^8.3.2"
 
+"@equinor/fusion-observable@^8.1.0":
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-observable/-/fusion-observable-8.1.2.tgz#46d79e0964df5a791e95dbf69aab5f4f7ab6cb2e"
+  integrity sha512-pzfr80y+vXijX5hZZK6uQHp/8GcA9PD8ZLWL7PBptD70Rdlig9bMVaIb61e/TNexG6KDCOoynuX2rx1BcxU9QA==
+  dependencies:
+    immer "^9.0.16"
+    rxjs "^7.8.1"
+    uuid "^8.3.2"
+
 "@equinor/fusion-query@^3.0.2":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-query/-/fusion-query-3.0.4.tgz#59b0928b0828ea9d9bb7d6b99dbe746b1f6c3c54"

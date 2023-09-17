@@ -22,7 +22,7 @@
     "@equinor/fusion-framework-module-navigation": "^3.0.2",
     "@equinor/fusion-framework-react": "^5.2.2",
     "@equinor/fusion-framework-react-app": "^4.1.2",
-    "@equinor/fusion-observable": "^8.0.2",
+    "@equinor/fusion-observable": "^8.1.0",
     "@equinor/fusion-react-styles": "^0.5.9",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.1",
