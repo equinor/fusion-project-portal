@@ -1,4 +1,15 @@
-## Description
+## Expected outcome
+
+> Short description 
+
+## Business Value / Developer Experience
+
+> Should give motivation for prioritization.
+> Outcome measurement of delivered value.
+
+## User Acceptance Tests (UAT)
+
+> How to test
 
 ## Environments
 
