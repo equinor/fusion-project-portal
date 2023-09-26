@@ -109,7 +109,7 @@ export const Favorites = () => {
 							return (
 								<Link
 									className={styles.appCard({ isDisabled, color: app.accentColor })}
-									to={`/apps/${app.key}`}
+									to={`/apps/${app.key}/`}
 									key={app.key}
 									title={
 										isDisabled
