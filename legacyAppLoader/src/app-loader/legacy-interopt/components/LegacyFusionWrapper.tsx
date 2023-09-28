@@ -21,8 +21,6 @@ const StyleFix = styled.span`
   width: 100%;
   > div > div {
     display: block !important;
-    width: 100%;
-    height: calc(100vh - var(--header-height));
   }
 `;
 

@@ -1,14 +1,15 @@
-import { tokens } from '@equinor/eds-tokens';
+
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
 
    :root {
 		--header-height: 48px;
+        --portal-header-height: 48px;
 	} 
 
     body {
-        font-family: Equinor;
+        font-family: Equinor, sans-serif;
         margin: 0;
     };
 
@@ -27,24 +28,4 @@ export const GlobalStyle = createGlobalStyle`
         text-align: left;
     }
 
-    ::-webkit-scrollbar {
-        height: 0.5rem;
-        width: 0.5rem;
-    }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-        background: none;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-        background: ${tokens.colors.interactive.primary__resting.rgba};
-        border-radius: 5px;
-        }
-
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-        background:${tokens.colors.interactive.primary__hover.rgba};
-        }
 `;
