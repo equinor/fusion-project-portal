@@ -18,6 +18,9 @@ spec:
   components:
     # Backend API
     - name: backend
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
       src: ./backend/src # Dockerfile location
       variables:
         ASPNETCORE_URLS: "http://*:5000"
@@ -110,6 +113,9 @@ spec:
 
     # Web Server (client backend)
     - name: webserver
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
       src: . # Dockerfile location
       dockerfileName: clientBackend.Dockerfile
       variables:
