@@ -19,7 +19,6 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
     {
         ExternalId = externalId;
         Type = type;
-        //  Title = title;
         Description = description;
     }
 
