@@ -6,8 +6,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
     {
         public class InitialSeedData
         {
-            public static OnboardedContext JcaContext = new(FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType, "title", "desc");
-            public static OnboardedContext OgpContext = new(FusionContextData.InitialSeedData.OgpContextExternalId, FusionContextData.InitialSeedData.ContextType, "title", "desc");
+            public static OnboardedContext JcaContext = new(FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType, "desc");
+            public static OnboardedContext OgpContext = new(FusionContextData.InitialSeedData.OgpContextExternalId, FusionContextData.InitialSeedData.ContextType, "desc");
         }
     }
 }

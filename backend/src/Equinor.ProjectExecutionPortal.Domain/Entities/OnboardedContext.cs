@@ -11,22 +11,20 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
 {
     public const int ExternalIdLengthMax = 200;
     public const int TypeLengthMax = 200;
-    public const int TitleLengthMax = 400;
     public const int DescriptionLengthMax = 4000;
 
     private readonly List<WorkSurfaceApp> _apps = new();
 
-    public OnboardedContext(string externalId, string type, string? title, string? description)
+    public OnboardedContext(string externalId, string type, string? description)
     {
         ExternalId = externalId;
         Type = type;
-        Title = title;
+        //  Title = title;
         Description = description;
     }
 
     public string ExternalId { get; }
     public string Type { get; } // TODO: Necessary? Type can alternatively be resolved by Fusion Context
-    public string? Title { get; set; } // TODO: Could this change? Should perhaps be fetched from Fusion Context resolver.
     public string? Description { get; set; }
 
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();

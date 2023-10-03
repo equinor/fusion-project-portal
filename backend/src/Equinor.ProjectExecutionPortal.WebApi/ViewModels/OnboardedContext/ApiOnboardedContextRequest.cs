@@ -21,10 +21,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
                     .NotEmpty()
                     .NotContainScriptTag()
                     .WithMessage("External Id is required");
-
-                RuleFor(x => x.Description)
-                    .MaximumLength(Domain.Entities.OnboardedContext.TitleLengthMax)
-                    .NotContainScriptTag();
             }
         }
     }
