@@ -1,9 +1,20 @@
 {
+  "name": "fusion-portal-portal",
+  "version": "1.0.0",
+  "license": "MIT",
   "devDependencies": {
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "@changesets/cli": "^2.26.2"
   },
   "private": true,
   "scripts": {
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "change": "yarn changeset",
+    "change:apply": "yarn changeset version"
+  },
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": "^16 || ^18",
+    "npm": "please-use-yarn"
   }
 }
