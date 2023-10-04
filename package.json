@@ -7,7 +7,6 @@
     "husky": "^8.0.3",
     "@changesets/cli": "^2.26.2"
   },
-  "private": true,
   "scripts": {
     "change": "yarn changeset",
     "changeset:version": "yarn changeset version",
