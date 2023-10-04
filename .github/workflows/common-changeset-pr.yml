@@ -6,14 +6,11 @@ on:
 
 jobs:
   print_title_of_pr:
+    name: Auto Generate Changset based on pull request body
     runs-on: ubuntu-latest
     steps:
-    
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Print Title of PR
-        run: echo The Title of your PR is ${{ github.event.pull_request.title }}
 
       - name: Create changeset
         id: create-changeset
@@ -21,8 +18,7 @@ jobs:
         with:
           projectName: "fusion-porject-portal"
 
-
-      - name: Commit Changeset 
+      - name: Commit Changeset
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: ${{steps.create-changeset.outputs.changeSetPath}}
