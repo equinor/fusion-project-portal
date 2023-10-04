@@ -9,7 +9,6 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "husky install",
     "change": "yarn changeset",
     "changeset:version": "yarn changeset version",
     "changeset:tag": "yarn changeset tag"
