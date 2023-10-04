@@ -2,6 +2,7 @@
   "name": "fusion-portal-portal",
   "version": "1.0.0",
   "license": "MIT",
+  "description": "Project Portal powered by Fusion",
   "devDependencies": {
     "husky": "^8.0.3",
     "@changesets/cli": "^2.26.2"
@@ -10,7 +11,8 @@
   "scripts": {
     "postinstall": "husky install",
     "change": "yarn changeset",
-    "change:apply": "yarn changeset version"
+    "changeset:version": "yarn changeset version",
+    "changeset:tag": "yarn changeset tag"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
