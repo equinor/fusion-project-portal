@@ -16,7 +16,7 @@ jobs:
         id: create-changeset
         uses: ./.github/actions/create-changeset
         with:
-          projectName: "fusion-porject-portal"
+          projectName: "fusion-project-portal"
 
       - name: Commit Changeset
         uses: stefanzweifel/git-auto-commit-action@v4

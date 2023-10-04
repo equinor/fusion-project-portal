@@ -1,5 +1,5 @@
 ---
-"fusion-portal-portal": minor
+"fusion-project-portal": minor
 ---
 
 Implemented a refined changeset and release workflow.
