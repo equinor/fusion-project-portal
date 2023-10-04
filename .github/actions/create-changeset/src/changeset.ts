@@ -12,7 +12,7 @@ export const parseBody = (body: string): string => {
     return result.trim().concat("\n");
   }
 
-  throw new Error("No release notes header was found");
+  throw new Error("No changeset notes header was found");
 };
 
 /**
