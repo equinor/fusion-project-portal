@@ -70,5 +70,5 @@ export const createChangesetByType = (
   const projectName = core.getInput("projectName");
 
   const header = getChangesetHeader(type, projectName);
-  return formatChangeSet((type = "none" ? header + changeSet : getEmptySet()));
+  return formatChangeSet(type === "none" ? getEmptySet() : header + changeSet);
 };

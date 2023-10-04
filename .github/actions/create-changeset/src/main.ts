@@ -27,10 +27,13 @@ async function run(): Promise<void> {
     const changeSetPath = path.join(directory, fileName);
     const fileExists = fs.existsSync(changeSetPath);
 
-    const releaseNotes = parseBody(body);
+    let releaseNote = "";
     const type = parseBodyForChangeType(body);
+    if (type && type !== "none") {
+      releaseNote = parseBody(body);
+    }
 
-    const changeSet = createChangesetByType(releaseNotes, type);
+    const changeSet = createChangesetByType(releaseNote, type);
 
     await writeFile(changeSetPath, changeSet);
 

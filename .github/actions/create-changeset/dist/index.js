@@ -2441,6 +2441,97 @@ function version(uuid) {
 
 /***/ }),
 
+/***/ 715:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createChangesetByType = exports.parseBodyForChangeType = exports.parseBody = void 0;
+const core = __importStar(__nccwpck_require__(186));
+/**
+ * Parses the body text of the pull request and returns only the changeset section.
+ * @param body Body text of the pull request
+ */
+const parseBody = (body) => {
+    const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
+    const result = body.split(pattern)[1];
+    if (result) {
+        return result.trim().concat("\n");
+    }
+    throw new Error("No changeset notes header was found");
+};
+exports.parseBody = parseBody;
+/**
+ * Parses the body text of the pull request and returns only the changeset section.
+ * @param body Body text of the pull request
+ */
+const parseBodyForChangeType = (body) => {
+    const pattern = /(-\[\s|.\]\s\w*)/g;
+    const types = ["major", "minor", "patch", "none"];
+    const result = body
+        .split(pattern)
+        .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase()) &&
+        p.toLowerCase().includes("x")));
+    if (result.length > 1 || result.length === 0) {
+        throw new Error("Select only one of the following, major, minor, patch or none");
+    }
+    return types.find((type) => result[0].includes(type));
+};
+exports.parseBodyForChangeType = parseBodyForChangeType;
+const formatChangeSet = (changeSet) => {
+    var inputArray = changeSet.split("\n");
+    var setArray = inputArray.map((rowString) => rowString.trimStart());
+    return setArray.join("\n");
+};
+const getChangesetHeader = (type, projectName) => {
+    return `
+    ---
+    "${projectName}": ${type}
+    --- 
+    `;
+};
+const getEmptySet = () => {
+    return `
+    ---
+    ---
+    `;
+};
+const createChangesetByType = (changeSet, type) => {
+    if (!type)
+        throw new Error("No valid changeset type provided.");
+    const projectName = core.getInput("projectName");
+    const header = getChangesetHeader(type, projectName);
+    return formatChangeSet(type === "none" ? getEmptySet() : header + changeSet);
+};
+exports.createChangesetByType = createChangesetByType;
+
+
+/***/ }),
+
 /***/ 399:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -2478,6 +2569,7 @@ const path_1 = __importDefault(__nccwpck_require__(622));
 const util_1 = __importDefault(__nccwpck_require__(669));
 const core = __importStar(__nccwpck_require__(186));
 const utils_1 = __nccwpck_require__(314);
+const changeset_1 = __nccwpck_require__(715);
 const readFile = util_1.default.promisify(fs_1.default.readFile);
 const writeFile = util_1.default.promisify(fs_1.default.writeFile);
 async function run() {
@@ -2485,25 +2577,18 @@ async function run() {
         const eventPath = (0, utils_1.validateEnv)("GITHUB_EVENT_PATH");
         const workspace = (0, utils_1.validateEnv)("GITHUB_WORKSPACE");
         const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
-        const { body, title, id, number } = event.pull_request;
+        const { body, id, number } = event.pull_request;
         const directory = await (0, utils_1.createChangesetPath)(workspace);
         const fileName = `pr-${number}-${id}.md`;
         const changeSetPath = path_1.default.join(directory, fileName);
         const fileExists = fs_1.default.existsSync(changeSetPath);
-        const releaseNotes = (0, utils_1.parseBody)(body).trim().concat("\n");
-        const type = (0, utils_1.parseBodyForChangeType)(body);
-        const projectName = core.getInput("projectName");
-        const changesetHeader = type === "none"
-            ? `
-    ---
-    ---
-    `
-            : `
-      ---
-      "${projectName}": ${type}
-      --- 
-    `;
-        await writeFile(changeSetPath, (0, utils_1.formatChangeSet)(changesetHeader + releaseNotes));
+        let releaseNote = "";
+        const type = (0, changeset_1.parseBodyForChangeType)(body);
+        if (type && type !== "none") {
+            releaseNote = (0, changeset_1.parseBody)(body);
+        }
+        const changeSet = (0, changeset_1.createChangesetByType)(releaseNote, type);
+        await writeFile(changeSetPath, changeSet);
         core.setOutput("changeType", type);
         core.setOutput("changeSetPath", fileExists ? `chore: update ${fileName}` : `chore: create ${fileName}`);
     }
@@ -2525,7 +2610,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.formatChangeSet = exports.createValidFileNameFromTitle = exports.createChangesetPath = exports.parseBody = exports.parseBodyForChangeType = exports.validateEnv = void 0;
+exports.createChangesetPath = exports.validateEnv = void 0;
 const path_1 = __importDefault(__nccwpck_require__(622));
 const fs_1 = __importDefault(__nccwpck_require__(747));
 const util_1 = __importDefault(__nccwpck_require__(669));
@@ -2543,36 +2628,6 @@ const validateEnv = (name) => {
 };
 exports.validateEnv = validateEnv;
 /**
- * Parses the body text of the pull request and returns only the changeset section.
- * @param body Body text of the pull request
- */
-const parseBodyForChangeType = (body) => {
-    const pattern = /(-\[\s|.\]\s\w*)/g;
-    const types = ["major", "minor", "patch", "none"];
-    const result = body
-        .split(pattern)
-        .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase()) &&
-        p.toLowerCase().includes("x")));
-    if (result.length > 1 || result.length === 0) {
-        throw new Error("Select only one of the following, major, minor, patch or none");
-    }
-    return types.find((type) => result[0].includes(type));
-};
-exports.parseBodyForChangeType = parseBodyForChangeType;
-/**
- * Parses the body text of the pull request and returns only the changeset section.
- * @param body Body text of the pull request
- */
-const parseBody = (body) => {
-    const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-    const result = body.split(pattern)[1];
-    if (result) {
-        return result;
-    }
-    throw new Error("No release notes header was found");
-};
-exports.parseBody = parseBody;
-/**
  * Creates changeset directory if no directory is percent
  * @param workspacePath Base path for github workspace
  */
@@ -2584,21 +2639,6 @@ const createChangesetPath = async (workspacePath) => {
     return directory;
 };
 exports.createChangesetPath = createChangesetPath;
-const createValidFileNameFromTitle = (title) => {
-    const filenameSections = title.split(":");
-    if (!filenameSections[1] && filenameSections.length > 2) {
-        throw new Error("Pull request title is not valid, can not extract changeset file name.");
-    }
-    const fileName = filenameSections[1];
-    return fileName.trim().replaceAll(" ", "-");
-};
-exports.createValidFileNameFromTitle = createValidFileNameFromTitle;
-const formatChangeSet = (changeSet) => {
-    var inputArray = changeSet.split("\n");
-    var setArray = inputArray.map((rowString) => rowString.trimStart());
-    return setArray.join("\n");
-};
-exports.formatChangeSet = formatChangeSet;
 
 
 /***/ }),
