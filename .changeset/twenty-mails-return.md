@@ -1,5 +1,5 @@
 ---
-"fusion-portal-portal": major
+"fusion-project-portal": major
 ---
 
   Initial Release of the Fusion Project Portal
