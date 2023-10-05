@@ -2514,7 +2514,8 @@ const parseBodyForChangeType = (body) => {
         .split(pattern)
         .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase())));
     if (result.length > 1 || result.length === 0) {
-        throw new Error("Select only one of the following, major, minor, patch or none");
+        throw new Error("Select only one of the following, major, minor, patch or none, you have:" +
+            result);
     }
     return types.find((type) => result[0].includes(type));
 };

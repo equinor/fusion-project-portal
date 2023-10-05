@@ -56,7 +56,8 @@ export const parseBodyForChangeType = (body: string): string | undefined => {
 
   if (result.length > 1 || result.length === 0) {
     throw new Error(
-      "Select only one of the following, major, minor, patch or none"
+      "Select only one of the following, major, minor, patch or none, you have:" +
+        result
     );
   }
 
