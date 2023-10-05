@@ -2496,10 +2496,8 @@ const addDbChange = (changeSet, body) => {
  */
 const parseBody = (body) => {
     const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-    core.debug(body);
     const removeCommentRegex = /<!--[^>]*>/g;
     const result = body.replaceAll(removeCommentRegex, "").split(pattern)[1];
-    core.debug(result);
     if (result) {
         return addRelations(result.trim().concat("\n"), body, [addDbChange]);
     }
@@ -2517,8 +2515,7 @@ const parseBodyForChangeType = (body) => {
         .split(pattern)
         .filter((p) => types.includes(p.toLowerCase()));
     if (result.length > 1 || result.length === 0) {
-        throw new Error("Select only one of the following, major, minor, patch or none, you have:" +
-            result);
+        throw new Error("Select only one of the following, major, minor, patch or none");
     }
     return result[0];
 };
