@@ -2510,7 +2510,9 @@ exports.parseBody = parseBody;
 const parseBodyForChangeType = (body) => {
     const pattern = /(?<=\[x\]\s)(major|minor|patch|none)/g;
     const types = ["major", "minor", "patch", "none"];
-    const result = body.split(pattern);
+    const result = body
+        .split(pattern)
+        .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase())));
     if (result.length > 1 || result.length === 0) {
         throw new Error("Select only one of the following, major, minor, patch or none");
     }
