@@ -1,5 +1,18 @@
 # fusion-project-portal
 
+## 1.2.0
+
+### Minor Changes
+
+- b156de5: Title, obtained from Fusion.Integration, has been added to OnboardedContext-endpoint.
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+### Patch Changes
+
+- e369ed8: Change will remove all comments in change set. This will enforce that developer needs wo write a change set if not `none` is checked.
+
 ## 1.1.0
 
 ### Minor Changes
