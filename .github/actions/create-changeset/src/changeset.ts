@@ -9,7 +9,7 @@ export const parseBody = (body: string): string => {
   const result = body.split(pattern)[1];
 
   if (result) {
-    return result.replaceAll("<!--[^>]*>", "").trim().concat("\n");
+    return result.replaceAll("<[^>]*>", "").trim().concat("\n");
   }
 
   throw new Error("No changeset notes header was found");
