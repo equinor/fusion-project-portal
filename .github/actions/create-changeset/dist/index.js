@@ -2472,15 +2472,33 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createChangesetByType = exports.parseBodyForChangeType = exports.parseBody = void 0;
 const core = __importStar(__nccwpck_require__(186));
+const addRelations = (changeset, body, relations) => {
+    return relations.reduce((acc, relationFunction) => {
+        return relationFunction(acc, body);
+    }, changeset);
+};
+const shouldAddDbChange = (body) => {
+    return body.includes("- [x] database migration");
+};
+const addDbChange = (changeSet, body) => {
+    if (!shouldAddDbChange(body))
+        return changeSet;
+    const addDBWaring = `
+    
+    > [!IMPORTANT]  
+    > This change requires database migration.
+    `;
+    return changeSet + addDBWaring;
+};
 /**
  * Parses the body text of the pull request and returns only the changeset section.
  * @param body Body text of the pull request
  */
 const parseBody = (body) => {
     const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-    const result = body.split(pattern)[1];
+    const result = body.replaceAll("<!--[^>]*>", "").split(pattern)[1];
     if (result) {
-        return result.replaceAll("<!--[^>]*>", "").trim().concat("\n");
+        return addRelations(result.trim().concat("\n"), body, [addDbChange]);
     }
     throw new Error("No changeset notes header was found");
 };
