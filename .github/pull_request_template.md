@@ -12,6 +12,8 @@ Please select version type the purposed change:
 - [ ] patch
 - [ ] none <!--- Creates an empty changeset --> 
 
+External Relations
+- [ ] database migration
 ## Changeset
 
 <!--- Write your changeset here -->
