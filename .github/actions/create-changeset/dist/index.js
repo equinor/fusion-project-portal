@@ -2480,7 +2480,7 @@ const parseBody = (body) => {
     const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
     const result = body.split(pattern)[1];
     if (result) {
-        return result.trim().concat("\n");
+        return result.replaceAll("<!--[^>]*>", "").trim().concat("\n");
     }
     throw new Error("No changeset notes header was found");
 };
@@ -2490,12 +2490,9 @@ exports.parseBody = parseBody;
  * @param body Body text of the pull request
  */
 const parseBodyForChangeType = (body) => {
-    const pattern = /(-\[\s|.\]\s\w*)/g;
+    const pattern = /(?<=\[x\]\s)(major|minor|patch|none)/g;
     const types = ["major", "minor", "patch", "none"];
-    const result = body
-        .split(pattern)
-        .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase()) &&
-        p.toLowerCase().includes("x")));
+    const result = body.split(pattern);
     if (result.length > 1 || result.length === 0) {
         throw new Error("Select only one of the following, major, minor, patch or none");
     }
