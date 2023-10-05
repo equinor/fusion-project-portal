@@ -1,5 +1,16 @@
 # fusion-project-portal
 
+## 1.1.0
+
+### Minor Changes
+
+- 8fd9be4: Extending the changeset action to handle relations. For now this is only for database migration but more can be added in the future.
+
+  <!--- Write your changeset here -->
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
 ## 1.0.0
 
 ### Major Changes
