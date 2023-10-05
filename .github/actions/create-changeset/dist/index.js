@@ -2512,12 +2512,12 @@ const parseBodyForChangeType = (body) => {
     const types = ["major", "minor", "patch", "none"];
     const result = body
         .split(pattern)
-        .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase())));
+        .filter((p) => types.includes(p.toLowerCase()));
     if (result.length > 1 || result.length === 0) {
         throw new Error("Select only one of the following, major, minor, patch or none, you have:" +
             result);
     }
-    return types.find((type) => result[0].includes(type));
+    return result[0];
 };
 exports.parseBodyForChangeType = parseBodyForChangeType;
 const formatChangeSet = (changeSet) => {
