@@ -1,5 +1,31 @@
 import * as core from "@actions/core";
 
+const addRelations = (
+  changeset: string,
+  body: string,
+  relations: ((changeSet: string, body: string) => string)[]
+) => {
+  return relations.reduce((acc, relationFunction) => {
+    return relationFunction(acc, body);
+  }, changeset);
+};
+
+const shouldAddDbChange = (body: string): boolean => {
+  return body.includes("- [x] database migration");
+};
+
+const addDbChange = (changeSet: string, body: string) => {
+  if (!shouldAddDbChange(body)) return changeSet;
+
+  const addDBWaring = `
+    
+    > [!IMPORTANT]  
+    > This change requires database migration.
+    `;
+
+  return changeSet + addDBWaring;
+};
+
 /**
  * Parses the body text of the pull request and returns only the changeset section.
  * @param body Body text of the pull request
@@ -9,7 +35,7 @@ export const parseBody = (body: string): string => {
   const result = body.split(pattern)[1];
 
   if (result) {
-    return result.trim().concat("\n");
+    return addRelations(result.trim().concat("\n"), body, [addDbChange]);
   }
 
   throw new Error("No changeset notes header was found");
