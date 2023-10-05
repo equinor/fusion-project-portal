@@ -6,7 +6,7 @@ import * as core from "@actions/core";
  */
 export const parseBody = (body: string): string => {
   const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-  const result = body.split(pattern)[1];
+  const result = body.replaceAll("<!--[^>]*>", "").split(pattern)[1];
 
   if (result) {
     return result.trim().concat("\n");
@@ -20,17 +20,9 @@ export const parseBody = (body: string): string => {
  * @param body Body text of the pull request
  */
 export const parseBodyForChangeType = (body: string): string | undefined => {
-  const pattern = /(-\[\s|.\]\s\w*)/g;
+  const pattern = /(?<=\[x\]\s)(major|minor|patch|none)/g;
   const types = ["major", "minor", "patch", "none"];
-  const result = body
-    .split(pattern)
-    .filter((p) =>
-      types.find(
-        (t) =>
-          p.toLowerCase().includes(t.toLowerCase()) &&
-          p.toLowerCase().includes("x")
-      )
-    );
+  const result = body.split(pattern);
 
   if (result.length > 1 || result.length === 0) {
     throw new Error(
