@@ -6,10 +6,10 @@ import * as core from "@actions/core";
  */
 export const parseBody = (body: string): string => {
   const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-  const result = body.replaceAll("<!--[^>]*>", "").split(pattern)[1];
+  const result = body.split(pattern)[1];
 
   if (result) {
-    return result.trim().concat("\n");
+    return result.replaceAll("<!--[^>]*>", "").trim().concat("\n");
   }
 
   throw new Error("No changeset notes header was found");
