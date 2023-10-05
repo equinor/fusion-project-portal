@@ -54,7 +54,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
   release:
-    name: Porduction Realease Porject Portal
+    name: Production Realease Porject Portal
     needs: changesets
     environment: production
     runs-on: ubuntu-latest
