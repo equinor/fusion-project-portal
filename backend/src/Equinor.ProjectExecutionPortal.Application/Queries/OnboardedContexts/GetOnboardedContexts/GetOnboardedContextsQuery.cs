@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Application.Services.ContextService;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -12,20 +13,27 @@ public class GetOnboardedContextsQuery : QueryBase<IList<OnboardedContextDto>>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
+        private readonly IContextService _contextService;
 
-        public Handler(IReadWriteContext context, IMapper mapper)
+        public Handler(IReadWriteContext context, IMapper mapper, IContextService contextService)
         {
             _context = context;
             _mapper = mapper;
+            _contextService = contextService;
         }
 
         public async Task<IList<OnboardedContextDto>> Handle(GetOnboardedContextsQuery request, CancellationToken cancellationToken)
         {
-            var enitity = await _context.Set<Domain.Entities.OnboardedContext>()
+            var entity = await _context.Set<Domain.Entities.OnboardedContext>()
                 .AsNoTracking()
-                .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken);
 
-            return _mapper.Map<List<Domain.Entities.OnboardedContext>, List<OnboardedContextDto>>(enitity);
+            var onboardedContext =  _mapper.Map<List<Domain.Entities.OnboardedContext>, List<OnboardedContextDto>>(entity);
+
+            await _contextService.EnrichContextsWithFusionContextData(onboardedContext, cancellationToken);
+
+            return onboardedContext;
+
         }
     }
 }
