@@ -1,0 +1,110 @@
+name: Changeset and Releace Project Portal
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  changesets:
+    name: Creat Realease Pull-Request
+    runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git user (trigger actor)
+        uses: ./.github/actions/config-git-user
+
+      - name: Setup node and install deps
+        uses: ./.github/actions/node-setup
+
+      - name: install
+        run: yarn
+        shell: bash
+
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          title: "Fusion Project Portal Release"
+          createGithubReleases: true
+          setupGitUser: false
+          version: yarn changeset:version
+          publish: yarn changeset:tag
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: convert Changeset PR to draf
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.pullRequestNumber
+        run: gh pr ready ${{ steps.changesets.outputs.pullRequestNumber }} --undo
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  release:
+    name: Porduction Realease Porject Portal
+    needs: changesets
+    environment: production
+    runs-on: ubuntu-latest
+    if: needs.changesets.outputs.published == 'true'
+    env:
+      TENANT_ID: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+      CLIENT_ID: ea425507-0de4-4f5f-bac8-48cea54f7a0c
+    steps:
+      - name: Install jq
+        uses: dcarbone/install-jq-action@v1.0.1
+        with:
+          version: "1.6"
+
+      - name: "Az CLI login" # uses federated auth
+        uses: azure/login@v1
+        with:
+          tenant-id: ${{env.TENANT_ID}}
+          client-id: ${{env.CLIENT_ID}}
+          allow-no-subscriptions: true
+
+      - name: "Get Azure principal token for Radix"
+        run: |
+          token=$(az account get-access-token --resource 6dae42f8-4368-4678-94ff-3960e28e3630 --query=accessToken -otsv)
+          echo "::add-mask::$token"
+          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" >> $GITHUB_ENV
+
+      - name: "Get application information for fusion-project-portal"
+        id: get_application_info_api
+        uses: equinor/radix-github-actions@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          args: >
+            get application
+            --application fusion-project-portal
+
+      - name: "Get active deployments from test"
+        id: get_active_deployments
+        run: |
+          activeDeploymentApi=$(echo '${{steps.get_application_info_api.outputs.result}}' | jq -r '.environments | .[] | select(.name=="test") | .activeDeployment.name')
+          echo "activeDeploymentApi=$activeDeploymentApi" >> "$GITHUB_OUTPUT"
+
+      - name: "Promote fusion-project-portal in Radix from test to production"
+        uses: equinor/radix-github-actions@v1
+        with:
+          args: >
+            create job
+            promote
+            -a fusion-project-portal
+            -d portal
+            -f
+            --from-environment test
+            --to-environment prod
+            --deployment ${{ steps.get_active_deployments.outputs.activeDeploymentApi }}

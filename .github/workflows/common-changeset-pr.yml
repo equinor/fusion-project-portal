@@ -1,0 +1,25 @@
+name: Get PR description
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+
+jobs:
+  print_title_of_pr:
+    name: Auto Generate Changset based on pull request body
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create changeset
+        id: create-changeset
+        uses: ./.github/actions/create-changeset
+        with:
+          projectName: "fusion-project-portal"
+
+      - name: Commit Changeset
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: ${{steps.create-changeset.outputs.changeSetPath}}
+          branch: ${{ github.head_ref }}

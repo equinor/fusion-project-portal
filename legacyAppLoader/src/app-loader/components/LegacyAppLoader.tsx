@@ -40,7 +40,7 @@ export const createLegacyAppLoader = (appKey: string) =>
     return {
       default: () => (
         <>
-          <AppWrapperLegacy appKey={appKey} env={env} />,
+          <AppWrapperLegacy appKey={appKey} env={env} />
         </>
       ),
     };

@@ -1,0 +1,14 @@
+name: extract-changeset
+description: Extracts changeset from pull requests
+inputs:
+  projectName:
+    required: true
+outputs:
+  changeSetPath:
+    description: Path the release notes were stored in
+  changeType:
+    description: Change type to apply to change set 
+runs:
+  using: "node16"
+  main: "dist/index.js"
+  
