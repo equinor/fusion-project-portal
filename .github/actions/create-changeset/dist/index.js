@@ -2496,7 +2496,8 @@ const addDbChange = (changeSet, body) => {
  */
 const parseBody = (body) => {
     const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-    const result = body.split(pattern)[1];
+    const removeCommentRegex = /<!--[^>]*>/g;
+    const result = body.replaceAll(removeCommentRegex, "").split(pattern)[1];
     if (result) {
         return addRelations(result.trim().concat("\n"), body, [addDbChange]);
     }
@@ -2508,16 +2509,15 @@ exports.parseBody = parseBody;
  * @param body Body text of the pull request
  */
 const parseBodyForChangeType = (body) => {
-    const pattern = /(-\[\s|.\]\s\w*)/g;
+    const pattern = /(?<=\[x\]\s)(major|minor|patch|none)/g;
     const types = ["major", "minor", "patch", "none"];
     const result = body
         .split(pattern)
-        .filter((p) => types.find((t) => p.toLowerCase().includes(t.toLowerCase()) &&
-        p.toLowerCase().includes("x")));
+        .filter((p) => types.includes(p.toLowerCase()));
     if (result.length > 1 || result.length === 0) {
         throw new Error("Select only one of the following, major, minor, patch or none");
     }
-    return types.find((type) => result[0].includes(type));
+    return result[0];
 };
 exports.parseBodyForChangeType = parseBodyForChangeType;
 const formatChangeSet = (changeSet) => {
