@@ -2496,7 +2496,10 @@ const addDbChange = (changeSet, body) => {
  */
 const parseBody = (body) => {
     const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-    const result = body.replaceAll("<!--[^>]*>", "").split(pattern)[1];
+    core.debug(body);
+    const removeCommentRegex = /<!--[^>]*>/g;
+    const result = body.replaceAll(removeCommentRegex, "").split(pattern)[1];
+    core.debug(result);
     if (result) {
         return addRelations(result.trim().concat("\n"), body, [addDbChange]);
     }

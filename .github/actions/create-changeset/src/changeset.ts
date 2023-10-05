@@ -32,14 +32,14 @@ const addDbChange = (changeSet: string, body: string) => {
  */
 export const parseBody = (body: string): string => {
   const pattern = new RegExp("^#{1,6}\\s+changeset?\\s+$", "im");
-  const result = body.split(pattern)[1];
-
+  core.debug(body);
   const removeCommentRegex = /<!--[^>]*>/g;
+  const result = body.replaceAll(removeCommentRegex, "").split(pattern)[1];
+
+  core.debug(result);
 
   if (result) {
-    return addRelations(result.trim().concat("\n"), body, [
-      addDbChange,
-    ]).replaceAll(removeCommentRegex, "");
+    return addRelations(result.trim().concat("\n"), body, [addDbChange]);
   }
 
   throw new Error("No changeset notes header was found");
