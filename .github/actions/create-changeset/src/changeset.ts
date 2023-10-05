@@ -48,7 +48,11 @@ export const parseBody = (body: string): string => {
 export const parseBodyForChangeType = (body: string): string | undefined => {
   const pattern = /(?<=\[x\]\s)(major|minor|patch|none)/g;
   const types = ["major", "minor", "patch", "none"];
-  const result = body.split(pattern);
+  const result = body
+    .split(pattern)
+    .filter((p) =>
+      types.find((t) => p.toLowerCase().includes(t.toLowerCase()))
+    );
 
   if (result.length > 1 || result.length === 0) {
     throw new Error(
