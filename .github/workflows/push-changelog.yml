@@ -1,0 +1,37 @@
+name: Push Changelog
+
+on:
+  push:
+    branches:
+      - feat-push-changelog-to-docs
+
+jobs:
+  update-changelog:
+    name: Update changelog in docs
+    runs-on: ubuntu-latest
+    env:
+      commit-author: chbh
+      author-email: chbh@equinor.com
+      commit-message: "docs: update changlog"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy Files to move
+        run: |
+          mkdir output
+          cp CHANGELOG.md output/CHANGELOG.md
+        shell: bash
+
+      - name: Pushes Changelog File
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: output/
+          destination-repository-name: "https://github.com/equinor/fusion-project-portal-internal"
+          target-branch: main
+          target-directory: "/docs/documentation/"
+          user-email: ${{ env.author-email}}
+          destination-github-username: ${{ env.commit-author}}
+          commit-message: ${{ env.commit-message}}
