@@ -10,7 +10,7 @@ jobs:
     name: Update changelog in docs
     runs-on: ubuntu-latest
     env:
-      commit-author: chbh
+      commit-author: Noggling
       author-email: chbh@equinor.com
       commit-message: "docs: update changlog"
     steps:
