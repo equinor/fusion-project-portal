@@ -2,7 +2,7 @@ name: Get PR description
 
 on:
   pull_request:
-    types: [opened, synchronize, edited]
+    types: [opened, synchronize, edited, ready_for_review]
 
 jobs:
   print_title_of_pr:
