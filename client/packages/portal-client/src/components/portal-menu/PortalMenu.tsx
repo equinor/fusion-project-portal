@@ -72,6 +72,8 @@ export function MenuGroups() {
 		return filteredApps;
 	}, [searchText, activeItem, data, favoriteGroup]);
 
+	const hasApps = useMemo(() => Boolean(data && data.length !== 0), [data]);
+
 	const handleToggle = (name: string) => {
 		if (activeItem === name) {
 			setActiveItem('All Apps');
@@ -87,6 +89,8 @@ export function MenuGroups() {
 			<Search
 				id="app-search"
 				placeholder={'Search for apps'}
+				disabled={!hasApps}
+				title={hasApps ? 'Search for apps' : 'Please select a contest to be able to search'}
 				value={searchText}
 				onChange={(e) => {
 					setSearchText(e.target.value);
@@ -112,14 +116,22 @@ export function MenuGroups() {
 						{displayAppGroups && !!displayAppGroups?.length ? (
 							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 								<InfoMessage>
-									Looks like you do not have any pinned apps yet. Click the star icon on apps to add
-									them to the pinned app section.
+									Looks like you do not have any pinned apps yet. <br /> Click the star icon on apps
+									to add them to the pinned app section.
 								</InfoMessage>
 							) : (
 								<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_COUNT} />
 							)
 						) : (
-							<>{searchText ? <InfoMessage>No results found for your search.</InfoMessage> : null}</>
+							<>
+								{searchText ? (
+									<InfoMessage>No results found for your search.</InfoMessage>
+								) : !hasApps ? (
+									<InfoMessage>
+										Please select a context to display a list of applications.
+									</InfoMessage>
+								) : null}
+							</>
 						)}
 					</>
 				)}
