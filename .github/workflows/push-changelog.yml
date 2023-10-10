@@ -29,7 +29,7 @@ jobs:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
           source-directory: output/
-          destination-repository-name: "https://github.com/equinor/fusion-project-portal-internal"
+          destination-repository-name: "equinor/fusion-project-portal-internal"
           target-branch: main
           target-directory: "/docs/documentation/"
           user-email: ${{ env.author-email}}
