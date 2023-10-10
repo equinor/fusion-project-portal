@@ -24,14 +24,13 @@ jobs:
         shell: bash
 
       - name: Pushes Changelog File
-        uses: cpina/github-action-push-to-another-repository@main
+        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: output/
-          destination-repository-name: "equinor/fusion-project-portal-internal"
-          target-branch: main
-          target-directory: "/docs/documentation/"
-          user-email: ${{ env.author-email}}
-          destination-github-username: ${{ env.commit-author}}
-          commit-message: ${{ env.commit-message}}
+          source_file: "CHANGELOG.md"
+          destination_repo: "equinor/fusion-project-portal-internal"
+          destination_folder: "/docs/documentation/"
+          user_email: ${{ env.author-email}}
+          user_name: ${{ env.commit-author}}
+          commit_message: ${{ env.commit-message}}
