@@ -3,28 +3,35 @@ name: Push Changelog
 on:
   push:
     branches:
-      - main
+      - feat-push-changelog-to-docs
 
 jobs:
   update-changelog:
     name: Update changelog in docs
     runs-on: ubuntu-latest
     env:
-      commit-author: bot
-      author-email: bot@equinor.com
+      commit-author: chbh
+      author-email: chbh@equinor.com
       commit-message: "docs: update changlog"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Copy Files to move
+        run: |
+          mkdir output
+          cp CHANGELOG.md output/CHANGELOG.md
+        shell: bash
+
       - name: Pushes Changelog File
-        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
+        uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source_file: "CHANGELOG.md"
-          destination_repo: "equinor/fusion-project-portal-internal"
-          destination_folder: "/docs/documentation/"
-          user_email: ${{ env.author-email}}
-          user_name: ${{ env.commit-author}}
-          commit_message: ${{ env.commit-message}}
+          source-directory: output/
+          destination-repository-name: "https://github.com/equinor/fusion-project-portal-internal"
+          target-branch: main
+          target-directory: "/docs/documentation/"
+          user-email: ${{ env.author-email}}
+          destination-github-username: ${{ env.commit-author}}
+          commit-message: ${{ env.commit-message}}
