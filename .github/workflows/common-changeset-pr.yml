@@ -2,12 +2,13 @@ name: Get PR description
 
 on:
   pull_request:
-    types: [opened, synchronize, edited]
+    types: [opened, synchronize, edited, ready_for_review]
 
 jobs:
   print_title_of_pr:
     name: Auto Generate Changset based on pull request body
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
     steps:
       - name: Checkout
         uses: actions/checkout@v3
