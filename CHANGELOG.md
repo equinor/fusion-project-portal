@@ -1,5 +1,18 @@
 # fusion-project-portal
 
+## 1.3.0
+
+### Minor Changes
+
+- 6c3c922: In order to utilize any application within the project portal, the user must now select an activated context.
+
+### Patch Changes
+
+- 18be2c9: This pull request is for demo purpose and will include an incomplete feature that will be removed after demo.
+- 6cda52d: Update pr templat with a linebreake
+- 054571e: Changeset action will now only run review not draft
+- 8c585b2: The get changeset workflow should not be triggered on the release branch
+
 ## 1.2.0
 
 ### Minor Changes
