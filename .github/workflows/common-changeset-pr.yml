@@ -3,12 +3,13 @@ name: Get PR description
 on:
   pull_request:
     types: [opened, synchronize, edited, ready_for_review]
+    branches: ["!changeset-release/main"]
 
 jobs:
   print_title_of_pr:
     name: Auto Generate Changset based on pull request body
     runs-on: ubuntu-latest
-    if: ${{ (github.event.pull_request.draft == false) && (github.ref_name != 'changeset-release/main') }}
+    if: github.event.pull_request.draft == false
     steps:
       - name: Checkout
         uses: actions/checkout@v3
