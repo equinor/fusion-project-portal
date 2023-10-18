@@ -1,12 +1,23 @@
-﻿# 🧮 Fusion Project Portal
+﻿<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+   <img src="../.assets/fusion.png" width="350">
+  </a>
 
-An application for managing projects.
+  <h1 align="center">Fusion Project Portal</h1>
 
-## Table of Contents
+  <p align="center">
+    This projects documentation and specification can be found here 
+    <br />
+    <a href="https://equinor.github.io/fusion-project-portal-internal/"><strong>Explore the docs</strong></a>
+    <br />
+  </p>
+</div>
 
-1. [Getting started](#getting-started)
-2. [Technical](#technical)
-3. [Troubleshooting](#troubleshooting)
+# Runbook Backend API
+The Project Portal API acts as the central interface for the Project Portal, harnessing Fusion Services and its distinctive features. It serves as an application for managing contexts and applications
+
 
 ## Getting started
 

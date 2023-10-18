@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-   <img src="../documentation/src/.vuepress/public/fusion.png" width="350">
+   <img src="../.assets/fusion.png" width="350">
   </a>
 
   <h1 align="center">Fusion Project Portal</h1>
@@ -10,14 +10,12 @@
   <p align="center">
     This projects documentation and specification can be found here 
     <br />
-    <a href="https://equinor.github.io/fusion-project-portal/"><strong>Explore the docs</strong></a>
+    <a href="https://equinor.github.io/fusion-project-portal-internal/"><strong>Explore the docs</strong></a>
     <br />
   </p>
 </div>
 
-## About The Project
 
-This projects main goal is to give the user a space serving workflows according to project phase and context. This will be served to the user in the form of a project portal. The portal will contain sections each containing specific application support the current phase.
 
 ## Built With
 
