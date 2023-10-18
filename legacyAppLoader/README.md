@@ -1,4 +1,4 @@
-﻿<!-- PROJECT LOGO -->
+<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
@@ -12,7 +12,7 @@
     <br />
     <a href="https://equinor.github.io/fusion-project-portal-internal/"><strong>Explore the docs</strong></a>
     <br />
-    <a href="https://equinor.github.io/fusion-project-portal-internal/docs/developer/dev-setup/portalApiRunbook"><strong>Backend API Runbook</strong></a> 
+    <a href="https://equinor.github.io/fusion-project-portal-internal/docs/developer/dev-setup/legacyAppLoaderRunbook"><strong>Legacy App Loader Runbook</strong></a> 
     <br />
   </p>
 </div>
