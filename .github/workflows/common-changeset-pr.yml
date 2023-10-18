@@ -3,7 +3,8 @@ name: Get PR description
 on:
   pull_request:
     types: [opened, synchronize, edited, ready_for_review]
-    branches: ["!changeset-release/main"]
+    branches-ignore:
+      - changeset-release/main
 
 jobs:
   print_title_of_pr:
