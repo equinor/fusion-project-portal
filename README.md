@@ -20,8 +20,7 @@
         ></img>
      <img
           alt="Licence"
-          src="https://img.shields.io/github/license/equinor/fusion-project-portal
-"
+          src="https://img.shields.io/github/license/equinor/fusion-project-portal"
         ></img>
         <img alt="GitHub issues" src="https://img.shields.io/github/issues/equinor/fusion-project-portal">
         <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/equinor/fusion-project-portal">
