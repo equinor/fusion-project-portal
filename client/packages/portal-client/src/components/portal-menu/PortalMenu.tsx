@@ -1,14 +1,7 @@
 import { Search } from '@equinor/eds-core-react';
 import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
 import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import {
-	useObservable,
-	getMenuWidth,
-	getColumnCount,
-	customAppgroupArraySort,
-	getDisabledApps,
-	getPinnedAppsGroup,
-} from '@equinor/portal-utils';
+import { useObservable, customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@equinor/portal-utils';
 import { combineLatest, map } from 'rxjs';
 
 import { menuFavoritesController, useAppModule, useMenuContext } from '@equinor/portal-core';
@@ -29,16 +22,7 @@ const styles = {
 		width: 300px;
 		gap: 1rem;
 	`,
-	appsWrapper: (count: number) => css`
-		padding: 0 0 1rem 1rem;
-		height: 650px;
-		display: block;
-		grid-template-columns: auto;
-		padding-bottom: 2rem;
-		column-width: auto;
-		gap: 1rem;
-		column-count: ${count};
-	`,
+
 	menuWrapper: css`
 		display: flex;
 		flex-direction: row;
@@ -82,11 +66,13 @@ export function MenuGroups() {
 		}
 		if (activeItem.includes('All Apps') || searchText != '') {
 			const appSearch = appsMatchingSearch(data ?? [], searchText);
-			return appSearch.sort((a, b) => customAppgroupArraySort(a, b, activeItem));
+			return appSearch.sort((a, b) => customAppGroupArraySort(a, b, activeItem));
 		}
 		const filteredApps = data?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
 	}, [searchText, activeItem, data, favoriteGroup]);
+
+	const hasApps = useMemo(() => Boolean(data && data.length !== 0), [data]);
 
 	const handleToggle = (name: string) => {
 		if (activeItem === name) {
@@ -96,14 +82,15 @@ export function MenuGroups() {
 		}
 	};
 
-	const BREAK_COL_2 = 12;
-	const BREAK_COL_3 = 25;
+	const BREAK_COL_COUNT = 15;
 
 	return (
-		<PortalMenu width={getMenuWidth(BREAK_COL_2, BREAK_COL_3, data)}>
+		<PortalMenu>
 			<Search
 				id="app-search"
 				placeholder={'Search for apps'}
+				disabled={!hasApps}
+				title={hasApps ? 'Search for apps' : 'Please select a contest to be able to search'}
 				value={searchText}
 				onChange={(e) => {
 					setSearchText(e.target.value);
@@ -129,16 +116,22 @@ export function MenuGroups() {
 						{displayAppGroups && !!displayAppGroups?.length ? (
 							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 								<InfoMessage>
-									Looks like you do not have any pinned apps yet. Click the star icon on apps to add
-									them to the pinned app section.
+									Looks like you do not have any pinned apps yet. <br /> Click the star icon on apps
+									to add them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<div className={styles.appsWrapper(getColumnCount(BREAK_COL_2, BREAK_COL_3, data))}>
-									<GroupWrapper appGroups={displayAppGroups} />
-								</div>
+								<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_COUNT} />
 							)
 						) : (
-							<>{searchText ? <InfoMessage>No results found for your search.</InfoMessage> : null}</>
+							<>
+								{searchText ? (
+									<InfoMessage>No results found for your search.</InfoMessage>
+								) : !hasApps ? (
+									<InfoMessage>
+										Please select a context to display a list of applications.
+									</InfoMessage>
+								) : null}
+							</>
 						)}
 					</>
 				)}

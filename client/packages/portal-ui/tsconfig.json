@@ -17,16 +17,6 @@
 
   },
   "files": [],
-  "exclude": [
-    "jest.config.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "**/*.spec.js",
-    "**/*.test.js",
-    "**/*.spec.jsx",
-    "**/*.test.jsx"
-  ],
+
   "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx",  "**/*.d.ts", "src/mock"]
 }

@@ -6,7 +6,6 @@ export * from './portal-actions';
 export * from './providers';
 export * from './queries';
 export * from './types';
-export * from './app-loader';
 export * from './app';
 export * from './context-relations';
 export * from './debug';

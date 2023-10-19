@@ -18,12 +18,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var userId = User.GetAzureUniqueIdOrThrow();
             var profile = await profileResolver.ResolvePersonFullProfileAsync(userId);
 
-            if (profile == null)
-            {
-                return FusionApiError.NotFound(userId, "Could not find profile");
-            }
-
-            return Ok(profile);
+            return profile == null ? FusionApiError.NotFound(userId, "Could not find profile") : Ok(profile);
         }
     }
 }

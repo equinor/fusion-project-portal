@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-   <img src="../documentation/src/.vuepress/public/fusion.png" width="350">
+   <img src="../.assets/fusion.png" width="350">
   </a>
 
   <h1 align="center">Fusion Project Portal</h1>
@@ -10,14 +10,11 @@
   <p align="center">
     This projects documentation and specification can be found here 
     <br />
-    <a href="https://equinor.github.io/fusion-project-portal/"><strong>Explore the docs</strong></a>
+    <a href="https://equinor.github.io/fusion-project-portal-internal/"><strong>Explore the docs</strong></a>
     <br />
+    <a href="https://equinor.github.io/fusion-project-portal-internal/docs/developer/dev-setup/webClientRonBook"><strong>Web Client Runbook</strong></a> 
   </p>
 </div>
-
-## About The Project
-
-This projects main goal is to give the user a space serving workflows according to project phase and context. This will be served to the user in the form of a project portal. The portal will contain sections each containing specific application support the current phase.
 
 ## Built With
 
@@ -26,37 +23,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 [![typescript][typescript]][typescript-url]
 [![React][react.js]][react-url]
 [![Vite][vite.js]][vitejs-url]
-
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Installation
-
-1. Clone the repo
-
-```sh
-   git clone https://github.com/equinor/fusion-project-portal.git
-```
-
-2. Open client folder
-
-```sh
-   $ cd client
-```
-
-3. Install dependencies
-
-```sh
-   yarn install
-```
-
-4. Run in development
-
-```sh
-   nx serve
-```
 
 [react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [react-url]: https://reactjs.org/

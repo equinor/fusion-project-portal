@@ -19,7 +19,7 @@ type ProgressLoaderProps = {
   title: string;
 };
 const Wrapper = styled.section`
-  height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--portal-header-height));
   width: 100vw;
 `;
 

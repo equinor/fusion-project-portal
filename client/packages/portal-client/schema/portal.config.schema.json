@@ -115,6 +115,15 @@
                 }
             }
         },
+        "agGrid": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "licenseKey": {
+                    "type": "string"
+                }
+            }
+        },
         "logger": {
             "type": "object",
             "additionalProperties": false,
@@ -135,6 +144,11 @@
                     }
                 }
             }
+        },
+        "fusionLegacyEnvIdentifier": {
+            "type": "string",
+            "additionalProperties": false,
+            "description": "Environment identifier for Fusion legacy application loader"
         }
     }
 }

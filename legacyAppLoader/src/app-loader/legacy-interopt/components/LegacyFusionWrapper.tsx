@@ -21,7 +21,6 @@ const StyleFix = styled.span`
   width: 100%;
   > div > div {
     display: block !important;
-    overflow: hidden;
   }
 `;
 

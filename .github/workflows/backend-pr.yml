@@ -1,0 +1,21 @@
+name: Backend Api Pull-request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  echo:
+    name: Backend pr job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write your own steps here
+        run: echo "----- Need Implementation ----"
+        shell: bash

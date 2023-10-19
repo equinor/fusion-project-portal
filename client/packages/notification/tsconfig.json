@@ -14,8 +14,8 @@
         "noFallthroughCasesInSwitch": true,
         "outDir": "../../dist/out-tsc",
         "types": ["node"],
-        "declarationMap": true,
-        "declaration": true,
+        "skipLibCheck": true
+
     },
     "include": [
         "**/*.ts",

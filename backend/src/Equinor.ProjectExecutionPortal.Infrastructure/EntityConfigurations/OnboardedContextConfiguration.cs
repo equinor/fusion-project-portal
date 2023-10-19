@@ -22,9 +22,6 @@ public class OnboardedContextConfiguration : IEntityTypeConfiguration<OnboardedC
         builder.Property(x => x.Type)
             .HasMaxLength(OnboardedContext.TypeLengthMax);
 
-        builder.Property(t => t.Title)
-            .HasMaxLength(OnboardedContext.TitleLengthMax);
-
         builder.Property(t => t.Description)
             .HasMaxLength(OnboardedContext.DescriptionLengthMax);
 

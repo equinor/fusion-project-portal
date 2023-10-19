@@ -32,7 +32,7 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
         {
             if (command.ContextExternalId == null)
             {
-                throw new InvalidActionException($"Cannot add global app '{command.AppKey} to '{command.WorkSurfaceId}'. Missing context parameters.");
+                throw new InvalidActionException($"Cannot add app '{command.AppKey} to '{command.WorkSurfaceId}'. Missing context parameter.");
             }
 
             var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
@@ -41,7 +41,7 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
 
             if (onboardedContext == null)
             {
-                throw new NotFoundException("Could not find any onboarded context with that id", command.ContextExternalId);
+                throw new NotFoundException("Could not find any onboarded context with id", command.ContextExternalId);
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
@@ -50,28 +50,33 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
 
             if (onboardedApp == null)
             {
-                throw new NotFoundException("Could not find any onboarded app with that id", command.AppKey);
+                throw new NotFoundException("Could not find any onboarded app with id", command.AppKey);
             }
 
-            var workSurfaceWithGlobalAndContextApps = await _readWriteContext.Set<WorkSurface>()
+            var workSurfaceWithAllApps = await _readWriteContext.Set<WorkSurface>()
                 .Include(x => x.Apps
-                    .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.ExternalId == command.ContextExternalId))
+                    .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.Id == onboardedContext.Id))
                     .ThenInclude(x => x.OnboardedContext)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
-            if (workSurfaceWithGlobalAndContextApps == null)
+            if (workSurfaceWithAllApps == null)
             {
                 throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
             }
 
-            if (workSurfaceWithGlobalAndContextApps.HasApp(onboardedApp.Id))
+            if (workSurfaceWithAllApps.HasGlobalApp(onboardedApp.Id))
             {
-                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface. Either globally or with the supplied context");
+                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface as a global app");
+            }
+
+            if (workSurfaceWithAllApps.HasAppForContext(onboardedApp.Id, onboardedContext.Id))
+            {
+                throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface and context");
             }
 
             var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);
 
-            workSurfaceWithGlobalAndContextApps.AddApp(workSurfaceApp);
+            workSurfaceWithAllApps.AddApp(workSurfaceApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

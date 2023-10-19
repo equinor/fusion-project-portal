@@ -127,10 +127,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid?>("ModifiedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Title")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(200)

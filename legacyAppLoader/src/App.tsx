@@ -21,7 +21,7 @@ addGlobalDependencies();
 
 export const App = (props: {
   fusion: Fusion;
-  env: { config: { environment: { appKey: string } } };
+  env: { config: { environment: { appKey: string; env: string } } };
 }) => {
   const fusion = useFramework<[AppModule, NavigationModule]>();
   const appFramework = useAppModules<[AppModule]>();
@@ -29,6 +29,12 @@ export const App = (props: {
   return (
     <LegacyFusionWrapper
       framework={fusion}
+      options={{
+        loadBundlesFromDisk: false,
+        environment: {
+          env: props.env.config.environment.env,
+        },
+      }}
       loader={<ProgressLoader title={"Loading App"} />}
       appFramework={appFramework}
     >

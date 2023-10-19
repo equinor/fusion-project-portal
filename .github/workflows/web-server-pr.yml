@@ -1,0 +1,20 @@
+name: Web Server Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "clientBackend/**"
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  web-server:
+    name: Version or publish packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3

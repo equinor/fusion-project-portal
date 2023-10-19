@@ -1,0 +1,26 @@
+name: Common
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened]
+
+jobs:
+  web-client-pr:
+    name: Open Pull Request
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Labeler
+        uses: ./.github/actions/labeler
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Post Pull Request
+        uses: davidwengier/PostAdaptiveCard@v1.0.0
+        with:
+          webhook-uri: "${{ secrets.TEAMS_PR_WEBHOOK }}"

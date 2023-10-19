@@ -14,10 +14,13 @@ spec:
   dnsExternalAlias:
     - alias: project.fusion.equinor.com
       environment: prod
-      component: webserver 
+      component: webserver
   components:
     # Backend API
     - name: backend
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
       src: ./backend/src # Dockerfile location
       variables:
         ASPNETCORE_URLS: "http://*:5000"
@@ -110,6 +113,9 @@ spec:
 
     # Web Server (client backend)
     - name: webserver
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
       src: . # Dockerfile location
       dockerfileName: clientBackend.Dockerfile
       variables:
@@ -127,6 +133,7 @@ spec:
         FusionBookmarks__Name: ""
         FusionBookmarks__Identifier: ""
         FusionBookmarks__Subsystem: "Project Portal"
+        ClientBundle__FusionLegacyEnvIdentifier: "ci"
       ports:
         - name: http
           port: 5000

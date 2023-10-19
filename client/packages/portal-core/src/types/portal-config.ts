@@ -39,6 +39,7 @@ export interface PortalConfig {
 		licenseKey: string;
 	};
 	bookmarks: SourceSystem;
+	fusionLegacyEnvIdentifier: string;
 }
 
 export interface Client {
