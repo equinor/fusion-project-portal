@@ -3,15 +3,15 @@ name: Push Changelog
 on:
   push:
     branches:
-      - feat-push-changelog-to-docs
+      - main
 
 jobs:
   update-changelog:
     name: Update changelog in docs
     runs-on: ubuntu-latest
     env:
-      commit-author: chbh
-      author-email: chbh@equinor.com
+      commit-author: bot
+      author-email: bot@equinor.com
       commit-message: "docs: update changlog"
     steps:
       - name: Checkout
