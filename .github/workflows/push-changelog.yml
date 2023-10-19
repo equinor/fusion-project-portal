@@ -1,0 +1,30 @@
+name: Push Changelog
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    name: Update changelog in docs
+    runs-on: ubuntu-latest
+    env:
+      commit-author: bot
+      author-email: bot@equinor.com
+      commit-message: "docs: update changlog"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pushes Changelog File
+        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: "CHANGELOG.md"
+          destination_repo: "equinor/fusion-project-portal-internal"
+          destination_folder: "/docs/documentation/"
+          user_email: ${{ env.author-email}}
+          user_name: ${{ env.commit-author}}
+          commit_message: ${{ env.commit-message}}
