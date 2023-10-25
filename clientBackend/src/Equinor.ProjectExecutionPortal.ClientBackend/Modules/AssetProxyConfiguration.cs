@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
 
         public static IEndpointRouteBuilder MapFusionPortalAssetProxy(this IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/assets/legacy-resources/{appKey}/{*resourcePath}", AssetProxyHandler.ProxyRequestAsync<LegacyAppResourcesRequestTransformer>);
+            endpoints.MapGet("/bundles/apps/{appKey}/resources/{*resourcePath}", AssetProxyHandler.ProxyRequestAsync<LegacyAppResourcesRequestTransformer>);
             endpoints.MapGet("/assets/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
             endpoints.MapGet("/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
 
