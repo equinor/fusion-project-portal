@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.4.0
+
+### Minor Changes
+
+- 0c44d27: Add support for Fusion asset paths
+
 ## 1.3.0
 
 ### Minor Changes
