@@ -1,0 +1,14 @@
+name: Test Flow
+
+on:
+  push:
+
+jobs:
+  test:
+    name: LogInfo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log
+        run: |
+          echo BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+        shell: bash
