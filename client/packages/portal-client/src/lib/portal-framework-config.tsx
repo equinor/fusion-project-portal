@@ -24,6 +24,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 	return (config: FusionConfigurator) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
+		/** Legacy Fusion ClientId used in legacy auth provider  */
+		(window as { clientId?: string }).clientId = portalConfig.serviceDiscovery.client.defaultScopes[0];
+
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
