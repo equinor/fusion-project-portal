@@ -10,5 +10,10 @@ jobs:
     steps:
       - name: Log
         run: |
-          echo BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-        shell: bash
+          echo BRANCH_NAME: ${{ github.head_ref  }}
+          echo BRANCH_NAME: ${{  github.ref_name }}
+
+      - name: Woohoo
+        if: github.head_ref == 'test-flow'
+        run: |
+          echo woooohooooo
