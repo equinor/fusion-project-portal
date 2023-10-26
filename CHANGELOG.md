@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.4.1
+
+### Patch Changes
+
+- 4766dde: Fixing auth issue on legacy application, by providing fusion clientId #419
+
 ## 1.4.0
 
 ### Minor Changes
