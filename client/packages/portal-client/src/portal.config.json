@@ -40,5 +40,5 @@
 			"level": 0
 		}
 	},
-	"fusionLegacyEnvIdentifier": "ci"
+	"fusionLegacyEnvIdentifier": "CI"
 }

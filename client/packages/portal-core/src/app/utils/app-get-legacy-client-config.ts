@@ -6,7 +6,7 @@ export const getLegacyClientConfig = (): Client => ({
 });
 
 export const getFusionLegacyEnvIdentifier = (): string => {
-	return window._config_.fusionLegacyEnvIdentifier;
+	return window._config_.fusionLegacyEnvIdentifier.toUpperCase();
 };
 declare global {
 	interface Window {
