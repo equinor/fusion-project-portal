@@ -8,13 +8,15 @@ jobs:
   print_title_of_pr:
     name: Auto Generate Changset based on pull request body
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]'}}
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' && github.ref_name != 'changeset-release/main'}}
     steps:
       - name: Debug Step
         run: |
-          echo ${{ github.event.pull_request.draft == false && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]'}}
+          echo ${{ github.event.pull_request.draft == false && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' && github.ref_name != 'changeset-release/main'}}
           echo ${{ github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]'}}
-          echo ${{ github.actor }}
+          echo ${{ github.ref_name != 'changeset-release/main' }}
+          echo refname ${{ github.ref_name }}
+          echo actor ${{ github.actor }}
 
       - name: Checkout
         uses: actions/checkout@v3
