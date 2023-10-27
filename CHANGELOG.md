@@ -1,5 +1,12 @@
 # fusion-project-portal
 
+## 1.4.2
+
+### Patch Changes
+
+- a922c04: Add expression to fi check in gitHub Action.
+- ba3e9bc: The fusionLegacyEnvIdentifier should always be returned in capital letters , some application check this and are case sensitive
+
 ## 1.4.1
 
 ### Patch Changes
