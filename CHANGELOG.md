@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.4.3
+
+### Patch Changes
+
+- 6cae79b: Fixing bookmark resolve path for bookmark navigation
+
 ## 1.4.2
 
 ### Patch Changes
