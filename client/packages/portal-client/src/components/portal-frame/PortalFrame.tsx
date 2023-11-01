@@ -22,7 +22,7 @@ const style = css`
 `;
 
 export const PortalFrame = () => {
-	useBookmarkNavigate({ resolveAppPath: (appKey: string) => `/apps/${appKey}` });
+	useBookmarkNavigate({ resolveAppPath: (appKey: string) => `/apps/${appKey}/` });
 
 	return (
 		<StyleProvider>
