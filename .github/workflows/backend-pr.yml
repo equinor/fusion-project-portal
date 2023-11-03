@@ -22,7 +22,7 @@ jobs:
         run: dotnet build -c Release ./backend/src --no-restore
       - name: Test
         run: >-
-          dotnet test -c Release .\backend\src\tests\Equinor.ProjectExecutionPortal.Tests.WebApi\
+          dotnet test -c Release ./backend/src/tests/Equinor.ProjectExecutionPortal.Tests.WebApi
           --no-restore --collect:"XPlat Code Coverage" --results-directory
           coverage --verbosity normal --filter "Category!=LongRunning"
       - name: Code Coverage Summary Report
