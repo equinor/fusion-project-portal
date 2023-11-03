@@ -20,7 +20,6 @@ public class FusionAppsCache : IFusionAppsCache
             async () =>
             {
                 var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
-
                 return fusionApps.ToList();
             },
             CacheDuration.Minutes,

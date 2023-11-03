@@ -1,21 +1,45 @@
 name: Backend Api Pull-request
-
 on:
   pull_request:
     branches:
       - main
     paths:
-      - "backend/**"
-    types:
-      - opened
-      - edited
-      - synchronize
-
+      - backend/**
 jobs:
-  echo:
-    name: Backend pr job
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Write your own steps here
-        run: echo "----- Need Implementation ----"
-        shell: bash
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore ./backend/src
+      - name: Build
+        run: dotnet build -c Release ./backend/src --no-restore
+      - name: Test
+        run: >-
+          dotnet test -c Release .\backend\src\tests\Equinor.ProjectExecutionPortal.Tests.WebApi\
+          --no-restore --collect:"XPlat Code Coverage" --results-directory
+          coverage --verbosity normal --filter "Category!=LongRunning"
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+            filename: "coverage/*/coverage.cobertura.xml"
+            badge: true
+            format: "markdown"
+            output: "both"
+      - name: "Collect xUnit results for comment"
+        run: echo '## Workspace xUnit coverage' >> coverage.md && cat code-coverage-results.md >> coverage.md
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+            recreate: true
+            header: Workspace
+            path: coverage.md
+      - name: Write to Job Summary
+        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
