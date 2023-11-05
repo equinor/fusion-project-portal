@@ -18,5 +18,5 @@
   },
   "files": [],
 
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx",  "**/*.d.ts", "src/mock"]
+  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx",  "**/*.d.ts", "src/mock", "../components/src/components/presence-indicator/index.ts"]
 }

@@ -1,4 +1,4 @@
-export * from './avatar';
+export * from '../../components/src/components/presence-indicator';
 export * from './bookmarks/Bookmarks';
 export * from './divider/Divider';
 export * from './fatal-error';

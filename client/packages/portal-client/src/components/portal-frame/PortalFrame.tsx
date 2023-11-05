@@ -9,6 +9,10 @@ import { useBookmarkNavigate } from '@equinor/fusion-framework-react-module-book
 import { BookmarkProvider } from '@equinor/fusion-framework-react-components-bookmark';
 import { HasContext } from '../context/HasContext';
 import { css } from '@emotion/css';
+import { PeopleResolverProvider } from '@equinor/fusion-framework-react-components-people-provider';
+
+import fallbackSvg from '../../assets/fallback-photo.svg';
+const fallbackImage = new Blob([fallbackSvg], { type: 'image/svg+xml' });
 
 const style = css`
 	width: 100vw;
@@ -26,23 +30,25 @@ export const PortalFrame = () => {
 
 	return (
 		<StyleProvider>
-			<ServiceMessageProvider>
-				<NotificationService>
-					<BookmarkProvider>
-						<ViewProvider>
-							<MenuProvider>
-								<section className={style}>
-									<MainHeader />
-									<MenuGroups />
-									<HasContext />
-									<Outlet />
-								</section>
-							</MenuProvider>
-						</ViewProvider>
-						<PortalSideSheet />
-					</BookmarkProvider>
-				</NotificationService>
-			</ServiceMessageProvider>
+			<PeopleResolverProvider options={{ fallbackImage }}>
+				<ServiceMessageProvider>
+					<NotificationService>
+						<BookmarkProvider>
+							<ViewProvider>
+								<MenuProvider>
+									<section className={style}>
+										<MainHeader />
+										<MenuGroups />
+										<HasContext />
+										<Outlet />
+									</section>
+								</MenuProvider>
+							</ViewProvider>
+							<PortalSideSheet />
+						</BookmarkProvider>
+					</NotificationService>
+				</ServiceMessageProvider>
+			</PeopleResolverProvider>
 		</StyleProvider>
 	);
 };

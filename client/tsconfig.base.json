@@ -22,7 +22,11 @@
 			"@equinor/portal-ui": ["packages/portal-ui/src/index.ts"],
 			"@equinor/portal-utils": ["packages/portal-utils/src/index.ts"],
 			"@equinor/service-message": ["packages/service-message/index.ts"],
-			"@equinor/notification": ["packages/notification/index.ts"]
+			"@equinor/notification": ["packages/notification/index.ts"],
+			"@portal/types":["packages/types/src/index.ts"],
+			"@portal/core":["packages/core/src/index.ts"],
+			"@portal/ui":["packages/ui/src/index.ts"],
+			"@portal/components":["packages/components/src/index.ts"]
 		}
 	},
 	"include": ["dompurify.d.ts"],
