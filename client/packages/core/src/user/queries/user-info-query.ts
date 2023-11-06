@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { PersonDetails } from 'portal-types';
+import { PersonDetails } from '@portal/types';
 
 export async function getUserInfo(client: IHttpClient, azureUserId?: string): Promise<PersonDetails> {
 	const res = await client.fetch(`/persons/${azureUserId}?api-version=3.0`);
