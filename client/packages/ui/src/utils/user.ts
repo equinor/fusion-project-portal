@@ -3,8 +3,8 @@ import { AccountColor } from '@portal/types';
 /**
  * Get the color associated with a specific account type.
  *
- * @param {string | undefined} accountType - The account type for which to retrieve the color.
- * @returns {string} - The color code associated with the provided account type.
+ * @param accountType - string | undefined  - The account type for which to retrieve the color.
+ * @returns string - The color code associated with the provided account type.
  *
  * @example
  * const color = getAccountTypeColor('Employee');

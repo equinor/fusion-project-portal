@@ -27,12 +27,12 @@ const skeletonSize = {
  *
  * The `Skeleton` component is a simplified ree-export of `@equinor/fusion-react-skeleton` a React component used to render skeleton loading elements.
  *
- * @param {number} width (optional) - Specifies the width of the skeleton element in present%
- * @param {string} type (optional) - Specifies the type of skeleton to render. Should be one of "xSmall" | "small" | "large" | "medium"  default is xSmall.
- * @param {string} variant (optional) - Specifies the variant or shape of the skeleton. Should be one of "circle" | "rectangle" | "square" | "text", default is text.
- * @param {boolean} fluid (optional) - Expands the skeleton element width to the width of the parent
+ * @param width - number (optional) - Specifies the width of the skeleton element in present%
+ * @param type - string (optional) - Specifies the type of skeleton to render. Should be one of "xSmall" | "small" | "large" | "medium"  default is xSmall.
+ * @param  variant - string (optional) - Specifies the variant or shape of the skeleton. Should be one of "circle" | "rectangle" | "square" | "text", default is text.
+ * @param fluid - boolean (optional) - Expands the skeleton element width to the width of the parent
  *
- * @returns {JSX.Element} - A skeleton loading element with the specified type, variant, and width (if provided).
+ * @returns JSX.Element - A skeleton loading element with the specified type, variant, and width (if provided).
  */
 export const Skeleton: FC<SkeletonProps & { style?: CSSProperties }> = ({ width, size, variant, style, fluid }) => {
 	return (

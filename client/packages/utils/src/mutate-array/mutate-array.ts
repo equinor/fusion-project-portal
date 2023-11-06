@@ -1,3 +1,5 @@
+/* eslint-disable tsdoc/syntax */
+
 /**
  * Mutate an array of objects into a dictionary-like structure, and provide a mechanism for safe mutations.
  *
