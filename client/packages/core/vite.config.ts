@@ -19,7 +19,7 @@ export default defineConfig({
 		alias: {
 			'@equinor/portal-core': path.resolve(__dirname, '../portal-core/src/index.ts'),
 			'@equinor/portal-ui': path.resolve(__dirname, '../portal-ui/src/index.ts'),
-			'@equinor/portal-utils': path.resolve(__dirname, '../portal-utils/src/index.ts'),
+			'@portal/utils': path.resolve(__dirname, '../portal-utils/src/index.ts'),
 			'portal-types': path.resolve(__dirname, '../types/src/index.ts'),
 		},
 	},

@@ -36,7 +36,7 @@ type PersonRoleScope = {
 	valueType?: string;
 };
 
-type PersonRole = {
+export type PersonRole = {
 	name: string;
 	displayName: string;
 	sourceSystem: string;

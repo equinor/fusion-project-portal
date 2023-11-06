@@ -1,4 +1,4 @@
-import { getDisabledApps, useObservable } from '@equinor/portal-utils';
+import { getDisabledApps, useObservable } from '@portal/utils';
 import { menuFavoritesController, useAppGroupsQuery, useAppModule } from '@equinor/portal-core';
 import { combineLatest, map } from 'rxjs';
 import { useMemo } from 'react';

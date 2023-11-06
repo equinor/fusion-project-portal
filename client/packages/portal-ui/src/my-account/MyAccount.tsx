@@ -44,9 +44,6 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 	const { data: user, isLoading } = useCurrentUser();
 
 	const [activeTab, setActiveTab] = useState<keyof Tabs>('Profile');
-	useEffect(() => {
-		console.log(user);
-	}, [user]);
 
 	const tabs: Tabs = useMemo(() => {
 		return {

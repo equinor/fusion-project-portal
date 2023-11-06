@@ -1,4 +1,4 @@
-import { useObservable } from '@equinor/portal-utils';
+import { useObservable } from 'packages/utils/src';
 import { ReactNode, useContext, useEffect, useMemo } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import { useStoreCurrentViewId } from '../../hooks';

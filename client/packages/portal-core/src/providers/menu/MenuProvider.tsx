@@ -1,4 +1,4 @@
-import { storage } from '@equinor/portal-utils';
+import { storage } from 'packages/utils/src';
 import { createContext, PropsWithChildren, useState } from 'react';
 import { useAppGroupsQuery } from '../../queries';
 import { IMenuContext, IMenuState } from './menu-types';

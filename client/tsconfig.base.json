@@ -20,7 +20,7 @@
 			"@equinor/portal-modules": ["packages/portal-modules/src/index.ts"],
 			"@equinor/portal-pages": ["packages/portal-pages/src/index.ts"],
 			"@equinor/portal-ui": ["packages/portal-ui/src/index.ts"],
-			"@equinor/portal-utils": ["packages/portal-utils/src/index.ts"],
+			"@portal/utils": ["packages/utils/src/index.ts"],
 			"@equinor/service-message": ["packages/service-message/index.ts"],
 			"@equinor/notification": ["packages/notification/index.ts"],
 			"@portal/types":["packages/types/src/index.ts"],

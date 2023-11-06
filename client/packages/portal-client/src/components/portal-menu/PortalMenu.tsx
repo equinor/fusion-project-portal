@@ -1,7 +1,7 @@
 import { Search } from '@equinor/eds-core-react';
 import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
 import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import { useObservable, customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@equinor/portal-utils';
+import { useObservable, customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/utils';
 import { combineLatest, map } from 'rxjs';
 
 import { menuFavoritesController, useAppModule, useMenuContext } from '@equinor/portal-core';

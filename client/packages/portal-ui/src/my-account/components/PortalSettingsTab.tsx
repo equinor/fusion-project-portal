@@ -1,14 +1,21 @@
-import { Button, Typography } from '@equinor/eds-core-react';
+import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { Style } from './MyRolesTab';
 import { PersonDetails } from '@portal/types';
+import { arrow_back } from '@equinor/eds-icons';
+import { FullPageLoading } from '../../full-page-loading';
+import { InfoMessage } from '../../info-message/InfoMessage';
 
 export const PortalSettingsTab = ({ onClick }: { onClick: VoidFunction; user?: PersonDetails }) => {
 	return (
 		<Style.Wrapper>
-			<Typography>Portal Settings</Typography>
-			<Button variant="ghost" fullWidth onClick={onClick}>
-				Back
-			</Button>
+			<Style.TopWrapper>
+				<Button variant="ghost_icon" onClick={onClick}>
+					<Icon data={arrow_back} />
+				</Button>
+
+				<Typography>Portal Settings</Typography>
+			</Style.TopWrapper>
+			<InfoMessage>This functionality is not yet implemented.</InfoMessage>
 		</Style.Wrapper>
 	);
 };
