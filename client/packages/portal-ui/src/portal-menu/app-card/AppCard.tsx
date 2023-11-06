@@ -1,7 +1,7 @@
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { menuFavoritesController, useMenuContext, useTelemetry } from '@equinor/portal-core';
-import { useObservable } from 'packages/utils/src';
+import { useObservable } from '@portal/utils';
 import { Link } from 'react-router-dom';
 import { map } from 'rxjs';
 import styled from 'styled-components';

@@ -6,6 +6,7 @@ import { Switch } from '@equinor/eds-core-react';
 import { arrow_back } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { useUpdateMyRoles } from './hooks/use-update-my-roles-query';
+import { expiresIn } from './utils/expires-in';
 
 export const Style = {
 	Wrapper: styled.div`
@@ -42,19 +43,6 @@ export const Style = {
 		background-color: ${({ isActive }) =>
 			isActive ? tokens.colors.interactive.primary__resting.hex : tokens.colors.interactive.disabled__text.hex};
 	`,
-};
-
-const expiresIn = (activeTo: string) => {
-	const activeToDate = new Date(activeTo).getTime();
-	const now = new Date().getTime();
-
-	if (now > activeToDate) {
-		return 'Expired';
-	}
-
-	const millisecondsInAnHour = 36e5;
-
-	return `Expires in ${Math.ceil(Math.abs(activeToDate - now) / millisecondsInAnHour)} hours`;
 };
 
 export const MyRolesTab = ({ onClick, user }: { onClick: VoidFunction; user?: PersonDetails }) => {

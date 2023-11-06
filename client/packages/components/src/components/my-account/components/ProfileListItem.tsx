@@ -65,7 +65,7 @@ export const ProfileListItem = ({ href, title, text, icon, toCopy }: ProfileList
 			</Styles.LinkContent>
 			<Button
 				aria-label="copy_content"
-				title=""
+				title={`Copy ${toCopy}`}
 				variant="ghost_icon"
 				onClick={async (e) => {
 					e.preventDefault();

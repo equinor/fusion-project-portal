@@ -2,7 +2,7 @@ import { AppGroup } from '@equinor/portal-core';
 import { InfoMessage } from '../../info-message/InfoMessage';
 import { Group } from '../group/Group';
 import { styles } from '../styles';
-import { getColumnCount } from 'packages/utils/src';
+import { getColumnCount } from '@portal/utils';
 
 type GroupWrapperProps = {
 	appGroups: AppGroup[];
