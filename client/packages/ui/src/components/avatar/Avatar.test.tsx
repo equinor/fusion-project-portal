@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import Avatar from './Avatar';
+import '@testing-library/jest-dom';
 
 describe('Avatar component', () => {
 	test('renders an avatar with a given URL', () => {
