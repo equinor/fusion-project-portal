@@ -17,6 +17,7 @@ export const StyledItem = styled.div`
 export const StyledTopBarButton = styled(Button)`
 	height: 40px;
 	width: 40px;
+	margin-left: 0.25rem;
 `;
 
 export const StyledActionMenuButton = styled(Button)`

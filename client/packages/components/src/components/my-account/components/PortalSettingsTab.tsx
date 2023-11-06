@@ -2,8 +2,7 @@ import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { Style } from './MyRolesTab';
 import { PersonDetails } from '@portal/types';
 import { arrow_back } from '@equinor/eds-icons';
-import { FullPageLoading } from '../../full-page-loading';
-import { InfoMessage } from '../../info-message/InfoMessage';
+import { InfoMessage } from '@equinor/portal-ui';
 
 export const PortalSettingsTab = ({ onClick }: { onClick: VoidFunction; user?: PersonDetails }) => {
 	return (

@@ -11,12 +11,12 @@ import { ProfileManagerCard } from './components/ProfileManager';
 import { briefcase, settings, verified_user } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MyRolesTab } from './components/MyRolesTab';
 import { MyAllocationTab } from './components/MyAllocationTab';
 import { PortalSettingsTab } from './components/PortalSettingsTab';
 import { PortalActionProps } from '@equinor/portal-core';
-import { PresenceIndicator } from '../../../components/src';
+import { PresenceIndicator } from '../presence-indicator';
 
 const Style = {
 	Wrapper: styled.div`
