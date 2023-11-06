@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getPresenceInfo } from './utils/parsePresenceStatus';
+import { getPresenceInfo } from './utils/parse-presence-status';
 import { usePresenceQuery } from './hooks/use-presence-query';
 import styled from 'styled-components';
 
