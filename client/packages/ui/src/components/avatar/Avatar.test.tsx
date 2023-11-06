@@ -28,7 +28,7 @@ describe('Avatar component', () => {
 		const { getByTestId } = render(<Avatar url={imageUrl} width={100} height={100} borderColor={borderColor} />);
 
 		const avatarElement = getByTestId('avatar-icon');
-		expect(avatarElement).toHaveStyle(`border: 2px solid ${borderColor}`);
+		expect(avatarElement).toHaveStyle(`border: 3px solid ${borderColor}`);
 	});
 
 	test('applies the specified width and height', () => {
