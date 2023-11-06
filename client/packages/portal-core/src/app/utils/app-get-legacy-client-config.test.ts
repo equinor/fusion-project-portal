@@ -27,6 +27,6 @@ describe('getLegacyClientConfig', () => {
 describe('getFusionLegacyEnvIdentifier', () => {
 	test('should return env identifier', () => {
 		const env = getFusionLegacyEnvIdentifier();
-		expect(env).toBe('ci');
+		expect(env).toBe('CI');
 	});
 });

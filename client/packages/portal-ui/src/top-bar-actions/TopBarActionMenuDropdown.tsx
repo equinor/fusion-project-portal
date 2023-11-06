@@ -1,7 +1,7 @@
 import { Checkbox, Menu } from '@equinor/eds-core-react';
 import { PortalAction, usePortalActions, useTopBarActions } from '@equinor/portal-core';
 import { useEffect, useRef, useState } from 'react';
-import { TopBarAvatar } from '../avatar/TopBarAvatar';
+import { TopBarAvatar } from '@portal/components';
 import { TopBarActionItem } from './TopBarActionItem';
 
 import { StyledItem, StyledTopBarButton } from './TopBarActionStyles';

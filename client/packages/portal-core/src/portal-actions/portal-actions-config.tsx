@@ -1,5 +1,5 @@
-import { Bookmarks, FullscreenIcon, MyAccount, Notification, Task } from '@equinor/portal-ui';
-
+import { Bookmarks, FullscreenIcon, Notification, Task } from '@equinor/portal-ui';
+import { MyAccount } from '@portal/components';
 import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equinor/service-message';
 import { NotificationBell } from '@equinor/notification';
 import { PortalAction } from './types';

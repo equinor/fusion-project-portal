@@ -1,6 +1,6 @@
 import { ContextItem } from '@equinor/fusion-framework-module-context';
 import { ContextResult } from '@equinor/fusion-react-context-selector';
-import { moveItemToTopByIndex, storage } from '@equinor/portal-utils';
+import { moveItemToTopByIndex, storage } from '@portal/utils';
 
 const CONTEXT_HISTORY_SOCAGE_KEY = 'contextHistory';
 const CONTEXT_HISTORY_LENGTH_KEY = 'contextHistoryLength';
