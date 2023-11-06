@@ -30,5 +30,5 @@
 		}
 	},
 	"include": ["dompurify.d.ts"],
-	"exclude": ["node_modules", "tmp", "dist"]
+	"exclude": ["node_modules", "tmp", "dist", "@testing-library/jest-dom"]
 }
