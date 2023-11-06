@@ -47,6 +47,10 @@ export type PersonRole = {
 	scope: PersonRoleScope;
 };
 
+export type Role = PersonRole & {
+	errorMessage?: string;
+};
+
 type PersonAccountType = 'Consultant' | 'Employee' | 'External' | 'Local';
 type PersonCompany = {
 	id: string;

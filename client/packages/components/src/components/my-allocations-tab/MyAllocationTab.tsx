@@ -1,15 +1,15 @@
 import { Button, Icon, Typography } from '@equinor/eds-core-react';
-import { Style as BaseStyle } from './MyRolesTab';
+import { Style as BaseStyle } from '../my-roles-tab/MyRolesTab';
 
 import { arrow_back, tag_relations } from '@equinor/eds-icons';
 import styled from '@emotion/styled';
 import { tokens } from '@equinor/eds-tokens';
 import { PersonPosition } from '@portal/types';
+import { getFusionPortalURL } from '@portal/utils';
 
 const Style = {
 	...BaseStyle,
 	PositionWrapper: styled.div`
-		/* width: 100%; */
 		border: 1px solid #a3a3a3;
 		border-radius: 4px;
 		margin-left: 0.5rem;
@@ -57,7 +57,7 @@ export const MyAllocationTab = ({ onClick, positions }: { onClick: VoidFunction;
 						<Style.ProjectButton
 							as={'a'}
 							target="_blank"
-							href={`https://fusion-s-portal-ci.azurewebsites.net/apps/pro-org/${item.project.id}`}
+							href={`${getFusionPortalURL()}/apps/pro-org/${item.project.id}`}
 							variant="ghost"
 						>
 							<Typography>{item.project.name}</Typography>
@@ -65,7 +65,9 @@ export const MyAllocationTab = ({ onClick, positions }: { onClick: VoidFunction;
 						<Style.PositionButton
 							as={'a'}
 							target="_blank"
-							href={`https://fusion-s-portal-ci.azurewebsites.net/apps/pro-org/${item.project.id}/chart?instanceId=${item.id}&positionId=${item.positionId}`}
+							href={`${getFusionPortalURL()}/apps/pro-org/${item.project.id}/chart?instanceId=${
+								item.id
+							}&positionId=${item.positionId}`}
 							variant="ghost"
 						>
 							<Style.Icon data={tag_relations} />

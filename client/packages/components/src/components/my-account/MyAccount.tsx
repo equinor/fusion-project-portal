@@ -12,9 +12,9 @@ import { briefcase, settings, verified_user } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { useMemo, useState } from 'react';
-import { MyRolesTab } from './components/MyRolesTab';
-import { MyAllocationTab } from './components/MyAllocationTab';
-import { PortalSettingsTab } from './components/PortalSettingsTab';
+import { MyRolesTab } from '../my-roles-tab/MyRolesTab';
+import { MyAllocationTab } from '../my-allocations-tab/MyAllocationTab';
+import { PortalSettingsTab } from '../portal-settings-tab/PortalSettingsTab';
 import { PortalActionProps } from '@equinor/portal-core';
 import { PresenceIndicator } from '../presence-indicator';
 
