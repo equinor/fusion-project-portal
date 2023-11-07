@@ -2,4 +2,4 @@
 "fusion-project-portal": minor
 ---
 
-Added `@portal/types` porject for globale portal types.
+Added `@portal/types` project for global portal types.
