@@ -18,7 +18,7 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'portal-types': path.resolve(__dirname, '../types/src/index.ts'),
+			'@portal/types': path.resolve(__dirname, '../types/src/index.ts'),
 		},
 	},
 });
