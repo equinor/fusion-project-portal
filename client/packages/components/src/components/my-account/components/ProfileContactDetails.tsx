@@ -17,7 +17,7 @@ const Style = {
 export const ProfileContactDetails = ({ user, isLoading }: { user?: PersonDetails; isLoading: boolean }) => {
 	return (
 		<Style.InfoWrapper>
-			<Typography>Contact Details</Typography>
+			<Typography variant="h6">Contact Details</Typography>
 			{user?.mail ? (
 				<ProfileListItem
 					icon={<Icon name="email" style={{ fontSize: '16px' }} />}
