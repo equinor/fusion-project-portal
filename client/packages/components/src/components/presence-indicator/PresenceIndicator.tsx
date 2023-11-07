@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	padding: 0 1rem;
+	padding: 1rem 1rem;
 `;
 
 export const PresenceIndicator = () => {
@@ -15,9 +15,11 @@ export const PresenceIndicator = () => {
 	const { icon, status } = useMemo(() => getPresenceInfo(data?.availability), [data]);
 
 	return (
-		<Wrapper>
-			{icon}
-			<span>{status}</span>
-		</Wrapper>
+		<>
+			<Wrapper>
+				{icon}
+				<span>{status}</span>
+			</Wrapper>
+		</>
 	);
 };

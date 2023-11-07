@@ -4,7 +4,7 @@ import { useFramework } from '@equinor/fusion-framework-react';
 
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useCurrentUser } from '@equinor/fusion-framework-react/hooks';
-import { mutateArray } from 'packages/utils/src';
+import { mutateArray } from '@portal/utils';
 
 import { useMemo } from 'react';
 

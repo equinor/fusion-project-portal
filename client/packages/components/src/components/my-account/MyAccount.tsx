@@ -78,7 +78,7 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 					</Style.Wrapper>
 				</>
 			),
-			MyRoles: <MyRolesTab onClick={() => setActiveTab('Profile')} user={user} />,
+			MyRoles: <MyRolesTab onClick={() => setActiveTab('Profile')} userRoles={user?.roles} />,
 			MyAllocations: <MyAllocationTab onClick={() => setActiveTab('Profile')} positions={user?.positions} />,
 			PortalSettings: <PortalSettingsTab onClick={() => setActiveTab('Profile')} user={user} />,
 		};
