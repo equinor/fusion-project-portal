@@ -1,5 +1,20 @@
 # fusion-project-portal
 
+## 1.5.0
+
+### Minor Changes
+
+- e365183: Added `@portal/components` project for ui components utilising components and functionality form `@portal/ui` and `@portal/core`.
+- e365183: Added `@portal/ui` project for ui components used in the portal.
+- e365183: Added `@portal/core` project for core functionality. Added the new functionality, and is now ready for migration.
+- e365183: Adding user info side-sheet with contact details, roles and my allocations.
+- 414c0b7: My Roles will display no content information if no roles are available to the user.
+- e365183: Added `@portal/types` project for global portal types.
+
+### Patch Changes
+
+- e365183: Added `@portal/utils` project for utile functions and moved old utils to new project. `@equinor/portal-utils` has now been deleted.
+
 ## 1.4.3
 
 ### Patch Changes
