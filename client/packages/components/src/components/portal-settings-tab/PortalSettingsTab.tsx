@@ -8,7 +8,7 @@ export const PortalSettingsTab = ({ onClick }: { onClick: VoidFunction; user?: P
 	return (
 		<Style.Wrapper>
 			<Style.TopWrapper>
-				<Button variant="ghost_icon" onClick={onClick}>
+				<Button variant="ghost_icon" onClick={onClick} role="button">
 					<Icon data={arrow_back} />
 				</Button>
 

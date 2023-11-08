@@ -99,9 +99,9 @@ describe('MyAllocationTab', () => {
 			/>
 		);
 
-		const projectLink = screen.getByRole('project-link', { name: position1.project.name });
+		const projectLink = screen.getByRole('link', { name: position1.project.name });
 		fireEvent.click(projectLink);
-		const positionLink = screen.getByRole('position-link', { name: position1.name });
+		const positionLink = screen.getByRole('link', { name: position1.name });
 		fireEvent.click(positionLink);
 
 		expect(getFusionPortalURL).toHaveBeenCalled();

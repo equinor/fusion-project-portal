@@ -63,7 +63,7 @@ export const MyAllocationTab = ({ onClick, positions }: { onClick: VoidFunction;
 								aria-label={position.project.name}
 								href={`${getFusionPortalURL()}/apps/pro-org/${position.project.id}`}
 								variant="ghost"
-								role="project-link"
+								role="link"
 							>
 								<Typography>{position.project.name}</Typography>
 							</Style.ProjectButton>
@@ -76,7 +76,7 @@ export const MyAllocationTab = ({ onClick, positions }: { onClick: VoidFunction;
 									position.id
 								}&positionId=${position.positionId}`}
 								variant="ghost"
-								role="position-link"
+								role="link"
 							>
 								<Style.Icon data={tag_relations} />
 								<div>
