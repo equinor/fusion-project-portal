@@ -1,5 +1,5 @@
-import { Bookmarks, FullscreenIcon, Notification, Task } from '@equinor/portal-ui';
-import { MyAccount } from '@portal/components';
+import { Bookmarks, FullscreenIcon, Help, Notification, Task } from '@equinor/portal-ui';
+import { MyAccount, ServiceNowSideSheet, HelpMenu } from '@portal/components';
 import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equinor/service-message';
 import { NotificationBell } from '@equinor/notification';
 import { PortalAction } from './types';
@@ -55,11 +55,22 @@ export const actions: PortalAction[] = [
 		icon: { component: ServiceMessageIcon, name: 'comment_chat' },
 		component: ServiceMessages,
 	},
-	// {
-	// 	actionId: 'help',
-	// 	name: 'Help / Service now',
-	// 	icon: 'help_outline',
-	// 	subTitle: 'Portal help center',
-	// 	component: Help,
-	// },
+	{
+		actionId: 'help-menu',
+		name: 'Help Menu',
+		button: HelpMenu,
+	},
+	{
+		actionId: 'help',
+		name: 'Help',
+		subTitle: 'Project portal help center',
+		component: Help,
+	},
+	{
+		actionId: 'services',
+		name: 'Services@Equinor',
+		subTitle: 'Equinor self service',
+		color: '#258800',
+		component: ServiceNowSideSheet,
+	},
 ];

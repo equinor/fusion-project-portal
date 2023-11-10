@@ -15,6 +15,7 @@ export const StyledBreadcrumbItem = styled.span`
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: max-content;
+	min-width: 5px;
 `;
 export const StyledBreadcrumbItemInteract = styled(StyledBreadcrumbItem)`
 	cursor: pointer;
