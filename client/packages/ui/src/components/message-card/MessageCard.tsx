@@ -73,6 +73,7 @@ export const Styled = {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		overflow: visible;
 	`,
 	UL: styled.ul`
 		display: block;
@@ -98,11 +99,13 @@ export const MessageCard = ({ title, messages, type = 'Info' }: Message) => {
 					</Styled.Icon>
 					{title}
 				</Styled.Header>
-				<Styled.UL>
-					{messages?.map(({ message }, i) => (
-						<li key={message || '' + i}>{message}</li>
-					))}
-				</Styled.UL>
+				{messages && (
+					<Styled.UL>
+						{messages?.map(({ message }, i) => (
+							<li key={message || '' + i}>{message}</li>
+						))}
+					</Styled.UL>
+				)}
 			</Styled.Content>
 		</Styled.Banner>
 	);

@@ -6,5 +6,8 @@
     "build": "tsc",
     "test": "vitest --silent --run",
     "test:coverage": "vitest run --coverage"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }
