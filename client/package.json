@@ -76,7 +76,7 @@
     "@equinor/fusion-observable": "^8.1.2",
     "@equinor/fusion-react-context-selector": "^0.4.9",
     "@equinor/fusion-react-person": "^0.6.0",
-    "@equinor/fusion-react-side-sheet": "1.0.2",
+    "@equinor/fusion-react-side-sheet": "1.2.1",
     "@equinor/fusion-react-skeleton": "^0.2.14",
     "@equinor/fusion-react-styles": "^0.5.11",
     "@equinor/fusion-react-tooltip": "^1.1.11",

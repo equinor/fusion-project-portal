@@ -15,13 +15,7 @@ export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
 	const subTitle = action.subTitle || '';
 	return (
-		<SideSheet
-			isOpen={open}
-			onClose={onClose}
-			isDismissable={true}
-			enableFullscreen={true}
-			minWidth={action.minWidth}
-		>
+		<SideSheet isOpen={open} onClose={onClose} isDismissable={true} minWidth={action.minWidth}>
 			<SideSheet.Indicator color={action.color} />
 			<SideSheet.Title title={action.name} />
 			<SideSheet.SubTitle subTitle={subTitle} />

@@ -803,12 +803,12 @@
     "@equinor/fusion-react-utils" "^2.0.5"
     "@equinor/fusion-wc-searchable-dropdown" "^2.5.1"
 
-"@equinor/fusion-react-side-sheet@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-side-sheet/-/fusion-react-side-sheet-1.0.2.tgz#33cbd7ca471698019ca16db3a466a88716414f31"
-  integrity sha512-arlCCPrq1wuMQBa8PW2sT5v1eXhGlH9P9wVWnZnBQ0rhf/77dcId+HgWaUki+t4hZKBH4EZhhLtarkZlQ9MQww==
+"@equinor/fusion-react-side-sheet@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-side-sheet/-/fusion-react-side-sheet-1.2.1.tgz#f6929eca863491dc14362c3a75ecfb3420fcf3a2"
+  integrity sha512-fidynnHg4FxES6/i4A7ZjwefYG5TmA2RTEUVvg7IShY7z1t71r4uEM7lc3WMZ+IXjeByZsBYKe/LAgBL4snsZg==
   dependencies:
-    re-resizable "^6.9.9"
+    re-resizable "^6.9.11"
 
 "@equinor/fusion-react-skeleton@^0.2.14":
   version "0.2.14"
@@ -7480,7 +7480,7 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
-re-resizable@^6.9.9:
+re-resizable@^6.9.11, re-resizable@^6.9.9:
   version "6.9.11"
   resolved "https://registry.yarnpkg.com/re-resizable/-/re-resizable-6.9.11.tgz#f356e27877f12d926d076ab9ad9ff0b95912b475"
   integrity sha512-a3hiLWck/NkmyLvGWUuvkAmN1VhwAz4yOhS6FdMTaxCUVN9joIWkT11wsO68coG/iEYuwn+p/7qAmfQzRhiPLQ==
