@@ -93,7 +93,7 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 	}, [isSubmitSuccessful]);
 
 	if (uploadFilesError || uploadFilesErrors) {
-		return 'could create incident but files failed to upload';
+		return <>'could create incident but files failed to upload';</>;
 	}
 
 	return (
