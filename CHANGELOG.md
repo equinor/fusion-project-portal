@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.6.0
+
+### Minor Changes
+
+- 823b42e: The my allocations tab will now show no content message if no allocations are available
+
 ## 1.5.0
 
 ### Minor Changes
