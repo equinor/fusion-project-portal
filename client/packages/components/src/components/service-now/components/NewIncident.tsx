@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FileUpload } from './FileUpload';
 import { useCreateServiceNowIncidents, useUploadAttachmentsServiceNowIncidents } from '../hooks/use-service-now-query';
-import { useIncidentMeta } from '../hooks/use-insident-meta';
+import { useIncidentMeta } from '../hooks/use-incident-meta';
 
 import { useEffect, useState } from 'react';
 import { error_filled } from '@equinor/eds-icons';
