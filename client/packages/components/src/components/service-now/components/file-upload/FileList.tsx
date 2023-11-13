@@ -14,6 +14,10 @@ const Styles = {
 };
 
 export const FileList = ({ files, onRemoved }: FileListProps) => {
+	const handleOnClick = (file: File) => {
+		onRemoved(files ? Array.from(files).filter((f) => f.name !== file.name && f.size !== file.size) : []);
+	};
+
 	return (
 		<Styles.FilesWrapper>
 			{files && Boolean(Array.from(files).length) && (
@@ -25,13 +29,7 @@ export const FileList = ({ files, onRemoved }: FileListProps) => {
 								file={file}
 								key={idx.toString()}
 								onClick={() => {
-									onRemoved(
-										files
-											? Array.from(files).filter(
-													(f) => f.name !== file.name && f.size !== file.size
-											  )
-											: []
-									);
+									handleOnClick(file);
 								}}
 							/>
 						);
