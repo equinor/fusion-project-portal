@@ -1,6 +1,15 @@
 import { AttachmentResponse, FailedUpload, SucceededUpload } from '../types/types';
 
-export const handleAttachmentsResponse = (attachmentsResponse: AttachmentResponse[], attachmentsCount: number) => {
+export type HandledAttachmentsResponse = {
+	failedUploads: FailedUpload[];
+	successfulUploads: SucceededUpload[];
+	status: 'Error' | 'Waring' | 'Success';
+};
+
+export const handleAttachmentsResponse = (
+	attachmentsResponse: AttachmentResponse[],
+	attachmentsCount: number
+): HandledAttachmentsResponse => {
 	const failedUploads: FailedUpload[] = [];
 	const successfulUploads: SucceededUpload[] = [];
 
@@ -17,15 +26,13 @@ export const handleAttachmentsResponse = (attachmentsResponse: AttachmentRespons
 	);
 
 	const status =
-		statusData.failedUploads.length === attachmentsCount
+		attachmentsCount === 0
+			? 'Success'
+			: statusData.failedUploads.length === attachmentsCount
 			? 'Error'
 			: statusData.failedUploads.length > 0
 			? 'Waring'
 			: 'Success';
 
-	return { ...statusData, status } as {
-		failedUploads: FailedUpload[];
-		successfulUploads: SucceededUpload[];
-		status: 'Error' | 'Waring' | 'Success';
-	};
+	return { ...statusData, status };
 };

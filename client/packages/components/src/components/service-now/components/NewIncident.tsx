@@ -2,9 +2,9 @@ import { TextField, Button, Typography, CircularProgress, Icon } from '@equinor/
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import styled from 'styled-components';
-import * as z from 'zod';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FileUpload } from './FileUpload';
+import { FileUpload } from './file-upload/FileUpload';
 import { useCreateServiceNowIncidents, useUploadAttachmentsServiceNowIncidents } from '../hooks/use-service-now-query';
 import { useIncidentMeta } from '../hooks/use-incident-meta';
 
@@ -14,6 +14,7 @@ import { MessageCard } from '@portal/ui';
 import { UploadStatus } from '../types/types';
 import { AttachmentsApiFailed } from './AttachmentsApiFailed';
 import { AttachmentsPartialFail } from './AttachmentsPartialFail';
+import { Inputs, inputSchema } from '../schema';
 
 type NewIncidentProps = {
 	onClose: () => void;
@@ -35,19 +36,6 @@ const Style = {
 		padding-bottom: 1rem;
 	`,
 };
-
-const inputSchema = z
-	.object({
-		shortDescription: z.string().min(3, 'Short description must contain at least 3 character(s)').max(50),
-		description: z
-			.string()
-			.min(3, 'Description must contain at least 3 character(s)')
-			.max(300, 'Description can contain at most 300 character(s)'),
-		files: z.any().nullable(),
-	})
-	.required();
-
-type Inputs = z.infer<typeof inputSchema>;
 
 export const NewIncident = ({ onClose }: NewIncidentProps) => {
 	const {

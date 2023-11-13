@@ -11,7 +11,7 @@ type ValidationErrorResponse = {
 	title: string;
 	errors: Record<string, string[]>;
 };
-const errorIsStandardFormat = (error: unknown): error is StandardErrorResponse => {
+export const errorIsStandardFormat = (error: unknown): error is StandardErrorResponse => {
 	if (
 		(error as StandardErrorResponse)?.error?.code !== undefined &&
 		(error as StandardErrorResponse)?.error?.message !== undefined
@@ -20,7 +20,7 @@ const errorIsStandardFormat = (error: unknown): error is StandardErrorResponse =
 	} else return false;
 };
 
-const errorIsValidationError = (error: unknown): error is ValidationErrorResponse => {
+export const errorIsValidationError = (error: unknown): error is ValidationErrorResponse => {
 	if (
 		(error as ValidationErrorResponse)?.title !== undefined &&
 		(error as ValidationErrorResponse)?.errors !== undefined

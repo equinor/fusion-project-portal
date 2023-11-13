@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-
+import { useState, DragEvent } from 'react';
 import { ChangeHandler, RefCallBack } from 'react-hook-form';
-import { Button, Icon, Typography } from '@equinor/eds-core-react';
-import { clear, upload } from '@equinor/eds-icons';
+import { Icon, Typography } from '@equinor/eds-core-react';
+import { upload } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
+import { FileList } from './FileList';
 
 type FileUploadProps = {
 	inputProps: {
@@ -27,7 +27,7 @@ type FileUploadProps = {
 	title: string;
 	acceptTitle: string;
 };
-const overrideDefaults = (e: React.DragEvent<HTMLDivElement>) => {
+const overrideDefaults = (e: DragEvent<HTMLDivElement>) => {
 	e.stopPropagation();
 	e.preventDefault();
 };
@@ -52,20 +52,11 @@ const Styles = {
 		text-align: center;
 		align-items: center;
 	`,
-	File: styled.div`
-		display: flex;
-		align-items: center;
-		padding: 0 0.2rem;
-		justify-content: space-between;
-	`,
-	FilesWrapper: styled.div`
-		padding-top: 1rem;
-	`,
 };
 
 export const FileUpload = ({ inputProps, onDrop, files, onRemoved, accept, acceptTitle, title }: FileUploadProps) => {
 	const [dragOver, setDragOver] = useState<boolean>(false);
-	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
+	const handleOnDrop = (e: DragEvent<HTMLDivElement>) => {
 		overrideDefaults(e);
 
 		if (!e.dataTransfer) {
@@ -114,34 +105,7 @@ export const FileUpload = ({ inputProps, onDrop, files, onRemoved, accept, accep
 					/>
 				</Styles.Dropdown>
 			</label>
-			<Styles.FilesWrapper>
-				{files && Boolean(Array.from(files).length) && (
-					<>
-						<Typography variant="h5"> Added Files ({Array.from(files).length})</Typography>
-						{Array.from(files).map((file, idx) => {
-							return (
-								<Styles.File key={idx}>
-									<Typography>{file.name}</Typography>
-									<Button
-										variant="ghost_icon"
-										onClick={() => {
-											onRemoved(
-												files
-													? Array.from(files).filter(
-															(f) => f.name !== file.name && f.size !== file.size
-													  )
-													: []
-											);
-										}}
-									>
-										<Icon data={clear} />
-									</Button>
-								</Styles.File>
-							);
-						})}
-					</>
-				)}
-			</Styles.FilesWrapper>
+			<FileList files={files} onRemoved={onRemoved} />
 		</div>
 	);
 };

@@ -1,11 +1,10 @@
-import React from 'react';
-
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { Button, Divider, Icon, Typography } from '@equinor/eds-core-react';
 import { Tooltip } from '@equinor/fusion-react-tooltip';
-import { ActiveIncidentStateTooltip, ActiveIncidentsList } from './ActiveIncidentsList';
+import { ActiveIncidentsList } from './ActiveIncidentsList';
 import { info_circle } from '@equinor/eds-icons';
+import { ActiveIncidentStateTooltip } from './ActiveIncidentStateTooltip';
 
 const Styles = {
 	Wrapper: styled.div`
