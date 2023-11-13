@@ -3,7 +3,6 @@ export * from './divider/Divider';
 export * from './fatal-error';
 export * from './full-page-loading';
 export * from './fullscreen-icon/FullscreenIcon';
-export * from './help/Help';
 export * from './widgets';
 export * from './header/Icon';
 export * from './header/Header';

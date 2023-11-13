@@ -8,7 +8,8 @@ export interface PortalAction {
 	subTitle?: string;
 	color?: HEXString;
 	minWidth?: number;
-	icon: string | { component: React.FC; name: string };
+	icon?: string | { component: React.FC; name: string };
+	button?: React.FC<{ setActiveActionById: (id: string) => void }>;
 	onClick?: (actionId: string) => void;
 	tooltip?: React.ReactNode;
 	component?: FunctionComponent<PortalActionProps>;

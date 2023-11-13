@@ -29,14 +29,15 @@ export function TopBarActionList(): JSX.Element {
 	return (
 		<>
 			{topBarActions.map((action, index) => {
-				if (action.dropDownOnly) return <span key={action.actionId}></span>;
+				if (action.dropDownOnly) return <span key={action.actionId} />;
 
-				const customIcon =
+				const customIcon = action.icon ? (
 					typeof action.icon === 'string' ? (
 						<Icon color={tokens.colors.interactive.primary__resting.hex} name={action.icon} />
 					) : (
 						<action.icon.component />
-					);
+					)
+				) : null;
 
 				return (
 					<StyledActionListWrapper key={action.actionId}>
@@ -48,17 +49,25 @@ export function TopBarActionList(): JSX.Element {
 								</Tooltip>
 							)}
 						>
-							<StyledActionMenuButton
-								title={!action.tooltip ? action.name : undefined}
-								variant="ghost_icon"
-								onClick={() => {
-									action.onClick
-										? action.onClick(action.actionId)
-										: setActiveActionById(action.actionId);
-								}}
-							>
-								{customIcon}
-							</StyledActionMenuButton>
+							<>
+								{customIcon ? (
+									<StyledActionMenuButton
+										title={!action.tooltip ? action.name : undefined}
+										variant="ghost_icon"
+										onClick={() => {
+											action.onClick
+												? action.onClick(action.actionId)
+												: setActiveActionById(action.actionId);
+										}}
+									>
+										{customIcon}
+									</StyledActionMenuButton>
+								) : action.button ? (
+									<span>
+										<action.button setActiveActionById={setActiveActionById} />
+									</span>
+								) : null}
+							</>
 						</ConditionalWrapper>
 						{action.appendDivider && !!topBarActions[index + 1] && <Divider />}
 					</StyledActionListWrapper>
