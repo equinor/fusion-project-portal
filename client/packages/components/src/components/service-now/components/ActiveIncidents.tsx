@@ -2,8 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
-import { Button, Typography } from '@equinor/eds-core-react';
-import { ActiveIncidentsList } from './ActiveIncidentsList';
+import { Button, Divider, Icon, Typography } from '@equinor/eds-core-react';
+import { Tooltip } from '@equinor/fusion-react-tooltip';
+import { ActiveIncidentStateTooltip, ActiveIncidentsList } from './ActiveIncidentsList';
+import { info_circle } from '@equinor/eds-icons';
 
 const Styles = {
 	Wrapper: styled.div`
@@ -17,6 +19,10 @@ const Styles = {
 		flex-direction: column;
 		gap: ${tokens.spacings.comfortable.small};
 	`,
+	HeadingWrapper: styled.div`
+		display: flex;
+		justify-content: space-between;
+	`,
 };
 
 type ActiveIncidentsProps = {
@@ -26,9 +32,14 @@ type ActiveIncidentsProps = {
 export const ActiveIncidents = ({ openNewIncident }: ActiveIncidentsProps): JSX.Element => {
 	return (
 		<Styles.Wrapper>
-			<Typography variant="h6">My active Fusion incidents</Typography>
+			<Styles.HeadingWrapper>
+				<Typography variant="h6">My active Fusion incidents</Typography>
+				<Tooltip content={<ActiveIncidentStateTooltip />}>
+					<Icon data={info_circle} color={tokens.colors.interactive.primary__resting.hex} />
+				</Tooltip>
+			</Styles.HeadingWrapper>
 			<ActiveIncidentsList />
-			<hr />
+			<Divider />
 			<Styles.ButtonsWrapper>
 				<Button color="primary" label="Report an Error" onClick={openNewIncident}>
 					Report an Error

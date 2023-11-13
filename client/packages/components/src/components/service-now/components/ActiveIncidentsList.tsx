@@ -27,7 +27,7 @@ export const Style = {
 		display: flex;
 		position: relative;
 		box-shadow: 0 2px 5px rgb(0 0 0 / 10%), 0 3px 4px rgb(0 0 0 / 10%), 0 2px 4px rgb(0 0 0 / 0%);
-		width: calc(100% - 3rem);
+		width: calc(100% - 2rem);
 		padding: 1rem;
 		align-items: center;
 		justify-content: space-between;
@@ -52,7 +52,7 @@ export const getIncidentColorByState = (state: string): string => {
 		case 'Open':
 			return `${tokens.colors.interactive.danger__resting.hex}`;
 		case 'Work in Progress':
-			return `${tokens.colors.interactive.secondary__resting.hex}`;
+			return `${tokens.colors.interactive.secondary__highlight.hex}`;
 		case 'Pending Vendor':
 			return `${tokens.colors.interactive.warning__resting.hex}`;
 		case 'Solution Proposed':
@@ -60,6 +60,67 @@ export const getIncidentColorByState = (state: string): string => {
 		default:
 			return `${tokens.colors.interactive.disabled__fill.hex}`;
 	}
+};
+
+const StyledIndicators = styled.div`
+	display: 'flex';
+	align-items: 'center';
+	margin: '.5em -1em';
+	justify-content: 'center';
+`;
+
+const StyledIndicator = styled.span`
+	display: 'flex';
+	align-items: 'center';
+	padding: '0 1em';
+`;
+
+const StyledDot = styled.span(() => ({
+	display: 'inline-block',
+	height: '1em',
+	width: '1em',
+	borderRadius: '50%',
+	margin: '0 0.5rem',
+	'&[data-type="Open"]': {
+		backgroundColor: tokens.colors.interactive.danger__resting.hex,
+	},
+	'&[data-type="Work in Progress"]': {
+		backgroundColor: tokens.colors.interactive.secondary__highlight.hex,
+	},
+	'&[data-type="Pending Vendor"]': {
+		backgroundColor: tokens.colors.interactive.warning__resting.hex,
+	},
+	'&[data-type="Solution Proposed"]': {
+		backgroundColor: tokens.colors.interactive.success__resting.hex,
+	},
+}));
+
+export const ActiveIncidentStateTooltip = () => {
+	return (
+		<div>
+			<p>
+				Status indicator legend for <b>incident</b> items
+			</p>
+			<StyledIndicators>
+				<StyledIndicator>
+					<StyledDot data-type="Open" />
+					<span>Open</span>
+				</StyledIndicator>
+				<StyledIndicator>
+					<StyledDot data-type="Work in Progress" />
+					<span>Work in Progress</span>
+				</StyledIndicator>
+				<StyledIndicator>
+					<StyledDot data-type="Pending Vendor" />
+					<span>Pending Vendor</span>
+				</StyledIndicator>
+				<StyledIndicator>
+					<StyledDot data-type="Solution Proposed" />
+					<span>Solution Proposed</span>
+				</StyledIndicator>
+			</StyledIndicators>
+		</div>
+	);
 };
 
 export const ActiveIncidentsList = () => {
@@ -82,7 +143,7 @@ export const ActiveIncidentsList = () => {
 	}
 
 	return (
-		<Style.Wrapper style={{ maxHeight: '75vh', overflow: 'auto' }}>
+		<Style.Wrapper>
 			{data && data.length > 0 ? (
 				<Style.IncidentsWrapper>
 					{data.map((item) => {
