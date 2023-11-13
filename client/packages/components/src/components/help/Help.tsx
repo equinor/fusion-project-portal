@@ -1,10 +1,9 @@
 import { PortalActionProps } from '@equinor/portal-core';
 
 import { SideSheet } from '@equinor/fusion-react-side-sheet';
-import { Divider, Icon, Typography } from '@equinor/eds-core-react';
+import { Divider, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { ExternalLink, MessageCard } from '@portal/ui';
-import { pressure } from '@equinor/eds-icons';
 
 const Style = {
 	Wrapper: styled.div`
