@@ -2,6 +2,7 @@ import { IconData, error_filled, warning_filled } from '@equinor/eds-icons';
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
+import { PropsWithChildren } from 'react';
 
 export type Variant = 'Warning' | 'Error' | 'Info';
 
@@ -35,7 +36,7 @@ const getIconVariant = (type: Variant) => {
 export type Message = {
 	type: 'Warning' | 'Error' | 'Info';
 	title: string;
-	messages?: { message: string }[];
+	messages?: string[];
 };
 
 export const Styled = {
@@ -86,7 +87,7 @@ export const Styled = {
 	`,
 };
 
-export const MessageCard = ({ title, messages, type = 'Info' }: Message) => {
+export const MessageCard = ({ title, messages, type = 'Info', children }: PropsWithChildren<Message>) => {
 	const variant = getIconVariant(type);
 
 	return (
@@ -101,11 +102,12 @@ export const MessageCard = ({ title, messages, type = 'Info' }: Message) => {
 				</Styled.Header>
 				{messages && (
 					<Styled.UL>
-						{messages?.map(({ message }, i) => (
+						{messages?.map((message, i) => (
 							<li key={message || '' + i}>{message}</li>
 						))}
 					</Styled.UL>
 				)}
+				{children && children}
 			</Styled.Content>
 		</Styled.Banner>
 	);

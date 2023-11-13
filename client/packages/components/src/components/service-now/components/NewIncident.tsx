@@ -8,9 +8,10 @@ import { FileUpload } from './FileUpload';
 import { useCreateServiceNowIncidents, useUploadAttachmentsServiceNowIncidents } from '../hooks/use-service-now-query';
 import { useIncidentMeta } from '../hooks/use-insident-meta';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { error_filled } from '@equinor/eds-icons';
 import { MessageCard } from '@portal/ui';
+import { UploadStatus } from '../types/types';
 
 type NewIncidentProps = {
 	onClose: () => void;
@@ -57,8 +58,16 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 		resolver: zodResolver(inputSchema),
 	});
 
-	const { mutateAsync: createIncident } = useCreateServiceNowIncidents();
-	const { mutateAsync: uploadFiles } = useUploadAttachmentsServiceNowIncidents();
+	const {
+		mutateAsync: createIncident,
+		error: createIncidentError,
+		reset: resetCreate,
+	} = useCreateServiceNowIncidents();
+
+	const { mutateAsync: uploadFiles, error: uploadFilesError } = useUploadAttachmentsServiceNowIncidents();
+
+	const [uploadFilesErrors, setUploadFilesErrors] = useState<UploadStatus>();
+
 	const metadata = useIncidentMeta();
 
 	const onSubmit: SubmitHandler<Inputs> = async ({ shortDescription, description, files }) => {
@@ -66,7 +75,10 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 
 		const filesArray = Array.from(files) as File[];
 		if (filesArray.length > 0 && incident?.id) {
-			await uploadFiles({ files: filesArray, incidentId: incident.id });
+			const uploadStatus = await uploadFiles({ files: filesArray, incidentId: incident.id });
+			if (uploadStatus.status !== 'Error') {
+				setUploadFilesErrors(uploadStatus);
+			}
 		}
 
 		if (incident) {
@@ -80,6 +92,10 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 		}
 	}, [isSubmitSuccessful]);
 
+	if (uploadFilesError || uploadFilesErrors) {
+		return 'could create incident but files failed to upload';
+	}
+
 	return (
 		<Style.Wrapper>
 			<Typography variant="h5">Report an Error</Typography>
@@ -88,12 +104,27 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 					<MessageCard
 						type="Error"
 						title="Error submission is not valid"
-						messages={Object.values(errors).map((error) => ({
-							message: error.message?.toString() || '',
-						}))}
+						messages={Object.values(errors).map((error) => error.message?.toString() || '')}
 					/>
 				</Style.ErrorWrapper>
 			)}
+
+			{createIncidentError && (
+				<Style.ErrorWrapper>
+					<MessageCard type="Error" title={createIncidentError.title} messages={createIncidentError.messages}>
+						<Button
+							onClick={() => {
+								reset();
+								resetCreate();
+							}}
+						>
+							Reset
+						</Button>
+						<Button onClick={() => onClose()}>Close</Button>
+					</MessageCard>
+				</Style.ErrorWrapper>
+			)}
+
 			<Style.From onSubmit={handleSubmit(onSubmit)}>
 				<TextField
 					{...register('shortDescription')}
