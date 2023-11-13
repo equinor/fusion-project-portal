@@ -21,6 +21,6 @@ All testing of issues are done in **project-portal-test**
 
 For Backend use these
   
-- [project-portal-api-prod]([https://backend-fusion-project-portal-prod.radix.equinor.com/swagger/index.html))
+- [project-portal-api-prod](https://backend-fusion-project-portal-prod.radix.equinor.com/swagger/index.html)
 - [project-portal-api-test](https://backend-fusion-project-portal-test.radix.equinor.com/swagger/index.html)
 - [project-portal-api-feature](https://backend-fusion-project-portal-feature.radix.equinor.com/swagger/index.html)
