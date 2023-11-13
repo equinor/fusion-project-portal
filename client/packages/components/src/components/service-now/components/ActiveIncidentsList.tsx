@@ -8,8 +8,9 @@ import { external_link } from '@equinor/eds-icons';
 
 export const Style = {
 	Wrapper: styled.div`
-		height: 75vh;
-		overflow: 'auto';
+		max-height: 75vh;
+		min-height: 35vh;
+		overflow: auto;
 	`,
 	WrapperCenter: styled.div`
 		height: 75vh;

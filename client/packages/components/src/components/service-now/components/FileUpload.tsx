@@ -22,7 +22,10 @@ type FileUploadProps = {
 	};
 	onDrop: (files: File[]) => void;
 	onRemoved: (file: File[]) => void;
+	accept: string;
 	files: File[];
+	title: string;
+	acceptTitle: string;
 };
 const overrideDefaults = (e: React.DragEvent<HTMLDivElement>) => {
 	e.stopPropagation();
@@ -42,15 +45,12 @@ const Styles = {
 		border-radius: 4px;
 		align-items: center;
 		padding: 3rem;
+		gap: 1rem;
 		background-color: #fefefe;
 	`,
 	CenterTypography: styled(Typography)`
 		text-align: center;
-		display: flex;
-		flex-direction: column;
-		gap: 0.1rem;
 		align-items: center;
-		padding: 1rem;
 	`,
 	File: styled.div`
 		display: flex;
@@ -63,7 +63,7 @@ const Styles = {
 	`,
 };
 
-export const FileUpload = ({ inputProps, onDrop, files, onRemoved }: FileUploadProps) => {
+export const FileUpload = ({ inputProps, onDrop, files, onRemoved, accept, acceptTitle, title }: FileUploadProps) => {
 	const [dragOver, setDragOver] = useState<boolean>(false);
 	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		overrideDefaults(e);
@@ -100,16 +100,16 @@ export const FileUpload = ({ inputProps, onDrop, files, onRemoved }: FileUploadP
 					}}
 				>
 					<Icon size={40} data={upload} color={tokens.colors.interactive.primary__resting.hex} />
-
-					<Styles.CenterTypography variant="h6">
-						Drop pictures here, <b /> or click browse.
-					</Styles.CenterTypography>
+					<div>
+						<Styles.CenterTypography variant="h6">{title}</Styles.CenterTypography>
+						<Styles.CenterTypography variant="overline">{acceptTitle}</Styles.CenterTypography>
+					</div>
 					<input
 						{...inputProps}
 						onChange={(e) => inputProps.onChange({ target: e.target, type: e.type })}
 						type="file"
 						multiple
-						accept="image/png, image/jpeg"
+						accept={accept}
 						style={{ display: 'none' }}
 					/>
 				</Styles.Dropdown>

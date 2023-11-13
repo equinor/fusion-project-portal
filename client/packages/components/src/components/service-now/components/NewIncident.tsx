@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 import { error_filled } from '@equinor/eds-icons';
 import { MessageCard } from '@portal/ui';
 import { UploadStatus } from '../types/types';
+import { AttachmentsApiFailed } from './AttachmentsApiFailed';
+import { AttachmentsPartialFail } from './AttachmentsPartialFail';
 
 type NewIncidentProps = {
 	onClose: () => void;
@@ -54,17 +56,20 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 		formState: { errors, isSubmitting, isSubmitSuccessful },
 		reset,
 		watch,
+		setError,
+		clearErrors,
 	} = useForm<Inputs>({
 		resolver: zodResolver(inputSchema),
 	});
 
 	const {
+		data: incident,
 		mutateAsync: createIncident,
 		error: createIncidentError,
 		reset: resetCreate,
 	} = useCreateServiceNowIncidents();
 
-	const { mutateAsync: uploadFiles, error: uploadFilesError } = useUploadAttachmentsServiceNowIncidents();
+	const { mutateAsync: uploadFiles, error: uploadError } = useUploadAttachmentsServiceNowIncidents();
 
 	const [uploadFilesErrors, setUploadFilesErrors] = useState<UploadStatus>();
 
@@ -92,8 +97,27 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 		}
 	}, [isSubmitSuccessful]);
 
-	if (uploadFilesError || uploadFilesErrors) {
-		return <>'could create incident but files failed to upload';</>;
+	if (uploadFilesErrors?.status === 'Error' || uploadError) {
+		return (
+			<AttachmentsApiFailed
+				error={uploadError}
+				incident={incident}
+				failedAttachments={uploadFilesErrors?.failedUploads}
+				goBack={() => {
+					onClose();
+				}}
+			/>
+		);
+	}
+	if (uploadFilesErrors?.status === 'Waring') {
+		return (
+			<AttachmentsPartialFail
+				incident={incident}
+				goBack={() => {
+					onClose();
+				}}
+			/>
+		);
 	}
 
 	return (
@@ -148,12 +172,24 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 				/>
 
 				<FileUpload
+					title="Drop pictures here, or click browse."
+					acceptTitle="accept png & jpeg"
 					inputProps={{ ...register('files') }}
 					files={watch('files')}
+					accept="image/png, image/jpeg"
 					onDrop={(files) => {
-						reset({ files });
+						clearErrors();
+
+						if (files.every((file) => file.type === 'image/jpeg' || file.type === 'image/png')) {
+							reset({ files });
+							return;
+						}
+						setError('files', {
+							message: 'One or more files not supported, supported file are jpeg and png',
+						});
 					}}
 					onRemoved={(files) => {
+						clearErrors();
 						reset({ files });
 					}}
 				/>
