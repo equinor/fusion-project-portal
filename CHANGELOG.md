@@ -1,5 +1,16 @@
 # fusion-project-portal
 
+## 1.7.0
+
+### Minor Changes
+
+- f1184a4: Incorporated the following enhancements:
+  - Implemented a help menu accessible from the top bar for user guidance.
+  - Introduced the capability to report errors seamlessly through Service Now.
+  - Included a link for enhancement suggestions within the Service Now interface.
+  - Integrated a link to the changelog for users to stay informed about updates.
+  - Provided a direct link to the portal documentation for easy reference.
+
 ## 1.6.0
 
 ### Minor Changes
