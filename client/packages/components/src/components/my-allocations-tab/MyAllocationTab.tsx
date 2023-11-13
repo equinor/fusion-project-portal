@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { tokens } from '@equinor/eds-tokens';
 import { PersonPosition } from '@portal/types';
 import { getFusionPortalURL } from '@portal/utils';
+import { PortalMessage } from '@portal/ui';
 
 const Style = {
 	...BaseStyle,
@@ -44,49 +45,65 @@ export const MyAllocationTab = ({ onClick, positions }: { onClick: VoidFunction;
 	return (
 		<Style.Wrapper>
 			<Style.TopWrapper>
-				<Button variant="ghost_icon" onClick={onClick}>
+				<Button variant="ghost_icon" onClick={onClick} name="Back Button" aria-label="Back" role="button">
 					<Icon data={arrow_back} />
 				</Button>
 
-				<Typography>My Allocation</Typography>
+				<Typography variant="h6">My Allocation</Typography>
 			</Style.TopWrapper>
-			{positions
-				?.filter((item) => item.appliesTo && new Date(item.appliesTo) > new Date())
-				?.map((item) => (
-					<Style.PositionWrapper>
-						<Style.ProjectButton
-							as={'a'}
-							target="_blank"
-							href={`${getFusionPortalURL()}/apps/pro-org/${item.project.id}`}
-							variant="ghost"
-						>
-							<Typography>{item.project.name}</Typography>
-						</Style.ProjectButton>
-						<Style.PositionButton
-							as={'a'}
-							target="_blank"
-							href={`${getFusionPortalURL()}/apps/pro-org/${item.project.id}/chart?instanceId=${
-								item.id
-							}&positionId=${item.positionId}`}
-							variant="ghost"
-						>
-							<Style.Icon data={tag_relations} />
-							<div>
-								<Typography color={tokens.colors.interactive.primary__resting.hex}>
-									{item.name}
-								</Typography>
-								<Typography>
-									<>
-										{item.appliesFrom && new Date(item.appliesFrom).toLocaleDateString('en-US')}
-										{' - '}
-										{item.appliesTo && new Date(item.appliesTo).toLocaleDateString('en-US')} (
-										{item.workload}%)
-									</>
-								</Typography>
-							</div>
-						</Style.PositionButton>
-					</Style.PositionWrapper>
-				))}
+			{positions && positions.length > 0 ? (
+				positions
+					.filter((item) => item.appliesTo && new Date(item.appliesTo) > new Date())
+					?.map((position) => (
+						<Style.PositionWrapper key={position.id}>
+							<Style.ProjectButton
+								as={'a'}
+								target="_blank"
+								name={position.project.name}
+								aria-label={position.project.name}
+								href={`${getFusionPortalURL()}/apps/pro-org/${position.project.id}`}
+								variant="ghost"
+								role="link"
+							>
+								<Typography>{position.project.name}</Typography>
+							</Style.ProjectButton>
+							<Style.PositionButton
+								as={'a'}
+								target="_blank"
+								name={position.name}
+								aria-label={position.name}
+								href={`${getFusionPortalURL()}/apps/pro-org/${position.project.id}/chart?instanceId=${
+									position.id
+								}&positionId=${position.positionId}`}
+								variant="ghost"
+								role="link"
+							>
+								<Style.Icon data={tag_relations} />
+								<div>
+									<Typography color={tokens.colors.interactive.primary__resting.hex}>
+										{position.name}
+									</Typography>
+									<Typography>
+										<>
+											{position.appliesFrom &&
+												new Date(position.appliesFrom).toLocaleDateString('en-US')}
+											{' - '}
+											{position.appliesTo &&
+												new Date(position.appliesTo).toLocaleDateString('en-US')}{' '}
+											({position.workload}%)
+										</>
+									</Typography>
+								</div>
+							</Style.PositionButton>
+						</Style.PositionWrapper>
+					))
+			) : (
+				<Style.NoContent>
+					<PortalMessage type="NoContent" title="No Allocations">
+						You have no allocations
+					</PortalMessage>
+				</Style.NoContent>
+			)}
 		</Style.Wrapper>
 	);
 };

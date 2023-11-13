@@ -1,19 +1,23 @@
 type PersonBasePosition = {
 	id: string;
 	name: string;
+	type: string;
 	discipline: string;
 };
 export type PersonPosition = {
 	id: string;
 	name: string;
+	positionExternalId: string;
 	parentPositionId?: string;
 	obs: string;
 	project: PersonProject;
+	taskOwnerIds: string[];
 	basePosition: PersonBasePosition;
 	positionId: string;
 	appliesFrom: Date | null;
 	appliesTo: Date | null;
 	workload: number | null;
+	isTaskOwner: boolean;
 };
 
 type PersonProject = {
