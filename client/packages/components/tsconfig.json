@@ -18,5 +18,5 @@
   },
   "files": [],
 
-  "include": [ "**/*.test.ts" ,"**/*.ts", "**/*.tsx",  "**/*.d.ts", "src/mock", "../ui/src/components/menu-item/MenuItem.tsx"]
+  "include": [ "**/*.test.ts" ,"**/*.ts", "**/*.tsx",  "**/*.d.ts", "src/mock"]
 }
