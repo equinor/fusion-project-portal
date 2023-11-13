@@ -2,19 +2,23 @@ import styled from 'styled-components';
 import { PortalMessage } from '@portal/ui';
 import { useGetServiceNowIncidents } from '../hooks/use-service-now-query';
 import { ProgressLoader } from '@equinor/portal-ui';
-import { Button, Icon, Label, Typography } from '@equinor/eds-core-react';
+import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { external_link } from '@equinor/eds-icons';
 
 export const Style = {
 	Wrapper: styled.div`
-		height: 65vh;
+		height: 75vh;
+		overflow: 'auto';
+	`,
+	WrapperCenter: styled.div`
+		height: 75vh;
 		display: flex;
 		justify-content: center;
 	`,
 	IncidentsWrapper: styled.div`
 		padding: 1rem 0rem;
-		max-height: 65vh;
+		max-height: 75vh;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -63,22 +67,22 @@ export const ActiveIncidentsList = () => {
 
 	if (isLoading) {
 		return (
-			<Style.Wrapper>
+			<Style.WrapperCenter>
 				<ProgressLoader title="loading" />
-			</Style.Wrapper>
+			</Style.WrapperCenter>
 		);
 	}
 
 	if (error) {
 		return (
-			<Style.Wrapper>
+			<Style.WrapperCenter>
 				<PortalMessage type="Error" title={error.title}></PortalMessage>
-			</Style.Wrapper>
+			</Style.WrapperCenter>
 		);
 	}
 
 	return (
-		<div style={{ maxHeight: '60vh', overflow: 'auto' }}>
+		<Style.Wrapper style={{ maxHeight: '75vh', overflow: 'auto' }}>
 			{data && data.length > 0 ? (
 				<Style.IncidentsWrapper>
 					{data.map((item) => {
@@ -109,6 +113,6 @@ export const ActiveIncidentsList = () => {
 					</PortalMessage>
 				</Style.Wrapper>
 			)}
-		</div>
+		</Style.Wrapper>
 	);
 };
