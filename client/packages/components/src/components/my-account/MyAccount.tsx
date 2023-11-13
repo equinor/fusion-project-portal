@@ -56,11 +56,23 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 					<ProfileManagerCard user={user} />
 					<hr />
 					<Style.Wrapper>
-						<Style.Button variant="ghost" onClick={() => setActiveTab('MyAllocations')}>
+						<Style.Button
+							variant="ghost"
+							onClick={() => setActiveTab('MyAllocations')}
+							title="My Allocations"
+							aria-label="Open My Allocation Tab"
+							role="button"
+						>
 							<Icon data={briefcase} scale={40} color={tokens.colors.text.static_icons__tertiary.hex} />
 							My Allocations
 						</Style.Button>
-						<Style.Button variant="ghost" onClick={() => setActiveTab('MyRoles')}>
+						<Style.Button
+							variant="ghost"
+							onClick={() => setActiveTab('MyRoles')}
+							title="My Roles"
+							aria-label="Open My Roles Tab"
+							role="button"
+						>
 							<Icon
 								data={verified_user}
 								scale={40}
@@ -71,7 +83,13 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 					</Style.Wrapper>
 					<hr />
 					<Style.Wrapper>
-						<Style.Button variant="ghost" onClick={() => setActiveTab('PortalSettings')}>
+						<Style.Button
+							variant="ghost"
+							onClick={() => setActiveTab('PortalSettings')}
+							title="Portal Setting"
+							aria-label="Open Portal Setting Tab"
+							role="button"
+						>
 							<Icon data={settings} scale={40} color={tokens.colors.text.static_icons__tertiary.hex} />
 							Portal Setting
 						</Style.Button>
