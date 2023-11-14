@@ -21,7 +21,7 @@ async function run(): Promise<void> {
     const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
     const { body, id, number } = event.pull_request;
 
-    core.debug(event);
+    core.setOutput("event", event);
     core.info(event.pull_request);
 
     if (event.pull_request.issue) {
