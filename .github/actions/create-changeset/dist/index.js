@@ -9422,13 +9422,12 @@ exports.createChangesetPath = createChangesetPath;
 async function getPullRequestIssues(owner, repo, prNumber, token) {
     const octokit = new rest_1.Octokit({ auth: token });
     try {
-        const response = await octokit.pulls.list({
+        const response = await octokit.pulls.get({
             owner,
             repo,
             pull_number: prNumber,
         });
-        const issues = response.data.map((issue) => issue.title);
-        return issues;
+        return response;
     }
     catch (error) {
         console.error("Error fetching pull request issues:", error);

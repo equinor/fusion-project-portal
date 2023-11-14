@@ -37,7 +37,7 @@ export async function getPullRequestIssues(
   repo: string,
   prNumber: number,
   token: string
-): Promise<any[]> {
+): Promise<any> {
   const octokit = new Octokit({ auth: token });
 
   try {
