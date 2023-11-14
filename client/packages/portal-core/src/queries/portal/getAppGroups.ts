@@ -6,12 +6,12 @@ export async function getAppGroups(
 	client: IHttpClient,
 	viewId?: string,
 	contextExternalId?: string
-): Promise<AppGroup[] | []> {
+): Promise<AppGroup[]> {
 	try {
 		if (!viewId || !contextExternalId) return [];
 		const res = await client.fetch(getAppGroupsURI(viewId, contextExternalId));
 		if (!res.ok) throw res;
-		const data = (await res.json()) as AppGroup[];
+		const data = await res.json();
 		return data || [];
 	} catch (error) {
 		console.error(error);

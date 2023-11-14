@@ -1,6 +1,6 @@
 import { useSignalR } from '@equinor/fusion-framework-react/signalr';
 
-import { createContext, FC, PropsWithChildren, useEffect, useLayoutEffect } from 'react';
+import { createContext, FC, PropsWithChildren, useEffect, useLayoutEffect, useState } from 'react';
 import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs';
 
 import { useServiceMessageQuery } from '../query/use-service-message-query';
@@ -8,6 +8,7 @@ import { AppReference, ServiceMessage } from '../types/types';
 
 interface IServiceMessageContext {
 	serviceMessages: ServiceMessages;
+	registerCurrentApps: (apps: string[]) => void;
 }
 
 export const ServiceMessageContext = createContext<IServiceMessageContext | null>(null);
@@ -112,12 +113,25 @@ const serviceMessages = new ServiceMessages([]);
 
 export const ServiceMessageProvider: FC<PropsWithChildren> = ({ children }) => {
 	const { data } = useServiceMessageQuery();
+	const [apps, setApps] = useState<string[]>();
+
+	const registerCurrentApps = (apps?: string[]) => {
+		setApps(apps);
+	};
 
 	useEffect(() => {
-		if (data) {
+		if (!data) return;
+
+		if (apps) {
+			const filteredMessages = data.filter((message) => {
+				return message.relevantApps ? message.relevantApps.some((app) => apps.includes(app.key)) : true;
+			});
+
+			serviceMessages.next(filteredMessages);
+		} else {
 			serviceMessages.next(data);
 		}
-	}, [data]);
+	}, [data, apps]);
 
 	const topic = useSignalR<unknown[]>('portal', 'portal');
 
@@ -129,5 +143,9 @@ export const ServiceMessageProvider: FC<PropsWithChildren> = ({ children }) => {
 		};
 	}, [topic]);
 
-	return <ServiceMessageContext.Provider value={{ serviceMessages }}>{children}</ServiceMessageContext.Provider>;
+	return (
+		<ServiceMessageContext.Provider value={{ serviceMessages, registerCurrentApps }}>
+			{children}
+		</ServiceMessageContext.Provider>
+	);
 };

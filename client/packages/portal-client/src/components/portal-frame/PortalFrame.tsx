@@ -9,6 +9,7 @@ import { useBookmarkNavigate } from '@equinor/fusion-framework-react-module-book
 import { BookmarkProvider } from '@equinor/fusion-framework-react-components-bookmark';
 import { HasContext } from '../context/HasContext';
 import { css } from '@emotion/css';
+import { ServiceMessageFilter } from '../service-message-filter/ServiceMessageFilter';
 
 const style = css`
 	width: 100vw;
@@ -32,6 +33,7 @@ export const PortalFrame = () => {
 						<ViewProvider>
 							<MenuProvider>
 								<section className={style}>
+									<ServiceMessageFilter />
 									<MainHeader />
 									<MenuGroups />
 									<HasContext />
