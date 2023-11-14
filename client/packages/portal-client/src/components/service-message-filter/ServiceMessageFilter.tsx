@@ -3,13 +3,17 @@ import { useEffect } from 'react';
 import { useServiceMessage } from '@equinor/service-message';
 
 export const ServiceMessageFilter = () => {
-	const currentApps = useCurrentApps(true)?.map((app) => app.appKey);
-	const { registerCurrentApps } = useServiceMessage();
+	const currentApps = useCurrentApps(true);
+	const { registerCurrentApps, registerPortals } = useServiceMessage();
 
 	useEffect(() => {
 		if (currentApps) {
-			registerCurrentApps(currentApps);
+			registerCurrentApps(currentApps.map((app) => app.appKey));
 		}
 	}, [currentApps]);
+
+	useEffect(() => {
+		registerPortals(['Project execution portal']);
+	}, []);
 	return null;
 };

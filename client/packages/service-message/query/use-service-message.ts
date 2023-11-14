@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { AppServiceMessage, ServiceMessageContext } from '../provider/ServiceMessageProvider';
+import { AppServiceMessage, PortalServiceMessage, ServiceMessageContext } from '../provider/ServiceMessageProvider';
 
 import { ServiceMessage } from '../types/types';
 
@@ -16,7 +16,7 @@ export const useServiceMessage = (appKey?: string) => {
 
 	const [messages, setMessages] = useState<ServiceMessage[]>([]);
 	const [appsMessages, setAppsMessages] = useState<AppServiceMessage[]>([]);
-	const [portalMessages, setPortalMessages] = useState<ServiceMessage[]>([]);
+	const [portalMessages, setPortalMessages] = useState<PortalServiceMessage[]>([]);
 	const [currentMessages, setCurrentMessages] = useState<ServiceMessage[]>([]);
 
 	useEffect(() => {
@@ -34,7 +34,7 @@ export const useServiceMessage = (appKey?: string) => {
 	}, [context]);
 
 	useEffect(() => {
-		const sub = context.serviceMessages.currentAppMessages$.subscribe(setCurrentMessages);
+		const sub = context.serviceMessages.currentPortalAndAppMessages$.subscribe(setCurrentMessages);
 		return () => {
 			sub.unsubscribe();
 		};
@@ -53,5 +53,6 @@ export const useServiceMessage = (appKey?: string) => {
 		currentMessages,
 		messages,
 		registerCurrentApps: context.registerCurrentApps,
+		registerPortals: context.registerPortals,
 	};
 };
