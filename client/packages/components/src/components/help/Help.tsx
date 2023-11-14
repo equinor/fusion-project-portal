@@ -34,7 +34,7 @@ export const Help = ({ action, onClose, open }: PortalActionProps) => {
 					<Divider />
 					<MessageCard
 						type="Info"
-						title="Here vi have provided som use full links to help you navigate the portal."
+						title="Here, we have provided some useful links to help you navigate the portal."
 					/>
 					<Divider />
 					<Typography variant="h5">The Portal</Typography>
