@@ -3,7 +3,11 @@ import path from "path";
 import util from "util";
 
 import * as core from "@actions/core";
-import { createChangesetPath, validateEnv } from "./utils";
+import {
+  createChangesetPath,
+  getPullRequestIssues,
+  validateEnv,
+} from "./utils";
 import {
   createChangesetByType,
   parseBody,
@@ -21,7 +25,17 @@ async function run(): Promise<void> {
     const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
     const { body, id, number } = event.pull_request;
 
-    core.setFailed(JSON.stringify(event.pull_request));
+    const issues = await getPullRequestIssues(
+      core.getInput("repo-owner"),
+      core.getInput("repo-name"),
+      number,
+      core.getInput("github-token")
+    );
+
+    core.setOutput("issues", JSON.stringify(issues));
+
+    core.debug("issues: ");
+    core.debug(JSON.stringify(issues));
 
     const directory = await createChangesetPath(workspace);
 

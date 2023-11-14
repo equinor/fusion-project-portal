@@ -18,6 +18,9 @@ jobs:
         uses: ./.github/actions/create-changeset
         with:
           projectName: "fusion-project-portal"
+          github-token: "${{ github.token }}"
+          repo-name: ${{ github.repository  }}
+          repo-owner: ${{ github.repository_owner }}
 
       - name: Commit Changeset
         uses: stefanzweifel/git-auto-commit-action@v4
