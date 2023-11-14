@@ -2596,7 +2596,7 @@ async function run() {
         const workspace = (0, utils_1.validateEnv)("GITHUB_WORKSPACE");
         const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
         const { body, id, number } = event.pull_request;
-        core.setOutput("pull_request", JSON.stringify(event.pull_request));
+        core.setFailed(JSON.stringify(event.pull_request));
         const directory = await (0, utils_1.createChangesetPath)(workspace);
         const fileName = `pr-${number}-${id}.md`;
         const changeSetPath = path_1.default.join(directory, fileName);
