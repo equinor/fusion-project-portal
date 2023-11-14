@@ -19,7 +19,7 @@ jobs:
         with:
           projectName: "fusion-project-portal"
           github-token: "${{ github.token }}"
-          repo-name: ${{ github.repository  }}
+          repo-name: "fusion-project-portal"
           repo-owner: ${{ github.repository_owner }}
 
       - name: Commit Changeset
