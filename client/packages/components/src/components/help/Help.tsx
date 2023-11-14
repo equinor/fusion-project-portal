@@ -26,8 +26,7 @@ export const Help = ({ action, onClose, open }: PortalActionProps) => {
 					<Typography variant="h5"> Welcome to the Fusion Project Portal!</Typography>
 					<Style.Content>
 						<Typography>
-							The application is designed to provide a comprehensive display of fusion applications,
-							tailored to the selected project.
+							The application is created to show a complete view of fusion applications customized for the chosen project.
 							<br />
 						</Typography>
 					</Style.Content>
