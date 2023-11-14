@@ -2596,8 +2596,8 @@ async function run() {
         const workspace = (0, utils_1.validateEnv)("GITHUB_WORKSPACE");
         const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
         const { body, id, number } = event.pull_request;
-        core.setOutput("event", event);
-        core.info(event.pull_request);
+        core.setOutput("event", JSON.stringify(event));
+        core.info(JSON.stringify(event.pull_request));
         if (event.pull_request.issue) {
             const { number, title, body } = event.pull_request.issue;
             core.debug(`Issue Number: ${number}`);
