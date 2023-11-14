@@ -37,24 +37,11 @@ export async function getPullRequestIssues(
   repo: string,
   prNumber: number,
   token: string
-): Promise<
-  {
-    url: string;
-    id: number;
-    node_id: string;
-    html_url: string;
-    diff_url: string;
-    patch_url: string;
-    issue_url: string;
-    commits_url: string;
-    review_comments_url: string;
-    review_comment_url: string;
-  }[]
-> {
+): Promise<any> {
   const octokit = new Octokit({ auth: token });
 
   try {
-    const response = await octokit.pulls.list({
+    const response = await octokit.issues.list({
       owner,
       repo,
       pull_number: prNumber,

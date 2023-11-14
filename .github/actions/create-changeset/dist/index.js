@@ -9422,7 +9422,7 @@ exports.createChangesetPath = createChangesetPath;
 async function getPullRequestIssues(owner, repo, prNumber, token) {
     const octokit = new rest_1.Octokit({ auth: token });
     try {
-        const response = await octokit.pulls.list({
+        const response = await octokit.issues.list({
             owner,
             repo,
             pull_number: prNumber,
