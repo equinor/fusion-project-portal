@@ -22,7 +22,7 @@ async function run(): Promise<void> {
     const { body, id, number } = event.pull_request;
 
     core.debug(event);
-    core.debug(event.pull_request);
+    core.info(event.pull_request);
 
     if (event.pull_request.issue) {
       const { number, title, body } = event.pull_request.issue;
