@@ -2596,17 +2596,7 @@ async function run() {
         const workspace = (0, utils_1.validateEnv)("GITHUB_WORKSPACE");
         const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
         const { body, id, number } = event.pull_request;
-        core.setOutput("event", JSON.stringify(event));
-        core.setOutput("data", JSON.stringify(event.pull_request));
-        if (event.pull_request.issue) {
-            const { number, title, body } = event.pull_request.issue;
-            core.setOutput("event1", `Issue Number: ${number}`);
-            core.setOutput("event2", `Issue Title: ${title}`);
-            core.setOutput("event3", `Issue Body: ${body}`);
-        }
-        else {
-            core.setOutput("event4", "This pull request is not associated with an issue.");
-        }
+        core.setOutput("event", JSON.stringify(event.pull_request.issue));
         const directory = await (0, utils_1.createChangesetPath)(workspace);
         const fileName = `pr-${number}-${id}.md`;
         const changeSetPath = path_1.default.join(directory, fileName);
