@@ -33,27 +33,27 @@ async function run(): Promise<void> {
       core.debug("This pull request is not associated with an issue.");
     }
 
-    // const directory = await createChangesetPath(workspace);
+    const directory = await createChangesetPath(workspace);
 
-    // const fileName = `pr-${number}-${id}.md`;
-    // const changeSetPath = path.join(directory, fileName);
-    // const fileExists = fs.existsSync(changeSetPath);
+    const fileName = `pr-${number}-${id}.md`;
+    const changeSetPath = path.join(directory, fileName);
+    const fileExists = fs.existsSync(changeSetPath);
 
-    // let releaseNote = "";
-    // const type = parseBodyForChangeType(body);
-    // if (type && type !== "none") {
-    //   releaseNote = parseBody(body);
-    // }
+    let releaseNote = "";
+    const type = parseBodyForChangeType(body);
+    if (type && type !== "none") {
+      releaseNote = parseBody(body);
+    }
 
-    // const changeSet = createChangesetByType(releaseNote, type);
+    const changeSet = createChangesetByType(releaseNote, type);
 
-    // await writeFile(changeSetPath, changeSet);
+    await writeFile(changeSetPath, changeSet);
 
-    // core.setOutput("changeType", type);
-    // core.setOutput(
-    //   "changeSetPath",
-    //   fileExists ? `chore: update ${fileName}` : `chore: create ${fileName}`
-    // );
+    core.setOutput("changeType", type);
+    core.setOutput(
+      "changeSetPath",
+      fileExists ? `chore: update ${fileName}` : `chore: create ${fileName}`
+    );
   } catch (error: any) {
     core.setFailed(error.message);
   }
