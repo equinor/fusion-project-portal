@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.7.1
+
+### Patch Changes
+
+- 5d437c5: Revise help text for clarity and correct typos.
+
 ## 1.7.0
 
 ### Minor Changes
