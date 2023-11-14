@@ -136,12 +136,22 @@ export const ServiceMessageProvider: FC<PropsWithChildren> = ({ children }) => {
 	const topic = useSignalR<unknown[]>('portal', 'portal');
 
 	useLayoutEffect(() => {
-		const sub = topic.pipe(map((x) => x.shift() as ServiceMessage[])).subscribe(serviceMessages);
+		const sub = topic.pipe(map((x) => x.shift() as ServiceMessage[])).subscribe((messages) => {
+			if (apps) {
+				const filteredMessages = messages.filter((message) => {
+					return message.relevantApps ? message.relevantApps.some((app) => apps.includes(app.key)) : true;
+				});
+
+				serviceMessages.next(filteredMessages);
+			} else {
+				serviceMessages.next(messages);
+			}
+		});
 
 		return () => {
 			sub.unsubscribe();
 		};
-	}, [topic]);
+	}, [topic, apps]);
 
 	return (
 		<ServiceMessageContext.Provider value={{ serviceMessages, registerCurrentApps }}>
