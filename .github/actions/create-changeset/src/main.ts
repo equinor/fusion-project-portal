@@ -21,7 +21,7 @@ async function run(): Promise<void> {
     const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
     const { body, id, number } = event.pull_request;
 
-    core.setOutput("event", JSON.stringify(event.pull_request.issue));
+    core.setOutput("event", JSON.stringify(event.pull_request));
 
     const directory = await createChangesetPath(workspace);
 
