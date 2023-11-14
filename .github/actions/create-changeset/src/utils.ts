@@ -37,17 +37,17 @@ export async function getPullRequestIssues(
   repo: string,
   prNumber: number,
   token: string
-): Promise<any> {
+): Promise<any[]> {
   const octokit = new Octokit({ auth: token });
 
   try {
-    const response = await octokit.issues.list({
+    const response = await octokit.pulls.list({
       owner,
       repo,
       pull_number: prNumber,
     });
 
-    const issues = response.data.map((issue) => issue);
+    const issues = response.data.map((issue) => issue.title);
     return issues;
   } catch (error) {
     console.error("Error fetching pull request issues:", error);
