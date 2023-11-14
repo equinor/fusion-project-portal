@@ -67,8 +67,7 @@ class ServiceMessages {
 							)
 					)
 				)
-			)
-			.pipe(map((messages) => messages.filter((message) => true)));
+			);
 
 		this.appMessages$ = this.messages$.pipe(map((messages) => this.#appServiceMessageMapper(messages)));
 
