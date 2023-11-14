@@ -21,16 +21,16 @@ async function run(): Promise<void> {
     const event = JSON.parse(await readFile(eventPath, { encoding: "utf8" }));
     const { body, id, number } = event.pull_request;
 
-    console.log("event", event);
-    console.log(event.pull_request);
+    core.debug(event);
+    core.debug(event.pull_request);
 
     if (event.pull_request.issue) {
       const { number, title, body } = event.pull_request.issue;
-      console.log(`Issue Number: ${number}`);
-      console.log(`Issue Title: ${title}`);
-      console.log(`Issue Body: ${body}`);
+      core.debug(`Issue Number: ${number}`);
+      core.debug(`Issue Title: ${title}`);
+      core.debug(`Issue Body: ${body}`);
     } else {
-      console.log("This pull request is not associated with an issue.");
+      core.debug("This pull request is not associated with an issue.");
     }
 
     const directory = await createChangesetPath(workspace);
