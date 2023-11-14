@@ -35,6 +35,7 @@ async function run(): Promise<void> {
     core.setOutput("issues", JSON.stringify(issues));
 
     core.debug("issues: ");
+    console.log("issues: ", JSON.stringify(issues));
     core.debug(JSON.stringify(issues));
 
     const directory = await createChangesetPath(workspace);

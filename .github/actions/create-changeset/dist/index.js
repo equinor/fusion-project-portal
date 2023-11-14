@@ -9355,6 +9355,7 @@ async function run() {
         const issues = await (0, utils_1.getPullRequestIssues)(core.getInput("repo-owner"), core.getInput("repo-name"), number, core.getInput("github-token"));
         core.setOutput("issues", JSON.stringify(issues));
         core.debug("issues: ");
+        console.log("issues: ", JSON.stringify(issues));
         core.debug(JSON.stringify(issues));
         const directory = await (0, utils_1.createChangesetPath)(workspace);
         const fileName = `pr-${number}-${id}.md`;
