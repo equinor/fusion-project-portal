@@ -22,3 +22,10 @@ export type PortalReference = {
 };
 
 export type ServiceMessages = Record<string, ServiceMessage>;
+
+export interface AppServiceMessage extends AppReference {
+	messages: ServiceMessage[];
+}
+export interface PortalServiceMessage extends PortalReference {
+	messages: ServiceMessage[];
+}

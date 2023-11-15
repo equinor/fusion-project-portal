@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ServiceMessageList } from './ServiceMessageList';
-import { AppServiceMessage } from '../provider/ServiceMessageProvider';
+
 import { useServiceMessage } from '../query/use-service-message';
 import { PortalActionProps } from '@equinor/portal-core';
 import SideSheet from '@equinor/fusion-react-side-sheet';
+import { AppServiceMessage } from '../types/types';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
