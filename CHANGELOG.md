@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.9.1
+
+### Patch Changes
+
+- 8206e71: Now display a legend for service message types in the side sheet.
+
 ## 1.9.0
 
 ### Minor Changes
