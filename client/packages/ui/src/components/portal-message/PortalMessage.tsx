@@ -6,19 +6,24 @@ import { PortalMessageType } from './types/types';
 import { getPortalMessageType } from './utils/get-portal-message-type';
 import { error_outlined } from '@equinor/eds-icons';
 
-const StylesWrapper = styled.div`
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1rem;
-	justify-content: center;
-`;
-
-const StylesContentWrapper = styled(Typography)`
-	padding-top: 1rem;
-`;
+const Styles = {
+	Wrapper: styled.div`
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		justify-content: center;
+	`,
+	Content: styled.div`
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		justify-content: center;
+	`,
+};
 
 interface PortalErrorPageProps {
 	title: string;
@@ -30,22 +35,24 @@ interface PortalErrorPageProps {
 export function PortalMessage({ title, type = 'Info', color, children }: PropsWithChildren<PortalErrorPageProps>) {
 	const currentType = getPortalMessageType(type);
 	return (
-		<StylesWrapper>
+		<Styles.Wrapper>
 			<Icon
 				data-testid="icon"
 				size={40}
 				color={currentType?.color || color || tokens.colors.text.static_icons__tertiary.hex}
 				data={currentType?.icon || error_outlined}
 			/>
-			<Typography
-				color={tokens.colors.text.static_icons__default.hex}
-				variant="h1"
-				aria-label={`Title for ${type} message`}
-			>
-				{title}
-			</Typography>
+			<Styles.Content>
+				<Typography
+					color={tokens.colors.text.static_icons__default.hex}
+					variant={'h3'}
+					aria-label={`Title for ${type} message`}
+				>
+					{title}
+				</Typography>
 
-			<StylesContentWrapper>{children && children}</StylesContentWrapper>
-		</StylesWrapper>
+				<Typography>{children && children}</Typography>
+			</Styles.Content>
+		</Styles.Wrapper>
 	);
 }
