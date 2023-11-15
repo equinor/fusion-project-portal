@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ServiceMessageList } from './ServiceMessageList';
-import { ServiceMessageCard } from './ServiceMessageCard';
-import { AppServiceMessage } from '../provider/ServiceMessageProvider';
-import { useServiceMessage } from '../query/use-service-message';
+
+import { useServiceMessage } from '../hooks/use-service-message';
 import { PortalActionProps } from '@equinor/portal-core';
 import SideSheet from '@equinor/fusion-react-side-sheet';
+import { AppServiceMessage } from '../types/types';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
@@ -36,6 +36,11 @@ const StyledWrapper = styled.div`
 	flex-direction: column;
 `;
 
+const portalNameMapper = (identifier: string) => {
+	if (identifier === 'Project execution portal') return 'Project Portal';
+	return identifier;
+};
+
 export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
 	const { appsMessages, portalMessages, messages } = useServiceMessage();
 	const [compact] = useState(false);
@@ -44,9 +49,16 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 		<>
 			<StyledWrapper>
 				<Typography variant="h5">Portal ({portalMessages.length})</Typography>
-				{portalMessages.length > 0
-					? portalMessages.map((message) => <ServiceMessageCard key={message.id} message={message} />)
-					: null}
+				{portalMessages.length > 0 &&
+					portalMessages.map((portal) => (
+						<ServiceMessageList
+							key={portal.identifier}
+							messages={portal.messages}
+							title={portalNameMapper(portal.identifier)}
+							currentApp={true}
+							compact={compact}
+						/>
+					))}
 			</StyledWrapper>
 			<StyledWrapper>
 				<Typography variant="h5">App Status ({messages.filter((a) => a.scope === 'App').length})</Typography>

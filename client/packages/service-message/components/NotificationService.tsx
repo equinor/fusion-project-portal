@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useServiceMessage } from '../query/use-service-message';
+import { useServiceMessage } from '../hooks/use-service-message';
 
 import { MessageWrapper } from './MessageWrapper';
 import { css } from '@emotion/css';
