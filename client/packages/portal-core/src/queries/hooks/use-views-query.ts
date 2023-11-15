@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { shouldSuspense } from '../../app';
+import { shouldSuspense } from '@portal/core';
 import { usePortalClient } from '../../hooks/use-portal-client';
 import { getViews } from '../portal/getViews';
 

@@ -1,14 +1,14 @@
-import { AppGroup } from '../../types';
+import { AppGroup } from '@portal/types';
 
 export interface IMenuState {
-  menuActive: boolean;
-  appGroups: AppGroup[];
-  isLoading: boolean;
-  searchText: string;
+	menuActive: boolean;
+	appGroups: AppGroup[];
+	isLoading: boolean;
+	searchText: string;
 }
 
 export interface IMenuContext extends IMenuState {
-  setSearchText(searchText: string): void
-  toggleMenu<T>(e?: React.MouseEvent<T>): void;
-  closeMenu(): void;
+	setSearchText(searchText: string): void;
+	toggleMenu<T>(e?: React.MouseEvent<T>): void;
+	closeMenu(): void;
 }

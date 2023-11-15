@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { View } from '../../types/view';
+import { View } from '@portal/types';
 
 /** Get views from portal api */
 export async function getViews(client: IHttpClient): Promise<View[]> {

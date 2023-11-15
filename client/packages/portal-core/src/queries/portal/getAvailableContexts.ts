@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { OnboardedContext } from '../../types/onboarded-contexts';
+import { OnboardedContext } from '@portal/types';
 
 /** Get views from portal api */
 export async function getAvailableContext(client: IHttpClient): Promise<OnboardedContext[]> {

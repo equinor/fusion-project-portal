@@ -1,4 +1,4 @@
-import { AppGroup } from '../../types';
+import { AppGroup } from '@portal/types';
 
 export function appsMatchingSearch(groups: AppGroup[], searchText?: string) {
 	if (!searchText) return groups;

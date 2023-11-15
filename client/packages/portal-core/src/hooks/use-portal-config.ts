@@ -1,4 +1,4 @@
-import { PortalConfig } from '../types';
+import { PortalConfig } from '@portal/types';
 
 declare global {
 	interface Window {

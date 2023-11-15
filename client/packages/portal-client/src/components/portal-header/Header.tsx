@@ -1,7 +1,8 @@
-import { useMenuContext, useViewController, appMounted } from '@equinor/portal-core';
+import { useMenuContext, useViewController } from '@equinor/portal-core';
 import { MenuButton, Header } from '@equinor/portal-ui';
 
 import { useNavigate } from 'react-router-dom';
+import { appMounted } from '@portal/core';
 
 export function MainHeader() {
 	const { getId, setViewId } = useViewController();

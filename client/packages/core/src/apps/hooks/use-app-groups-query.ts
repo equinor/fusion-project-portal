@@ -1,9 +1,7 @@
 import { useQuery, UseQueryResult } from 'react-query';
-
-import { useFrameworkCurrentContext, usePortalClient } from '../../hooks';
-import { useViewController } from '../../providers';
-import { AppGroup } from '../../types';
-import { getAppGroups } from '../portal/getAppGroups';
+import { useFrameworkCurrentContext, usePortalClient, useViewController } from '@equinor/portal-core';
+import { AppGroup } from '@portal/types';
+import { getAppGroups } from '../queries/getAppGroups';
 
 export const useAppGroupsQuery = (): UseQueryResult<AppGroup[]> => {
 	const id = useViewController().currentView?.id;

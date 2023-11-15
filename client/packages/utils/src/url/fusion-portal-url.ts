@@ -1,3 +1,5 @@
+import { PortalConfig } from '@portal/types';
+
 export const getFusionPortalURL = () => {
 	switch (window._config_.fusionLegacyEnvIdentifier.toLowerCase()) {
 		case 'fprd':
@@ -6,8 +8,13 @@ export const getFusionPortalURL = () => {
 			return 'https://fusion-s-portal-ci.azurewebsites.net';
 		case 'fqa':
 			return 'https://fusion-s-portal-fqa.azurewebsites.net';
-
 		default:
 			return 'https://fusion-s-portal-ci.azurewebsites.net';
 	}
 };
+
+declare global {
+	interface Window {
+		_config_: PortalConfig;
+	}
+}

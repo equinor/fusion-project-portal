@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { AppGroup } from '../../types/view';
+import { AppGroup } from '@portal/types';
 
 /** Get menu items based on current view id */
 export async function getAppGroups(

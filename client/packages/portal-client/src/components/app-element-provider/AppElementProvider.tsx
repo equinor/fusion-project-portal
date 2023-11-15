@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useAppLoader } from '../../hooks/use-app-loader';
+import { useAppLoader } from '@portal/core';
 
 interface CurrentAppLoaderProps {
 	appKey: string;

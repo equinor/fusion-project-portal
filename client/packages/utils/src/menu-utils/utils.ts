@@ -1,4 +1,4 @@
-import { AppGroup, App } from '@equinor/portal-core';
+import { AppGroup, App } from '@portal/types';
 import { tokens } from '@equinor/eds-tokens';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 

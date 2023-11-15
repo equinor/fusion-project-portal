@@ -1,7 +1,8 @@
 import { Button, Icon } from '@equinor/eds-core-react';
 import { arrow_drop_right } from '@equinor/eds-icons';
-import { useFrameworkContext, View } from '@equinor/portal-core';
+import { useFrameworkContext } from '@equinor/portal-core';
 import { StyledViewSelectorWrapper } from './ViewPage.Styles';
+import { View } from '@portal/types';
 
 type ViewSelectorProps = {
 	views: View[];

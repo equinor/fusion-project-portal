@@ -1,4 +1,4 @@
-import { AppGroup } from '@equinor/portal-core';
+import { AppGroup } from '@portal/types';
 import { InfoMessage } from '../../info-message/InfoMessage';
 import { Group } from '../group/Group';
 import { styles } from '../styles';

@@ -1,4 +1,4 @@
-import { AppGroup } from '@equinor/portal-core';
+import { AppGroup } from '@portal/types';
 import { AppCard } from '../app-card/AppCard';
 import { ColorTab } from './ColorTab';
 import { useParams } from 'react-router-dom';

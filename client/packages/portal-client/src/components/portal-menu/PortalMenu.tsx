@@ -1,10 +1,10 @@
 import { Search } from '@equinor/eds-core-react';
-import { useAppGroupsQuery, appsMatchingSearch } from '@equinor/portal-core';
 import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
 import { useObservable, customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/utils';
 import { combineLatest, map } from 'rxjs';
 
-import { menuFavoritesController, useAppModule, useMenuContext } from '@equinor/portal-core';
+import { menuFavoritesController, useMenuContext } from '@equinor/portal-core';
+import { useAppModule, useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
 import { useState, useMemo } from 'react';
 import { css } from '@emotion/css';
 
