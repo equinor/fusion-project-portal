@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.9.0
+
+### Minor Changes
+
+- 4f66182: When there are no messages present in the service messages side sheet, a clear and user-friendly "No content" message will be displayed.
+
 ## 1.8.0
 
 ### Minor Changes
