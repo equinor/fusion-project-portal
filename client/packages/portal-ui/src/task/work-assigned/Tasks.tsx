@@ -29,12 +29,15 @@ const StyledTitle = styled(Typography)`
 
 const StyledAssignmentsList = styled.div`
 	margin-top: 1rem;
-	overflow: auto;
-	height: 100%;
+	height: auto;
 `;
 
-const StyledAssignmentsListWrapper = styled.div<{ height?: number }>`
-	height: ${({ height }) => (height ? `${height}px` : '100%')};
+const StyledAssignmentsListWrapper = styled.div`
+	flex: 2;
+	overflow: auto;
+	padding-bottom: 1rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 `;
 
 const StyledAccordianItem = styled(Accordion.Item)`
@@ -47,6 +50,9 @@ const StyledAccordianHeader = styled(Accordion.Header)`
 
 const StyledAccordianPanel = styled(Accordion.Panel)`
 	border: none;
+`;
+const StyledAccordian = styled(Accordion)`
+	height: 100%;
 `;
 
 const groupOption = {
@@ -70,6 +76,16 @@ interface TasksProps {
 	height?: number;
 }
 
+const Style = {
+	Wrapper: styled.div`
+		height: 100%;
+		overflow: hidden;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+	`,
+};
+
 export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 	const [groupedBy, setGroupedBy] = useState<keyof typeof groupOption>('Category');
 	const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
@@ -77,7 +93,7 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 	const groupedAssignments = groupBy(assignments, groupOption[groupedBy]);
 
 	return (
-		<>
+		<Style.Wrapper>
 			<StyledKpiWrapper>
 				<StyledKpiItem>
 					<StyledKpi>
@@ -99,9 +115,9 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 					/>
 				</StyledKpiItem>
 			</StyledKpiWrapper>
-			<StyledAssignmentsListWrapper height={height}>
+			<StyledAssignmentsListWrapper>
 				<StyledAssignmentsList>
-					<Accordion>
+					<StyledAccordian>
 						{Object.entries(groupedAssignments).map(([groupName, tasks]) => (
 							<StyledAccordianItem isExpanded key={groupName}>
 								<StyledAccordianHeader>{groupName}</StyledAccordianHeader>
@@ -110,9 +126,9 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
 								</StyledAccordianPanel>
 							</StyledAccordianItem>
 						))}
-					</Accordion>
+					</StyledAccordian>
 				</StyledAssignmentsList>
 			</StyledAssignmentsListWrapper>
-		</>
+		</Style.Wrapper>
 	);
 };
