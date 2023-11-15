@@ -1,5 +1,28 @@
 # fusion-project-portal
 
+## 1.8.0
+
+### Minor Changes
+
+- 3b149f5: Service messages are now specifically tailored to the selected project's application. Only service messages relevant to the chosen application will be displayed, ensuring that users are not confused by messages unrelated to their concerns.
+
+## 1.7.1
+
+### Patch Changes
+
+- 5d437c5: Revise help text for clarity and correct typos.
+
+## 1.7.0
+
+### Minor Changes
+
+- f1184a4: Incorporated the following enhancements:
+  - Implemented a help menu accessible from the top bar for user guidance.
+  - Introduced the capability to report errors seamlessly through Service Now.
+  - Included a link for enhancement suggestions within the Service Now interface.
+  - Integrated a link to the changelog for users to stay informed about updates.
+  - Provided a direct link to the portal documentation for easy reference.
+
 ## 1.6.0
 
 ### Minor Changes
