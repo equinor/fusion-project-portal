@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
-import { AppServiceMessage, PortalServiceMessage, ServiceMessageContext } from '../provider/ServiceMessageProvider';
+import { ServiceMessageContext } from '../provider/ServiceMessageProvider';
 
-import { ServiceMessage } from '../types/types';
+import { AppServiceMessage, PortalServiceMessage, ServiceMessage } from '../types/types';
 
 export const useServiceMessage = (appKey?: string) => {
 	const context = useContext(ServiceMessageContext);

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { ServiceMessageList } from './ServiceMessageList';
 
-import { useServiceMessage } from '../query/use-service-message';
+import { useServiceMessage } from '../hooks/use-service-message';
 import { PortalActionProps } from '@equinor/portal-core';
 import SideSheet from '@equinor/fusion-react-side-sheet';
 import { AppServiceMessage } from '../types/types';

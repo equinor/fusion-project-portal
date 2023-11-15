@@ -2,7 +2,7 @@ import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { useMemo } from 'react';
 import styled from 'styled-components';
-import { useServiceMessage } from '../query/use-service-message';
+import { useServiceMessage } from '../hooks/use-service-message';
 import { ServiceMessage } from '../types/types';
 
 const StyledMessageChip = styled.span<{ color: string }>`
