@@ -10,6 +10,7 @@ import { useServiceMessage } from '../hooks/use-service-message';
 import { PortalActionProps } from '@equinor/portal-core';
 import SideSheet from '@equinor/fusion-react-side-sheet';
 import { AppServiceMessage } from '../types/types';
+import { PortalMessage } from '../../ui/src';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
@@ -35,6 +36,12 @@ const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
+const StyledNoContentWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	min-height: 300px;
+	justify-content: center;
+`;
 
 const portalNameMapper = (identifier: string) => {
 	if (identifier === 'Project execution portal') return 'Project Portal';
@@ -49,7 +56,7 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 		<>
 			<StyledWrapper>
 				<Typography variant="h5">Portal ({portalMessages.length})</Typography>
-				{portalMessages.length > 0 &&
+				{portalMessages.length > 0 ? (
 					portalMessages.map((portal) => (
 						<ServiceMessageList
 							key={portal.identifier}
@@ -58,20 +65,37 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 							currentApp={true}
 							compact={compact}
 						/>
-					))}
+					))
+				) : (
+					<StyledNoContentWrapper>
+						<PortalMessage title="No Active Portal Messages" type="Info">
+							Everything appears to be functioning smoothly.
+						</PortalMessage>
+					</StyledNoContentWrapper>
+				)}
 			</StyledWrapper>
 			<StyledWrapper>
 				<Typography variant="h5">App Status ({messages.filter((a) => a.scope === 'App').length})</Typography>
 
-				{appsMessages.sort(sortCurrentAppToTop(appKey)).map((appMessageGroup) => (
-					<ServiceMessageList
-						key={appMessageGroup.key}
-						messages={appMessageGroup.messages}
-						title={appMessageGroup.name}
-						currentApp={!appKey || appMessageGroup.key === appKey}
-						compact={compact}
-					/>
-				))}
+				{appsMessages.length > 0 ? (
+					appsMessages
+						.sort(sortCurrentAppToTop(appKey))
+						.map((appMessageGroup) => (
+							<ServiceMessageList
+								key={appMessageGroup.key}
+								messages={appMessageGroup.messages}
+								title={appMessageGroup.name}
+								currentApp={!appKey || appMessageGroup.key === appKey}
+								compact={compact}
+							/>
+						))
+				) : (
+					<StyledNoContentWrapper>
+						<PortalMessage title="No Active App Messages" type="Info">
+							All application appears to be functioning smoothly.
+						</PortalMessage>
+					</StyledNoContentWrapper>
+				)}
 			</StyledWrapper>
 		</>
 	);

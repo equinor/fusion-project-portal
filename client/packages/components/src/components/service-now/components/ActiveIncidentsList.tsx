@@ -15,6 +15,11 @@ export const Style = {
 		display: flex;
 		justify-content: center;
 	`,
+	NoContent: styled.div`
+		height: 35vh;
+		display: flex;
+		justify-content: center;
+	`,
 	IncidentsWrapper: styled.div`
 		padding: 1rem 0rem;
 		max-height: 75vh;
@@ -52,11 +57,11 @@ export const ActiveIncidentsList = () => {
 					))}
 				</Style.IncidentsWrapper>
 			) : (
-				<Style.Wrapper>
+				<Style.NoContent>
 					<PortalMessage type="NoContent" title="No active errors">
 						You have no active errors
 					</PortalMessage>
-				</Style.Wrapper>
+				</Style.NoContent>
 			)}
 		</Style.Wrapper>
 	);
