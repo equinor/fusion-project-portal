@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.8.0
+
+### Minor Changes
+
+- 3b149f5: Service messages are now specifically tailored to the selected project's application. Only service messages relevant to the chosen application will be displayed, ensuring that users are not confused by messages unrelated to their concerns.
+
 ## 1.7.1
 
 ### Patch Changes
