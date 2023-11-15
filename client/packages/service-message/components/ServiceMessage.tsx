@@ -1,4 +1,4 @@
-import { Typography } from '@equinor/eds-core-react';
+import { Icon, Typography } from '@equinor/eds-core-react';
 
 import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,6 +11,10 @@ import { PortalActionProps } from '@equinor/portal-core';
 import SideSheet from '@equinor/fusion-react-side-sheet';
 import { AppServiceMessage } from '../types/types';
 import { PortalMessage } from '@portal/ui';
+import Tooltip from '@equinor/fusion-react-tooltip';
+import { info_circle } from '@equinor/eds-icons';
+import { tokens } from '@equinor/eds-tokens';
+import { ServiceMessageTooltip } from './ServiceMessageIcon';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
@@ -31,17 +35,23 @@ interface ServiceMessageWidgetProps {
 	appKey?: string;
 }
 
-const StyledWrapper = styled.div`
-	padding-bottom: 1rem;
-	display: flex;
-	flex-direction: column;
-`;
-const StyledNoContentWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	min-height: 300px;
-	justify-content: center;
-`;
+const Styles = {
+	Wrapper: styled.div`
+		padding-bottom: 1rem;
+		display: flex;
+		flex-direction: column;
+	`,
+	NoContentWrapper: styled.div`
+		display: flex;
+		flex-direction: column;
+		min-height: 300px;
+		justify-content: center;
+	`,
+	HeadingWrapper: styled.div`
+		display: flex;
+		justify-content: space-between;
+	`,
+};
 
 const portalNameMapper = (identifier: string) => {
 	if (identifier === 'Project execution portal') return 'Project Portal';
@@ -54,8 +64,13 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 
 	return (
 		<>
-			<StyledWrapper>
-				<Typography variant="h5">Portal ({portalMessages.length})</Typography>
+			<Styles.Wrapper>
+				<Styles.HeadingWrapper>
+					<Typography variant="h5">Portal ({portalMessages.length})</Typography>
+					<Tooltip content={<ServiceMessageTooltip isSideSheet={true} />}>
+						<Icon data={info_circle} color={tokens.colors.interactive.primary__resting.hex} />
+					</Tooltip>
+				</Styles.HeadingWrapper>
 				{portalMessages.length > 0 ? (
 					portalMessages.map((portal) => (
 						<ServiceMessageList
@@ -67,16 +82,22 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 						/>
 					))
 				) : (
-					<StyledNoContentWrapper>
+					<Styles.NoContentWrapper>
 						<PortalMessage title="No Active Portal Messages" type="Info">
 							Everything appears to be functioning smoothly.
 						</PortalMessage>
-					</StyledNoContentWrapper>
+					</Styles.NoContentWrapper>
 				)}
-			</StyledWrapper>
-			<StyledWrapper>
-				<Typography variant="h5">App Status ({messages.filter((a) => a.scope === 'App').length})</Typography>
-
+			</Styles.Wrapper>
+			<Styles.Wrapper>
+				<Styles.HeadingWrapper>
+					<Typography variant="h5">
+						App Status ({messages.filter((a) => a.scope === 'App').length})
+					</Typography>
+					<Tooltip content={<ServiceMessageTooltip isSideSheet={true} />}>
+						<Icon data={info_circle} color={tokens.colors.interactive.primary__resting.hex} />
+					</Tooltip>
+				</Styles.HeadingWrapper>
 				{appsMessages.length > 0 ? (
 					appsMessages
 						.sort(sortCurrentAppToTop(appKey))
@@ -90,13 +111,13 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 							/>
 						))
 				) : (
-					<StyledNoContentWrapper>
+					<Styles.NoContentWrapper>
 						<PortalMessage title="No Active App Messages" type="Info">
 							All application appears to be functioning smoothly.
 						</PortalMessage>
-					</StyledNoContentWrapper>
+					</Styles.NoContentWrapper>
 				)}
-			</StyledWrapper>
+			</Styles.Wrapper>
 		</>
 	);
 };
