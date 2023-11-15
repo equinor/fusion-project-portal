@@ -29,17 +29,10 @@ interface PortalErrorPageProps {
 	title: string;
 	body?: React.FC | string;
 	type?: PortalMessageType;
-	headingVariant?: string;
 	color?: string;
 }
 
-export function PortalMessage({
-	title,
-	type = 'Info',
-	color,
-	children,
-	headingVariant,
-}: PropsWithChildren<PortalErrorPageProps>) {
+export function PortalMessage({ title, type = 'Info', color, children }: PropsWithChildren<PortalErrorPageProps>) {
 	const currentType = getPortalMessageType(type);
 	return (
 		<Styles.Wrapper>
@@ -52,7 +45,7 @@ export function PortalMessage({
 			<Styles.Content>
 				<Typography
 					color={tokens.colors.text.static_icons__default.hex}
-					variant={(headingVariant as any) || 'h3'}
+					variant={'h3'}
 					aria-label={`Title for ${type} message`}
 				>
 					{title}
