@@ -57,11 +57,19 @@ const StyledDot = styled.span(() => ({
 	},
 }));
 
-export function ServiceMessageTooltip() {
+export function ServiceMessageTooltip(props: { isSideSheet?: boolean }) {
 	return (
 		<div>
 			<p>
-				Shows relevant messages for <b>Project Portal</b> system status
+				{props.isSideSheet ? (
+					<>
+						Status indicator legend for <b>system status</b> items
+					</>
+				) : (
+					<>
+						Shows relevant messages for <b>Portal</b> system status
+					</>
+				)}
 			</p>
 			<StyledIndicators>
 				<StyledIndicator>
