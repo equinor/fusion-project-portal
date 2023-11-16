@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "vitest --silent --run",
+    "test:coverage": "vitest run --coverage"
   }
 }

@@ -2,10 +2,10 @@
 import { describe, test, expect } from 'vitest';
 import { createAppElement } from './app-element';
 import { JSDOM } from 'jsdom';
+
 const dom = new JSDOM();
 
 global.document = dom.window.document;
-global.window = dom.window as any;
 
 describe('createAppElement', () => {
 	test('Should return element', () => {

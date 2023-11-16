@@ -5,7 +5,6 @@ import { PortalConfig } from '@portal/types';
 
 const dom = new JSDOM();
 global.document = dom.window.document;
-global.window = dom.window;
 
 window['_config_'] = {
 	portalClient: {
