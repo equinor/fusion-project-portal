@@ -1,5 +1,5 @@
 import { expect, test, describe } from 'vitest';
-import { AppGroup, App } from '@equinor/portal-core';
+import { AppGroup, App } from '@portal/types';
 import { getColumnCount } from './utils';
 const appGroups: AppGroup[] = [
 	{

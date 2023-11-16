@@ -1,10 +1,11 @@
-import { useCurrentAppGroup, useFrameworkCurrentContext, useViewController } from '@equinor/portal-core';
+import { useFrameworkCurrentContext, useViewController } from '@equinor/portal-core';
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppBreadcrumb } from './AppBreadcrumb';
 import { AppGroupBreadCrumb } from './AppGroupBreadCrumb';
 
 import { StyledBreadcrumbs, StyledBreadcrumbItem, StyledBreadcrumbItemInteract } from './styles';
+import { useCurrentAppGroup } from '@portal/core';
 
 export const Breadcrumbs = () => {
 	const context = useFrameworkCurrentContext();

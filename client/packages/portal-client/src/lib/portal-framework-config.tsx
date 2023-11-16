@@ -4,19 +4,13 @@ import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-mo
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
-import {
-	addPortalClient,
-	configurePortalContext,
-	LoggerLevel,
-	PortalConfig,
-	appConfigurator,
-	TelemetryModule,
-} from '@equinor/portal-core';
+import { addPortalClient, configurePortalContext, appConfigurator, TelemetryModule } from '@equinor/portal-core';
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
+import { LoggerLevel, PortalConfig } from '@portal/types';
 
 const showInfo = false;
 

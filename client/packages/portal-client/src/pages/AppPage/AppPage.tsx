@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useFrameworkCurrentContext, useAppModule, isLegacyFusionApplication, AppProvider } from '@equinor/portal-core';
+import { useAppModule, isLegacyFusionApplication } from '@portal/core';
 
 import { verifyContextInURL } from '../../utils/context-utils';
+import { AppProvider } from '../../components/app-provider/AppProvider';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
 export const AppPage = () => {
 	const { appKey, contextId } = useParams();

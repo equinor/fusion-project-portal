@@ -1,5 +1,6 @@
-import { useAppGroupsQuery, App } from '@equinor/portal-core';
+import { App } from '@portal/types';
 import { useMemo } from 'react';
+import { useAppGroupsQuery } from './use-app-groups-query';
 
 export const useCurrentApps = (shouldFilter?: boolean) => {
 	const { data } = useAppGroupsQuery();

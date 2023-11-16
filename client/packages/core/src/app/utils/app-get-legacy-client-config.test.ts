@@ -1,11 +1,10 @@
 import { describe, test, expect } from 'vitest';
 import { getFusionLegacyEnvIdentifier, getLegacyClientConfig } from './app-get-legacy-client-config';
 import { JSDOM } from 'jsdom';
-import { PortalConfig } from '../../types';
+import { PortalConfig } from '@portal/types';
 
 const dom = new JSDOM();
 global.document = dom.window.document;
-global.window = dom.window;
 
 window['_config_'] = {
 	portalClient: {

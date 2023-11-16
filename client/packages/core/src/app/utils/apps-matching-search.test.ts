@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { appsMatchingSearch } from './apps-matching-search';
-import { AppGroup, App } from '../../types';
+import { AppGroup, App } from '@portal/types';
 
 const appGroups: AppGroup[] = [
 	{

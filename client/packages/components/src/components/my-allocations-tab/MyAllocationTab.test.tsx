@@ -1,9 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { it, describe, expect, vi } from 'vitest';
 import { MyAllocationTab } from './MyAllocationTab';
-import { PersonPosition } from '@portal/types';
+import { PersonPosition, PortalConfig } from '@portal/types';
 import '@testing-library/jest-dom';
-import { PortalConfig } from '@equinor/portal-core';
 import { getFusionPortalURL } from '@portal/utils';
 
 const position1: PersonPosition = {

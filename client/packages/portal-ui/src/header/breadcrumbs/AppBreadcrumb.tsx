@@ -1,9 +1,10 @@
 import { Icon, Menu } from '@equinor/eds-core-react';
-import { AppGroup, useTelemetry } from '@equinor/portal-core';
+import { useTelemetry } from '@equinor/portal-core';
 import { FC, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { StyledBreadcrumbItemInteract, StyledMenuItem } from './styles';
 import { arrow_drop_down } from '@equinor/eds-icons';
+import { AppGroup } from '@portal/types';
 
 interface AppBreadcrumbProp {
 	appGroup: AppGroup | undefined;

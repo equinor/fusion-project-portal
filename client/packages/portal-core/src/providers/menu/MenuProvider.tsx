@@ -1,6 +1,6 @@
 import { storage } from '@portal/utils';
 import { createContext, PropsWithChildren, useState } from 'react';
-import { useAppGroupsQuery } from '../../queries';
+import { useAppGroupsQuery } from '@portal/core';
 import { IMenuContext, IMenuState } from './menu-types';
 
 const MENU_KEY = 'menuState';

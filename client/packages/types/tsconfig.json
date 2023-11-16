@@ -19,5 +19,5 @@
   "exclude": [
 
   ],
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "./src"]
 }

@@ -1,8 +1,7 @@
 import { GroupWrapper, PortalMessagePage } from '@equinor/portal-ui';
 import { useNavigate } from 'react-router-dom';
-import { ContextProvider, ContextSelector } from '../../../context-selector';
-import { useViewController } from '../../../providers';
-import { useAppGroupsQuery } from '../../../queries';
+import { ContextProvider, ContextSelector, useViewController } from '@equinor/portal-core';
+import { useAppGroupsQuery } from '@portal/core';
 import { css } from '@emotion/css';
 
 export const style = {

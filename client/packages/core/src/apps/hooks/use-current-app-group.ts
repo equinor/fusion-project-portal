@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
-import { useAppGroupsQuery } from '../../queries';
-import { useAppModule } from './use-app-module';
+import { useAppModule } from '../../app/hooks/use-app-module';
+import { useAppGroupsQuery } from './use-app-groups-query';
 
 export const useCurrentAppGroup = (appKey?: string) => {
 	const { appManifest } = useAppModule();

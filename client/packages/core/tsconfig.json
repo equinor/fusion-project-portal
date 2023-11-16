@@ -13,7 +13,7 @@
     "outDir": "../../dist/out-tsc",
   },
   "files": [],
-  "include": ["**/*.tsx", "./src"]
+  "include": ["**/*.tsx", "**/*.ts"]
 
 }
 

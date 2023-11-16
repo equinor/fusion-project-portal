@@ -1,6 +1,6 @@
 import { Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { View } from '@equinor/portal-core';
+import { View } from '@portal/types';
 import { SVGIconFromString } from '@equinor/portal-ui';
 import styled from 'styled-components';
 import { FusionIcon } from './FusionIcon';

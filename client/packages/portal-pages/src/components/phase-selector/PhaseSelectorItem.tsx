@@ -1,6 +1,6 @@
 import { Card, Icon } from '@equinor/eds-core-react';
 import { StyledCard, StyledIconWrapper, StyledTypography } from './PhaseSelectorItem.Styles';
-import { View } from '@equinor/portal-core';
+import { View } from '@portal/types';
 import { SVGIconFromString } from '@equinor/portal-ui';
 
 type SectionSelectorItemProps = View & { onClick: () => void };

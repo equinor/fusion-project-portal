@@ -7,8 +7,9 @@ import { PortalProgressLoader } from '@equinor/portal-ui';
 import PortalRouter from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
 import { createPortalFramework } from './lib';
-import { PortalConfig, configureDebug } from '@equinor/portal-core';
+import { configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
+import { PortalConfig } from '@portal/types';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

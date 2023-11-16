@@ -1,7 +1,7 @@
 import { IContextProvider } from '@equinor/fusion-framework-module-context';
 import { FusionConfigurator } from '@equinor/fusion-framework-react';
 
-import { Client } from '../types/portal-config';
+import { Client } from '@portal/types';
 import { setStoredContext, storeCurrentContext } from './portal-context-configurators';
 import { setUserDefinedContextHistoryLength } from './portal-context-history';
 

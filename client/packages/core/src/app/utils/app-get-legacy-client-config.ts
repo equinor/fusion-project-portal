@@ -1,4 +1,4 @@
-import { Client, PortalConfig } from '../../types';
+import { Client, PortalConfig } from '@portal/types';
 
 export const getLegacyClientConfig = (): Client => ({
 	baseUri: window._config_.portalClient.client.baseUri,
