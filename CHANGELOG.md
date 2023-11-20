@@ -1,5 +1,12 @@
 # fusion-project-portal
 
+## 1.9.2
+
+### Patch Changes
+
+- dd10a0d: Improved user experience by resolving the issue of a duplicated scrollbar in the side sheet on the assigned work page.
+- 809e29e: Fixed Styles on Button in notification and fixed text overflow, ensuring that text content within elements will gracefully truncate with an ellipsis (...) when exceeding the available space. This enhancement improves readability and maintains a polished interface.
+
 ## 1.9.1
 
 ### Patch Changes
