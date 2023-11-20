@@ -20,17 +20,25 @@ interface NotificationCardProps {
 const styles = {
 	notificationCard: css`
 		border-radius: 4px;
-		background-color: ${tokens.colors.ui.background__light.hex};
-		border: 1px solid ${tokens.colors.ui.background__medium.hex};
+		width: 100%;
+		position: relative;
+		border: 1px solid ${tokens.colors.ui.background__light.hex};
+		box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2), 0px 2px 4px rgba(0, 0, 0, 0.12), 0px 0px 3px rgba(0, 0, 0, 0.14);
 	`,
 	notificationCardContent: css`
+		width: 100%;
 		display: flex;
 		justify-content: space-between;
-		flex-direction: row;
+		flex-direction: column;
 		overflow: hidden;
 	`,
 	notificationActions: css`
 		padding: 1rem;
+	`,
+	notificationDelete: css`
+		position: absolute;
+		right: 0;
+		padding: 0.1rem;
 	`,
 };
 
@@ -61,7 +69,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps): JSX.E
 		<div className={styles.notificationCard}>
 			<div className={styles.notificationCardContent}>
 				<AdaptiveCardViewer payload={notification.card} />
-				<div>
+				<div className={styles.notificationDelete}>
 					<Button onClick={clickDelete} variant="ghost_icon">
 						<Icon name={delete_to_trash.name} />
 					</Button>
