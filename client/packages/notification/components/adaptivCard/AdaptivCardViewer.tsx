@@ -1,8 +1,10 @@
 import { useRef, useMemo, useCallback, useEffect, FC } from 'react';
 import * as AdaptiveCards from 'adaptivecards';
 import { marked } from 'marked';
-import { css } from '@emotion/react';
+
 import getDefaultHostConfig from './defaultHostConfig';
+import styled from 'styled-components';
+import { tokens } from '@equinor/eds-tokens';
 
 type AdaptiveCardViewerProps = {
 	/** The hostConfig object that is passed along to the native AdaptiveCards. [More Info](https://docs.microsoft.com/en-us/adaptive-cards/display/hostconfig) */
@@ -74,7 +76,6 @@ const AdaptiveCardViewer: FC<AdaptiveCardViewerProps> = ({
 	useEffect(() => {
 		const { current } = cardContainerRef;
 		if (result && current) {
-			result.className = styledAdaptivCard.name;
 			current && result && current.appendChild(result);
 		}
 		return () => {
@@ -82,15 +83,49 @@ const AdaptiveCardViewer: FC<AdaptiveCardViewerProps> = ({
 		};
 	}, [result, className]);
 
-	return <div ref={cardContainerRef} />;
+	return <StyledAdaptiveCard ref={cardContainerRef} />;
 };
 
 export default AdaptiveCardViewer;
 
-const styledAdaptivCard = css`
-	&:hover {
-		background: red;
-		box-shadow: none;
-		outline: none;
+const StyledAdaptiveCard = styled.div`
+	.ac-adaptiveCard {
+		width: inherit;
+		:focus {
+			box-shadow: none;
+			outline: none;
+		}
+
+		button {
+			display: flex;
+			box-sizing: border-box;
+			border: 1px solid;
+			border-radius: 4px;
+			position: relative;
+			z-index: 1;
+			vertical-align: middle;
+			overflow: hidden;
+			align-items: center;
+			font-weight: 500;
+			background-color: ${tokens.colors.interactive.primary__resting.hex};
+			padding-top: ${tokens.spacings.comfortable.small};
+			padding-bottom: ${tokens.spacings.comfortable.small};
+			padding-left: ${tokens.spacings.comfortable.large};
+			padding-right: ${tokens.spacings.comfortable.large};
+
+			color: ${tokens.colors.text.static_icons__primary_white.hex};
+			cursor: pointer;
+
+			&:hover {
+				background-color: ${tokens.colors.interactive.primary__hover.hex};
+			}
+			&:active {
+				outline: none;
+				background-color: ${tokens.colors.interactive.primary__selected_highlight.hex};
+			}
+			&:focus {
+				outline: none;
+			}
+		}
 	}
 `;
