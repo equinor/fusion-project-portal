@@ -2,9 +2,9 @@ import { PortalActionProps } from '@equinor/portal-core';
 
 import SideSheet from '@equinor/fusion-react-side-sheet';
 import { Notifications as NotificationComponent } from './components/Notifications';
-import { Button, Icon } from '@equinor/eds-core-react';
-import { more_vertical } from '@equinor/eds-icons';
+
 import { MarkAllAsReadButton } from './components/MarkAllAsReadButton';
+import { NotificationMenu } from './components/NotificationMenu';
 
 export function Notifications({ action, onClose, open }: PortalActionProps) {
 	const subTitle = action.subTitle || '';
@@ -16,9 +16,7 @@ export function Notifications({ action, onClose, open }: PortalActionProps) {
 			<SideSheet.SubTitle subTitle={subTitle} />
 			<SideSheet.Actions>
 				<MarkAllAsReadButton />
-				{/* <Button variant="ghost_icon">
-					<Icon data={more_vertical} />
-				</Button> */}
+				<NotificationMenu />
 			</SideSheet.Actions>
 			<SideSheet.Content>
 				<NotificationComponent />
