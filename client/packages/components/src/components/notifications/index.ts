@@ -1,2 +1,2 @@
 export * from './components/NotificationBell';
-export * from './components/Notifications';
+export * from './Notifications';

@@ -1,13 +1,12 @@
-import { Button, Tabs } from '@equinor/eds-core-react';
+import { Tabs } from '@equinor/eds-core-react';
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { notificationQueries, notificationsBaseKey } from '../queries/notificationQueries';
+import { notificationQueries } from '../queries/notificationQueries';
 import { useFramework } from '@equinor/fusion-framework-react';
 
 import { NotificationDateDivisions } from './NotificationDateDivision';
-import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKeys';
-import { readNotificationAsync } from '../api/readNotification';
+
 import { css } from '@emotion/css';
 
 import { tokens } from '@equinor/eds-tokens';
@@ -18,13 +17,19 @@ interface NotificationsProps {
 }
 
 const StyledTabs = styled(Tabs)`
-	display: grid;
-	grid-template-rows: auto 1fr;
-	position: relative;
+	/* display: grid;
+	grid-template-rows: auto 1fr; */
+	width: inherit;
 `;
 
 const StyledPanels = styled(Tabs.Panels)`
-	overflow: auto;
+	position: absolute;
+	top: 128px;
+	right: 0;
+	left: 0;
+	padding: 0 1rem;
+	overflow-y: auto;
+	height: 100%;
 `;
 
 const StyledTabsList = styled(Tabs.List)`
@@ -40,18 +45,19 @@ const StyledTabsList = styled(Tabs.List)`
 
 const styles = {
 	tabListWrapper: css`
+		position: absolute;
+		left: 0px;
+		right: 0px;
 		display: flex;
 		width: 100%;
-		background-color: ${tokens.colors.ui.background__light.hex};
 		justify-content: space-between;
 		::before {
 			content: ' ';
+			background-color: ${tokens.colors.ui.background__medium.hex};
+			height: 2px;
+			width: 100%;
 			position: absolute;
-			left: -1rem;
-			top: 0px;
-			width: 1rem;
-			height: 48px;
-			background-color: #f7f7f7;
+			bottom: 0px;
 		}
 	`,
 	tabActions: css`
@@ -70,19 +76,9 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 	const { getUnreadNotificationsQuery } = notificationQueries;
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
 	const queryClient = useQueryClient();
-	const { read } = useNotificationMutationKeys();
-	const baseKey = notificationsBaseKey;
 
 	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery(client).queryKey);
 	const { unreadNotificationCards, readNotificationCards } = useNotificationCenter(onNotification);
-
-	const { mutate: markAsRead } = useMutation(read, readNotificationAsync, {
-		onSuccess: () => queryClient.invalidateQueries(baseKey),
-	});
-
-	const clickMarkAllAsRead = () => {
-		unreadNotificationCards.map((notification) => markAsRead({ notificationId: notification?.id, client }));
-	};
 
 	return (
 		<StyledTabs activeTab={activeTab} onChange={handleChange}>
@@ -91,11 +87,6 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 					<Tabs.Tab>Unread ({unreadNotificationCards.length})</Tabs.Tab>
 					<Tabs.Tab>Dismissed ({readNotificationCards.length})</Tabs.Tab>
 				</StyledTabsList>
-				<div className={styles.tabActions}>
-					<Button variant="ghost" onClick={clickMarkAllAsRead}>
-						Mark all as read
-					</Button>
-				</div>
 			</div>
 			<StyledPanels>
 				<Tabs.Panel>

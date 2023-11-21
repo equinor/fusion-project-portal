@@ -3,7 +3,8 @@ import { Notification } from '../types/Notification';
 import { NotificationCard } from './NotificationCard';
 import { tokens } from '@equinor/eds-tokens';
 import { css } from '@emotion/css';
-import { Typography } from '@equinor/eds-core-react';
+import { Divider, Typography } from '@equinor/eds-core-react';
+import styled from '@emotion/styled';
 
 type DateDivisionKey = 'today' | 'this-week' | 'last-week' | 'more-than-one-week';
 
@@ -73,19 +74,10 @@ interface NotificationDateDivisionsProps {
 }
 
 const styles = {
-	notifications: css`
-		display: flex;
-		flex-direction: column;
-		padding: 0em 1em;
-		height: 100%;
-	`,
-
 	notificationsList: css`
 		display: flex;
 		flex-direction: column;
-		overflow: scroll;
 		padding-bottom: 2rem;
-		padding-right: 1em;
 		height: 100%;
 		gap: 1rem;
 		::-webkit-scrollbar {
@@ -93,7 +85,7 @@ const styles = {
 			width: 0.3rem;
 		}
 		&:last-child {
-			border-bottom: 1px ${tokens.colors.interactive.disabled__border.hex} solid;
+			/* border-bottom: 1px ${tokens.colors.interactive.disabled__border.hex} solid; */
 			margin-bottom: 1rem;
 		}
 	`,
@@ -115,18 +107,20 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 			{notificationDivisions.map(
 				(division) =>
 					division.notifications.length > 0 && (
-						<div className={styles.notifications} key={division.key}>
-							<div className={styles.notificationsList}>
-								<Typography variant="h5">{division.label}</Typography>
+						<>
+							<div className={styles.notificationsList} key={division.key}>
+								<Typography variant="h6">{division.label}</Typography>
 								{sortList(division.notifications).map((notification, index) => (
 									<NotificationCard
+										divisionLabel={division.label}
 										key={notification.id + index}
 										notification={notification}
 										onNavigate={onClickNotification}
 									/>
 								))}
 							</div>
-						</div>
+							<Divider />
+						</>
 					)
 			)}
 		</>
