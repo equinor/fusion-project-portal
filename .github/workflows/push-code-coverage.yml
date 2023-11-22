@@ -1,12 +1,13 @@
-name: Post Client Coverage To docs
+name: Push Client Coverage
+
 on:
   workflow_dispatch:
   schedule:
     - cron: "30 13 * * *" # Schedule the job daily at 13:30 UTC
 
 jobs:
-  update-changelog:
-    name: Update changelog in docs
+  update-coverage:
+    name: Update Client Coverage in docs
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -14,7 +15,7 @@ jobs:
     env:
       commit-author: bot
       author-email: bot@equinor.com
-      commit-message: "docs: update changlog"
+      commit-message: "docs: update clinet-coverage.md"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
