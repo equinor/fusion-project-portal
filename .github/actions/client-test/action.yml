@@ -1,12 +1,11 @@
-name: Web Client Tests Coverage
-Description: Running Web Client Tests Coverage
+name: Web Client Tests
+Description: Running Web Client Tests
 
 runs:
   using: "composite"
   steps:
-    - name: Run Test Coverage and Coverage Build
+    - name: Run Test
       run: |
         cd client
-        yarn test:coverage
-        yarn build:coverage
+        yarn test
       shell: bash
