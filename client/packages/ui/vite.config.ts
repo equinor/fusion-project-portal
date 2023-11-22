@@ -15,6 +15,10 @@ export default defineConfig({
 			},
 		},
 		setupFiles: ['.config/test-setup.ts'],
+		coverage: {
+			reportsDirectory: path.resolve(__dirname, '../../coverage'),
+			reporter: [['json', { file: 'ui-coverage.json' }]],
+		},
 	},
 	resolve: {
 		alias: {

@@ -1,24 +1,20 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import tsconfig from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react()],
+	plugins: [react(), tsconfig()],
 	test: {
-		environment: 'jsdom',
-		globals: true,
-		setupFiles: ['.config/test-setup.ts'],
 		coverage: {
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
-			reporter: [['json', { file: 'components-coverage.json' }]],
+			reporter: [['json', { file: 'utils-coverage.json' }]],
 		},
 	},
 	resolve: {
 		alias: {
 			'@portal/types': path.resolve(__dirname, '../types/src/index.ts'),
-			'@portal/ui': path.resolve(__dirname, '../ui/src/index.ts'),
-			'@portal/utils': path.resolve(__dirname, '../utils/src/index.ts'),
 		},
 	},
 });

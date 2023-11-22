@@ -1,0 +1,44 @@
+name: Push Client Coverage
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 13 * * *" # Schedule the job daily at 13:30 UTC
+
+jobs:
+  update-coverage:
+    name: Update Client Coverage in docs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [16.x]
+    env:
+      commit-author: bot
+      author-email: bot@equinor.com
+      commit-message: "docs: update clinet-coverage.md"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: ./.github/actions/node-setup
+        with:
+          versions: ${{ matrix.version }}
+
+      - name: Install Dependecies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Client Test
+        uses: ./.github/actions/client-test-coverage
+
+      - name: Pushes Changelog File
+        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: "clinet-coverage.md"
+          destination_repo: "equinor/fusion-project-portal-internal"
+          destination_folder: "/docs//developer/ops"
+          user_email: ${{ env.author-email}}
+          user_name: ${{ env.commit-author}}
+          commit_message: ${{ env.commit-message}}

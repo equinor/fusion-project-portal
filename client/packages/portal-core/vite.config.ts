@@ -14,6 +14,10 @@ export default defineConfig({
 				fallbackCJS: true,
 			},
 		},
+		coverage: {
+			reportsDirectory: path.resolve(__dirname, '../../coverage'),
+			reporter: [['json', { file: 'portal-core-coverage.json' }]],
+		},
 	},
 	resolve: {
 		alias: {
