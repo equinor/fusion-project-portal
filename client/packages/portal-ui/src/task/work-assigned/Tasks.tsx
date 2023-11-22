@@ -86,7 +86,7 @@ const Style = {
 	`,
 };
 
-export const Tasks: FC<TasksProps> = ({ maxDisplay, height }) => {
+export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 	const [groupedBy, setGroupedBy] = useState<keyof typeof groupOption>('Category');
 	const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
 
