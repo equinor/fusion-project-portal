@@ -15,27 +15,61 @@ function readJsonFile(filePath) {
 function generateCoverageMarkdown(coverageData) {
 	let markdown = `# Client Code Coverage\n\n`;
 
+	markdown += `## Coverage Summary \n`;
+
+	markdown = crateSummaryCoverage(coverageData, markdown);
+
 	Object.entries(coverageData).forEach(([project, files]) => {
 		markdown += `## ${project.split('-coverage')[0]}\n\n`;
-		markdown +=
-			'| File                        | Statements Completed | Branches Completed | Functions Completed | Lines Completed |\n';
-		markdown +=
-			'|-----------------------------|-----------------------|--------------------|----------------------|------------------|\n';
+		markdown += '| File | Statements | Branches | Functions | Lines |\n';
+		markdown += '|-|-|-|-|-|\n';
 
 		Object.entries(files).forEach(([file, metrics]) => {
-			markdown += `| ${file.padEnd(28)} | ${metrics.statements.completed.padEnd(
-				21
-			)} | ${metrics.branches.completed.padEnd(18)} | ${metrics.functions.completed.padEnd(
-				22
-			)} | ${metrics.lines.completed.padEnd(16)} |\n`;
-			markdown += `|                             | ${metrics.statements.covered} | ${metrics.branches.covered} | ${metrics.functions.covered} | ${metrics.lines.covered} |\n`;
-			markdown +=
-				'|                             |                       |                    |                      |                  |\n';
+			markdown += `| ${file} | ${metrics.statements.completed} | ${metrics.branches.completed} | ${metrics.functions.completed} | ${metrics.lines.completed} |\n`;
+			markdown += `| | ${metrics.statements.covered} | ${metrics.branches.covered} | ${metrics.functions.covered} | ${metrics.lines.covered} |\n`;
+			markdown += '| | | | | |\n';
 		});
 
 		markdown += '\n';
 	});
 
+	return markdown;
+}
+
+function crateSummaryCoverage(coverageData, markdown) {
+	const data = Object.values(coverageData).reduce(
+		(acc, files) => {
+			Object.values(files).forEach((file) => {
+				acc.statements.covered += file.statements.data.covered;
+				acc.statements.total += file.statements.data.total;
+				acc.branches.covered += file.branches.data.covered;
+				acc.branches.total += file.branches.data.total;
+				acc.functions.covered += file.functions.data.covered;
+				acc.functions.total += file.functions.data.total;
+				acc.lines.covered += file.lines.data.covered;
+				acc.lines.total += file.lines.data.total;
+			});
+			return acc;
+		},
+		{
+			statements: { covered: 0, total: 0 },
+			branches: { covered: 0, total: 0 },
+			functions: { covered: 0, total: 0 },
+			lines: { covered: 0, total: 0 },
+		}
+	);
+
+	const statements = calculatePercentage(data.statements.covered, data.statements.total);
+	const branches = calculatePercentage(data.branches.covered, data.branches.total);
+	const functions = calculatePercentage(data.functions.covered, data.functions.total);
+	const lines = calculatePercentage(data.lines.covered, data.lines.total);
+
+	markdown += '| Statements | Branches | Functions | Lines |\n';
+	markdown += '|-|-|-|-|\n';
+	markdown += `|${formatPercentage(statements)} | ${formatPercentage(branches)} | ${formatPercentage(
+		functions
+	)} | ${formatPercentage(lines)} |\n`;
+	markdown += `|${data.statements.covered}/${data.statements.total}| ${data.branches.covered}/${data.branches.total} | ${data.functions.covered}/${data.functions.total} | ${data.lines.covered}/${data.lines.total} |\n`;
 	return markdown;
 }
 
@@ -85,19 +119,28 @@ function consolidateJsonFiles(folderPath, outputFile) {
 
 consolidateJsonFiles('../../coverage', '../../clinet-coverage.json');
 
-function convertToResult(percentage, category, covered, total) {
-	const formatPercentage = (percentage) => `${percentage.toFixed(2)}%`;
+function formatPercentage(percentage) {
+	return `${percentage.toFixed(0)}%`;
+}
 
+function convertToResult(percentage, category, covered, total) {
 	return {
 		completed: formatPercentage(percentage),
 		category,
 		covered: `${covered}/${total}`,
+		data: {
+			percentage,
+			covered,
+			total,
+		},
 	};
 }
 
-function convert(coverageData) {
-	const calculatePercentage = (covered, total) => (total === 0 ? 100 : (covered / total) * 100);
+function calculatePercentage(covered, total) {
+	return total === 0 ? 100 : (covered / total) * 100;
+}
 
+function convert(coverageData) {
 	const statementsTotal = Object.keys(coverageData.statementMap).length;
 	const branchesTotal = Object.keys(coverageData.branchMap).length;
 	const functionsTotal = Object.keys(coverageData.fnMap).length;
@@ -106,14 +149,15 @@ function convert(coverageData) {
 		return total + (statement.end.line - statement.start.line + 1);
 	}, 0);
 
-	const statementsCovered = Object.values(coverageData.s).reduce((total, value) => total + value, 0);
-	const branchesCovered = Object.values(coverageData.b).reduce((total, arr) => total + arr.length, 0);
-	const functionsCovered = Object.values(coverageData.f).reduce((total, value) => total + value, 0);
+	const statementsCovered = Object.values(coverageData.s).reduce((total, value) => total + (value > 0 ? 1 : 0), 0);
+	const branchesCovered = Object.values(coverageData.b).reduce((total, arr) => total + (arr[0] > 0 ? 1 : 0), 0);
+	const functionsCovered = Object.values(coverageData.f).reduce((total, value) => total + (value > 0 ? 1 : 0), 0);
 	const linesCovered = statementsCovered;
 
 	const statementPercentage = calculatePercentage(statementsCovered, statementsTotal);
 	const branchPercentage = calculatePercentage(branchesCovered, branchesTotal);
 	const functionPercentage = calculatePercentage(functionsCovered, functionsTotal);
+
 	const linePercentage = calculatePercentage(linesCovered, linesTotal);
 
 	const statementsResult = convertToResult(statementPercentage, 'Statements', statementsCovered, statementsTotal);

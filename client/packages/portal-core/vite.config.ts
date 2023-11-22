@@ -15,8 +15,13 @@ export default defineConfig({
 			},
 		},
 		coverage: {
+			clean: true,
+			all: true,
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
-			reporter: [['json', { file: 'portal-core-coverage.json' }]],
+			reporter: [
+				['json', { file: 'portal-core-coverage.json' }],
+				['text', { file: 'portal-core-coverage.md' }],
+			],
 		},
 	},
 	resolve: {

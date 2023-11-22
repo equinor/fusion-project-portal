@@ -10,8 +10,13 @@ export default defineConfig({
 		globals: true,
 		setupFiles: ['.config/test-setup.ts'],
 		coverage: {
+			clean: true,
+			all: true,
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
-			reporter: [['json', { file: 'components-coverage.json' }]],
+			reporter: [
+				['json', { file: 'components-coverage.json' }],
+				['text', { file: 'components-coverage.md' }],
+			],
 		},
 	},
 	resolve: {

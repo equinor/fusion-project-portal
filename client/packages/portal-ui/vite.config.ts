@@ -9,8 +9,12 @@ export default defineConfig({
 		environment: 'jsdom',
 		globals: true,
 		coverage: {
+			clean: true,
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
-			reporter: [['json', { file: 'portal-ui-coverage.json' }]],
+			reporter: [
+				['json', { file: 'portal-ui-coverage.json' }],
+				['text', { file: 'portal-ui-coverage.md' }],
+			],
 		},
 	},
 });

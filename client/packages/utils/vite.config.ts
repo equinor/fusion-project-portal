@@ -8,8 +8,13 @@ export default defineConfig({
 	plugins: [react(), tsconfig()],
 	test: {
 		coverage: {
+			clean: true,
+			all: true,
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
-			reporter: [['json', { file: 'utils-coverage.json' }]],
+			reporter: [
+				['json', { file: 'utils-coverage.json' }],
+				['text', { file: 'utils-coverage.md' }],
+			],
 		},
 	},
 	resolve: {

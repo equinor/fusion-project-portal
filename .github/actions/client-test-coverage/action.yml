@@ -8,5 +8,4 @@ runs:
       run: |
         cd client
         yarn test:coverage
-        yarn build:coverage
       shell: bash

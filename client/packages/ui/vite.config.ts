@@ -16,8 +16,13 @@ export default defineConfig({
 		},
 		setupFiles: ['.config/test-setup.ts'],
 		coverage: {
+			clean: true,
+			all: true,
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
-			reporter: [['json', { file: 'ui-coverage.json' }]],
+			reporter: [
+				['json', { file: 'ui-coverage.json' }],
+				['text', { file: 'ui-coverage.md' }],
+			],
 		},
 	},
 	resolve: {

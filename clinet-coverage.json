@@ -1,0 +1,5516 @@
+{
+  "components-coverage.json": {
+    "index.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      }
+    },
+    "Help.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/76",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 76
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/76",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 76
+        }
+      }
+    },
+    "HelpMenu.tsx": {
+      "statements": {
+        "completed": "91%",
+        "category": "Statements",
+        "covered": "79/87",
+        "data": {
+          "percentage": 90.80459770114942,
+          "covered": 79,
+          "total": 87
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "17%",
+        "category": "Functions",
+        "covered": "1/6",
+        "data": {
+          "percentage": 16.666666666666664,
+          "covered": 1,
+          "total": 6
+        }
+      },
+      "lines": {
+        "completed": "91%",
+        "category": "Lines",
+        "covered": "79/87",
+        "data": {
+          "percentage": 90.80459770114942,
+          "covered": 79,
+          "total": 87
+        }
+      }
+    },
+    "MyAccount.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/118",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 118
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/118",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 118
+        }
+      }
+    },
+    "ProfileCardHeader.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      }
+    },
+    "ProfileContactDetails.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/67",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 67
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/67",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 67
+        }
+      }
+    },
+    "ProfileListItem.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/101",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 101
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/101",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 101
+        }
+      }
+    },
+    "ProfileManager.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      }
+    },
+    "MyAllocationTab.tsx": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "109/109",
+        "data": {
+          "percentage": 100,
+          "covered": 109,
+          "total": 109
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "6/6",
+        "data": {
+          "percentage": 100,
+          "covered": 6,
+          "total": 6
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "109/109",
+        "data": {
+          "percentage": 100,
+          "covered": 109,
+          "total": 109
+        }
+      }
+    },
+    "MyRolesTab.tsx": {
+      "statements": {
+        "completed": "95%",
+        "category": "Statements",
+        "covered": "104/110",
+        "data": {
+          "percentage": 94.54545454545455,
+          "covered": 104,
+          "total": 110
+        }
+      },
+      "branches": {
+        "completed": "67%",
+        "category": "Branches",
+        "covered": "6/9",
+        "data": {
+          "percentage": 66.66666666666666,
+          "covered": 6,
+          "total": 9
+        }
+      },
+      "functions": {
+        "completed": "67%",
+        "category": "Functions",
+        "covered": "2/3",
+        "data": {
+          "percentage": 66.66666666666666,
+          "covered": 2,
+          "total": 3
+        }
+      },
+      "lines": {
+        "completed": "95%",
+        "category": "Lines",
+        "covered": "104/110",
+        "data": {
+          "percentage": 94.54545454545455,
+          "covered": 104,
+          "total": 110
+        }
+      }
+    },
+    "use-update-my-roles-query.ts": {
+      "statements": {
+        "completed": "18%",
+        "category": "Statements",
+        "covered": "17/93",
+        "data": {
+          "percentage": 18.27956989247312,
+          "covered": 17,
+          "total": 93
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "0/0",
+        "data": {
+          "percentage": 100,
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/3",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 3
+        }
+      },
+      "lines": {
+        "completed": "18%",
+        "category": "Lines",
+        "covered": "17/93",
+        "data": {
+          "percentage": 18.27956989247312,
+          "covered": 17,
+          "total": 93
+        }
+      }
+    },
+    "expires-in.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "18/18",
+        "data": {
+          "percentage": 100,
+          "covered": 18,
+          "total": 18
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "3/3",
+        "data": {
+          "percentage": 100,
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "18/18",
+        "data": {
+          "percentage": 100,
+          "covered": 18,
+          "total": 18
+        }
+      }
+    },
+    "PortalSettingsTab.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/20",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 20
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/20",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 20
+        }
+      }
+    },
+    "PresenceIndicator.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/25",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 25
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/25",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 25
+        }
+      }
+    },
+    "use-presence-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      }
+    },
+    "getPresence.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/8",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 8
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/8",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 8
+        }
+      }
+    },
+    "types.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/38",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 38
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/38",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 38
+        }
+      }
+    },
+    "parse-presence-status.tsx": {
+      "statements": {
+        "completed": "52%",
+        "category": "Statements",
+        "covered": "28/54",
+        "data": {
+          "percentage": 51.85185185185185,
+          "covered": 28,
+          "total": 54
+        }
+      },
+      "branches": {
+        "completed": "25%",
+        "category": "Branches",
+        "covered": "2/8",
+        "data": {
+          "percentage": 25,
+          "covered": 2,
+          "total": 8
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "52%",
+        "category": "Lines",
+        "covered": "28/54",
+        "data": {
+          "percentage": 51.85185185185185,
+          "covered": 28,
+          "total": 54
+        }
+      }
+    },
+    "ServiceNox.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/37",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 37
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/37",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 37
+        }
+      }
+    },
+    "index.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/19",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 19
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/19",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 19
+        }
+      }
+    },
+    "ActiveIncidentStateTooltip.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/63",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 63
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/63",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 63
+        }
+      }
+    },
+    "ActiveIncidents.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/60",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 60
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/60",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 60
+        }
+      }
+    },
+    "ActiveIncidentsItem.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/51",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 51
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/51",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 51
+        }
+      }
+    },
+    "ActiveIncidentsList.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/68",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 68
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/68",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 68
+        }
+      }
+    },
+    "AttachmentsApiFailed.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/60",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 60
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/60",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 60
+        }
+      }
+    },
+    "AttachmentsPartialFail.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/35",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 35
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/35",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 35
+        }
+      }
+    },
+    "NewIncident.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/192",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 192
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/192",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 192
+        }
+      }
+    },
+    "FileItem.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/28",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 28
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/28",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 28
+        }
+      }
+    },
+    "FileList.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/41",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 41
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/41",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 41
+        }
+      }
+    },
+    "FileUpload.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/111",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 111
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/111",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 111
+        }
+      }
+    },
+    "use-incident-meta.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/16",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/16",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 16
+        }
+      }
+    },
+    "use-service-now-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/50",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 50
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/50",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 50
+        }
+      }
+    },
+    "service-now-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/71",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 71
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/71",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 71
+        }
+      }
+    },
+    "error-utils.ts": {
+      "statements": {
+        "completed": "97%",
+        "category": "Statements",
+        "covered": "59/61",
+        "data": {
+          "percentage": 96.72131147540983,
+          "covered": 59,
+          "total": 61
+        }
+      },
+      "branches": {
+        "completed": "94%",
+        "category": "Branches",
+        "covered": "15/16",
+        "data": {
+          "percentage": 93.75,
+          "covered": 15,
+          "total": 16
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "3/3",
+        "data": {
+          "percentage": 100,
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "lines": {
+        "completed": "97%",
+        "category": "Lines",
+        "covered": "59/61",
+        "data": {
+          "percentage": 96.72131147540983,
+          "covered": 59,
+          "total": 61
+        }
+      }
+    },
+    "get-incident-color-by-state.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "16/16",
+        "data": {
+          "percentage": 100,
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "6/6",
+        "data": {
+          "percentage": 100,
+          "covered": 6,
+          "total": 6
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "16/16",
+        "data": {
+          "percentage": 100,
+          "covered": 16,
+          "total": 16
+        }
+      }
+    },
+    "handle-attachments-response.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "38/38",
+        "data": {
+          "percentage": 100,
+          "covered": 38,
+          "total": 38
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "9/9",
+        "data": {
+          "percentage": 100,
+          "covered": 9,
+          "total": 9
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "38/38",
+        "data": {
+          "percentage": 100,
+          "covered": 38,
+          "total": 38
+        }
+      }
+    },
+    "TopBarAvatar.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/8",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 8
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/8",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 8
+        }
+      }
+    }
+  },
+  "core-coverage.json": {
+    "index.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      }
+    },
+    "mocks.ts": {
+      "statements": {
+        "completed": "82%",
+        "category": "Statements",
+        "covered": "41/50",
+        "data": {
+          "percentage": 82,
+          "covered": 41,
+          "total": 50
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "0/0",
+        "data": {
+          "percentage": 100,
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/5",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 5
+        }
+      },
+      "lines": {
+        "completed": "82%",
+        "category": "Lines",
+        "covered": "41/50",
+        "data": {
+          "percentage": 82,
+          "covered": 41,
+          "total": 50
+        }
+      }
+    },
+    "use-app-loader.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "94/94",
+        "data": {
+          "percentage": 100,
+          "covered": 94,
+          "total": 94
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "9/9",
+        "data": {
+          "percentage": 100,
+          "covered": 9,
+          "total": 9
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "4/4",
+        "data": {
+          "percentage": 100,
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "94/94",
+        "data": {
+          "percentage": 100,
+          "covered": 94,
+          "total": 94
+        }
+      }
+    },
+    "use-app-module.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "21/21",
+        "data": {
+          "percentage": 100,
+          "covered": 21,
+          "total": 21
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "21/21",
+        "data": {
+          "percentage": 100,
+          "covered": 21,
+          "total": 21
+        }
+      }
+    },
+    "use-current-app-manifest.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "16/16",
+        "data": {
+          "percentage": 100,
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "6/6",
+        "data": {
+          "percentage": 100,
+          "covered": 6,
+          "total": 6
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "16/16",
+        "data": {
+          "percentage": 100,
+          "covered": 16,
+          "total": 16
+        }
+      }
+    },
+    "use-current-app.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "7/7",
+        "data": {
+          "percentage": 100,
+          "covered": 7,
+          "total": 7
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "7/7",
+        "data": {
+          "percentage": 100,
+          "covered": 7,
+          "total": 7
+        }
+      }
+    },
+    "use-framework-and-app-module.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "7/7",
+        "data": {
+          "percentage": 100,
+          "covered": 7,
+          "total": 7
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "7/7",
+        "data": {
+          "percentage": 100,
+          "covered": 7,
+          "total": 7
+        }
+      }
+    },
+    "use-legacy-app-loader.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "17/17",
+        "data": {
+          "percentage": 100,
+          "covered": 17,
+          "total": 17
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "3/3",
+        "data": {
+          "percentage": 100,
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "17/17",
+        "data": {
+          "percentage": 100,
+          "covered": 17,
+          "total": 17
+        }
+      }
+    },
+    "app-render.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "22/22",
+        "data": {
+          "percentage": 100,
+          "covered": 22,
+          "total": 22
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "8/8",
+        "data": {
+          "percentage": 100,
+          "covered": 8,
+          "total": 8
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "22/22",
+        "data": {
+          "percentage": 100,
+          "covered": 22,
+          "total": 22
+        }
+      }
+    },
+    "app-element.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "9/9",
+        "data": {
+          "percentage": 100,
+          "covered": 9,
+          "total": 9
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "9/9",
+        "data": {
+          "percentage": 100,
+          "covered": 9,
+          "total": 9
+        }
+      }
+    },
+    "app-get-legacy-client-config.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "15/15",
+        "data": {
+          "percentage": 100,
+          "covered": 15,
+          "total": 15
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "15/15",
+        "data": {
+          "percentage": 100,
+          "covered": 15,
+          "total": 15
+        }
+      }
+    },
+    "app-is-legacy-fusion-application.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "17/17",
+        "data": {
+          "percentage": 100,
+          "covered": 17,
+          "total": 17
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "3/3",
+        "data": {
+          "percentage": 100,
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "17/17",
+        "data": {
+          "percentage": 100,
+          "covered": 17,
+          "total": 17
+        }
+      }
+    },
+    "app-mounted.ts": {
+      "statements": {
+        "completed": "71%",
+        "category": "Statements",
+        "covered": "5/7",
+        "data": {
+          "percentage": 71.42857142857143,
+          "covered": 5,
+          "total": 7
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "50%",
+        "category": "Functions",
+        "covered": "1/2",
+        "data": {
+          "percentage": 50,
+          "covered": 1,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "71%",
+        "category": "Lines",
+        "covered": "5/7",
+        "data": {
+          "percentage": 71.42857142857143,
+          "covered": 5,
+          "total": 7
+        }
+      }
+    },
+    "apps-matching-search.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "16/16",
+        "data": {
+          "percentage": 100,
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "7/7",
+        "data": {
+          "percentage": 100,
+          "covered": 7,
+          "total": 7
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "16/16",
+        "data": {
+          "percentage": 100,
+          "covered": 16,
+          "total": 16
+        }
+      }
+    },
+    "use-app-groups-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/16",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/16",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 16
+        }
+      }
+    },
+    "use-current-app-group.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/30",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 30
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/30",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 30
+        }
+      }
+    },
+    "use-current-apps.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      }
+    },
+    "getAppGroups.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/24",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 24
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/24",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 24
+        }
+      }
+    },
+    "useUserInfo.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/9",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 9
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/9",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 9
+        }
+      }
+    },
+    "useUserQueries.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/38",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 38
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/38",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 38
+        }
+      }
+    },
+    "userPhoto.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/11",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 11
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/11",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 11
+        }
+      }
+    },
+    "user-info-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      }
+    },
+    "user-photo-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/7",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 7
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/7",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 7
+        }
+      }
+    },
+    "personCardUtils.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/30",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 30
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/30",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 30
+        }
+      }
+    }
+  },
+  "portal-core-coverage.json": {
+    "index.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      }
+    },
+    "types.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/42",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 42
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/42",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 42
+        }
+      }
+    },
+    "use-context-relations.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/32",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 32
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/32",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 32
+        }
+      }
+    },
+    "ContextProvider.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      }
+    },
+    "ContextSelector.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/45",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 45
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/45",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 45
+        }
+      }
+    },
+    "PortalContextSelector.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/64",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 64
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/64",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 64
+        }
+      }
+    },
+    "configureDebug.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/19",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 19
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/19",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 19
+        }
+      }
+    },
+    "app-configurator.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/41",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 41
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/41",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 41
+        }
+      }
+    },
+    "portal-configurators.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/16",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/16",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 16
+        }
+      }
+    },
+    "portal-context-configurators.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      }
+    },
+    "portal-context-history.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/59",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 59
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/59",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 59
+        }
+      }
+    },
+    "use-context-client.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/22",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 22
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/22",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 22
+        }
+      }
+    },
+    "use-context-resolver.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/126",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 126
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/126",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 126
+        }
+      }
+    },
+    "use-framework-context.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/6",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 6
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/6",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 6
+        }
+      }
+    },
+    "use-framework-current-context.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/10",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 10
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/10",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 10
+        }
+      }
+    },
+    "use-onboarded-contexts.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/26",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 26
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/26",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 26
+        }
+      }
+    },
+    "use-portal-client.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/3",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 3
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/3",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 3
+        }
+      }
+    },
+    "use-portal-config.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/11",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 11
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/11",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 11
+        }
+      }
+    },
+    "use-store-current-view-id.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/10",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 10
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/10",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 10
+        }
+      }
+    },
+    "use-top-bar-actions.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/6",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 6
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/6",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 6
+        }
+      }
+    },
+    "menuFavorites.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/13",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 13
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/13",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 13
+        }
+      }
+    },
+    "configurator.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/31",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 31
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/31",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 31
+        }
+      }
+    },
+    "enableTelemetry.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/21",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 21
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/21",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 21
+        }
+      }
+    },
+    "module.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/21",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 21
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/21",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 21
+        }
+      }
+    },
+    "provider.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/59",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 59
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/59",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 59
+        }
+      }
+    },
+    "use-telemetry.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/18",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 18
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/18",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 18
+        }
+      }
+    },
+    "portal-actions-config.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/76",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 76
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/76",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 76
+        }
+      }
+    },
+    "portal-actions.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/31",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 31
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/31",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 31
+        }
+      }
+    },
+    "portal-top-bar-actions.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      }
+    },
+    "use-portal-actions.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/6",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 6
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/6",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 6
+        }
+      }
+    },
+    "utils.ts": {
+      "statements": {
+        "completed": "50%",
+        "category": "Statements",
+        "covered": "8/16",
+        "data": {
+          "percentage": 50,
+          "covered": 8,
+          "total": 16
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "functions": {
+        "completed": "33%",
+        "category": "Functions",
+        "covered": "1/3",
+        "data": {
+          "percentage": 33.33333333333333,
+          "covered": 1,
+          "total": 3
+        }
+      },
+      "lines": {
+        "completed": "50%",
+        "category": "Lines",
+        "covered": "8/16",
+        "data": {
+          "percentage": 50,
+          "covered": 8,
+          "total": 16
+        }
+      }
+    },
+    "CurrentViewContext.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/59",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 59
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/59",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 59
+        }
+      }
+    },
+    "FailedToLoadViews.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/22",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 22
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/22",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 22
+        }
+      }
+    },
+    "view-context.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      }
+    },
+    "MenuProvider.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/64",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 64
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/64",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 64
+        }
+      }
+    },
+    "menu-types.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/14",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 14
+        }
+      }
+    },
+    "use-menu-context.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/7",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 7
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/7",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 7
+        }
+      }
+    },
+    "use-current-view-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/17",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 17
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/17",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 17
+        }
+      }
+    },
+    "use-onboarded-context-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/13",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 13
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/13",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 13
+        }
+      }
+    },
+    "use-views-query.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      }
+    },
+    "getAvailableContexts.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/9",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 9
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/9",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 9
+        }
+      }
+    },
+    "getViewById.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/26",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 26
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/26",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 26
+        }
+      }
+    },
+    "getViews.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/29",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 29
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/29",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 29
+        }
+      }
+    },
+    "view-store.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/7",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 7
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/7",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 7
+        }
+      }
+    }
+  },
+  "portal-ui-coverage.json": {
+    "Divider.tsx": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "18/18",
+        "data": {
+          "percentage": 100,
+          "covered": 18,
+          "total": 18
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "18/18",
+        "data": {
+          "percentage": 100,
+          "covered": 18,
+          "total": 18
+        }
+      }
+    },
+    "ErrorView.tsx": {
+      "statements": {
+        "completed": "96%",
+        "category": "Statements",
+        "covered": "44/46",
+        "data": {
+          "percentage": 95.65217391304348,
+          "covered": 44,
+          "total": 46
+        }
+      },
+      "branches": {
+        "completed": "33%",
+        "category": "Branches",
+        "covered": "1/3",
+        "data": {
+          "percentage": 33.33333333333333,
+          "covered": 1,
+          "total": 3
+        }
+      },
+      "functions": {
+        "completed": "50%",
+        "category": "Functions",
+        "covered": "1/2",
+        "data": {
+          "percentage": 50,
+          "covered": 1,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "96%",
+        "category": "Lines",
+        "covered": "44/46",
+        "data": {
+          "percentage": 95.65217391304348,
+          "covered": 44,
+          "total": 46
+        }
+      }
+    },
+    "PortalMessagePage.tsx": {
+      "statements": {
+        "completed": "96%",
+        "category": "Statements",
+        "covered": "85/89",
+        "data": {
+          "percentage": 95.50561797752809,
+          "covered": 85,
+          "total": 89
+        }
+      },
+      "branches": {
+        "completed": "18%",
+        "category": "Branches",
+        "covered": "2/11",
+        "data": {
+          "percentage": 18.181818181818183,
+          "covered": 2,
+          "total": 11
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "96%",
+        "category": "Lines",
+        "covered": "85/89",
+        "data": {
+          "percentage": 95.50561797752809,
+          "covered": 85,
+          "total": 89
+        }
+      }
+    },
+    "index.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "0/0",
+        "data": {
+          "percentage": 100,
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "0/0",
+        "data": {
+          "percentage": 100,
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      }
+    }
+  },
+  "ui-coverage.json": {
+    "index.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/2",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 2
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/2",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 2
+        }
+      }
+    },
+    "Avatar.tsx": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "55/55",
+        "data": {
+          "percentage": 100,
+          "covered": 55,
+          "total": 55
+        }
+      },
+      "branches": {
+        "completed": "80%",
+        "category": "Branches",
+        "covered": "8/10",
+        "data": {
+          "percentage": 80,
+          "covered": 8,
+          "total": 10
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "4/4",
+        "data": {
+          "percentage": 100,
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "55/55",
+        "data": {
+          "percentage": 100,
+          "covered": 55,
+          "total": 55
+        }
+      }
+    },
+    "ExternalLink.tsx": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "60/60",
+        "data": {
+          "percentage": 100,
+          "covered": 60,
+          "total": 60
+        }
+      },
+      "branches": {
+        "completed": "50%",
+        "category": "Branches",
+        "covered": "1/2",
+        "data": {
+          "percentage": 50,
+          "covered": 1,
+          "total": 2
+        }
+      },
+      "functions": {
+        "completed": "33%",
+        "category": "Functions",
+        "covered": "1/3",
+        "data": {
+          "percentage": 33.33333333333333,
+          "covered": 1,
+          "total": 3
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "60/60",
+        "data": {
+          "percentage": 100,
+          "covered": 60,
+          "total": 60
+        }
+      }
+    },
+    "DelveIcon.svg.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/61",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 61
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/61",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 61
+        }
+      }
+    },
+    "TeamsIcon.svg.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/73",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 73
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/73",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 73
+        }
+      }
+    },
+    "MenuItem.tsx": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "65/65",
+        "data": {
+          "percentage": 100,
+          "covered": 65,
+          "total": 65
+        }
+      },
+      "branches": {
+        "completed": "67%",
+        "category": "Branches",
+        "covered": "4/6",
+        "data": {
+          "percentage": 66.66666666666666,
+          "covered": 4,
+          "total": 6
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "2/2",
+        "data": {
+          "percentage": 100,
+          "covered": 2,
+          "total": 2
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "65/65",
+        "data": {
+          "percentage": 100,
+          "covered": 65,
+          "total": 65
+        }
+      }
+    },
+    "MessageCard.tsx": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "114/114",
+        "data": {
+          "percentage": 100,
+          "covered": 114,
+          "total": 114
+        }
+      },
+      "branches": {
+        "completed": "71%",
+        "category": "Branches",
+        "covered": "5/7",
+        "data": {
+          "percentage": 71.42857142857143,
+          "covered": 5,
+          "total": 7
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "4/4",
+        "data": {
+          "percentage": 100,
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "114/114",
+        "data": {
+          "percentage": 100,
+          "covered": 114,
+          "total": 114
+        }
+      }
+    },
+    "PortalMessage.tsx": {
+      "statements": {
+        "completed": "98%",
+        "category": "Statements",
+        "covered": "79/81",
+        "data": {
+          "percentage": 97.53086419753086,
+          "covered": 79,
+          "total": 81
+        }
+      },
+      "branches": {
+        "completed": "29%",
+        "category": "Branches",
+        "covered": "2/7",
+        "data": {
+          "percentage": 28.57142857142857,
+          "covered": 2,
+          "total": 7
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "98%",
+        "category": "Lines",
+        "covered": "79/81",
+        "data": {
+          "percentage": 97.53086419753086,
+          "covered": 79,
+          "total": 81
+        }
+      }
+    },
+    "types.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      }
+    },
+    "get-portal-message-type.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "38/38",
+        "data": {
+          "percentage": 100,
+          "covered": 38,
+          "total": 38
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "14/14",
+        "data": {
+          "percentage": 100,
+          "covered": 14,
+          "total": 14
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "38/38",
+        "data": {
+          "percentage": 100,
+          "covered": 38,
+          "total": 38
+        }
+      }
+    },
+    "Skeleton.tsx": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/46",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 46
+        }
+      }
+    },
+    "user.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "32/32",
+        "data": {
+          "percentage": 100,
+          "covered": 32,
+          "total": 32
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "7/7",
+        "data": {
+          "percentage": 100,
+          "covered": 7,
+          "total": 7
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "32/32",
+        "data": {
+          "percentage": 100,
+          "covered": 32,
+          "total": 32
+        }
+      }
+    }
+  },
+  "utils-coverage.json": {
+    "index.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      }
+    },
+    "move-item-by-index.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "10/10",
+        "data": {
+          "percentage": 100,
+          "covered": 10,
+          "total": 10
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "3/3",
+        "data": {
+          "percentage": 100,
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "10/10",
+        "data": {
+          "percentage": 100,
+          "covered": 10,
+          "total": 10
+        }
+      }
+    },
+    "utils.ts": {
+      "statements": {
+        "completed": "26%",
+        "category": "Statements",
+        "covered": "18/68",
+        "data": {
+          "percentage": 26.47058823529412,
+          "covered": 18,
+          "total": 68
+        }
+      },
+      "branches": {
+        "completed": "67%",
+        "category": "Branches",
+        "covered": "2/3",
+        "data": {
+          "percentage": 66.66666666666666,
+          "covered": 2,
+          "total": 3
+        }
+      },
+      "functions": {
+        "completed": "25%",
+        "category": "Functions",
+        "covered": "1/4",
+        "data": {
+          "percentage": 25,
+          "covered": 1,
+          "total": 4
+        }
+      },
+      "lines": {
+        "completed": "26%",
+        "category": "Lines",
+        "covered": "18/68",
+        "data": {
+          "percentage": 26.47058823529412,
+          "covered": 18,
+          "total": 68
+        }
+      }
+    },
+    "mutate-array.ts": {
+      "statements": {
+        "completed": "98%",
+        "category": "Statements",
+        "covered": "62/63",
+        "data": {
+          "percentage": 98.4126984126984,
+          "covered": 62,
+          "total": 63
+        }
+      },
+      "branches": {
+        "completed": "71%",
+        "category": "Branches",
+        "covered": "5/7",
+        "data": {
+          "percentage": 71.42857142857143,
+          "covered": 5,
+          "total": 7
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "3/3",
+        "data": {
+          "percentage": 100,
+          "covered": 3,
+          "total": 3
+        }
+      },
+      "lines": {
+        "completed": "98%",
+        "category": "Lines",
+        "covered": "62/63",
+        "data": {
+          "percentage": 98.4126984126984,
+          "covered": 62,
+          "total": 63
+        }
+      }
+    },
+    "response-error-parser.ts": {
+      "statements": {
+        "completed": "100%",
+        "category": "Statements",
+        "covered": "21/21",
+        "data": {
+          "percentage": 100,
+          "covered": 21,
+          "total": 21
+        }
+      },
+      "branches": {
+        "completed": "100%",
+        "category": "Branches",
+        "covered": "6/6",
+        "data": {
+          "percentage": 100,
+          "covered": 6,
+          "total": 6
+        }
+      },
+      "functions": {
+        "completed": "100%",
+        "category": "Functions",
+        "covered": "1/1",
+        "data": {
+          "percentage": 100,
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "100%",
+        "category": "Lines",
+        "covered": "21/21",
+        "data": {
+          "percentage": 100,
+          "covered": 21,
+          "total": 21
+        }
+      }
+    },
+    "observable-proxy.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/15",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 15
+        }
+      }
+    },
+    "observable-storage.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/22",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 22
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/22",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 22
+        }
+      }
+    },
+    "use-observable.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/29",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 29
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/29",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 29
+        }
+      }
+    },
+    "local-storage.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/33",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 33
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/33",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 33
+        }
+      }
+    },
+    "fusion-portal-url.ts": {
+      "statements": {
+        "completed": "0%",
+        "category": "Statements",
+        "covered": "0/20",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 20
+        }
+      },
+      "branches": {
+        "completed": "0%",
+        "category": "Branches",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "functions": {
+        "completed": "0%",
+        "category": "Functions",
+        "covered": "0/1",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "lines": {
+        "completed": "0%",
+        "category": "Lines",
+        "covered": "0/20",
+        "data": {
+          "percentage": 0,
+          "covered": 0,
+          "total": 20
+        }
+      }
+    }
+  }
+}
