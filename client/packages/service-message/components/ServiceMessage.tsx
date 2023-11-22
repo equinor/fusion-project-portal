@@ -83,7 +83,7 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 					))
 				) : (
 					<Styles.NoContentWrapper>
-						<PortalMessage title="No Active Portal Messages" type="Info" isMuted titleVariant="h4">
+						<PortalMessage title="No Active Portal Messages" type="Info">
 							Everything appears to be functioning smoothly.
 						</PortalMessage>
 					</Styles.NoContentWrapper>
@@ -112,7 +112,7 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 						))
 				) : (
 					<Styles.NoContentWrapper>
-						<PortalMessage title="No Active App Messages" type="Info" isMuted titleVariant="h4">
+						<PortalMessage title="No Active App Messages" type="Info">
 							All application appears to be functioning smoothly.
 						</PortalMessage>
 					</Styles.NoContentWrapper>
