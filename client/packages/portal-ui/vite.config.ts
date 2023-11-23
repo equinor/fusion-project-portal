@@ -10,10 +10,12 @@ export default defineConfig({
 		globals: true,
 		coverage: {
 			clean: true,
+			all: true,
+			exclude: ['**/index.ts'],
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
 			reporter: [
-				['json', { file: 'portal-ui-coverage.json' }],
-				['text', { file: 'portal-ui-coverage.md' }],
+				['json', { file: 'portal-ui.json' }],
+				['text', { file: 'portal-ui.md' }],
 			],
 		},
 	},

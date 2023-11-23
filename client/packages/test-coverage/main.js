@@ -20,7 +20,7 @@ function generateCoverageMarkdown(coverageData) {
 	markdown = crateSummaryCoverage(coverageData, markdown);
 
 	Object.entries(coverageData).forEach(([project, files]) => {
-		markdown += `## ${project.split('-coverage')[0]}\n\n`;
+		markdown += `## ${project.split('.')[0]}\n\n`;
 		markdown += '| File | Statements | Branches | Functions | Lines |\n';
 		markdown += '|-|-|-|-|-|\n';
 

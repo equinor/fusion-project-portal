@@ -12,10 +12,11 @@ export default defineConfig({
 		coverage: {
 			clean: true,
 			all: true,
+			exclude: ['**/index.ts'],
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
 			reporter: [
-				['json', { file: 'components-coverage.json' }],
-				['text', { file: 'components-coverage.md' }],
+				['json', { file: 'components.json' }],
+				['text', { file: 'components.md' }],
 			],
 		},
 	},

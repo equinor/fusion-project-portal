@@ -18,10 +18,11 @@ export default defineConfig({
 		coverage: {
 			clean: true,
 			all: true,
+			exclude: ['**/index.ts'],
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
 			reporter: [
-				['json', { file: 'ui-coverage.json' }],
-				['text', { file: 'ui-coverage.md' }],
+				['json', { file: 'ui.json' }],
+				['text', { file: 'ui.md' }],
 			],
 		},
 	},

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import tsconfig from 'vite-tsconfig-paths';
@@ -14,14 +14,15 @@ export default defineConfig({
 				fallbackCJS: true,
 			},
 		},
+
 		coverage: {
 			clean: true,
 			all: true,
-			exclude: ['**/index.ts'],
+			exclude: ['src/assets/**', '**/index.ts'],
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
 			reporter: [
-				['json', { file: 'portal-core.json' }],
-				['text', { file: 'portal-core.md' }],
+				['json', { file: 'portal-client.json' }],
+				['text', { file: 'portal-client.md' }],
 			],
 		},
 	},
