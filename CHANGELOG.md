@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.10.0
+
+### Minor Changes
+
+- fd738d1: The notification system has been refined to ensure users receive notifications selectively. Now, notifications will be triggered only when the "notify user" option is explicitly set on a service message item.
+
 ## 1.9.2
 
 ### Patch Changes
