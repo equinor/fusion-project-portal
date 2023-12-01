@@ -1,17 +1,11 @@
-import { useFramework } from '@equinor/fusion-framework-react';
-import { useMutation, useQueryClient } from 'react-query';
-import { readNotificationAsync } from '../api/readNotification';
-import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKeys';
-import { notificationsBaseKey } from '../queries/notificationQueries';
 import { Notification } from '../types/Notification';
 import AdaptiveCardViewer from './adaptivCard/AdaptivCardViewer';
 import { css } from '@emotion/css';
 import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { delete_to_trash } from '@equinor/eds-icons';
-import { deleteNotificationAsync } from '../api/deleteNotification';
-import { tokens } from '@equinor/eds-tokens';
 
-Icon.add({ delete_to_trash });
+import { tokens } from '@equinor/eds-tokens';
+import { useNotification } from '../hooks/useNotification';
 
 interface NotificationCardProps {
 	notification: Notification;
@@ -50,26 +44,14 @@ const get24HTime = (date: string) => {
 };
 
 export const NotificationCard = ({ notification, divisionLabel }: NotificationCardProps): JSX.Element => {
-	const queryClient = useQueryClient();
-	const { read, deleteMutation } = useNotificationMutationKeys();
-	const client = useFramework().modules.serviceDiscovery.createClient('notification');
-
-	const baseKey = notificationsBaseKey;
-
-	const { mutate: markAsRead } = useMutation(read, readNotificationAsync, {
-		onSuccess: () => queryClient.invalidateQueries(baseKey),
-	});
-
-	const { mutate: deleteNotification } = useMutation(deleteMutation, deleteNotificationAsync, {
-		onSuccess: () => queryClient.invalidateQueries(baseKey),
-	});
+	const { markAsRead, deleteNotification } = useNotification();
 
 	const clickMarkAsRead = () => {
-		markAsRead({ notificationId: notification?.id, client });
+		markAsRead(notification?.id);
 	};
 
 	const clickDelete = () => {
-		deleteNotification({ notificationId: notification?.id, client });
+		deleteNotification(notification?.id);
 	};
 
 	return (
@@ -82,7 +64,7 @@ export const NotificationCard = ({ notification, divisionLabel }: NotificationCa
 					<AdaptiveCardViewer payload={notification.card} />
 					<div className={styles.notificationDelete}>
 						<Button onClick={clickDelete} variant="ghost_icon">
-							<Icon name={delete_to_trash.name} />
+							<Icon data={delete_to_trash} />
 						</Button>
 					</div>
 				</div>
