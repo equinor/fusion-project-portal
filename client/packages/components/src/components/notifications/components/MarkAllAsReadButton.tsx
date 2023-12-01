@@ -10,7 +10,7 @@ export const MarkAllAsReadButton = () => {
 		unreadNotificationCards.map((notification) => markAsRead(notification?.id));
 	};
 	return (
-		<Button variant="ghost" onClick={() => clickMarkAllAsRead()}>
+		<Button variant="ghost" disabled={unreadNotificationCards.length === 0} onClick={() => clickMarkAllAsRead()}>
 			Mark all as read
 		</Button>
 	);
