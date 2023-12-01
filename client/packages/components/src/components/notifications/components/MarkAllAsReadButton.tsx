@@ -1,29 +1,13 @@
 import { Button } from '@equinor/eds-core-react';
-
-import { useMutation, useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { useNotificationQueries, notificationsBaseKey } from '../queries/notificationQueries';
-import { useFramework } from '@equinor/fusion-framework-react';
-
-import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKeys';
-import { readNotificationAsync } from '../api/readNotification';
+import { useNotification } from '../hooks/useNotification';
 
 export const MarkAllAsReadButton = () => {
-	const client = useFramework().modules.serviceDiscovery.createClient('notification');
-	const queryClient = useQueryClient();
-	const { read } = useNotificationMutationKeys();
-	const baseKey = notificationsBaseKey;
-	const { getUnreadNotificationsQuery } = useNotificationQueries(client);
-
-	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
+	const { onNotification, markAsRead } = useNotification();
 	const { unreadNotificationCards } = useNotificationCenter(onNotification);
 
-	const { mutate: markAsRead } = useMutation(read, readNotificationAsync, {
-		onSuccess: () => queryClient.invalidateQueries(baseKey),
-	});
-
 	const clickMarkAllAsRead = () => {
-		unreadNotificationCards.map((notification) => markAsRead({ notificationId: notification?.id, client }));
+		unreadNotificationCards.map((notification) => markAsRead(notification?.id));
 	};
 	return (
 		<Button variant="ghost" onClick={() => clickMarkAllAsRead()}>

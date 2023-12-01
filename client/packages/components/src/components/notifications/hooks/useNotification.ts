@@ -2,13 +2,15 @@ import { useFramework } from '@equinor/fusion-framework-react';
 import { useQueryClient, useMutation } from 'react-query';
 import { deleteNotificationAsync } from '../api/deleteNotification';
 import { readNotificationAsync } from '../api/readNotification';
-import { notificationsBaseKey } from '../queries/notificationQueries';
+import { notificationsBaseKey, useNotificationQueries } from '../queries/notificationQueries';
 import { useNotificationMutationKeys } from './useNotificationMutationKeys';
 
 export const useNotification = () => {
-	const queryClient = useQueryClient();
-	const { read, deleteMutation } = useNotificationMutationKeys();
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
+	const queryClient = useQueryClient();
+
+	const { read, deleteMutation } = useNotificationMutationKeys();
+	const { getUnreadNotificationsQuery } = useNotificationQueries(client);
 
 	const baseKey = notificationsBaseKey;
 
@@ -28,8 +30,11 @@ export const useNotification = () => {
 		}
 	);
 
+	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
+
 	return {
 		markAsRead,
 		deleteNotification,
+		onNotification,
 	};
 };

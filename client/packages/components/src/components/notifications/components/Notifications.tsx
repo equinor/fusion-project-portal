@@ -13,6 +13,7 @@ import { tokens } from '@equinor/eds-tokens';
 import styled from '@emotion/styled';
 import { NotificationsSettings } from './NotificationsSettings';
 import { settings } from '@equinor/eds-icons';
+import { useNotification } from '../hooks/useNotification';
 
 interface NotificationsProps {
 	onClickNotification?: () => void;
@@ -75,11 +76,7 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 		setActiveTab(index);
 	};
 
-	const client = useFramework().modules.serviceDiscovery.createClient('notification');
-	const { getUnreadNotificationsQuery } = useNotificationQueries(client);
-	const queryClient = useQueryClient();
-
-	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
+	const { onNotification } = useNotification();
 	const { unreadNotificationCards, readNotificationCards } = useNotificationCenter(onNotification);
 
 	return (
