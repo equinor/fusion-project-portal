@@ -3,13 +3,13 @@ import { tokens } from '@equinor/eds-tokens';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { notificationQueries } from '../queries/notificationQueries';
+import { useNotificationQueries } from '../queries/notificationQueries';
 import { css } from '@emotion/css';
 
 export function NotificationBell(): JSX.Element {
-	const { getUnreadNotificationsQuery } = notificationQueries;
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
-	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery(client).queryKey);
+	const { getUnreadNotificationsQuery } = useNotificationQueries(client);
+	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
 
 	const queryClient = useQueryClient();
 

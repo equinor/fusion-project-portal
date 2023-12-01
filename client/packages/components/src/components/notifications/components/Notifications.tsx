@@ -1,8 +1,8 @@
-import { Tabs } from '@equinor/eds-core-react';
+import { Tabs, Icon } from '@equinor/eds-core-react';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { notificationQueries } from '../queries/notificationQueries';
+import { useNotificationQueries } from '../queries/notificationQueries';
 import { useFramework } from '@equinor/fusion-framework-react';
 
 import { NotificationDateDivisions } from './NotificationDateDivision';
@@ -11,6 +11,8 @@ import { css } from '@emotion/css';
 
 import { tokens } from '@equinor/eds-tokens';
 import styled from '@emotion/styled';
+import { NotificationsSettings } from './NotificationsSettings';
+import { settings } from '@equinor/eds-icons';
 
 interface NotificationsProps {
 	onClickNotification?: () => void;
@@ -73,11 +75,11 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 		setActiveTab(index);
 	};
 
-	const { getUnreadNotificationsQuery } = notificationQueries;
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
+	const { getUnreadNotificationsQuery } = useNotificationQueries(client);
 	const queryClient = useQueryClient();
 
-	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery(client).queryKey);
+	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
 	const { unreadNotificationCards, readNotificationCards } = useNotificationCenter(onNotification);
 
 	return (
@@ -86,6 +88,9 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 				<StyledTabsList>
 					<Tabs.Tab>Unread ({unreadNotificationCards.length})</Tabs.Tab>
 					<Tabs.Tab>Dismissed ({readNotificationCards.length})</Tabs.Tab>
+					<Tabs.Tab>
+						<Icon data={settings} />
+					</Tabs.Tab>
 				</StyledTabsList>
 			</div>
 			<StyledPanels>
@@ -100,6 +105,9 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 						notifications={readNotificationCards}
 						onClickNotification={onClickNotification}
 					/>
+				</Tabs.Panel>
+				<Tabs.Panel>
+					<NotificationsSettings />
 				</Tabs.Panel>
 			</StyledPanels>
 		</StyledTabs>

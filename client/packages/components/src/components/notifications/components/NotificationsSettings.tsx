@@ -1,49 +1,79 @@
-import { Button, Dialog, Switch, Typography } from '@equinor/eds-core-react';
-import { TimePicker } from '@portal/ui';
+import { Switch, Typography } from '@equinor/eds-core-react';
+import { MinutePicker } from '@portal/ui';
+import { useEffect } from 'react';
+import { mutateArray } from '@portal/utils';
+import styled from 'styled-components';
+import { useNotificationSettings } from '../hooks/useNotificationsSettings';
 
-const config = {
-	email: true,
-	delayInMinutes: 60,
-	appConfig: [
-		{
-			appKey: 'resources',
-			enabled: true,
-		},
-		{
-			appKey: 'query',
-			enabled: true,
-		},
-		{
-			appKey: 'meetings',
-			enabled: true,
-		},
-		{
-			appKey: 'reviews',
-			enabled: true,
-		},
-	],
+function capitalizeFirstLetter(str: string) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+const Style = {
+	MailSettingsList: styled.div`
+		display: flex;
+		flex-direction: column;
+	`,
 };
 
-export const NotificationsSettings = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-	return (
-		<div style={{ zIndex: 1 }}>
-			<Dialog open={isOpen} isDismissable onClose={onClose} style={{ width: '550px' }}>
-				<Dialog.Header>
-					<Dialog.Title>Notifications Settings</Dialog.Title>
-				</Dialog.Header>
-				<Dialog.CustomContent>
-					<Typography variant="body_short">General</Typography>
-					<Switch title="send-email" label="Send Emails" checked={config.email} />
+export const NotificationsSettings = () => {
+	const { settings, mutate, isFetching } = useNotificationSettings();
 
-					<Typography variant="body_short">App e-mail settings</Typography>
-					{config.appConfig.map((item) => (
-						<Switch title={item.appKey} label={item.appKey.toLocaleUpperCase()} checked={item.enabled} />
+	useEffect(() => {
+		console.log(settings);
+	}, [settings]);
+
+	return (
+		<div>
+			<div>
+				<Typography variant="h6">General</Typography>
+				<Switch
+					title="send-email"
+					label="Send Emails"
+					checked={settings.email}
+					disabled={isFetching}
+					onChange={() => {
+						mutate({
+							...settings,
+							email: !settings.email,
+						});
+					}}
+				/>
+			</div>
+			<div>
+				<Typography variant="h6">Delay emails for hours and minutes</Typography>
+				<MinutePicker
+					disabled={!settings.email}
+					value={settings.delayInMinutes}
+					onChange={(value) => mutate({ ...settings, delayInMinutes: value })}
+				/>
+			</div>
+			<div>
+				<Typography variant="h6">App e-mail settings</Typography>
+				<Style.MailSettingsList>
+					{settings.appConfig.map((item) => (
+						<Switch
+							disabled={!settings.email}
+							key={item.appKey}
+							title={item.appKey}
+							label={capitalizeFirstLetter(item.appKey)}
+							checked={item.enabled}
+							onChange={() => {
+								const appConfig = mutateArray(settings.appConfig, 'appKey')
+									.mutate((a) => {
+										a[item.appKey].enabled = !a[item.appKey].enabled;
+										return a;
+									})
+									.getValue();
+								mutate({
+									...settings,
+									appConfig,
+								});
+							}}
+						/>
 					))}
-				</Dialog.CustomContent>
-				<Dialog.Actions>
-					<Button onClick={onClose}>OK</Button>
-				</Dialog.Actions>
-			</Dialog>
+				</Style.MailSettingsList>
+			</div>
 		</div>
 	);
 };

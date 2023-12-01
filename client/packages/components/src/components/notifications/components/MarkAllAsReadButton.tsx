@@ -2,7 +2,7 @@ import { Button } from '@equinor/eds-core-react';
 
 import { useMutation, useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { notificationQueries, notificationsBaseKey } from '../queries/notificationQueries';
+import { useNotificationQueries, notificationsBaseKey } from '../queries/notificationQueries';
 import { useFramework } from '@equinor/fusion-framework-react';
 
 import { useNotificationMutationKeys } from '../hooks/useNotificationMutationKeys';
@@ -13,9 +13,9 @@ export const MarkAllAsReadButton = () => {
 	const queryClient = useQueryClient();
 	const { read } = useNotificationMutationKeys();
 	const baseKey = notificationsBaseKey;
-	const { getUnreadNotificationsQuery } = notificationQueries;
+	const { getUnreadNotificationsQuery } = useNotificationQueries(client);
 
-	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery(client).queryKey);
+	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
 	const { unreadNotificationCards } = useNotificationCenter(onNotification);
 
 	const { mutate: markAsRead } = useMutation(read, readNotificationAsync, {
