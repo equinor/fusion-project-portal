@@ -1,10 +1,8 @@
 import { useMemo } from 'react';
 import { Notification } from '../types/Notification';
 import { NotificationCard } from './NotificationCard';
-import { tokens } from '@equinor/eds-tokens';
 import { css } from '@emotion/css';
 import { Divider, Typography } from '@equinor/eds-core-react';
-import styled from '@emotion/styled';
 
 type DateDivisionKey = 'today' | 'this-week' | 'last-week' | 'more-than-one-week';
 
@@ -21,12 +19,6 @@ const getMonday = (date: Date) => {
 	const diff = d.getDate() - day + (day == 0 ? -6 : 1);
 	return new Date(d.setDate(diff));
 };
-
-// const get24HTime = (date: Date) => {
-// 	const d = new Date(date);
-// 	const min = d.getMinutes();
-// 	return `${d.getHours()}:${min.toString().length === 1 ? '0' + min : min}`;
-// };
 
 const isNotificationFromToday = (notification: Notification) =>
 	!!(new Date(notification.created).toDateString() === new Date().toDateString());
@@ -85,7 +77,6 @@ const styles = {
 			width: 0.3rem;
 		}
 		&:last-child {
-			/* border-bottom: 1px ${tokens.colors.interactive.disabled__border.hex} solid; */
 			margin-bottom: 1rem;
 		}
 	`,
