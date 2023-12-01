@@ -1,6 +1,5 @@
 import { Switch, Typography } from '@equinor/eds-core-react';
 import { MinutePicker } from '@portal/ui';
-import { useEffect } from 'react';
 import { mutateArray } from '@portal/utils';
 import styled from 'styled-components';
 import { useNotificationSettings } from '../hooks/useNotificationsSettings';
@@ -17,11 +16,7 @@ const Style = {
 };
 
 export const NotificationsSettings = () => {
-	const { settings, mutate, isFetching } = useNotificationSettings();
-
-	useEffect(() => {
-		console.log(settings);
-	}, [settings]);
+	const { settings, updateSettings, isFetching } = useNotificationSettings();
 
 	return (
 		<div>
@@ -33,10 +28,9 @@ export const NotificationsSettings = () => {
 					checked={settings.email}
 					disabled={isFetching}
 					onChange={() => {
-						mutate({
-							...settings,
-							email: !settings.email,
-						});
+						updateSettings((state) => ({
+							email: !state.email,
+						}));
 					}}
 				/>
 			</div>
@@ -45,7 +39,7 @@ export const NotificationsSettings = () => {
 				<MinutePicker
 					disabled={!settings.email}
 					value={settings.delayInMinutes}
-					onChange={(value) => mutate({ ...settings, delayInMinutes: value })}
+					onChange={(value) => updateSettings({ delayInMinutes: value })}
 				/>
 			</div>
 			<div>
@@ -59,15 +53,16 @@ export const NotificationsSettings = () => {
 							label={capitalizeFirstLetter(item.appKey)}
 							checked={item.enabled}
 							onChange={() => {
-								const appConfig = mutateArray(settings.appConfig, 'appKey')
-									.mutate((a) => {
-										a[item.appKey].enabled = !a[item.appKey].enabled;
-										return a;
-									})
-									.getValue();
-								mutate({
-									...settings,
-									appConfig,
+								updateSettings((state) => {
+									const appConfig = mutateArray(state.appConfig, 'appKey')
+										.mutate((a) => {
+											a[item.appKey].enabled = !a[item.appKey].enabled;
+											return a;
+										})
+										.getValue();
+									return {
+										appConfig,
+									};
 								});
 							}}
 						/>
