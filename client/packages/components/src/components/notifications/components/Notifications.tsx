@@ -1,14 +1,8 @@
 import { Tabs, Icon } from '@equinor/eds-core-react';
 import { useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { useNotificationQueries } from '../queries/notificationQueries';
-import { useFramework } from '@equinor/fusion-framework-react';
-
 import { NotificationDateDivisions } from './NotificationDateDivision';
-
 import { css } from '@emotion/css';
-
 import { tokens } from '@equinor/eds-tokens';
 import styled from '@emotion/styled';
 import { NotificationsSettings } from './NotificationsSettings';
@@ -20,8 +14,6 @@ interface NotificationsProps {
 }
 
 const StyledTabs = styled(Tabs)`
-	/* display: grid;
-	grid-template-rows: auto 1fr; */
 	width: inherit;
 `;
 
