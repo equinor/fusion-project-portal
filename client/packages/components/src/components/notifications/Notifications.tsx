@@ -3,7 +3,7 @@ import { PortalActionProps } from '@equinor/portal-core';
 import SideSheet from '@equinor/fusion-react-side-sheet';
 import { Notifications as NotificationComponent } from './components/Notifications';
 
-import { MarkAllAsReadButton } from './components/MarkAllAsReadButton';
+import { NotificationActions } from './components/NotificationActions';
 
 export function Notifications({ action, onClose, open }: PortalActionProps) {
 	const subTitle = action.subTitle || '';
@@ -14,7 +14,7 @@ export function Notifications({ action, onClose, open }: PortalActionProps) {
 			<SideSheet.Title title={action.name} />
 			<SideSheet.SubTitle subTitle={subTitle} />
 			<SideSheet.Actions>
-				<MarkAllAsReadButton />
+				<NotificationActions />
 			</SideSheet.Actions>
 			<SideSheet.Content>
 				<NotificationComponent />

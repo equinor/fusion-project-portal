@@ -1,6 +1,7 @@
 import { MenuProvider, ViewProvider } from '@equinor/portal-core';
 import { StyleProvider } from '@equinor/portal-ui';
-import { NotificationService, ServiceMessageProvider } from '@equinor/service-message';
+import { ServiceMessageProvider } from '@equinor/service-message';
+import { NotificationService } from '@portal/components';
 import { Outlet } from 'react-router-dom';
 import MainHeader from '../portal-header/Header';
 import { MenuGroups } from '../portal-menu/PortalMenu';

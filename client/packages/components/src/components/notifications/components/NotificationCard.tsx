@@ -1,15 +1,16 @@
 import { Notification } from '../types/Notification';
 import AdaptiveCardViewer from './adaptivCard/AdaptivCardViewer';
 import { css } from '@emotion/css';
-import { Button, Icon, Typography } from '@equinor/eds-core-react';
-import { delete_to_trash } from '@equinor/eds-icons';
+import { Button, Icon, Menu, Typography } from '@equinor/eds-core-react';
+import { delete_to_trash, more_vertical, visibility } from '@equinor/eds-icons';
 
 import { tokens } from '@equinor/eds-tokens';
 import { useNotification } from '../hooks/useNotification';
+import { useRef, useState } from 'react';
 
 interface NotificationCardProps {
 	notification: Notification;
-	divisionLabel: string;
+	divisionLabel?: string;
 	onNavigate?: () => void;
 }
 const styles = {
@@ -45,36 +46,58 @@ const get24HTime = (date: string) => {
 
 export const NotificationCard = ({ notification, divisionLabel }: NotificationCardProps): JSX.Element => {
 	const { markAsRead, deleteNotification } = useNotification();
+	const [open, setOpen] = useState(false);
+	const ref = useRef(null);
 
-	const clickMarkAsRead = () => {
+	const clickMarkAsRead = (e?: React.MouseEvent) => {
+		e?.preventDefault();
+		e?.stopPropagation();
 		markAsRead(notification?.id);
 	};
 
-	const clickDelete = () => {
+	const clickDelete = (e?: React.MouseEvent) => {
+		e?.preventDefault();
+		e?.stopPropagation();
 		deleteNotification(notification?.id);
 	};
 
 	return (
 		<>
-			<Typography variant="caption" token={{ textAlign: 'right', fontSize: '10px' }}>
-				{divisionLabel === 'Today' && `Today ${get24HTime(notification.created)}`}
-			</Typography>
+			{divisionLabel ? (
+				<Typography variant="caption" token={{ textAlign: 'right', fontSize: '10px' }}>
+					{divisionLabel === 'Today' && `Today ${get24HTime(notification.created)}`}
+				</Typography>
+			) : null}
 			<div className={styles.notificationCard}>
 				<div className={styles.notificationCardContent}>
-					<AdaptiveCardViewer payload={notification.card} />
-					<div className={styles.notificationDelete}>
-						<Button onClick={clickDelete} variant="ghost_icon">
-							<Icon data={delete_to_trash} />
+					<AdaptiveCardViewer payload={notification.card} onExecuteAction={() => clickMarkAsRead()} />
+					<div className={styles.notificationDelete} ref={ref}>
+						<Button
+							onClick={(e) => {
+								e?.preventDefault();
+								e?.stopPropagation();
+								setOpen((s) => !s);
+							}}
+							variant="ghost_icon"
+						>
+							<Icon data={more_vertical} />
 						</Button>
 					</div>
 				</div>
-				{!notification.seenByUser && (
-					<div className={styles.notificationActions}>
-						<Button variant="ghost" onClick={clickMarkAsRead}>
+				<Menu open={open} anchorEl={ref.current} onMouseLeave={() => setOpen(false)}>
+					<Menu.Item onClick={clickMarkAsRead} disabled={notification.seenByUser}>
+						<Icon data={visibility} size={16} color={tokens.colors.text.static_icons__tertiary.hex} />
+						<Typography group="navigation" variant="menu_title" as="span">
 							Mark as read
-						</Button>
-					</div>
-				)}
+						</Typography>
+					</Menu.Item>
+					<Menu.Item onClick={clickDelete}>
+						<Icon data={delete_to_trash} size={16} color={tokens.colors.text.static_icons__tertiary.hex} />{' '}
+						<Typography group="navigation" variant="menu_title" as="span">
+							Delete
+						</Typography>
+					</Menu.Item>
+				</Menu>
 			</div>
 		</>
 	);

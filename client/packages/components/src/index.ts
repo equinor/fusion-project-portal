@@ -5,3 +5,4 @@ export * from './components/my-account/MyAccount';
 export * from './components/service-now';
 export * from './components/help';
 export * from './components/notifications';
+export * from './components/notification-service/NotificationService';
