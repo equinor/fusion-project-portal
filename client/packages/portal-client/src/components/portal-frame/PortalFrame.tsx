@@ -1,7 +1,7 @@
 import { MenuProvider, ViewProvider } from '@equinor/portal-core';
 import { StyleProvider } from '@equinor/portal-ui';
 import { ServiceMessageProvider } from '@equinor/service-message';
-import { NotificationService } from '@portal/components';
+import { NotificationService, ServiceMessageService } from '@portal/components';
 import { Outlet } from 'react-router-dom';
 import MainHeader from '../portal-header/Header';
 import { MenuGroups } from '../portal-menu/PortalMenu';
@@ -29,22 +29,24 @@ export const PortalFrame = () => {
 	return (
 		<StyleProvider>
 			<ServiceMessageProvider>
-				<NotificationService>
-					<BookmarkProvider>
-						<ViewProvider>
-							<MenuProvider>
-								<section className={style}>
-									<ServiceMessageFilter />
-									<MainHeader />
-									<MenuGroups />
-									<HasContext />
-									<Outlet />
-								</section>
-							</MenuProvider>
-						</ViewProvider>
-						<PortalSideSheet />
-					</BookmarkProvider>
-				</NotificationService>
+				<ServiceMessageService>
+					<NotificationService>
+						<BookmarkProvider>
+							<ViewProvider>
+								<MenuProvider>
+									<section className={style}>
+										<ServiceMessageFilter />
+										<MainHeader />
+										<MenuGroups />
+										<HasContext />
+										<Outlet />
+									</section>
+								</MenuProvider>
+							</ViewProvider>
+							<PortalSideSheet />
+						</BookmarkProvider>
+					</NotificationService>
+				</ServiceMessageService>
 			</ServiceMessageProvider>
 		</StyleProvider>
 	);

@@ -1,32 +1,36 @@
 import { FC, PropsWithChildren, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { NotificationCard } from '../../notifications/components/NotificationCard';
-import { Notification } from '../../notifications/types/Notification';
+import { NotificationCard } from './NotificationCard';
+import { Notification } from '../types/Notification';
 
-const StyledMessageWrapper = styled.div`
-	animation-duration: 1s;
+const timesMilliSeconds = 100;
+const StyledMessageWrapper = styled.div<{ delay: number }>`
+	animation-duration: 0.5s;
 	animation-name: fade;
+	animation-fill-mode: both;
+	animation-delay: ${({ delay }) => delay * timesMilliSeconds}ms;
 	background-color: #fff;
 	cursor: pointer;
 
 	@keyframes fade {
 		from {
+			translate: 600px;
 			opacity: 0;
 		}
 
 		to {
+			translate: 0px;
 			opacity: 1;
 		}
 	}
 `;
 
 export const NotificationWrapper: FC<
-	PropsWithChildren<{ notification: Notification; timeout: number; dismissible: boolean }>
-> = ({ notification, timeout, dismissible }) => {
+	PropsWithChildren<{ notification: Notification; timeout: number; index: number }>
+> = ({ notification, timeout, index }) => {
 	const [display, setDisplay] = useState(true);
 
 	useEffect(() => {
-		if (!dismissible) return;
 		const timeoutId = setTimeout(() => {
 			setDisplay(false);
 		}, timeout);
@@ -39,6 +43,7 @@ export const NotificationWrapper: FC<
 
 	return (
 		<StyledMessageWrapper
+			delay={index}
 			onClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
