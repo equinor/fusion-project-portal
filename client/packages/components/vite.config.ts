@@ -9,6 +9,16 @@ export default defineConfig({
 		environment: 'jsdom',
 		globals: true,
 		setupFiles: ['.config/test-setup.ts'],
+		coverage: {
+			clean: true,
+			all: true,
+			exclude: ['**/index.ts'],
+			reportsDirectory: path.resolve(__dirname, '../../coverage'),
+			reporter: [
+				['json', { file: 'components.json' }],
+				['text', { file: 'components.md' }],
+			],
+		},
 	},
 	resolve: {
 		alias: {

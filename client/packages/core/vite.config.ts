@@ -14,6 +14,16 @@ export default defineConfig({
 				fallbackCJS: true,
 			},
 		},
+		coverage: {
+			clean: true,
+			all: true,
+			exclude: ['**/index.ts'],
+			reportsDirectory: path.resolve(__dirname, '../../coverage'),
+			reporter: [
+				['json', { file: 'core.json' }],
+				['text', { file: 'core.md' }],
+			],
+		},
 	},
 	resolve: {
 		alias: {

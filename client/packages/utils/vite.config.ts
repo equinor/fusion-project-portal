@@ -7,22 +7,14 @@ import tsconfig from 'vite-tsconfig-paths';
 export default defineConfig({
 	plugins: [react(), tsconfig()],
 	test: {
-		environment: 'jsdom',
-		globals: true,
-		server: {
-			deps: {
-				fallbackCJS: true,
-			},
-		},
-		setupFiles: ['.config/test-setup.ts'],
 		coverage: {
 			clean: true,
 			all: true,
 			exclude: ['**/index.ts'],
 			reportsDirectory: path.resolve(__dirname, '../../coverage'),
 			reporter: [
-				['json', { file: 'ui.json' }],
-				['text', { file: 'ui.md' }],
+				['json', { file: 'utils.json' }],
+				['text', { file: 'utils.md' }],
 			],
 		},
 	},
