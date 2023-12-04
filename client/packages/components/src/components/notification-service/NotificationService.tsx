@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { css } from '@emotion/css';
@@ -7,6 +7,7 @@ import { useNotificationCenter } from '../notifications/hooks/useNotificationCen
 import { useNotification } from '../notifications/hooks/useNotification';
 
 import { NotificationWrapper } from './components/NotificationWrapper';
+import { Notification } from '../notifications/types/Notification';
 
 const messageListWrapper = css`
 	position: fixed;
@@ -21,8 +22,9 @@ const messageListWrapper = css`
 
 export const NotificationService: FC<PropsWithChildren> = ({ children }) => {
 	const { appKey } = useParams();
+	const [notifications, setNotifications] = useState<Notification[]>([]);
 
-	const { unreadNotificationCards } = useNotificationCenter();
+	useNotificationCenter((notification) => setNotifications((s) => [...s, notification]));
 	const { currentMessages } = useServiceMessage(appKey);
 	return (
 		<>
@@ -37,8 +39,8 @@ export const NotificationService: FC<PropsWithChildren> = ({ children }) => {
 							/>
 					  ))
 					: null}
-				{unreadNotificationCards.length > 0
-					? unreadNotificationCards.map((notification) => (
+				{notifications.length > 0
+					? notifications.map((notification) => (
 							<NotificationWrapper notification={notification} timeout={18000} dismissible={false} />
 					  ))
 					: null}
