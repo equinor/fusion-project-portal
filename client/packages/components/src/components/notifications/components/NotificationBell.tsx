@@ -1,18 +1,11 @@
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { useFramework } from '@equinor/fusion-framework-react';
-import { useQueryClient } from 'react-query';
 import { useNotificationCenter } from '../hooks/useNotificationCenter';
-import { notificationQueries } from '../queries/notificationQueries';
 import { css } from '@emotion/css';
+import { useNotification } from '../hooks/useNotification';
 
 export function NotificationBell(): JSX.Element {
-	const { getUnreadNotificationsQuery } = notificationQueries;
-	const client = useFramework().modules.serviceDiscovery.createClient('notification');
-	const onNotification = () => queryClient.invalidateQueries(getUnreadNotificationsQuery(client).queryKey);
-
-	const queryClient = useQueryClient();
-
+	const { onNotification } = useNotification();
 	const notificationCenter = useNotificationCenter(onNotification);
 
 	return (

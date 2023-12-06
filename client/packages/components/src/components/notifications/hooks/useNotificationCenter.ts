@@ -1,7 +1,7 @@
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useCallback, useLayoutEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { notificationQueries } from '../queries/notificationQueries';
+import { useNotificationQueries } from '../queries/notificationQueries';
 import { Notification } from '../types/Notification';
 import { useSignalR } from '@equinor/fusion-framework-react/signalr';
 
@@ -16,16 +16,15 @@ interface NotificationCenter {
 
 export function useNotificationCenter(onNotification?: (notification: Notification) => void): NotificationCenter {
 	const queryClient = useQueryClient();
-
 	const client = useFramework().modules.serviceDiscovery.createClient('notification');
 
-	const { getReadNotificationsQuery, getUnreadNotificationsQuery } = notificationQueries;
+	const { getReadNotificationsQuery, getUnreadNotificationsQuery } = useNotificationQueries(client);
 
 	const { data: readNotifications, isFetching: isFetchingRead } = useQuery<unknown, unknown, Notification[]>(
-		getReadNotificationsQuery(client)
+		getReadNotificationsQuery()
 	);
 	const { data: unreadNotifications, isFetching: isFetchingUnRead } = useQuery<unknown, unknown, Notification[]>(
-		getUnreadNotificationsQuery(client)
+		getUnreadNotificationsQuery()
 	);
 
 	const topic = useSignalR<Notification>('notifications', 'notifications');
@@ -40,7 +39,7 @@ export function useNotificationCenter(onNotification?: (notification: Notificati
 	const onNotificationReceived = useCallback(
 		(notification: Notification) => {
 			onNotification && onNotification(notification);
-			queryClient.invalidateQueries(getUnreadNotificationsQuery(client).queryKey);
+			queryClient.invalidateQueries(getUnreadNotificationsQuery().queryKey);
 		},
 		[getUnreadNotificationsQuery, onNotification, queryClient]
 	);

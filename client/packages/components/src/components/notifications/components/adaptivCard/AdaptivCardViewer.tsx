@@ -90,6 +90,9 @@ export default AdaptiveCardViewer;
 
 const StyledAdaptiveCard = styled.div`
 	.ac-adaptiveCard {
+		.ac-textBlock {
+			width: 95%;
+		}
 		width: inherit;
 		:focus {
 			box-shadow: none;

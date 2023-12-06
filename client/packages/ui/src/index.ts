@@ -6,6 +6,7 @@ export * from './components/portal-message/PortalMessage';
 export * from './components/message-card/MessageCard';
 export * from './components/menu-item/MenuItem';
 export * from './components/external-link/ExternalLink';
+export * from './components/minute-picker/MinutePicker';
 
 // Export UI Utils
 export * from './utils/user';

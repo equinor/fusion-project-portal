@@ -1,4 +1,4 @@
-import { defineConfig, configDefaults } from 'vitest/config';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import tsconfig from 'vite-tsconfig-paths';
@@ -14,7 +14,6 @@ export default defineConfig({
 				fallbackCJS: true,
 			},
 		},
-
 		coverage: {
 			clean: true,
 			all: true,

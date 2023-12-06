@@ -1,7 +1,7 @@
-import { Bookmarks, FullscreenIcon, Notification, Task } from '@equinor/portal-ui';
-import { MyAccount, ServiceNowSideSheet, HelpMenu, Help } from '@portal/components';
+import { Bookmarks, FullscreenIcon, Task } from '@equinor/portal-ui';
+import { MyAccount, ServiceNowSideSheet, HelpMenu, Help, NotificationBell, Notifications } from '@portal/components';
 import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equinor/service-message';
-import { NotificationBell } from '@equinor/notification';
+
 import { PortalAction } from './types';
 import { handleFullscreenClick } from './utils';
 
@@ -44,7 +44,7 @@ export const actions: PortalAction[] = [
 		subTitle: 'Portal notifications center',
 		color: '#258800',
 		icon: { component: NotificationBell, name: 'notifications' },
-		component: Notification,
+		component: Notifications,
 	},
 	{
 		actionId: 'service-message',
