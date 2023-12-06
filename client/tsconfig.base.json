@@ -29,6 +29,6 @@
 			"@portal/components":["packages/components/src/index.ts"]
 		}
 	},
-	"include": ["dompurify.d.ts"],
+	"include": ["dompurify.d.ts", "packages/**"],
 	"exclude": ["node_modules", "tmp", "dist", "@testing-library/jest-dom"]
 }
