@@ -12,7 +12,7 @@ type Options = Pick<
 	UseQueryOptions,
 	'staleTime' | 'cacheTime' | 'queryFn' | 'queryKey' | 'refetchInterval' | 'initialData'
 >;
-// type MutateOptions = Pick<UseMutationOptions, 'mutationFn', 'm'>;
+
 export const initialData = {
 	email: true,
 	delayInMinutes: 60,
