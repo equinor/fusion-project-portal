@@ -24,6 +24,11 @@ export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 			<SideSheet.Indicator color={action.color} />
 			<SideSheet.Title title={action.name} />
 			<SideSheet.SubTitle subTitle={subTitle} />
+			<SideSheet.Actions>
+				<Tooltip content={<ServiceMessageTooltip isSideSheet={true} />}>
+					<Styles.InfoIcon data={info_circle} color={tokens.colors.interactive.primary__resting.hex} />
+				</Tooltip>
+			</SideSheet.Actions>
 			<SideSheet.Content>
 				<ServiceMessageWidget appKey={appKey} />
 			</SideSheet.Content>
@@ -36,6 +41,9 @@ interface ServiceMessageWidgetProps {
 }
 
 const Styles = {
+	InfoIcon: styled(Icon)`
+		margin: 0.5rem;
+	`,
 	Wrapper: styled.div`
 		padding-bottom: 1rem;
 		display: flex;
@@ -67,9 +75,6 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 			<Styles.Wrapper>
 				<Styles.HeadingWrapper>
 					<Typography variant="h5">Portal ({portalMessages.length})</Typography>
-					<Tooltip content={<ServiceMessageTooltip isSideSheet={true} />}>
-						<Icon data={info_circle} color={tokens.colors.interactive.primary__resting.hex} />
-					</Tooltip>
 				</Styles.HeadingWrapper>
 				{portalMessages.length > 0 ? (
 					portalMessages.map((portal) => (
@@ -94,9 +99,6 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 					<Typography variant="h5">
 						App Status ({messages.filter((a) => a.scope === 'App').length})
 					</Typography>
-					<Tooltip content={<ServiceMessageTooltip isSideSheet={true} />}>
-						<Icon data={info_circle} color={tokens.colors.interactive.primary__resting.hex} />
-					</Tooltip>
 				</Styles.HeadingWrapper>
 				{appsMessages.length > 0 ? (
 					appsMessages
