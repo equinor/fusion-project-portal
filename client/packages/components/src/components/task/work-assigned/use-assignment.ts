@@ -1,6 +1,7 @@
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
 import { getFusionTasks, getPimsTasks, getProCoSysAssignments } from './assignment-queries';
+import { getMyMeetingsActions } from '../queries/fusion-meetings-queries';
 
 export function useAssignment() {
 	const fusionAssignments = useAssignmentQuery();
@@ -37,6 +38,27 @@ export function usePimsTaskQuery() {
 	return useQuery({
 		queryKey: ['Assignment', 'Pims'],
 		queryFn: async ({ signal }) => getPimsTasks(await client, signal),
+		cacheTime: 5000 * 60,
+		refetchInterval: 5000 * 60,
+		staleTime: 2000 * 60,
+	});
+}
+
+export function useMeetingsActionsQuery() {
+	const client = useFramework().modules.serviceDiscovery.createClient('meeting');
+	return useQuery({
+		queryKey: ['Assignment', 'Meetings', 'Meetings-Actions'],
+		queryFn: async ({ signal }) => getMyMeetingsActions(await client, signal),
+		cacheTime: 5000 * 60,
+		refetchInterval: 5000 * 60,
+		staleTime: 2000 * 60,
+	});
+}
+export function useActionsMeetingsQuery() {
+	const client = useFramework().modules.serviceDiscovery.createClient('meeting');
+	return useQuery({
+		queryKey: ['Assignment', 'Meetings', 'Actions-Meetings'],
+		queryFn: async ({ signal }) => getMyMeetingsActions(await client, signal),
 		cacheTime: 5000 * 60,
 		refetchInterval: 5000 * 60,
 		staleTime: 2000 * 60,

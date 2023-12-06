@@ -83,6 +83,42 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		/** Enable Navigation module  */
 		enableNavigation(config);
 
+		// TODO remove and replace with service discovery!
+		config.configureHttpClient('query_api', {
+			baseUri: ((): string => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FQA':
+						return 'https://query-api-qa.azurewebsites.net';
+					case 'FPRD':
+						return 'https://query-api-prod.azurewebsites.net';
+					default:
+						return 'https://query-api-ci.azurewebsites.net';
+				}
+			})(),
+			defaultScopes: ((): string[] => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FPRD':
+						return ['c695636b-1bd3-4ea5-9a05-ec3dc29b3eb3/.default'];
+					default:
+						return ['9f12661e-a8cf-4942-8fba-e304e2c16447/.default'];
+				}
+			})(),
+		});
+
+		config.configureHttpClient('review', {
+			baseUri: ((): string => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FQA':
+						return 'https://backend-fusion-services-reviews-fqa.radix.equinor.com';
+					case 'FPRD':
+						return 'https://backend-fusion-services-reviews-fprd.radix.equinor.com';
+					default:
+						return 'https://backend-fusion-services-reviews-ci.radix.equinor.com';
+				}
+			})(),
+			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
+		});
+
 		if (showInfo) {
 			config.onConfigured(() => {
 				showInfo && console.log('framework config done');

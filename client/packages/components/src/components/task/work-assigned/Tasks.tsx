@@ -1,10 +1,10 @@
 import { Accordion, Autocomplete, Icon, Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GroupAssignments } from './GroupAssignments';
-import { FusionTask } from './types/fusion-task';
-import { useAssignment } from './use-assignment';
+import { FusionTask } from '../types/fusion-task';
+import { useActionsMeetingsQuery, useAssignment, useMeetingsActionsQuery } from './use-assignment';
 
 const StyledKpiWrapper = styled.div`
 	display: flex;
@@ -89,6 +89,17 @@ const Style = {
 export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 	const [groupedBy, setGroupedBy] = useState<keyof typeof groupOption>('Category');
 	const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
+
+	const { data: meetingsActions } = useMeetingsActionsQuery();
+	const { data: actionsMeetings } = useActionsMeetingsQuery();
+
+	useEffect(() => {
+		console.log('meetingsActions: ', meetingsActions);
+	}, [meetingsActions]);
+
+	useEffect(() => {
+		console.log('actionsMeetings: ', actionsMeetings);
+	}, [actionsMeetings]);
 
 	const groupedAssignments = groupBy(assignments, groupOption[groupedBy]);
 
