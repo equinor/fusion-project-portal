@@ -23,8 +23,8 @@ export const NotificationsSettings = () => {
 			<div>
 				<Typography variant="h6">General</Typography>
 				<Switch
-					title="send-email"
-					label="Send Emails"
+					title="Send emails"
+					label="Send emails"
 					checked={settings.email}
 					disabled={isFetching}
 					onChange={() => {
