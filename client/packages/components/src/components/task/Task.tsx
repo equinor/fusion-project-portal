@@ -1,6 +1,6 @@
 import { PortalActionProps } from '@equinor/portal-core';
 import { SideSheet } from '@equinor/fusion-react-side-sheet';
-import { Tasks } from './work-assigned/Tasks';
+import { Tasks } from './Tasks';
 
 export function Task({ action, onClose, open }: PortalActionProps) {
 	const subTitle = action.subTitle || '';

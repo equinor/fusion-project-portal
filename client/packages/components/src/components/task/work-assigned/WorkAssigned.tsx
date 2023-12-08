@@ -1,7 +1,7 @@
 import { Button, Card, Icon, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { usePortalActions } from '@equinor/portal-core';
-import { Tasks } from './Tasks';
+import { Tasks } from '../Tasks';
 
 const StyledCard = styled(Card)`
 	height: 100%;
