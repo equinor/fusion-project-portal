@@ -1,8 +1,8 @@
 import { Icon, Menu } from '@equinor/eds-core-react';
 import { useTelemetry } from '@equinor/portal-core';
 import { FC, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { StyledBreadcrumbItemInteract, StyledMenuItem } from './styles';
+import { Link, useParams } from 'react-router-dom';
+import { StyledBreadcrumbItemInteract } from './styles';
 import { arrow_drop_down } from '@equinor/eds-icons';
 import { AppGroup } from '@portal/types';
 
@@ -45,21 +45,22 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 					anchorEl={ref.current}
 				>
 					{appGroup.apps.map((app) => (
-						<StyledMenuItem key={app.appKey} to={`/apps/${app.appKey}/`}>
-							<Menu.Item
-								onClick={() => {
-									toggleMenuOpen(false);
-									dispatchEvent(
-										{
-											name: 'onAppNavigation',
-										},
-										{ appKey, source: 'top-bar-navigation' }
-									);
-								}}
-							>
-								{currentApp?.appKey === app.appKey ? <b>{app.name}</b> : app.name}
-							</Menu.Item>
-						</StyledMenuItem>
+						<Menu.Item
+							as={Link}
+							key={app.appKey}
+							to={`/apps/${app.appKey}/`}
+							onClick={() => {
+								toggleMenuOpen(false);
+								dispatchEvent(
+									{
+										name: 'onAppNavigation',
+									},
+									{ appKey, source: 'top-bar-navigation' }
+								);
+							}}
+						>
+							{currentApp?.appKey === app.appKey ? <b>{app.name}</b> : app.name}
+						</Menu.Item>
 					))}
 				</Menu>
 			)}
