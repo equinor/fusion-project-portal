@@ -150,7 +150,7 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 	return (
 		<Style.Wrapper>
 			<Style.Header>
-				<Style.KpiWrapper>
+				{/* <Style.KpiWrapper>
 					<StyledKpiItem>
 						<StyledKpi>
 							<Typography variant="h5">{assignments.length}</Typography>
@@ -165,16 +165,16 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 						</StyledKpi>
 						<StyledTitle>Over Due task</StyledTitle>
 					</StyledKpiItem>
-				</Style.KpiWrapper>
+				</Style.KpiWrapper> */}
 
-				<Autocomplete
+				{/* <Autocomplete
 					options={Object.keys(groupOption)}
 					autoWidth={true}
 					hideClearButton={true}
 					label={'Group by'}
 					selectedOptions={[groupedBy]}
 					onOptionsChange={(changes) => setGroupedBy(changes.selectedItems[0] as keyof typeof groupOption)}
-				/>
+				/> */}
 			</Style.Header>
 			<StyledAssignmentsListWrapper>
 				<Tabs activeTab={activeTab} onChange={handleChange}>
