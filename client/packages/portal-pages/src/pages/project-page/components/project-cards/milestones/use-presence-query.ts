@@ -3,14 +3,14 @@ import { useFramework } from '@equinor/fusion-framework-react';
 
 import { useQuery } from 'react-query';
 
-type Milestones = {
+export type Milestones = {
 	siteCodes: string[];
 	projectIdentifier: string;
 	milestone: string;
 	description: string;
-	datePlanned: string;
-	dateForecast: string;
-	dateActual: string;
+	datePlanned: string | null;
+	dateForecast: string | null;
+	dateActual: string | null;
 	contractMilestone: string;
 };
 

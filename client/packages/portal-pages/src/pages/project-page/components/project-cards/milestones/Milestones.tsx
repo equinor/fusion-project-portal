@@ -5,10 +5,12 @@ import { LoadingSkeleton } from './LoadingSection';
 import { useMilestoneQuery } from './use-presence-query';
 import { css } from '@emotion/css';
 import { PortalMessage } from '@portal/ui';
+import { sortByDate, sortMilestones } from './utils';
+import { useMemo } from 'react';
 
-function verifyDate(date: string): string {
-	return new Date(date).toString() !== 'Invalid Date'
-		? DateTime.fromJSDate(new Date(date)).toFormat('dd LLL yyyy')
+function verifyDate(date?: string | null): string {
+	return new Date(date || '').toString() !== 'Invalid Date'
+		? DateTime.fromJSDate(new Date(date || '')).toFormat('dd LLL yyyy')
 		: '-';
 }
 
@@ -28,6 +30,10 @@ export const Milestones = () => {
 	const { data, isLoading, error } = useMilestoneQuery();
 
 	const componentError = error as Error | undefined;
+
+	const milestones = useMemo(() => {
+		return data?.sort(sortMilestones).sort(sortByDate) || [];
+	}, [data]);
 
 	return (
 		<StyledCardWrapper>
@@ -63,8 +69,8 @@ export const Milestones = () => {
 							<Table.Body>
 								{isLoading ? (
 									<LoadingSkeleton />
-								) : data ? (
-									data.map((milestone) => {
+								) : milestones.length > 0 ? (
+									milestones.map((milestone) => {
 										const datePlanned = verifyDate(milestone.datePlanned);
 										const dateForecast = verifyDate(milestone.dateForecast);
 										return (
