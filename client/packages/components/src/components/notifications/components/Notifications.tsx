@@ -85,12 +85,14 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 			<StyledPanels>
 				<Tabs.Panel>
 					<NotificationDateDivisions
+						title='Unread'
 						notifications={unreadNotificationCards}
 						onClickNotification={onClickNotification}
 					/>
 				</Tabs.Panel>
 				<Tabs.Panel>
 					<NotificationDateDivisions
+						title='Dismissed'
 						notifications={readNotificationCards}
 						onClickNotification={onClickNotification}
 					/>

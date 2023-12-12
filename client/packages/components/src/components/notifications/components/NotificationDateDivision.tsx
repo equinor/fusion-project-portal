@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { Notification } from '../types/Notification';
 import { NotificationCard } from './NotificationCard';
-import { css } from '@emotion/css';
+import { PortalMessage } from '@portal/ui';
 import { Divider, Typography } from '@equinor/eds-core-react';
+import styled from 'styled-components';
 
 type DateDivisionKey = 'today' | 'this-week' | 'last-week' | 'more-than-one-week';
 
@@ -63,10 +64,11 @@ const divisions: DateDivision[] = [
 interface NotificationDateDivisionsProps {
 	notifications: Notification[];
 	onClickNotification?: () => void;
+	title: string;
 }
 
-const styles = {
-	notificationsList: css`
+const Styles = {
+	NotificationsList: styled.div`
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 2rem;
@@ -80,9 +82,18 @@ const styles = {
 			margin-bottom: 1rem;
 		}
 	`,
+	NoContent: styled.div`
+		height: 35vh;
+		display: flex;
+		justify-content: center;
+	`,
 };
 
-export const NotificationDateDivisions = ({ notifications, onClickNotification }: NotificationDateDivisionsProps) => {
+export const NotificationDateDivisions = ({
+	notifications,
+	onClickNotification,
+	title,
+}: NotificationDateDivisionsProps) => {
 	const notificationDivisions = useMemo(() => {
 		return divisions.map((d) => ({
 			...d,
@@ -95,24 +106,32 @@ export const NotificationDateDivisions = ({ notifications, onClickNotification }
 
 	return (
 		<>
-			{notificationDivisions.map(
-				(division) =>
-					division.notifications.length > 0 && (
-						<>
-							<div className={styles.notificationsList} key={division.key}>
-								<Typography variant="h6">{division.label}</Typography>
-								{sortList(division.notifications).map((notification, index) => (
-									<NotificationCard
-										divisionLabel={division.label}
-										key={notification.id + index}
-										notification={notification}
-										onNavigate={onClickNotification}
-									/>
-								))}
-							</div>
-							<Divider />
-						</>
-					)
+			{notifications.length > 0 ? (
+				notificationDivisions.map(
+					(division) =>
+						division.notifications.length > 0 && (
+							<>
+								<Styles.NotificationsList key={division.key}>
+									<Typography variant="h6">{division.label}</Typography>
+									{sortList(division.notifications).map((notification, index) => (
+										<NotificationCard
+											divisionLabel={division.label}
+											key={notification.id + index}
+											notification={notification}
+											onNavigate={onClickNotification}
+										/>
+									))}
+								</Styles.NotificationsList>
+								<Divider />
+							</>
+						)
+				)
+			) : (
+				<Styles.NoContent>
+					<PortalMessage type="NoContent" title="No Notification">
+						You have no {title.toLowerCase()} notification
+					</PortalMessage>
+				</Styles.NoContent>
 			)}
 		</>
 	);
