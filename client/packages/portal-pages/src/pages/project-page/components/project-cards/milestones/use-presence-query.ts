@@ -1,4 +1,3 @@
-import { trip_origin } from '@equinor/eds-icons';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { useFramework } from '@equinor/fusion-framework-react';
 
