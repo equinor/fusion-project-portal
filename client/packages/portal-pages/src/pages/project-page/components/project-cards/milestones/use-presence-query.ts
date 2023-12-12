@@ -20,8 +20,11 @@ export async function getMilestones(
 	signal?: AbortSignal
 ): Promise<Milestones[] | undefined> {
 	if (!contextId) return;
+
 	const res = await client.fetch(`/api/contexts/${contextId}/milestones`, { signal });
-	if (!res.ok) throw res;
+
+	if (res.status === 403) throw new Error('No access');
+	if (!res.ok) throw new Error('Unknown Error');
 	return (await res.json()) as Milestones[];
 }
 
