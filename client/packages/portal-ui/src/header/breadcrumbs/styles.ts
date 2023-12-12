@@ -1,6 +1,5 @@
 import { Breadcrumbs as EdsBreadcrumbs } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const StyledBreadcrumbs = styled(EdsBreadcrumbs)`
@@ -24,12 +23,5 @@ export const StyledBreadcrumbItemInteract = styled(StyledBreadcrumbItem)`
 
 	:hover {
 		color: ${tokens.colors.interactive.primary__hover.hex};
-	}
-`;
-
-export const StyledMenuItem = styled(Link)`
-	min-width: 280px;
-	> button {
-		width: 100%;
 	}
 `;
