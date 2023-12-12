@@ -78,7 +78,7 @@ export const Milestones = () => {
 									})
 								) : (
 									<div className={styles.noContent}>
-										<PortalMessage type="NoContent" title="No Content">
+										<PortalMessage type="NoContent" title="No content">
 											There are no milestones awaitable
 										</PortalMessage>
 									</div>
