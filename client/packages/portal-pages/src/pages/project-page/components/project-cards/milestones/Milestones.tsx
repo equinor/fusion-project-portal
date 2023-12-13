@@ -25,12 +25,13 @@ const styles = {
 		justify-content: center;
 	`,
 	noWrap: css`
-		white-space: nowrap;
+		width: 1000px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	`,
 	table: css`
-		width: 450px;
+		white-space: nowrap;
+		min-width: fit-content;
 		table-layout: fixed;
 	`,
 };
