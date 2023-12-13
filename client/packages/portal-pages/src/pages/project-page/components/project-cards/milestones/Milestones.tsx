@@ -24,6 +24,15 @@ const styles = {
 		display: flex;
 		justify-content: center;
 	`,
+	noWrap: css`
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	`,
+	table: css`
+		width: 450px;
+		table-layout: fixed;
+	`,
 };
 
 export const Milestones = () => {
@@ -57,7 +66,7 @@ export const Milestones = () => {
 			) : (
 				<StyledContent>
 					<EdsProvider density="compact">
-						<Table className={styles.fullWidth}>
+						<Table className={(styles.fullWidth, styles.table)}>
 							<Table.Head>
 								<Table.Row>
 									<Table.Cell>Milestone</Table.Cell>
@@ -75,10 +84,14 @@ export const Milestones = () => {
 										const dateForecast = verifyDate(milestone.dateForecast);
 										return (
 											<Table.Row key={milestone.milestone}>
-												<Table.Cell>{milestone.milestone}</Table.Cell>
-												<Table.Cell>{milestone.description}</Table.Cell>
-												<Table.Cell>{datePlanned}</Table.Cell>
-												<Table.Cell>{dateForecast}</Table.Cell>
+												<Table.Cell title={milestone.milestone}>
+													{milestone.milestone}
+												</Table.Cell>
+												<Table.Cell className={styles.noWrap} title={milestone.description}>
+													{milestone.description}
+												</Table.Cell>
+												<Table.Cell title={datePlanned}>{datePlanned}</Table.Cell>
+												<Table.Cell title={dateForecast}>{dateForecast}</Table.Cell>
 											</Table.Row>
 										);
 									})
