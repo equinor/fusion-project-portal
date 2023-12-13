@@ -5,10 +5,12 @@ import { LoadingSkeleton } from './LoadingSection';
 import { useMilestoneQuery } from './use-presence-query';
 import { css } from '@emotion/css';
 import { PortalMessage } from '@portal/ui';
+import { sortByDate, sortMilestones } from './utils';
+import { useMemo } from 'react';
 
-function verifyDate(date: string): string {
-	return new Date(date).toString() !== 'Invalid Date'
-		? DateTime.fromJSDate(new Date(date)).toFormat('dd LLL yyyy')
+function verifyDate(date?: string | null): string {
+	return new Date(date || '').toString() !== 'Invalid Date'
+		? DateTime.fromJSDate(new Date(date || '')).toFormat('dd LLL yyyy')
 		: '-';
 }
 
@@ -22,12 +24,25 @@ const styles = {
 		display: flex;
 		justify-content: center;
 	`,
+	noWrap: css`
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	`,
+	table: css`
+		width: 450px;
+		table-layout: fixed;
+	`,
 };
 
 export const Milestones = () => {
 	const { data, isLoading, error } = useMilestoneQuery();
 
 	const componentError = error as Error | undefined;
+
+	const milestones = useMemo(() => {
+		return data?.sort(sortMilestones).sort(sortByDate) || [];
+	}, [data]);
 
 	return (
 		<StyledCardWrapper>
@@ -51,7 +66,7 @@ export const Milestones = () => {
 			) : (
 				<StyledContent>
 					<EdsProvider density="compact">
-						<Table className={styles.fullWidth}>
+						<Table className={(styles.fullWidth, styles.table)}>
 							<Table.Head>
 								<Table.Row>
 									<Table.Cell>Milestone</Table.Cell>
@@ -63,16 +78,20 @@ export const Milestones = () => {
 							<Table.Body>
 								{isLoading ? (
 									<LoadingSkeleton />
-								) : data ? (
-									data.map((milestone) => {
+								) : milestones.length > 0 ? (
+									milestones.map((milestone) => {
 										const datePlanned = verifyDate(milestone.datePlanned);
 										const dateForecast = verifyDate(milestone.dateForecast);
 										return (
 											<Table.Row key={milestone.milestone}>
-												<Table.Cell>{milestone.milestone}</Table.Cell>
-												<Table.Cell>{milestone.description}</Table.Cell>
-												<Table.Cell>{datePlanned}</Table.Cell>
-												<Table.Cell>{dateForecast}</Table.Cell>
+												<Table.Cell title={milestone.milestone}>
+													{milestone.milestone}
+												</Table.Cell>
+												<Table.Cell className={styles.noWrap} title={milestone.description}>
+													{milestone.description}
+												</Table.Cell>
+												<Table.Cell title={datePlanned}>{datePlanned}</Table.Cell>
+												<Table.Cell title={dateForecast}>{dateForecast}</Table.Cell>
 											</Table.Row>
 										);
 									})
