@@ -1,5 +1,20 @@
 # fusion-project-portal
 
+## 1.11.0
+
+### Minor Changes
+
+- 2c2f819: Users now have the ability to customize and update their notification settings directly within the project portal.
+  Additionally, notifications will now appear seamlessly within the Fusion interface, and notification actions have been relocated to vertical menus.
+- 116457b: When a user lacks access to view the underlying data for a milestone, a message will be displayed. This message is also shown in cases where no content is available, or when an error occurs.
+
+### Patch Changes
+
+- 0f7cb08: When the user doesn't have any notifications, they will see a message indicating that there is no notification available.
+- 948900d: Move the service message info to action bar in side sheet.
+- bb0d893: Fixed focus on app breadcrumb now not focusing on last app
+- 872474f: Milestones on the project home page are now sorted by date and then by milestone title.
+
 ## 1.10.0
 
 ### Minor Changes
