@@ -68,9 +68,8 @@ export async function getMyReviewActions(
 		title: task.title,
 		source: 'Review',
 		description: stripHtml(task.description),
-		href: `${getFusionOrigin()}apps/reviews/${map[task.contextId]}/landingpage/actions/${task.id}`,
+		href: `${location.origin}/apps/reviews/${map[task.contextId]}/landingpage/actions/${task.id}`,
 		dueDate: verifyDate(task.dueDateUtc),
 		state: task.isActive ? 'Active' : task.isCompleted ? 'Completed' : task.isDeleted ? 'Deleted' : 'Unknown',
-		isExternal: true,
 	}));
 }
