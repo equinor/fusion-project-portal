@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.11.1
+
+### Patch Changes
+
+- 3cbab0b: Providing proper client id for legacy applications. This to ensure propper loading of applications.
+
 ## 1.11.0
 
 ### Minor Changes
