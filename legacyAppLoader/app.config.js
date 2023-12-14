@@ -1,11 +1,11 @@
 // demo
 export default () => ({
   manifest: {
-    key: "meetings",
+    key: "reviews",
   },
   environment: {
-    appKey: "meetings",
-    basename: "localhost:3000/apps/meetings/",
+    appKey: "reviews",
+    basename: "localhost:3000/apps/reviews/",
     client: {
       baseUri: "https://backend-fusion-project-portal-test.radix.equinor.com",
       defaultScopes: [
