@@ -14,12 +14,20 @@ import { LoggerLevel, PortalConfig } from '@portal/types';
 
 const showInfo = false;
 
+function getClientIdFormScope(scope: string): string | undefined {
+	return scope.match(
+		/^(?:\{{0,1}(?:[0-9a-fA-F]){8}-(?:[0-9a-fA-F]){4}-(?:[0-9a-fA-F]){4}-(?:[0-9a-fA-F]){4}-(?:[0-9a-fA-F]){12}\}{0,1})/
+	)?.[0];
+}
+
 export function createPortalFramework(portalConfig: PortalConfig) {
 	return (config: FusionConfigurator) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
-		(window as { clientId?: string }).clientId = portalConfig.serviceDiscovery.client.defaultScopes[0];
+		(window as { clientId?: string }).clientId = getClientIdFormScope(
+			portalConfig.serviceDiscovery.client.defaultScopes[0]
+		);
 
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
