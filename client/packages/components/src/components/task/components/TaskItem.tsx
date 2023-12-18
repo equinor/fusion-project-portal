@@ -1,8 +1,7 @@
+import styled from 'styled-components';
 import { Chip, Icon, Typography } from '@equinor/eds-core-react';
 import { assignment, calendar, external_link, refresh } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
-import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
 import { Task } from '../types/task';
 
 export type TaskItemProp = {
@@ -25,22 +24,11 @@ const Style = {
 			border-bottom: none;
 		}
 	`,
-	// TaskItemLink: styled.a`
-	// 	display: flex;
-	// 	color: ${tokens.colors.interactive.primary__resting.hex};
-	// 	flex-direction: column;
-	// 	text-decoration: none;
-	// `,
 	TaskItemChildren: styled.div`
 		display: flex;
 		flex-direction: row;
 		align-content: center;
 		gap: 0.5rem;
-
-		/* > svg {
-			height: 16px;
-			width: 16px;
-		} */
 	`,
 	TaskContent: styled.div`
 		display: flex;
@@ -57,17 +45,8 @@ const Style = {
 	`,
 };
 
-export const TaskItem = ({
-	title,
-	href,
-	state,
-	source,
-	type,
-	isOverdue,
-	description,
-	dueDate,
-	isExternal,
-}: PropsWithChildren<Task>) => {
+export const TaskItem = (task: Task) => {
+	const { title, href, state, source, type, isOverdue, description, dueDate, isExternal } = task;
 	return (
 		<Style.TaskItem>
 			<div>{isExternal ? <Icon data={external_link} /> : <Icon data={assignment} />}</div>

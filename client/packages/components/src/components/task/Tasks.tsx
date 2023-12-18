@@ -1,42 +1,12 @@
-import { Autocomplete, Icon, Tabs, Typography } from '@equinor/eds-core-react';
-import { tokens } from '@equinor/eds-tokens';
+import { Tabs } from '@equinor/eds-core-react';
 import { FC, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { FusionTask } from './types/fusion-task';
 import { useAssignment } from './work-assigned/use-assignment';
-import { TaskItem } from './components/TaskItem';
-import { time, warning_outlined } from '@equinor/eds-icons';
-import { Task, TaskSource } from './types/task';
-import { PortalMessage } from '@portal/ui';
-
-const StyledKpiItem = styled.div`
-	flex: 1;
-	width: 50px;
-`;
-
-const StyledKpi = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 0.5rem;
-`;
-
-const StyledTitle = styled(Typography)`
-	color: ${tokens.colors.text.static_icons__tertiary.hex};
-	font-size: 12px;
-	line-height: 16px;
-`;
-
-const StyledAssignmentsList = styled.div`
-	height: 100%;
-	overflow: auto;
-`;
-
-const StyledAssignmentsListWrapper = styled.div`
-	flex: 2;
-	overflow: hidden;
-	padding-bottom: 1rem;
-`;
+import { TaskSource } from './types/task';
+import { TabNav } from './components/TaskNav';
+import { TaskList } from './components/TaskList';
 
 // const StyledAccordianItem = styled(Accordion.Item)`
 // 	border: none;
@@ -69,6 +39,7 @@ const groupOption = {
 // 		(groups[key] ||= []).push(item);
 // 		return groups;
 // 	}, {} as Record<PropertyKey, Task[]>);
+
 interface TasksProps {
 	maxDisplay?: number;
 	height?: number;
@@ -82,43 +53,15 @@ const Style = {
 		display: flex;
 		flex-direction: column;
 	`,
-	List: styled.div`
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-
-		/* gap: 0.5rem; */
-	`,
-	NoContentWrapper: styled.div`
-		display: flex;
-		flex-direction: column;
-		min-height: 300px;
-		justify-content: center;
-	`,
-	KpiWrapper: styled.div`
-		display: flex;
-	`,
 	Header: styled.div`
 		display: flex;
 	`,
-};
 
-const AssignmentList = ({ source, tasks }: { source?: TaskSource; tasks: Task[] }) => {
-	const assignments = useMemo(() => tasks?.filter((item) => (source ? item.source === source : true)), [tasks]);
-
-	return (
-		<StyledAssignmentsList>
-			{assignments.length > 0 ? (
-				assignments.map((item) => <TaskItem key={item.id} {...item} />)
-			) : (
-				<Style.NoContentWrapper>
-					<PortalMessage title={`No work assigned`} type="Info">
-						It appears you don´t have any {source ? source.toLowerCase() + ' tasks' : 'tasks'}
-					</PortalMessage>
-				</Style.NoContentWrapper>
-			)}
-		</StyledAssignmentsList>
-	);
+	TaskListWrapper: styled.div`
+		flex: 2;
+		overflow: hidden;
+		padding-bottom: 1rem;
+	`,
 };
 
 export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
@@ -131,42 +74,9 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 		setActiveTab(index);
 	};
 
-	const counts = useMemo(() => {
-		const count: Record<TaskSource, number> = {
-			Meetings: 0,
-			PIMS: 0,
-			ProCoSys: 0,
-			Review: 0,
-			'Query & NC Request': 0,
-		};
-
-		assignments.forEach((a) => {
-			count[a.source]++;
-		});
-
-		return count;
-	}, [assignments]);
-
 	return (
 		<Style.Wrapper>
 			<Style.Header>
-				{/* <Style.KpiWrapper>
-					<StyledKpiItem>
-						<StyledKpi>
-							<Typography variant="h5">{assignments.length}</Typography>
-							<Icon data={time} />
-						</StyledKpi>
-						<StyledTitle>Pending tasks</StyledTitle>
-					</StyledKpiItem>
-					<StyledKpiItem>
-						<StyledKpi>
-							<Typography variant="h5">{assignments.filter((a) => a.isOverdue).length}</Typography>
-							<Icon data={warning_outlined} />
-						</StyledKpi>
-						<StyledTitle>Over Due task</StyledTitle>
-					</StyledKpiItem>
-				</Style.KpiWrapper> */}
-
 				{/* <Autocomplete
 					options={Object.keys(groupOption)}
 					autoWidth={true}
@@ -176,38 +86,38 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 					onOptionsChange={(changes) => setGroupedBy(changes.selectedItems[0] as keyof typeof groupOption)}
 				/> */}
 			</Style.Header>
-			<StyledAssignmentsListWrapper>
+			<Style.TaskListWrapper>
 				<Tabs activeTab={activeTab} onChange={handleChange}>
-					<Tabs.List>
-						<Tabs.Tab>All ({assignments.length})</Tabs.Tab>
-						<Tabs.Tab>Meetings ({counts.Meetings})</Tabs.Tab>
-						<Tabs.Tab>Review ({counts.Review})</Tabs.Tab>
-						<Tabs.Tab>PIMS ({counts.PIMS})</Tabs.Tab>
-						<Tabs.Tab>ProCoSys ({counts.ProCoSys})</Tabs.Tab>
-						<Tabs.Tab>Query & NC Request ({counts['Query & NC Request']})</Tabs.Tab>
-					</Tabs.List>
+					<TabNav>
+						<Tabs.Tab>All</Tabs.Tab>
+						<Tabs.Tab>Meetings </Tabs.Tab>
+						<Tabs.Tab>Review </Tabs.Tab>
+						<Tabs.Tab>PIMS </Tabs.Tab>
+						<Tabs.Tab>ProCoSys </Tabs.Tab>
+						<Tabs.Tab>Query & NC Request </Tabs.Tab>
+					</TabNav>
 					<Tabs.Panels>
 						<Tabs.Panel>
-							<AssignmentList tasks={assignments} />
+							<TaskList tasks={assignments} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<AssignmentList tasks={assignments} source="Meetings" />
+							<TaskList tasks={assignments} source="Meetings" />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<AssignmentList tasks={assignments} source="Review" />
+							<TaskList tasks={assignments} source="Review" />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<AssignmentList tasks={assignments} source="PIMS" />
+							<TaskList tasks={assignments} source="PIMS" />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<AssignmentList tasks={assignments} source="ProCoSys" />
+							<TaskList tasks={assignments} source="ProCoSys" />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<AssignmentList tasks={assignments} source="Query & NC Request" />
+							<TaskList tasks={assignments} source="Query & NC Request" />
 						</Tabs.Panel>
 					</Tabs.Panels>
 				</Tabs>
-			</StyledAssignmentsListWrapper>
+			</Style.TaskListWrapper>
 		</Style.Wrapper>
 	);
 };

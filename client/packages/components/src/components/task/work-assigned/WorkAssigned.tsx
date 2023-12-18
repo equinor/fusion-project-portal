@@ -8,6 +8,8 @@ const StyledCard = styled(Card)`
 	display: flex;
 `;
 const StyledContentHeight = styled.div`
+	width: 100%;
+	overflow: hidden;
 	margin-top: 1rem;
 	height: 1000px;
 `;

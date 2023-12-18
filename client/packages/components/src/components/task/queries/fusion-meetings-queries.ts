@@ -3,7 +3,6 @@ import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { Task } from '../types/task';
 
 import { verifyDate } from '../utils/time';
-import { getFusionOrigin } from '@portal/core';
 
 function stripHtml(html?: string) {
 	const tmp = document.createElement('DIV');
