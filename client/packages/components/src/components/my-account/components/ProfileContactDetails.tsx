@@ -5,6 +5,7 @@ import { ProfileListItem } from './ProfileListItem';
 import { TeamsIcon, DelveIcon, Skeleton } from '@portal/ui';
 
 import { PersonDetails } from '@portal/types';
+import { account_circle } from '@equinor/eds-icons';
 
 const Style = {
 	InfoWrapper: styled.div`
@@ -18,6 +19,11 @@ export const ProfileContactDetails = ({ user, isLoading }: { user?: PersonDetail
 	return (
 		<Style.InfoWrapper>
 			<Typography variant="h6">Contact Details</Typography>
+			{user?.accountType ? (
+				<ProfileListItem icon={<Icon data={account_circle} />} text={user.accountType} title="Account Type" />
+			) : (
+				isLoading && <Skeleton width={60} style={{ margin: '1rem 0' }} />
+			)}
 			{user?.mail ? (
 				<ProfileListItem
 					icon={<Icon name="email" style={{ fontSize: '16px' }} />}
@@ -29,28 +35,24 @@ export const ProfileContactDetails = ({ user, isLoading }: { user?: PersonDetail
 			) : (
 				isLoading && <Skeleton width={60} style={{ margin: '1rem 0' }} />
 			)}
-			{user?.mobilePhone ? (
+			{user?.preferredContactMail ? (
 				<ProfileListItem
-					icon={<Icon name="iphone" style={{ fontSize: '16px' }} />}
-					href={`callto:${user.mobilePhone}`}
-					toCopy={user.mobilePhone}
-					text={user.mobilePhone}
-					title="Phone number"
+					icon={<Icon name="email" style={{ fontSize: '16px' }} />}
+					href={`mailto:${user.preferredContactMail}`}
+					toCopy={user.preferredContactMail}
+					text={user.preferredContactMail}
+					title="Preferred Email address"
 				/>
+			) : isLoading ? (
+				<Skeleton width={60} style={{ margin: '1rem 0' }} />
 			) : (
-				isLoading && <Skeleton width={60} style={{ margin: '1rem 0' }} />
-			)}
-			{user?.mail ? (
 				<ProfileListItem
-					icon={<TeamsIcon />}
-					href={`msteams:/l/chat/0/0?users=${user.mail}`}
-					toCopy={`msteams:/l/chat/0/0?users=${user.mail}`}
-					text="Start a chat in Teams"
-					title={`${user.name} Teams`}
+					icon={<Icon name="email" style={{ fontSize: '16px' }} />}
+					text={'No preferred contact mail'}
+					title="Preferred Email address"
 				/>
-			) : (
-				isLoading && <Skeleton width={60} style={{ margin: '1rem 0' }} />
 			)}
+
 			{user?.azureUniqueId ? (
 				<ProfileListItem
 					icon={<DelveIcon />}

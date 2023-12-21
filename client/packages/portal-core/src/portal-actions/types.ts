@@ -19,7 +19,7 @@ export interface PortalAction {
 	topParOnly?: boolean;
 }
 
-export type PortalActionProps = { open: boolean; onClose: VoidFunction; action: PortalAction };
+export type PortalActionProps = { open: boolean; onClose: VoidFunction; action: PortalAction; shouldAnimate?: boolean };
 
 export interface PortalActions {
 	actions$: BehaviorSubject<PortalAction[]>;

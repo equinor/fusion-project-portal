@@ -80,7 +80,7 @@ export const useUpdateUserRoleQuery = (roles?: Role[], userId?: string) => {
 		},
 	});
 
-	return { roles: data, mutate };
+	return { roles: data || roles, mutate };
 };
 
 export const useUpdateUserRoles = (roles?: Role[], userId?: string) => {

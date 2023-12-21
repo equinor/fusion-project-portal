@@ -9,6 +9,7 @@ import { useUpdateMyRoles } from './hooks/use-update-my-roles-query';
 import { expiresIn } from './utils/expires-in';
 
 import { PortalMessage } from '@portal/ui';
+import { ProgressLoader } from '@equinor/portal-ui';
 
 export const Style = {
 	Wrapper: styled.div`
@@ -51,6 +52,11 @@ export const Style = {
 	`,
 	NoContent: styled.div`
 		height: 50vh;
+	`,
+	WrapperCenter: styled.div`
+		height: 30vh;
+		display: flex;
+		justify-content: center;
 	`,
 };
 
@@ -98,12 +104,16 @@ export const MyRolesTab = ({ onClick, userRoles }: { onClick: VoidFunction; user
 						)}
 					</Style.Role>
 				))
-			) : (
+			) : userRoles ? (
 				<Style.NoContent>
 					<PortalMessage type="NoContent" title="No Roles">
 						You have no roles assigned
 					</PortalMessage>
 				</Style.NoContent>
+			) : (
+				<Style.WrapperCenter>
+					<ProgressLoader title="loading" />
+				</Style.WrapperCenter>
 			)}
 		</Style.Wrapper>
 	);

@@ -65,6 +65,7 @@ export type PersonDetails = {
 	accountClassification: string;
 	name: string;
 	mail: string | null;
+	preferredContactMail: string | null;
 	jobTitle: string | null;
 	department: string | null;
 	mobilePhone: string | null;
