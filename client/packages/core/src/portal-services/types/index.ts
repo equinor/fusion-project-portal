@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
-import { PortalAction } from '@equinor/portal-core';
 
-export type PortalWidget = PortalReactComponent | PortalWidgetLoader | PortalActionWidget;
+export type PortalService = PortalReactComponent | PortalWidget | PortalAction;
 
 export type PortalReactComponent = {
 	type: 'PortalReactComponent';
@@ -9,12 +8,12 @@ export type PortalReactComponent = {
 	component?: FunctionComponent<PortalWidgetProps>;
 } & PortalWidgetBase;
 
-export type PortalWidgetLoader = {
-	type: 'PortalWidgetLoader';
+export type PortalWidget = {
+	type: 'PortalWidget';
 	widgetId: string;
 } & PortalWidgetBase;
 
-export type PortalActionWidget = {
+export type PortalAction = {
 	type: 'PortalActionWidget';
 	onClick?: (id: string) => void;
 } & PortalWidgetBase;
@@ -24,8 +23,8 @@ type HEXString = `#${string}`;
 export type PortalWidgetProps = {
 	open: boolean;
 	onClose: VoidFunction;
-	widget?: PortalWidget;
-	action: PortalAction;
+	widget: PortalService;
+	shouldAnimate?: boolean;
 };
 
 export interface PortalWidgetBase {
@@ -46,4 +45,4 @@ export type PortalWidgetUIConfig = {
 	topBarOnly?: boolean;
 };
 
-export type WidgetType = 'PortalWidgetLoader' | 'PortalActionWidget' | 'PortalReactComponent';
+export type WidgetType = 'PortalWidget' | 'PortalAction' | 'PortalReactComponent';

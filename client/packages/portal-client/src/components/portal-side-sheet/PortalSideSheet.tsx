@@ -1,18 +1,18 @@
 import { PortalAction, usePortalActions } from '@equinor/portal-core';
 
 import { useEffect, useState } from 'react';
-import { usePortalWidgets, PortalWidget } from '@portal/core';
+import { usePortalServices, PortalService } from '@portal/core';
 import { useSearchParams } from 'react-router-dom';
 
 export function PortalSideSheet() {
 	const [searchParams] = useSearchParams();
 
 	const [portalAction, setPortalAction] = useState<PortalAction | undefined>();
-	const [portalWidget, setPortalWidgets] = useState<PortalWidget | undefined>();
+	const [portalWidget, setPortalWidgets] = useState<PortalService | undefined>();
 
 	const { activeAction$, closeActiveAction } = usePortalActions();
 
-	const { activeWidget$, closeActivePortalWidget, setActivePortalWidgetById, preciousWidget } = usePortalWidgets();
+	const { activeWidget$, closeActivePortalWidget, setActivePortalWidgetById, preciousWidget } = usePortalServices();
 
 	useEffect(() => {
 		const serviceId = searchParams.get('portalServiceId');
@@ -39,7 +39,7 @@ export function PortalSideSheet() {
 	if (portalWidget && WComponent) {
 		return (
 			<WComponent
-				action={{ ...portalWidget, actionId: '' } as PortalAction}
+				widget={portalWidget}
 				onClose={closeActivePortalWidget}
 				open={!!portalWidget}
 				shouldAnimate={Boolean(preciousWidget)}

@@ -11,7 +11,7 @@ import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
-import { enablePortalWidget } from '@portal/core';
+import { enablePortalServices } from '@portal/core';
 
 import { portalWidgets } from '@portal/components';
 
@@ -36,7 +36,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
-		enablePortalWidget(config, (builder) => {
+		enablePortalServices(config, (builder) => {
 			builder.registerPortalWidgets(portalWidgets);
 		});
 

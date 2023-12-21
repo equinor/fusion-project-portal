@@ -1,27 +1,27 @@
-import { PortalWidgetConfig } from './configurator';
+import { PortalServicesConfig } from './configurator';
 import { BehaviorSubject } from 'rxjs';
-import { PortalWidget } from './types';
+import { PortalService } from './types';
 
-export interface IPortalWidgetProvider {
-	widgets$: BehaviorSubject<PortalWidget[]>;
-	activeWidget$: BehaviorSubject<PortalWidget | undefined>;
-	preciousWidget: PortalWidget | undefined;
+export interface IPortalServicesProvider {
+	widgets$: BehaviorSubject<PortalService[]>;
+	activeWidget$: BehaviorSubject<PortalService | undefined>;
+	preciousWidget: PortalService | undefined;
 	setActivePortalWidgetById(widgetId?: string | null): void;
 	closeActivePortalWidget: VoidFunction;
-	registerPortalWidgets(actions: PortalWidget[]): void;
-	registerPortalWidget(widget: PortalWidget): void;
+	registerPortalWidgets(actions: PortalService[]): void;
+	registerPortalWidget(widget: PortalService): void;
 }
 
-export class PortalWidgetProvider implements IPortalWidgetProvider {
-	widgets$: BehaviorSubject<PortalWidget[]>;
+export class PortalWidgetProvider implements IPortalServicesProvider {
+	client;
 
-	activeWidget$: BehaviorSubject<PortalWidget | undefined>;
+	activeWidget$: BehaviorSubject<PortalService | undefined>;
 
-	preciousWidget: PortalWidget | undefined;
+	preciousWidget: PortalService | undefined;
 
-	constructor(protected _config: PortalWidgetConfig) {
-		this.widgets$ = new BehaviorSubject<PortalWidget[]>(_config.widgets || []);
-		this.activeWidget$ = new BehaviorSubject<PortalWidget | undefined>(undefined);
+	constructor(protected _config: PortalServicesConfig) {
+		this.widgets$ = new BehaviorSubject<PortalService[]>(_config.widgets || []);
+		this.activeWidget$ = new BehaviorSubject<PortalService | undefined>(undefined);
 	}
 
 	setActivePortalWidgetById = (widgetId?: string | null): void => {
@@ -48,11 +48,11 @@ export class PortalWidgetProvider implements IPortalWidgetProvider {
 		this.activeWidget$.next(undefined);
 	};
 
-	registerPortalWidgets = (actions: PortalWidget[]) => {
+	registerPortalWidgets = (actions: PortalService[]) => {
 		this.widgets$.next(actions);
 	};
 
-	registerPortalWidget = (widget: PortalWidget) => {
+	registerPortalWidget = (widget: PortalService) => {
 		if (Boolean(this.widgets$.value.find((_widget) => _widget.id === widget.id))) {
 			throw Error('Widget is already registered.');
 		}

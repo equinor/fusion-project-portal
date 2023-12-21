@@ -1,4 +1,4 @@
-import { PortalWidget, useCurrentUser, usePortalWidgets } from '@portal/core';
+import { PortalService, PortalWidgetProps, useCurrentUser, usePortalServices } from '@portal/core';
 import { getAccountTypeColor } from '@portal/ui';
 
 import { SideSheet } from '@equinor/fusion-react-side-sheet';
@@ -6,17 +6,14 @@ import { SideSheet } from '@equinor/fusion-react-side-sheet';
 import { ProfileCardHeader } from './components/ProfileCardHeader';
 
 import { ProfileContactDetails } from './components/ProfileContactDetails';
-import { Icon } from '@equinor/eds-core-react';
+import { Divider, Icon } from '@equinor/eds-core-react';
 import { ProfileManagerCard } from './components/ProfileManager';
 import { briefcase, settings, verified_user } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
-import { useMemo } from 'react';
 import { MyRolesTab } from '../my-roles-tab/MyRolesTab';
 import { MyAllocationTab } from '../my-allocations-tab/MyAllocationTab';
 import { PortalSettingsTab } from '../portal-settings-tab/PortalSettingsTab';
-import { PortalAction, PortalActionProps } from '@equinor/portal-core';
-import { PresenceIndicator } from '../presence-indicator';
 
 const Style = {
 	Wrapper: styled.div`
@@ -51,7 +48,7 @@ const Style = {
 	`,
 };
 
-export const portalWidgets: PortalWidget[] = [
+export const portalWidgets: PortalService[] = [
 	{
 		type: 'PortalReactComponent',
 		name: 'My Account',
@@ -78,21 +75,15 @@ export const portalWidgets: PortalWidget[] = [
 	},
 ];
 
-export function MyAccount({ action, onClose, open, shouldAnimate }: PortalActionProps) {
+export function MyAccount({ widget, onClose, open }: PortalWidgetProps) {
 	const { data: user, isLoading } = useCurrentUser();
 
-	const { setActivePortalWidgetById } = usePortalWidgets();
+	const { setActivePortalWidgetById } = usePortalServices();
 
 	return (
-		<SideSheet
-			isOpen={open}
-			onClose={onClose}
-			isDismissable={true}
-			minWidth={action.minWidth}
-			shouldNotAnimate={shouldAnimate}
-		>
+		<SideSheet isOpen={open} onClose={onClose} isDismissable={true} minWidth={widget?.minWidth}>
 			<SideSheet.Indicator color={getAccountTypeColor(user?.accountType)} />
-			<SideSheet.Title title={action.name} />
+			<SideSheet.Title title={'My Account'} />
 			<SideSheet.SubTitle subTitle={user?.accountType || ''} />
 			<SideSheet.Content>
 				<ProfileCardHeader user={user} />
@@ -123,77 +114,56 @@ export function MyAccount({ action, onClose, open, shouldAnimate }: PortalAction
 		</SideSheet>
 	);
 }
-export function MyRoles({ action, onClose, open, shouldAnimate }: PortalActionProps) {
+export function MyRoles({ widget, onClose, open }: PortalWidgetProps) {
 	const { data: user } = useCurrentUser();
 
-	const { setActivePortalWidgetById } = usePortalWidgets();
+	const { setActivePortalWidgetById } = usePortalServices();
 
 	return (
-		<SideSheet
-			isOpen={open}
-			onClose={onClose}
-			isDismissable={true}
-			minWidth={action.minWidth}
-			shouldNotAnimate={shouldAnimate}
-		>
+		<SideSheet isOpen={open} onClose={onClose} isDismissable={true} minWidth={widget.minWidth}>
 			<SideSheet.Indicator color={getAccountTypeColor(user?.accountType)} />
-			<SideSheet.Title title={action.name} />
+			<SideSheet.Title title={'My Roles'} />
 			<SideSheet.SubTitle subTitle={user?.accountType || ''} />
 			<SideSheet.Content>
-				{/* <InfoMessage>This functionality is not yet implemented.</InfoMessage> */}
 				<ProfileCardHeader user={user} />
-				<hr />
+				<Divider />
 				<MyRolesTab onClick={() => setActivePortalWidgetById('profile')} userRoles={user?.roles} />,
 			</SideSheet.Content>
 		</SideSheet>
 	);
 }
-export function MyAllocation({ action, onClose, open, shouldAnimate }: PortalActionProps) {
+export function MyAllocation({ widget, onClose, open }: PortalWidgetProps) {
 	const { data: user } = useCurrentUser();
 
-	const { setActivePortalWidgetById } = usePortalWidgets();
+	const { setActivePortalWidgetById } = usePortalServices();
 
 	return (
-		<SideSheet
-			isOpen={open}
-			onClose={onClose}
-			isDismissable={true}
-			minWidth={action.minWidth}
-			shouldNotAnimate={shouldAnimate}
-		>
+		<SideSheet isOpen={open} onClose={onClose} isDismissable={true} minWidth={widget.minWidth}>
 			<SideSheet.Indicator color={getAccountTypeColor(user?.accountType)} />
-			<SideSheet.Title title={action.name} />
+			<SideSheet.Title title={widget.name} />
 			<SideSheet.SubTitle subTitle={user?.accountType || ''} />
 			<SideSheet.Content>
-				{/* <InfoMessage>This functionality is not yet implemented.</InfoMessage> */}
 				<ProfileCardHeader user={user} />
-				<hr />
+				<Divider />
 				<MyAllocationTab onClick={() => setActivePortalWidgetById('profile')} positions={user?.positions} />,
 			</SideSheet.Content>
 		</SideSheet>
 	);
 }
 
-export function PortalSettings({ action, onClose, open, shouldAnimate }: PortalActionProps) {
+export function PortalSettings({ widget, onClose, open }: PortalWidgetProps) {
 	const { data: user } = useCurrentUser();
 
-	const { setActivePortalWidgetById } = usePortalWidgets();
+	const { setActivePortalWidgetById } = usePortalServices();
 
 	return (
-		<SideSheet
-			isOpen={open}
-			onClose={onClose}
-			isDismissable={true}
-			minWidth={action.minWidth}
-			shouldNotAnimate={shouldAnimate}
-		>
+		<SideSheet isOpen={open} onClose={onClose} isDismissable={true} minWidth={widget.minWidth}>
 			<SideSheet.Indicator color={getAccountTypeColor(user?.accountType)} />
-			<SideSheet.Title title={action.name} />
+			<SideSheet.Title title={widget.name} />
 			<SideSheet.SubTitle subTitle={user?.accountType || ''} />
 			<SideSheet.Content>
-				{/* <InfoMessage>This functionality is not yet implemented.</InfoMessage> */}
 				<ProfileCardHeader user={user} />
-				<hr />
+				<Divider />
 				<PortalSettingsTab onClick={() => setActivePortalWidgetById('profile')} user={user} />,
 			</SideSheet.Content>
 		</SideSheet>

@@ -1,10 +1,10 @@
 import { Button } from '@equinor/eds-core-react';
 import { TopBarAvatar } from '@portal/components';
 
-import { usePortalWidgets } from '@portal/core';
+import { usePortalServices } from '@portal/core';
 
 export const UserProfileButton = () => {
-	const { setActivePortalWidgetById } = usePortalWidgets();
+	const { setActivePortalWidgetById } = usePortalServices();
 	return (
 		<Button
 			variant="ghost_icon"

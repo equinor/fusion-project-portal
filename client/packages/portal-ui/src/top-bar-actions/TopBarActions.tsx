@@ -6,7 +6,7 @@ export function TopBarActions() {
 	return (
 		<>
 			<TopBarActionList />
-			<TopBarActionMenuDropdown />
+			{/* <TopBarActionMenuDropdown /> */}
 			<UserProfileButton />
 		</>
 	);
