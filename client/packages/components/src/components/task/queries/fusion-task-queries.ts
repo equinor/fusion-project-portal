@@ -5,6 +5,7 @@ import { ProcosysTasks } from '../types/procosys-task';
 import { Task } from '../types/task';
 
 import { verifyDate } from '../utils/time';
+import { isTaskOverdue } from './query-ncr-request-queries';
 
 export async function getFusionTasks(client: IHttpClient, signal?: AbortSignal): Promise<Task[]> {
 	const response = await client.fetch('/persons/me/tasks', { signal });
@@ -19,10 +20,7 @@ export async function getFusionTasks(client: IHttpClient, signal?: AbortSignal):
 		state: task.state.toString(),
 		dueDate: verifyDate(task.dueDate),
 		ceratedDate: verifyDate(task.created),
-		// isOverdue: boolean;
-		// description: string;
-		// url: string;
-		// isExternal: boolean;
+		isOverdue: isTaskOverdue(task.dueDate),
 	}));
 }
 
@@ -47,11 +45,7 @@ export async function getProCoSysAssignments(client: IHttpClient, signal?: Abort
 		isExternal: true,
 		href: task.url,
 		dueDate: verifyDate(task.dueDate),
-		// source: string;
-		// dueDate: string;
-		// isOverdue: boolean;
-		// description: string;
-		// url: string;
-		// isExternal: boolean;
+		isOverdue: isTaskOverdue(task.dueDate),
+		project: task.projectDescription,
 	}));
 }

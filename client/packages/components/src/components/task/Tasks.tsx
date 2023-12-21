@@ -1,10 +1,10 @@
 import { Tabs } from '@equinor/eds-core-react';
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { FusionTask } from './types/fusion-task';
-import { useAssignment } from './work-assigned/use-assignment';
-import { TaskSource } from './types/task';
+import { useAssignment } from './hooks/use-assignment';
+import { Task } from './types/task';
 import { TabNav } from './components/TaskNav';
 import { TaskList } from './components/TaskList';
 

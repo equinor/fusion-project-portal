@@ -1,5 +1,5 @@
 export type TaskSource = 'Query & NC Request' | 'Meetings' | 'Review' | 'PIMS' | 'ProCoSys';
-
+export type Priority = 'Normal' | 'Low' | 'High' | 'Critical';
 export interface Task {
 	id: string;
 	title: string;
@@ -13,4 +13,6 @@ export interface Task {
 	isOverdue?: boolean;
 	href?: string;
 	isExternal?: boolean;
+	priority?: Priority;
+	project?: string;
 }

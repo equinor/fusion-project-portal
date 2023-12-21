@@ -1,10 +1,33 @@
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
-import { getPimsTasks } from './assignment-queries';
+import { getPimsTasks } from '../work-assigned/assignment-queries';
 import { getMyMeetingsActions, getMyReviewActions } from '../queries/fusion-meetings-queries';
 import { getQueryAndNCRequest } from '../queries/query-ncr-request-queries';
 import { Task } from '../types/task';
 import { getFusionTasks, getProCoSysAssignments } from '../queries/fusion-task-queries';
+
+export const sortByDate = (a: Task, b: Task) => {
+	if (a.isOverdue) {
+		return -1;
+	}
+
+	// Handle null values for datePlanned
+	if ((a.dueDate === undefined || a.dueDate === '') && (b.dueDate === undefined || b.dueDate === '')) {
+		return 0; // No change in order
+	}
+	if (a.dueDate === undefined || a.dueDate === '') {
+		return 1; // Null values go to the bottom
+	}
+	if (b.dueDate === undefined || b.dueDate === '') {
+		return -1; // Null values go to the bottom
+	}
+
+	const aDateDue = new Date(a.dueDate);
+	const bDateDue = new Date(b.dueDate);
+
+	// Compare dates
+	return aDateDue.getTime() - bDateDue.getTime();
+};
 
 export function useAssignment() {
 	// const { data: fusionAssignments } = useAssignmentQuery();
@@ -21,7 +44,7 @@ export function useAssignment() {
 		...(reviewActions || []),
 		...(meetingsActions || []),
 		...(queryAndNCRRequests || []),
-	] as Task[];
+	].sort(sortByDate) as Task[];
 }
 
 export function useAssignmentQuery() {

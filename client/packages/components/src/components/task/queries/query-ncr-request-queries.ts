@@ -6,6 +6,7 @@ import { verifyDate } from '../utils/time';
 export async function getQueryAndNCRequest(client: IHttpClient, signal?: AbortSignal): Promise<Task[]> {
 	const response = await client.fetch('/persons/me/tasks', { signal });
 	const tasks: QueryTaskResponse[] = await response.json();
+	console.log(tasks);
 	return tasks.map((task) => ({
 		id: task.id,
 		title: task.title || 'Task with no title',
@@ -21,16 +22,23 @@ export async function getQueryAndNCRequest(client: IHttpClient, signal?: AbortSi
 			task.taskGroup?.query.queryType.toLowerCase(),
 			task.taskGroup?.query.id,
 		].join('/'),
-		isOverdue: task.dueDate ? isTaskOverdue(new Date(task.dueDate)) : undefined,
+		isOverdue: isTaskOverdue(task.dueDate),
+		project: task.taskGroup?.query.project.name,
 	}));
 }
 
-export const isTaskOverdue = (dueDate?: Date | null | undefined): boolean =>
-	!!(
-		dueDate &&
+export const isTaskOverdue = (dueDate?: string | Date | null | undefined): boolean | undefined => {
+	if (!dueDate) return;
+
+	if (typeof dueDate === 'string') {
+		dueDate = new Date(dueDate);
+	}
+
+	return !!(
 		!isMinDateTimeOffset(dueDate) &&
 		new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate()) < new Date()
 	);
+};
 
 export const isMinDateTimeOffset = (dueDate: Date | null | undefined): boolean =>
 	new Date('0001-01-01T00:00:00+00:00').getTime() == dueDate?.getTime();
