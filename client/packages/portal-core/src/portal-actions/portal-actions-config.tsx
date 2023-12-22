@@ -40,6 +40,7 @@ export const actions: PortalAction[] = [
 	},
 	{
 		actionId: 'task',
+		minWidth: 600,
 		name: 'Work Assigned',
 		subTitle: 'Your application related task',
 		color: '#258800',
