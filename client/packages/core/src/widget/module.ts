@@ -1,14 +1,16 @@
-import { PortalServicesConfigurator, IPortalServicesConfigurator } from './configurator';
+import { WidgetConfigurator, IWidgetConfigurator } from './configurator';
 import { IPortalServicesProvider, PortalWidgetProvider } from './provider';
 import type { Module } from '@equinor/fusion-framework-module';
 
-export type PortalWidgets = Module<'portalWidgets', IPortalServicesProvider, IPortalServicesConfigurator>;
+export const moduleKey = 'portalWidgets';
+
+export type PortalWidgets = Module<'portalWidgets', IPortalServicesProvider, IWidgetConfigurator>;
 
 export const module: PortalWidgets = {
-	name: 'portalServices',
-	configure: () => new PortalServicesConfigurator(),
+	name: moduleKey,
+	configure: () => new WidgetConfigurator(),
 	initialize: async (args): Promise<IPortalServicesProvider> => {
-		const config = await (args.config as PortalServicesConfigurator).createConfig(args);
+		const config = await (args.config as WidgetConfigurator).createConfig(args);
 		return new PortalWidgetProvider(config);
 	},
 };
@@ -17,6 +19,6 @@ export default module;
 
 declare module '@equinor/fusion-framework-module' {
 	interface Modules {
-		portalWidgets: PortalWidgets;
+		[moduleKey]: PortalWidgets;
 	}
 }
