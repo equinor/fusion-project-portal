@@ -38,11 +38,11 @@ export const ProjectPage = () => {
 		<StyledMain>
 			<StyledBackground />
 			<StyledContextPageGrid>
-				<StyledGridItem span={10}>
+				<StyledGridItem span={6}>
 					<ProjectDetails />
 				</StyledGridItem>
 
-				<StyledGridItem span={4} heightSpan={3}>
+				<StyledGridItem span={3} heightSpan={3}>
 					<WorkAssigned />
 				</StyledGridItem>
 				<StyledGridItem span={3} heightSpan={2}>
