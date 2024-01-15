@@ -1,8 +1,6 @@
 import { BookmarkModule } from '@equinor/fusion-framework-module-bookmark';
 import { Bookmark } from '@equinor/fusion-framework-react-components-bookmark';
-import {} from '@equinor/fusion-framework-react-module-bookmark/portal';
 import { PortalActionProps } from '@equinor/portal-core';
-
 import { SideSheet } from '@equinor/fusion-react-side-sheet';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { Button, Icon } from '@equinor/eds-core-react';
