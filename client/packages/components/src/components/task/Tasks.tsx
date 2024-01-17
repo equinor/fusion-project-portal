@@ -1,4 +1,4 @@
-import { Tabs } from '@equinor/eds-core-react';
+import { CircularProgress, Tabs } from '@equinor/eds-core-react';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 
@@ -9,14 +9,12 @@ import { TaskList } from './components/TaskList';
 import { useTaskCount } from './hooks/use-task-count';
 
 interface TasksProps {
-	maxDisplay?: number;
 	height?: number;
 }
 
 const Style = {
 	Wrapper: styled.div`
 		height: 100%;
-		overflow: hidden;
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -30,10 +28,13 @@ const Style = {
 		overflow: hidden;
 		padding-bottom: 1rem;
 	`,
+	CircularProgress: styled(CircularProgress)`
+		padding: 4px;
+	`,
 };
 
-export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
-	const assignments = useAssignment().slice(0, maxDisplay ? maxDisplay : -1);
+export const Tasks: FC<TasksProps> = ({ height }) => {
+	const { assignments, isLoading } = useAssignment();
 
 	const [activeTab, setActiveTab] = useState(0);
 
@@ -49,30 +50,52 @@ export const Tasks: FC<TasksProps> = ({ maxDisplay }) => {
 				<Tabs activeTab={activeTab} onChange={handleChange}>
 					<TabNav>
 						<Tabs.Tab>All ({assignments.length})</Tabs.Tab>
-						<Tabs.Tab>Meetings ({count.Meetings}) </Tabs.Tab>
-						<Tabs.Tab>Review ({count.Review})</Tabs.Tab>
-						<Tabs.Tab>PIMS ({count.PIMS})</Tabs.Tab>
-						<Tabs.Tab>ProCoSys ({count.ProCoSys})</Tabs.Tab>
-						<Tabs.Tab>Query & NC Request ({count['Query & NC Request']})</Tabs.Tab>
+						<Tabs.Tab>
+							Meetings
+							{isLoading.meetingsActions ? (
+								<Style.CircularProgress size={16} />
+							) : (
+								<> ({count.Meetings})</>
+							)}
+						</Tabs.Tab>
+						<Tabs.Tab>
+							Review
+							{isLoading.reviewActions ? <Style.CircularProgress size={16} /> : <> ({count.Review})</>}
+						</Tabs.Tab>
+						<Tabs.Tab>
+							PIMS {isLoading.pims ? <Style.CircularProgress size={16} /> : <> ({count.PIMS})</>}
+						</Tabs.Tab>
+						<Tabs.Tab>
+							ProCoSys{' '}
+							{isLoading.procosysTasks ? <Style.CircularProgress size={16} /> : <> ({count.ProCoSys})</>}
+						</Tabs.Tab>
+						<Tabs.Tab>
+							Query & NC Request{' '}
+							{isLoading.queryAndNCRRequests ? (
+								<Style.CircularProgress size={16} />
+							) : (
+								<> ({count['Query & NC Request']}) </>
+							)}
+						</Tabs.Tab>
 					</TabNav>
 					<Tabs.Panels>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} />
+							<TaskList tasks={assignments} height={height} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="Meetings" />
+							<TaskList tasks={assignments} source="Meetings" height={height} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="Review" />
+							<TaskList tasks={assignments} source="Review" height={height} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="PIMS" />
+							<TaskList tasks={assignments} source="PIMS" height={height} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="ProCoSys" />
+							<TaskList tasks={assignments} source="ProCoSys" height={height} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="Query & NC Request" />
+							<TaskList tasks={assignments} source="Query & NC Request" height={height} />
 						</Tabs.Panel>
 					</Tabs.Panels>
 				</Tabs>

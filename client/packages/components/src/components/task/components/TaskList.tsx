@@ -23,26 +23,29 @@ const Style = {
 		min-height: 300px;
 		justify-content: center;
 	`,
-	TaskList: styled.div`
-		height: 100%;
-		overflow: auto;
+	TaskList: styled.div<{ height?: number }>`
+		overflow-x: hidden;
+		overflow-y: auto;
+		height: ${({ height }) => (height ? `${height}px` : 'calc(100vh - 170px)')};
 	`,
 };
 
-export const TaskList = ({ source, tasks }: { source?: TaskSource; tasks: Task[] }) => {
+export const TaskList = ({ source, tasks, height }: { source?: TaskSource; tasks: Task[]; height?: number }) => {
 	const assignments = useMemo(() => tasks?.filter((item) => (source ? item.source === source : true)), [tasks]);
 
 	return (
-		<Style.TaskList>
-			{assignments.length > 0 ? (
-				assignments.map((item) => <TaskItem key={item.id} {...item} />)
-			) : (
-				<Style.NoContentWrapper>
-					<PortalMessage title={`No work assigned`} type="Info">
-						It appears you don´t have any {source ? source.toLowerCase() + ' tasks' : 'tasks'}
-					</PortalMessage>
-				</Style.NoContentWrapper>
-			)}
-		</Style.TaskList>
+		<div style={{ display: 'contents' }}>
+			<Style.TaskList height={height}>
+				{assignments.length > 0 ? (
+					assignments.map((item) => <TaskItem key={item.id} {...item} />)
+				) : (
+					<Style.NoContentWrapper>
+						<PortalMessage title={`No work assigned`} type="Info">
+							It appears you don´t have any {source ? source.toLowerCase() + ' tasks' : 'tasks'}
+						</PortalMessage>
+					</Style.NoContentWrapper>
+				)}
+			</Style.TaskList>
+		</div>
 	);
 };

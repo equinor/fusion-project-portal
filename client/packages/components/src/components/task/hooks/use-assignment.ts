@@ -31,20 +31,29 @@ export const sortByDate = (a: Task, b: Task) => {
 
 export function useAssignment() {
 	// const { data: fusionAssignments } = useAssignmentQuery();
-	const { data: procosysTasks } = useProCoSysTaskQuery();
+	const { data: procosysTasks, isLoading: procosysTasksLoading } = useProCoSysTaskQuery();
 	// const { data: pimsTask } = usePimsTaskQuery();
 
-	const { data: meetingsActions } = useMeetingsActionsQuery();
-	const { data: reviewActions } = useReviewActionsQuery();
+	const { data: meetingsActions, isLoading: meetingsActionsLoading } = useMeetingsActionsQuery();
+	const { data: reviewActions, isLoading: reviewActionsLoading } = useReviewActionsQuery();
 
-	const { data: queryAndNCRRequests } = useQueryAndNCRRequestQuery();
+	const { data: queryAndNCRRequests, isLoading: queryAndNCRRequestsLoading } = useQueryAndNCRRequestQuery();
 
-	return [
-		...(procosysTasks || []),
-		...(reviewActions || []),
-		...(meetingsActions || []),
-		...(queryAndNCRRequests || []),
-	].sort(sortByDate) as Task[];
+	return {
+		assignments: [
+			...(procosysTasks || []),
+			...(reviewActions || []),
+			...(meetingsActions || []),
+			...(queryAndNCRRequests || []),
+		].sort(sortByDate) as Task[],
+		isLoading: {
+			procosysTasks: procosysTasksLoading,
+			meetingsActions: meetingsActionsLoading,
+			reviewActions: reviewActionsLoading,
+			queryAndNCRRequests: queryAndNCRRequestsLoading,
+			pims: false,
+		},
+	};
 }
 
 export function useAssignmentQuery() {

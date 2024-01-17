@@ -1,8 +1,9 @@
 import { Chip, Icon, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { assignment, calendar, external_link, refresh } from '@equinor/eds-icons';
+import { calendar, external_link } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { Task } from '../types/task';
+import { TaskChip } from './TaskChip';
 
 export type TaskItemProp = {
 	title: string;
@@ -12,12 +13,11 @@ export type TaskItemProp = {
 
 const Style = {
 	TaskItem: styled.div`
-		display: flex;
-		flex-direction: row;
 		padding: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		align-content: center;
 		align-items: flex-start;
-		justify-content: space-between;
-		gap: 0.5rem;
 		:hover {
 			background-color: ${tokens.colors.interactive.primary__hover_alt.hex};
 		}
@@ -26,7 +26,7 @@ const Style = {
 			border-bottom: none;
 		}
 	`,
-	TaskItemChildren: styled.div`
+	TaskInfo: styled.div`
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -38,15 +38,15 @@ const Style = {
 	`,
 	TaskContent: styled.div`
 		display: flex;
-		flex-direction: column;
-		align-content: center;
+		flex-direction: row;
+		align-items: center;
 		justify-content: space-between;
-		align-items: flex-start;
+		width: 100%;
 	`,
 	Title: styled.div`
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		align-items: flex-end;
 		gap: 0.5rem;
 		padding-bottom: 0.5rem;
 	`,
@@ -68,7 +68,6 @@ export const TaskItem = (task: Task) => {
 		<Style.TaskItem>
 			<Style.TaskContent>
 				<Style.Title>
-					<Icon size={18} data={assignment} color={getOverdueColor(isOverdue)} />
 					<Typography
 						as={'a'}
 						variant="h6"
@@ -79,10 +78,18 @@ export const TaskItem = (task: Task) => {
 					>
 						{title}
 					</Typography>
-					<Chip variant="default">{source}</Chip>
+
+					{isExternal && (
+						<Typography as={'a'} title="External link" href={href} target={isExternal ? '_blank' : '_self'}>
+							<Icon size={18} data={external_link} />
+						</Typography>
+					)}
 				</Style.Title>
-				{description && <Style.Description title={'Title'}>{description}</Style.Description>}
-				<Style.TaskItemChildren>
+				<TaskChip>{source}</TaskChip>
+			</Style.TaskContent>
+			{description && <Style.Description title={'Title'}>{description}</Style.Description>}
+			<Style.TaskContent>
+				<Style.TaskInfo>
 					{state && (
 						<Chip variant="default" disabled={state === 'Closed'} title={'State'}>
 							{state}
@@ -103,20 +110,16 @@ export const TaskItem = (task: Task) => {
 							{project}
 						</Chip>
 					)}
+				</Style.TaskInfo>
+				<Style.TaskInfo>
 					{dueDate && (
 						<>
 							<Icon size={16} data={calendar} color={getOverdueColor(isOverdue)} />
 							<span title={'Due Date'}>{dueDate}</span>
 						</>
 					)}
-				</Style.TaskItemChildren>
+				</Style.TaskInfo>
 			</Style.TaskContent>
-
-			{isExternal && (
-				<Typography as={'a'} title="External link" href={href} target={isExternal ? '_blank' : '_self'}>
-					<Icon size={18} data={external_link} />
-				</Typography>
-			)}
 		</Style.TaskItem>
 	);
 };
