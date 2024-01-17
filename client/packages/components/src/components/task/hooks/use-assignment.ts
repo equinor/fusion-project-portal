@@ -32,7 +32,7 @@ export const sortByDate = (a: Task, b: Task) => {
 export function useAssignment() {
 	// const { data: fusionAssignments } = useAssignmentQuery();
 	const { data: procosysTasks, isLoading: procosysTasksLoading } = useProCoSysTaskQuery();
-	// const { data: pimsTask } = usePimsTaskQuery();
+	const { data: pimsTask, isLoading: pimsTaskLoading } = usePimsTaskQuery();
 
 	const { data: meetingsActions, isLoading: meetingsActionsLoading } = useMeetingsActionsQuery();
 	const { data: reviewActions, isLoading: reviewActionsLoading } = useReviewActionsQuery();
@@ -51,7 +51,7 @@ export function useAssignment() {
 			meetingsActions: meetingsActionsLoading,
 			reviewActions: reviewActionsLoading,
 			queryAndNCRRequests: queryAndNCRRequestsLoading,
-			pims: false,
+			pims: pimsTaskLoading,
 		},
 	};
 }

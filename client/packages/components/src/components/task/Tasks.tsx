@@ -66,11 +66,11 @@ export const Tasks: FC<TasksProps> = ({ height }) => {
 							PIMS {isLoading.pims ? <Style.CircularProgress size={16} /> : <> ({count.PIMS})</>}
 						</Tabs.Tab>
 						<Tabs.Tab>
-							ProCoSys{' '}
+							ProCoSys
 							{isLoading.procosysTasks ? <Style.CircularProgress size={16} /> : <> ({count.ProCoSys})</>}
 						</Tabs.Tab>
 						<Tabs.Tab>
-							Query & NC Request{' '}
+							Query & NC Request
 							{isLoading.queryAndNCRRequests ? (
 								<Style.CircularProgress size={16} />
 							) : (
