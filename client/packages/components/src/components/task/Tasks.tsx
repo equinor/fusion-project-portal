@@ -80,22 +80,42 @@ export const Tasks: FC<TasksProps> = ({ height }) => {
 					</TabNav>
 					<Tabs.Panels>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} height={height} />
+							<TaskList tasks={assignments} height={height} isLoading={assignments.length === 0} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="Meetings" height={height} />
+							<TaskList
+								tasks={assignments}
+								source="Meetings"
+								height={height}
+								isLoading={isLoading.meetingsActions}
+							/>
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="Review" height={height} />
+							<TaskList
+								tasks={assignments}
+								source="Review"
+								height={height}
+								isLoading={isLoading.reviewActions}
+							/>
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="PIMS" height={height} />
+							<TaskList tasks={assignments} source="PIMS" height={height} isLoading={isLoading.pims} />
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="ProCoSys" height={height} />
+							<TaskList
+								tasks={assignments}
+								source="ProCoSys"
+								height={height}
+								isLoading={isLoading.procosysTasks}
+							/>
 						</Tabs.Panel>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} source="Query & NC Request" height={height} />
+							<TaskList
+								tasks={assignments}
+								source="Query & NC Request"
+								height={height}
+								isLoading={isLoading.queryAndNCRRequests}
+							/>
 						</Tabs.Panel>
 					</Tabs.Panels>
 				</Tabs>

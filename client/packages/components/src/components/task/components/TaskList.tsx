@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { PortalMessage } from '@portal/ui';
 import { Task, TaskSource } from '../types/task';
 import { TaskItem } from './TaskItem';
+import { ProgressLoader } from '@equinor/portal-ui';
 
 const Style = {
 	Wrapper: styled.div`
@@ -30,8 +31,22 @@ const Style = {
 	`,
 };
 
-export const TaskList = ({ source, tasks, height }: { source?: TaskSource; tasks: Task[]; height?: number }) => {
+export const TaskList = ({
+	source,
+	tasks,
+	height,
+	isLoading,
+}: {
+	source?: TaskSource;
+	tasks: Task[];
+	height?: number;
+	isLoading?: boolean;
+}) => {
 	const assignments = useMemo(() => tasks?.filter((item) => (source ? item.source === source : true)), [tasks]);
+
+	if (isLoading) {
+		return <ProgressLoader title={`Loading ${source ? source : ''} tasks.`} />;
+	}
 
 	return (
 		<div style={{ display: 'contents' }}>
