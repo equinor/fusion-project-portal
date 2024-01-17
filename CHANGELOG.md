@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.12.1
+
+### Patch Changes
+
+- 1b82f89: Fixing add bookmark button and loading in bookamrks
+
 ## 1.12.0
 
 ### Minor Changes
