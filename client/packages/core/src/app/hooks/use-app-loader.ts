@@ -67,6 +67,7 @@ export const useAppLoader = (appKey: string) => {
 							);
 						}
 					} catch (error) {
+						console.error('App loading Error: ', error);
 						setError(error as Error);
 						setLoading(false);
 					}
@@ -75,6 +76,7 @@ export const useAppLoader = (appKey: string) => {
 					setLoading(false);
 				},
 				error: (err) => {
+					console.error('App init Error: ', error);
 					setError(err);
 					setLoading(false);
 				},
