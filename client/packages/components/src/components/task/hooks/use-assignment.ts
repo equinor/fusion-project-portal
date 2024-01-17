@@ -45,6 +45,7 @@ export function useAssignment() {
 			...(reviewActions || []),
 			...(meetingsActions || []),
 			...(queryAndNCRRequests || []),
+			...(pimsTask || []),
 		].sort(sortByDate) as Task[],
 		isLoading: {
 			procosysTasks: procosysTasksLoading,

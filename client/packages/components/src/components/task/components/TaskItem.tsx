@@ -115,7 +115,9 @@ export const TaskItem = (task: Task) => {
 					{dueDate && (
 						<>
 							<Icon size={16} data={calendar} color={getOverdueColor(isOverdue)} />
-							<span title={'Due Date'}>{dueDate}</span>
+							<span style={{ color: getOverdueColor(isOverdue) }} title={'Due Date'}>
+								{dueDate}
+							</span>
 						</>
 					)}
 				</Style.TaskInfo>
