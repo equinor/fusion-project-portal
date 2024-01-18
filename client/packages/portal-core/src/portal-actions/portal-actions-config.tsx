@@ -1,5 +1,13 @@
-import { Bookmarks, FullscreenIcon, Task } from '@equinor/portal-ui';
-import { MyAccount, ServiceNowSideSheet, HelpMenu, Help, NotificationBell, Notifications } from '@portal/components';
+import { Bookmarks, FullscreenIcon } from '@equinor/portal-ui';
+import {
+	MyAccount,
+	ServiceNowSideSheet,
+	HelpMenu,
+	Help,
+	NotificationBell,
+	Notifications,
+	Task,
+} from '@portal/components';
 import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equinor/service-message';
 
 import { PortalAction } from './types';
@@ -32,6 +40,7 @@ export const actions: PortalAction[] = [
 	},
 	{
 		actionId: 'task',
+		minWidth: 600,
 		name: 'Work Assigned',
 		subTitle: 'Your application related task',
 		color: '#258800',
