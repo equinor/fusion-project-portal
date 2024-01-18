@@ -36,7 +36,7 @@ export const TaskKPI = ({ tasks }: { tasks: Task[] }) => {
 					<Typography variant="h5">{tasks.length}</Typography>
 					<Icon data={time} />
 				</Style.Kpi>
-				<Style.Title>All Pending tasks</Style.Title>
+				<Style.Title>All pending tasks</Style.Title>
 			</Style.KpiItem>
 
 			<Style.KpiItem>
@@ -65,7 +65,7 @@ export const TaskKPI = ({ tasks }: { tasks: Task[] }) => {
 					<Typography variant="h5">{counts.ProCoSys}</Typography>
 					<Icon data={warning_outlined} />
 				</Style.Kpi>
-				<Style.Title>ProCcSys</Style.Title>
+				<Style.Title>ProCoSys</Style.Title>
 			</Style.KpiItem>
 			<Style.KpiItem>
 				<Style.Kpi>
