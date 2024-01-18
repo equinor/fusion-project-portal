@@ -11,6 +11,7 @@ import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
+import { enableContext } from '@equinor/fusion-framework-module-context';
 
 const showInfo = false;
 
@@ -28,7 +29,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
-
+		enableContext(config);
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
@@ -90,8 +91,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		}
 
 		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
+			// Todo: should be moved to context module
 			configurePortalContext(fusion.context);
 
+			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
 				const client = fusion.telemetry?.client;
