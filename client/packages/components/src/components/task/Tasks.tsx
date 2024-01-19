@@ -80,7 +80,11 @@ export const Tasks: FC<TasksProps> = ({ height }) => {
 					</TabNav>
 					<Tabs.Panels>
 						<Tabs.Panel>
-							<TaskList tasks={assignments} height={height} isLoading={assignments.length === 0} />
+							<TaskList
+								tasks={assignments}
+								height={height}
+								isLoading={Object.values(isLoading).every((isLoading) => isLoading === true)}
+							/>
 						</Tabs.Panel>
 						<Tabs.Panel>
 							<TaskList
