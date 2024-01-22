@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.13.2
+
+### Patch Changes
+
+- 7bb99f8: fix notification scrollbar
+
 ## 1.13.1
 
 ### Patch Changes
