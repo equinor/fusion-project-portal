@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 1.13.1
+
+### Patch Changes
+
+- d9545a9: update fusion dependesies.
+
 ## 1.13.0
 
 ### Minor Changes
