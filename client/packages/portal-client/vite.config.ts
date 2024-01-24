@@ -32,11 +32,13 @@ export default defineConfig(({ mode }) => {
 				],
 			}),
 		],
+		assetsInclude: ['*.svg'],
 		preview: { port: 3000 },
 		define: {
 			'process.env': {},
 		},
 		build: {
+			assetsInlineLimit: 0,
 			rollupOptions: {
 				input: path.resolve(__dirname, './src/main.tsx'),
 				output: {
