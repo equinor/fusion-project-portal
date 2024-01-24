@@ -19,12 +19,12 @@ const StyledTabs = styled(Tabs)`
 
 const StyledPanels = styled(Tabs.Panels)`
 	position: absolute;
-	top: 128px;
+	top: 150px;
 	right: 0;
 	left: 0;
+	bottom: 0;
 	padding: 0 1rem;
 	overflow-y: auto;
-	height: 100%;
 `;
 
 const StyledTabsList = styled(Tabs.List)`
@@ -85,14 +85,14 @@ export function Notifications({ onClickNotification }: NotificationsProps): JSX.
 			<StyledPanels>
 				<Tabs.Panel>
 					<NotificationDateDivisions
-						title='Unread'
+						title="Unread"
 						notifications={unreadNotificationCards}
 						onClickNotification={onClickNotification}
 					/>
 				</Tabs.Panel>
 				<Tabs.Panel>
 					<NotificationDateDivisions
-						title='Dismissed'
+						title="Dismissed"
 						notifications={readNotificationCards}
 						onClickNotification={onClickNotification}
 					/>

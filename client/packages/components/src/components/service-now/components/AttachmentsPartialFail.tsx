@@ -1,4 +1,4 @@
-import Button from '@equinor/fusion-react-button';
+import { Button } from '@equinor/eds-core-react';
 import { Incident } from '../types/types';
 import { PortalMessage } from '@portal/ui';
 import styled from 'styled-components';

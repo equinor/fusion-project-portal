@@ -7,3 +7,4 @@ export * from './components/help';
 export * from './components/notifications';
 export * from './components/notifications/NotificationService';
 export * from './components/service-message-service/ServiceMessageService';
+export * from './components/task/Task';

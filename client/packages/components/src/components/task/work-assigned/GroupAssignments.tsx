@@ -2,7 +2,7 @@ import { Typography } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
-import { FusionTask } from './types/fusion-task';
+import { FusionTask } from '../types/fusion-task';
 
 const StyledRightText = styled.div`
 	> p {

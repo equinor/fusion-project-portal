@@ -11,6 +11,7 @@ import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
+import { enableContext } from '@equinor/fusion-framework-module-context';
 
 const showInfo = false;
 
@@ -28,7 +29,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
-
+		enableContext(config);
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
@@ -83,6 +84,42 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		/** Enable Navigation module  */
 		enableNavigation(config);
 
+		// TODO remove and replace with service discovery!
+		config.configureHttpClient('query_api', {
+			baseUri: ((): string => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FQA':
+						return 'https://query-api-qa.azurewebsites.net';
+					case 'FPRD':
+						return 'https://query-api-prod.azurewebsites.net';
+					default:
+						return 'https://query-api-ci.azurewebsites.net';
+				}
+			})(),
+			defaultScopes: ((): string[] => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FPRD':
+						return ['c695636b-1bd3-4ea5-9a05-ec3dc29b3eb3/.default'];
+					default:
+						return ['9f12661e-a8cf-4942-8fba-e304e2c16447/.default'];
+				}
+			})(),
+		});
+
+		config.configureHttpClient('review', {
+			baseUri: ((): string => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FQA':
+						return 'https://backend-fusion-services-reviews-fqa.radix.equinor.com';
+					case 'FPRD':
+						return 'https://backend-fusion-services-reviews-fprd.radix.equinor.com';
+					default:
+						return 'https://backend-fusion-services-reviews-ci.radix.equinor.com';
+				}
+			})(),
+			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
+		});
+
 		if (showInfo) {
 			config.onConfigured(() => {
 				showInfo && console.log('framework config done');
@@ -90,8 +127,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		}
 
 		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
+			// Todo: should be moved to context module
 			configurePortalContext(fusion.context);
 
+			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
 				const client = fusion.telemetry?.client;

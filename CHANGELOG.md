@@ -1,5 +1,34 @@
 # fusion-project-portal
 
+## 1.13.2
+
+### Patch Changes
+
+- 7bb99f8: fix notification scrollbar
+
+## 1.13.1
+
+### Patch Changes
+
+- d9545a9: update fusion dependesies.
+
+## 1.13.0
+
+### Minor Changes
+
+- 38d7a5b: The task has undergone significant changes, featuring improved grouping and enhanced interactivity. External links are now visually marked with an icon, and overdue tasks have been organized to appear prominently at the top, sorted by their respective dates.
+
+### Patch Changes
+
+- 80ce0b0: fixing the landing of review and url handling for legacy applications
+- d213ad8: fix loading spinner on all my assignments
+
+## 1.12.1
+
+### Patch Changes
+
+- 1b82f89: Fixing add bookmark button and loading in bookamrks
+
 ## 1.12.0
 
 ### Minor Changes

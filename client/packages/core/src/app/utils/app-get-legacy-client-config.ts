@@ -8,6 +8,23 @@ export const getLegacyClientConfig = (): Client => ({
 export const getFusionLegacyEnvIdentifier = (): string => {
 	return window._config_.fusionLegacyEnvIdentifier.toUpperCase();
 };
+
+export function getFusionOrigin() {
+	switch (getFusionLegacyEnvIdentifier().toLowerCase()) {
+		case 'ci':
+			return 'https://fusion-s-portal-ci.azurewebsites.net/';
+
+		case 'fqa':
+			return 'https://fusion-s-portal-fqa.azurewebsites.net/';
+
+		case 'fprd':
+			return 'https://fusion.equinor.com/';
+
+		default:
+			return 'https://fusion.equinor.com/';
+	}
+}
+
 declare global {
 	interface Window {
 		_config_: PortalConfig;
