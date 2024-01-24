@@ -37,6 +37,7 @@ export default defineConfig(({ mode }) => {
 			'process.env': {},
 		},
 		build: {
+			assetsInlineLimit: 0,
 			rollupOptions: {
 				input: path.resolve(__dirname, './src/main.tsx'),
 				output: {
