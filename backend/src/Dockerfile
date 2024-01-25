@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.18 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.16 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.18 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.16 AS build
 WORKDIR /src
 COPY ["Equinor.ProjectExecutionPortal.WebApi/Equinor.ProjectExecutionPortal.WebApi.csproj", "Equinor.ProjectExecutionPortal.WebApi/"]
 COPY ["/nuget.config", "/"]

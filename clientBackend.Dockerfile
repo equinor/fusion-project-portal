@@ -15,10 +15,10 @@ RUN npx yarn run build
 # 2: Build & run web server
 # ----------------------------------------------------
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.18 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.16 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.18 AS build-backend
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.16 AS build-backend
 WORKDIR /src
 
 # Copy config files
