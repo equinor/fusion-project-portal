@@ -8,6 +8,7 @@ import { ProjectDetails } from './components/project-cards/ProjectDetails';
 import { StyledBackground, StyledContextPageGrid, StyledGridItem } from './ProjectPage.Styles';
 import { Favorites } from './components/favorites/Favorites';
 import { Contracts } from './components/project-cards/contracts/Contracts';
+import { ProjectDirector } from '@portal/components';
 
 type ProjectMaster = {
 	facilities: string[];
@@ -38,7 +39,7 @@ export const ProjectPage = () => {
 		<StyledMain>
 			<StyledBackground />
 			<StyledContextPageGrid>
-				<StyledGridItem span={6}>
+				<StyledGridItem span={9}>
 					<ProjectDetails />
 				</StyledGridItem>
 
@@ -47,6 +48,12 @@ export const ProjectPage = () => {
 				</StyledGridItem>
 				<StyledGridItem span={3} heightSpan={2}>
 					<Favorites />
+				</StyledGridItem>
+				<StyledGridItem span={3} heightSpan={1}>
+					<ProjectDirector />
+				</StyledGridItem>
+				<StyledGridItem span={3} heightSpan={1}>
+					<Milestones />
 				</StyledGridItem>
 				<StyledGridItem span={3}>
 					<Milestones />

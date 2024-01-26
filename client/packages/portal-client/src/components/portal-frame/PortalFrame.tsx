@@ -11,6 +11,7 @@ import { BookmarkProvider } from '@equinor/fusion-framework-react-components-boo
 import { HasContext } from '../context/HasContext';
 import { css } from '@emotion/css';
 import { ServiceMessageFilter } from '../service-message-filter/ServiceMessageFilter';
+import { PeopleResolverProvider } from '@equinor/fusion-framework-react-components-people-provider';
 
 const style = css`
 	width: 100vw;
@@ -28,26 +29,28 @@ export const PortalFrame = () => {
 
 	return (
 		<StyleProvider>
-			<ServiceMessageProvider>
-				<ServiceMessageService>
-					<NotificationService>
-						<BookmarkProvider>
-							<ViewProvider>
-								<MenuProvider>
-									<section className={style}>
-										<ServiceMessageFilter />
-										<MainHeader />
-										<MenuGroups />
-										<HasContext />
-										<Outlet />
-									</section>
-								</MenuProvider>
-							</ViewProvider>
-							<PortalSideSheet />
-						</BookmarkProvider>
-					</NotificationService>
-				</ServiceMessageService>
-			</ServiceMessageProvider>
+			<PeopleResolverProvider>
+				<ServiceMessageProvider>
+					<ServiceMessageService>
+						<NotificationService>
+							<BookmarkProvider>
+								<ViewProvider>
+									<MenuProvider>
+										<section className={style}>
+											<ServiceMessageFilter />
+											<MainHeader />
+											<MenuGroups />
+											<HasContext />
+											<Outlet />
+										</section>
+									</MenuProvider>
+								</ViewProvider>
+								<PortalSideSheet />
+							</BookmarkProvider>
+						</NotificationService>
+					</ServiceMessageService>
+				</ServiceMessageProvider>
+			</PeopleResolverProvider>
 		</StyleProvider>
 	);
 };

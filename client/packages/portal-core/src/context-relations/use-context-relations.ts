@@ -24,7 +24,7 @@ export const useContextRelationsQuery = () => {
 	});
 };
 
-type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project';
+type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project' | 'OrgChart';
 
 export function useRelationsByType(type: RelationsTypes) {
 	const { data } = useContextRelationsQuery();

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Typography } from '@equinor/eds-core-react';
-import { getDepartment, getJobTitle, useUserPhoto } from '@portal/core';
+import { getDepartment, getJobTitle } from '@portal/core';
 import { PersonDetails } from '@portal/types';
-import { Avatar, Skeleton, getAccountTypeColor } from '@portal/ui';
+import { Skeleton } from '@portal/ui';
+import { PersonAvatar } from '@equinor/fusion-react-person';
 
 const Style = {
 	InfoWrapper: styled.div`
@@ -13,8 +14,13 @@ const Style = {
 	`,
 };
 
-export const ProfileCardHeader = ({ user }: { user?: PersonDetails }) => {
-	const { data: url } = useUserPhoto(user?.azureUniqueId);
+export const ProfileCardHeader = ({
+	user,
+	trigger = 'none',
+}: {
+	user?: PersonDetails;
+	trigger?: 'click' | 'hover' | 'none';
+}) => {
 	if (!user) {
 		return (
 			<Style.InfoWrapper>
@@ -33,7 +39,7 @@ export const ProfileCardHeader = ({ user }: { user?: PersonDetails }) => {
 
 	return (
 		<Style.InfoWrapper>
-			<Avatar url={url} borderColor={getAccountTypeColor(user.accountType)} width={60} height={60} />
+			<PersonAvatar azureId={user.azureUniqueId} trigger={trigger} />
 			<div>
 				<Typography variant="h6">{user?.name}</Typography>
 				<div>
