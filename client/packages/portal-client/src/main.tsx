@@ -22,9 +22,6 @@ configureDebug();
 
 const configure = createPortalFramework(portalConfig);
 
-/* fusion core is spamming the console form module this will remove it in production */
-configureDebug();
-
 root.render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
