@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@equinor/fusion": "^3.4.13",
+    "@equinor/fusion": "^3.4.15",
     "@equinor/fusion-components": "^2.12.0",
     "@equinor/fusion-framework-cli": "^7.0.12",
     "@equinor/fusion-framework-module-http": "^5.1.1",
