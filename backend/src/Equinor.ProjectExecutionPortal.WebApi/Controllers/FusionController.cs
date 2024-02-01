@@ -25,7 +25,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("context-types")]
         public ActionResult<List<FusionContextType>> GetAllFusionContextTypes()
         {
-            return Ok(FusionContextType.All.ToList());
+            return Ok(FusionContextType.AllNames.ToList());
         }
 
         [HttpGet("apps")]
