@@ -12,7 +12,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     [Route("api/fusion")]
     public class FusionController : ApiControllerBase
     {
-        
+
         [HttpGet("contexts/{externalId}")]
         public async Task<ActionResult<FusionContext>> GetFusionContext([FromRoute] string externalId)
         {
