@@ -3,6 +3,7 @@ import { CSSProperties, FC } from 'react';
 
 type SkeletonProps = {
 	width?: number | string;
+	height?: number | string;
 	size?: keyof typeof skeletonSize;
 	variant?: keyof typeof skeletonVariant;
 	fluid?: boolean;
@@ -34,12 +35,23 @@ const skeletonSize = {
  *
  * @returns JSX.Element - A skeleton loading element with the specified type, variant, and width (if provided).
  */
-export const Skeleton: FC<SkeletonProps & { style?: CSSProperties }> = ({ width, size, variant, style, fluid }) => {
+export const Skeleton: FC<SkeletonProps & { style?: CSSProperties }> = ({
+	width,
+	height,
+	size,
+	variant,
+	style,
+	fluid,
+}) => {
 	return (
 		<FusionSkeleton
 			size={size ? skeletonSize[size] : skeletonSize.xSmall}
 			variant={variant ? skeletonVariant[variant] : skeletonVariant.text}
-			style={{ ...style, ...(width && { width: typeof width === 'number' ? `${width}%` : width }) }}
+			style={{
+				...style,
+				...(width && { width: typeof width === 'number' ? `${height}%` : height }),
+				...(height && { height: typeof height === 'number' ? `${height}%` : height }),
+			}}
 			fluid={fluid}
 		/>
 	);

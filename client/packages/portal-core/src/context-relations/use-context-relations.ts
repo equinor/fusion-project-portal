@@ -14,19 +14,19 @@ export async function getContextRelations(
 	return (await res.json()) as Relations[];
 }
 
-export const useContextRelationsQuery = () => {
+export const useContextRelationsQuery = (contextId?: string) => {
 	const client = useFramework().modules.serviceDiscovery.createClient('context');
-	const { currentContext } = useFramework().modules.context;
-	const contextId = currentContext?.id;
+
 	return useQuery({
 		queryKey: ['context-relations', contextId],
 		queryFn: async ({ signal }) => getContextRelations(await client, contextId, signal),
+		enabled: Boolean(contextId),
 	});
 };
 
 type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project' | 'OrgChart';
 
-export function useRelationsByType(type: RelationsTypes) {
-	const { data } = useContextRelationsQuery();
+export function useRelationsByType(type: RelationsTypes, contextId?: string) {
+	const { data } = useContextRelationsQuery(contextId);
 	return data?.filter((relation) => relation.type.id === type) || [];
 }

@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 export const useFavorites = () => {
 	const { appModule } = useAppModule();
 
-	const { data } = useAppGroupsQuery();
+	const { data, isLoading } = useAppGroupsQuery();
 
 	const favorite$ = useMemo(
 		() =>
@@ -26,5 +26,11 @@ export const useFavorites = () => {
 			.map((app) => app.appKey);
 	}, [data, favorites]);
 
-	return { favorites, disabledAppKeys, hasFavorites: favorites?.length };
+	return {
+		favorites,
+		disabledAppKeys,
+		hasFavorites: favorites?.length,
+		isLoading,
+		addFavorite: menuFavoritesController.onClickFavorite,
+	};
 };

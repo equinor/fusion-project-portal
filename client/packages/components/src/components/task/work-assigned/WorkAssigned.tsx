@@ -5,39 +5,27 @@ import { Tasks } from '../Tasks';
 import { useDivHeight } from '../hooks/use-client-width';
 
 const StyledCard = styled(Card)`
-	height: 100%;
-	display: flex;
-`;
-const StyledContentHeight = styled.div`
-	width: 100%;
-	height: auto;
-	overflow: auto;
+	display: block;
 `;
 
+const Styles = {
+	Content: styled(Card.Content)`
+		display: block;
+		overflow: hidden;
+		width: auto;
+	`,
+};
 export const WorkAssigned = () => {
 	const actions = usePortalActions();
 	const { ref, divHeight } = useDivHeight();
 	return (
-		<StyledCard>
+		<StyledCard ref={ref}>
 			<Card.Header>
 				<Typography variant="h5">My Work Assigned</Typography>
 			</Card.Header>
-			<Card.Content>
-				<StyledContentHeight ref={ref}>
-					<Tasks height={divHeight} />
-				</StyledContentHeight>
-			</Card.Content>
-			<Card.Actions>
-				<Button
-					variant="ghost"
-					onClick={() => {
-						actions.setActiveActionById('task');
-					}}
-				>
-					View all
-					<Icon name="chevron_right" />
-				</Button>
-			</Card.Actions>
+			<Styles.Content>
+				<Tasks height={divHeight - 500} />
+			</Styles.Content>
 		</StyledCard>
 	);
 };

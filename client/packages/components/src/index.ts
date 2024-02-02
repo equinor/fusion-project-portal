@@ -1,6 +1,5 @@
 // Export Portal Components
 export * from './components/top-bar-avatar/TopBarAvatar';
-export * from './components/project-director/ProjectDirector';
 export * from './components/presence-indicator';
 export * from './components/my-account/components/ProfileCardHeader';
 export * from './components/my-account/MyAccount';

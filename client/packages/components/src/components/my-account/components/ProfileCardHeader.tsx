@@ -6,24 +6,26 @@ import { Skeleton } from '@portal/ui';
 import { PersonAvatar } from '@equinor/fusion-react-person';
 
 const Style = {
-	InfoWrapper: styled.div`
+	InfoWrapper: styled.div<{ paddingNone?: boolean }>`
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		padding: 1rem;
+		padding: ${({ paddingNone }) => (paddingNone ? '0px' : '1rem')};
 	`,
 };
 
 export const ProfileCardHeader = ({
 	user,
 	trigger = 'none',
+	paddingNone,
 }: {
 	user?: PersonDetails;
 	trigger?: 'click' | 'hover' | 'none';
+	paddingNone?: boolean;
 }) => {
 	if (!user) {
 		return (
-			<Style.InfoWrapper>
+			<Style.InfoWrapper paddingNone={paddingNone}>
 				<Skeleton variant="circle" size="medium" />
 
 				<div>
@@ -38,13 +40,13 @@ export const ProfileCardHeader = ({
 	}
 
 	return (
-		<Style.InfoWrapper>
+		<Style.InfoWrapper paddingNone={paddingNone}>
 			<PersonAvatar azureId={user.azureUniqueId} trigger={trigger} />
 			<div>
 				<Typography variant="h6">{user?.name}</Typography>
 				<div>
-					<Typography>{getJobTitle(user)}</Typography>
 					<Typography>{getDepartment(user)}</Typography>
+					<Typography>{getJobTitle(user)}</Typography>
 				</div>
 			</div>
 		</Style.InfoWrapper>
