@@ -15,6 +15,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public const int DescriptionLengthMax = 4000;
 
     private readonly List<WorkSurfaceApp> _apps = new();
+    private readonly List<ContextType> _contextTypes = new();
 
     public WorkSurface(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
@@ -38,8 +39,9 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
 
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; }
-
+    
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
+    public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
     public void Update(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
