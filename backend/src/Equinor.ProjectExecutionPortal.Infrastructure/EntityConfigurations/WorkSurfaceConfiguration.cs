@@ -41,5 +41,8 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
         builder.HasMany(x => x.Apps)
             .WithOne(x => x.WorkSurface)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(x => x.ContextTypes).WithMany(x => x.WorkSurfaces).UsingEntity(join => join.ToTable("WorkSurfaceContextTypes"));
+
     }
 }
