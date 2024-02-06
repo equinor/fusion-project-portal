@@ -1,6 +1,5 @@
-import { Button, Card, Icon, Typography } from '@equinor/eds-core-react';
+import { Card, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { usePortalActions } from '@equinor/portal-core';
 import { Tasks } from '../Tasks';
 import { useDivHeight } from '../hooks/use-client-width';
 
@@ -16,10 +15,9 @@ const Styles = {
 	`,
 };
 export const WorkAssigned = () => {
-	const actions = usePortalActions();
 	const { ref, divHeight } = useDivHeight();
 	return (
-		<StyledCard ref={ref}>
+		<StyledCard ref={ref} elevation="raised">
 			<Card.Header>
 				<Typography variant="h5">My Work Assigned</Typography>
 			</Card.Header>

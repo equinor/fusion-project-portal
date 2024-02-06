@@ -4,12 +4,13 @@ import { tokens } from '@equinor/eds-tokens';
 import { Icon } from '@equinor/eds-core-react';
 import { star_filled, star_outlined } from '@equinor/eds-icons';
 import { Skeleton, SkeletonSize, SkeletonVariant } from '@equinor/fusion-react-skeleton';
-import { AppManifest } from '@equinor/fusion-framework-module-app';
+
+import { AppManifest } from '../../types/types';
 
 const pinnIconSize = 1.5;
 
 export const Styled = {
-	PinButton: styled.button<{ disabled?: boolean }>`
+	PinButton: styled.button`
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -19,23 +20,19 @@ export const Styled = {
 		border: none;
 		background: none;
 
-		> * {
-			color: ${({ disabled }) => disabled && tokens.colors.interactive.disabled__text.hex};
-			fill: ${({ disabled }) => disabled && tokens.colors.interactive.disabled__text.hex};
-		}
-
 		&:hover {
 			color: ${tokens.colors.interactive.primary__resting.hex};
 			cursor: pointer;
 		}
 	`,
-	PinIconOut: styled(Icon)<{ $isPinned: boolean }>`
-		${({ $isPinned }) => {
-			if ($isPinned) {
+	PinIconOut: styled(Icon)<{ isPinned?: boolean }>`
+		${({ isPinned }) => {
+			if (isPinned) {
 				return css`
 					color: ${tokens.colors.interactive.primary__resting.hex};
 				`;
 			}
+
 			return '';
 		}}
 		width: ${pinnIconSize}rem;
@@ -57,19 +54,18 @@ export const Styled = {
 };
 
 type PinButtonProps = {
-	app: AppManifest;
-	loading?: boolean;
-	onClick: VoidFunction;
-	disabled?: boolean;
+	app: Partial<AppManifest>;
+	isLoading?: boolean;
+	onFavorite?: (key: Partial<AppManifest>) => void;
 };
 
-export const PinButtonContainer = ({ app, loading: isLoading, onClick, disabled }: PinButtonProps): JSX.Element => {
+export const PinButtonContainer = ({ app, isLoading, onFavorite }: PinButtonProps): JSX.Element => {
 	const pinApp = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.preventDefault();
-			onClick();
+			onFavorite && onFavorite(app);
 		},
-		[app]
+		[app, onFavorite]
 	);
 
 	if (isLoading) {
@@ -81,9 +77,9 @@ export const PinButtonContainer = ({ app, loading: isLoading, onClick, disabled 
 	}
 
 	return (
-		<Styled.PinButton onClick={pinApp} disabled={disabled}>
-			<Styled.PinIconOut $isPinned={true} data={star_outlined} title={`Add ${app.name} in Favorites`} />
-			<Styled.PinIconIn data={star_filled} title={`Remove ${app.name} from Favorites`} />
+		<Styled.PinButton disabled={isLoading} onClick={pinApp}>
+			<Styled.PinIconOut isPinned={app.isPinned} data={star_outlined} title={`Add ${app.name} in Favorites`} />
+			{app.isPinned && <Styled.PinIconIn data={star_filled} title={`Remove ${app.name} from Favorites`} />}
 		</Styled.PinButton>
 	);
 };

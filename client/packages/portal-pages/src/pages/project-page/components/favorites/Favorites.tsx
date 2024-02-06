@@ -66,7 +66,7 @@ export const Favorites = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	// const { dispatchEvent } = useTelemetry();
 
-	const { favorites, disabledAppKeys, hasFavorites, isLoading, addFavorite } = useFavorites();
+	const { favorites, hasFavorites, isLoading, addFavorite, isDisabled } = useFavorites();
 
 	return (
 		<div>
@@ -90,18 +90,23 @@ export const Favorites = () => {
 			<Card.Content>
 				<nav className={styles.cardList}>
 					{hasFavorites ? (
-						favorites.map((app) => {
-							// const isDisabled = disabledAppKeys.includes(app.key);
-							return (
-								<FavoriteCard
-									app={app}
-									loading={isLoading}
-									onClick={(a) => {
-										addFavorite(a.key);
-									}}
-								/>
-							);
-						})
+						favorites
+							.sort((a) => {
+								// Sort Disabled apps to bottom
+								return isDisabled(a.key) ? 1 : -1;
+							})
+							.map((app) => {
+								return (
+									<FavoriteCard
+										app={app}
+										isDisabled={isDisabled(app.key)}
+										loading={isLoading}
+										onClick={(a) => {
+											addFavorite(a.key);
+										}}
+									/>
+								);
+							})
 					) : (
 						<div className={styles.noData}>
 							<Icon

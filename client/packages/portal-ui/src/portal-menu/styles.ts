@@ -10,6 +10,7 @@ export const styles = {
 		column-width: auto;
 		gap: 2rem;
 		column-count: ${count};
+		overflow: auto;
 	`,
 	menuItem: css`
 		font-style: normal;
@@ -59,7 +60,7 @@ export const styles = {
 		margin-inline-start: 0px;
 		margin-inline-end: 0px;
 		padding-inline-start: 0;
-		gap: 1rem;
+		/* gap: 1rem; */
 	`,
 	categoryItem: (isActive: boolean) => css`
 		background: none;

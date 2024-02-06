@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { Skeleton } from '@portal/ui';
+import { Typography } from '@equinor/eds-core-react';
 
 const StyledValue = styled.div`
 	color: ${tokens.colors.text.static_icons__default.hex};
@@ -31,7 +32,7 @@ const StyledStatusCardItem = styled.div`
 `;
 
 const Indicator = styled.span<{ color?: string }>`
-	height: 54px;
+	height: 100%;
 	display: block;
 	background-color: ${({ color }) => (color ? color : '#d2d2d2')};
 	width: 8px;
@@ -53,15 +54,15 @@ export function KpiCardItem(item: StatusBarItemProps) {
 		<StyledStatusCardItem title={item.description} key={item.title}>
 			<Indicator color={item.color} />
 			<div>
-				<StyledTitle>{item.title}</StyledTitle>
+				<Typography variant="meta">{item.title}</Typography>
 				<StyledValueWrapper>
 					{item.isLoading ? (
 						<Skeleton size="xSmall" height="24px" variant="text" />
 					) : (
-						<StyledValue>{item.value}</StyledValue>
+						<Typography variant="h4">{item.value}</Typography>
 					)}
 				</StyledValueWrapper>
-				<StyledTitle>{item.subTitle}</StyledTitle>
+				<Typography variant="meta">{item.subTitle}</Typography>
 			</div>
 		</StyledStatusCardItem>
 	);

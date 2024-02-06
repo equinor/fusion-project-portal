@@ -1,21 +1,21 @@
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
-import { WorkAssigned } from '@equinor/portal-ui';
+
 import { Navigate, useParams } from 'react-router-dom';
 
-import { Milestones } from './components/project-cards/milestones/Milestones';
-
-import { Favorites } from './components/favorites/Favorites';
-import { Contracts } from './components/project-cards/contracts/Contracts';
-
 import { OneEquinorLink } from './components/one-equinor-link/OneEquinorLink';
-import { Phases, ProjectDirector } from './components/project-director/ProjectDirector';
+import { ProjectDirector } from './components/project-director/ProjectDirector';
 import { ProjectHeader } from './components/ProjectHeader';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { User } from './components/user/UserCard';
 
-import FusionInfoBox from './components/Info';
-import { StyledGridItem } from './ProjectPage.Styles';
+import FusionInfoBox from './components/info';
+
+import { ExecutionData } from './ExecutionData';
+import { Overview } from './Overvirew';
+import { AllApps } from './AllApps';
+import { useState } from 'react';
+import { Tabs } from '@equinor/eds-core-react';
 
 type ProjectMaster = {
 	facilities: string[];
@@ -26,11 +26,10 @@ type ProjectMaster = {
 	portfolioOrganizationalUnit: string;
 } & Record<string, unknown>;
 
-const Styles = {
+export const Styles = {
 	Wrapper: styled.main`
 		display: flex;
 		flex-direction: column;
-
 		background: ${tokens.colors.ui.background__light.hex};
 	`,
 	Content: styled.section`
@@ -46,26 +45,28 @@ const Styles = {
 		right: 3rem;
 		top: 5rem;
 		z-index: 1;
+		width: 360px;
 	`,
-	// PageGrid: styled.div`
-	// 	display: grid;
-	// 	gap: 1.5rem;
-	// 	padding: 2rem;
-	// 	width: calc(100% - 480px);
-	// 	grid-template-rows: 1fr;
-	// 	@media only screen and (min-width: 45rem) and (max-width: 80rem) {
-	// 		grid-template-columns: repeat(4, 1fr);
-	// 	}
-	// 	@media only screen and (min-width: 80rem) {
-	// 		grid-template-columns: repeat(8, 1fr);
-	// 	}
-	// `,
+
+	TabsWrapper: styled.div`
+		display: flex;
+		flex-direction: row;
+		gap: 1.5rem;
+		padding: 1rem 2rem;
+		width: calc(100vw - 490px);
+		@media only screen and (max-width: 1300px) {
+			flex-direction: column;
+		}
+	`,
 	Row: styled.div`
 		display: flex;
 		flex-direction: row;
 		gap: 1.5rem;
-		padding: 2rem;
+
 		width: calc(100vw - 490px);
+		@media only screen and (max-width: 1300px) {
+			flex-direction: column;
+		}
 	`,
 	Col: styled.div`
 		gap: 1.5rem;
@@ -73,11 +74,20 @@ const Styles = {
 		flex: 1;
 		flex-direction: column;
 		width: 50%;
+		@media only screen and (max-width: 1300px) {
+			width: 100%;
+		}
 	`,
 };
 
 export const ProjectPage = () => {
 	const { contextId } = useParams();
+
+	const [activeTab, setActiveTab] = useState(0);
+
+	const handleChange = (index: number) => {
+		setActiveTab(index);
+	};
 
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
 
@@ -103,25 +113,26 @@ export const ProjectPage = () => {
 			</Styles.Details>
 
 			<Styles.Content>
-				<Styles.Row>
-					<Styles.Col>
-						<WorkAssigned />
-					</Styles.Col>
-					<Styles.Col>
-						<StyledGridItem span={4}>
-							<Phases />
-						</StyledGridItem>
-						<StyledGridItem span={4}>
-							<Favorites />
-						</StyledGridItem>
-						<StyledGridItem span={4}>
-							<Milestones />
-						</StyledGridItem>
-						<StyledGridItem span={4}>
-							<Contracts />
-						</StyledGridItem>
-					</Styles.Col>
-				</Styles.Row>
+				<Styles.TabsWrapper>
+					<Tabs activeTab={activeTab} onChange={handleChange}>
+						<Tabs.List>
+							<Tabs.Tab>Overview</Tabs.Tab>
+							<Tabs.Tab>Execution Data</Tabs.Tab>
+							<Tabs.Tab>All Apps</Tabs.Tab>
+						</Tabs.List>
+						<Tabs.Panels>
+							<Tabs.Panel>
+								<Overview />
+							</Tabs.Panel>
+							<Tabs.Panel>
+								<ExecutionData />
+							</Tabs.Panel>
+							<Tabs.Panel>
+								<AllApps />
+							</Tabs.Panel>
+						</Tabs.Panels>
+					</Tabs>
+				</Styles.TabsWrapper>
 			</Styles.Content>
 		</Styles.Wrapper>
 	);

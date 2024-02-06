@@ -17,8 +17,8 @@ export interface App {
 	description: string;
 	order: number;
 	appGroup?: string;
-	isDisabled?: boolean
-
+	isDisabled?: boolean;
+	isPinned?: boolean;
 }
 
 export interface AppGroup {

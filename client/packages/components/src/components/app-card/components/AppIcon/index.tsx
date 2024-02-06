@@ -1,18 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled, { css } from 'styled-components';
 import { Skeleton } from '@equinor/fusion-react-skeleton';
 import { tokens } from '@equinor/eds-tokens';
 import { SkeletonSize, SkeletonVariant } from '@equinor/fusion-react-skeleton';
-
+import { AppCardType } from '../../types/types';
 import { defaultIcon } from './defaultIcon';
+import { AppManifest } from '../../types/types';
 
 const primaryColor = tokens.colors.interactive.primary__resting.hex;
-const disabledColor = tokens.colors.interactive.disabled__border.hex;
 
 export const Styled = {
-	AppIcon: styled.div<{ display: string; disabled?: boolean }>`
-		${({ display }) => {
-			switch (display) {
+	AppIcon: styled.div<{ $display: AppCardType }>`
+		${({ $display }) => {
+			switch ($display) {
+				default:
 				case 'item':
 					return css`
 						--app-icon-size: 1.5rem;
@@ -20,7 +20,6 @@ export const Styled = {
 						padding: 0.375rem;
 					`;
 				case 'card':
-				default:
 					return css`
 						--app-icon-size: 1.5rem;
 						--background-radius: 0.25rem 0 0 0.25rem;
@@ -39,32 +38,29 @@ export const Styled = {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: ${({ disabled }) => (disabled ? disabledColor : `var(--app-color, ${primaryColor})`)};
-		fill: ${({ disabled }) => (disabled ? disabledColor : `var(--app-color, ${primaryColor})`)};
+		color: var(--app-color, ${primaryColor});
 		height: var(--app-icon-size, 1.5rem);
 		width: var(--app-icon-size, 1.5rem);
-		cursor: ${({ disabled }) => (disabled ? 'not-allowed;' : `pointer`)};
 
 		&:before {
 			content: '';
 			position: absolute;
-			background-color: ${({ disabled }) =>
-				disabled ? tokens.colors.interactive.disabled__text.hex : `var(--app-color, ${primaryColor})`};
+			background-color: var(--app-color, ${primaryColor});
 			border-radius: var(--background-radius, 0);
 			height: 100%;
 			width: 100%;
 			opacity: 0.2;
 		}
 	`,
-	AppIconSkeletonContainer: styled.div<{ display: string; disabled?: boolean }>`
+	AppIconSkeletonContainer: styled.div<{ $display: AppCardType }>`
 		align-self: normal;
 		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: ${({ disabled }) => (disabled ? disabledColor : `var(--app-color, ${primaryColor})`)};
-		${({ display }) => {
-			if (display !== 'item') {
+
+		${({ $display }) => {
+			if ($display !== 'item') {
 				return css`
 					&:before {
 						content: '';
@@ -80,10 +76,10 @@ export const Styled = {
 			return '';
 		}}
 	`,
-	AppIconSkeleton: styled(Skeleton)<{ display: string }>`
+	AppIconSkeleton: styled(Skeleton)<{ $display: AppCardType }>`
 		--fwc-skeleton-fill-color: var(--app-color-skeleton, ${primaryColor}33);
-		${({ display }) => {
-			switch (display) {
+		${({ $display }) => {
+			switch ($display) {
 				default:
 				case 'card':
 					return css`
@@ -99,21 +95,20 @@ export const Styled = {
 };
 
 type AppIconProps = {
-	app: any;
-	display: string;
+	app: Partial<AppManifest>;
+	display: AppCardType;
 	loading?: boolean;
-	disabled?: boolean;
 };
 
-export const AppIconContainer = ({ app, display, loading, disabled }: AppIconProps): JSX.Element => {
+export const AppIconContainer = ({ app, display, loading }: AppIconProps): JSX.Element => {
 	const appCategoryIcon = app.category ? app.category.defaultIcon : defaultIcon;
 	const appIcon = app.icon ? (app.icon !== '' ? app.icon : appCategoryIcon) : appCategoryIcon;
 
 	if (loading) {
 		return (
-			<Styled.AppIconSkeletonContainer display={display}>
+			<Styled.AppIconSkeletonContainer $display={display}>
 				<Styled.AppIconSkeleton
-					display={display}
+					$display={display}
 					size={display === 'card' ? SkeletonSize.XSmall : SkeletonSize.small}
 					variant={SkeletonVariant.Square}
 				/>
@@ -121,13 +116,7 @@ export const AppIconContainer = ({ app, display, loading, disabled }: AppIconPro
 		);
 	}
 
-	return (
-		<Styled.AppIcon
-			disabled={disabled}
-			display={display}
-			dangerouslySetInnerHTML={{ __html: appIcon || defaultIcon }}
-		/>
-	);
+	return <Styled.AppIcon $display={display} dangerouslySetInnerHTML={{ __html: appIcon || defaultIcon }} />;
 };
 
 export default AppIconContainer;

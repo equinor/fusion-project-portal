@@ -39,6 +39,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
 		}
+		config.configureHttpClient('cc-api', {
+			baseUri: 'https://backend-fusion-data-gateway-test.radix.equinor.com',
+			defaultScopes: ['api://ed6de162-dd30-4757-95eb-0ffc8d34fbe0/access_as_user'],
+		});
 
 		addPortalClient(config, portalConfig.portalClient.client);
 

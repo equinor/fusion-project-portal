@@ -11,7 +11,7 @@ import { ProfileCardHeader } from '@portal/components';
 
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
-import { MessageCard } from '@portal/ui';
+import { Message } from '@portal/ui';
 
 export const useProjectDetails = (projectId?: string) => {
 	const client = useFramework().modules.serviceDiscovery.createClient('org');
@@ -65,6 +65,7 @@ const Styles = {
 
 import { DateTime } from 'luxon';
 import { tokens } from '@equinor/eds-tokens';
+import { NoProjectInfoAccessMessage } from './NoProjectInfoAccessMessage';
 
 export const verifyDate = (date?: string | null | Date): string | undefined => {
 	return date
@@ -116,16 +117,6 @@ export const Phases = () => {
 
 	const current = useMemo(() => findActiveDate(data?.dates.gates as DateObject), [data]);
 
-	if (error) {
-		return (
-			<MessageCard
-				type="Warning"
-				title="Phases - no access"
-				messages={['You do not have access to view this project data']}
-			/>
-		);
-	}
-
 	return (
 		<Card elevation="raised">
 			<Card.Header>
@@ -135,44 +126,48 @@ export const Phases = () => {
 				</Typography>
 			</Card.Header>
 
-			<Styles.Content>
-				<KpiCardItem
-					{...{
-						title: 'DG1',
-						value: verifyDate(data?.dates.gates.dG1),
-						color: isGetActiveDateColor(current, data?.dates.gates.dG1),
-						subTitle: 'Concept planning',
-						isLoading: isLoading,
-					}}
-				/>
-				<KpiCardItem
-					{...{
-						title: 'DG2',
-						value: verifyDate(data?.dates.gates.dG2),
-						color: isGetActiveDateColor(current, data?.dates.gates.dG2),
-						subTitle: 'Definition',
-						isLoading: isLoading,
-					}}
-				/>
-				<KpiCardItem
-					{...{
-						title: 'DG3',
-						value: verifyDate(data?.dates.gates.dG3),
-						color: isGetActiveDateColor(current, data?.dates.gates.dG3),
-						subTitle: 'Execution',
-						isLoading: isLoading,
-					}}
-				/>
-				<KpiCardItem
-					{...{
-						title: 'DG4',
-						value: verifyDate(data?.dates.gates.dG4),
-						color: isGetActiveDateColor(current, data?.dates.gates.dG4),
-						subTitle: 'Operation',
-						isLoading: isLoading,
-					}}
-				/>
-			</Styles.Content>
+			{error ? (
+				<NoProjectInfoAccessMessage />
+			) : (
+				<Styles.Content>
+					<KpiCardItem
+						{...{
+							title: 'DG1',
+							value: verifyDate(data?.dates.gates.dG1),
+							color: isGetActiveDateColor(current, data?.dates.gates.dG1),
+							subTitle: 'Concept planning',
+							isLoading: isLoading,
+						}}
+					/>
+					<KpiCardItem
+						{...{
+							title: 'DG2',
+							value: verifyDate(data?.dates.gates.dG2),
+							color: isGetActiveDateColor(current, data?.dates.gates.dG2),
+							subTitle: 'Definition',
+							isLoading: isLoading,
+						}}
+					/>
+					<KpiCardItem
+						{...{
+							title: 'DG3',
+							value: verifyDate(data?.dates.gates.dG3),
+							color: isGetActiveDateColor(current, data?.dates.gates.dG3),
+							subTitle: 'Execution',
+							isLoading: isLoading,
+						}}
+					/>
+					<KpiCardItem
+						{...{
+							title: 'DG4',
+							value: verifyDate(data?.dates.gates.dG4),
+							color: isGetActiveDateColor(current, data?.dates.gates.dG4),
+							subTitle: 'Operation',
+							isLoading: isLoading,
+						}}
+					/>
+				</Styles.Content>
+			)}
 		</Card>
 	);
 };
@@ -183,25 +178,12 @@ export const ProjectDirector = () => {
 
 	const { data } = useUser(director?.assignedPerson?.azureUniqueId);
 
-	if (error) {
-		return (
-			<Card elevation="raised">
-				<Card.Header>
-					<Typography variant="h6">Project Director</Typography>
-				</Card.Header>
-				<Card.Content>
-					<Typography>You don have access to view project director</Typography>
-				</Card.Content>
-			</Card>
-		);
-	}
-
 	return (
 		<Card elevation="raised">
 			<Card.Header>
 				<Typography variant="h6">Project Director</Typography>
 			</Card.Header>
-			<ProfileCardHeader user={data} trigger="click" />
+			{error ? <NoProjectInfoAccessMessage /> : <ProfileCardHeader user={data} trigger="click" />}
 		</Card>
 	);
 };

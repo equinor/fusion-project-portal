@@ -38,6 +38,14 @@ export function getDisabledApps(enabledApps: App[], favorites: AppManifest[]) {
 			})
 		);
 }
+// Returns an array of disabled apps based on the enabled apps and favorites
+export function getPinnedAppsKeys(apps: App[], favorites: AppManifest[]) {
+	// Extract all app keys from the enabledApps array
+	const allAppKeys = apps.map((app) => app.appKey);
+
+	// Filter out the favorites that are not present in the enabledApps array
+	return favorites.filter((favorite) => allAppKeys.includes(favorite.key)).map((f) => f.key);
+}
 
 export function getPinnedAppsGroup(enabledApps: App[], disabledApps: App[], favorites: AppManifest[]) {
 	const pinnedApps = favorites.reduce(
