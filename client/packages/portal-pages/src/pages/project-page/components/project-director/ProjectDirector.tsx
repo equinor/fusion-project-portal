@@ -120,7 +120,7 @@ export const Phases = () => {
 	return (
 		<Card elevation="raised">
 			<Card.Header>
-				<Typography variant="h6">Phases</Typography>
+				<Typography variant="h5">Phases</Typography>
 				<Typography variant="meta">
 					{verifyDate(data?.dates.startDate)} - {verifyDate(data?.dates.endDate)}
 				</Typography>

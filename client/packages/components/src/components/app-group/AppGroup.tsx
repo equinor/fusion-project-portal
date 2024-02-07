@@ -1,4 +1,4 @@
-import { AppGroup as AppGroupType } from '@portal/types';
+import { FusionAppGroup } from '@portal/types';
 import { useParams } from 'react-router-dom';
 
 import { AppManifest, ListCard } from '@portal/components';
@@ -58,13 +58,13 @@ export const Styles = {
 };
 
 type AppGroupProps = {
-	group: AppGroupType;
-	onFavorite?: (key: Partial<AppManifest>) => void;
+	group: FusionAppGroup;
+	onFavorite: (key: Partial<AppManifest>) => void;
 };
 
 export const AppGroup = ({ group, onFavorite }: AppGroupProps) => {
 	const { appKey } = useParams();
-	const isGroupActive = !!group.apps.find((a) => a.appKey === appKey);
+	const isGroupActive = !!group.apps.find((a) => a.key === appKey);
 
 	return (
 		<Styles.Group id={`groupe-${group.name}`}>
@@ -73,14 +73,9 @@ export const AppGroup = ({ group, onFavorite }: AppGroupProps) => {
 					{group.name}
 				</Styles.Title>
 				<Styles.List>
-					{group.apps.map((child) => (
+					{group.apps.map((app) => (
 						<ListCard
-							app={{
-								key: child.appKey,
-								name: child.name,
-								color: group.accentColor,
-								isPinned: child.isPinned,
-							}}
+							app={app}
 							pinButton
 							onDark
 							onClick={(a) => {

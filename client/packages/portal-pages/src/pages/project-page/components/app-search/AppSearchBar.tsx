@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
@@ -9,8 +9,9 @@ import {
 	SearchableDropdownResultItem,
 	SearchableDropdownSelectEvent,
 } from '@equinor/fusion-react-searchable-dropdown';
-import { useAppGroupsQuery } from '@portal/core';
-import { App } from '@portal/types';
+
+import { getSearchAppIcon } from './utils';
+import { useApps } from './hooks/use-apps';
 
 export const Styled = {
 	Dropdown: styled(SearchableDropdown)`
@@ -72,22 +73,19 @@ const sortTitleByQuery = (query: string) => (a: SearchableDropdownResultItem, b:
 };
 
 export const AppSearchBar = (): JSX.Element => {
-	const { data, isLoading } = useAppGroupsQuery();
-
-	const apps = useMemo(() => {
-		return data?.map((appGroupe) => appGroupe.apps).flat();
-	}, [data]);
-
+	const { apps, isLoading } = useApps();
 	const navigate = useNavigate();
+
+	const ref = useRef();
 
 	const resolver = useMemo(() => {
 		const alteredAsDropdownItems = apps
-			? apps.map((app: App) => {
+			? apps.map((app) => {
 					return {
-						id: app.appKey,
+						id: app.key,
 						title: app.name,
-						subTitle: app.appGroup,
-						// graphic: getSearchAppIcon(app),
+						subTitle: app.category?.name,
+						graphic: getSearchAppIcon(app),
 						graphicType: 'inline-svg',
 					} as SearchableDropdownResultItem;
 			  })
@@ -114,6 +112,7 @@ export const AppSearchBar = (): JSX.Element => {
 
 	const onSelect = useCallback((e: SearchableDropdownSelectEvent) => {
 		const appKey = e.nativeEvent.detail.selected[0].id;
+		p;
 		navigate(`/apps/${appKey}/`);
 	}, []);
 
@@ -123,7 +122,8 @@ export const AppSearchBar = (): JSX.Element => {
 
 	return (
 		<Styled.Dropdown
-			id="app-search-dropdown"
+			ref={ref.current}
+			id="app-search"
 			autofocus
 			placeholder="App Search"
 			variant="page-outlined"

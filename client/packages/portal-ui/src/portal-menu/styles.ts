@@ -60,7 +60,7 @@ export const styles = {
 		margin-inline-start: 0px;
 		margin-inline-end: 0px;
 		padding-inline-start: 0;
-		/* gap: 1rem; */
+		gap: 1rem;
 	`,
 	categoryItem: (isActive: boolean) => css`
 		background: none;

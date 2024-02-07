@@ -57,15 +57,15 @@ const Styles = {
 	Card: styled(Card)`
 		padding-top: 1rem;
 		padding-left: 50px;
+		overflow: hidden;
 	`,
 	Content: styled(Card.Content)`
 		display: flex;
 		gap: 1.5rem;
 		flex-wrap: wrap;
-		/* justify-content: space-between; */
 	`,
 	Visual: styled.span<{ color: string }>`
-		background-color: ${({ color }) => color};
+		background-color: ${({ color }) => color + '33'};
 		height: 100%;
 		display: flex;
 		justify-content: center;
@@ -98,16 +98,16 @@ export const CCKpis = ({
 	return (
 		<Styles.Card elevation="raised">
 			<Styles.Visual color={visual.color}>
-				<Icon data={visual.icon} color={tokens.colors.ui.background__default.hex} />
+				<Icon data={visual.icon} color={visual.color} />
 			</Styles.Visual>
 
 			<Card.Header>
 				<Typography variant="h6">{title}</Typography>
-				<Typography variant="overline">
-					<Link to={`/apps/${appKey}/`} id={`${appKey}-button`}>
+				<Link to={`/apps/${appKey}/`} id={`${appKey}-button`}>
+					<Typography as={'a'} variant="overline" color={tokens.colors.interactive.primary__resting.hex}>
 						View in {title.toLowerCase()}
-					</Link>
-				</Typography>
+					</Typography>
+				</Link>
 			</Card.Header>
 			{error && <Message title={error?.message} type="Warning" />}
 			{isLoading && (

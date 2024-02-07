@@ -24,7 +24,7 @@ export const Styled = {
 	`,
 };
 
-const FusionInfoBox = (): JSX.Element => {
+export const InfoBox = (): JSX.Element => {
 	return (
 		<Styled.FusionInfo elevation="raised">
 			<Styled.InfoTitle group="paragraph" variant="body_long_bold">
@@ -41,4 +41,4 @@ const FusionInfoBox = (): JSX.Element => {
 	);
 };
 
-export default FusionInfoBox;
+export default InfoBox;

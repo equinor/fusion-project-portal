@@ -1,6 +1,6 @@
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { OneEquinorLink } from './components/one-equinor-link/OneEquinorLink';
 import { ProjectDirector } from './components/project-director/ProjectDirector';
@@ -9,12 +9,12 @@ import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { User } from './components/user/UserCard';
 
-import FusionInfoBox from './components/info';
+import { InfoBox } from './components/InfoBox/InfoBox';
 
-import { ExecutionData } from './ExecutionData';
+import { ConstructionAndCommissioningData } from './ConstructionAndCommissioningData';
 import { Overview } from './Overvirew';
 import { AllApps } from './AllApps';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
 
 type ProjectMaster = {
@@ -80,13 +80,32 @@ export const Styles = {
 	`,
 };
 
+const SEARCH_PARM_TAB = 'tab';
+
+const TABS: Record<string, number> = {
+	overview: 0,
+	'construction-and-commissioning': 1,
+	'all-apps': 2,
+} as const;
+
 export const ProjectPage = () => {
 	const { contextId } = useParams();
+	const [searchParams, setSearchparams] = useSearchParams();
+
+	useEffect(() => {
+		const tab = searchParams.get(SEARCH_PARM_TAB);
+		if (tab) {
+			setActiveTab(TABS[tab]);
+		} else {
+			handleChange(0);
+		}
+	}, []);
 
 	const [activeTab, setActiveTab] = useState(0);
 
 	const handleChange = (index: number) => {
 		setActiveTab(index);
+		setSearchparams({ [SEARCH_PARM_TAB]: Object.keys(TABS)[index] });
 	};
 
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
@@ -108,7 +127,7 @@ export const ProjectPage = () => {
 			<Styles.Details>
 				<User />
 				<ProjectDirector />
-				<FusionInfoBox />
+				<InfoBox />
 				<OneEquinorLink />
 			</Styles.Details>
 
@@ -117,7 +136,7 @@ export const ProjectPage = () => {
 					<Tabs activeTab={activeTab} onChange={handleChange}>
 						<Tabs.List>
 							<Tabs.Tab>Overview</Tabs.Tab>
-							<Tabs.Tab>Execution Data</Tabs.Tab>
+							<Tabs.Tab>Construction and Commissioning</Tabs.Tab>
 							<Tabs.Tab>All Apps</Tabs.Tab>
 						</Tabs.List>
 						<Tabs.Panels>
@@ -125,7 +144,7 @@ export const ProjectPage = () => {
 								<Overview />
 							</Tabs.Panel>
 							<Tabs.Panel>
-								<ExecutionData />
+								<ConstructionAndCommissioningData />
 							</Tabs.Panel>
 							<Tabs.Panel>
 								<AllApps />

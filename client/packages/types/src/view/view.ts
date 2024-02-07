@@ -1,3 +1,5 @@
+import { AppManifest } from '@equinor/fusion-framework-module-app';
+
 export type View = {
 	id: string;
 	icon?: string;
@@ -26,6 +28,13 @@ export interface AppGroup {
 	accentColor: string;
 	order: number;
 	apps: App[];
+}
+
+export interface FusionAppGroup {
+	name: string;
+	accentColor: string;
+	order: number;
+	apps: (AppManifest & { isPinned: boolean })[];
 }
 
 export type ContextType = 'Facility' | 'ProjectMaster' | 'Contract';
