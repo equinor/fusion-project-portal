@@ -95,7 +95,7 @@ export const FavoriteCard = ({ app, onClick, loading, colorsStyle }: FavoriteCar
 					</Styled.Category>
 				</Styled.Details>
 			</Styled.Content>
-			<PinButtonContainer loading={loading} app={app} />
+			<PinButtonContainer isLoading={loading} app={app} />
 		</Styled.Favorite>
 	);
 };

@@ -11,7 +11,7 @@ export const useApps = () => {
 	const appGroups$ = useMemo(() => {
 		return combineLatest([
 			appModule?.getAllAppManifests(),
-			new Observable<AppGroup[]>((sub) => sub.next(data)),
+			new Observable<AppGroup[]>((sub) => sub.next(data || [])),
 		]).pipe(
 			map(
 				([manifests, groups]) =>

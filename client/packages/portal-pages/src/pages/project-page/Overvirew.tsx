@@ -13,8 +13,8 @@ export const Overview = () => {
 			</Styles.Col>
 			<Styles.Col>
 				<Phases />
-				<AppSearch />
 				<Favorites />
+				<AppSearch />
 				<Contracts />
 			</Styles.Col>
 		</Styles.Row>

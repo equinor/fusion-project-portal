@@ -51,7 +51,7 @@ export const Styles = {
 	TabsWrapper: styled.div`
 		display: flex;
 		flex-direction: row;
-		gap: 1.5rem;
+		gap: ${tokens.spacings.comfortable.large};
 		padding: 1rem 2rem;
 		width: calc(100vw - 490px);
 		@media only screen and (max-width: 1300px) {
@@ -61,7 +61,7 @@ export const Styles = {
 	Row: styled.div`
 		display: flex;
 		flex-direction: row;
-		gap: 1.5rem;
+		gap: ${tokens.spacings.comfortable.large};
 
 		width: calc(100vw - 490px);
 		@media only screen and (max-width: 1300px) {

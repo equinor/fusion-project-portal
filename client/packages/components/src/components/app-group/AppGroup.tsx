@@ -75,9 +75,10 @@ export const AppGroup = ({ group, onFavorite }: AppGroupProps) => {
 				<Styles.List>
 					{group.apps.map((app) => (
 						<ListCard
+							key={app.key}
 							app={app}
 							pinButton
-							onDark
+							dark={true}
 							onClick={(a) => {
 								console.log(a);
 							}}

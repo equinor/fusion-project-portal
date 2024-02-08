@@ -47,7 +47,13 @@ export const useAppKpi = (appKey: string, contextId?: string) => {
 				throw error;
 			}
 
-			return data.map((s: any) => ({ ...s, title: s.name }));
+			if (!res.ok) {
+				const error = Error(data.detail);
+				error.name = data.title;
+				throw error;
+			}
+
+			return data?.map((s: any) => ({ ...s, title: s.name })) || [];
 		},
 		enabled: Boolean(contextId),
 	});
@@ -104,7 +110,7 @@ export const CCKpis = ({
 			<Card.Header>
 				<Typography variant="h6">{title}</Typography>
 				<Link to={`/apps/${appKey}/`} id={`${appKey}-button`}>
-					<Typography as={'a'} variant="overline" color={tokens.colors.interactive.primary__resting.hex}>
+					<Typography variant="overline" color={tokens.colors.interactive.primary__resting.hex}>
 						View in {title.toLowerCase()}
 					</Typography>
 				</Link>
@@ -120,7 +126,7 @@ export const CCKpis = ({
 			{data && (
 				<Styles.Content>
 					{data.map((kpi) => (
-						<div key={kpi.title} title={kpi.description}>
+						<div key={`${appKey}-${kpi.title}-${kpi.value}`} title={kpi.description}>
 							<Typography variant="meta" color={tokens.colors.text.static_icons__tertiary.hex}>
 								{kpi.title}
 							</Typography>

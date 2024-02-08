@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { AppGroup } from '@portal/components';
 import { useFavorites } from './hooks/use-favorites';
-import { useApps } from './components/app-search/hooks/use-apps';
 
 const Styles = {
 	Wrapper: styled.div`
@@ -19,8 +18,7 @@ const Styles = {
 };
 
 export const AllApps = () => {
-	const { addFavorite } = useFavorites();
-	const { appGroups } = useApps();
+	const { addFavorite, appGroups } = useFavorites();
 
 	return (
 		<Styles.Wrapper>

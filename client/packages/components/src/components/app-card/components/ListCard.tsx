@@ -10,8 +10,7 @@ import { AppManifest } from '../types/types';
 import { getAppCardColor } from '../util/app-card-color';
 
 export const Styled = {
-	Item: styled(Link)<{ $loading?: boolean; onDark?: boolean }>`
-		pointer-events: ${(props) => (props.$loading ? 'none' : 'auto')};
+	Item: styled(Link)<{ dark?: boolean }>`
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -23,13 +22,16 @@ export const Styled = {
 		&:hover,
 		&:focus {
 			border-radius: 0.25rem;
-			background: ${({ onDark }) =>
-				onDark ? tokens.colors.ui.background__medium.hex : tokens.colors.ui.background__light.hex};
-			cursor: ${(props) => (props.$loading ? 'default' : 'pointer')};
 		}
 	`,
-	Content: styled(FavoriteStyled.Content)`
+	Content: styled(FavoriteStyled.Content)<{ $loading?: boolean; dark?: boolean }>`
+		pointer-events: ${(props) => (props.$loading ? 'none' : 'auto')};
 		column-gap: ${tokens.spacings.comfortable.medium_small};
+		&:focus {
+			background: ${({ dark }) =>
+				dark ? tokens.colors.ui.background__medium.hex : tokens.colors.ui.background__light.hex};
+			cursor: ${(props) => (props.$loading ? 'default' : 'pointer')};
+		}
 	`,
 	Name: styled(FavoriteStyled.Name)`
 		flex: 1;
@@ -41,20 +43,18 @@ type ListCardProps = {
 	onClick?: (app: Partial<AppManifest>) => void;
 	onFavorite?: (key: Partial<AppManifest>) => void;
 	loading?: boolean;
-	onDark?: boolean;
+	dark?: boolean;
 	pinButton?: boolean;
 };
 
-export const ListCard = ({ app, onClick, loading, pinButton, onDark, onFavorite }: ListCardProps): JSX.Element => {
+export const ListCard = ({ app, onClick, loading, pinButton, dark, onFavorite }: ListCardProps): JSX.Element => {
 	return (
 		<Styled.Item
-			$loading={loading}
-			onDark={onDark}
 			to={app.url || `/apps/${app.key}/`}
 			style={getAppCardColor(app)}
 			onClick={() => onClick && onClick(app)}
 		>
-			<Styled.Content>
+			<Styled.Content $loading={loading} dark={dark}>
 				<AppIconContainer loading={loading} display="item" app={app} />
 				<Styled.Name group="navigation" variant="menu_title">
 					{loading ? <Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} /> : app.name}

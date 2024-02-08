@@ -11,11 +11,9 @@ export const Styled = {
 	InfoTitle: styled(Typography)`
 		margin-bottom: ${tokens.spacings.comfortable.small};
 	`,
-	InfoContent: styled(Typography)`
-		ul {
-			margin: 0;
-			padding-left: ${tokens.spacings.comfortable.medium};
-		}
+	Ul: styled.ul`
+		margin: 0;
+		padding-left: ${tokens.spacings.comfortable.medium};
 	`,
 	CloseButton: styled.div`
 		position: absolute;
@@ -30,13 +28,23 @@ export const InfoBox = (): JSX.Element => {
 			<Styled.InfoTitle group="paragraph" variant="body_long_bold">
 				Project Portal gives you quick access to
 			</Styled.InfoTitle>
-			<Styled.InfoContent group="paragraph" variant="body_long">
-				<ul>
-					<li>Verified data from multiple sources</li>
-					<li>Information customized to your position</li>
-					<li>Application scoped to your project</li>
-				</ul>
-			</Styled.InfoContent>
+			<Styled.Ul>
+				<li>
+					<Typography group="paragraph" variant="body_long">
+						Verified data from multiple sources
+					</Typography>
+				</li>
+				<li>
+					<Typography group="paragraph" variant="body_long">
+						Information customized to your position
+					</Typography>
+				</li>
+				<li>
+					<Typography group="paragraph" variant="body_long">
+						Application scoped to your project
+					</Typography>
+				</li>
+			</Styled.Ul>
 		</Styled.FusionInfo>
 	);
 };

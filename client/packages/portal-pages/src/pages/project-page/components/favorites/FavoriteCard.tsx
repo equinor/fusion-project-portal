@@ -11,8 +11,7 @@ import { AppManifest } from '@equinor/fusion-framework-module-app';
 import { Skeleton } from '@portal/ui';
 
 export const Styled = {
-	Favorite: styled(Link)<{ loading?: boolean; disabled?: boolean }>`
-		pointer-events: ${(props) => (props.loading ? 'none' : 'auto')};
+	Favorite: styled(Link)<{ disabled?: boolean }>`
 		position: relative;
 		height: 100%;
 		display: flex;
@@ -54,7 +53,8 @@ export const Styled = {
 			}
 		}
 	`,
-	Content: styled.div`
+	Content: styled.div<{ isLoading?: boolean }>`
+		pointer-events: ${(props) => (props.isLoading ? 'none' : 'auto')};
 		height: 100%;
 		display: flex;
 		flex: 1;
@@ -88,13 +88,12 @@ export const FavoriteCard = ({ app, onClick, loading, isDisabled }: FavoriteCard
 
 	return (
 		<Styled.Favorite
-			loading={loading}
 			to={isDisabled ? '#' : `/apps/${app.key}/`}
 			style={appColors}
 			disabled={isDisabled}
 			title={isDisabled ? `${app.name} is not available in the selected context` : app.name}
 		>
-			<Styled.Content>
+			<Styled.Content isLoading={loading}>
 				<AppIconContainer loading={loading} display="card" app={app} disabled={isDisabled} />
 				<Styled.Details>
 					<Typography

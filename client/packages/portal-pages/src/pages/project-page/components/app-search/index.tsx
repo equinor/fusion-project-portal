@@ -12,12 +12,12 @@ export const Styled = {
 		flex-direction: column;
 		justify-content: center;
 		position: relative;
-		height: 60px;
+		height: 110px;
 		width: 100%;
 		row-gap: ${tokens.spacings.comfortable.small};
 	`,
 	Content: styled.div`
-		padding: 1rem;
+		padding: ${tokens.spacings.comfortable.medium};
 	`,
 
 	BarContainer: styled.div`

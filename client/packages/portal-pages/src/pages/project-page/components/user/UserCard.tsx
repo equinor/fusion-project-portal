@@ -1,6 +1,6 @@
 import { useCurrentUser } from '@portal/core';
 
-import { Card, Typography, Button, Icon } from '@equinor/eds-core-react';
+import { Card, Typography, Icon } from '@equinor/eds-core-react';
 
 import { ProfileCardHeader } from '@portal/components';
 import { tokens } from '@equinor/eds-tokens';
@@ -17,28 +17,36 @@ const Style = {
 	Wrapper: styled.div`
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		padding: 1rem;
+		gap: ${tokens.spacings.comfortable.medium};
+		padding: ${tokens.spacings.comfortable.medium};
 	`,
-	PositionWrapper: styled.div`
-		border: 1px solid #a3a3a3;
+	PositionWrapper: styled.span`
+		display: flex;
+		flex-direction: column;
+	`,
+	ProjectHeader: styled.div`
+		display: flex;
+		justify-content: space-between;
+		border-bottom: 1px solid ${tokens.colors.ui.background__medium.hex};
+		padding: ${tokens.spacings.comfortable.small};
+	`,
+	PositionLink: styled.a`
+		height: auto;
+		border: 1px solid ${tokens.colors.ui.background__medium.hex};
+		color: ${tokens.colors.interactive.primary__resting.hex};
 		border-radius: 4px;
-	`,
-	ProjectButton: styled(Button)`
 		width: 100%;
-		border-radius: 0;
-		border-bottom: 1px solid #a3a3a3;
-		> * {
-			justify-content: space-between;
-		}
-
+		text-decoration: none;
 		:hover {
-			border-radius: 0;
-			border-bottom: 1px solid #a3a3a3;
+			background-color: ${tokens.colors.interactive.primary__hover_alt.hex};
+		}
+		:focus {
+			background-color: ${tokens.colors.interactive.primary__hover_alt.hex};
 		}
 	`,
-	PositionButton: styled(Button)`
-		padding: 0.5rem 1rem;
+
+	Content: styled.div`
+		padding: ${tokens.spacings.comfortable.medium_small};
 		display: flex;
 		align-items: center;
 		height: auto;
@@ -70,46 +78,40 @@ export const ProjectPosition = ({ positions }: { positions?: PersonPosition[] })
 				projectPositions.length > 0 ? (
 					<Style.Wrapper>
 						{projectPositions.map((position) => (
-							<Style.PositionWrapper key={position.id}>
-								<Style.ProjectButton
-									target="_blank"
-									name={position.project.name}
-									aria-label={position.project.name}
-									href={`${getFusionPortalURL()}/apps/pro-org/${position.project.id}`}
-									variant="ghost"
-									role="link"
-								>
-									<Typography>{position.project.name}</Typography>
-									<Icon data={external_link} size={16} />
-								</Style.ProjectButton>
-								<Style.PositionButton
-									target="_blank"
-									name={position.name}
-									aria-label={position.name}
-									href={`${getFusionPortalURL()}/apps/pro-org/${
-										position.project.id
-									}/chart?instanceId=${position.id}&positionId=${position.positionId}`}
-									variant="ghost"
-									role="link"
-								>
-									<Style.Icon data={tag_relations} />
-									<div>
-										<Typography color={tokens.colors.interactive.primary__resting.hex}>
-											{position.name}
-										</Typography>
-										<Typography>
-											<>
-												{position.appliesFrom &&
-													new Date(position.appliesFrom).toLocaleDateString('en-US')}
-												{' - '}
-												{position.appliesTo &&
-													new Date(position.appliesTo).toLocaleDateString('en-US')}
-												({position.workload}%)
-											</>
-										</Typography>
-									</div>
-								</Style.PositionButton>
-							</Style.PositionWrapper>
+							<Style.PositionLink
+								key={position.id}
+								target="_blank"
+								aria-label={position.name}
+								href={`${getFusionPortalURL()}/apps/pro-org/${position.project.id}/chart/${
+									position.parentPositionId
+								}`}
+								role="link"
+							>
+								<Style.PositionWrapper>
+									<Style.ProjectHeader>
+										<Typography>{position.project.name}</Typography>
+										<Icon data={external_link} size={16} />
+									</Style.ProjectHeader>
+									<Style.Content>
+										<Style.Icon data={tag_relations} />
+										<div>
+											<Typography color={tokens.colors.interactive.primary__resting.hex}>
+												{position.name}
+											</Typography>
+											<Typography>
+												<>
+													{position.appliesFrom &&
+														new Date(position.appliesFrom).toLocaleDateString('en-US')}
+													{' - '}
+													{position.appliesTo &&
+														new Date(position.appliesTo).toLocaleDateString('en-US')}
+													({position.workload}%)
+												</>
+											</Typography>
+										</div>
+									</Style.Content>
+								</Style.PositionWrapper>
+							</Style.PositionLink>
 						))}
 					</Style.Wrapper>
 				) : null //<Message title="You have no allocation for the selected project " />

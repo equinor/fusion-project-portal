@@ -11,7 +11,6 @@ import { ProfileCardHeader } from '@portal/components';
 
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
-import { Message } from '@portal/ui';
 
 export const useProjectDetails = (projectId?: string) => {
 	const client = useFramework().modules.serviceDiscovery.createClient('org');

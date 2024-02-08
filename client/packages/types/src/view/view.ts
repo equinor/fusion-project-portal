@@ -30,11 +30,13 @@ export interface AppGroup {
 	apps: App[];
 }
 
+export type FusionAppManifest = AppManifest & { isPinned: boolean };
+
 export interface FusionAppGroup {
 	name: string;
 	accentColor: string;
 	order: number;
-	apps: (AppManifest & { isPinned: boolean })[];
+	apps: FusionAppManifest[];
 }
 
 export type ContextType = 'Facility' | 'ProjectMaster' | 'Contract';
