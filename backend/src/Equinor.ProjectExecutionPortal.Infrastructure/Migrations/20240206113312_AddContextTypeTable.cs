@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 {
-    public partial class ContextTypeTable : Migration
+    public partial class AddContextTypeTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ContextType",
+                name: "ContextTypes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -22,7 +22,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContextType", x => x.Id);
+                    table.PrimaryKey("PK_ContextTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,9 +36,9 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_WorkSurfaceContextTypes", x => new { x.ContextTypesId, x.WorkSurfacesId });
                     table.ForeignKey(
-                        name: "FK_WorkSurfaceContextTypes_ContextType_ContextTypesId",
+                        name: "FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId",
                         column: x => x.ContextTypesId,
-                        principalTable: "ContextType",
+                        principalTable: "ContextTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -50,8 +50,8 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContextType_ContextTypeKey",
-                table: "ContextType",
+                name: "IX_ContextTypes_ContextTypeKey",
+                table: "ContextTypes",
                 column: "ContextTypeKey",
                 unique: true);
 
@@ -67,7 +67,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                 name: "WorkSurfaceContextTypes");
 
             migrationBuilder.DropTable(
-                name: "ContextType");
+                name: "ContextTypes");
         }
     }
 }
