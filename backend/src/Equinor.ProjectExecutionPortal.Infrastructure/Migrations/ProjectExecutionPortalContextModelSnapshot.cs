@@ -101,7 +101,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasIndex("ContextTypeKey")
                         .IsUnique();
 
-                    b.ToTable("ContextType");
+                    b.ToTable("ContextTypes");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>

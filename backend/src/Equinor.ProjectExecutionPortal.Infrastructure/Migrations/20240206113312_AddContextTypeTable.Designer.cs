@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectExecutionPortalContext))]
-    [Migration("20240205101159_ContextTypeTable")]
-    partial class ContextTypeTable
+    [Migration("20240206113312_AddContextTypeTable")]
+    partial class AddContextTypeTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,7 +103,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasIndex("ContextTypeKey")
                         .IsUnique();
 
-                    b.ToTable("ContextType");
+                    b.ToTable("ContextTypes");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
