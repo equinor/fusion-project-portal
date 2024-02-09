@@ -11,6 +11,7 @@ import { Typography } from '@equinor/eds-core-react';
 export const Styles = {
 	Title: styled(Typography)<{ isActive: boolean }>`
 		font-weight: ${({ isActive }) => (isActive ? 700 : 500)};
+		padding-bottom: ${tokens.spacings.comfortable.small};
 	`,
 	groupWrapper: css`
 		display: flex;
@@ -60,9 +61,10 @@ export const Styles = {
 type AppGroupProps = {
 	group: FusionAppGroup;
 	onFavorite: (key: Partial<AppManifest>) => void;
+	dark?: boolean;
 };
 
-export const AppGroup = ({ group, onFavorite }: AppGroupProps) => {
+export const AppGroup = ({ group, onFavorite, dark }: AppGroupProps) => {
 	const { appKey } = useParams();
 	const isGroupActive = !!group.apps.find((a) => a.key === appKey);
 
@@ -78,7 +80,7 @@ export const AppGroup = ({ group, onFavorite }: AppGroupProps) => {
 							key={app.key}
 							app={app}
 							pinButton
-							dark={true}
+							dark={dark}
 							onClick={(a) => {
 								console.log(a);
 							}}

@@ -1,16 +1,16 @@
-import { AppGroup } from '@portal/types';
+import { FusionAppGroup } from '@portal/types';
 import { AppCard } from '../app-card/AppCard';
 import { ColorTab } from './ColorTab';
 import { useParams } from 'react-router-dom';
 import { styles } from '../styles';
 
 type GroupProps = {
-	group: AppGroup;
+	group: FusionAppGroup;
 };
 
 export const Group = ({ group }: GroupProps) => {
 	const { appKey } = useParams();
-	const isGroupActive = !!group.apps.find((a) => a.appKey === appKey);
+	const isGroupActive = !!group.apps.find((a) => a.key === appKey);
 
 	return (
 		<div id={`groupe-${group.name}`} className={styles.group}>
@@ -26,11 +26,11 @@ export const Group = ({ group }: GroupProps) => {
 				<ol className={styles.list}>
 					{group.apps.map((child) => (
 						<AppCard
-							key={child.appKey}
-							appKey={child.appKey}
+							key={child.key}
+							appKey={child.key}
 							name={child.name}
 							isDisabled={child.isDisabled !== undefined ? child.isDisabled : false}
-							isActive={appKey === child.appKey}
+							isActive={appKey === child.key}
 						/>
 					))}
 				</ol>

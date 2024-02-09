@@ -1,4 +1,4 @@
-import { useTelemetry } from '@equinor/portal-core';
+// import { useTelemetry } from '@equinor/portal-core';
 import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
@@ -6,8 +6,9 @@ import { css } from '@emotion/css';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { useRef, useState } from 'react';
-import { useFavorites } from '../../hooks/use-favorites';
+import { useFavorites } from '@portal/core';
 import FavoriteCard from './FavoriteCard';
+import { sortByCategoryAndIsDisabled } from './utils/utils';
 
 type AppCardPops = {
 	isDisabled?: boolean;
@@ -90,29 +91,19 @@ export const Favorites = () => {
 			<Card.Content>
 				<nav className={styles.cardList}>
 					{hasFavorites ? (
-						favorites
-							.sort((a, b) => {
-								// Sort Disabled apps to bottom
-								return (a.category?.name || '') > (b.category?.name || '') ? -1 : 1;
-							})
-							.sort((a) => {
-								// Sort Disabled apps to bottom
-								return isDisabled(a.key) ? 1 : -1;
-							})
-
-							.map((app) => {
-								return (
-									<FavoriteCard
-										key={app.key}
-										app={app}
-										isDisabled={isDisabled(app.key)}
-										loading={isLoading}
-										onClick={(a) => {
-											addFavorite(a.key);
-										}}
-									/>
-								);
-							})
+						sortByCategoryAndIsDisabled(favorites).map((app) => {
+							return (
+								<FavoriteCard
+									key={app.key}
+									app={app}
+									isDisabled={isDisabled(app.key)}
+									loading={isLoading}
+									onClick={(a) => {
+										addFavorite(a.key);
+									}}
+								/>
+							);
+						})
 					) : (
 						<div className={styles.noData}>
 							<Icon

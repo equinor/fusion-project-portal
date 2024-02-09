@@ -16,6 +16,7 @@ import { Overview } from './Overvirew';
 import { AllApps } from './AllApps';
 import { useEffect, useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
+import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
 
 type ProjectMaster = {
 	facilities: string[];
@@ -82,15 +83,22 @@ export const Styles = {
 
 const SEARCH_PARM_TAB = 'tab';
 
-const TABS: Record<string, number> = {
-	overview: 0,
-	'construction-and-commissioning': 1,
-	'all-apps': 2,
-} as const;
-
 export const ProjectPage = () => {
 	const { contextId } = useParams();
 	const [searchParams, setSearchparams] = useSearchParams();
+
+	const { feature } = useFrameworkFeature('cc-tab');
+
+	const TABS: Record<string, number> = feature?.enabled
+		? ({
+				overview: 0,
+				'construction-and-commissioning': 1,
+				'all-apps': 2,
+		  } as const)
+		: {
+				overview: 0,
+				'all-apps': 1,
+		  };
 
 	useEffect(() => {
 		const tab = searchParams.get(SEARCH_PARM_TAB);
@@ -134,22 +142,41 @@ export const ProjectPage = () => {
 			<Styles.Content>
 				<Styles.TabsWrapper>
 					<Tabs activeTab={activeTab} onChange={handleChange}>
-						<Tabs.List>
-							<Tabs.Tab>Overview</Tabs.Tab>
-							<Tabs.Tab>Construction and Commissioning</Tabs.Tab>
-							<Tabs.Tab>All Apps</Tabs.Tab>
-						</Tabs.List>
-						<Tabs.Panels>
-							<Tabs.Panel>
-								<Overview />
-							</Tabs.Panel>
-							<Tabs.Panel>
-								<ConstructionAndCommissioningData />
-							</Tabs.Panel>
-							<Tabs.Panel>
-								<AllApps />
-							</Tabs.Panel>
-						</Tabs.Panels>
+						{feature?.enabled ? (
+							<Tabs.List>
+								<Tabs.Tab>Overview</Tabs.Tab>
+								<Tabs.Tab>Construction and Commissioning</Tabs.Tab>
+								<Tabs.Tab>All Apps</Tabs.Tab>
+							</Tabs.List>
+						) : (
+							<Tabs.List>
+								<Tabs.Tab>Overview</Tabs.Tab>
+								<Tabs.Tab>All Apps</Tabs.Tab>
+							</Tabs.List>
+						)}
+
+						{feature?.enabled ? (
+							<Tabs.Panels>
+								<Tabs.Panel>
+									<Overview />
+								</Tabs.Panel>
+								<Tabs.Panel>
+									<ConstructionAndCommissioningData />
+								</Tabs.Panel>
+								<Tabs.Panel>
+									<AllApps />
+								</Tabs.Panel>
+							</Tabs.Panels>
+						) : (
+							<Tabs.Panels>
+								<Tabs.Panel>
+									<Overview />
+								</Tabs.Panel>
+								<Tabs.Panel>
+									<AllApps />
+								</Tabs.Panel>
+							</Tabs.Panels>
+						)}
 					</Tabs>
 				</Styles.TabsWrapper>
 			</Styles.Content>

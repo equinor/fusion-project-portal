@@ -6,11 +6,26 @@ import { Link } from 'react-router-dom';
 
 import AppIconContainer from './AppIcon';
 import PinButtonContainer from './PinButton';
-import { AppManifest } from '../types/types';
+import { FusionAppManifest } from '@portal/types';
 import { getAppCardColor } from '../util/app-card-color';
 
 export const Styled = {
-	Item: styled(Link)<{ dark?: boolean }>`
+	Bg: styled.span<{ dark?: boolean; $loading?: boolean; isDisabled?: boolean }>`
+		&:hover,
+		&:focus {
+			background: ${({ dark, isDisabled }) =>
+				isDisabled
+					? 'none'
+					: dark
+					? tokens.colors.ui.background__medium.hex
+					: tokens.colors.ui.background__light.hex};
+		}
+		> * {
+			cursor: ${(props) => (props.isDisabled ? 'not-allowed' : 'pointer')};
+		}
+	`,
+
+	Item: styled(Link)`
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -27,21 +42,17 @@ export const Styled = {
 	Content: styled(FavoriteStyled.Content)<{ $loading?: boolean; dark?: boolean }>`
 		pointer-events: ${(props) => (props.$loading ? 'none' : 'auto')};
 		column-gap: ${tokens.spacings.comfortable.medium_small};
-		&:focus {
-			background: ${({ dark }) =>
-				dark ? tokens.colors.ui.background__medium.hex : tokens.colors.ui.background__light.hex};
-			cursor: ${(props) => (props.$loading ? 'default' : 'pointer')};
-		}
 	`,
+
 	Name: styled(FavoriteStyled.Name)`
 		flex: 1;
 	`,
 };
 
 type ListCardProps = {
-	app: Partial<AppManifest>;
-	onClick?: (app: Partial<AppManifest>) => void;
-	onFavorite?: (key: Partial<AppManifest>) => void;
+	app: Partial<FusionAppManifest>;
+	onClick?: (app: Partial<FusionAppManifest>) => void;
+	onFavorite?: (key: Partial<FusionAppManifest>) => void;
 	loading?: boolean;
 	dark?: boolean;
 	pinButton?: boolean;
@@ -49,19 +60,25 @@ type ListCardProps = {
 
 export const ListCard = ({ app, onClick, loading, pinButton, dark, onFavorite }: ListCardProps): JSX.Element => {
 	return (
-		<Styled.Item
-			to={app.url || `/apps/${app.key}/`}
-			style={getAppCardColor(app)}
-			onClick={() => onClick && onClick(app)}
+		<Styled.Bg
+			dark={dark}
+			isDisabled={app.isDisabled}
+			title={app.isDisabled ? `${app.name} is not available in the selected context` : app.name}
 		>
-			<Styled.Content $loading={loading} dark={dark}>
-				<AppIconContainer loading={loading} display="item" app={app} />
-				<Styled.Name group="navigation" variant="menu_title">
-					{loading ? <Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} /> : app.name}
-				</Styled.Name>
-			</Styled.Content>
-			{pinButton && <PinButtonContainer isLoading={loading} app={app} onFavorite={onFavorite} />}
-		</Styled.Item>
+			<Styled.Item
+				to={app.isDisabled ? '#' : app.url || `/apps/${app.key}/`}
+				style={getAppCardColor(app)}
+				onClick={() => onClick && onClick(app)}
+			>
+				<Styled.Content $loading={loading}>
+					<AppIconContainer loading={loading} display="item" app={app} />
+					<Styled.Name group="navigation" variant="menu_title">
+						{loading ? <Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} /> : app.name}
+					</Styled.Name>
+				</Styled.Content>
+				{pinButton && <PinButtonContainer isLoading={loading} app={app} onFavorite={onFavorite} />}
+			</Styled.Item>
+		</Styled.Bg>
 	);
 };
 

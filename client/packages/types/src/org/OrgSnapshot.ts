@@ -1,4 +1,4 @@
-import PersonDetails from '../models/people/PersonDetails';
+import { PersonDetails } from '../user';
 import BasePosition from './BasePosition';
 
 export type OrgSnapshotApproval = {

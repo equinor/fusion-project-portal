@@ -14,6 +14,7 @@ export type View = {
 };
 
 export interface App {
+	key: string;
 	appKey: string;
 	name: string;
 	description: string;
@@ -30,7 +31,7 @@ export interface AppGroup {
 	apps: App[];
 }
 
-export type FusionAppManifest = AppManifest & { isPinned: boolean };
+export type FusionAppManifest = AppManifest & { isPinned?: boolean; isDisabled?: boolean; url?: string };
 
 export interface FusionAppGroup {
 	name: string;

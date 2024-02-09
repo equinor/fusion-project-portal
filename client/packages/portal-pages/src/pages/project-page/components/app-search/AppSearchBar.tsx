@@ -11,14 +11,14 @@ import {
 } from '@equinor/fusion-react-searchable-dropdown';
 
 import { getSearchAppIcon } from './utils';
-import { useApps } from './hooks/use-apps';
+import { useApps } from '@portal/core';
 
 export const Styled = {
 	Dropdown: styled(SearchableDropdown)`
-		background-color: #fff;
-		border-radius: 0.375rem;
+		/* background-color: #fff; */
+		/* border-radius: 0.375rem; */
 		font-size: ${tokens.typography.navigation.menu_title.fontSize};
-
+		border: 0;
 		&::part(list) {
 			--fwc-list-vertical-padding: 0px;
 		}
@@ -112,7 +112,7 @@ export const AppSearchBar = (): JSX.Element => {
 
 	const onSelect = useCallback((e: SearchableDropdownSelectEvent) => {
 		const appKey = e.nativeEvent.detail.selected[0].id;
-		p;
+
 		navigate(`/apps/${appKey}/`);
 	}, []);
 

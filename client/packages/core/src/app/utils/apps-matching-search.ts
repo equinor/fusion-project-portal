@@ -1,6 +1,6 @@
-import { AppGroup } from '@portal/types';
+import { FusionAppGroup } from '@portal/types';
 
-export function appsMatchingSearch(groups: AppGroup[], searchText?: string) {
+export function appsMatchingSearch(groups: FusionAppGroup[], searchText?: string) {
 	if (!searchText) return groups;
 
 	return groups
@@ -8,7 +8,7 @@ export function appsMatchingSearch(groups: AppGroup[], searchText?: string) {
 			...group,
 			apps: group.apps.filter(
 				(app) =>
-					app.appKey.toLowerCase().includes(searchText.toLowerCase()) ||
+					app.key.toLowerCase().includes(searchText.toLowerCase()) ||
 					app.name.toLowerCase().includes(searchText.toLowerCase())
 			),
 		}))

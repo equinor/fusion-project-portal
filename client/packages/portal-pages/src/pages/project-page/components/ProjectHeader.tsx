@@ -3,11 +3,12 @@ import { Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
 import { css } from '@emotion/css';
-import { useCurrentUser as useUser } from '@equinor/fusion-framework-react/hooks';
+
 import { useCurrentUser } from '@portal/core';
 import styled from 'styled-components';
 
 import { ProjectDetails } from './ProjectDetails';
+import { WizardScrim } from './project-wizard/Wizard';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -65,7 +66,6 @@ export const getGreeting = () => {
 
 export const ProjectHeader = () => {
 	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
-	const user = useUser();
 	const { data } = useCurrentUser();
 
 	return (
@@ -76,6 +76,7 @@ export const ProjectHeader = () => {
 					{getGreeting()} {data?.name}
 				</Typography>
 				<ProjectDetails />
+				<WizardScrim />
 			</StyledHeader>
 		</StyledBackgroundWrapper>
 	);

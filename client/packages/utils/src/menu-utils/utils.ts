@@ -1,8 +1,8 @@
-import { AppGroup, App, FusionAppManifest, FusionAppGroup } from '@portal/types';
+import { FusionAppManifest, FusionAppGroup } from '@portal/types';
 import { tokens } from '@equinor/eds-tokens';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 
-export const getColumnCount = (MAX: number, appGroup?: AppGroup[]) => {
+export const getColumnCount = (MAX: number, appGroup?: FusionAppGroup[]) => {
 	const count =
 		appGroup?.reduce((acc, group) => {
 			return acc + group.apps.length;
@@ -10,7 +10,7 @@ export const getColumnCount = (MAX: number, appGroup?: AppGroup[]) => {
 	return Math.ceil(count / MAX);
 };
 
-export const customAppGroupArraySort = (a: AppGroup, b: AppGroup, activeItem: string) => {
+export const customAppGroupArraySort = (a: FusionAppGroup, b: FusionAppGroup, activeItem: string) => {
 	if (a.name === activeItem || a.name < b.name) {
 		return -1;
 	} else if (b.name === activeItem || a.name > b.name) {
@@ -21,7 +21,7 @@ export const customAppGroupArraySort = (a: AppGroup, b: AppGroup, activeItem: st
 };
 
 // Returns an array of disabled apps based on the enabled apps and favorites
-export function getDisabledApps(enabledApps: FusionAppManifest[], favorites: AppManifest[]) {
+export function getDisabledApps(enabledApps: FusionAppManifest[], favorites: FusionAppManifest[]) {
 	// Extract all app keys from the enabledApps array
 	const allAppKeys = enabledApps.map((app) => app.key);
 
@@ -29,11 +29,11 @@ export function getDisabledApps(enabledApps: FusionAppManifest[], favorites: App
 	return favorites
 		.filter((favorite) => !allAppKeys.includes(favorite.key))
 		.map(
-			(disabledApp): App => ({
-				appKey: disabledApp.key,
+			(disabledApp): FusionAppManifest => ({
+				...disabledApp,
 				description: disabledApp.description ?? '',
-				name: disabledApp.name,
 				isDisabled: true,
+				isPinned: true,
 				order: disabledApp.order ?? 0,
 			})
 		);

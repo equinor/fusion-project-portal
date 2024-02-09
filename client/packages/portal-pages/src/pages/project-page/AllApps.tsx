@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { AppGroup } from '@portal/components';
-import { useFavorites } from './hooks/use-favorites';
+import { useFavorites } from '@portal/core';
 
 const Styles = {
 	Wrapper: styled.div`
@@ -25,7 +25,7 @@ export const AllApps = () => {
 			{appGroups &&
 				appGroups.map((appGroup) => (
 					<div key={appGroup.name}>
-						<AppGroup group={appGroup} onFavorite={(app) => addFavorite(app.key)} />
+						<AppGroup dark={true} group={appGroup} onFavorite={(app) => addFavorite(app.key)} />
 					</div>
 				))}
 		</Styles.Wrapper>

@@ -1,11 +1,11 @@
-import { AppGroup } from '@portal/types';
+import { FusionAppGroup } from '@portal/types';
 import { InfoMessage } from '../../info-message/InfoMessage';
 import { Group } from '../group/Group';
 import { styles } from '../styles';
 import { getColumnCount } from '@portal/utils';
 
 type GroupWrapperProps = {
-	appGroups: AppGroup[];
+	appGroups: FusionAppGroup[];
 	maxAppsInColumn: number;
 };
 

@@ -53,7 +53,7 @@ export const useAppKpi = (appKey: string, contextId?: string) => {
 				throw error;
 			}
 
-			return data?.map((s: any) => ({ ...s, title: s.name })) || [];
+			return data?.map((s: StatusItem & { name: string }) => ({ ...s, title: s.name })) || [];
 		},
 		enabled: Boolean(contextId),
 	});

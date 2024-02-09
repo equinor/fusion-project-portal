@@ -1,12 +1,12 @@
 {
   "root": true,
-  
+
   "plugins": ["eslint-plugin-tsdoc"],
   "extends": ["plugin:@typescript-eslint/recommended" ],
 
   "parser": "@typescript-eslint/parser",
   "ignorePatterns": [
-    "*.md", "*.svg", "*.d.ts", "*.ico", "*.html", "*.js", "**/coverage/**"
+    "*.md", "*.svg", "*.d.ts", "*.ico", "*.html", "*.js", "**/coverage/**", "*.jpg"
   ],
   "rules": {
     "tsdoc/syntax": "warn",
@@ -76,6 +76,6 @@
     "no-restricted-globals": "off"
   },
   "overrides": [
-   
+
   ]
 }

@@ -1,43 +1,47 @@
 import { expect, test, describe } from 'vitest';
-import { AppGroup, App } from '@portal/types';
+import { FusionAppManifest, FusionAppGroup } from '@portal/types';
 import { getColumnCount } from './utils';
-const appGroups: AppGroup[] = [
+const appGroups: FusionAppGroup[] = [
 	{
 		name: 'Group 1',
 		apps: [
-			{ appKey: 'Test1' } as App,
-			{ appKey: 'Test2' } as App,
-			{ appKey: 'Test3' } as App,
-			{ appKey: 'Test4' } as App,
-			{ appKey: 'Test5' } as App,
-			{ appKey: 'Test6' } as App,
-			{ appKey: 'Test7' } as App,
-			{ appKey: 'Test8' } as App,
+			{ key: 'Test1' } as FusionAppManifest,
+			{ key: 'Test2' } as FusionAppManifest,
+			{ key: 'Test3' } as FusionAppManifest,
+			{ key: 'Test4' } as FusionAppManifest,
+			{ key: 'Test5' } as FusionAppManifest,
+			{ key: 'Test6' } as FusionAppManifest,
+			{ key: 'Test7' } as FusionAppManifest,
+			{ key: 'Test8' } as FusionAppManifest,
 		],
-	} as AppGroup,
+	} as FusionAppGroup,
 	{
 		name: 'Group 2',
 		apps: [
-			{ appKey: 'Test9' } as App,
-			{ appKey: 'Test10' } as App,
-			{ appKey: 'Test11' } as App,
-			{ appKey: 'Test12' } as App,
-			{ appKey: 'Test13' } as App,
-			{ appKey: 'Test14' } as App,
-			{ appKey: 'Test15' } as App,
-			{ appKey: 'Test16' } as App,
+			{ key: 'Test9' } as FusionAppManifest,
+			{ key: 'Test10' } as FusionAppManifest,
+			{ key: 'Test11' } as FusionAppManifest,
+			{ key: 'Test12' } as FusionAppManifest,
+			{ key: 'Test13' } as FusionAppManifest,
+			{ key: 'Test14' } as FusionAppManifest,
+			{ key: 'Test15' } as FusionAppManifest,
+			{ key: 'Test16' } as FusionAppManifest,
 		],
-	} as AppGroup,
+	} as FusionAppGroup,
 	{
 		name: 'Group 3',
-		apps: [{ appKey: 'Test17' } as App, { appKey: 'Test18' } as App, { appKey: 'Test19' } as App],
-	} as AppGroup,
+		apps: [
+			{ key: 'Test17' } as FusionAppManifest,
+			{ key: 'Test18' } as FusionAppManifest,
+			{ key: 'Test19' } as FusionAppManifest,
+		],
+	} as FusionAppGroup,
 ];
-const singleAppGroup: AppGroup[] = [
+const singleAppGroup: FusionAppGroup[] = [
 	{
 		name: 'Group 1',
-		apps: [{ appKey: 'testSingleApp' } as App],
-	} as AppGroup,
+		apps: [{ key: 'testSingleApp' } as FusionAppManifest],
+	} as FusionAppGroup,
 ];
 
 describe('getColumnCount', () => {
