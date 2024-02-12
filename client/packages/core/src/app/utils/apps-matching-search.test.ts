@@ -69,7 +69,7 @@ describe('appsMatchingSearch', () => {
 						name: 'Handover',
 					},
 					{
-						appKey: 'scope',
+						key: 'scope',
 						name: 'Scope Change',
 					},
 				] as FusionAppManifest[],

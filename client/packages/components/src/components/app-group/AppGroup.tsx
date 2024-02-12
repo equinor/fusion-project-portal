@@ -11,7 +11,7 @@ import { Typography } from '@equinor/eds-core-react';
 export const Styles = {
 	Title: styled(Typography)<{ isActive: boolean }>`
 		font-weight: ${({ isActive }) => (isActive ? 700 : 500)};
-		padding-bottom: ${tokens.spacings.comfortable.small};
+		padding-bottom: ${tokens.spacings.comfortable.medium};
 	`,
 	groupWrapper: css`
 		display: flex;

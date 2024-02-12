@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { AppGroup } from '@portal/components';
 import { useFavorites } from '@portal/core';
 
+import { ProgressLoader } from '@equinor/portal-ui';
+
 const Styles = {
 	Wrapper: styled.div`
 		column-count: 3;
@@ -15,11 +17,26 @@ const Styles = {
 			column-count: 1;
 		}
 	`,
+	WrapperLoading: styled.div`
+		height: 100%;
+		min-height: 10rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	`,
 };
 
 export const AllApps = () => {
-	const { addFavorite, appGroups } = useFavorites();
+	const { addFavorite, appGroups, isLoading } = useFavorites();
 
+	// Todo Create skeletons for loading
+	if (isLoading) {
+		return (
+			<Styles.WrapperLoading>
+				<ProgressLoader title="Loading Apps" />
+			</Styles.WrapperLoading>
+		);
+	}
 	return (
 		<Styles.Wrapper>
 			{appGroups &&
