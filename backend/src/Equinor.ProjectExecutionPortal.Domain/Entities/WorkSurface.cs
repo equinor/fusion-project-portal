@@ -79,6 +79,11 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
        _contextTypes.Add(contextType);
     }
 
+    public void RemoveContextType(ContextType contextType)
+    {
+        _contextTypes.Remove(contextType);
+    }
+
     public List<WorkSurfaceApp> GlobalApps()
     {
         return _apps.Where(workSurfaceApp => workSurfaceApp.IsGlobal).ToList();
