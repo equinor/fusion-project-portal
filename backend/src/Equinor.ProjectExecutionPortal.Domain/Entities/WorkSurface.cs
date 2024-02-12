@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using Equinor.ProjectExecutionPortal.Domain.Common;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
@@ -74,6 +73,10 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     {
         _contextTypes.Clear();
         _contextTypes.AddRange(contextTypes);
+    }
+    public void AddContextType(ContextType contextType)
+    {
+       _contextTypes.Add(contextType);
     }
 
     public List<WorkSurfaceApp> GlobalApps()
