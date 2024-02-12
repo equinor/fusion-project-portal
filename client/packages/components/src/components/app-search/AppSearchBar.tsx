@@ -17,9 +17,8 @@ import { Button, Icon } from '@equinor/eds-core-react';
 
 export const Styled = {
 	Dropdown: styled(SearchableDropdown)`
-		:focus {
-			width: 100%;
-		}
+		width: 100%;
+
 		font-size: ${tokens.typography.navigation.menu_title.fontSize};
 		border: 0;
 		&::part(list) {
@@ -34,6 +33,9 @@ export const Styled = {
 			border-bottom: 1px solid ${tokens.colors.interactive.disabled__border.hex};
 			height: auto;
 		}
+	`,
+	Wrapper: styled.div`
+		width: '350px';
 	`,
 };
 
@@ -86,16 +88,23 @@ export const AppSearchBar = (): JSX.Element => {
 		return document.addEventListener('keydown', (event) => {
 			if (event.key === 'F1') {
 				event.preventDefault();
-				handleFocus();
+				active ? handleFocus() : handleBlur();
 			}
 		});
-	}, []);
+	}, [active]);
 
 	const handleFocus = () => {
 		setActive(false);
 		document
 			.querySelector<SearchableDropdownElement>('fwc-searchable-dropdown#top-bar-app-search')
 			?.textInputElement?.focus();
+	};
+
+	const handleBlur = () => {
+		setActive(true);
+		document
+			.querySelector<SearchableDropdownElement>('fwc-searchable-dropdown#top-bar-app-search')
+			?.textInputElement?.blur();
 	};
 
 	const resolver = useMemo(() => {
@@ -139,15 +148,15 @@ export const AppSearchBar = (): JSX.Element => {
 	return (
 		<>
 			{active ? (
-				<Button onClick={() => handleFocus()} variant="ghost_icon">
+				<Button onClick={() => handleFocus()} variant="ghost_icon" title="Press F1 to toggle search for App">
 					<Icon data={search} />
 				</Button>
 			) : (
-				<div style={{ width: '350px' }}>
+				<Styled.Wrapper>
 					<Styled.Dropdown
 						ref={ref.current}
 						id="top-bar-app-search"
-						placeholder="Press F1 to search for App"
+						placeholder="Search for App"
 						autofocus
 						variant="header"
 						initialText="Type to start searching for apps..."
@@ -155,7 +164,7 @@ export const AppSearchBar = (): JSX.Element => {
 						onBlur={() => setActive(true)}
 						resolver={resolver}
 					/>
-				</div>
+				</Styled.Wrapper>
 			)}
 		</>
 	);
