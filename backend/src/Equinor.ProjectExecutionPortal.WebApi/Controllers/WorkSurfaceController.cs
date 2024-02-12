@@ -261,5 +261,31 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return Ok();
         }
+        //[HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
+        [HttpDelete("{workSurfaceId:guid}/context-type/{contextType}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult> RemoveContextType([FromRoute] Guid workSurfaceId, [FromRoute] string contextType)
+        {
+            var request = new ApiRemoveWorkSurfaceContextType();
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, contextType));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing context-typeapp");
+            }
+
+            return Ok();
+        }
+
     }
 }
