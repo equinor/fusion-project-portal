@@ -24,8 +24,6 @@ export const useFavorites = () => {
 	}, []);
 
 	const favorites = useObservable(favorite$) || [];
-	const favoritesWithDisabled =
-		useMemo(() => favorites.map((p) => ({ ...p, isDisabled: isDisabled(p.key) })), [favorites]) || [];
 
 	const disabledAppKeys = useMemo(() => {
 		const enabledApps = (appGroups?.map((group) => group.apps) ?? []).flat();
@@ -48,6 +46,9 @@ export const useFavorites = () => {
 		},
 		[disabledAppKeys]
 	);
+
+	const favoritesWithDisabled =
+		useMemo(() => favorites.map((p) => ({ ...p, isDisabled: isDisabled(p.key) })), [favorites, isDisabled]) || [];
 
 	const appGroupsWithPinned = useMemo(() => {
 		return (appGroups || []).map((group) => ({

@@ -1,10 +1,11 @@
 import { WorkAssigned } from '@equinor/portal-ui';
 import { Contracts } from './components/contracts/Contracts';
 import { Favorites } from './components/favorites/Favorites';
-import { Phases } from './components/project-director/ProjectDirector';
+
 import { Styles } from './ProjectPage';
 import AppSearch from './components/app-search';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
+import { Phases } from './components/phases/Phases';
 
 export const Overview = () => {
 	const { feature } = useFrameworkFeature('app-search');

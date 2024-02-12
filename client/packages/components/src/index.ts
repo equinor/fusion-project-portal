@@ -11,3 +11,4 @@ export * from './components/service-message-service/ServiceMessageService';
 export * from './components/task/Task';
 export * from './components/app-card';
 export * from './components/app-group/AppGroup';
+export * from './components/app-search/AppSearchBar';

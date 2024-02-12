@@ -101,6 +101,12 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 						title: 'New App Search',
 						description: 'When enabled you will be able to tryout the application search on project page',
 					},
+					{
+						key: 'top-bar-app-search',
+						title: 'New App Search in Top bar',
+						description:
+							'When enabled you will be able to tryout the application search in the top-bar. When active hit F1 to start searching.',
+					},
 				])
 			);
 		});

@@ -5,10 +5,10 @@ import { Button, Typography } from '@equinor/eds-core-react';
 import { PropsWithChildren } from 'react';
 
 // Images
-import img1 from './slides/wizard_one.jpg';
-import img2 from './slides/wizard_two.jpg';
-import img3 from './slides/wizard_tree.jpg';
-import img4 from './slides/wizard4_four.jpg';
+import img1 from './slides/wizard_01.jpg';
+import img2 from './slides/wizard_02.jpg';
+import img3 from './slides/wizard_03.jpg';
+import img4 from './slides/wizard_04.jpg';
 
 const wizardWidth = '51rem';
 const imageHeight = 23;
