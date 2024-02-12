@@ -35,7 +35,7 @@ export const Styled = {
 		}
 	`,
 	Wrapper: styled.div`
-		width: '350px';
+		width: 350px;
 	`,
 };
 
