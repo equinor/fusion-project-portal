@@ -13,14 +13,6 @@ export async function getContextRelations(
 	if (!res.ok) throw res;
 	return (await res.json()) as Relations[];
 }
-export async function getContextTstRelations(
-	client: Promise<IHttpClient>,
-	signal?: AbortSignal
-): Promise<Relations[] | undefined> {
-	const res = await (await client).fetch(`/contexts/71db33bb-cb1b-42cf-b5bf-969c77e40931/relations`, { signal });
-	if (!res.ok) throw res;
-	return (await res.json()) as Relations[];
-}
 
 export const useContextRelationsQuery = (contextId?: string) => {
 	const client = useFramework().modules.serviceDiscovery.createClient('context');
