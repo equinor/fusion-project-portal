@@ -12,12 +12,19 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     [Route("api/fusion")]
     public class FusionController : ApiControllerBase
     {
-        
-        [HttpGet("contexts/{externalId}")]
-        public async Task<ActionResult<FusionContext>> GetFusionContext([FromRoute] string externalId)
+
+        [HttpGet("context/{externalId}/type/{contextType}")]
+        public async Task<ActionResult<FusionContext>> GetFusionContext([FromRoute] string externalId, string contextType)
         {
+            var fusionContextType = FusionContextType.Resolve(contextType);
+
+            if (fusionContextType == null)
+            {
+                return FusionApiError.NotFound(contextType, "Could not resolve context type");
+            }
+
             var contextIdentifier = ContextIdentifier.FromExternalId(externalId);
-            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, fusionContextType);
 
             return context == null ? FusionApiError.NotFound(externalId, "Could not find context by external id") : Ok(context);
         }

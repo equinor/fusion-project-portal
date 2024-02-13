@@ -6,6 +6,7 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceContextType;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +51,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             catch (NotFoundException ex)
             {
                 return FusionApiError.NotFound(request.Name, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {
@@ -235,5 +240,56 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return Ok();
         }
+
+        //ContextTypes
+        [HttpPost("{workSurfaceId:guid}/context-type")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> AddContextType([FromRoute] Guid workSurfaceId, [FromBody] ApiAddContextTypeToWorkSurfaceRequest request)
+        {
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding work surface app");
+            }
+
+            return Ok();
+        }
+        //[HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
+        [HttpDelete("{workSurfaceId:guid}/context-type/{contextType}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult> RemoveContextType([FromRoute] Guid workSurfaceId, [FromRoute] string contextType)
+        {
+            var request = new ApiRemoveWorkSurfaceContextType();
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, contextType));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing context-type");
+            }
+
+            return Ok();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Helpers;
+using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -9,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.Creat
 
 public class CreateWorkSurfaceCommand : IRequest<Guid>
 {
-    public CreateWorkSurfaceCommand(string name, string shortName, string subText, string? description, int order, string icon)
+    public CreateWorkSurfaceCommand(string name, string shortName, string subText, string? description, int order, string icon, IList<string> contextTypes)
     {
         Name = name;
         ShortName = shortName;
@@ -17,6 +18,7 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
         Description = description;
         Order = order;
         Icon = icon;
+        ContextTypes = contextTypes;
     }
 
     public string Name { get; set; }
@@ -25,14 +27,17 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
     public string? Description { get; set; }
     public int Order { get; set; }
     public string Icon { get; set; }
+    public IList<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<CreateWorkSurfaceCommand, Guid>
     {
+        private readonly IContextTypeService _contextTypeService;
         private readonly IReadWriteContext _readWriteContext;
 
-        public Handler(IReadWriteContext readWriteContext)
+        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService)
         {
             _readWriteContext = readWriteContext;
+            _contextTypeService = contextTypeService;
         }
 
         public async Task<Guid> Handle(CreateWorkSurfaceCommand command, CancellationToken cancellationToken)
@@ -51,6 +56,8 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
             {
                 PortalId = portal.Id
             };
+
+            workSurface.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.Set<WorkSurface>().AddAsync(workSurface, cancellationToken);
 
