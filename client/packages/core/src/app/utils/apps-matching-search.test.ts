@@ -1,26 +1,26 @@
 import { describe, test, expect } from 'vitest';
 import { appsMatchingSearch } from './apps-matching-search';
-import { AppGroup, App } from '@portal/types';
+import { FusionAppGroup, FusionAppManifest } from '@portal/types';
 
-const appGroups: AppGroup[] = [
+const appGroups: FusionAppGroup[] = [
 	{
 		name: 'Construction',
 		accentColor: '1',
 		order: 1,
 		apps: [
 			{
-				appKey: 'handover',
+				key: 'handover',
 				name: 'Handover',
 			},
 			{
-				appKey: 'swcr',
+				key: 'swcr',
 				name: 'SWCR',
 			},
 			{
-				appKey: 'scope',
+				key: 'scope',
 				name: 'Scope Change',
 			},
-		] as App[],
+		] as FusionAppManifest[],
 	},
 	{
 		name: 'Collaboration',
@@ -28,10 +28,10 @@ const appGroups: AppGroup[] = [
 		order: 1,
 		apps: [
 			{
-				appKey: 'meetings',
+				key: 'meetings',
 				name: 'Meetings',
 			},
-		] as App[],
+		] as FusionAppManifest[],
 	},
 ];
 describe('appsMatchingSearch', () => {
@@ -40,17 +40,17 @@ describe('appsMatchingSearch', () => {
 		expect(value).toBe(appGroups);
 	});
 	test('Should return Construction appGroups with swcr app', () => {
-		const expected: AppGroup[] = [
+		const expected: FusionAppGroup[] = [
 			{
 				name: 'Construction',
 				accentColor: '1',
 				order: 1,
 				apps: [
 					{
-						appKey: 'swcr',
+						key: 'swcr',
 						name: 'SWCR',
 					},
-				] as App[],
+				] as FusionAppManifest[],
 			},
 		];
 
@@ -58,21 +58,21 @@ describe('appsMatchingSearch', () => {
 		expect(value).toEqual(expected);
 	});
 	test('Should return all appGroups', () => {
-		const expected: AppGroup[] = [
+		const expected: FusionAppGroup[] = [
 			{
 				name: 'Construction',
 				accentColor: '1',
 				order: 1,
 				apps: [
 					{
-						appKey: 'handover',
+						key: 'handover',
 						name: 'Handover',
 					},
 					{
-						appKey: 'scope',
+						key: 'scope',
 						name: 'Scope Change',
 					},
-				] as App[],
+				] as FusionAppManifest[],
 			},
 			{
 				name: 'Collaboration',
@@ -80,10 +80,10 @@ describe('appsMatchingSearch', () => {
 				order: 1,
 				apps: [
 					{
-						appKey: 'meetings',
+						key: 'meetings',
 						name: 'Meetings',
 					},
-				] as App[],
+				] as FusionAppManifest[],
 			},
 		];
 

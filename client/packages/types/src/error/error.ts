@@ -1,4 +1,4 @@
-export interface FusionError {
+export interface FusionError extends BaseError {
 	type: string;
 	title: string;
 	status: number;

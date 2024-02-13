@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { MessageCard, Variant } from './MessageCard';
+import { MessageCard } from './MessageCard';
+import { Variant } from '../message/Message';
 
 describe('MessageCard', () => {
 	it('renders an Info message card', () => {

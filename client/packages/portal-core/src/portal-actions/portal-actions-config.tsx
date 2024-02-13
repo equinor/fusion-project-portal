@@ -11,7 +11,6 @@ import {
 import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equinor/service-message';
 
 import { PortalAction } from './types';
-import { handleFullscreenClick } from './utils';
 
 export const actions: PortalAction[] = [
 	{
@@ -19,7 +18,6 @@ export const actions: PortalAction[] = [
 		name: 'Full screen',
 		icon: { component: FullscreenIcon, name: 'fullscreen' },
 		appendDivider: true,
-		onClick: handleFullscreenClick,
 		topParOnly: true,
 	},
 	{

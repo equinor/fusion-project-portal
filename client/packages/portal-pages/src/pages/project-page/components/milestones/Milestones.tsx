@@ -1,10 +1,10 @@
 import { EdsProvider, Table, Typography } from '@equinor/eds-core-react';
 import { DateTime } from 'luxon';
-import { StyledCardWrapper, StyledContent, StyledHeader } from '../styles';
+import { StyledCardWrapper, StyledContent, StyledHeader } from '../project-cards/styles';
 import { LoadingSkeleton } from './LoadingSection';
 import { useMilestoneQuery } from './use-presence-query';
 import { css } from '@emotion/css';
-import { PortalMessage } from '@portal/ui';
+import { Message } from '@portal/ui';
 import { sortByDate, sortMilestones } from './utils';
 import { useMemo } from 'react';
 
@@ -46,23 +46,17 @@ export const Milestones = () => {
 	}, [data]);
 
 	return (
-		<StyledCardWrapper>
+		<StyledCardWrapper elevation="raised">
 			<StyledHeader>
 				<Typography variant="h5">Milestones</Typography>
 			</StyledHeader>
 			{componentError ? (
 				componentError.message.toLowerCase() === 'No Access'.toLowerCase() ? (
-					<div className={styles.noContent}>
-						<PortalMessage type="Warning" title="No access">
-							You don't have access to see this information for this project.
-						</PortalMessage>
-					</div>
+					<Message type="Warning" title="You don't have access to see project data."></Message>
 				) : (
-					<div className={styles.noContent}>
-						<PortalMessage type="Error" title="Error">
-							{componentError.message}
-						</PortalMessage>
-					</div>
+					<Message type="Error" title="Error">
+						{componentError.message}
+					</Message>
 				)
 			) : (
 				<StyledContent>
@@ -98,9 +92,9 @@ export const Milestones = () => {
 									})
 								) : (
 									<div className={styles.noContent}>
-										<PortalMessage type="NoContent" title="No content">
+										<Message type="NoContent" title="No content">
 											There are no milestones awaitable
-										</PortalMessage>
+										</Message>
 									</div>
 								)}
 							</Table.Body>

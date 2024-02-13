@@ -1,32 +1,14 @@
-import { useTelemetry } from '@equinor/portal-core';
+// import { useTelemetry } from '@equinor/portal-core';
 import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
-import { Link } from 'react-router-dom';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { useRef, useState } from 'react';
-import { useFavorites } from '../../hooks/use-favorites';
-
-const AppIcon = styled.span<{ color: string | null | undefined }>`
-	display: flex;
-	width: 65px;
-	height: 65px;
-	background-color: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex) + '33'};
-	align-items: center;
-	justify-content: center;
-	border-radius: 3px;
-
-	> svg {
-		width: 2rem;
-		height: 2rem;
-		> path {
-			fill: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
-		}
-		fill: ${({ color }) => (color ? color : tokens.colors.infographic.primary__moss_green_100.hex)};
-	}
-`;
+import { useFavorites } from '@portal/core';
+import FavoriteCard from './FavoriteCard';
+import { sortByCategoryAndIsDisabled } from './utils/utils';
 
 type AppCardPops = {
 	isDisabled?: boolean;
@@ -53,7 +35,7 @@ const styles = {
 	},
 	cardList: css`
 		display: grid;
-		grid-auto-rows: 100px;
+		grid-auto-rows: auto;
 		grid-template-columns: repeat(2, 1fr);
 		gap: 1rem;
 		padding: 0;
@@ -73,18 +55,23 @@ const styles = {
 	fullHeight: css`
 		height: 100%;
 	`,
+	Heading: styled.div`
+		padding: 1rem;
+		display: flex;
+		justify-content: space-between;
+	`,
 };
 
 export const Favorites = () => {
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const { dispatchEvent } = useTelemetry();
+	// const { dispatchEvent } = useTelemetry();
 
-	const { favorites, disabledAppKeys, hasFavorites } = useFavorites();
+	const { favorites, hasFavorites, isLoading, addFavorite, isDisabled } = useFavorites();
 
 	return (
-		<Card className={styles.fullHeight}>
-			<Card.Header>
+		<div>
+			<styles.Heading>
 				<Typography variant="h5">Pinned Apps</Typography>
 				<div
 					onMouseOver={() => {
@@ -100,49 +87,21 @@ export const Favorites = () => {
 						<Popover.Content>Open menu and click on stars to add to favorites</Popover.Content>
 					</Popover>
 				</div>
-			</Card.Header>
+			</styles.Heading>
 			<Card.Content>
 				<nav className={styles.cardList}>
 					{hasFavorites ? (
-						favorites.map((app) => {
-							const isDisabled = disabledAppKeys.includes(app.key);
+						sortByCategoryAndIsDisabled(favorites).map((app) => {
 							return (
-								<Link
-									className={styles.appCard({ isDisabled, color: app.accentColor })}
-									to={`/apps/${app.key}/`}
+								<FavoriteCard
 									key={app.key}
-									title={
-										isDisabled
-											? `${app.name} is not available for the selected context`
-											: `Application button for the application ${app.name}`
-									}
-									onClick={(e) => {
-										if (isDisabled) {
-											e.preventDefault();
-											return;
-										}
-										dispatchEvent(
-											{
-												name: 'onAppNavigation',
-											},
-
-											{ appKey: app.key, isFavorite: true, source: 'pinned-apps' }
-										);
+									app={app}
+									isDisabled={isDisabled(app.key)}
+									loading={isLoading}
+									onClick={(a) => {
+										addFavorite(a.key);
 									}}
-								>
-									<aside>
-										<AppIcon
-											color={app.accentColor}
-											dangerouslySetInnerHTML={{
-												__html: app.icon || app.category?.defaultIcon || '<svg />',
-											}}
-										></AppIcon>
-									</aside>
-									<div>
-										<Typography>{app.name}</Typography>
-										<Typography variant="overline">{app.category?.name}</Typography>
-									</div>
-								</Link>
+								/>
 							);
 						})
 					) : (
@@ -159,6 +118,6 @@ export const Favorites = () => {
 					)}
 				</nav>
 			</Card.Content>
-		</Card>
+		</div>
 	);
 };

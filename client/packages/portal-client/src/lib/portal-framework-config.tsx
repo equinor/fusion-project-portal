@@ -12,6 +12,8 @@ import { signalRConfigurator } from './signal-ir-configurator';
 import { enableTelemetry } from '@equinor/portal-core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
+import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
+import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 
 const showInfo = false;
 
@@ -39,6 +41,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
 		}
+		config.configureHttpClient('cc-api', {
+			baseUri: 'https://backend-fusion-data-gateway-test.radix.equinor.com',
+			defaultScopes: ['api://ed6de162-dd30-4757-95eb-0ffc8d34fbe0/access_as_user'],
+		});
 
 		addPortalClient(config, portalConfig.portalClient.client);
 
@@ -76,6 +82,34 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				service: 'portal',
 			})
 		);
+
+		enableFeatureFlagging(config, (builder) => {
+			builder.addPlugin(
+				createLocalStoragePlugin([
+					{
+						key: 'new-menu',
+						title: 'New Portal Menu',
+						description: 'When enabled you will be able to tryout the new portal menu',
+					},
+					{
+						key: 'cc-tab',
+						title: 'New Construction and Commissioning Tab',
+						description: 'When enabled you will be able to tryout the new CC tab on project page',
+					},
+					{
+						key: 'app-search',
+						title: 'New App Search',
+						description: 'When enabled you will be able to tryout the application search on project page',
+					},
+					{
+						key: 'top-bar-app-search',
+						title: 'New App Search in Top bar',
+						description:
+							'When enabled you will be able to tryout the application search in the top-bar. When active hit F1 to start searching.',
+					},
+				])
+			);
+		});
 
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);

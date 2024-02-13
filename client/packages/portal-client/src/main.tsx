@@ -10,6 +10,7 @@ import { createPortalFramework } from './lib';
 import { configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 import { PortalConfig } from '@portal/types';
+import PeopleResolverProvider from '@equinor/fusion-framework-react-components-people-provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -26,7 +27,9 @@ root.render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<Framework configure={configure} fallback={<PortalProgressLoader title="Configuring Portal" />}>
-				<PortalRouter />
+				<PeopleResolverProvider>
+					<PortalRouter />
+				</PeopleResolverProvider>
 			</Framework>
 		</QueryClientProvider>
 	</StrictMode>

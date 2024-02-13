@@ -1,8 +1,9 @@
 import { GroupWrapper, PortalMessagePage } from '@equinor/portal-ui';
 import { useNavigate } from 'react-router-dom';
 import { ContextProvider, ContextSelector, useViewController } from '@equinor/portal-core';
-import { useAppGroupsQuery } from '@portal/core';
+
 import { css } from '@emotion/css';
+import { useApps } from '@portal/core';
 
 export const style = {
 	paddingTop: css`
@@ -15,7 +16,7 @@ type AppNotAwaitableProps = {
 };
 
 export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
-	const { data, isLoading } = useAppGroupsQuery();
+	const { appGroups, isLoading } = useApps();
 	const { currentView } = useViewController();
 
 	const navigate = useNavigate();
@@ -26,11 +27,11 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 				<ContextProvider>
 					<ContextSelector navigate={navigate} path={`/${currentView?.key}`} />
 				</ContextProvider>
-				{!isLoading && data && (
+				{!isLoading && appGroups && (
 					<div>
 						<p>Current apps are available for the selected context:</p>
 						<div className={style.paddingTop}>
-							<GroupWrapper appGroups={data} maxAppsInColumn={10} />
+							<GroupWrapper appGroups={appGroups} maxAppsInColumn={10} />
 						</div>
 					</div>
 				)}

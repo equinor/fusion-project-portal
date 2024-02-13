@@ -10,6 +10,7 @@ export const styles = {
 		column-width: auto;
 		gap: 2rem;
 		column-count: ${count};
+		overflow: auto;
 	`,
 	menuItem: css`
 		font-style: normal;
