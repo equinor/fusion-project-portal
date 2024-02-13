@@ -52,6 +52,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             {
                 return FusionApiError.NotFound(request.Name, ex.Message);
             }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
+            }
             catch (Exception)
             {
                 return FusionApiError.InvalidOperation("500", "An error occurred while creating work surface");
@@ -281,7 +285,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (Exception)
             {
-                return FusionApiError.InvalidOperation("500", "An error occurred while removing context-typeapp");
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing context-type");
             }
 
             return Ok();

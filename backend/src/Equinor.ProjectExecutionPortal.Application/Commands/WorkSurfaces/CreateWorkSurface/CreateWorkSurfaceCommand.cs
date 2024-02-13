@@ -57,7 +57,7 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
                 PortalId = portal.Id
             };
 
-            workSurface.AddContextTypes(await _contextTypeService.GetCombinedNewAndExistingContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+            workSurface.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.Set<WorkSurface>().AddAsync(workSurface, cancellationToken);
 

@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
         {
             _readWriteContext = readWriteContext;
         }
-        public async Task<IList<ContextType>> GetCombinedNewAndExistingContextTypesByContextTypeKey(IList<string> contextTypeKeys, CancellationToken cancellationToken)
+        public async Task<IList<ContextType>> GetContextTypesByContextTypeKey(IList<string> contextTypeKeys, CancellationToken cancellationToken)
         {
 
             if (contextTypeKeys.Count == 0)
@@ -21,15 +21,19 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
                 return new List<ContextType>();
             }
 
-            var existingContextTypes = await _readWriteContext.Set<ContextType>()
-                .Where(contextType => contextTypeKeys.Select(key => key).Contains(contextType.ContextTypeKey))
-                .ToListAsync();
+            var availableContextTypes = await _readWriteContext.Set<ContextType>().ToListAsync();
+            
+            var invalidContextTypes = contextTypeKeys.FirstOrDefault(key => !availableContextTypes.Select(contextType => contextType.ContextTypeKey).Contains(key));
 
-            var newContextTypes = contextTypeKeys
-                .Where(key => !existingContextTypes.Select(contextType => contextType.ContextTypeKey).Contains(key))
-                .Select(x => new ContextType(x));
+            if (invalidContextTypes != null)
+            {
+                throw new InvalidActionException($"Context-type is not supported: {invalidContextTypes}");
+            }
 
-            return existingContextTypes.Concat(newContextTypes).ToList();
+            var addContextTypes = availableContextTypes.Where(contextType => contextTypeKeys.Select(key => key).Contains(contextType.ContextTypeKey)).ToList();
+
+
+            return addContextTypes.ToList();
         }
     }
 }
