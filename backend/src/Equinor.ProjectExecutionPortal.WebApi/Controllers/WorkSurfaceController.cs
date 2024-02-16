@@ -135,6 +135,20 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
         }
 
+        [HttpGet("{workSurfaceId:guid}/context/{contextId:guid}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] Guid contextId)
+        {
+
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery(workSurfaceId,contextId));
+
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
+            }
+
+            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+        }
+
         [HttpPost("{workSurfaceId:guid}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, [FromBody] ApiAddGlobalAppToWorkSurfaceRequest request)
