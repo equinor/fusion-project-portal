@@ -109,24 +109,32 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         // Apps
 
         [HttpGet("{workSurfaceId:guid}/apps")]
-        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/type/{contextType}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId, [FromRoute] string? contextType)
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId)
         {
-            if (contextExternalId != null)
-            {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var fusionContextType = FusionContextType.Resolve(contextType);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, fusionContextType);
 
-                if (context == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id and type");
-                }
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
+
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
             }
 
-            var appGroupsDto = contextExternalId != null ?
-                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId, contextType)) :
-                await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
+            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+        }
+
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/type/{contextType}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
+        {
+            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+            var fusionContextType = FusionContextType.Resolve(contextType);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, fusionContextType);
+
+            if (context == null)
+            {
+                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id and type");
+            }
+
+            var appGroupsDto =  await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId, contextType));
 
             if (appGroupsDto == null)
             {
