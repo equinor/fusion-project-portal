@@ -17,6 +17,7 @@ export interface PortalAction {
 	appendDivider?: boolean;
 	dropDownOnly?: boolean;
 	topParOnly?: boolean;
+	hidden?: boolean;
 }
 
 export type PortalActionProps = { open: boolean; onClose: VoidFunction; action: PortalAction };

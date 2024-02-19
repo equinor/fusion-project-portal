@@ -26,7 +26,7 @@ export const actions: PortalAction[] = [
 		color: '#258800',
 		icon: 'account_circle',
 		component: MyAccount,
-		dropDownOnly: true,
+		hidden: true,
 	},
 	{
 		actionId: 'bookmarks',
