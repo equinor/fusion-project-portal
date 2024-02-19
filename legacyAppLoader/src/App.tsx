@@ -21,7 +21,11 @@ addGlobalDependencies();
 
 export const App = (props: {
   fusion: Fusion;
-  env: { config: { environment: { appKey: string; env: string } } };
+  env: {
+    config: {
+      environment: { appKey: string; env: string; loadingText?: string };
+    };
+  };
 }) => {
   const fusion = useFramework<[AppModule, NavigationModule]>();
   const appFramework = useAppModules<[AppModule]>();
@@ -35,7 +39,11 @@ export const App = (props: {
           env: props.env.config.environment.env,
         },
       }}
-      loader={<ProgressLoader title={"Loading App"} />}
+      loader={
+        <ProgressLoader
+          title={props.env.config.environment.loadingText || "Loading"}
+        />
+      }
       appFramework={appFramework}
     >
       <AppModuleLoader appKey={props.env?.config.environment.appKey} />
