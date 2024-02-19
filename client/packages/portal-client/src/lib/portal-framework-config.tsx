@@ -78,7 +78,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					},
 				],
 			});
-
 			builder.setPortalConfig({
 				portal: {
 					id: 'resource-allocation',

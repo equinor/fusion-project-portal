@@ -1,4 +1,4 @@
-import { GetPortalParameters, Portal, PortalConfig, PortalState } from './types';
+import { GetPortalParameters, Portal, PortalConfiguration, PortalState } from './types';
 import { Observable, Subscription, catchError, firstValueFrom } from 'rxjs';
 import { Query } from '@equinor/fusion-query';
 import { PortalLoadError } from './errors';
@@ -19,11 +19,11 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	// Private fields
 	#subscription = new Subscription();
 
-	#config: PortalConfig;
+	#config: PortalConfiguration;
 
 	#state: FlowSubject<PortalState, Actions>;
 
-	constructor(protected _config: PortalConfig) {
+	constructor(protected _config: PortalConfiguration) {
 		this.#config = _config;
 		this.#state = createState({ ..._config.portalConfig }, this);
 		this.initialize();

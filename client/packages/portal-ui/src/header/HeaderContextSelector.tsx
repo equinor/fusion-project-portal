@@ -18,11 +18,7 @@ export const TopBarContextSelector = () => {
 	if (!currentView) return null;
 	return (
 		<StyledWrapper>
-			<ContextSelector
-				path={`/${currentView.key}`}
-				variant={'header'}
-				navigate={shouldAddNavigate ? navigate : undefined}
-			/>
+			<ContextSelector variant={'header'} navigate={shouldAddNavigate ? navigate : undefined} />
 		</StyledWrapper>
 	);
 };

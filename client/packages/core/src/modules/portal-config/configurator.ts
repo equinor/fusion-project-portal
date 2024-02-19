@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 import { BaseConfigBuilder, ConfigBuilderCallbackArgs } from '@equinor/fusion-framework-module';
-import { IClient, Portal, PortalConfig, PortalRoutes, PortalState } from './types';
+import { IClient, Portal, PortalConfiguration, PortalRoutes, PortalState } from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
 export const createDefaultClient = (httpClient: IHttpClient): IClient => {
@@ -15,7 +15,7 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 	};
 };
 
-export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfig> {
+export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfiguration> {
 	public setConfig(config: { portalId: string; portalEnv: string }) {
 		this._set('base', () => config);
 	}
@@ -50,7 +50,7 @@ export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfig> {
 		}
 	}
 
-	protected override async _processConfig(config: Partial<PortalConfig>, _init: ConfigBuilderCallbackArgs) {
+	protected override async _processConfig(config: Partial<PortalConfiguration>, _init: ConfigBuilderCallbackArgs) {
 		const httpClient = await this._createHttpClient('portal-client', _init);
 
 		if (!config.base) {
@@ -64,6 +64,6 @@ export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfig> {
 			config.client = createDefaultClient(httpClient);
 		}
 
-		return config as PortalConfig;
+		return config as PortalConfiguration;
 	}
 }

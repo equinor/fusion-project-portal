@@ -17,7 +17,6 @@ type AppNotAwaitableProps = {
 
 export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 	const { appGroups, isLoading } = useApps();
-	const { currentView } = useViewController();
 
 	const navigate = useNavigate();
 
@@ -25,7 +24,7 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 		<PortalMessagePage title={`${name || 'Unknown'} is not available for the selected context`} type="Warning">
 			<div>
 				<ContextProvider>
-					<ContextSelector navigate={navigate} path={`/${currentView?.key}`} />
+					<ContextSelector navigate={navigate} />
 				</ContextProvider>
 				{!isLoading && appGroups && (
 					<div>

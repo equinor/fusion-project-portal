@@ -82,7 +82,7 @@ export type PortalState = {
 
 export type PortalStateInitial = Partial<Omit<PortalState, 'status'>>;
 
-export interface PortalConfig {
+export interface PortalConfiguration {
 	base: BaseConfig;
 	client: IClient;
 	portalConfig: PortalState;

@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
 				],
 			}),
 		],
-		assetsInclude: ['*.svg', '*.jpg', '*.jpeg'],
+		assetsInclude: ['*.svg', '*.jpg', '*.jpeg', '*.png'],
 		preview: { port: 3000 },
 		define: {
 			'process.env': {},

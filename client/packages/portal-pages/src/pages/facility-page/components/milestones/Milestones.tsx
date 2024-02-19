@@ -1,12 +1,13 @@
 import { EdsProvider, Table, Typography } from '@equinor/eds-core-react';
 import { DateTime } from 'luxon';
-import { StyledCardWrapper, StyledContent, StyledHeader } from '../project-cards/styles';
+
 import { LoadingSkeleton } from './LoadingSection';
 import { useMilestoneQuery } from './use-presence-query';
 import { css } from '@emotion/css';
 import { Message } from '@portal/ui';
 import { sortByDate, sortMilestones } from './utils';
 import { useMemo } from 'react';
+import { StyledCardWrapper, StyledContent, StyledHeader } from '../../../project-page/components/project-cards/styles';
 
 function verifyDate(date?: string | null): string {
 	return new Date(date || '').toString() !== 'Invalid Date'
