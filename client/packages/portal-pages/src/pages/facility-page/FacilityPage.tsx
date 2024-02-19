@@ -1,6 +1,6 @@
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
-import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { FacilityHeader } from './components/FacilityHeader';
 import styled from 'styled-components';
@@ -87,6 +87,7 @@ const SEARCH_PARM_TAB = 'tab';
 
 export const FacilityPage = () => {
 	const { contextId } = useParams();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [searchParams, setSearchparams] = useSearchParams();
 
 	// const { feature } = useFrameworkFeature('cc-tab');

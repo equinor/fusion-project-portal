@@ -2,7 +2,7 @@ import { Button } from '@equinor/eds-core-react';
 
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getContextPageURL, getPathUrl } from '../utils';
+import { getContextPageURL } from '../utils';
 import { ContextSelector } from './ContextSelector';
 import { useOnboardedContexts } from '../hooks/use-onboarded-contexts';
 

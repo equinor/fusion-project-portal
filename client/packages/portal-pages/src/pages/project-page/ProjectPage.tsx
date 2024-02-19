@@ -1,6 +1,6 @@
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
-import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { OneEquinorLink } from './components/one-equinor-link/OneEquinorLink';
 import { ProjectDirector } from './components/project-director/ProjectDirector';

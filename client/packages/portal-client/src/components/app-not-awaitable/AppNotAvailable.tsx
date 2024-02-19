@@ -1,6 +1,6 @@
 import { GroupWrapper, PortalMessagePage } from '@equinor/portal-ui';
 import { useNavigate } from 'react-router-dom';
-import { ContextProvider, ContextSelector, useViewController } from '@equinor/portal-core';
+import { ContextProvider, ContextSelector } from '@equinor/portal-core';
 
 import { css } from '@emotion/css';
 import { useApps } from '@portal/core';
