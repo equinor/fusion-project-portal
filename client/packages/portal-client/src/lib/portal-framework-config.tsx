@@ -41,10 +41,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
 		}
-		config.configureHttpClient('cc-api', {
-			baseUri: 'https://backend-fusion-data-gateway-test.radix.equinor.com',
-			defaultScopes: ['api://ed6de162-dd30-4757-95eb-0ffc8d34fbe0/access_as_user'],
-		});
 
 		addPortalClient(config, portalConfig.portalClient.client);
 
@@ -152,6 +148,25 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				}
 			})(),
 			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
+		});
+
+		config.configureHttpClient('cc-api', {
+			baseUri: ((): string => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FPRD':
+						return 'https://backend-fusion-data-gateway-prod.radix.equinor.com';
+					default:
+						return 'https://backend-fusion-data-gateway-test.radix.equinor.com';
+				}
+			})(),
+			defaultScopes: ((): string[] => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FPRD':
+						return ['api://5b5025d2-182d-4f10-baf9-1960a2c03733/access_as_user'];
+					default:
+						return ['api://ed6de162-dd30-4757-95eb-0ffc8d34fbe0/access_as_user'];
+				}
+			})(),
 		});
 
 		if (showInfo) {
