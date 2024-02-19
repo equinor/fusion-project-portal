@@ -1,13 +1,13 @@
 import { createContext } from 'react';
 import { Observable } from 'rxjs';
-import { View } from '@portal/types';
+import { Portal } from '@portal/types';
 
 type ViewController = {
 	setViewId: (viewId: string | undefined) => void;
 	getId: () => string | undefined;
 	currentViewKey$: Observable<string | undefined>;
-	currentView: View | undefined;
-	views: View[];
+	currentView: Portal | undefined;
+	views: Portal[];
 	isLoading: boolean;
 };
 

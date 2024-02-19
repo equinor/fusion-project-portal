@@ -1,6 +1,6 @@
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 
-export type View = {
+export type Portal = {
 	id: string;
 	icon?: string;
 	name: string;
@@ -10,7 +10,7 @@ export type View = {
 	appGroups: AppGroup[];
 	key: string;
 	isDefault: boolean;
-	contextType: ContextType[];
+	contexts?: ContextType[];
 };
 
 export interface App {
@@ -40,4 +40,4 @@ export interface FusionAppGroup {
 	apps: FusionAppManifest[];
 }
 
-export type ContextType = 'Facility' | 'ProjectMaster' | 'Contract';
+export type ContextType = { type: 'Facility' } | { type: 'ProjectMaster' };

@@ -12,7 +12,7 @@ import { User } from './components/user/UserCard';
 import { InfoBox } from './components/InfoBox/InfoBox';
 
 import { ConstructionAndCommissioningData } from './ConstructionAndCommissioningData';
-import { Overview } from './Overvirew';
+import { Overview } from './Overview';
 import { AllApps } from './AllApps';
 import { useEffect, useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
@@ -124,10 +124,6 @@ export const ProjectPage = () => {
 		!contextId?.match(/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/)
 	) {
 		return null;
-	}
-
-	if (currentContext.type.id !== 'ProjectMaster') {
-		return <Navigate to="/" />;
 	}
 
 	return (

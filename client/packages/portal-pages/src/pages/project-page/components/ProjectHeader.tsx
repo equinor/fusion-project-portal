@@ -68,7 +68,13 @@ export const ProjectHeader = () => {
 	const { data } = useCurrentUser();
 
 	return (
-		<StyledBackgroundWrapper imageURL={getBackgroundURL(currentContext?.value?.facilities[0])}>
+		<StyledBackgroundWrapper
+			imageURL={getBackgroundURL(
+				currentContext?.value?.facilities && currentContext.value.facilities.length > 0
+					? currentContext?.value?.facilities[0]
+					: ''
+			)}
+		>
 			<StyledHeader className={styles.headerTitle}>
 				<Typography variant="h1">{currentContext?.title}</Typography>
 				<Typography variant="h6">

@@ -1,12 +1,12 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { View } from '@portal/types';
+import { Portal } from '@portal/types';
 
 /** Get menu items based on current view id */
 export async function getViewById(
 	client: IHttpClient,
 	viewId?: string,
 	contextExternalId?: string
-): Promise<View | undefined> {
+): Promise<Portal | undefined> {
 	try {
 		if (!viewId) return undefined;
 		let uri = `/api/work-surfaces/${viewId}`;
@@ -17,7 +17,7 @@ export async function getViewById(
 
 		const res = await client.fetch(uri);
 		if (!res.ok) throw res;
-		const data = (await res.json()) as View;
+		const data = (await res.json()) as Portal;
 		return data;
 	} catch (error) {
 		console.error(error);

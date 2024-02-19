@@ -2,7 +2,7 @@ import { Button } from '@equinor/eds-core-react';
 
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getPathUrl } from '../utils';
+import { getContextPageURL, getPathUrl } from '../utils';
 import { ContextSelector } from './ContextSelector';
 import { useOnboardedContexts } from '../hooks/use-onboarded-contexts';
 
@@ -34,28 +34,23 @@ const StyledActionWrapper = styled.div`
 	min-width: 120px;
 `;
 
-type PortalContextSelectorProps = {
-	path: string;
-	title: string;
-};
-
-export const PortalContextSelector = ({ path, title }: PortalContextSelectorProps) => {
+export const PortalContextSelector = () => {
 	const { hasContext, currentContext } = useOnboardedContexts();
 
 	const navigate = useNavigate();
 
 	return (
 		<StyledWrapper>
-			<ContextSelector path={path} navigate={navigate} />
+			<ContextSelector />
 			<StyledActionWrapper>
 				{currentContext && hasContext && (
 					<StyledButton
 						variant="ghost"
 						onClick={() => {
-							navigate(getPathUrl(path, currentContext?.id));
+							navigate(getContextPageURL(currentContext));
 						}}
 					>
-						Go to {title.toLowerCase()}
+						Go to {currentContext.title}
 					</StyledButton>
 				)}
 			</StyledActionWrapper>

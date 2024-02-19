@@ -5,6 +5,7 @@ import tsconfig from 'vite-tsconfig-paths';
 
 import env from 'vite-plugin-environment';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import http from 'https';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -48,6 +49,13 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		server: {
+			proxy: {
+				'/bundles/apps/resource-allocation-landingpage/resources/images/header1.png': {
+					target: 'https://webserver-fusion-project-portal-test.radix.equinor.com/bundles/apps/resource-allocation-landingpage/resources/images/header1.png',
+					changeOrigin: true,
+					secure: false,
+				},
+			},
 			port: 3000,
 			host: true,
 		},

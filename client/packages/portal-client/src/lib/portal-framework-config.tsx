@@ -15,6 +15,7 @@ import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
+import { enablePortalConfig } from '@portal/core';
 
 const showInfo = false;
 
@@ -32,6 +33,66 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
+
+		enablePortalConfig(config, (builder) => {
+			builder.setConfig({
+				portalId: '5b43c3fd-77e3-4072-0aa1-08db310ee26d', // Todo: add form webserver config
+				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
+			});
+			builder.setRoutes({
+				root: {
+					pageKey: 'project-portal',
+				},
+				routes: [
+					{
+						path: 'project/*',
+						pageKey: 'project',
+						messages: {
+							errorMessage: 'Fail to load project page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load project page',
+								},
+								path: ':contextId',
+								pageKey: 'project',
+							},
+						],
+					},
+					{
+						path: 'facility/*',
+						pageKey: 'facility',
+						messages: {
+							errorMessage: 'Fail to load facility page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load facility page',
+								},
+								path: ':contextId',
+								pageKey: 'facility',
+							},
+						],
+					},
+				],
+			});
+
+			builder.setPortalConfig({
+				portal: {
+					id: 'resource-allocation',
+					name: 'Resource allocation',
+				},
+				routes: {
+					root: {
+						pageKey: 'resource-allocation-landingpage',
+					},
+					routes: [],
+				},
+			});
+		});
+
 		enableContext(config);
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 

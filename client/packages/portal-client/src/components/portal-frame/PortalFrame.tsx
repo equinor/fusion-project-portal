@@ -8,9 +8,9 @@ import { MenuGroups } from '../portal-menu/PortalMenu';
 import { PortalSideSheet } from '../portal-side-sheet';
 import { useBookmarkNavigate } from '@equinor/fusion-framework-react-module-bookmark/portal';
 import { BookmarkProvider } from '@equinor/fusion-framework-react-components-bookmark';
-import { HasContext } from '../context/HasContext';
 import { css } from '@emotion/css';
 import { ServiceMessageFilter } from '../service-message-filter/ServiceMessageFilter';
+import { ContextNotAvailableDialog } from '@portal/core';
 
 const style = css`
 	width: 100vw;
@@ -38,7 +38,7 @@ export const PortalFrame = () => {
 										<ServiceMessageFilter />
 										<MainHeader />
 										<MenuGroups />
-										<HasContext />
+										<ContextNotAvailableDialog allowAllContext={false} />
 										<Outlet />
 									</section>
 								</MenuProvider>

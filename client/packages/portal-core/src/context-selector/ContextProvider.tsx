@@ -9,7 +9,7 @@ interface PortalContextProviderProps {
 
 export const ContextProvider = ({ children }: PortalContextProviderProps) => {
 	const { currentView } = useViewController();
-	const resolver = useContextResolver(currentView?.contextType || ['ProjectMaster']);
+	const resolver = useContextResolver(currentView?.contexts?.map((context) => context.type) || ['ProjectMaster']);
 
 	return <FusionContextProvider resolver={resolver}>{children}</FusionContextProvider>;
 };
