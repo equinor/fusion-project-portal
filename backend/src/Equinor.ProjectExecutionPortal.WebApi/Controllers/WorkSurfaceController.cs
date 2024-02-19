@@ -208,50 +208,46 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
-        [HttpDelete("{workSurfaceId:guid}/contexts/{contextExternalId}/apps/{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
+        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
             var request = new ApiRemoveWorkSurfaceAppRequest();
 
-            if (contextExternalId != null)
+            try
             {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-                if (context == null || context.ExternalId == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
-
-                try
-                {
-                    await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
-                }
-                catch (NotFoundException ex)
-                {
-                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
-                }
-                catch (Exception)
-                {
-                    return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
-                }
+                await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
             }
-            else
+            catch (NotFoundException ex)
             {
-                try
-                {
-                    await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
-                }
-                catch (NotFoundException ex)
-                {
-                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
-                }
-                catch (Exception)
-                {
-                    return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
-                }
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("{workSurfaceId:guid}/contexts/{contextId:guid}/apps/{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, Guid contextId, [FromRoute] string appKey)
+        {
+            // TODO: Removing global should come with a warning. E.g highlight affected contexts
+            var request = new ApiRemoveWorkSurfaceAppRequest();
+
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, contextId, appKey));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
             }
 
             return Ok();
