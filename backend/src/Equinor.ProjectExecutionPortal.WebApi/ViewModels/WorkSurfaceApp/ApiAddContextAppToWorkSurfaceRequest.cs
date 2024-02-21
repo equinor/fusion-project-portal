@@ -7,9 +7,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
     {
         public string AppKey { get; set; } = null!;
 
-        public AddContextAppToWorkSurfaceCommand ToCommand(Guid workSurfaceId, string contextExternalId)
+        public AddContextAppToWorkSurfaceCommand ToCommand(Guid workSurfaceId, Guid contextId)
         {
-            return new AddContextAppToWorkSurfaceCommand(workSurfaceId, contextExternalId, AppKey);
+            return new AddContextAppToWorkSurfaceCommand(workSurfaceId, contextId, AppKey);
         }
 
         public class ApiAddContextAppToWorkSurfaceRequestValidator : AbstractValidator<ApiAddContextAppToWorkSurfaceRequest>

@@ -10,6 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int AppKeyLengthMax = 200;
+    private readonly List<ContextType> _contextTypes = new();
 
     public OnboardedApp(string appKey, int order, bool isLegacy)
     {
@@ -37,9 +38,26 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     public Guid AppGroupId { get; set; }
     public AppGroup AppGroup { get; set; }
 
+    public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
+
     public void Update(bool isLegacy, Guid appGroupId)
     {
         IsLegacy = isLegacy;
         AppGroupId = appGroupId;
+    }
+
+    public void AddContextTypes(IList<ContextType> contextTypes)
+    {
+        _contextTypes.Clear();
+        _contextTypes.AddRange(contextTypes);
+    }
+    public void AddContextType(ContextType contextType)
+    {
+        _contextTypes.Add(contextType);
+    }
+
+    public void RemoveContextType(ContextType contextType)
+    {
+        _contextTypes.Remove(contextType);
     }
 }
