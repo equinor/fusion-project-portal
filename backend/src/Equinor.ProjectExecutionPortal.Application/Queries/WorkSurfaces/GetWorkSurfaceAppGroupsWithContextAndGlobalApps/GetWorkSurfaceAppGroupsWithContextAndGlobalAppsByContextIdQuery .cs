@@ -2,11 +2,13 @@
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextService;
 using Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
 
@@ -42,6 +44,11 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery : Q
         public async Task<IList<WorkSurfaceAppGroupWithAppsDto>?> Handle(GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery request, CancellationToken cancellationToken)
         {
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
+
+            if (fusionContext == null)
+            {
+                throw new InvalidActionException($"Invalid context-id: {request.ContextId}");
+            }
 
             var workSurface = await _readWriteContext.Set<WorkSurface>()
                 .AsNoTracking()

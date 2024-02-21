@@ -1,9 +1,9 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -121,6 +121,56 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             catch (Exception)
             {
                 return FusionApiError.InvalidOperation("500", "An error occurred while reordering onboarded apps");
+            }
+
+            return Ok();
+        }
+
+        //ContextTypes
+        [HttpPost("{appKey}/context-type")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult<Guid>> AddContextType([FromRoute] string appKey, [FromBody] ApiAddContextTypeToOnboardedAppRequest request)
+        {
+            try
+            {
+                await Mediator.Send(request.ToCommand(appKey));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding context-type");
+            }
+
+            return Ok();
+        }
+        
+        [HttpDelete("{appKey}/context-type/{contextType}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult> RemoveContextType([FromRoute] string appKey, [FromRoute] string contextType)
+        {
+            var request = new ApiRemoveOnboardedAppContextType();
+            try
+            {
+                await Mediator.Send(request.ToCommand(appKey, contextType));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("500", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing context-type");
             }
 
             return Ok();
