@@ -11,7 +11,7 @@ export const FeatureTogglerPortal = (props: { onClick: (feature: IFeatureFlag) =
 
 	return (
 		<Styled.SwitchList>
-			{features ? (
+			{features.length > 0 ? (
 				features.map((feature) => (
 					<Styled.SwitchListItem
 						key={`feat-${feature.key}`}
@@ -29,7 +29,7 @@ export const FeatureTogglerPortal = (props: { onClick: (feature: IFeatureFlag) =
 				))
 			) : (
 				<Styled.NoContent>
-					<Message type="NoContent" title="There is no portal features"></Message>
+					<Message type="NoContent" title="There are no portal features"></Message>
 				</Styled.NoContent>
 			)}
 		</Styled.SwitchList>
