@@ -24,14 +24,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok(onboardedContextsDto.Select(onboardedContextDto => new ApiOnboardedContext(onboardedContextDto)).ToList());
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] Guid id)
+        [HttpGet("{contextId:guid}")]
+        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContextByContextId([FromRoute] Guid contextId)
         {
-            var onboardedContext = await Mediator.Send(new GetOnboardedContextQuery(id));
+            var onboardedContext = await Mediator.Send(new GetOnboardedContextByContextIdQuery(contextId));
 
             if (onboardedContext == null)
             {
-                return FusionApiError.NotFound(id, "Could not find onboarded context");
+                return FusionApiError.NotFound(contextId, "Could not find onboarded context");
             }
 
             return Ok(new ApiOnboardedContext(onboardedContext));
