@@ -78,18 +78,18 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					},
 				],
 			});
-			builder.setPortalConfig({
-				portal: {
-					id: 'resource-allocation',
-					name: 'Resource allocation',
-				},
-				routes: {
-					root: {
-						pageKey: 'resource-allocation-landingpage',
-					},
-					routes: [],
-				},
-			});
+			// builder.setPortalConfig({
+			// 	portal: {
+			// 		id: 'resource-allocation',
+			// 		name: 'Resource allocation',
+			// 	},
+			// 	routes: {
+			// 		root: {
+			// 			pageKey: 'resource-allocation-landingpage',
+			// 		},
+			// 		routes: [],
+			// 	},
+			// });
 		});
 
 		enableContext(config);
