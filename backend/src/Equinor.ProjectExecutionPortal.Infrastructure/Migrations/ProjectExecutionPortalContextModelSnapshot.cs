@@ -22,6 +22,21 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ContextTypeOnboardedApp", b =>
+                {
+                    b.Property<Guid>("ContextTypesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OnboardedAppsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ContextTypesId", "OnboardedAppsId");
+
+                    b.HasIndex("OnboardedAppsId");
+
+                    b.ToTable("OnboardedAppContextTypes", (string)null);
+                });
+
             modelBuilder.Entity("ContextTypeWorkSurface", b =>
                 {
                     b.Property<Guid>("ContextTypesId")
@@ -323,6 +338,21 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasIndex("WorkSurfaceId");
 
                     b.ToTable("WorkSurfaceApps");
+                });
+
+            modelBuilder.Entity("ContextTypeOnboardedApp", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
+                        .WithMany()
+                        .HasForeignKey("ContextTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", null)
+                        .WithMany()
+                        .HasForeignKey("OnboardedAppsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ContextTypeWorkSurface", b =>

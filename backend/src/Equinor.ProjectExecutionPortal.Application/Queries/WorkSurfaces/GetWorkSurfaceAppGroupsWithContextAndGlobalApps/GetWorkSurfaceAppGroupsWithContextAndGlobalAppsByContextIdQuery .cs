@@ -1,48 +1,59 @@
 ﻿using AutoMapper;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Application.Services.ContextService;
 using Equinor.ProjectExecutionPortal.Application.Services.WorkSurfaceService;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
 
-public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>?>
+public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>?>
 {
-    public GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(Guid workSurfaceId, string? contextExternalId, string? contextType)
+    
+    public GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery(Guid workSurfaceId, Guid contextId)
     {
         WorkSurfaceId = workSurfaceId;
-        ContextExternalId = contextExternalId;
-        ContextType = contextType;
+        ContextId = contextId;
     }
 
     public Guid WorkSurfaceId { get; }
-    public string? ContextExternalId { get; }
-    public string? ContextType { get; }
+    public Guid ContextId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>?>
+    public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery, IList<WorkSurfaceAppGroupWithAppsDto>?>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
         private readonly IWorkSurfaceService _workSurfaceService;
         private readonly IMapper _mapper;
+        private readonly IContextService _contextService;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService, IWorkSurfaceService workSurfaceService, IMapper mapper)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IWorkSurfaceService workSurfaceService, IMapper mapper, IContextService contextService)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
             _workSurfaceService = workSurfaceService;
             _mapper = mapper;
+            _contextService = contextService;
         }
 
-        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>?> Handle(GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<WorkSurfaceAppGroupWithAppsDto>?> Handle(GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery request, CancellationToken cancellationToken)
         {
+            var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
+
+            if (fusionContext == null)
+            {
+                throw new InvalidActionException($"Invalid context-id: {request.ContextId}");
+            }
+
             var workSurface = await _readWriteContext.Set<WorkSurface>()
                 .AsNoTracking()
-                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || 
-                                                                      (app.OnboardedContext.ExternalId == request.ContextExternalId && app.OnboardedContext.Type == request.ContextType)))
+                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null ||
+                                                                      (app.OnboardedContext.ExternalId == fusionContext.ExternalId && app.OnboardedContext.Type == fusionContext.Type.Name)))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);

@@ -6,6 +6,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
     public class ApiOnboardContextRequest
     {
         public string ExternalId { get; set; } = null!;
+        public string Type { get; set; } = null!;
         public string? Description { get; set; }
 
         public OnboardContextCommand ToCommand(string externalId, string type)
@@ -21,6 +22,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
                     .NotEmpty()
                     .NotContainScriptTag()
                     .WithMessage("External Id is required");
+
+                RuleFor(x => x.Type)
+                    .NotEmpty()
+                    .NotContainScriptTag()
+                    .WithMessage("Context type is required");
             }
         }
     }

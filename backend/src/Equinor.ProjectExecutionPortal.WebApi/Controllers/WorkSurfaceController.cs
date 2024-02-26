@@ -109,23 +109,46 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         // Apps
 
         [HttpGet("{workSurfaceId:guid}/apps")]
-        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string? contextExternalId)
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId)
         {
-            if (contextExternalId != null)
-            {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
 
-                if (context == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
+
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
             }
 
-            var appGroupsDto = contextExternalId != null ?
-                await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId)) :
-                await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
+            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+        }
+
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/type/{contextType}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
+        {
+            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
+            var fusionContextType = FusionContextType.Resolve(contextType);
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, fusionContextType);
+
+            if (context == null)
+            {
+                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id and type");
+            }
+
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(workSurfaceId, contextExternalId, contextType));
+
+            if (appGroupsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
+            }
+
+            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+        }
+
+        [HttpGet("{workSurfaceId:guid}/context/{contextId:guid}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] Guid contextId)
+        {
+
+            var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery(workSurfaceId, contextId));
 
             if (appGroupsDto == null)
             {
@@ -159,21 +182,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{workSurfaceId:guid}/contexts/{contextExternalId}/apps")]
+        [HttpPost("{workSurfaceId:guid}/contexts/{contextId}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, string contextExternalId, [FromBody] ApiAddContextAppToWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid workSurfaceId, Guid contextId, [FromBody] ApiAddContextAppToWorkSurfaceRequest request)
         {
-            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-            if (context == null || context.ExternalId == null)
-            {
-                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-            }
 
             try
             {
-                await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId));
+                await Mediator.Send(request.ToCommand(workSurfaceId, contextId));
             }
             catch (NotFoundException ex)
             {
@@ -192,50 +208,46 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpDelete("{workSurfaceId:guid}/apps/{appKey}")]
-        [HttpDelete("{workSurfaceId:guid}/contexts/{contextExternalId}/apps/{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, string? contextExternalId, [FromRoute] string appKey)
+        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
             var request = new ApiRemoveWorkSurfaceAppRequest();
 
-            if (contextExternalId != null)
+            try
             {
-                var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-                var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
-
-                if (context == null || context.ExternalId == null)
-                {
-                    return FusionApiError.NotFound(contextExternalId, "Could not find context by external id");
-                }
-
-                try
-                {
-                    await Mediator.Send(request.ToCommand(workSurfaceId, context.ExternalId, appKey));
-                }
-                catch (NotFoundException ex)
-                {
-                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
-                }
-                catch (Exception)
-                {
-                    return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
-                }
+                await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
             }
-            else
+            catch (NotFoundException ex)
             {
-                try
-                {
-                    await Mediator.Send(request.ToCommand(workSurfaceId, appKey));
-                }
-                catch (NotFoundException ex)
-                {
-                    return FusionApiError.NotFound(workSurfaceId, ex.Message);
-                }
-                catch (Exception)
-                {
-                    return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
-                }
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("{workSurfaceId:guid}/contexts/{contextId:guid}/apps/{appKey}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid workSurfaceId, Guid contextId, [FromRoute] string appKey)
+        {
+            // TODO: Removing global should come with a warning. E.g highlight affected contexts
+            var request = new ApiRemoveWorkSurfaceAppRequest();
+
+            try
+            {
+                await Mediator.Send(request.ToCommand(workSurfaceId, contextId, appKey));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(workSurfaceId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing work surface app");
             }
 
             return Ok();

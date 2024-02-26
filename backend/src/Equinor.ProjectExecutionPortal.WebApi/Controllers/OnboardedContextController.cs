@@ -7,6 +7,7 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Fusion.Infrastructure.HttpClientNames;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -23,10 +24,23 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok(onboardedContextsDto.Select(onboardedContextDto => new ApiOnboardedContext(onboardedContextDto)).ToList());
         }
 
-        [HttpGet("{contextExternalId}")]
-        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string contextExternalId)
+        [HttpGet("{contextId:guid}")]
+        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContextByContextId([FromRoute] Guid contextId)
         {
-            var onboardedContext = await Mediator.Send(new GetOnboardedContextQuery(contextExternalId));
+            var onboardedContext = await Mediator.Send(new GetOnboardedContextByContextIdQuery(contextId));
+
+            if (onboardedContext == null)
+            {
+                return FusionApiError.NotFound(contextId, "Could not find onboarded context");
+            }
+
+            return Ok(new ApiOnboardedContext(onboardedContext));
+        }
+
+        [HttpGet("{contextExternalId}/type{type}")]
+        public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string contextExternalId, string type)
+        {
+            var onboardedContext = await Mediator.Send(new GetOnboardedContextByExternalIdContextTypeQuery(contextExternalId, type));
 
             if (onboardedContext == null)
             {
@@ -41,11 +55,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
-            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, FusionContextType.ProjectMaster);
+
+            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, request.Type);
 
             if (context == null || context.ExternalId == null)
             {
-                return FusionApiError.NotFound(request.ExternalId, "Could not find any context with that external id");
+                return FusionApiError.NotFound(request.ExternalId, "Could not find any context with that external id and context-type");
             }
 
             try
@@ -64,17 +79,17 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut("{contextExternalId}")]
+        [HttpPut("{id:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] string contextExternalId, [FromBody] ApiUpdateOnboardedContextRequest request)
+        public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] Guid id, [FromBody] ApiUpdateOnboardedContextRequest request)
         {
             try
             {
-                await Mediator.Send(request.ToCommand(contextExternalId));
+                await Mediator.Send(request.ToCommand(id));
             }
             catch (NotFoundException ex)
             {
-                return FusionApiError.NotFound(contextExternalId, ex.Message);
+                return FusionApiError.NotFound(id, ex.Message);
             }
             catch (Exception)
             {
@@ -84,11 +99,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{contextExternalId}")]
+        [HttpDelete("{id:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult> RemoveOnboardedContext([FromRoute] string contextExternalId)
+        public async Task<ActionResult> RemoveOnboardedContext([FromRoute] Guid id)
         {
-            var request = new ApiRemoveOnboardedContextRequest { ExternalId = contextExternalId };
+            var request = new ApiRemoveOnboardedContextRequest { Id = id };
 
             try
             {
@@ -96,7 +111,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (NotFoundException ex)
             {
-                return FusionApiError.NotFound(contextExternalId, ex.Message);
+                return FusionApiError.NotFound(id, ex.Message);
             }
             catch (InvalidActionException ex)
             {

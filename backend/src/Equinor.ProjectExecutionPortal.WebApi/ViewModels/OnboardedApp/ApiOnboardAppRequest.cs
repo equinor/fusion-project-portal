@@ -8,10 +8,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         public string AppKey { get; set; } = null!;
         public bool IsLegacy { get; set; }
         public Guid AppGroupId { get; set; }
+        public IList<string>? ContextTypes { get; set; }
 
         public OnboardAppCommand ToCommand()
         {
-            return new OnboardAppCommand(AppKey, IsLegacy, AppGroupId);
+            return new OnboardAppCommand(AppKey, IsLegacy, AppGroupId, ContextTypes);
         }
 
         public class OnboardAppRequestalidator : AbstractValidator<ApiOnboardAppRequest>

@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -9,26 +10,30 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, bool isLegacy, Guid appGroupId)
+    public OnboardAppCommand(string appKey, bool isLegacy, Guid appGroupId, IList<string> contextTypes)
     {
         AppKey = appKey;
         IsLegacy = isLegacy;
         AppGroupId = appGroupId;
+        ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
     public bool IsLegacy { get; }
     public Guid AppGroupId { get; }
+    public IList<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
+        private readonly IContextTypeService _contextTypeService;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IContextTypeService contextTypeService)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
+            _contextTypeService = contextTypeService;
         }
 
         public async Task<Guid> Handle(OnboardAppCommand command, CancellationToken cancellationToken)
@@ -59,6 +64,8 @@ public class OnboardAppCommand : IRequest<Guid>
             var onboardedAppsCount = appGroup.Apps.Count;
 
             var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount, command.IsLegacy);
+
+            onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
             appGroup.AddApp(onboardedApp);
 
