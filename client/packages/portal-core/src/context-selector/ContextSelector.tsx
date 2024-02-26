@@ -1,4 +1,4 @@
-import FusionContextSelector, { ContextResult } from '@equinor/fusion-react-context-selector';
+import FusionContextSelector, { ContextResult, ContextSelectEvent } from '@equinor/fusion-react-context-selector';
 import { NavigateFunction } from 'react-router-dom';
 import { useFrameworkContext } from '../hooks';
 import { getContextPageURL } from '../utils';
@@ -19,9 +19,12 @@ export const ContextSelector = ({ variant }: ContextSelectorProps) => {
 	const { currentContext } = useOnboardedContexts();
 
 	useEffect(() => {
+		//TODO: this should be configurable!
 		modules.event.addEventListener('onCurrentContextChanged', (event) => {
 			const url = new URL(getContextPageURL(event.detail.next), location.origin);
-			if (location.href !== url.href) modules.navigation.replace(url);
+
+			// Do not navigate if we are on a application route
+			if (location.href !== url.href && !location.href.includes('apps/')) modules.navigation.replace(url);
 		});
 	}, []);
 
@@ -29,10 +32,9 @@ export const ContextSelector = ({ variant }: ContextSelectorProps) => {
 		<FusionContextSelector
 			id="context-selector"
 			variant={variant}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			onSelect={(e: any) => {
+			onSelect={(e: ContextSelectEvent) => {
 				e.stopPropagation();
-
+				// sins this is a single select the will be the next context at index 0
 				const context = (e.nativeEvent.detail.selected as ContextResult)[0];
 				contextProvider.contextClient.setCurrentContext(context.id);
 			}}

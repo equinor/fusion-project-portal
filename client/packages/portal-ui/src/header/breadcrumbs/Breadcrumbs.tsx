@@ -22,6 +22,7 @@ export const Breadcrumbs = () => {
 
 	return (
 		<StyledBreadcrumbs>
+			<StyledBreadcrumbItem> </StyledBreadcrumbItem>
 			{context && location.pathname !== '/' && (
 				<StyledBreadcrumbItemInteract
 					onClick={() => {
@@ -39,6 +40,7 @@ export const Breadcrumbs = () => {
 					setMenuOpen={setAppSelectorOpen}
 				/>
 			)}
+
 			<StyledBreadcrumbItem></StyledBreadcrumbItem>
 		</StyledBreadcrumbs>
 	);
