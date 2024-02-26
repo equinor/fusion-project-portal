@@ -3,6 +3,7 @@ import { AppGroup } from '@portal/components';
 import { useFavorites } from '@portal/core';
 
 import { ProgressLoader } from '@equinor/portal-ui';
+import { useTelemetry } from '@equinor/portal-core';
 
 const Styles = {
 	Wrapper: styled.div`
@@ -28,7 +29,7 @@ const Styles = {
 
 export const AllApps = () => {
 	const { addFavorite, appGroups, isLoading } = useFavorites();
-
+	const { dispatchEvent } = useTelemetry();
 	// Todo Create skeletons for loading
 	if (isLoading) {
 		return (
@@ -42,7 +43,28 @@ export const AllApps = () => {
 			{appGroups &&
 				appGroups.map((appGroup) => (
 					<div key={appGroup.name}>
-						<AppGroup dark={true} group={appGroup} onFavorite={(app) => addFavorite(app.key)} />
+						<AppGroup
+							dark={true}
+							group={appGroup}
+							onClick={(app, e) => {
+								if (app.isDisabled) {
+									e.preventDefault();
+									return;
+								}
+								dispatchEvent(
+									{
+										name: 'onAppNavigation',
+									},
+
+									{
+										appKey: app.key,
+										isFavorite: app.isPinned,
+										source: 'app-menu',
+									}
+								);
+							}}
+							onFavorite={(app) => addFavorite(app.key)}
+						/>
 					</div>
 				))}
 		</Styles.Wrapper>

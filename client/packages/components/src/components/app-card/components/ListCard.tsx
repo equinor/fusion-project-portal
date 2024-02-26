@@ -51,7 +51,7 @@ export const Styled = {
 
 type ListCardProps = {
 	app: Partial<FusionAppManifest>;
-	onClick?: (app: Partial<FusionAppManifest>) => void;
+	onClick?: (app: Partial<FusionAppManifest>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 	onFavorite?: (key: Partial<FusionAppManifest>) => void;
 	loading?: boolean;
 	dark?: boolean;
@@ -68,7 +68,7 @@ export const ListCard = ({ app, onClick, loading, pinButton, dark, onFavorite }:
 			<Styled.Item
 				to={app.isDisabled ? '#' : app.url || `/apps/${app.key}/`}
 				style={getAppCardColor(app)}
-				onClick={() => onClick && onClick(app)}
+				onClick={(e) => onClick && onClick(app, e)}
 			>
 				<Styled.Content $loading={loading}>
 					<AppIconContainer loading={loading} display="item" app={app} />

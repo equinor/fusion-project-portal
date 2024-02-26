@@ -2,7 +2,7 @@ import { Search, Switch } from '@equinor/eds-core-react';
 import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
 import { customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/utils';
 
-import { useMenuContext } from '@equinor/portal-core';
+import { useMenuContext, useTelemetry } from '@equinor/portal-core';
 import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
 import { useState, useMemo } from 'react';
 import { css } from '@emotion/css';
@@ -59,6 +59,8 @@ const styles = {
 };
 
 export function MenuGroups() {
+	const { closeMenu } = useMenuContext();
+	const { dispatchEvent } = useTelemetry();
 	const { data, isLoading } = useAppGroupsQuery();
 	const { searchText, setSearchText } = useMenuContext();
 	const [activeItem, setActiveItem] = useState('All Apps');
@@ -153,6 +155,25 @@ export function MenuGroups() {
 														<AppGroup
 															dark={false}
 															group={appGroup}
+															onClick={(app, e) => {
+																if (app.isDisabled) {
+																	e.preventDefault();
+																	return;
+																}
+																dispatchEvent(
+																	{
+																		name: 'onAppNavigation',
+																	},
+
+																	{
+																		appKey: app.key,
+																		isFavorite: app.isPinned,
+																		source: 'app-menu',
+																	}
+																);
+
+																closeMenu();
+															}}
 															onFavorite={(app) => addFavorite(app.key)}
 														/>
 													</div>

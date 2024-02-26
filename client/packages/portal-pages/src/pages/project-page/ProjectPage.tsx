@@ -17,6 +17,7 @@ import { AllApps } from './AllApps';
 import { useEffect, useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
+import { ProOrgLink } from './components/pro-org-link/ProOrgLink';
 
 type ProjectMaster = {
 	facilities: string[];
@@ -137,6 +138,7 @@ export const ProjectPage = () => {
 				<ProjectDirector />
 				<InfoBox />
 				<OneEquinorLink />
+				<ProOrgLink />
 			</Styles.Details>
 
 			<Styles.Content>
