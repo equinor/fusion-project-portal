@@ -1,5 +1,5 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
-import { enableAppModule } from '@equinor/fusion-framework-module-app';
+import { AppModule, enableAppModule } from '@equinor/fusion-framework-module-app';
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
@@ -14,6 +14,7 @@ import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
+import { FeatureLogger } from './feature-logger';
 
 const showInfo = false;
 
@@ -160,7 +161,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule]>(async (fusion) => {
+			new FeatureLogger(fusion);
+
 			// Todo: should be moved to context module
 			configurePortalContext(fusion.context);
 
