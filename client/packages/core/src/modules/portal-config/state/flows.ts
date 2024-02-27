@@ -25,12 +25,7 @@ export const handleFetchPortal =
 					share()
 				);
 				return concat(
-					subject.pipe(
-						map((portal) => {
-							console.log(portal);
-							return actions.setPortal(portal, update);
-						})
-					),
+					subject.pipe(map((portal) => actions.setPortal(portal, update))),
 					subject.pipe(
 						last(),
 						map((portal) => actions.fetchPortal.success(portal))
@@ -43,3 +38,37 @@ export const handleFetchPortal =
 				);
 			})
 		);
+
+// export const handleFetchPortalRoutes =
+// 	(provider: PortalConfigProvider): Flow<Actions, PortalState> =>
+// 	(action$) =>
+// 		action$.pipe(
+// 			filter(actions.fetchPortalRoutes.match),
+// 			switchMap((action) => {
+// 				const {
+// 					payload: { portalId },
+// 					meta: { update },
+// 				} = action;
+
+// 				const subject = from(provider.getPortalRoutesById$(portalId)).pipe(
+// 					filter((x) => !!x),
+// 					share()
+// 				);
+// 				return concat(
+// 					subject.pipe(
+// 						map((routes) => {
+// 							return actions.setPortalRoutes(routes, update);
+// 						})
+// 					),
+// 					subject.pipe(
+// 						last(),
+// 						map((routes) => actions.fetchPortalRoutes.success(routes))
+// 					)
+// 				).pipe(
+// 					catchError((err) => {
+// 						console.log(err, action.payload);
+// 						return of(actions.fetchPortalRoutes.failure(err));
+// 					})
+// 				);
+// 			})
+// 		);

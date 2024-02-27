@@ -1,5 +1,5 @@
-import { GetPortalParameters, Portal, PortalConfiguration, PortalState } from './types';
-import { Observable, Subscription, catchError, firstValueFrom } from 'rxjs';
+import { GetPortalParameters, Portal, PortalConfiguration, PortalRoutes, PortalState } from './types';
+import { Observable, OperatorFunction, Subscription, catchError, filter, firstValueFrom, map } from 'rxjs';
 import { Query } from '@equinor/fusion-query';
 import { PortalLoadError } from './errors';
 import { HttpResponseError } from '@equinor/fusion-framework-module-http';
@@ -10,12 +10,18 @@ import { createState } from './state/create-state';
 export interface IPortalConfigProvider {
 	getPortalById$(portalId: string): Observable<Portal>;
 	getPortalStateAsync(): Promise<PortalState>;
+	getPortalAsync(): Promise<Portal>;
+	getRoutesAsync(): Promise<PortalRoutes>;
 	initialize(): Promise<void>;
 	state: PortalState;
 	state$: Observable<PortalState>;
 }
 
-export class PortalConfigProvider implements IPortalConfigProvider {
+export function filterEmpty<T>(): OperatorFunction<T | null | undefined, T> {
+	return filter((value): value is T => value !== undefined && value !== null);
+}
+
+export class PortalConfigProvider {
 	// Private fields
 	#subscription = new Subscription();
 
@@ -29,27 +35,56 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		this.initialize();
 	}
 
+	get routes$(): Observable<PortalRoutes> {
+		return this.#state.pipe(
+			map(({ routes }) => routes),
+			filterEmpty()
+		);
+	}
+
+	get portal$(): Observable<Portal> {
+		return this.#state.pipe(
+			map(({ portal }) => portal),
+			filterEmpty()
+		);
+	}
+
 	get state(): PortalState {
 		return this.#state.value;
 	}
 
 	get state$(): Observable<PortalState> {
-		return this.#state.asObservable();
+		return this.#state.pipe(
+			map((state) => state),
+			filterEmpty()
+		);
 	}
 
 	public getPortalStateAsync = async (): Promise<PortalState> => {
-		return await firstValueFrom(this.#state.asObservable());
+		return await firstValueFrom(this.state$);
+	};
+
+	public getPortalAsync = async (): Promise<Portal> => {
+		return await firstValueFrom(this.portal$);
+	};
+
+	public getRoutesAsync = async (): Promise<PortalRoutes> => {
+		return await firstValueFrom(this.routes$);
 	};
 
 	public getPortalById$ = (portalId: string): Observable<Portal> => {
-		if (this.#config.portalConfig.portal) {
-			return new Observable((sub) => sub.next(this.#config.portalConfig.portal));
+		if (this.#state.value.portal) {
+			return new Observable((sub) => sub.next(this.#state.value.portal));
 		}
 		return this._getPortal({ portalId });
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public getPortalRoutesById$ = (_portalId?: string): Observable<PortalRoutes> => {
+		return new Observable((sub) => sub.next(this.#config.portalConfig.routes));
+	};
+
 	public async initialize(): Promise<void> {
-		this.#state.next(actions.fetchPortal(this.#config.base));
 		this.#state.next(actions.fetchPortal(this.#config.base));
 	}
 

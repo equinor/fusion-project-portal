@@ -1,5 +1,5 @@
 import { ActionInstanceMap, ActionTypes, createAction, createAsyncAction } from '@equinor/fusion-observable';
-import { Portal } from '../types';
+import { Portal, PortalRoutes } from '../types';
 
 const createActions = () => ({
 	/** Portal loading */
@@ -19,6 +19,14 @@ const createActions = () => ({
 		(portal: Portal) => ({ payload: portal }),
 		(error: unknown) => ({ payload: error })
 	),
+	/** Portal Routes */
+	setPortalRoutes: createAction('set_portal_routes', (routes: PortalRoutes, update?: boolean) => ({
+		payload: routes,
+		meta: {
+			created: Date.now(),
+			update,
+		},
+	})),
 });
 
 export const actions = createActions();

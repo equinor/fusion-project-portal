@@ -16,6 +16,7 @@ import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
 import { enablePortalConfig } from '@portal/core';
+import { PortalConfig as PortalConfigModule } from '@portal/core';
 
 const showInfo = false;
 
@@ -43,6 +44,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				root: {
 					pageKey: 'project-portal',
 				},
+
 				routes: [
 					{
 						path: 'project/*',
@@ -236,11 +238,17 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized<[NavigationModule, TelemetryModule, AppModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
 			new FeatureLogger(fusion);
 
 			// Todo: should be moved to context module
-			configurePortalContext(fusion.context);
+
+			fusion.portalConfig.state$.subscribe((state) => {
+				console.log('onInitialized', state);
+				if (state.portal.contexts) {
+					configurePortalContext(fusion.context);
+				}
+			});
 
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {

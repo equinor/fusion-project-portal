@@ -1,6 +1,10 @@
 import { AppManifest as FusionAppManifest } from '@equinor/fusion-framework-module-app';
 import { QueryCtorOptions } from '@equinor/fusion-query';
 
+/**
+ *  The portal state.
+ *
+ */
 export type Portal = {
 	id: string;
 	icon?: string;
@@ -8,6 +12,7 @@ export type Portal = {
 	shortName?: string;
 	subtext?: string;
 	contexts?: ContextType[];
+	apps?: AppManifest[];
 };
 
 export type PortalRoutes = {
@@ -26,10 +31,6 @@ export type PortalRoute = {
 
 export type PortalRouteWithChildren = PortalRoute & {
 	children: PortalRoute[];
-};
-
-export type Apps = {
-	appGroups: AppGroup[];
 };
 
 export type AppManifest = FusionAppManifest & { isPinned?: boolean; isDisabled?: boolean; url?: string };
@@ -73,7 +74,8 @@ export type PortalMenu = {
 export type PortalState = {
 	portal: Portal;
 	routes: PortalRoutes;
-	apps?: Apps;
+	appGroups?: AppGroup[];
+	apps?: AppManifest[];
 	error?: {
 		message: string;
 		type: string;

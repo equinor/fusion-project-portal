@@ -77,15 +77,23 @@ function PortalRouter({ routes }: { routes: RouteObject[] }) {
 }
 
 export function PortalProvider() {
-	const { data, isLoading } = usePortalConfig().query;
+	const { data: portalRoutes, isLoading: routesLoading } = usePortalConfig().queryRoutes;
+	const { data: portal, isLoading: portalLoading } = usePortalConfig().queryPortal;
 
-	if (isLoading) {
+	if (routesLoading || portalLoading) {
 		return <PortalProgressLoader title="Loading Portal Routes" />;
 	}
 
 	return (
 		<PeopleResolverProvider>
-			{data?.routes ? <PortalRouter routes={routes(data.routes)} /> : <h1>hello</h1>}
+			{portalRoutes ? (
+				<PortalRouter routes={routes(portalRoutes)} />
+			) : (
+				<>
+					<h1>Could not find configuration for {portal?.name}</h1>
+					<p>Portal could not be configured</p>
+				</>
+			)}
 		</PeopleResolverProvider>
 	);
 }

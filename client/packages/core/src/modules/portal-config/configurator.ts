@@ -8,7 +8,7 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 	return {
 		getPortal: {
 			client: {
-				fn: (args) => httpClient.json$(`/api/work-surfaces/${args.portalId}`),
+				fn: (args) => httpClient.json(`/api/work-surfaces/${args.portalId}`),
 			},
 			key: (args) => JSON.stringify(args),
 		},

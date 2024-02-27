@@ -9,9 +9,13 @@ export const usePortalConfig = () => {
 	const portal = useObservable(portalConfig.state$)?.portal;
 	return {
 		portal,
-		query: useQuery({
-			queryFn: async () => await portalConfig.getPortalStateAsync(),
+		queryRoutes: useQuery({
+			queryFn: async () => await portalConfig.getRoutesAsync(),
 			queryKey: ['portal-routes'],
+		}),
+		queryPortal: useQuery({
+			queryFn: async () => await portalConfig.getPortalAsync(),
+			queryKey: ['portal'],
 		}),
 	};
 };
