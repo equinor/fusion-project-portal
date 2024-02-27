@@ -13,7 +13,7 @@ import { InfoBox } from './components/InfoBox/InfoBox';
 
 import { ConstructionAndCommissioningData } from './ConstructionAndCommissioningData';
 import { Overview } from './Overview';
-import { AllApps } from './AllApps';
+import { AllApps } from '../sheared/components/AllApps';
 import { useEffect, useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';

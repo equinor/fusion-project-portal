@@ -10,10 +10,11 @@ import { User } from './components/user/UserCard';
 import { FacilityInfoBox } from './components/FacilityInfoBox/FacilityInfoBox';
 
 import { FacilityOverview } from './FacilityOverview';
-import { AllApps } from './AllApps';
+
 import { useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
 import { Facility } from './types';
+import { AllApps } from '../sheared/components/AllApps';
 
 export type ProjectMaster = {
 	facilities: string[];
