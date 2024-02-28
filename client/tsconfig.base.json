@@ -29,7 +29,7 @@
 			"@portal/components":["packages/components/src/index.ts"]
 		}
 	},
-	"include": ["dompurify.d.ts", "packages/**", "images.d.ts", "*.jpg"],
+	"include": ["dompurify.d.ts", "packages/**", "images.d.ts", "*.jpg", "*.png"],
   "typeRoots" : ["node_modules/@types", "src/types"],
-	"exclude": ["node_modules", "tmp", "dist", "@testing-library/jest-dom"]
+	"exclude": ["node_modules", "tmp", "dist", "@testing-library/jest-dom", ]
 }

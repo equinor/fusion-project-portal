@@ -87,6 +87,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 						key: 'new-menu',
 						title: 'New Portal Menu',
 						description: 'When enabled you will be able to tryout the new portal menu',
+						enabled: true,
 					},
 					{
 						key: 'cc-tab',
@@ -103,6 +104,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 						title: 'New App Search in Top bar',
 						description:
 							'When enabled you will be able to tryout the application search in the top-bar. When active hit F1 to start searching.',
+						enabled: true,
 					},
 				])
 			);
