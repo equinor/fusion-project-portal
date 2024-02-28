@@ -61,16 +61,9 @@ export const Styled = {
 		padding: ${tokens.spacings.comfortable.medium} ${tokens.spacings.comfortable.large};
 		border-top: 1.4px solid ${tokens.colors.interactive.disabled__border.hex};
 	`,
-	SingleButton: styled(Button)`
-		font-size: ${tokens.typography.heading.h4.fontSize};
-		font-weight: 400;
-		height: 50px;
-		padding-left: ${tokens.spacings.comfortable.x_large};
-		padding-right: ${tokens.spacings.comfortable.x_large};
-	`,
 };
 
-const NextButtonStyled = styled(Styled.SingleButton)`
+const NextButtonStyled = styled(Button)`
 	margin-left: auto;
 `;
 
@@ -99,9 +92,9 @@ export const WizardStep = (props: PropsWithChildren<WizardStepProps>): JSX.Eleme
 			<Styled.Image className={'wizard-' + id}></Styled.Image>
 			<Styled.Buttons>
 				{onBack && (
-					<Styled.SingleButton variant="outlined" onClick={onBack}>
+					<Button variant="outlined" onClick={onBack}>
 						{back ?? 'Back'}
-					</Styled.SingleButton>
+					</Button>
 				)}
 				{onNext && (
 					<NextButtonStyled variant="contained" onClick={onNext}>
