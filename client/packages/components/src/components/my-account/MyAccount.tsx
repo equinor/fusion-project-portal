@@ -69,8 +69,6 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 		return {
 			Profile: (
 				<>
-					<PresenceIndicator />
-					<hr />
 					<ProfileContactDetails user={user} isLoading={isLoading} />
 					<hr />
 					<ProfileManagerCard user={user} />
