@@ -83,7 +83,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			// builder.setPortalConfig({
 			// 	portal: {
 			// 		id: 'resource-allocation',
-			// 		name: 'Resource allocation',
+			// 		name: 'Resource Allocation',
 			// 	},
 			// 	routes: {
 			// 		root: {
@@ -244,8 +244,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			// Todo: should be moved to context module
 
 			fusion.portalConfig.state$.subscribe((state) => {
-				console.log('onInitialized', state);
-				if (state.portal.contexts) {
+				if (state?.portal?.contexts) {
 					configurePortalContext(fusion.context);
 				}
 			});
@@ -276,20 +275,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					navigator.replace(to);
 				}
 			});
-
-			if (showInfo) {
-				fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
-				console.debug('📒 subscribing to all events');
-
-				fusion.event.subscribe((e) => {
-					console.debug(`🔔🌍 [${e.type}]`, e);
-				});
-
-				console.debug('📒 subscribing to [onReactAppLoaded]');
-				fusion.event.addEventListener('onReactAppLoaded', (e) => {
-					console.debug('🔔 [onReactAppLoaded]', e);
-				});
-			}
 		});
 	};
 }

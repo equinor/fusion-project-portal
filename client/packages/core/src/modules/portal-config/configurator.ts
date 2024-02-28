@@ -12,6 +12,15 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 			},
 			key: (args) => JSON.stringify(args),
 		},
+		getApps: {
+			client: {
+				fn: (args) => {
+					if (!args.contextId) return [];
+					return httpClient.json(`/api/work-surfaces/${args.portalId}/context/${args.contextId}/apps`);
+				},
+			},
+			key: (args) => JSON.stringify(args),
+		},
 	};
 };
 

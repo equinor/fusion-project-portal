@@ -12,7 +12,22 @@ export type Portal = {
 	shortName?: string;
 	subtext?: string;
 	contexts?: ContextType[];
+};
+
+/**
+ *  The portal state.
+ *
+ */
+export type PortalRequest = {
+	id: string;
+	icon?: string;
+	name: string;
+	shortName?: string;
+	subtext?: string;
+	contexts?: ContextType[];
 	apps?: AppManifest[];
+	routes?: PortalRoutes;
+	extensions?: Extensions;
 };
 
 export type PortalRoutes = {
@@ -31,6 +46,14 @@ export type PortalRoute = {
 
 export type PortalRouteWithChildren = PortalRoute & {
 	children: PortalRoute[];
+};
+
+export type AppCategory = {
+	id?: string;
+	name: string | null;
+	color: string | null;
+	defaultIcon: string | null;
+	apps: AppManifest[];
 };
 
 export type AppManifest = FusionAppManifest & { isPinned?: boolean; isDisabled?: boolean; url?: string };
@@ -74,8 +97,8 @@ export type PortalMenu = {
 export type PortalState = {
 	portal: Portal;
 	routes: PortalRoutes;
-	appGroups?: AppGroup[];
 	apps?: AppManifest[];
+	extensions?: Extensions;
 	error?: {
 		message: string;
 		type: string;
@@ -99,6 +122,12 @@ export type GetPortalParameters = {
 	portalId: string;
 };
 
+export type GetAppsParameters = {
+	portalId: string;
+	contextId: string;
+};
+
 export type IClient = {
 	getPortal: QueryCtorOptions<Portal, GetPortalParameters>;
+	getApps: QueryCtorOptions<AppManifest[], GetAppsParameters>;
 };

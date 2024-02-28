@@ -1,4 +1,5 @@
-import { GroupWrapper, PortalMessagePage } from '@equinor/portal-ui';
+import { PortalMessagePage } from '@equinor/portal-ui';
+import { GroupWrapper } from '@portal/components';
 import { useNavigate } from 'react-router-dom';
 import { ContextProvider, ContextSelector } from '@equinor/portal-core';
 

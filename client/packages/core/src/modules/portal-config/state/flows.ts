@@ -39,36 +39,32 @@ export const handleFetchPortal =
 			})
 		);
 
-// export const handleFetchPortalRoutes =
-// 	(provider: PortalConfigProvider): Flow<Actions, PortalState> =>
-// 	(action$) =>
-// 		action$.pipe(
-// 			filter(actions.fetchPortalRoutes.match),
-// 			switchMap((action) => {
-// 				const {
-// 					payload: { portalId },
-// 					meta: { update },
-// 				} = action;
+export const handleFetchAppsByContext =
+	(provider: PortalConfigProvider): Flow<Actions, PortalState> =>
+	(action$) =>
+		action$.pipe(
+			filter(actions.fetchAppsByContextId.match),
+			switchMap((action) => {
+				const {
+					payload: { portalId, contextId },
+					meta: { update },
+				} = action;
 
-// 				const subject = from(provider.getPortalRoutesById$(portalId)).pipe(
-// 					filter((x) => !!x),
-// 					share()
-// 				);
-// 				return concat(
-// 					subject.pipe(
-// 						map((routes) => {
-// 							return actions.setPortalRoutes(routes, update);
-// 						})
-// 					),
-// 					subject.pipe(
-// 						last(),
-// 						map((routes) => actions.fetchPortalRoutes.success(routes))
-// 					)
-// 				).pipe(
-// 					catchError((err) => {
-// 						console.log(err, action.payload);
-// 						return of(actions.fetchPortalRoutes.failure(err));
-// 					})
-// 				);
-// 			})
-// 		);
+				const subject = from(provider.getAppsByContextId$(portalId, contextId)).pipe(
+					filter((x) => !!x),
+					share()
+				);
+				return concat(
+					subject.pipe(map((apps) => actions.setApps(apps, update))),
+					subject.pipe(
+						last(),
+						map((apps) => actions.fetchAppsByContextId.success(apps))
+					)
+				).pipe(
+					catchError((err) => {
+						console.log(err, action.payload);
+						return of(actions.fetchAppsByContextId.failure(err));
+					})
+				);
+			})
+		);

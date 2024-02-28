@@ -11,7 +11,7 @@ export const AppModuleLoader: FC<CurrentAppLoaderProps> = ({ appKey }) => {
   const LegacyLoader = useMemo(() => createLegacyAppLoader(appKey), [appKey]);
 
   return (
-    <Suspense fallback={<ProgressLoader title="Loading App" />}>
+    <Suspense fallback={<ProgressLoader title="Loading" />}>
       <LegacyLoader />
     </Suspense>
   );

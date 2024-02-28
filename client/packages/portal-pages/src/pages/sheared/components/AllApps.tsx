@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { AppGroup } from '@portal/components';
-import { useFavorites } from '@portal/core';
+import { appGroupArraySort, useFavorites } from '@portal/core';
 
 import { ProgressLoader } from '@equinor/portal-ui';
 import { useTelemetry } from '@equinor/portal-core';
@@ -41,7 +41,7 @@ export const AllApps = () => {
 	return (
 		<Styles.Wrapper>
 			{appGroups &&
-				appGroups.map((appGroup) => (
+				appGroups.sort(appGroupArraySort).map((appGroup) => (
 					<div key={appGroup.name}>
 						<AppGroup
 							dark={true}

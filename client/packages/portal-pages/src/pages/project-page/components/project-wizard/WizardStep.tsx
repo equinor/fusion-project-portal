@@ -64,11 +64,11 @@ export const Styled = {
 		border-top: 1.4px solid ${tokens.colors.interactive.disabled__border.hex};
 	`,
 	SingleButton: styled(Button)`
-		font-size: ${tokens.typography.heading.h4.fontSize};
+		/* font-size: ${tokens.typography.heading.h4.fontSize};
 		font-weight: 400;
 		height: 50px;
 		padding-left: ${tokens.spacings.comfortable.x_large};
-		padding-right: ${tokens.spacings.comfortable.x_large};
+		padding-right: ${tokens.spacings.comfortable.x_large}; */
 	`,
 };
 

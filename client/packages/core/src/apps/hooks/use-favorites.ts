@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useApps } from './use-apps';
 import { FusionAppGroup, FusionAppManifest } from '@portal/types';
 
-export const useFavorites = () => {
+export const useOldFavorites = () => {
 	const { apps, appGroups, isLoading } = useApps();
 	const { appModule } = useAppModule();
 

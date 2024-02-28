@@ -1,6 +1,6 @@
 import { Search, Switch } from '@equinor/eds-core-react';
-import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import { customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/utils';
+import { InfoMessage, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
+import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/core';
 
 import { useMenuContext, useTelemetry } from '@equinor/portal-core';
 import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
@@ -9,7 +9,7 @@ import { css } from '@emotion/css';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
-import { AppGroup } from '@portal/components';
+import { AppGroup, LoadingMenu } from '@portal/components';
 
 const styles = {
 	divider: css`
@@ -82,7 +82,7 @@ export function MenuGroups() {
 		}
 		if (activeItem.includes('All Apps') || searchText != '') {
 			const appSearch = appsMatchingSearch(appGroups ?? [], searchText);
-			return appSearch.sort((a, b) => customAppGroupArraySort(a, b, activeItem));
+			return appSearch.sort(appGroupArraySort);
 		}
 		const filteredApps = appGroups?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
@@ -97,8 +97,6 @@ export function MenuGroups() {
 			setActiveItem(name);
 		}
 	};
-
-	const BREAK_COL_COUNT = 15;
 
 	return (
 		<PortalMenu>
@@ -146,43 +144,37 @@ export function MenuGroups() {
 									to add them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<>
-									{feature?.enabled ? (
-										<styles.Wrapper>
-											{displayAppGroups &&
-												displayAppGroups.map((appGroup) => (
-													<div key={appGroup.name}>
-														<AppGroup
-															dark={false}
-															group={appGroup}
-															onClick={(app, e) => {
-																if (app.isDisabled) {
-																	e.preventDefault();
-																	return;
-																}
-																dispatchEvent(
-																	{
-																		name: 'onAppNavigation',
-																	},
+								<styles.Wrapper>
+									{displayAppGroups &&
+										displayAppGroups.map((appGroup) => (
+											<div key={appGroup.name}>
+												<AppGroup
+													dark={false}
+													group={appGroup}
+													onClick={(app, e) => {
+														if (app.isDisabled) {
+															e.preventDefault();
+															return;
+														}
+														dispatchEvent(
+															{
+																name: 'onAppNavigation',
+															},
 
-																	{
-																		appKey: app.key,
-																		isFavorite: app.isPinned,
-																		source: 'app-menu',
-																	}
-																);
+															{
+																appKey: app.key,
+																isFavorite: app.isPinned,
+																source: 'app-menu',
+															}
+														);
 
-																closeMenu();
-															}}
-															onFavorite={(app) => addFavorite(app.key)}
-														/>
-													</div>
-												))}
-										</styles.Wrapper>
-									) : (
-										<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_COUNT} />
-									)}
-								</>
+														closeMenu();
+													}}
+													onFavorite={(app) => addFavorite(app.key)}
+												/>
+											</div>
+										))}
+								</styles.Wrapper>
 							)
 						) : (
 							<>

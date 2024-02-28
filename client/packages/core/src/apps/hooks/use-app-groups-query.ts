@@ -10,7 +10,7 @@ export const useAppGroupsQuery = (): UseQueryResult<AppGroup[]> => {
 	const client = usePortalClient();
 
 	return useQuery({
-		queryKey: ['appGroups', { id, externalId: currentContext?.externalId }],
-		queryFn: () => getAppGroups(client, id, currentContext?.externalId),
+		queryKey: ['appGroups', { id, externalId: currentContext?.id }],
+		queryFn: () => getAppGroups(client, id, currentContext?.id),
 	});
 };

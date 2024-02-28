@@ -8,6 +8,7 @@ import { useCurrentUser } from '@portal/core';
 import styled from 'styled-components';
 
 import { ProjectDetails } from './ProjectDetails';
+import { WizardScrim } from './project-wizard/Wizard';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -81,6 +82,7 @@ export const ProjectHeader = () => {
 					{getGreeting()} {data?.name}
 				</Typography>
 				<ProjectDetails />
+				<WizardScrim />
 			</StyledHeader>
 		</StyledBackgroundWrapper>
 	);
