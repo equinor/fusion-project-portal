@@ -16,7 +16,6 @@ import { MyRolesTab } from '../my-roles-tab/MyRolesTab';
 import { MyAllocationTab } from '../my-allocations-tab/MyAllocationTab';
 import { PortalSettingsTab } from '../portal-settings-tab/PortalSettingsTab';
 import { PortalActionProps } from '@equinor/portal-core';
-import { PresenceIndicator } from '../presence-indicator';
 import { MyFeatures } from '../my-features/MyFeatures';
 
 const Style = {
