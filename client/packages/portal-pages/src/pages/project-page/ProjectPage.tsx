@@ -162,7 +162,7 @@ export const ProjectPage = () => {
 						{feature?.enabled ? (
 							<Tabs.Panels>
 								<Tabs.Panel>
-									<Overview />
+									<Overview openAllApps={() => setActiveTab(2)} />
 								</Tabs.Panel>
 								<Tabs.Panel>
 									<ConstructionAndCommissioningData />
@@ -174,7 +174,7 @@ export const ProjectPage = () => {
 						) : (
 							<Tabs.Panels>
 								<Tabs.Panel>
-									<Overview />
+									<Overview openAllApps={() => setActiveTab(1)} />
 								</Tabs.Panel>
 								<Tabs.Panel>
 									<AllApps />

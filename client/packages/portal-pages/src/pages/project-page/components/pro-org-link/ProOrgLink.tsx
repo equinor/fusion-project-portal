@@ -44,7 +44,7 @@ const Styles = {
 
 export const ProOrgLink = () => {
 	const context = useFrameworkCurrentContext();
-	const equinorTask = useRelationsByType('OrgChart', context?.id);
+	const { data: equinorTask } = useRelationsByType('OrgChart', context?.id);
 
 	if (equinorTask[0]?.externalId) {
 		return (

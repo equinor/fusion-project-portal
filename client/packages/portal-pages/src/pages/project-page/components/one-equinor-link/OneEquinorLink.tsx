@@ -44,7 +44,7 @@ const Styles = {
 
 export const OneEquinorLink = () => {
 	const context = useFrameworkCurrentContext();
-	const equinorTask = useRelationsByType('EquinorTask', context?.id);
+	const { data: equinorTask } = useRelationsByType('EquinorTask', context?.id);
 
 	// https://fusion.equinor.com/apps/one-equinor/org-unit/53014029/task/673024d2-e311-44a7-733e-08dbc8a2fb29
 	if (equinorTask[0]?.value.orgUnitSapId) {

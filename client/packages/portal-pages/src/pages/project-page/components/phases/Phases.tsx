@@ -20,10 +20,12 @@ import { NoProjectInfoAccessMessage } from '../messages/NoProjectInfoAccessMessa
 
 export const Phases = () => {
 	const context = useFrameworkCurrentContext();
-	const equinorTask = useRelationsByType('OrgChart', context?.id);
+	const { data: equinorTask, error: relationsError } = useRelationsByType('OrgChart', context?.id);
 	const { data, isLoading, error } = useProjectDetails(equinorTask[0]?.externalId);
 
 	const current = useMemo(() => findActiveDate(data?.dates.gates as DateObject), [data]);
+
+	if (relationsError && !equinorTask) return null;
 
 	return (
 		<Card elevation="raised">

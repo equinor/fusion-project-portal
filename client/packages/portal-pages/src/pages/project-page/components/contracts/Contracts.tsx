@@ -41,7 +41,7 @@ const sortByDate = (a: Relations, b: Relations) =>
 
 export const Contracts = () => {
 	const context = useFrameworkCurrentContext();
-	const contracts = useRelationsByType('Contract', context?.id);
+	const { data: contracts } = useRelationsByType('Contract', context?.id);
 
 	const contractGroups = useMemo(() => {
 		return contracts.reduce(
