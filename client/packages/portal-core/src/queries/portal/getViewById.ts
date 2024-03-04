@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { Portal } from '@portal/types';
+import { Portal } from '@portal/core';
 
 /** Get menu items based on current view id */
 export async function getViewById(

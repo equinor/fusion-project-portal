@@ -5,18 +5,17 @@ import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/
 import { useMenuContext, useTelemetry } from '@equinor/portal-core';
 import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
 import { useState, useMemo } from 'react';
-import { css } from '@emotion/css';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
 import { AppGroup, LoadingMenu } from '@portal/components';
 
-const styles = {
-	divider: css`
+const Styles = {
+	Divider: styled.div`
 		border-right: 1px solid #dcdcdc;
 		height: 90%;
 	`,
-	categoryWrapper: css`
+	CategoryWrapper: styled.div`
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 2rem;
@@ -26,7 +25,7 @@ const styles = {
 		gap: 1rem;
 	`,
 
-	menuWrapper: css`
+	MenuWrapper: styled.div`
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
@@ -55,6 +54,11 @@ const styles = {
 				flex: 1;
 			}
 		}
+	`,
+	Feature: styled.div`
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
 	`,
 };
 
@@ -111,13 +115,13 @@ export function MenuGroups() {
 				}}
 			/>
 
-			<div className={styles.menuWrapper}>
+			<Styles.MenuWrapper>
 				{isLoading ? (
 					<LoadingMenu />
 				) : (
 					<>
-						<div className={styles.divider}>
-							<div className={styles.categoryWrapper}>
+						<Styles.Divider>
+							<Styles.CategoryWrapper>
 								{categoryItems.map((item, index) => (
 									<StyledCategoryItem
 										key={index}
@@ -126,17 +130,17 @@ export function MenuGroups() {
 										onClick={() => handleToggle(item)}
 									/>
 								))}
-							</div>
+							</Styles.CategoryWrapper>
 							{/* Todo: remove when decided to use new menu */}
-							<div style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
+							<Styles.Feature>
 								<Switch
 									title="Toggle New Menu Feature"
 									checked={feature?.enabled}
 									disabled={feature?.readonly}
 									onChange={() => toggleFeature()}
 								/>
-							</div>
-						</div>
+							</Styles.Feature>
+						</Styles.Divider>
 						{displayAppGroups && !!displayAppGroups?.length ? (
 							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 								<InfoMessage>
@@ -144,7 +148,7 @@ export function MenuGroups() {
 									to add them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<styles.Wrapper>
+								<Styles.Wrapper>
 									{displayAppGroups &&
 										displayAppGroups.map((appGroup) => (
 											<div key={appGroup.name}>
@@ -174,7 +178,7 @@ export function MenuGroups() {
 												/>
 											</div>
 										))}
-								</styles.Wrapper>
+								</Styles.Wrapper>
 							)
 						) : (
 							<>
@@ -189,7 +193,7 @@ export function MenuGroups() {
 						)}
 					</>
 				)}
-			</div>
+			</Styles.MenuWrapper>
 		</PortalMenu>
 	);
 }

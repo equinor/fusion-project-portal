@@ -1,4 +1,4 @@
-import { ContextProvider, PortalContextSelector } from '@equinor/portal-core';
+import { ContextProvider, PortalContextSelector, useOnboardedContexts } from '@equinor/portal-core';
 import { ProjectHeader } from './PageHeader';
 
 import { css } from '@emotion/css';
@@ -6,6 +6,9 @@ import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 import { User } from './user/UserCard';
 import InfoBox from './InfoBox/InfoBox';
+import { OnboardedContext } from '@portal/types';
+import { Button, Typography } from '@equinor/eds-core-react';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 const styles = {
 	contentSection: css`
@@ -64,26 +67,36 @@ export const Styles = {
 	Row: styled.div`
 		display: flex;
 		flex-direction: row;
-		gap: ${tokens.spacings.comfortable.large};
-
+		gap: ${tokens.spacings.comfortable.x_large};
+		padding-top: ${tokens.spacings.comfortable.large};
 		width: calc(100vw - 490px);
 		@media only screen and (max-width: 1300px) {
 			flex-direction: column;
 		}
 	`,
 	Col: styled.div`
-		gap: 1.5rem;
+		gap: 0s.5rem;
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		width: 50%;
-		@media only screen and (max-width: 1300px) {
-			width: 100%;
-		}
 	`,
 };
 
 export const ProjectPortalPage = (): JSX.Element => {
+	const { onboardedContexts } = useOnboardedContexts();
+	const { context } = useFramework().modules;
+
+	const contextTypes = (onboardedContexts || []).reduce((acc, item) => {
+		if (acc[item.type]) {
+			acc[item.type].contexts.push(item);
+			return acc;
+		}
+
+		acc[item.type] = { type: item.type, contexts: [item] };
+
+		return acc;
+	}, {} as Record<string, { type: string; contexts: OnboardedContext[] }>);
+
 	return (
 		<Styles.Wrapper>
 			<ProjectHeader />
@@ -103,6 +116,30 @@ export const ProjectPortalPage = (): JSX.Element => {
 						<PortalContextSelector />
 					</ContextProvider>
 				</div>
+
+				<Styles.Row>
+					{Object.values(contextTypes).map((contextType) => {
+						return (
+							<div key={contextType.type}>
+								<Typography variant="h5">{contextType.type}</Typography>
+								<Styles.Col>
+									{contextType.contexts.map((onboardedContext) => (
+										<Button
+											fullWidth
+											key={onboardedContext.id}
+											onClick={() =>
+												context.setCurrentContextByIdAsync(onboardedContext.contextId)
+											}
+											variant="ghost"
+										>
+											{onboardedContext.title}
+										</Button>
+									))}
+								</Styles.Col>
+							</div>
+						);
+					})}
+				</Styles.Row>
 			</Styles.Content>
 		</Styles.Wrapper>
 	);
