@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 2.0.1
+
+### Patch Changes
+
+- b6c165e: Scoping for landing page.
+
 ## 2.0.0
 
 ### Major Changes
