@@ -1,5 +1,34 @@
 # fusion-project-portal
 
+## 2.0.0
+
+### Major Changes
+
+- 1c607e3: Project Landing Page Update: Design and User Experience Enhancements
+  - Enhanced the project landing page by integrating a full-width header containing essential project information, aligning it with the Fusion landing page.
+  - Introduced a new Overview tab with a new layout.
+  - Users can now view their project allocation, with a direct link to the project organization application in Fusion.
+  - Displayed the project director prominently on the project landing page.
+  - Implemented a project phase indicator on the Overview tab, showcasing DG dates and the current DG phase of the project.
+  - Aligned the design of pinned apps with Fusion while maintaining content stored in local storage.
+  - Implemented cleanup functionality for removing deleted apps within pinned apps.
+  - Redesigned the contract list to feature cards instead of a table, categorizing contracts into active and closed groups based on closing date.
+  - Introduced a Project Portal Info section with quick facts.
+  - Implemented a Construction and Commissioning tab featuring milestones and CC-Application KPIs, accessible behind a feature flag.
+  - Developed a new menu design, also accessible behind a feature flag, in alignment with the all-apps list.
+  - Added functionality for feature flagging with local storage implementation utilizing the new feature flag module in Fusion.
+  - Introduced a "My Features" tab under the user's account to enable feature flags.
+  - Global app search and navigation behind feature flag.
+
+### Minor Changes
+
+- b96c30e: The top-bat extensions settings are moved to portal settings.
+  - Fix on the fullscreen button
+  - Added production scope for data gateway apo used on cc-tab
+  - Fixing new menu, now closing when selecting application
+  - Added no content message to my features tabs
+- 10cc29d: Portal now integrates with the Fusion feature logging system, enhancing the visibility of logged applicaion and context selected in the Fusion User Statistics report.
+
 ## 1.13.2
 
 ### Patch Changes
