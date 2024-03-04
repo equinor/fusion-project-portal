@@ -25,7 +25,7 @@ export const Phases = () => {
 
 	const current = useMemo(() => findActiveDate(data?.dates.gates as DateObject), [data]);
 
-	if (relationsError && !equinorTask) return null;
+	if (relationsError && equinorTask.length === 0) return null;
 
 	return (
 		<Card elevation="raised">
