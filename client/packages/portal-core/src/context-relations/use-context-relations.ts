@@ -2,6 +2,7 @@ import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { Relations } from './types';
+import { useEffect, useMemo, useState } from 'react';
 
 export async function getContextRelations(
 	client: IHttpClient,
@@ -27,6 +28,19 @@ export const useContextRelationsQuery = (contextId?: string) => {
 type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project' | 'OrgChart';
 
 export function useRelationsByType(type: RelationsTypes, contextId?: string) {
-	const { data } = useContextRelationsQuery(contextId);
-	return data?.filter((relation) => relation.type.id === type) || [];
+	const [error, setError] = useState<Error | undefined>();
+	const { data, isLoading } = useContextRelationsQuery(contextId);
+
+	const filteredRelations = useMemo(() => {
+		setError(undefined);
+		return data?.filter((relation) => relation.type.id === type) || [];
+	}, [data]);
+
+	useEffect(() => {
+		if (!isLoading && filteredRelations?.length === 0) {
+			setError(Error(`No context relation found for ${type}`));
+		}
+	}, [isLoading, filteredRelations]);
+
+	return { data: filteredRelations, isLoading, error };
 }

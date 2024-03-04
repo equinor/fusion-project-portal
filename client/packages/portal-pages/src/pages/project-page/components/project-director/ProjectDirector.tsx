@@ -7,9 +7,13 @@ import { useCurrentDirector } from './hooks/use-current-director';
 
 export const ProjectDirector = () => {
 	const context = useFrameworkCurrentContext();
-	const { director, error } = useCurrentDirector(context?.id);
+	const { director, error, isLoading } = useCurrentDirector(context?.id);
 
 	const { data } = useUser(director?.assignedPerson?.azureUniqueId);
+
+	if (!director && !error && !isLoading) {
+		return null;
+	}
 
 	return (
 		<Card elevation="raised">

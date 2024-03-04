@@ -3,12 +3,12 @@ import { tokens } from '@equinor/eds-tokens';
 import { Card, Typography } from '@equinor/eds-core-react';
 
 export const Styled = {
-	FusionInfo: styled(Card)`
+	FusionInfo: styled(Card).withConfig({ displayName: 'info-box' })`
 		background: ${tokens.colors.infographic.primary__moss_green_21.hex};
 		position: relative;
 		padding: ${tokens.spacings.comfortable.medium};
 	`,
-	InfoTitle: styled(Typography)`
+	InfoTitle: styled(Typography).withConfig({ displayName: 'info-box' })`
 		margin-bottom: ${tokens.spacings.comfortable.small};
 	`,
 	Ul: styled.ul`

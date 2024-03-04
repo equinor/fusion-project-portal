@@ -58,7 +58,7 @@ const Style = {
 
 export const ProjectPosition = ({ positions }: { positions?: PersonPosition[] }) => {
 	const context = useFrameworkCurrentContext();
-	const equinorTask = useRelationsByType('OrgChart', context?.id);
+	const { data: equinorTask } = useRelationsByType('OrgChart', context?.id);
 
 	const projectPositions = useMemo(() => {
 		return (

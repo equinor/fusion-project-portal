@@ -9,6 +9,8 @@ import { useRef, useState } from 'react';
 import { useFavorites } from '@portal/core';
 import FavoriteCard from './FavoriteCard';
 import { sortByCategoryAndIsDisabled } from './utils/utils';
+import { AppContainerEmpty } from './AppContainerEmpty';
+import { useMenuContext } from '@equinor/portal-core';
 
 type AppCardPops = {
 	isDisabled?: boolean;
@@ -33,6 +35,11 @@ const styles = {
 			}
 		`;
 	},
+	FrameLink: styled.span`
+		color: ${tokens.colors.interactive.primary__resting.hex};
+		text-decoration: underline;
+		cursor: pointer;
+	`,
 	cardList: css`
 		display: grid;
 		grid-auto-rows: auto;
@@ -44,13 +51,14 @@ const styles = {
 			grid-template-columns: repeat(1, 1fr);
 		}
 	`,
-	noData: css`
+	NoData: styled.div`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		gap: 0.5rem;
 		grid-column: span 3;
+		padding: 0 1rem;
 	`,
 	fullHeight: css`
 		height: 100%;
@@ -62,17 +70,21 @@ const styles = {
 	`,
 };
 
-export const Favorites = () => {
+type FavoriteProps = {
+	openAllApps: () => void;
+};
+
+export const Favorites = ({ openAllApps }: FavoriteProps) => {
+	const { toggleMenu } = useMenuContext();
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	// const { dispatchEvent } = useTelemetry();
 
 	const { favorites, hasFavorites, isLoading, addFavorite, isDisabled } = useFavorites();
 
 	return (
 		<div>
 			<styles.Heading>
-				<Typography variant="h5">Pinned Apps</Typography>
+				<Typography variant="h5">Favorites</Typography>
 				<div
 					onMouseOver={() => {
 						setIsOpen(true);
@@ -89,9 +101,9 @@ export const Favorites = () => {
 				</div>
 			</styles.Heading>
 			<Card.Content>
-				<nav className={styles.cardList}>
-					{hasFavorites ? (
-						sortByCategoryAndIsDisabled(favorites).map((app) => {
+				{hasFavorites ? (
+					<nav className={styles.cardList}>
+						{sortByCategoryAndIsDisabled(favorites).map((app) => {
 							return (
 								<FavoriteCard
 									key={app.key}
@@ -103,20 +115,26 @@ export const Favorites = () => {
 									}}
 								/>
 							);
-						})
-					) : (
-						<div className={styles.noData}>
-							<Icon
-								data={info_circle}
-								color={tokens.colors.infographic.primary__moss_green_34.hex}
-								size={48}
-							/>
-							<Typography variant="h4" color={tokens.colors.text.static_icons__secondary.hex}>
-								Open menu and click on stars to add to favorites
-							</Typography>
-						</div>
-					)}
-				</nav>
+						})}
+					</nav>
+				) : (
+					<styles.NoData>
+						<AppContainerEmpty>
+							You don't have any favourite apps yet.
+							<br />
+							Choose your favourites in{' '}
+							<styles.FrameLink onClick={openAllApps}>All apps</styles.FrameLink> or{' '}
+							<styles.FrameLink
+								onClick={() => {
+									toggleMenu();
+								}}
+							>
+								Menu
+							</styles.FrameLink>{' '}
+							by clicking on the star ★.
+						</AppContainerEmpty>
+					</styles.NoData>
+				)}
 			</Card.Content>
 		</div>
 	);

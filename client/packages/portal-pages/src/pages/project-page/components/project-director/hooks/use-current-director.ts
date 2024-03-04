@@ -28,7 +28,8 @@ export const useProjectDetails = (projectId?: string) => {
 };
 
 export const useCurrentDirector = (contextId?: string) => {
-	const equinorTask = useRelationsByType('OrgChart', contextId);
+	const { data: equinorTask } = useRelationsByType('OrgChart', contextId);
+
 	const { data, isLoading, error } = useProjectDetails(equinorTask[0]?.externalId);
 
 	const director = useMemo(() => {

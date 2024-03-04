@@ -24,7 +24,14 @@ export const FeatureTogglerPortal = (props: { onClick: (feature: IFeatureFlag) =
 							<Typography variant="body_short_bold">{feature.title ?? feature.key}</Typography>
 							<Typography variant="body_short_italic">{feature.description ?? ''}</Typography>
 						</Styled.SwitchLabel>
-						<Switch checked={feature.enabled} disabled={feature.readonly} />
+						<Switch
+							checked={feature.enabled}
+							disabled={feature.readonly}
+							onChange={() => {
+								toggleFeature(feature.key);
+								props.onClick(feature);
+							}}
+						/>
 					</Styled.SwitchListItem>
 				))
 			) : (
