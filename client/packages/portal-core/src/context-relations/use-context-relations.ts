@@ -25,7 +25,7 @@ export const useContextRelationsQuery = (contextId?: string) => {
 	});
 };
 
-type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project' | 'OrgChart';
+type RelationsTypes = 'EquinorTask' | 'Contract' | 'ProjectMaster' | 'PimsDomain' | 'Project' | 'OrgChart' | 'Facility';
 
 export function useRelationsByType(type: RelationsTypes, contextId?: string) {
 	const [error, setError] = useState<Error | undefined>();

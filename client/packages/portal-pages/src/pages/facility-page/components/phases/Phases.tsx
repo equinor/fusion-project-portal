@@ -1,5 +1,5 @@
 import { Button, Card, Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext, useOnboardedContexts, useRelationsByType } from '@equinor/portal-core';
 import { useMemo } from 'react';
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
@@ -22,24 +22,42 @@ import { useFramework } from '@equinor/fusion-framework-react';
 
 export const FacilityProjectPhases = () => {
 	const context = useFrameworkCurrentContext();
-	const projectMasters = useRelationsByType('ProjectMaster', context?.id);
+	const { data: projectMasters } = useRelationsByType('ProjectMaster', context?.id);
+	const { onboardedContexts } = useOnboardedContexts();
+	if (projectMasters.length === 0) return null;
 
 	return (
 		<>
-			{projectMasters.map((context) => (
-				<Phases key={context.id} projectMasterId={context.id} title={context.title} />
-			))}
+			{projectMasters.map((context) => {
+				const isEnabledContext = Boolean(
+					onboardedContexts?.find(
+						(onboardedContext) =>
+							onboardedContext.externalId === context.externalId &&
+							onboardedContext.type === context.type.id
+					)
+				);
+				return (
+					<Phases
+						key={context.id}
+						projectMasterId={context.id}
+						title={context.title}
+						isActive={isEnabledContext}
+					/>
+				);
+			})}
 		</>
 	);
 };
 
-const Phases = (props: { projectMasterId: string; title: string }) => {
-	const equinorTask = useRelationsByType('OrgChart', props.projectMasterId);
+const Phases = (props: { projectMasterId: string; title: string; isActive: boolean }) => {
+	const { data: equinorTask } = useRelationsByType('OrgChart', props.projectMasterId);
 	const { data, isLoading, error } = useProjectDetails(equinorTask[0]?.externalId);
 
 	const current = useMemo(() => findActiveDate(data?.dates.gates as DateObject), [data]);
 
 	const { context } = useFramework().modules;
+
+	if (equinorTask.length === 0) return null;
 
 	return (
 		<Card elevation="raised">
@@ -93,7 +111,14 @@ const Phases = (props: { projectMasterId: string; title: string }) => {
 				</Styles.Content>
 			)}
 			<Card.Actions alignRight={true}>
-				<Button variant="ghost" onClick={() => context.setCurrentContextByIdAsync(props.projectMasterId)}>
+				<Button
+					variant="ghost"
+					title={
+						props.isActive ? props.title : `Project ${props.title} is not enabled for the project portal`
+					}
+					disabled={!props.isActive}
+					onClick={() => context.setCurrentContextByIdAsync(props.projectMasterId)}
+				>
 					{props.title}
 				</Button>
 			</Card.Actions>

@@ -7,6 +7,7 @@ import AppSearch from './components/app-search';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
 import { Phases } from './components/phases/Phases';
 import { Milestones } from './components/milestones/Milestones';
+import { Facilities } from './components/facilities/Facilities';
 
 export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 	const { feature } = useFrameworkFeature('app-search');
@@ -19,6 +20,7 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 			</Styles.Col>
 			<Styles.Col>
 				<Phases />
+				<Facilities />
 				<Favorites openAllApps={openAllApps} />
 				{/* Todo remove when cc tab is not in feature flag mode */}
 				{ccTabFeature?.enabled === false && <Milestones />}
