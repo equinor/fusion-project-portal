@@ -1,8 +1,9 @@
 import { Scrim } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { useMenuContext } from '@equinor/portal-core';
+
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
+import { usePortalMenu } from '@portal/core';
 
 const Styles = {
 	Scrim: styled(Scrim)`
@@ -54,7 +55,7 @@ const Styles = {
 };
 
 export const MenuScrim = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
-	const { menuActive, closeMenu } = useMenuContext();
+	const { menuActive, closeMenu } = usePortalMenu();
 	return (
 		<Styles.Scrim open={menuActive} isDismissable onClose={closeMenu}>
 			<Styles.Wrapper>{children}</Styles.Wrapper>

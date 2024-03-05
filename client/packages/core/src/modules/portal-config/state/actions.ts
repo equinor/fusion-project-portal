@@ -1,5 +1,5 @@
 import { ActionInstanceMap, ActionTypes, createAction, createAsyncAction } from '@equinor/fusion-observable';
-import { PortalRequest, PortalRoutes } from '../types';
+import { PortalRequest } from '../types';
 import { AppManifest } from '@equinor/fusion-framework-module-app';
 
 const createActions = () => ({

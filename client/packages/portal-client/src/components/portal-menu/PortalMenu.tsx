@@ -1,8 +1,7 @@
 import { Search, Switch } from '@equinor/eds-core-react';
 import { InfoMessage, MenuScrim, StyledCategoryItem } from '@equinor/portal-ui';
-import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, useTelemetry } from '@portal/core';
+import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, usePortalMenu, useTelemetry } from '@portal/core';
 
-import { useMenuContext } from '@equinor/portal-core';
 import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
 import { useState, useMemo } from 'react';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
@@ -63,10 +62,9 @@ const Styles = {
 };
 
 export function MenuGroups() {
-	const { closeMenu } = useMenuContext();
 	const { dispatchEvent } = useTelemetry();
 	const { data, isLoading } = useAppGroupsQuery();
-	const { searchText, setSearchText } = useMenuContext();
+	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
 	const { feature, toggleFeature } = useFeature('new-menu');

@@ -1,12 +1,12 @@
 import { Icon } from '@equinor/eds-core-react';
 import { tokens } from '@equinor/eds-tokens';
-import { menuFavoritesController, useMenuContext } from '@equinor/portal-core';
+import { menuFavoritesController } from '@equinor/portal-core';
 import { useObservable } from '@portal/utils';
 import { Link } from 'react-router-dom';
 import { map } from 'rxjs';
 import styled from 'styled-components';
 import { styles } from '../styles';
-import { useTelemetry } from '@portal/core';
+import { usePortalMenu, useTelemetry } from '@portal/core';
 
 const StyledIcon = styled(Icon)<{ isFavorite: boolean }>`
 	visibility: ${({ isFavorite }) => (isFavorite ? 'visible' : 'hidden')};
@@ -44,7 +44,7 @@ type AppCardProps = {
 };
 
 export const AppCard = ({ name, appKey, isActive, isDisabled }: AppCardProps) => {
-	const { closeMenu } = useMenuContext();
+	const { closeMenu } = usePortalMenu();
 	const { dispatchEvent } = useTelemetry();
 	const isFavorited = Boolean(
 		useObservable(menuFavoritesController.favorites$.pipe(map((val) => val?.includes(appKey))))

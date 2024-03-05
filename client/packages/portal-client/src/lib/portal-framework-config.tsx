@@ -9,7 +9,7 @@ import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enableTelemetry, TelemetryModule } from '@portal/core';
+import { enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
@@ -34,6 +34,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
+
+		enablePortalMenu(config);
 
 		enablePortalConfig(config, (builder) => {
 			builder.setConfig({
@@ -80,6 +82,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					},
 				],
 			});
+
 			// builder.setPortalConfig({
 			// 	portal: {
 			// 		id: 'resource-allocation',
@@ -91,6 +94,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			// 		},
 			// 		routes: [],
 			// 	},
+			//   apps:[]
 			// });
 		});
 

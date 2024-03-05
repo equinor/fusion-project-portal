@@ -6,11 +6,10 @@ import { css } from '@emotion/css';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { useRef, useState } from 'react';
-import { useFavorites } from '@portal/core';
+import { useFavorites, usePortalMenu } from '@portal/core';
 import FavoriteCard from './FavoriteCard';
 import { sortByCategoryAndIsDisabled } from './utils/utils';
 import { AppContainerEmpty } from './AppContainerEmpty';
-import { useMenuContext } from '@equinor/portal-core';
 
 type AppCardPops = {
 	isDisabled?: boolean;
@@ -75,7 +74,7 @@ type FavoriteProps = {
 };
 
 export const Favorites = ({ openAllApps }: FavoriteProps) => {
-	const { toggleMenu } = useMenuContext();
+	const { toggleMenu } = usePortalMenu();
 	const referenceElement = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
