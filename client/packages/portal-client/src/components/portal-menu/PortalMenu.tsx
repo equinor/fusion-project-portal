@@ -1,8 +1,8 @@
 import { Search, Switch } from '@equinor/eds-core-react';
-import { InfoMessage, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/core';
+import { InfoMessage, MenuScrim, StyledCategoryItem } from '@equinor/portal-ui';
+import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, useTelemetry } from '@portal/core';
 
-import { useMenuContext, useTelemetry } from '@equinor/portal-core';
+import { useMenuContext } from '@equinor/portal-core';
 import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
 import { useState, useMemo } from 'react';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
@@ -94,16 +94,16 @@ export function MenuGroups() {
 
 	const hasApps = useMemo(() => Boolean(data && data.length !== 0), [data]);
 
-	const handleToggle = (name: string) => {
+	const handleToggle = (name: string | null) => {
 		if (activeItem === name) {
 			setActiveItem('All Apps');
 		} else {
-			setActiveItem(name);
+			name && setActiveItem(name);
 		}
 	};
 
 	return (
-		<PortalMenu>
+		<MenuScrim>
 			<Search
 				id="app-search"
 				placeholder={'Search for apps'}
@@ -125,7 +125,7 @@ export function MenuGroups() {
 								{categoryItems.map((item, index) => (
 									<StyledCategoryItem
 										key={index}
-										name={item}
+										name={item || ''}
 										isActive={activeItem === item}
 										onClick={() => handleToggle(item)}
 									/>
@@ -194,6 +194,6 @@ export function MenuGroups() {
 					</>
 				)}
 			</Styles.MenuWrapper>
-		</PortalMenu>
+		</MenuScrim>
 	);
 }

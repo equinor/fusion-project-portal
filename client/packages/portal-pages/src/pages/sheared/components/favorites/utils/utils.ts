@@ -1,6 +1,6 @@
-import { FusionAppManifest } from '@portal/types';
+import { AppManifest } from '@portal/core';
 
-export const sortByCategoryAndIsDisabled = (favorites: FusionAppManifest[]) => {
+export const sortByCategoryAndIsDisabled = (favorites: AppManifest[]) => {
 	return favorites
 		.sort((a, b) => {
 			// Sort Disabled apps to bottom

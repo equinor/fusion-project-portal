@@ -8,6 +8,7 @@ import { combineLatest, Observable, map } from 'rxjs';
 import { AppCategory } from '../types';
 import { usePortalConfig } from './use-portal-config';
 
+//Todo: NEEd to be fixed!!!!!!!!!!!!!!!!!!!!!
 export const usePortalApps = () => {
 	const { data, isLoading, error } = usePortalConfig().queryApps;
 	const { app } = useFramework<[AppModule]>().modules;

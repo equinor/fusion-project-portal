@@ -1,16 +1,16 @@
 import { useQuery, UseQueryResult } from 'react-query';
-import { useFrameworkCurrentContext, usePortalClient, useViewController } from '@equinor/portal-core';
-import { AppGroup } from '@portal/types';
+import { useFrameworkCurrentContext, usePortalClient } from '@equinor/portal-core';
 import { getAppGroups } from '../queries/getAppGroups';
+import { AppCategory, usePortalConfig } from '../../modules';
 
-export const useAppGroupsQuery = (): UseQueryResult<AppGroup[]> => {
-	const id = useViewController().currentView?.id;
+export const useAppGroupsQuery = (): UseQueryResult<AppCategory[]> => {
+	const { data } = usePortalConfig().queryPortal;
 	const currentContext = useFrameworkCurrentContext();
 
 	const client = usePortalClient();
 
 	return useQuery({
-		queryKey: ['appGroups', { id, externalId: currentContext?.id }],
-		queryFn: () => getAppGroups(client, id, currentContext?.id),
+		queryKey: ['appGroups', JSON.stringify({ id: data?.id, externalId: currentContext?.id })],
+		queryFn: () => getAppGroups(client, data?.id, currentContext?.id),
 	});
 };

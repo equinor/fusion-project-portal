@@ -1,4 +1,4 @@
-import { MenuProvider, ViewProvider } from '@equinor/portal-core';
+import { MenuProvider } from '@equinor/portal-core';
 import { StyleProvider } from '@equinor/portal-ui';
 import { ServiceMessageProvider } from '@equinor/service-message';
 import { NotificationService, ServiceMessageService } from '@portal/components';
@@ -32,17 +32,16 @@ export const PortalFrame = () => {
 				<ServiceMessageService>
 					<NotificationService>
 						<BookmarkProvider>
-							<ViewProvider>
-								<MenuProvider>
-									<section className={style}>
-										<ServiceMessageFilter />
-										<MainHeader />
-										<MenuGroups />
-										<ContextNotAvailableDialog allowAllContext={false} />
-										<Outlet />
-									</section>
-								</MenuProvider>
-							</ViewProvider>
+							<MenuProvider>
+								<section className={style}>
+									<ServiceMessageFilter />
+									<MainHeader />
+									<MenuGroups />
+									<ContextNotAvailableDialog allowAllContext={false} />
+									<Outlet />
+								</section>
+							</MenuProvider>
+
 							<PortalSideSheet />
 						</BookmarkProvider>
 					</NotificationService>

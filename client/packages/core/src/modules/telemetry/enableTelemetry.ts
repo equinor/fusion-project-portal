@@ -1,7 +1,7 @@
 import type { IModulesConfigurator } from '@equinor/fusion-framework-module';
 import type { ITelemetryConfigurator } from './configurator';
 
-import { module } from './module';
+import { telemetryModule } from './module';
 /**
  * Method for enabling the Telemetry Service module
  * @param configurator - configuration object
@@ -13,7 +13,7 @@ export const enableTelemetry = (
 	config: Omit<ITelemetryConfigurator, 'addConfig'>
 ): void => {
 	configurator.addConfig({
-		module,
+		module: telemetryModule,
 		configure: (contextConfigurator) => {
 			contextConfigurator.addConfig(config);
 		},

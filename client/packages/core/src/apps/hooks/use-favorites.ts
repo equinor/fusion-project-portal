@@ -1,10 +1,10 @@
-import { getDisabledApps, getPinnedAppsKeys, useObservable } from '@portal/utils';
+import { getDisabledApps, getPinnedAppsKeys, useAppModule, AppCategory, AppManifest } from '@portal/core';
+import { useObservable } from '@portal/utils';
 import { menuFavoritesController } from '@equinor/portal-core';
-import { useAppModule } from '@portal/core';
+
 import { Observable, combineLatest, map } from 'rxjs';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useApps } from './use-apps';
-import { FusionAppGroup, FusionAppManifest } from '@portal/types';
 
 export const useOldFavorites = () => {
 	const { apps, appGroups, isLoading } = useApps();
@@ -16,7 +16,7 @@ export const useOldFavorites = () => {
 				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
 			),
 		[apps]
-	) as Observable<FusionAppManifest[]>;
+	) as Observable<AppManifest[]>;
 
 	useEffect(() => {
 		const sub = menuFavoritesController.cleanFavorites();
@@ -54,7 +54,7 @@ export const useOldFavorites = () => {
 		return (appGroups || []).map((group) => ({
 			...group,
 			apps: group.apps.map((app) => ({ ...app, isPinned: isPinned(app.key) })),
-		})) as FusionAppGroup[];
+		})) as AppCategory[];
 	}, [isPinned, appGroups]);
 
 	return {

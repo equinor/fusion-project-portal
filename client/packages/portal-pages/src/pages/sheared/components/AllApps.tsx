@@ -3,7 +3,7 @@ import { AppGroup } from '@portal/components';
 import { appGroupArraySort, useFavorites } from '@portal/core';
 
 import { ProgressLoader } from '@equinor/portal-ui';
-import { useTelemetry } from '@equinor/portal-core';
+import { useTelemetry } from '@portal/core';
 
 const Styles = {
 	Wrapper: styled.div`

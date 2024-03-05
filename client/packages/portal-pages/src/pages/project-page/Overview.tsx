@@ -1,6 +1,6 @@
 import { WorkAssigned } from '@equinor/portal-ui';
 import { Contracts } from './components/contracts/Contracts';
-import { Favorites } from './components/favorites/Favorites';
+import { Favorites } from '../sheared/components/favorites/Favorites';
 
 import { Styles } from './ProjectPage';
 import AppSearch from './components/app-search';

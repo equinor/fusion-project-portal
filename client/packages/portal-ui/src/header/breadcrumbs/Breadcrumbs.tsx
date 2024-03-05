@@ -32,10 +32,10 @@ export const Breadcrumbs = () => {
 					{currentAppGroup ? <span>{contextName}</span> : <b>{contextName}</b>}
 				</StyledBreadcrumbItemInteract>
 			)}
-			{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name} />}
+			{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name || 'unknown'} />}
 			{currentAppGroup && (
 				<AppBreadcrumb
-					appGroup={currentAppGroup}
+					appCategory={currentAppGroup}
 					isMenuOpen={appSelectorOpen}
 					setMenuOpen={setAppSelectorOpen}
 				/>

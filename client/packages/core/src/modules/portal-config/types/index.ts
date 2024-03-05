@@ -56,7 +56,12 @@ export type AppCategory = {
 	apps: AppManifest[];
 };
 
-export type AppManifest = FusionAppManifest & { isPinned?: boolean; isDisabled?: boolean; url?: string };
+export type AppManifest = FusionAppManifest & {
+	isPinned?: boolean;
+	isDisabled?: boolean;
+	url?: string;
+	appKey?: string;
+};
 
 export interface AppGroup {
 	name: string;

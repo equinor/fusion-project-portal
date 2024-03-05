@@ -91,17 +91,6 @@ export const FacilityPage = () => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [searchParams, setSearchparams] = useSearchParams();
 
-	// const { feature } = useFrameworkFeature('cc-tab');
-
-	// useEffect(() => {
-	// 	const tab = searchParams.get(SEARCH_PARM_TAB);
-	// 	if (tab) {
-	// 		setActiveTab(TABS[tab]);
-	// 	} else {
-	// 		handleChange(0);
-	// 	}
-	// }, []);
-
 	const [activeTab, setActiveTab] = useState(0);
 
 	const handleChange = (index: number) => {
@@ -136,7 +125,7 @@ export const FacilityPage = () => {
 
 						<Tabs.Panels>
 							<Tabs.Panel>
-								<FacilityOverview />
+								<FacilityOverview openAllApps={() => setActiveTab(1)} />
 							</Tabs.Panel>
 							<Tabs.Panel>
 								<AllApps />

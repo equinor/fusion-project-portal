@@ -5,14 +5,14 @@ import type { MsalModule } from '@equinor/fusion-framework-module-msal';
 
 export type TelemetryModule = Module<'telemetry', ITelemetryProvider, ITelemetryConfigurator, [MsalModule]>;
 
-export const module: TelemetryModule = {
+export const telemetryModule: TelemetryModule = {
 	name: 'telemetry',
 	configure: () => new TelemetryConfigurator(),
 	initialize: async ({ config, requireInstance }): Promise<ITelemetryProvider> =>
 		new TelemetryProvider(config, await requireInstance('auth')),
 };
 
-export default module;
+export default telemetryModule;
 
 declare module '@equinor/fusion-framework-module' {
 	interface Modules {

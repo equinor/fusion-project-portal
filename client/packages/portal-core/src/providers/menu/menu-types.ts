@@ -1,8 +1,8 @@
-import { AppGroup } from '@portal/types';
+import { AppCategory } from '@portal/core';
 
 export interface IMenuState {
 	menuActive: boolean;
-	appGroups: AppGroup[];
+	appGroups: AppCategory[];
 	isLoading: boolean;
 	searchText: string;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
 import { Observable, combineLatest, map } from 'rxjs';
-import { AppGroup, FusionAppGroup } from '@portal/types';
+import { AppCategory } from '@portal/core';
 import { useObservable } from '@portal/utils';
 import { useAppGroupsQuery } from './use-app-groups-query';
 import { usePortalApps } from '../../modules';
@@ -19,14 +19,14 @@ export const useApps = () => {
 	const appGroups$ = useMemo(() => {
 		return combineLatest([
 			appModule?.getAllAppManifests(),
-			new Observable<AppGroup[]>((sub) => sub.next(data || [])),
+			new Observable<AppCategory[]>((sub) => sub.next(data || [])),
 		]).pipe(
 			map(
 				([manifests, groups]) =>
 					groups.map((group) => ({
 						...group,
-						apps: group.apps.map((app) => ({ ...manifests.find((a) => a.key === app.appKey) })),
-					})) as FusionAppGroup[]
+						apps: group.apps.map((app) => ({ ...manifests.find((a) => a.key === app.key) })),
+					})) as AppCategory[]
 			)
 		);
 	}, [appModule.getAllAppManifests, data]);

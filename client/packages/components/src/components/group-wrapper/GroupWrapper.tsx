@@ -1,9 +1,7 @@
-import { getColumnCount } from '@portal/utils';
 import { InfoMessage } from '@portal/ui';
-import { AppCategory, useFavorites } from '@portal/core';
+import { AppCategory, useFavorites, useTelemetry, getColumnCount } from '@portal/core';
 import { AppGroup } from '../app-group/AppGroup';
 import styled from 'styled-components';
-import { useTelemetry } from '@equinor/portal-core';
 
 export const Styles = {
 	AppsWrapper: styled.div<{ count: number }>`
@@ -27,11 +25,11 @@ export const Styles = {
 };
 
 type GroupWrapperProps = {
-	appGroups: AppCategory[];
+	appCategory: AppCategory[];
 	maxAppsInColumn: number;
 };
 
-export const GroupWrapper = ({ appGroups, maxAppsInColumn }: GroupWrapperProps) => {
+export const GroupWrapper = ({ appCategory: appGroups, maxAppsInColumn }: GroupWrapperProps) => {
 	const { dispatchEvent } = useTelemetry();
 	const { addFavorite } = useFavorites();
 	return (

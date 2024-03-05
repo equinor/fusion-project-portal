@@ -1,25 +1,24 @@
 import { Icon, Menu } from '@equinor/eds-core-react';
-import { useTelemetry } from '@equinor/portal-core';
+import { AppCategory, useTelemetry } from '@portal/core';
 import { FC, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { StyledBreadcrumbItemInteract } from './styles';
 import { arrow_drop_down } from '@equinor/eds-icons';
-import { AppGroup } from '@portal/types';
 
 interface AppBreadcrumbProp {
-	appGroup: AppGroup | undefined;
+	appCategory: AppCategory | undefined;
 	isMenuOpen: boolean;
 	setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, setMenuOpen: toggleMenuOpen }) => {
+export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appCategory, isMenuOpen, setMenuOpen: toggleMenuOpen }) => {
 	const { appKey } = useParams();
 	const { dispatchEvent } = useTelemetry();
 
-	const currentApp = appGroup?.apps.find((a) => a.appKey === appKey);
+	const currentApp = appCategory?.apps.find((a) => a.appKey === appKey);
 
 	const ref = useRef<HTMLSpanElement>(null);
-	const hasApps = Boolean(appGroup?.apps.length);
+	const hasApps = Boolean(appCategory?.apps.length);
 
 	return (
 		<>
@@ -35,7 +34,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 				</StyledBreadcrumbItemInteract>
 			)}
 
-			{appGroup && (
+			{appCategory && (
 				<Menu
 					open={isMenuOpen}
 					placement="bottom-start"
@@ -44,18 +43,18 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appGroup, isMenuOpen, set
 					}}
 					anchorEl={ref.current}
 				>
-					{appGroup.apps.map((app) => (
+					{appCategory.apps.map((app) => (
 						<Menu.Item
 							as={Link}
-							key={app.appKey}
-							to={`/apps/${app.appKey}/`}
+							key={app.key}
+							to={`/apps/${app.key}/`}
 							onClick={() => {
 								toggleMenuOpen(false);
 								dispatchEvent(
 									{
 										name: 'onAppNavigation',
 									},
-									{ appKey, source: 'top-bar-navigation' }
+									{ appKey: app.key, source: 'top-bar-navigation' }
 								);
 							}}
 						>
