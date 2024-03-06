@@ -7,14 +7,13 @@ import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { User } from './components/user/UserCard';
 
-import { FacilityInfoBox } from './components/FacilityInfoBox/FacilityInfoBox';
-
 import { FacilityOverview } from './FacilityOverview';
 
 import { useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
 import { Facility } from './types';
 import { AllApps } from '../sheared/components/AllApps';
+import InfoBox from '../sheared/components/InfoBox/InfoBox';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -112,7 +111,7 @@ export const FacilityPage = () => {
 			<FacilityHeader />
 			<Styles.Details>
 				<User />
-				<FacilityInfoBox />
+				<InfoBox />
 			</Styles.Details>
 
 			<Styles.Content>

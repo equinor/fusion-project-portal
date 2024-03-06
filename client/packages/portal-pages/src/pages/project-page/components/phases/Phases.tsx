@@ -1,8 +1,9 @@
 import { Card, Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useMemo } from 'react';
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
+import { useRelationsByType } from '@portal/core';
 
 const Styles = {
 	Content: styled(Card.Content).withConfig({ displayName: 'phase' })`

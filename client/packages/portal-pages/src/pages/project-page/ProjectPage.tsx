@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { User } from './components/user/UserCard';
 
-import { InfoBox } from './components/InfoBox/InfoBox';
+import { InfoBox } from '../sheared/components/InfoBox/InfoBox';
 
 import { ConstructionAndCommissioningData } from './ConstructionAndCommissioningData';
 import { Overview } from './Overview';

@@ -16,5 +16,5 @@ export async function getAppGroups(client: IHttpClient, viewId?: string, context
 }
 
 function getAppGroupsURI(viewId: string, contextId?: string): string {
-	return `/api/work-surfaces/${viewId}/context/${contextId}/apps`;
+	return `/api/work-surfaces/${viewId}/contexts/${contextId}/apps`;
 }

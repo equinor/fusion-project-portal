@@ -30,6 +30,10 @@ export const ProjectDetails = () => {
 	return (
 		<Styles.Wrapper>
 			<Styles.ContentItem>
+				<Typography variant="overline">Context Type</Typography>
+				<Typography>{currentContext?.type.id}</Typography>
+			</Styles.ContentItem>
+			<Styles.ContentItem>
 				<Typography variant="overline">Category</Typography>
 				<Typography>{currentContext?.value.projectCategory}</Typography>
 			</Styles.ContentItem>

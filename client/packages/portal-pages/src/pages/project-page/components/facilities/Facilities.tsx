@@ -4,15 +4,6 @@ import { useFrameworkCurrentContext, useOnboardedContexts, useRelationsByType } 
 import { useFramework } from '@equinor/fusion-framework-react';
 import { platform } from '@equinor/eds-icons';
 
-export type ProjectMaster = {
-	facilities: string[];
-	projectCategory: string;
-	cvpid: string;
-	documentManagementId: string;
-	phase: string;
-	portfolioOrganizationalUnit: string;
-} & Record<string, unknown>;
-
 const Styles = {
 	Heading: styled.div`
 		padding: 1rem;

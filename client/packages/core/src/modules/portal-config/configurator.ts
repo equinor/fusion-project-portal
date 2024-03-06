@@ -1,22 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 import { BaseConfigBuilder, ConfigBuilderCallbackArgs } from '@equinor/fusion-framework-module';
-import { IClient, Portal, PortalConfiguration, PortalRoutes, PortalState } from './types';
+import { AppManifestResponse, IClient, PortalConfiguration, PortalRoutes, PortalState } from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
 export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 	return {
 		getPortal: {
 			client: {
-				fn: (args) => httpClient.json(`/api/work-surfaces/${args.portalId}`),
+				fn: (args) => httpClient.json(`/api/portals/${args.portalId}`),
 			},
 			key: (args) => JSON.stringify(args),
 		},
 		getApps: {
 			client: {
-				fn: (args) => {
+				fn: async (args) => {
 					if (!args.contextId) return [];
-					return httpClient.json(`/api/work-surfaces/${args.portalId}/context/${args.contextId}/apps`);
+					const apps = await httpClient.json<AppManifestResponse[]>(
+						`/api/portals/${args.portalId}/contexts/${args.contextId}/apps`
+					);
+					// Mapping AppMAnifestREsponse to AppManifest, this is done so our solution
+					// is working with at application manifest similar to fusion classic.
+					return apps.map((app) => app.appManifest);
 				},
 			},
 			key: (args) => JSON.stringify(args),

@@ -10,7 +10,7 @@ import { getDisabledApps, getPinnedAppsKeys } from '../utils';
 import { usePortalApps } from './use-portal-apps';
 
 export const useFavorites = () => {
-	const { apps, appCategory, isLoading } = usePortalApps();
+	const { apps, appCategories, isLoading } = usePortalApps();
 	const { app } = useFramework<[AppModule]>().modules;
 
 	const favorite$ = useMemo(
@@ -29,18 +29,18 @@ export const useFavorites = () => {
 	const favorites = useObservableState(favorite$).value || [];
 
 	const disabledAppKeys = useMemo(() => {
-		const enabledApps = (appCategory?.map((group) => group.apps) ?? []).flat();
+		const enabledApps = (appCategories?.map((group) => group.apps) ?? []).flat();
 		return getDisabledApps(enabledApps, favorites ?? [])
 			.filter((app) => app.isDisabled)
 			.map((app) => app.key);
-	}, [appCategory, favorites]);
+	}, [appCategories, favorites]);
 
 	const isPinned = useCallback(
 		(appKey: string) => {
-			const enabledApps = (appCategory?.map((group) => group.apps) ?? []).flat();
+			const enabledApps = (appCategories?.map((group) => group.apps) ?? []).flat();
 			return getPinnedAppsKeys(enabledApps, favorites ?? []).includes(appKey);
 		},
-		[appCategory, favorites]
+		[appCategories, favorites]
 	);
 
 	const isDisabled = useCallback(
@@ -54,11 +54,11 @@ export const useFavorites = () => {
 		useMemo(() => favorites.map((p) => ({ ...p, isDisabled: isDisabled(p.key) })), [favorites, isDisabled]) || [];
 
 	const appGroupsWithPinned = useMemo(() => {
-		return (appCategory || []).map((group) => ({
+		return (appCategories || []).map((group) => ({
 			...group,
 			apps: group.apps.map((app) => ({ ...app, isPinned: isPinned(app.key) })),
 		})) as AppCategory[];
-	}, [isPinned, appCategory]);
+	}, [isPinned, appCategories]);
 
 	return {
 		appGroups: appGroupsWithPinned,

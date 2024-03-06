@@ -1,7 +1,7 @@
 import { Button, Card, Icon, Typography } from '@equinor/eds-core-react';
 
-import { useRelationsByType, Relations, useFrameworkCurrentContext } from '@equinor/portal-core';
-
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { useRelationsByType, Relations } from '@portal/core';
 import styled from 'styled-components';
 import { useMemo, useState } from 'react';
 import { collapse, expand } from '@equinor/eds-icons';

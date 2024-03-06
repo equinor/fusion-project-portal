@@ -1,9 +1,9 @@
-import { useRelationsByType } from '@equinor/portal-core';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
 
 import { FusionError, OrgProject } from '@portal/types';
 import { useMemo } from 'react';
+import { useRelationsByType } from '@portal/core';
 
 export const useProjectDetails = (projectId?: string) => {
 	const client = useFramework().modules.serviceDiscovery.createClient('org');

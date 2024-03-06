@@ -25,21 +25,21 @@ export const Styles = {
 };
 
 type GroupWrapperProps = {
-	appCategory: AppCategory[];
+	appCategories: AppCategory[];
 	maxAppsInColumn: number;
 };
 
-export const GroupWrapper = ({ appCategory: appGroups, maxAppsInColumn }: GroupWrapperProps) => {
+export const GroupWrapper = ({ appCategories, maxAppsInColumn }: GroupWrapperProps) => {
 	const { dispatchEvent } = useTelemetry();
 	const { addFavorite } = useFavorites();
 	return (
-		<Styles.AppsWrapper count={getColumnCount(maxAppsInColumn, appGroups)}>
+		<Styles.AppsWrapper count={getColumnCount(maxAppsInColumn, appCategories)}>
 			<Styles.GroupWrapper>
-				{appGroups.length ? (
-					appGroups.map((appGroup) => (
+				{appCategories.length ? (
+					appCategories.map((appCategories) => (
 						<AppGroup
 							dark={false}
-							group={appGroup}
+							group={appCategories}
 							onClick={(app, e) => {
 								if (app.isDisabled) {
 									e.preventDefault();
@@ -58,7 +58,7 @@ export const GroupWrapper = ({ appCategory: appGroups, maxAppsInColumn }: GroupW
 								);
 							}}
 							onFavorite={(app) => addFavorite(app.key)}
-							key={appGroup.name}
+							key={appCategories.name}
 						/>
 					))
 				) : (

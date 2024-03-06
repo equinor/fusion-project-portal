@@ -1,4 +1,4 @@
-import { useCurrentUser } from '@portal/core';
+import { useCurrentUser, useRelationsByType } from '@portal/core';
 
 import { Card, Typography, Icon } from '@equinor/eds-core-react';
 
@@ -10,7 +10,7 @@ import { external_link, tag_relations } from '@equinor/eds-icons';
 
 import { PersonPosition } from '@portal/types';
 import { getFusionPortalURL } from '@portal/utils';
-import { useFrameworkCurrentContext, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useMemo } from 'react';
 
 const Style = {

@@ -1,9 +1,10 @@
-import { useFrameworkCurrentContext, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { Card, Icon } from '@equinor/eds-core-react';
 import { external_link } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { OneEquinorIcon } from './Icon';
 import { getFusionPortalURL } from '@portal/utils';
+import { useRelationsByType } from '@portal/core';
 
 const Styles = {
 	Link: styled.a`

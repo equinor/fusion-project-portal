@@ -1,22 +1,17 @@
-import { useCurrentAppGroup } from '@portal/core';
+import { useIsAppAvailable } from '@portal/core';
 import { AppNotAwaitable } from '../app-not-awaitable/AppNotAvailable';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import { AppElementProvider } from '../app-element-provider/AppElementProvider';
 
 export const AppProvider = ({ hasContext, appKey }: { hasContext: boolean; appKey?: string }) => {
-	const { isAppNotAvailable, appName } = useCurrentAppGroup(appKey);
+	const { isAppAvailable, appName } = useIsAppAvailable(appKey);
 
-	if (isAppNotAvailable(hasContext)) {
-		return <AppNotAwaitable name={appName} />;
-	}
-
-	if (appKey) {
+	if (isAppAvailable(hasContext) && appKey) {
 		return (
 			<AppElementProvider appKey={appKey}>
 				<PortalProgressLoader title="Loading App" />
 			</AppElementProvider>
 		);
 	}
-
-	throw new Error('No appKey provided.');
+	return <AppNotAwaitable name={appName} />;
 };

@@ -1,8 +1,14 @@
 import { Button, Card, Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext, useOnboardedContexts, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
 import { useMemo } from 'react';
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
+
+import { DateObject, findActiveDate, isGetActiveDateColor, verifyDate } from './utils/date';
+import { NoProjectInfoAccessMessage } from '../messages/NoProjectInfoAccessMessage';
+import { useProjectDetails } from '../../../project-page/components/project-director/hooks/use-current-director';
+import { useFramework } from '@equinor/fusion-framework-react';
+import { useRelationsByType } from '@portal/core';
 
 const Styles = {
 	Content: styled(Card.Content).withConfig({ displayName: 'phase' })`
@@ -13,12 +19,6 @@ const Styles = {
 		flex-wrap: wrap;
 	`,
 };
-
-import { DateObject, findActiveDate, isGetActiveDateColor, verifyDate } from './utils/date';
-
-import { NoProjectInfoAccessMessage } from '../messages/NoProjectInfoAccessMessage';
-import { useProjectDetails } from '../../../project-page/components/project-director/hooks/use-current-director';
-import { useFramework } from '@equinor/fusion-framework-react';
 
 export const FacilityProjectPhases = () => {
 	const context = useFrameworkCurrentContext();

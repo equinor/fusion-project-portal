@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ContextProvider, ContextSelector } from '@equinor/portal-core';
 
 import { css } from '@emotion/css';
-import { useApps } from '@portal/core';
+import { usePortalApps } from '@portal/core';
 
 export const style = {
 	paddingTop: css`
@@ -17,7 +17,7 @@ type AppNotAwaitableProps = {
 };
 
 export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
-	const { appGroups, isLoading } = useApps();
+	const { appCategories, isLoading } = usePortalApps();
 
 	const navigate = useNavigate();
 
@@ -27,11 +27,11 @@ export const AppNotAwaitable = ({ name }: AppNotAwaitableProps) => {
 				<ContextProvider>
 					<ContextSelector navigate={navigate} />
 				</ContextProvider>
-				{!isLoading && appGroups && (
+				{!isLoading && appCategories && (
 					<div>
 						<p>Current apps are available for the selected context:</p>
 						<div className={style.paddingTop}>
-							<GroupWrapper appCategory={appGroups} maxAppsInColumn={10} />
+							<GroupWrapper appCategories={appCategories} maxAppsInColumn={10} />
 						</div>
 					</div>
 				)}

@@ -1,20 +1,55 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface Relations {
+
+export type RelationsTypes =
+	| 'EquinorTask'
+	| 'Contract'
+	| 'ProjectMaster'
+	| 'PimsDomain'
+	| 'Project'
+	| 'OrgChart'
+	| 'Facility';
+
+export type RelationReturnType<T extends RelationsTypes> = T extends 'ProjectMaster'
+	? Relations<ProjectMaster>
+	: T extends 'Facility'
+	? Relations<Facility>
+	: T extends 'OrgChart'
+	? Relations<OrgChart>
+	: T extends 'EquinorTask'
+	? Relations<EquinorTask>
+	: T extends 'Contract'
+	? Relations<Contract>
+	: T extends 'Project'
+	? Relations
+	: T extends 'PimsDomain'
+	? Relations<PimsDomain>
+	: Relations;
+
+export interface Relations<T = unknown> {
 	relationSource: string;
 	relationType?: any;
 	id: string;
 	externalId: string;
 	source?: any;
 	type: Type;
-	value: Value;
+	value: T extends object ? T : Value;
 	title: string;
 	isActive: boolean;
 	isDeleted: boolean;
 	created: string;
 	updated?: string;
 }
+
+export type ProjectMaster = {
+	facilities: string[];
+	projectCategory: string;
+	cvpid: string;
+	documentManagementId: string;
+	phase: string;
+	portfolioOrganizationalUnit: string;
+} & Record<string, unknown>;
 
 interface Value {
 	identity?: string;

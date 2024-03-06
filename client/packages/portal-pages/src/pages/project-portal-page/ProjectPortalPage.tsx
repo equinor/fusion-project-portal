@@ -5,10 +5,11 @@ import { css } from '@emotion/css';
 import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 import { User } from './user/UserCard';
-import InfoBox from './InfoBox/InfoBox';
+
 import { OnboardedContext } from '@portal/types';
 import { Button, Typography } from '@equinor/eds-core-react';
 import { useFramework } from '@equinor/fusion-framework-react';
+import InfoBox from '../sheared/components/InfoBox/InfoBox';
 
 const styles = {
 	contentSection: css`
