@@ -9,6 +9,7 @@ export * from './components/menu-item/MenuItem';
 export * from './components/external-link/ExternalLink';
 export * from './components/minute-picker/MinutePicker';
 export * from './components/info-message/InfoMessage';
+export * from './components/info-icon/InfoIcon';
 
 // Export UI Utils
 export * from './utils/user';

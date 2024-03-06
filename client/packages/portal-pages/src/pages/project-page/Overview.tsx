@@ -16,11 +16,11 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 	return (
 		<Styles.Row>
 			<Styles.Col>
+				<Facilities />
 				<WorkAssigned />
 			</Styles.Col>
 			<Styles.Col>
 				<Phases />
-				<Facilities />
 				<Favorites openAllApps={openAllApps} />
 				{/* Todo remove when cc tab is not in feature flag mode */}
 				{ccTabFeature?.enabled === false && <Milestones />}

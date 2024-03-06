@@ -1,14 +1,11 @@
-import { Typography } from '@equinor/eds-core-react';
-
+import { Icon, Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
-
-import { css } from '@emotion/css';
-
 import { useCurrentUser } from '@portal/core';
 import styled from 'styled-components';
-
 import { FacilityDetails } from './FacilityDetails';
 import { Facility } from '../types';
+import { platform } from '@equinor/eds-icons';
+import { tokens } from '@equinor/eds-tokens';
 
 export const StyledBackgroundWrapper = styled.section<{ imageURL?: string }>`
 	background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.8)),
@@ -36,9 +33,20 @@ function getBackgroundURL(instCode?: string) {
 	if (!instCode) return;
 	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
 }
-const styles = {
-	headerTitle: css`
+const Styles = {
+	Wrapper: styled.div`
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		> :not(:first-child) {
+			margin-left: 0px;
+		}
 		margin: 2rem;
+	`,
+	Header: styled.div`
+		display: flex;
+		gap: 1rem;
+		align-items: center;
 	`,
 };
 
@@ -61,13 +69,18 @@ export const FacilityHeader = () => {
 
 	return (
 		<StyledBackgroundWrapper imageURL={getBackgroundURL(currentContext?.value?.identity)}>
-			<StyledHeader className={styles.headerTitle}>
-				<Typography variant="h1">{currentContext?.title}</Typography>
-				<Typography variant="h6">
-					{getGreeting()} {data?.name}
-				</Typography>
+			<Styles.Wrapper>
+				<Styles.Header>
+					<Icon size={48} data={platform} color={tokens.colors.text.static_icons__default.hex} />
+					<span>
+						<Typography variant="h1">{currentContext?.title}</Typography>
+						<Typography variant="h6">
+							{getGreeting()} {data?.name}
+						</Typography>
+					</span>
+				</Styles.Header>
 				<FacilityDetails />
-			</StyledHeader>
+			</Styles.Wrapper>
 		</StyledBackgroundWrapper>
 	);
 };

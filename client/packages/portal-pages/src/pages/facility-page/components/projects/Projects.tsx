@@ -2,7 +2,6 @@ import { Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
 import { useRelationsByType } from '@portal/core';
-
 import { InfoIcon } from '@portal/ui';
 
 const Styles = {
@@ -24,40 +23,40 @@ const Styles = {
 	`,
 };
 
-export const Facilities = () => {
+export const Projects = () => {
 	const currentContext = useFrameworkCurrentContext();
 	const { onboardedContexts } = useOnboardedContexts();
-	const { data: facilities } = useRelationsByType('Facility', currentContext?.id);
+	const { data: projects } = useRelationsByType('ProjectMaster', currentContext?.id);
 
-	if (facilities.length === 0) return null;
+	if (projects.length === 0) return null;
 
 	return (
 		<div>
 			<Styles.Heading>
-				<Typography variant="h5">Facilities</Typography>
-				<InfoIcon message="The following links, navigates to the related facilities" />
+				<Typography variant="h5">Projects</Typography>
+				<InfoIcon message="The following links, navigates to the related projects" />
 			</Styles.Heading>
 			<Styles.Nav>
-				{facilities.map((facility, index) => {
+				{projects.map((project, index) => {
 					const isEnabledContext = Boolean(
 						onboardedContexts?.find(
-							(context) => context.externalId === facility.externalId && context.type === facility.type.id
+							(context) => context.externalId === project.externalId && context.type === project.type.id
 						)
 					);
 					return (
-						<Styles.LinkWrapper key={facility.id}>
+						<Styles.LinkWrapper key={project.id}>
 							<Typography
 								link={isEnabledContext}
 								title={
 									isEnabledContext
-										? facility.title
-										: `Facility ${facility.title} is not enabled context.`
+										? project.title
+										: `Project ${project.title} is not enabled context.`
 								}
-								href={`/facility/${facility.id}`}
+								href={`/project/${project.id}`}
 							>
-								{facility.title}
+								{project.title}
 							</Typography>
-							{facilities.length > index + 1 && <span>|</span>}
+							{projects.length > index + 1 && <span>|</span>}
 						</Styles.LinkWrapper>
 					);
 				})}

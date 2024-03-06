@@ -1,4 +1,4 @@
-import { Button, Card, Typography } from '@equinor/eds-core-react';
+import { Card, Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
 import { useMemo } from 'react';
 import { KpiCardItem } from './KpiItem';
@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { DateObject, findActiveDate, isGetActiveDateColor, verifyDate } from './utils/date';
 import { NoProjectInfoAccessMessage } from '../messages/NoProjectInfoAccessMessage';
 import { useProjectDetails } from '../../../project-page/components/project-director/hooks/use-current-director';
-import { useFramework } from '@equinor/fusion-framework-react';
 import { useRelationsByType } from '@portal/core';
 
 const Styles = {
@@ -55,14 +54,20 @@ const Phases = (props: { projectMasterId: string; title: string; isActive: boole
 
 	const current = useMemo(() => findActiveDate(data?.dates.gates as DateObject), [data]);
 
-	const { context } = useFramework().modules;
-
 	if (equinorTask.length === 0) return null;
 
 	return (
 		<Card elevation="raised">
 			<Card.Header>
-				<Typography variant="h6">{props.title}</Typography>
+				{props.isActive ? (
+					<Typography as={'a'} title={props.title} variant="h6" href={`/facility/${props.projectMasterId}`}>
+						{props.title}
+					</Typography>
+				) : (
+					<Typography title={props.title} variant="h6">
+						{props.title}
+					</Typography>
+				)}
 				{data?.dates.startDate && data.dates.endDate ? (
 					<Typography variant="meta">
 						{verifyDate(data?.dates.startDate)} - {verifyDate(data?.dates.endDate)}
@@ -114,18 +119,6 @@ const Phases = (props: { projectMasterId: string; title: string; isActive: boole
 					/>
 				</Styles.Content>
 			)}
-			<Card.Actions alignRight={true}>
-				<Button
-					variant="ghost"
-					title={
-						props.isActive ? props.title : `Project ${props.title} is not enabled for the project portal`
-					}
-					disabled={!props.isActive}
-					onClick={() => context.setCurrentContextByIdAsync(props.projectMasterId)}
-				>
-					{props.title}
-				</Button>
-			</Card.Actions>
 		</Card>
 	);
 };

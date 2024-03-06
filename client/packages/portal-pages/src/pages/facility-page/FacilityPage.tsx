@@ -15,15 +15,6 @@ import { Facility } from './types';
 import { AllApps } from '../sheared/components/AllApps';
 import InfoBox from '../sheared/components/InfoBox/InfoBox';
 
-export type ProjectMaster = {
-	facilities: string[];
-	projectCategory: string;
-	cvpid: string;
-	documentManagementId: string;
-	phase: string;
-	portfolioOrganizationalUnit: string;
-} & Record<string, unknown>;
-
 export const Styles = {
 	Wrapper: styled.main`
 		display: flex;
@@ -76,6 +67,9 @@ export const Styles = {
 			width: 100%;
 		}
 	`,
+	Relative: styled.div`
+		position: relative;
+	`,
 };
 
 const TABS = {
@@ -108,13 +102,15 @@ export const FacilityPage = () => {
 
 	return (
 		<Styles.Wrapper>
-			<FacilityHeader />
-			<Styles.Details>
-				<User />
-				<InfoBox />
-			</Styles.Details>
-
 			<Styles.Content>
+				<Styles.Relative>
+					<Styles.Details>
+						<User />
+						<InfoBox />
+					</Styles.Details>
+				</Styles.Relative>
+				<FacilityHeader />
+
 				<Styles.TabsWrapper>
 					<Tabs activeTab={activeTab} onChange={handleChange}>
 						<Tabs.List>

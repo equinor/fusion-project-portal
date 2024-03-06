@@ -34,12 +34,12 @@ export const Styles = {
 		display: flex;
 		flex-direction: column;
 		background: ${tokens.colors.ui.background__light.hex};
+		overflow: hidden;
 	`,
 	Content: styled.section`
-		overflow: auto;
 		flex: 1;
+		overflow: auto;
 	`,
-
 	Details: styled.div`
 		position: absolute;
 		display: flex;
@@ -80,6 +80,9 @@ export const Styles = {
 		@media only screen and (max-width: 1300px) {
 			width: 100%;
 		}
+	`,
+	Relative: styled.div`
+		position: relative;
 	`,
 };
 
@@ -129,17 +132,18 @@ export const ProjectPage = () => {
 
 	return (
 		<Styles.Wrapper>
-			<ProjectHeader />
 			<WizardScrim />
-			<Styles.Details>
-				<User />
-				<ProjectDirector />
-				<InfoBox />
-				<OneEquinorLink />
-				<ProOrgLink />
-			</Styles.Details>
-
 			<Styles.Content>
+				<Styles.Relative>
+					<Styles.Details>
+						<User />
+						<ProjectDirector />
+						<InfoBox />
+						<OneEquinorLink />
+						<ProOrgLink />
+					</Styles.Details>
+				</Styles.Relative>
+				<ProjectHeader />
 				<Styles.TabsWrapper>
 					<Tabs activeTab={activeTab} onChange={handleChange}>
 						{feature?.enabled ? (

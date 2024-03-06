@@ -80,7 +80,7 @@ interface Value {
 	wbs?: string;
 }
 
-interface Contract {
+export interface Contract {
 	contractNumber?: number;
 	companyName?: string;
 	startDate?: string;
@@ -89,7 +89,7 @@ interface Contract {
 	isValid: boolean;
 }
 
-interface Facility {
+export interface Facility {
 	identity: string;
 	sapPlant: string;
 	schema: string;
@@ -97,7 +97,7 @@ interface Facility {
 	parentFacility?: string[];
 }
 
-interface OrgChart {
+export interface OrgChart {
 	orgChartId?: string;
 	domainId?: string;
 	dgPhase?: string;

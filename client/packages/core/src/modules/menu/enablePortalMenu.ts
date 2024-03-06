@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IModulesConfigurator } from '@equinor/fusion-framework-module';
 
 import { menuModule } from './module';
