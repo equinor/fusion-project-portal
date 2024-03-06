@@ -1,8 +1,9 @@
 import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { useFrameworkCurrentContext, useOnboardedContexts, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { platform } from '@equinor/eds-icons';
+import { useRelationsByType } from '@portal/core';
 
 const Styles = {
 	Heading: styled.div`

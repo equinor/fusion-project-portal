@@ -7,11 +7,11 @@ export const FacilityOverview = ({ openAllApps }: { openAllApps: () => void }) =
 	return (
 		<Styles.Row>
 			<Styles.Col>
-				<FacilityProjectPhases />
-				<Favorites openAllApps={openAllApps} />
+				<WorkAssigned />
 			</Styles.Col>
 			<Styles.Col>
-				<WorkAssigned />
+				<Favorites openAllApps={openAllApps} />
+				<FacilityProjectPhases />
 			</Styles.Col>
 		</Styles.Row>
 	);

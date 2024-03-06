@@ -63,9 +63,13 @@ const Phases = (props: { projectMasterId: string; title: string; isActive: boole
 		<Card elevation="raised">
 			<Card.Header>
 				<Typography variant="h6">{props.title}</Typography>
-				<Typography variant="meta">
-					{verifyDate(data?.dates.startDate)} - {verifyDate(data?.dates.endDate)}
-				</Typography>
+				{data?.dates.startDate && data.dates.endDate ? (
+					<Typography variant="meta">
+						{verifyDate(data?.dates.startDate)} - {verifyDate(data?.dates.endDate)}
+					</Typography>
+				) : (
+					<Typography variant="meta">-</Typography>
+				)}
 			</Card.Header>
 
 			{error ? (
