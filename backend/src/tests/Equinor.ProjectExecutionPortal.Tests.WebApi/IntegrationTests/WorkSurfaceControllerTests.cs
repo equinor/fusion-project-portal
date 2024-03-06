@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
     [TestClass]
     public class WorkSurfaceControllerTests : TestBase
     {
-        private const string Route = "api/work-surfaces";
+        private const string Route = "api/portals";
 
         [TestMethod]
         public async Task Get_WorkSurfaces_AsAuthenticatedUser_ShouldReturnOk()
@@ -256,7 +256,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         private static async Task<HttpResponseMessage> GetAppsForWorksurface(Guid workSurfaceId, string? contextExternalId, string? contextType, UserType userType)
         {
-            var route = contextExternalId != null ? $"{Route}/{workSurfaceId}/contexts/{contextExternalId}/type/{contextType}/apps" : $"{Route}/{workSurfaceId}/apps";
+            var route = contextExternalId != null ? $"{Route}/{workSurfaceId}/contexts/{contextExternalId}/type/{contextType}/app-groups" : $"{Route}/{workSurfaceId}/app-groups";
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.GetAsync(route);
 

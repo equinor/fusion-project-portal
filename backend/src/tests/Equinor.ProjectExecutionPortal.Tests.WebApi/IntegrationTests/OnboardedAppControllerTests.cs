@@ -94,7 +94,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             {
                 AppKey = "test-app",
                 IsLegacy = false,
-                AppGroupId = getAllAppGroups!.First().Id
+                AppGroupId = getAllAppGroups!.First().Id,
+                ContextTypes = new List<string>() {"ProjectMaster"}
             };
 
             // Act
@@ -252,7 +253,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             {
                 AppKey = "app-to-be-removed",
                 IsLegacy = false,
-                AppGroupId = getAllAppGroups!.First().Id
+                AppGroupId = getAllAppGroups!.First().Id,
+                ContextTypes = new List<string>() { "ProjectMaster" }
             };
 
             // Act
