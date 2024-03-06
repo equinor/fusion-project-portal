@@ -1,4 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using ApiContextType = Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType.ApiContextType;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
@@ -6,15 +8,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
     {
         public ApiWorkSurfaceApp(WorkSurfaceAppDto workSurfaceAppDto)
         {
-            AppKey = workSurfaceAppDto.OnboardedApp.AppKey;
-            Name = workSurfaceAppDto.OnboardedApp.AppInformation?.Name;
-            Description = workSurfaceAppDto.OnboardedApp.AppInformation?.Description;
-            Order = workSurfaceAppDto.OnboardedApp.Order;
+            Key = workSurfaceAppDto.OnboardedApp.AppKey;
+            ContextTypes = workSurfaceAppDto.OnboardedApp.ContextTypes.Select(x => new ApiContextType(x)).ToList();
+            AppManifest = workSurfaceAppDto.OnboardedApp.AppInformation != null ? new ApiFusionPortalAppInformation(workSurfaceAppDto.OnboardedApp.AppInformation) : null;
         }
 
-        public string AppKey { get; set; }
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public int Order { get; set; }
+        public string Key { get; set; }
+        public IList<ApiContextType> ContextTypes { get; set; }
+        public ApiFusionPortalAppInformation? AppManifest { get; set; }
     }
 }

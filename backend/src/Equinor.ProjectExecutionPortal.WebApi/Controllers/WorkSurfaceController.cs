@@ -1,6 +1,7 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurface;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurface;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithContextAndGlobalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceAppGroupsWithGlobalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
@@ -108,8 +109,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         // Apps
 
-        [HttpGet("{workSurfaceId:guid}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId)
+        [HttpGet("{workSurfaceId:guid}/app-groups")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid workSurfaceId)
         {
 
             var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(workSurfaceId));
@@ -122,8 +123,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
         }
 
-        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/type/{contextType}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextExternalId}/type/{contextType}/app-groups")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid workSurfaceId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
             var fusionContextType = FusionContextType.Resolve(contextType);
@@ -144,8 +145,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
         }
 
-        [HttpGet("{workSurfaceId:guid}/context/{contextId:guid}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] Guid contextId)
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextId:guid}/app-groups")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid workSurfaceId, [FromRoute] Guid contextId)
         {
 
             var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery(workSurfaceId, contextId));
@@ -156,6 +157,40 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
 
             return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+        }
+
+        [HttpGet("{workSurfaceId:guid}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceApp>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId)
+        {
+            //TODO: improve error handling
+            var workSurfaceAppsDto = await Mediator.Send(new GetWorkSurfaceAppsQuery(workSurfaceId));
+
+            if (workSurfaceAppsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
+
+            }
+
+            var workSurfaceApps = workSurfaceAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
+
+            return Ok(workSurfaceApps.Select(x => new ApiWorkSurfaceApp(x)).ToList());
+
+        }
+
+        [HttpGet("{workSurfaceId:guid}/contexts/{contextId:guid}/apps")]
+        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid workSurfaceId, [FromRoute] Guid contextId)
+        {
+            //TODO: improve error handling
+            var workSurfaceAppsDto = await Mediator.Send(new GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery(workSurfaceId, contextId));
+
+            if (workSurfaceAppsDto == null)
+            {
+                return FusionApiError.NotFound(workSurfaceId, "Could not find Work Surface with id");
+            }
+
+            var workSurfaceApps = workSurfaceAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
+
+            return Ok(workSurfaceApps.Select(x => new ApiWorkSurfaceApp(x)).ToList());
         }
 
         [HttpPost("{workSurfaceId:guid}/apps")]
