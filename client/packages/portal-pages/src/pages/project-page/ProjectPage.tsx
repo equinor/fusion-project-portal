@@ -4,7 +4,6 @@ import { useParams, useSearchParams } from 'react-router-dom';
 
 import { OneEquinorLink } from './components/one-equinor-link/OneEquinorLink';
 import { ProjectDirector } from './components/project-director/ProjectDirector';
-import { ProjectHeader } from './components/ProjectHeader';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { User } from '../sheared/components/user/UserCard';
@@ -20,6 +19,9 @@ import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-fla
 import { ProOrgLink } from './components/pro-org-link/ProOrgLink';
 import { WizardScrim } from './components/project-wizard/Wizard';
 import { ProjectMaster } from '../sheared/types';
+import { PageHeader } from '../sheared/components/header/Header';
+import { ProjectDetails } from './components/ProjectDetails';
+import { assignment } from '@equinor/eds-icons';
 
 export const Styles = {
 	Wrapper: styled.main`
@@ -135,7 +137,16 @@ export const ProjectPage = () => {
 						<ProOrgLink />
 					</Styles.Details>
 				</Styles.Relative>
-				<ProjectHeader />
+				<PageHeader<ProjectMaster>
+					icon={assignment}
+					contextImageResolver={(context) => {
+						return context?.value?.facilities && context.value.facilities.length > 0
+							? context?.value?.facilities[0]
+							: '';
+					}}
+				>
+					<ProjectDetails />
+				</PageHeader>
 				<Styles.TabsWrapper>
 					<Tabs activeTab={activeTab} onChange={handleChange}>
 						{feature?.enabled ? (

@@ -1,8 +1,6 @@
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
 import { useParams, useSearchParams } from 'react-router-dom';
-
-import { FacilityHeader } from './components/FacilityHeader';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { User } from '../sheared/components/user/UserCard';
@@ -14,6 +12,9 @@ import { Tabs } from '@equinor/eds-core-react';
 import { Facility } from '../sheared/types';
 import { AllApps } from '../sheared/components/AllApps';
 import InfoBox from '../sheared/components/InfoBox/InfoBox';
+import { PageHeader } from '../sheared/components/header/Header';
+import { platform } from '@equinor/eds-icons';
+import { FacilityDetails } from './components/FacilityDetails';
 
 export const Styles = {
 	Wrapper: styled.main`
@@ -109,7 +110,14 @@ export const FacilityPage = () => {
 						<InfoBox />
 					</Styles.Details>
 				</Styles.Relative>
-				<FacilityHeader />
+				<PageHeader<Facility>
+					icon={platform}
+					contextImageResolver={(context) => {
+						return context?.value.identity || '';
+					}}
+				>
+					<FacilityDetails />
+				</PageHeader>
 
 				<Styles.TabsWrapper>
 					<Tabs activeTab={activeTab} onChange={handleChange}>

@@ -2,10 +2,12 @@ import { Icon, Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useCurrentUser } from '@portal/core';
 import styled from 'styled-components';
-import { ProjectDetails } from './ProjectDetails';
-import { WizardScrim } from './project-wizard/Wizard';
-import { assignment } from '@equinor/eds-icons';
+
+import { IconData } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
+import { PropsWithChildren } from 'react';
+import context from '@equinor/fusion-framework-module-services/context';
+import { ContextItem } from '@equinor/fusion-framework-module-context';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -63,21 +65,19 @@ export const getGreeting = () => {
 	}
 };
 
-export const ProjectHeader = () => {
-	const currentContext = useFrameworkCurrentContext<ProjectMaster>();
+export function PageHeader<T extends Record<string, unknown>>({
+	children,
+	icon,
+	contextImageResolver,
+}: PropsWithChildren<{ icon: IconData; contextImageResolver: (context?: ContextItem<T>) => string }>) {
+	const currentContext = useFrameworkCurrentContext<T>();
 	const { data } = useCurrentUser();
 
 	return (
-		<StyledBackgroundWrapper
-			imageURL={getBackgroundURL(
-				currentContext?.value?.facilities && currentContext.value.facilities.length > 0
-					? currentContext?.value?.facilities[0]
-					: ''
-			)}
-		>
+		<StyledBackgroundWrapper imageURL={getBackgroundURL(contextImageResolver(currentContext))}>
 			<Styles.Wrapper>
 				<Styles.Header>
-					<Icon size={48} data={assignment} color={tokens.colors.text.static_icons__default.hex} />
+					<Icon size={48} data={icon} color={tokens.colors.text.static_icons__default.hex} />
 					<span>
 						<Typography variant="h1">{currentContext?.title}</Typography>
 						<Typography variant="h6">
@@ -85,9 +85,8 @@ export const ProjectHeader = () => {
 						</Typography>
 					</span>
 				</Styles.Header>
-				<ProjectDetails />
-				<WizardScrim />
+				{children}
 			</Styles.Wrapper>
 		</StyledBackgroundWrapper>
 	);
-};
+}
