@@ -3,7 +3,7 @@ import { Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
 import styled from 'styled-components';
-import { Facility } from '../types';
+import { Facility } from '../../sheared/types';
 
 const Styles = {
 	ContentItem: styled.div`

@@ -1,7 +1,7 @@
 import { Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
-import { useRelationsByType } from '@portal/core';
+import { RelationsTypes, useRelationsByType } from '@portal/core';
 
 import { InfoIcon } from '@portal/ui';
 
@@ -24,40 +24,44 @@ const Styles = {
 	`,
 };
 
-export const Facilities = () => {
+export const ContextRelationNavigation = ({
+	title,
+	type,
+	path,
+}: {
+	title: string;
+	path: string;
+	type: RelationsTypes;
+}) => {
 	const currentContext = useFrameworkCurrentContext();
 	const { onboardedContexts } = useOnboardedContexts();
-	const { data: facilities } = useRelationsByType('Facility', currentContext?.id);
+	const { data } = useRelationsByType(type, currentContext?.id);
 
-	if (facilities.length === 0) return null;
+	if (data.length === 0) return null;
 
 	return (
 		<div>
 			<Styles.Heading>
-				<Typography variant="h5">Facilities</Typography>
-				<InfoIcon message="The following links, navigates to the related facilities" />
+				<Typography variant="h5">{title}</Typography>
+				<InfoIcon message={`The following links, navigates to the related ${title.toLowerCase()}`} />
 			</Styles.Heading>
 			<Styles.Nav>
-				{facilities.map((facility, index) => {
+				{data.map((item, index) => {
 					const isEnabledContext = Boolean(
 						onboardedContexts?.find(
-							(context) => context.externalId === facility.externalId && context.type === facility.type.id
+							(context) => context.externalId === item.externalId && context.type === item.type.id
 						)
 					);
 					return (
-						<Styles.LinkWrapper key={facility.id}>
+						<Styles.LinkWrapper key={item.id}>
 							<Typography
 								link={isEnabledContext}
-								title={
-									isEnabledContext
-										? facility.title
-										: `Facility ${facility.title} is not enabled context.`
-								}
-								href={`/facility/${facility.id}`}
+								title={isEnabledContext ? item.title : `Facility ${item.title} is not enabled context.`}
+								href={`/${path}/${item.id}`}
 							>
-								{facility.title}
+								{item.title}
 							</Typography>
-							{facilities.length > index + 1 && <span>|</span>}
+							{data.length > index + 1 && <span>|</span>}
 						</Styles.LinkWrapper>
 					);
 				})}

@@ -81,7 +81,7 @@ export function PortalProvider() {
 	const { data: portal, isLoading: portalLoading } = usePortalConfig().queryPortal;
 
 	if (routesLoading || portalLoading) {
-		return <PortalProgressLoader title="Loading Portal Routes" />;
+		return <PortalProgressLoader title="Loading Portal Config" />;
 	}
 
 	return (

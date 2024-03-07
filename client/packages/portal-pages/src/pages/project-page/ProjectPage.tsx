@@ -19,15 +19,7 @@ import { Tabs } from '@equinor/eds-core-react';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
 import { ProOrgLink } from './components/pro-org-link/ProOrgLink';
 import { WizardScrim } from './components/project-wizard/Wizard';
-
-type ProjectMaster = {
-	facilities: string[];
-	projectCategory: string;
-	cvpid: string;
-	documentManagementId: string;
-	phase: string;
-	portfolioOrganizationalUnit: string;
-} & Record<string, unknown>;
+import { ProjectMaster } from '../sheared/types';
 
 export const Styles = {
 	Wrapper: styled.main`
@@ -162,7 +154,7 @@ export const ProjectPage = () => {
 						{feature?.enabled ? (
 							<Tabs.Panels>
 								<Tabs.Panel>
-									<Overview openAllApps={() => setActiveTab(2)} />
+									<Overview openAllApps={() => handleChange(2)} />
 								</Tabs.Panel>
 								<Tabs.Panel>
 									<ConstructionAndCommissioningData />
@@ -174,7 +166,7 @@ export const ProjectPage = () => {
 						) : (
 							<Tabs.Panels>
 								<Tabs.Panel>
-									<Overview openAllApps={() => setActiveTab(1)} />
+									<Overview openAllApps={() => handleChange(1)} />
 								</Tabs.Panel>
 								<Tabs.Panel>
 									<AllApps />

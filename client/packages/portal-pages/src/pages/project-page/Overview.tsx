@@ -7,7 +7,7 @@ import AppSearch from './components/app-search';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
 import { Phases } from './components/phases/Phases';
 import { Milestones } from './components/milestones/Milestones';
-import { Facilities } from './components/facilities/Facilities';
+import { ContextRelationNavigation } from '../sheared/components/context-relation-navigation/ContextRelationNavigation';
 
 export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 	const { feature } = useFrameworkFeature('app-search');
@@ -16,7 +16,7 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 	return (
 		<Styles.Row>
 			<Styles.Col>
-				<Facilities />
+				<ContextRelationNavigation title="Facilities" path="facility" type="Facility" />
 				<WorkAssigned />
 			</Styles.Col>
 			<Styles.Col>

@@ -17,7 +17,7 @@ export const PortalPage = (prop: { route?: Omit<PortalRoute, 'path'> }) => {
 };
 
 const LoadPage = ({ pageKey, message }: { pageKey?: string; message?: string }) => {
-	if (!pageKey) return <PortalMessagePage title="PageKey not provided " />;
+	if (!pageKey) return <PortalMessagePage title="Page Key not provided " />;
 	return (
 		<AppElementProvider appKey={pageKey}>
 			<PortalProgressLoader title={message || 'Loading Page'} />

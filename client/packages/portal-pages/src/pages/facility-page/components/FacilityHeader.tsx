@@ -3,7 +3,7 @@ import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useCurrentUser } from '@portal/core';
 import styled from 'styled-components';
 import { FacilityDetails } from './FacilityDetails';
-import { Facility } from '../types';
+import { Facility } from '../../sheared/types';
 import { platform } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 

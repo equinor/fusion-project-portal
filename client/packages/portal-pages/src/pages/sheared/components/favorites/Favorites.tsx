@@ -39,6 +39,10 @@ const styles = {
 		text-decoration: underline;
 		cursor: pointer;
 	`,
+	FrameButton: styled.span`
+		color: ${tokens.colors.interactive.primary__resting.hex};
+		cursor: pointer;
+	`,
 	cardList: css`
 		display: grid;
 		grid-auto-rows: auto;
@@ -123,13 +127,13 @@ export const Favorites = ({ openAllApps }: FavoriteProps) => {
 							<br />
 							Choose your favourites in{' '}
 							<styles.FrameLink onClick={openAllApps}>All apps</styles.FrameLink> or{' '}
-							<styles.FrameLink
+							<styles.FrameButton
 								onClick={() => {
 									toggleMenu();
 								}}
 							>
 								Menu
-							</styles.FrameLink>{' '}
+							</styles.FrameButton>{' '}
 							by clicking on the star ★.
 						</AppContainerEmpty>
 					</styles.NoData>

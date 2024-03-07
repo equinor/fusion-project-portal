@@ -11,7 +11,7 @@ import { FacilityOverview } from './FacilityOverview';
 
 import { useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
-import { Facility } from './types';
+import { Facility } from '../sheared/types';
 import { AllApps } from '../sheared/components/AllApps';
 import InfoBox from '../sheared/components/InfoBox/InfoBox';
 
@@ -120,7 +120,7 @@ export const FacilityPage = () => {
 
 						<Tabs.Panels>
 							<Tabs.Panel>
-								<FacilityOverview openAllApps={() => setActiveTab(1)} />
+								<FacilityOverview openAllApps={() => handleChange(1)} />
 							</Tabs.Panel>
 							<Tabs.Panel>
 								<AllApps />

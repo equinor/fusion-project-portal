@@ -9,11 +9,13 @@ type ContextNotAvailableDialogProps = {
 
 const Style = {
 	Wrapper: styled.div`
-		position: 'fixed';
+		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
 		bottom: 0;
+		z-index: 900;
+		background-color: #fff;
 	`,
 };
 
@@ -27,6 +29,7 @@ export const ContextNotAvailableDialog = ({ allowAllContext }: ContextNotAvailab
 			</Style.Wrapper>
 		);
 	}
+
 	return (
 		<Dialog
 			style={{ width: '500px' }}
