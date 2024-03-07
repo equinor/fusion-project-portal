@@ -2,7 +2,7 @@ import { Search, Switch } from '@equinor/eds-core-react';
 import { InfoMessage, MenuScrim, StyledCategoryItem } from '@equinor/portal-ui';
 import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, usePortalMenu, useTelemetry } from '@portal/core';
 
-import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
+import { appsMatchingSearch, usePortalApps } from '@portal/core';
 import { useState, useMemo } from 'react';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
@@ -63,14 +63,14 @@ const Styles = {
 
 export function MenuGroups() {
 	const { dispatchEvent } = useTelemetry();
-	const { data, isLoading } = useAppGroupsQuery();
+	const { appCategories, isLoading } = usePortalApps();
 	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
 	const { feature, toggleFeature } = useFeature('new-menu');
 	const { addFavorite, appGroups, favorites } = useFavorites();
 
-	const categoryItems = ['Pinned Apps', ...(data?.map((item) => item.name) ?? []), 'All Apps'];
+	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.name) ?? []), 'All Apps'];
 
 	const favoriteGroup = useMemo(() => {
 		const enabledApps = (appGroups?.map((group) => group.apps) ?? []).flat();
@@ -90,7 +90,7 @@ export function MenuGroups() {
 		return filteredApps;
 	}, [searchText, activeItem, appGroups, favoriteGroup]);
 
-	const hasApps = useMemo(() => Boolean(data && data.length !== 0), [data]);
+	const hasApps = useMemo(() => Boolean(appCategories && appCategories.length !== 0), [appCategories]);
 
 	const handleToggle = (name: string | null) => {
 		if (activeItem === name) {
