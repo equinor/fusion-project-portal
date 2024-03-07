@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { FacilityHeader } from './components/FacilityHeader';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
-import { User } from './components/user/UserCard';
+import { User } from '../sheared/components/user/UserCard';
 
 import { FacilityOverview } from './FacilityOverview';
 

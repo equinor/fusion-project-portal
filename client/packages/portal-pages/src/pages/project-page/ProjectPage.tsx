@@ -7,7 +7,7 @@ import { ProjectDirector } from './components/project-director/ProjectDirector';
 import { ProjectHeader } from './components/ProjectHeader';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
-import { User } from './components/user/UserCard';
+import { User } from '../sheared/components/user/UserCard';
 
 import { InfoBox } from '../sheared/components/InfoBox/InfoBox';
 
