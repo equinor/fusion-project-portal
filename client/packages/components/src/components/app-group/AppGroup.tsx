@@ -1,12 +1,12 @@
-import { FusionAppGroup } from '@portal/types';
 import { useParams } from 'react-router-dom';
 
-import { AppManifest, ListCard } from '@portal/components';
+import { ListCard } from '@portal/components';
 
 import { css } from '@emotion/css';
 import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 import { Typography } from '@equinor/eds-core-react';
+import { AppCategory, AppManifest } from '@portal/core';
 
 export const Styles = {
 	Title: styled(Typography)<{ isActive: boolean }>`
@@ -59,12 +59,13 @@ export const Styles = {
 };
 
 type AppGroupProps = {
-	group: FusionAppGroup;
+	group: AppCategory;
+	onClick: (app: Partial<AppManifest>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 	onFavorite: (key: Partial<AppManifest>) => void;
 	dark?: boolean;
 };
 
-export const AppGroup = ({ group, onFavorite, dark }: AppGroupProps) => {
+export const AppGroup = ({ group, onFavorite, dark, onClick }: AppGroupProps) => {
 	const { appKey } = useParams();
 	const isGroupActive = !!group.apps.find((a) => a.key === appKey);
 
@@ -81,9 +82,7 @@ export const AppGroup = ({ group, onFavorite, dark }: AppGroupProps) => {
 							app={app}
 							pinButton
 							dark={dark}
-							onClick={(a) => {
-								console.log(a);
-							}}
+							onClick={onClick}
 							onFavorite={onFavorite}
 						/>
 					))}

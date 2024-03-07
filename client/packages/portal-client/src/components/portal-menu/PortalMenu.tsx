@@ -1,22 +1,20 @@
 import { Search, Switch } from '@equinor/eds-core-react';
-import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import { customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/utils';
+import { InfoMessage, MenuScrim, StyledCategoryItem } from '@equinor/portal-ui';
+import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, usePortalMenu, useTelemetry } from '@portal/core';
 
-import { useMenuContext } from '@equinor/portal-core';
 import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
 import { useState, useMemo } from 'react';
-import { css } from '@emotion/css';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
-import { AppGroup } from '@portal/components';
+import { AppGroup, LoadingMenu } from '@portal/components';
 
-const styles = {
-	divider: css`
+const Styles = {
+	Divider: styled.div`
 		border-right: 1px solid #dcdcdc;
 		height: 90%;
 	`,
-	categoryWrapper: css`
+	CategoryWrapper: styled.div`
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 2rem;
@@ -26,7 +24,7 @@ const styles = {
 		gap: 1rem;
 	`,
 
-	menuWrapper: css`
+	MenuWrapper: styled.div`
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
@@ -56,11 +54,17 @@ const styles = {
 			}
 		}
 	`,
+	Feature: styled.div`
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+	`,
 };
 
 export function MenuGroups() {
+	const { dispatchEvent } = useTelemetry();
 	const { data, isLoading } = useAppGroupsQuery();
-	const { searchText, setSearchText } = useMenuContext();
+	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
 	const { feature, toggleFeature } = useFeature('new-menu');
@@ -80,7 +84,7 @@ export function MenuGroups() {
 		}
 		if (activeItem.includes('All Apps') || searchText != '') {
 			const appSearch = appsMatchingSearch(appGroups ?? [], searchText);
-			return appSearch.sort((a, b) => customAppGroupArraySort(a, b, activeItem));
+			return appSearch.sort(appGroupArraySort);
 		}
 		const filteredApps = appGroups?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
@@ -88,18 +92,16 @@ export function MenuGroups() {
 
 	const hasApps = useMemo(() => Boolean(data && data.length !== 0), [data]);
 
-	const handleToggle = (name: string) => {
+	const handleToggle = (name: string | null) => {
 		if (activeItem === name) {
 			setActiveItem('All Apps');
 		} else {
-			setActiveItem(name);
+			name && setActiveItem(name);
 		}
 	};
 
-	const BREAK_COL_COUNT = 15;
-
 	return (
-		<PortalMenu>
+		<MenuScrim>
 			<Search
 				id="app-search"
 				placeholder={'Search for apps'}
@@ -111,32 +113,32 @@ export function MenuGroups() {
 				}}
 			/>
 
-			<div className={styles.menuWrapper}>
+			<Styles.MenuWrapper>
 				{isLoading ? (
 					<LoadingMenu />
 				) : (
 					<>
-						<div className={styles.divider}>
-							<div className={styles.categoryWrapper}>
+						<Styles.Divider>
+							<Styles.CategoryWrapper>
 								{categoryItems.map((item, index) => (
 									<StyledCategoryItem
 										key={index}
-										name={item}
+										name={item || ''}
 										isActive={activeItem === item}
 										onClick={() => handleToggle(item)}
 									/>
 								))}
-							</div>
+							</Styles.CategoryWrapper>
 							{/* Todo: remove when decided to use new menu */}
-							<div style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
+							<Styles.Feature>
 								<Switch
 									title="Toggle New Menu Feature"
 									checked={feature?.enabled}
 									disabled={feature?.readonly}
 									onChange={() => toggleFeature()}
 								/>
-							</div>
-						</div>
+							</Styles.Feature>
+						</Styles.Divider>
 						{displayAppGroups && !!displayAppGroups?.length ? (
 							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 								<InfoMessage>
@@ -144,24 +146,37 @@ export function MenuGroups() {
 									to add them to the pinned app section.
 								</InfoMessage>
 							) : (
-								<>
-									{feature?.enabled ? (
-										<styles.Wrapper>
-											{displayAppGroups &&
-												displayAppGroups.map((appGroup) => (
-													<div key={appGroup.name}>
-														<AppGroup
-															dark={false}
-															group={appGroup}
-															onFavorite={(app) => addFavorite(app.key)}
-														/>
-													</div>
-												))}
-										</styles.Wrapper>
-									) : (
-										<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_COUNT} />
-									)}
-								</>
+								<Styles.Wrapper>
+									{displayAppGroups &&
+										displayAppGroups.map((appGroup) => (
+											<div key={appGroup.name}>
+												<AppGroup
+													dark={false}
+													group={appGroup}
+													onClick={(app, e) => {
+														if (app.isDisabled) {
+															e.preventDefault();
+															return;
+														}
+														dispatchEvent(
+															{
+																name: 'onAppNavigation',
+															},
+
+															{
+																appKey: app.key,
+																isFavorite: app.isPinned,
+																source: 'app-menu',
+															}
+														);
+
+														closeMenu();
+													}}
+													onFavorite={(app) => addFavorite(app.key)}
+												/>
+											</div>
+										))}
+								</Styles.Wrapper>
 							)
 						) : (
 							<>
@@ -176,7 +191,7 @@ export function MenuGroups() {
 						)}
 					</>
 				)}
-			</div>
-		</PortalMenu>
+			</Styles.MenuWrapper>
+		</MenuScrim>
 	);
 }

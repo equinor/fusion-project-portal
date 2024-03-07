@@ -1,13 +1,11 @@
-import { Typography } from '@equinor/eds-core-react';
-
+import { Icon, Typography } from '@equinor/eds-core-react';
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
-
-import { css } from '@emotion/css';
-
 import { useCurrentUser } from '@portal/core';
 import styled from 'styled-components';
-
 import { ProjectDetails } from './ProjectDetails';
+import { WizardScrim } from './project-wizard/Wizard';
+import { assignment } from '@equinor/eds-icons';
+import { tokens } from '@equinor/eds-tokens';
 
 export type ProjectMaster = {
 	facilities: string[];
@@ -31,22 +29,24 @@ export const StyledBackgroundWrapper = styled.section<{ imageURL?: string }>`
 	overflow: hidden;
 `;
 
-export const StyledHeader = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	> :not(:first-child) {
-		margin-left: 0px;
-	}
-`;
-
 function getBackgroundURL(instCode?: string) {
 	if (!instCode) return;
 	return `https://stiddata.equinor.com/public/${instCode}.jpg`;
 }
-const styles = {
-	headerTitle: css`
+const Styles = {
+	Wrapper: styled.div`
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		> :not(:first-child) {
+			margin-left: 0px;
+		}
 		margin: 2rem;
+	`,
+	Header: styled.div`
+		display: flex;
+		gap: 1rem;
+		align-items: center;
 	`,
 };
 
@@ -68,14 +68,26 @@ export const ProjectHeader = () => {
 	const { data } = useCurrentUser();
 
 	return (
-		<StyledBackgroundWrapper imageURL={getBackgroundURL(currentContext?.value?.facilities[0])}>
-			<StyledHeader className={styles.headerTitle}>
-				<Typography variant="h1">{currentContext?.title}</Typography>
-				<Typography variant="h6">
-					{getGreeting()} {data?.name}
-				</Typography>
+		<StyledBackgroundWrapper
+			imageURL={getBackgroundURL(
+				currentContext?.value?.facilities && currentContext.value.facilities.length > 0
+					? currentContext?.value?.facilities[0]
+					: ''
+			)}
+		>
+			<Styles.Wrapper>
+				<Styles.Header>
+					<Icon size={48} data={assignment} color={tokens.colors.text.static_icons__default.hex} />
+					<span>
+						<Typography variant="h1">{currentContext?.title}</Typography>
+						<Typography variant="h6">
+							{getGreeting()} {data?.name}
+						</Typography>
+					</span>
+				</Styles.Header>
 				<ProjectDetails />
-			</StyledHeader>
+				<WizardScrim />
+			</Styles.Wrapper>
 		</StyledBackgroundWrapper>
 	);
 };

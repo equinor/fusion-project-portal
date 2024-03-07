@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

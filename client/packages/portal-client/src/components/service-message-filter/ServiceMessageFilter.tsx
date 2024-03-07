@@ -8,7 +8,7 @@ export const ServiceMessageFilter = () => {
 
 	useEffect(() => {
 		if (currentApps) {
-			registerCurrentApps(currentApps.map((app) => app.appKey));
+			registerCurrentApps(currentApps.map((app) => app.key));
 		}
 	}, [currentApps]);
 
