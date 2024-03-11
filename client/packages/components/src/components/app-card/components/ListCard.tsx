@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 
 import AppIconContainer from './AppIcon';
 import PinButtonContainer from './PinButton';
-import { FusionAppManifest } from '@portal/types';
+
 import { getAppCardColor } from '../util/app-card-color';
+import { AppManifest } from '@portal/core';
 
 export const Styled = {
 	Bg: styled.span<{ dark?: boolean; $loading?: boolean; isDisabled?: boolean }>`
@@ -50,9 +51,9 @@ export const Styled = {
 };
 
 type ListCardProps = {
-	app: Partial<FusionAppManifest>;
-	onClick?: (app: Partial<FusionAppManifest>) => void;
-	onFavorite?: (key: Partial<FusionAppManifest>) => void;
+	app: Partial<AppManifest>;
+	onClick?: (app: Partial<AppManifest>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+	onFavorite?: (key: Partial<AppManifest>) => void;
 	loading?: boolean;
 	dark?: boolean;
 	pinButton?: boolean;
@@ -68,7 +69,7 @@ export const ListCard = ({ app, onClick, loading, pinButton, dark, onFavorite }:
 			<Styled.Item
 				to={app.isDisabled ? '#' : app.url || `/apps/${app.key}/`}
 				style={getAppCardColor(app)}
-				onClick={() => onClick && onClick(app)}
+				onClick={(e) => onClick && onClick(app, e)}
 			>
 				<Styled.Content $loading={loading}>
 					<AppIconContainer loading={loading} display="item" app={app} />

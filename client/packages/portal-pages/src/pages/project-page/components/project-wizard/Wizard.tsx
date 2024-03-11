@@ -26,20 +26,20 @@ export const WizardScrim = (): JSX.Element => {
 				return (
 					<WizardStep
 						id={currentStep}
-						title="The new Project Page is here."
+						title="New Project Landing Page"
 						onNext={() => {
 							setActiveStep(currentStep + 1);
 						}}
 					>
-						Check out our new Landing Page, designed to be
-						<br /> flexible and personalized wit more project information.
+						Check our new landing page, designed to be <br />
+						flexible and personalized with more project information.
 					</WizardStep>
 				);
 			case 2:
 				return (
 					<WizardStep
 						id={currentStep}
-						title="Save your favorite app"
+						title="View project phase"
 						onBack={() => {
 							setActiveStep(currentStep - 1);
 						}}
@@ -47,15 +47,15 @@ export const WizardScrim = (): JSX.Element => {
 							setActiveStep(currentStep + 1);
 						}}
 					>
-						Click on the star icon next to an app to instantly add it to your Favorites. If you're in a
-						hurry right now, you can always come back later to build your list of Favorites.
+						This section shows the dates for decision gates, as well as the last decision gate that has been
+						passed.
 					</WizardStep>
 				);
 			case 3:
 				return (
 					<WizardStep
 						id={currentStep}
-						title="Project Phases"
+						title="Pinned apps"
 						onBack={() => {
 							setActiveStep(currentStep - 1);
 						}}
@@ -63,15 +63,15 @@ export const WizardScrim = (): JSX.Element => {
 							setActiveStep(currentStep + 1);
 						}}
 					>
-						The project phases KPIs serve as the guiding stars, illuminating the path forward and marking
-						significant milestones.
+						Go to the tab ´all apps´ and click on the star next to an app to add to the section of Pinned
+						apps. You can remove them by clicking the star from pinned apps.
 					</WizardStep>
 				);
 			case 4:
 				return (
 					<WizardStep
 						id={currentStep}
-						title="Project Information"
+						title="My features"
 						onBack={() => {
 							setActiveStep(currentStep - 1);
 						}}
@@ -81,8 +81,8 @@ export const WizardScrim = (): JSX.Element => {
 						}}
 						next="Go to Landing Page"
 					>
-						A search feature empowers you to find and launch apps quickly.
-						<br /> Just hit the enter key.
+						Open My account at the top right, scroll down to ´My features´. <br />
+						Click on the features that you would like to use. You can turn them on and off anytime.
 					</WizardStep>
 				);
 		}

@@ -10,7 +10,7 @@ export const useContextResolver = (type: string[]): ContextResolver => {
 	const contextProvider = useFrameworkContext();
 
 	const client = useContextClient('json');
-	const minQueryLength = 3;
+	const minQueryLength = 2;
 
 	const searchQuery = useCallback(
 		async (search: string): Promise<ContextResult> => {

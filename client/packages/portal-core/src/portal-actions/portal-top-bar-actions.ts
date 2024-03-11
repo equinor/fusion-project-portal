@@ -12,7 +12,9 @@ export const topBarActionsIds$ = createObservableStorage<string[]>(
 
 export const topBarActions$ = portalActions.actions$.pipe(
 	combineLatestWith(topBarActionsIds$.obs$),
-	map(([actions, ids]) => actions.filter((action) => ids.includes(action.actionId) || action.button))
+	map(([actions, ids]) =>
+		actions.filter((action) => (!action.hidden && ids.includes(action.actionId)) || action.button)
+	)
 );
 
 /**

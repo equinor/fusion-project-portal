@@ -1,8 +1,10 @@
-import { useFrameworkCurrentContext, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { Card, Icon } from '@equinor/eds-core-react';
 import { external_link } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { OneEquinorIcon } from './Icon';
+import { getFusionPortalURL } from '@portal/utils';
+import { useRelationsByType } from '@portal/core';
 
 const Styles = {
 	Link: styled.a`
@@ -43,13 +45,15 @@ const Styles = {
 
 export const OneEquinorLink = () => {
 	const context = useFrameworkCurrentContext();
-	const equinorTask = useRelationsByType('EquinorTask', context?.id);
+	const { data: equinorTask } = useRelationsByType('EquinorTask', context?.id);
 
 	if (equinorTask[0]?.value.orgUnitSapId) {
 		return (
 			<Card elevation="raised">
 				<Styles.Link
-					href={`https://fusion.equinor.com/apps/one-equinor/org-unit/${equinorTask[0].value.orgUnitSapId}/info`}
+					href={`${getFusionPortalURL()}/apps/one-equinor/org-unit/${
+						equinorTask[0].value.orgUnitSapId
+					}/task/${equinorTask[0].externalId}`}
 					aria-label="View in this project master in One Equinor"
 					target="_blank"
 				>
