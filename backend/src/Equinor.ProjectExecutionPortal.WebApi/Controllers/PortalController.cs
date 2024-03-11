@@ -178,7 +178,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
+        public async Task<ActionResult<List<ApiWorkSurfaceApp>>> WorkSurfaceApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
         {
             //TODO: improve error handling
             var workSurfaceAppsDto = await Mediator.Send(new GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery(portalId, contextId));
@@ -187,10 +187,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             {
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
             }
-
-            var workSurfaceApps = workSurfaceAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
-
-            return Ok(workSurfaceApps.Select(x => new ApiWorkSurfaceApp(x)).ToList());
+            
+            return Ok(workSurfaceAppsDto.Select(x => new ApiWorkSurfaceApp(x)).ToList());
         }
 
         [HttpPost("{portalId:guid}/apps")]
