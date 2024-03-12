@@ -1,4 +1,4 @@
-import { ContextProvider, PortalContextSelector, useOnboardedContexts } from '@equinor/portal-core';
+import { ContextProvider, PortalContextSelector } from '@equinor/portal-core';
 import { ProjectHeader } from './PageHeader';
 
 import { css } from '@emotion/css';
@@ -6,9 +6,6 @@ import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 import { User } from './user/UserCard';
 
-import { OnboardedContext } from '@portal/types';
-import { Button, Typography } from '@equinor/eds-core-react';
-import { useFramework } from '@equinor/fusion-framework-react';
 import InfoBox from '../sheared/components/InfoBox/InfoBox';
 
 const styles = {
@@ -39,8 +36,7 @@ export const Styles = {
 	`,
 
 	Content: styled.section`
-		overflow: auto;
-		padding: 1rem 2rem;
+		padding: 0rem 2rem;
 		height: 100vh;
 	`,
 
@@ -50,7 +46,7 @@ export const Styles = {
 		flex-direction: column;
 		gap: 1rem;
 		right: 3rem;
-		top: 16rem;
+		top: 6rem;
 		z-index: 1;
 		width: 360px;
 	`,
@@ -84,64 +80,26 @@ export const Styles = {
 };
 
 export const ProjectPortalPage = (): JSX.Element => {
-	const { onboardedContexts } = useOnboardedContexts();
-	const { context } = useFramework().modules;
-
-	const contextTypes = (onboardedContexts || []).reduce((acc, item) => {
-		if (acc[item.type]) {
-			acc[item.type].contexts.push(item);
-			return acc;
-		}
-
-		acc[item.type] = { type: item.type, contexts: [item] };
-
-		return acc;
-	}, {} as Record<string, { type: string; contexts: OnboardedContext[] }>);
-
 	return (
 		<Styles.Wrapper>
-			<ProjectHeader />
 			<Styles.Details>
 				<User />
 				<InfoBox />
 			</Styles.Details>
-
-			<Styles.Content>
-				<div className={styles.contentWrapper}>
-					<p className={styles.viewDescription}>
-						Please choose a project or facility from the search field to continue. This will direct you to
-						the context's homepage, where you can access the applications associated with the selected
-						context through the menu.
-					</p>
-					<ContextProvider>
-						<PortalContextSelector />
-					</ContextProvider>
-				</div>
-
-				<Styles.Row>
-					{Object.values(contextTypes).map((contextType) => {
-						return (
-							<div key={contextType.type}>
-								<Typography variant="h5">{contextType.type}</Typography>
-								<Styles.Col>
-									{contextType.contexts.map((onboardedContext) => (
-										<Button
-											fullWidth
-											key={onboardedContext.id}
-											onClick={() =>
-												context.setCurrentContextByIdAsync(onboardedContext.contextId)
-											}
-											variant="ghost"
-										>
-											{onboardedContext.title}
-										</Button>
-									))}
-								</Styles.Col>
-							</div>
-						);
-					})}
-				</Styles.Row>
-			</Styles.Content>
+			<ProjectHeader>
+				<Styles.Content>
+					<div className={styles.contentWrapper}>
+						<p className={styles.viewDescription}>
+							Please choose a project or facility from the search field to continue. This will direct you
+							to the context's homepage, where you can access the applications associated with the
+							selected context through the menu.
+						</p>
+						<ContextProvider>
+							<PortalContextSelector />
+						</ContextProvider>
+					</div>
+				</Styles.Content>
+			</ProjectHeader>
 		</Styles.Wrapper>
 	);
 };

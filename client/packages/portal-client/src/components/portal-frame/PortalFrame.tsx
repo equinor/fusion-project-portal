@@ -8,7 +8,6 @@ import { PortalSideSheet } from '../portal-side-sheet';
 import { useBookmarkNavigate } from '@equinor/fusion-framework-react-module-bookmark/portal';
 import { BookmarkProvider } from '@equinor/fusion-framework-react-components-bookmark';
 import { ServiceMessageFilter } from '../service-message-filter/ServiceMessageFilter';
-import { ContextNotAvailableDialog } from '@portal/core';
 import styled from 'styled-components';
 
 const Styles = {
@@ -37,7 +36,6 @@ export const PortalFrame = () => {
 								<ServiceMessageFilter />
 								<MainHeader />
 								<MenuGroups />
-								<ContextNotAvailableDialog allowAllContext={false} />
 								<Outlet />
 							</Styles.Section>
 							<PortalSideSheet />

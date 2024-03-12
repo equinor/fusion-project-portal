@@ -34,7 +34,7 @@ export const ContextRelationNavigation = ({
 	type: RelationsTypes;
 }) => {
 	const currentContext = useFrameworkCurrentContext();
-	const { onboardedContexts } = useOnboardedContexts();
+
 	const { data } = useRelationsByType(type, currentContext?.id);
 
 	if (data.length === 0) return null;
@@ -46,25 +46,14 @@ export const ContextRelationNavigation = ({
 				<InfoIcon message={`The following links, navigates to the related ${title.toLowerCase()}`} />
 			</Styles.Heading>
 			<Styles.Nav>
-				{data.map((item, index) => {
-					const isEnabledContext = Boolean(
-						onboardedContexts?.find(
-							(context) => context.externalId === item.externalId && context.type === item.type.id
-						)
-					);
-					return (
-						<Styles.LinkWrapper key={item.id}>
-							<Typography
-								link={isEnabledContext}
-								title={isEnabledContext ? item.title : `Facility ${item.title} is not enabled context.`}
-								href={`/${path}/${item.id}`}
-							>
-								{item.title}
-							</Typography>
-							{data.length > index + 1 && <span>|</span>}
-						</Styles.LinkWrapper>
-					);
-				})}
+				{data.map((item, index) => (
+					<Styles.LinkWrapper key={item.id}>
+						<Typography link title={item.title} href={`/${path}/${item.id}`}>
+							{item.title}
+						</Typography>
+						{data.length > index + 1 && <span>|</span>}
+					</Styles.LinkWrapper>
+				))}
 			</Styles.Nav>
 		</div>
 	);
