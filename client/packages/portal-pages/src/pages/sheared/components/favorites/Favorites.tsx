@@ -127,13 +127,13 @@ export const Favorites = ({ openAllApps }: FavoriteProps) => {
 							<br />
 							Choose your favourites in{' '}
 							<styles.FrameLink onClick={openAllApps}>All apps</styles.FrameLink> or{' '}
-							<styles.FrameButton
+							<styles.FrameLink
 								onClick={() => {
 									toggleMenu();
 								}}
 							>
 								Menu
-							</styles.FrameButton>{' '}
+							</styles.FrameLink>{' '}
 							by clicking on the star ★.
 						</AppContainerEmpty>
 					</styles.NoData>
