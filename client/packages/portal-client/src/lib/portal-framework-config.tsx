@@ -39,7 +39,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enablePortalConfig(config, (builder) => {
 			builder.setConfig({
-				portalId: '5b43c3fd-77e3-4072-0aa1-08db310ee26d', // Todo: add form webserver config
+				portalId: portalConfig.portalId,
 				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
 			});
 			builder.setRoutes({
