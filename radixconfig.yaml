@@ -123,6 +123,7 @@ spec:
         ApplicationInsights__ConnectionString: ""
         AzureAd__ClientId: ""
         ClientBundle__Msal__ClientId: ""
+        ClientBundle__PortalId: ""
         FusionPortalApi__BaseAddress: ""
         FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
