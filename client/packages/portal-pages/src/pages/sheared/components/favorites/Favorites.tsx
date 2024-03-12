@@ -1,15 +1,16 @@
 // import { useTelemetry } from '@equinor/portal-core';
-import { Card, Icon, Popover, Typography } from '@equinor/eds-core-react';
+import { Card, Typography } from '@equinor/eds-core-react';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
-import { info_circle } from '@equinor/eds-icons';
+
 import { tokens } from '@equinor/eds-tokens';
-import { useRef, useState } from 'react';
+
 import { useFavorites, usePortalMenu } from '@portal/core';
 import FavoriteCard from './FavoriteCard';
 import { sortByCategoryAndIsDisabled } from './utils/utils';
 import { AppContainerEmpty } from './AppContainerEmpty';
+import { InfoIcon } from '@portal/ui';
 
 type AppCardPops = {
 	isDisabled?: boolean;
@@ -79,8 +80,6 @@ type FavoriteProps = {
 
 export const Favorites = ({ openAllApps }: FavoriteProps) => {
 	const { toggleMenu } = usePortalMenu();
-	const referenceElement = useRef<HTMLDivElement>(null);
-	const [isOpen, setIsOpen] = useState(false);
 
 	const { favorites, hasFavorites, isLoading, addFavorite, isDisabled } = useFavorites();
 
@@ -88,20 +87,7 @@ export const Favorites = ({ openAllApps }: FavoriteProps) => {
 		<div>
 			<styles.Heading>
 				<Typography variant="h5">Favorites</Typography>
-				<div
-					onMouseOver={() => {
-						setIsOpen(true);
-					}}
-					onMouseLeave={() => {
-						setIsOpen(false);
-					}}
-					ref={referenceElement}
-				>
-					<Icon data={info_circle} color={tokens.colors.infographic.primary__moss_green_34.hex} />
-					<Popover placement="bottom" open={isOpen} anchorEl={referenceElement.current}>
-						<Popover.Content>Open menu and click on stars to add to favorites</Popover.Content>
-					</Popover>
-				</div>
+				<InfoIcon message="Open menu and click on stars to add to favorites" />
 			</styles.Heading>
 			<Card.Content>
 				{hasFavorites ? (
@@ -127,13 +113,13 @@ export const Favorites = ({ openAllApps }: FavoriteProps) => {
 							<br />
 							Choose your favourites in{' '}
 							<styles.FrameLink onClick={openAllApps}>All apps</styles.FrameLink> or{' '}
-							<styles.FrameLink
+							<styles.FrameButton
 								onClick={() => {
 									toggleMenu();
 								}}
 							>
 								Menu
-							</styles.FrameLink>{' '}
+							</styles.FrameButton>{' '}
 							by clicking on the star ★.
 						</AppContainerEmpty>
 					</styles.NoData>

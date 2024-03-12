@@ -17,7 +17,7 @@ export const InfoIcon = ({ message }: { message: string }) => {
 			}}
 			ref={referenceElement}
 		>
-			<Icon data={info_circle} color={tokens.colors.infographic.primary__moss_green_34.hex} />
+			<Icon data={info_circle} color={tokens.colors.text.static_icons__tertiary.hex} />
 			<Popover placement="bottom" open={isOpen} anchorEl={referenceElement.current}>
 				<Popover.Content>{message}</Popover.Content>
 			</Popover>

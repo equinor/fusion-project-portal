@@ -1,13 +1,13 @@
 import { Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
-import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { RelationsTypes, useRelationsByType } from '@portal/core';
 
 import { InfoIcon } from '@portal/ui';
 
 const Styles = {
 	Heading: styled.div`
-		padding: 1rem;
+		padding: 0.5rem 1rem;
 		display: flex;
 		justify-content: space-between;
 	`,
