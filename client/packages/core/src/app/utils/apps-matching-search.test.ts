@@ -76,8 +76,8 @@ describe('appsMatchingSearch', () => {
 			},
 			{
 				name: 'Collaboration',
-				color: '1',
-				defaultIcon: '1',
+				color: '2',
+				defaultIcon: '2',
 				apps: [
 					{
 						key: 'meetings',
