@@ -45,8 +45,8 @@ export const Styles = {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		right: 3rem;
-		top: 6rem;
+		right: 5rem;
+		top: -5rem;
 		z-index: 1;
 		width: 360px;
 	`,
@@ -82,11 +82,11 @@ export const Styles = {
 export const ProjectPortalPage = (): JSX.Element => {
 	return (
 		<Styles.Wrapper>
-			<Styles.Details>
-				<User />
-				<InfoBox />
-			</Styles.Details>
 			<ProjectHeader>
+				<Styles.Details>
+					<User />
+					<InfoBox />
+				</Styles.Details>
 				<Styles.Content>
 					<div className={styles.contentWrapper}>
 						<p className={styles.viewDescription}>

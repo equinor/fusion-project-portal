@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { IconData } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { PropsWithChildren } from 'react';
-import context from '@equinor/fusion-framework-module-services/context';
 import { ContextItem } from '@equinor/fusion-framework-module-context';
 
 export type ProjectMaster = {
@@ -47,7 +46,7 @@ const Styles = {
 	`,
 	Header: styled.div`
 		display: flex;
-		gap: 1rem;
+		gap: 0.5rem;
 		align-items: center;
 	`,
 };
@@ -76,15 +75,15 @@ export function PageHeader<T extends Record<string, unknown>>({
 	return (
 		<StyledBackgroundWrapper imageURL={getBackgroundURL(contextImageResolver(currentContext))}>
 			<Styles.Wrapper>
-				<Styles.Header>
-					<Icon size={48} data={icon} color={tokens.colors.text.static_icons__default.hex} />
-					<span>
+				<span>
+					<Styles.Header>
+						<Icon size={48} data={icon} color={tokens.colors.text.static_icons__default.hex} />
 						<Typography variant="h1">{currentContext?.title}</Typography>
-						<Typography variant="h6">
-							{getGreeting()} {data?.name}
-						</Typography>
-					</span>
-				</Styles.Header>
+					</Styles.Header>
+					<Typography variant="h6">
+						{getGreeting()} {data?.name}
+					</Typography>
+				</span>
 				{children}
 			</Styles.Wrapper>
 		</StyledBackgroundWrapper>

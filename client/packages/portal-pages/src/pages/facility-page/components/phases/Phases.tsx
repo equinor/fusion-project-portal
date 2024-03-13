@@ -8,6 +8,7 @@ import { DateObject, findActiveDate, isGetActiveDateColor, verifyDate } from './
 import { NoProjectInfoAccessMessage } from '../messages/NoProjectInfoAccessMessage';
 import { useProjectDetails } from '../../../project-page/components/project-director/hooks/use-current-director';
 import { useRelationsByType } from '@portal/core';
+import { tokens } from '@equinor/eds-tokens';
 
 const Styles = {
 	Content: styled(Card.Content).withConfig({ displayName: 'phase' })`
@@ -22,33 +23,19 @@ const Styles = {
 export const FacilityProjectPhases = () => {
 	const context = useFrameworkCurrentContext();
 	const { data: projectMasters } = useRelationsByType('ProjectMaster', context?.id);
-	const { onboardedContexts } = useOnboardedContexts();
+
 	if (projectMasters.length === 0) return null;
 
 	return (
 		<>
 			{projectMasters.map((context) => {
-				const isEnabledContext = Boolean(
-					onboardedContexts?.find(
-						(onboardedContext) =>
-							onboardedContext.externalId === context.externalId &&
-							onboardedContext.type === context.type.id
-					)
-				);
-				return (
-					<Phases
-						key={context.id}
-						projectMasterId={context.id}
-						title={context.title}
-						isActive={isEnabledContext}
-					/>
-				);
+				return <Phases key={context.id} projectMasterId={context.id} title={context.title} />;
 			})}
 		</>
 	);
 };
 
-const Phases = (props: { projectMasterId: string; title: string; isActive: boolean }) => {
+const Phases = (props: { projectMasterId: string; title: string }) => {
 	const { data: equinorTask } = useRelationsByType('OrgChart', props.projectMasterId);
 	const { data, isLoading, error } = useProjectDetails(equinorTask[0]?.externalId);
 
@@ -59,15 +46,16 @@ const Phases = (props: { projectMasterId: string; title: string; isActive: boole
 	return (
 		<Card elevation="raised">
 			<Card.Header>
-				{props.isActive ? (
-					<Typography as={'a'} title={props.title} variant="h6" href={`/facility/${props.projectMasterId}`}>
-						{props.title}
-					</Typography>
-				) : (
-					<Typography title={props.title} variant="h6">
-						{props.title}
-					</Typography>
-				)}
+				<Typography
+					as={'a'}
+					color={tokens.colors.interactive.primary__resting.hex}
+					title={props.title}
+					variant="h6"
+					href={`/facility/${props.projectMasterId}`}
+				>
+					{props.title}
+				</Typography>
+
 				{data?.dates.startDate && data.dates.endDate ? (
 					<Typography variant="meta">
 						{verifyDate(data?.dates.startDate)} - {verifyDate(data?.dates.endDate)}

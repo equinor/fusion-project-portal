@@ -21,7 +21,7 @@ export const StyledBackgroundWrapper = styled.section`
 `;
 
 export const StyledHeader = styled.div`
-	padding-top: 3rem;
+	padding-top: 5%;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
