@@ -56,13 +56,25 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
             foreach (var onboardedAppDto in onboardedApps)
             {
-                CombineAppWithFusionAppData(onboardedAppDto, fusionApps);
+                CombineAppWithFusionAppData(onboardedAppDto, fusionApps, false);
             }
 
             return onboardedApps;
         }
 
-        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<FusionPortalAppInformation> fusionApps)
+        public async Task<IList<OnboardedAppDto>> EnrichAppsWithAllFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
+        {
+            var fusionApps = await GetFusionApps();
+
+            foreach (var onboardedAppDto in onboardedApps)
+            {
+                CombineAppWithFusionAppData(onboardedAppDto, fusionApps, true);
+            }
+
+            return onboardedApps;
+        }
+
+        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<FusionPortalAppInformation> fusionApps, bool? allFusionData)
         {
             if (onboardedAppDto == null)
             {
@@ -71,9 +83,18 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
             var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, onboardedAppDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
+            
             if (fusionApp != null)
             {
-                onboardedAppDto.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.Minimal);
+                switch (allFusionData)
+                {
+                    case true:
+                        onboardedAppDto.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.All);
+                        break;
+                    case false:
+                        onboardedAppDto.SupplyWithFusionData(fusionApp, FusionPortalAppInformationAmount.Minimal); 
+                        break;
+                }
             }
         }
     }

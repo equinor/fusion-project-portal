@@ -1,5 +1,5 @@
 import { Card, Typography } from '@equinor/eds-core-react';
-import { Relations } from '@equinor/portal-core';
+import type { Contract, Relations } from '@portal/core';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { tokens } from '@equinor/eds-tokens';
@@ -39,7 +39,7 @@ const Styles = {
 	`,
 };
 
-export const ContractItem = (contract: Relations & { isClosed?: boolean }) => {
+export const ContractItem = (contract: Relations<Contract> & { isClosed?: boolean }) => {
 	return (
 		<Styles.Card key={contract.id}>
 			<Styles.Header title={contract.title}>{contract.title}</Styles.Header>

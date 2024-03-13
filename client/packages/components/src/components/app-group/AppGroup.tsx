@@ -1,4 +1,3 @@
-import { FusionAppGroup, FusionAppManifest } from '@portal/types';
 import { useParams } from 'react-router-dom';
 
 import { ListCard } from '@portal/components';
@@ -7,6 +6,7 @@ import { css } from '@emotion/css';
 import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 import { Typography } from '@equinor/eds-core-react';
+import { AppCategory, AppManifest } from '@portal/core';
 
 export const Styles = {
 	Title: styled(Typography)<{ isActive: boolean }>`
@@ -59,9 +59,9 @@ export const Styles = {
 };
 
 type AppGroupProps = {
-	group: FusionAppGroup;
-	onClick: (app: Partial<FusionAppManifest>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-	onFavorite: (key: Partial<FusionAppManifest>) => void;
+	group: AppCategory;
+	onClick: (app: Partial<AppManifest>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+	onFavorite: (key: Partial<AppManifest>) => void;
 	dark?: boolean;
 };
 

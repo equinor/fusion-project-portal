@@ -11,7 +11,7 @@ import {
 import { SearchableDropdownElement } from '@equinor/fusion-wc-searchable-dropdown';
 
 import { getSearchAppIcon } from './utils';
-import { useApps } from '@portal/core';
+import { usePortalApps } from '@portal/core';
 import { search } from '@equinor/eds-icons';
 import { Button, Icon } from '@equinor/eds-core-react';
 
@@ -78,7 +78,7 @@ const sortTitleByQuery = (query: string) => (a: SearchableDropdownResultItem, b:
 };
 
 export const AppSearchBar = (): JSX.Element => {
-	const { apps } = useApps();
+	const { apps } = usePortalApps();
 	const navigate = useNavigate();
 
 	const ref = useRef();

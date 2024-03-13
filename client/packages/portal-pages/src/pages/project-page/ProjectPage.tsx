@@ -1,45 +1,39 @@
 import { useFrameworkCurrentContext } from '@equinor/portal-core';
 
-import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { OneEquinorLink } from './components/one-equinor-link/OneEquinorLink';
 import { ProjectDirector } from './components/project-director/ProjectDirector';
-import { ProjectHeader } from './components/ProjectHeader';
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
-import { User } from './components/user/UserCard';
+import { User } from '../sheared/components/user/UserCard';
 
-import { InfoBox } from './components/InfoBox/InfoBox';
+import { InfoBox } from '../sheared/components/InfoBox/InfoBox';
 
 import { ConstructionAndCommissioningData } from './ConstructionAndCommissioningData';
-import { Overview } from './Overvirew';
-import { AllApps } from './AllApps';
+import { Overview } from './Overview';
+import { AllApps } from '../sheared/components/AllApps';
 import { useEffect, useState } from 'react';
 import { Tabs } from '@equinor/eds-core-react';
 import { useFrameworkFeature } from '@equinor/fusion-framework-react/feature-flag';
 import { ProOrgLink } from './components/pro-org-link/ProOrgLink';
 import { WizardScrim } from './components/project-wizard/Wizard';
-
-type ProjectMaster = {
-	facilities: string[];
-	projectCategory: string;
-	cvpid: string;
-	documentManagementId: string;
-	phase: string;
-	portfolioOrganizationalUnit: string;
-} & Record<string, unknown>;
+import { ProjectMaster } from '../sheared/types';
+import { PageHeader } from '../sheared/components/header/Header';
+import { ProjectDetails } from './components/ProjectDetails';
+import { assignment } from '@equinor/eds-icons';
 
 export const Styles = {
 	Wrapper: styled.main`
 		display: flex;
 		flex-direction: column;
 		background: ${tokens.colors.ui.background__light.hex};
+		overflow: hidden;
 	`,
 	Content: styled.section`
-		overflow: auto;
 		flex: 1;
+		overflow: auto;
 	`,
-
 	Details: styled.div`
 		position: absolute;
 		display: flex;
@@ -80,6 +74,9 @@ export const Styles = {
 		@media only screen and (max-width: 1300px) {
 			width: 100%;
 		}
+	`,
+	Relative: styled.div`
+		position: relative;
 	`,
 };
 
@@ -127,23 +124,29 @@ export const ProjectPage = () => {
 		return null;
 	}
 
-	if (currentContext.type.id !== 'ProjectMaster') {
-		return <Navigate to="/" />;
-	}
-
 	return (
 		<Styles.Wrapper>
-			<ProjectHeader />
 			<WizardScrim />
-			<Styles.Details>
-				<User />
-				<ProjectDirector />
-				<InfoBox />
-				<OneEquinorLink />
-				<ProOrgLink />
-			</Styles.Details>
-
 			<Styles.Content>
+				<Styles.Relative>
+					<Styles.Details>
+						<User />
+						<ProjectDirector />
+						<InfoBox />
+						<OneEquinorLink />
+						<ProOrgLink />
+					</Styles.Details>
+				</Styles.Relative>
+				<PageHeader<ProjectMaster>
+					icon={assignment}
+					contextImageResolver={(context) => {
+						return context?.value?.facilities && context.value.facilities.length > 0
+							? context?.value?.facilities[0]
+							: '';
+					}}
+				>
+					<ProjectDetails />
+				</PageHeader>
 				<Styles.TabsWrapper>
 					<Tabs activeTab={activeTab} onChange={handleChange}>
 						{feature?.enabled ? (
@@ -162,7 +165,7 @@ export const ProjectPage = () => {
 						{feature?.enabled ? (
 							<Tabs.Panels>
 								<Tabs.Panel>
-									<Overview openAllApps={() => setActiveTab(2)} />
+									<Overview openAllApps={() => handleChange(2)} />
 								</Tabs.Panel>
 								<Tabs.Panel>
 									<ConstructionAndCommissioningData />
@@ -174,7 +177,7 @@ export const ProjectPage = () => {
 						) : (
 							<Tabs.Panels>
 								<Tabs.Panel>
-									<Overview openAllApps={() => setActiveTab(1)} />
+									<Overview openAllApps={() => handleChange(1)} />
 								</Tabs.Panel>
 								<Tabs.Panel>
 									<AllApps />

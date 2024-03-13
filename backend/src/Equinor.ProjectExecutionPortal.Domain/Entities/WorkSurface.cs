@@ -15,6 +15,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public const int DescriptionLengthMax = 4000;
 
     private readonly List<WorkSurfaceApp> _apps = new();
+    private readonly List<ContextType> _contextTypes = new();
 
     public WorkSurface(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
@@ -38,8 +39,9 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
 
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; }
-
+    
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
+    public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
     public void Update(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
@@ -65,6 +67,21 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public void AddApp(WorkSurfaceApp app)
     {
         _apps.Add(app);
+    }
+
+    public void AddContextTypes(IList<ContextType> contextTypes)
+    {
+        _contextTypes.Clear();
+        _contextTypes.AddRange(contextTypes);
+    }
+    public void AddContextType(ContextType contextType)
+    {
+       _contextTypes.Add(contextType);
+    }
+
+    public void RemoveContextType(ContextType contextType)
+    {
+        _contextTypes.Remove(contextType);
     }
 
     public List<WorkSurfaceApp> GlobalApps()

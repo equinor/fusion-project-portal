@@ -62,7 +62,7 @@ export const AppWrapperLegacy = (props: {
     );
   }
   return (
-    <Suspense fallback={<ProgressLoader title="Loading App" />}>
+    <Suspense fallback={<ProgressLoader title="Loading" />}>
       <AppComponent />
     </Suspense>
   );

@@ -41,5 +41,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextService
 
             return contexts;
         }
+
+        public async Task<FusionContext> GetFusionContext(Guid contextId, CancellationToken cancellation)
+        {
+            var context = await _fusionContextResolver.GetContextAsync(contextId);
+   
+            return context;
+        }
     }
 }

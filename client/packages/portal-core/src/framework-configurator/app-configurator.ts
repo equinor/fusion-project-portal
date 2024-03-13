@@ -32,7 +32,7 @@ export const appConfigurator =
 				});
 			},
 			getAppManifests: () =>
-				portalClient.json$(`/api/portal/fusion/apps`, {
+				portalClient.json$(`/api/fusion/apps`, {
 					selector: async (res) => (await res.json()).map(manifestMappers(client.baseUri)),
 				}),
 

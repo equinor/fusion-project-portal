@@ -7,7 +7,7 @@ import { tokens } from '@equinor/eds-tokens';
 import { useState } from 'react';
 import FeatureTogglerApp from './FeatureTogglerApp';
 import FeatureTogglerPortal from './FeatureTogglerPortal';
-import { useTelemetry } from '@equinor/portal-core';
+import { useTelemetry } from '@portal/core';
 
 export const Style = {
 	Wrapper: styled.div`

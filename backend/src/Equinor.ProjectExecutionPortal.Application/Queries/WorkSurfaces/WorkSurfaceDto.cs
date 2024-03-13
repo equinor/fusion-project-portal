@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
 {
@@ -13,6 +14,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
         public int Order { get; set; }
         public string Icon { get; set; }
         public bool IsDefault { get; set; }
+        public IList<ContextTypeDto> ContextTypes { get; set; }
         public List<WorkSurfaceAppDto> Apps { get; set; }
     }
 }

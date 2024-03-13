@@ -1,20 +1,22 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
 import { AppModule, enableAppModule } from '@equinor/fusion-framework-module-app';
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
-import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
+
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
-import { addPortalClient, configurePortalContext, appConfigurator, TelemetryModule } from '@equinor/portal-core';
+import { addPortalClient, configurePortalContext, appConfigurator } from '@equinor/portal-core';
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enableTelemetry } from '@equinor/portal-core';
+import { enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
+import { enablePortalConfig } from '@portal/core';
+import { PortalConfig as PortalConfigModule } from '@portal/core';
 
 const showInfo = false;
 
@@ -32,6 +34,70 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
+
+		enablePortalMenu(config);
+
+		enablePortalConfig(config, (builder) => {
+			builder.setConfig({
+				portalId: portalConfig.portalId,
+				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
+			});
+			builder.setRoutes({
+				root: {
+					pageKey: 'project-portal',
+				},
+
+				routes: [
+					{
+						path: 'project/*',
+						pageKey: 'project',
+						messages: {
+							errorMessage: 'Fail to load project page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load project page',
+								},
+								path: ':contextId',
+								pageKey: 'project',
+							},
+						],
+					},
+					{
+						path: 'facility/*',
+						pageKey: 'facility',
+						messages: {
+							errorMessage: 'Fail to load facility page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load facility page',
+								},
+								path: ':contextId',
+								pageKey: 'facility',
+							},
+						],
+					},
+				],
+			});
+
+			// builder.setPortalConfig({
+			// 	portal: {
+			// 		id: 'resource-allocation',
+			// 		name: 'Resource Allocation',
+			// 	},
+			// 	routes: {
+			// 		root: {
+			// 			pageKey: 'resource-allocation-landingpage',
+			// 		},
+			// 		routes: [],
+			// 	},
+			//   apps:[]
+			// });
+		});
+
 		enableContext(config);
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
@@ -178,11 +244,16 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized<[NavigationModule, TelemetryModule, AppModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
 			new FeatureLogger(fusion);
 
 			// Todo: should be moved to context module
-			configurePortalContext(fusion.context);
+
+			fusion.portalConfig.state$.subscribe((state) => {
+				if (state?.portal?.contexts) {
+					configurePortalContext(fusion.context);
+				}
+			});
 
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
@@ -210,20 +281,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					navigator.replace(to);
 				}
 			});
-
-			if (showInfo) {
-				fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
-				console.debug('📒 subscribing to all events');
-
-				fusion.event.subscribe((e) => {
-					console.debug(`🔔🌍 [${e.type}]`, e);
-				});
-
-				console.debug('📒 subscribing to [onReactAppLoaded]');
-				fusion.event.addEventListener('onReactAppLoaded', (e) => {
-					console.debug('🔔 [onReactAppLoaded]', e);
-				});
-			}
 		});
 	};
 }

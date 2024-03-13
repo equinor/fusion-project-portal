@@ -30,6 +30,7 @@ public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
         {
             var enitity = await _context.Set<Domain.Entities.OnboardedApp>()
                 .Include(x => x.AppGroup)
+                .Include(x => x.ContextTypes)
                 .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);

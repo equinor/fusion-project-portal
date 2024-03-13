@@ -31,6 +31,7 @@ public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
         {
             var entity = await _readWriteContext.Set<WorkSurface>()
             .AsNoTracking()
+            .Include(x => x.ContextTypes)
             .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);
 
             var workSurface = _mapper.Map<WorkSurface?, WorkSurfaceDto?>(entity);

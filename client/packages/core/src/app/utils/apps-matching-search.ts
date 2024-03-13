@@ -1,6 +1,6 @@
-import { FusionAppGroup } from '@portal/types';
+import { AppCategory } from '../../modules';
 
-export function appsMatchingSearch(groups: FusionAppGroup[], searchText?: string) {
+export function appsMatchingSearch(groups: AppCategory[], searchText?: string) {
 	if (!searchText) return groups;
 
 	return groups

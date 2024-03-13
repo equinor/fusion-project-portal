@@ -16,5 +16,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken);
 
         Task<IList<OnboardedAppDto>> EnrichAppsWithFusionAppData(IList<OnboardedAppDto> apps, CancellationToken cancellationToken);
+
+        Task<IList<OnboardedAppDto>> EnrichAppsWithAllFusionAppData(IList<OnboardedAppDto> apps, CancellationToken cancellationToken);
     }
 }

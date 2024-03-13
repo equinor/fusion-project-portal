@@ -1,20 +1,21 @@
-import { useRelationsByType } from '@equinor/portal-core';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
 
-import { FusionError, OrgProject } from '@portal/types';
+import { OrgProject } from '@portal/types';
 import { useMemo } from 'react';
+import { useRelationsByType } from '@portal/core';
 
 export const useProjectDetails = (projectId?: string) => {
 	const client = useFramework().modules.serviceDiscovery.createClient('org');
 
-	return useQuery<OrgProject, FusionError>({
+	return useQuery<OrgProject, Error>({
 		queryKey: ['project ', projectId],
 		queryFn: async () => {
 			const response = await (await client).fetch(`projects/${projectId}`);
 
 			if (response.status === 403) {
-				throw await response.json();
+				const data = await response.json();
+				throw new Error(data.error.message);
 			}
 			if (!response.ok) {
 				throw Error('Error');

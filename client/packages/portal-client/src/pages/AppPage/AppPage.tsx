@@ -8,6 +8,7 @@ import { AppModule, AppModulesInstance } from '@equinor/fusion-framework-module-
 import { ContextModule } from '@equinor/fusion-framework-module-context';
 import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
+// todo move to context in core. handling legacy context
 const useAppContextHandler = () => {
 	const { contextId } = useParams();
 	const framework = useFramework<[AppModule, NavigationModule]>();

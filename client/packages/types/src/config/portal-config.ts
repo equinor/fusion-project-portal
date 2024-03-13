@@ -6,6 +6,7 @@ export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
 export interface PortalConfig {
 	title: string;
 	description: string;
+	portalId: string;
 	serviceDiscovery: {
 		client: Client;
 	};

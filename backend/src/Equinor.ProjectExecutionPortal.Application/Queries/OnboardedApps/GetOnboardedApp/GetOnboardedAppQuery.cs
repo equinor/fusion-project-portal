@@ -34,6 +34,7 @@ public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto?>
         {
             var enitity = await _context.Set<OnboardedApp>()
                 .Include(x => x.AppGroup)
+                .Include(x => x.ContextTypes)
                 .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.AppKey == request.AppKey, cancellationToken);
