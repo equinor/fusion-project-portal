@@ -2,6 +2,7 @@
   "$schema": "../schema/portal.config.schema.json",
   "title": "Project Portal",
   "description": "Welcome to the project portal powered by Fusion",
+  "portalId": "5b43c3fd-77e3-4072-0aa1-08db310ee26d",
   "serviceDiscovery": {
     "client": {
       "baseUri": "https://fusion-s-portal-ci.azurewebsites.net",
@@ -12,16 +13,16 @@
   },
   "portalClient": {
     "client": {
-      "baseUri": "https://backend-fusion-project-portal-test.radix.equinor.com",
+      "baseUri": "https://backend-fusion-project-portal-feature.radix.equinor.com",
       "defaultScopes": [
-        "api://02f3484c-cad0-4d1d-853d-3a9e604b38f3/access_as_user"
+        "api://7bf96dd1-39fe-47dd-8286-329c730ac76b/access_as_user"
       ]
     }
   },
   "msal": {
     "client": {
       "tenantId": "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
-      "clientId": "0713378c-3499-4d7b-a3a5-82fa8d221086",
+      "clientId": "0cf88005-bda7-4bbb-acc7-db463c5a8ba4",
       "redirectUri": "/authentication/login-callback"
     },
     "options": {
@@ -40,5 +41,5 @@
       "level": 0
     }
   },
-  "fusionLegacyEnvIdentifier": "CI"
+  "fusionLegacyEnvIdentifier": "ci"
 }
