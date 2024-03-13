@@ -1,5 +1,5 @@
 import { Card, Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext, useOnboardedContexts } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useMemo } from 'react';
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
