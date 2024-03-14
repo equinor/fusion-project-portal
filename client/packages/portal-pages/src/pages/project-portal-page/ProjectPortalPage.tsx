@@ -7,6 +7,11 @@ import styled from 'styled-components';
 import { User } from './user/UserCard';
 
 import InfoBox from '../sheared/components/InfoBox/InfoBox';
+import { useUserOrgDetails } from '@portal/core';
+import { Checkbox, LinearProgress, Typography } from '@equinor/eds-core-react';
+
+import { useState } from 'react';
+import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 
 const styles = {
 	contentSection: css`
@@ -24,9 +29,6 @@ const styles = {
 		flex-direction: column;
 		gap: 1rem;
 	`,
-	viewDescription: css`
-		width: 50vw;
-	`,
 };
 
 export const Styles = {
@@ -35,6 +37,12 @@ export const Styles = {
 		flex-direction: column;
 	`,
 
+	Section: styled.span`
+		width: 40vw;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	`,
 	Content: styled.section`
 		padding: 0rem 2rem;
 		height: 100vh;
@@ -77,9 +85,39 @@ export const Styles = {
 		flex: 1;
 		flex-direction: column;
 	`,
+	Heading: styled.div`
+		padding-top: 1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+	`,
+	LinkWrapper: styled.span`
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	`,
+	Nav: styled.nav`
+		padding: 1rem 0;
+		gap: 0.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		width: 25%;
+	`,
+	Loading: styled.div`
+		padding: 1rem 0;
+		width: 25%;
+	`,
+	Padding: styled.span`
+		padding: 2rem;
+	`,
 };
 
 export const ProjectPortalPage = (): JSX.Element => {
+	const [value, setValue] = useState(false);
+	const { data, isLoading } = useUserOrgDetails(value);
+	const { feature } = useFeature('project-prediction');
+
 	return (
 		<Styles.Wrapper>
 			<ProjectHeader>
@@ -89,15 +127,65 @@ export const ProjectPortalPage = (): JSX.Element => {
 				</Styles.Details>
 				<Styles.Content>
 					<div className={styles.contentWrapper}>
-						<p className={styles.viewDescription}>
-							Please choose a project or facility from the search field to continue. This will direct you
-							to the context's homepage, where you can access the applications associated with the
-							selected context through the menu.
-						</p>
+						<Styles.Section>
+							<Typography>
+								Please choose a project or facility from the search field to continue. This will direct
+								you to the context's homepage, where you can access the applications associated with the
+								selected context through the menu.
+							</Typography>
+						</Styles.Section>
 						<ContextProvider>
 							<PortalContextSelector />
 						</ContextProvider>
 					</div>
+					{feature?.enabled && (
+						<Styles.Padding>
+							<Styles.Section>
+								<Styles.Heading>
+									<Typography variant="h5">Projects predictions</Typography>
+									<Checkbox
+										label="Use all past allocations"
+										checked={value}
+										onChange={() => {
+											setValue((s) => !s);
+										}}
+									/>
+								</Styles.Heading>
+								<Typography>
+									By analyzing your allocations, we can provide predictions regarding which projects
+									you may want to prioritize. Here is a list of {value ? 'all your' : 'your current'}{' '}
+									projects:
+								</Typography>
+							</Styles.Section>
+							{isLoading ? (
+								<Styles.Loading>
+									<LinearProgress />
+									<Typography>Analyzing your avocations...</Typography>
+								</Styles.Loading>
+							) : (
+								<Styles.Nav>
+									{data && data.length > 0 ? (
+										data.map((item, index) => (
+											<Styles.LinkWrapper key={item.id}>
+												<Typography link title={item.title} href={`/project/${item.id}`}>
+													{item.title}
+												</Typography>
+												{data.length > index + 1 && <span>|</span>}
+											</Styles.LinkWrapper>
+										))
+									) : (
+										<>
+											{data && (
+												<Typography variant="overline">
+													Sorry we could not find any projects from your allocations.
+												</Typography>
+											)}
+										</>
+									)}
+								</Styles.Nav>
+							)}
+						</Styles.Padding>
+					)}
 				</Styles.Content>
 			</ProjectHeader>
 		</Styles.Wrapper>
