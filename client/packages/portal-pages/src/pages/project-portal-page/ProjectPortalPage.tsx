@@ -160,7 +160,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 							{isLoading ? (
 								<Styles.Loading>
 									<LinearProgress />
-									<Typography>Analyzing your avocations...</Typography>
+									<Typography>Analyzing your allocations...</Typography>
 								</Styles.Loading>
 							) : (
 								<Styles.Nav>
