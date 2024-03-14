@@ -142,7 +142,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 						<Styles.Padding>
 							<Styles.Section>
 								<Styles.Heading>
-									<Typography variant="h5">Projects predictions</Typography>
+									<Typography variant="h5">Allocated Projects</Typography>
 									<Checkbox
 										label="Use all past allocations"
 										checked={value}

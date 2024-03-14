@@ -159,6 +159,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 						key: 'project-prediction',
 						title: 'Project Prediction',
 						description: 'When enabled you will get project prediction on the project portal landing page',
+						enabled: true,
 					},
 					{
 						key: 'cc-tab',
