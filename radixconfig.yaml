@@ -141,10 +141,14 @@ spec:
       publicPort: http
       environmentConfig:
         - environment: feature
+          identity: 
+            azure:
+              clientId: 2440e826-7642-4862-be77-2ce311780ac6
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-ws-noe-feature
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
