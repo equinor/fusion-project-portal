@@ -152,7 +152,13 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					{
 						key: 'new-menu',
 						title: 'New Portal Menu',
-						description: 'When enabled you will be able to tryout the new portal menu',
+						description: 'When enabled you will be able to try out the new portal menu',
+						enabled: true,
+					},
+					{
+						key: 'project-prediction',
+						title: 'Project Prediction',
+						description: 'When enabled you will get project prediction on the project portal landing page',
 						enabled: true,
 					},
 					{
