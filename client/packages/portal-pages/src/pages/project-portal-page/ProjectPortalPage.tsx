@@ -177,7 +177,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 										<>
 											{data && (
 												<Typography variant="overline">
-													Sorry we could not find any projects from your allocations.
+													Sorry, we could not find any projects from your allocations.
 												</Typography>
 											)}
 										</>

@@ -152,7 +152,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					{
 						key: 'new-menu',
 						title: 'New Portal Menu',
-						description: 'When enabled you will be able to tryout the new portal menu',
+						description: 'When enabled you will be able to try out the new portal menu',
 						enabled: true,
 					},
 					{
