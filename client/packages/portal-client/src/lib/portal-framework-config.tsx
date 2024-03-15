@@ -42,56 +42,47 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				portalId: portalConfig.portalId,
 				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
 			});
-			console.log(portalConfig.portalId === '0177ef5f-c49e-4d2a-7907-08db31e4e851');
-			if (portalConfig.portalId === '0177ef5f-c49e-4d2a-7907-08db31e4e851') {
-				builder.setRoutes({
-					root: {
-						pageKey: 'project-portal',
-					},
 
-					routes: [
-						{
-							path: 'project/*',
-							pageKey: 'project',
-							messages: {
-								errorMessage: 'Fail to load project page',
-							},
-							children: [
-								{
-									messages: {
-										errorMessage: 'Fail to load project page',
-									},
-									path: ':contextId',
-									pageKey: 'project',
-								},
-							],
+			builder.setRoutes({
+				root: {
+					pageKey: 'project-portal',
+				},
+
+				routes: [
+					{
+						path: 'project/*',
+						pageKey: 'project',
+						messages: {
+							errorMessage: 'Fail to load project page',
 						},
-						{
-							path: 'facility/*',
-							pageKey: 'facility',
-							messages: {
-								errorMessage: 'Fail to load facility page',
-							},
-							children: [
-								{
-									messages: {
-										errorMessage: 'Fail to load facility page',
-									},
-									path: ':contextId',
-									pageKey: 'facility',
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load project page',
 								},
-							],
-						},
-					],
-				});
-			} else {
-				builder.setRoutes({
-					root: {
-						pageKey: 'resource-allocation-landingpage',
+								path: ':contextId',
+								pageKey: 'project',
+							},
+						],
 					},
-					routes: [],
-				});
-			}
+					{
+						path: 'facility/*',
+						pageKey: 'facility',
+						messages: {
+							errorMessage: 'Fail to load facility page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load facility page',
+								},
+								path: ':contextId',
+								pageKey: 'facility',
+							},
+						],
+					},
+				],
+			});
 		});
 
 		enableContext(config);
