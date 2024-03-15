@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 3.0.2
+
+### Patch Changes
+
+- a3f42ca: Environment variable update
+
 ## 3.0.1
 
 ### Patch Changes
