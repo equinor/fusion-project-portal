@@ -42,60 +42,56 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				portalId: portalConfig.portalId,
 				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
 			});
-			builder.setRoutes({
-				root: {
-					pageKey: 'project-portal',
-				},
-
-				routes: [
-					{
-						path: 'project/*',
-						pageKey: 'project',
-						messages: {
-							errorMessage: 'Fail to load project page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load project page',
-								},
-								path: ':contextId',
-								pageKey: 'project',
-							},
-						],
+			console.log(portalConfig.portalId === '0177ef5f-c49e-4d2a-7907-08db31e4e851');
+			if (portalConfig.portalId === '0177ef5f-c49e-4d2a-7907-08db31e4e851') {
+				builder.setRoutes({
+					root: {
+						pageKey: 'project-portal',
 					},
-					{
-						path: 'facility/*',
-						pageKey: 'facility',
-						messages: {
-							errorMessage: 'Fail to load facility page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load facility page',
-								},
-								path: ':contextId',
-								pageKey: 'facility',
-							},
-						],
-					},
-				],
-			});
 
-			// builder.setPortalConfig({
-			// 	portal: {
-			// 		id: 'resource-allocation',
-			// 		name: 'Resource Allocation',
-			// 	},
-			// 	routes: {
-			// 		root: {
-			// 			pageKey: 'resource-allocation-landingpage',
-			// 		},
-			// 		routes: [],
-			// 	},
-			//   apps:[]
-			// });
+					routes: [
+						{
+							path: 'project/*',
+							pageKey: 'project',
+							messages: {
+								errorMessage: 'Fail to load project page',
+							},
+							children: [
+								{
+									messages: {
+										errorMessage: 'Fail to load project page',
+									},
+									path: ':contextId',
+									pageKey: 'project',
+								},
+							],
+						},
+						{
+							path: 'facility/*',
+							pageKey: 'facility',
+							messages: {
+								errorMessage: 'Fail to load facility page',
+							},
+							children: [
+								{
+									messages: {
+										errorMessage: 'Fail to load facility page',
+									},
+									path: ':contextId',
+									pageKey: 'facility',
+								},
+							],
+						},
+					],
+				});
+			} else {
+				builder.setRoutes({
+					root: {
+						pageKey: 'resource-allocation-landingpage',
+					},
+					routes: [],
+				});
+			}
 		});
 
 		enableContext(config);
@@ -157,8 +153,8 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					},
 					{
 						key: 'project-prediction',
-						title: 'Project Prediction',
-						description: 'When enabled you will get project prediction on the project portal landing page',
+						title: 'Allocated Projects',
+						description: 'When enabled you will get your allocated projects on the portal landing page',
 						enabled: true,
 					},
 					{
