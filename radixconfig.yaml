@@ -33,6 +33,7 @@ spec:
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
         AssetProxy__TokenScope: ""
+        Fusion__Environment: "ci"
       ports:
         - name: http
           port: 5000
