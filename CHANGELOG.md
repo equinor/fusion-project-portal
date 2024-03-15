@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 3.0.1
+
+### Patch Changes
+
+- bce448f: Small inital setup bug fixed
+
 ## 3.0.0
 
 ### Major Changes
