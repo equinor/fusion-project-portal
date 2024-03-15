@@ -45,8 +45,9 @@ builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
 // Add fusion integration
 builder.Services.AddFusionIntegration(f =>
 {
-    f.UseServiceInformation("Fusion.Project.Portal", "Dev");
-    f.UseDefaultEndpointResolver("ci");
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    f.UseServiceInformation("Fusion.Project.Portal", environment);
+    f.UseDefaultEndpointResolver(environment);
     f.UseMsalTokenProvider();
     f.DisableClaimsTransformation();
 });
