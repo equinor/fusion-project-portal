@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { clearLocalContext } from '../framework-configurator';
+import { clearLocalContext } from '@portal/core';
 import { useOnboardedContextsQuery } from '../queries';
 
 import { useFrameworkCurrentContext } from './use-framework-current-context';

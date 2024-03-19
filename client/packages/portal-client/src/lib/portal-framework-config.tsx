@@ -4,7 +4,7 @@ import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-mo
 
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
-import { addPortalClient, configurePortalContext, appConfigurator } from '@equinor/portal-core';
+
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
@@ -15,7 +15,7 @@ import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
-import { enablePortalConfig } from '@portal/core';
+import { enablePortalConfig, appConfigurator, addPortalClient, configurePortalContext } from '@portal/core';
 import { PortalConfig as PortalConfigModule } from '@portal/core';
 
 const showInfo = false;

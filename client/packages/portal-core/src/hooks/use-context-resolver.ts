@@ -1,10 +1,9 @@
 import { QueryContextResponse } from '@equinor/fusion-framework-module-services/context/query';
 import { ContextResolver, ContextResult, ContextResultItem } from '@equinor/fusion-react-context-selector';
 import { useCallback } from 'react';
-import { getContextHistory } from '../framework-configurator/portal-context-history';
 import { useContextClient } from './use-context-client';
 import { useFrameworkContext } from './use-framework-context';
-import { clearLocalContext } from '../framework-configurator';
+import { clearLocalContext, getContextHistory } from '@portal/core';
 
 export const useContextResolver = (type: string[]): ContextResolver => {
 	const contextProvider = useFrameworkContext();
