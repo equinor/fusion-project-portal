@@ -1,7 +1,7 @@
 import FusionContextSelector, { ContextResult, ContextSelectEvent } from '@equinor/fusion-react-context-selector';
 import { NavigateFunction } from 'react-router-dom';
 import { useFrameworkContext } from '../hooks';
-import { getContextPageURL } from '../utils';
+import { getContextPageURL } from '@portal/core';
 
 import { useOnboardedContexts } from '../hooks/use-onboarded-contexts';
 import { useEffect } from 'react';

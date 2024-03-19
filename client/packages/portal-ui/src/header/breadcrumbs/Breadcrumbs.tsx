@@ -5,8 +5,7 @@ import { AppBreadcrumb } from './AppBreadcrumb';
 import { AppGroupBreadCrumb } from './AppGroupBreadCrumb';
 
 import { StyledBreadcrumbs, StyledBreadcrumbItem, StyledBreadcrumbItemInteract } from './styles';
-import { useCurrentAppGroup } from '@portal/core';
-import { getContextTypeName } from '@equinor/portal-core';
+import { useCurrentAppGroup, getContextTypeName } from '@portal/core';
 
 export const Breadcrumbs = () => {
 	const context = useFrameworkCurrentContext();

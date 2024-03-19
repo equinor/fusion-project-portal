@@ -1,6 +1,6 @@
 import { IContextProvider } from '@equinor/fusion-framework-module-context';
 import { storage } from '@portal/utils';
-import { getContextFormUrl } from '../utils';
+import { getContextFormUrl } from '@portal/core';
 
 import { setContextHistory } from './portal-context-history';
 
