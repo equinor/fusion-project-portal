@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 3.0.3
+
+### Patch Changes
+
+- 9029eb4: fix fusion link
+
 ## 3.0.2
 
 ### Patch Changes
