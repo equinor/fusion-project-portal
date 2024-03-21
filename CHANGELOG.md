@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 3.0.4
+
+### Patch Changes
+
+- d3b86ff: Introduced managed Identity
+
 ## 3.0.3
 
 ### Patch Changes
