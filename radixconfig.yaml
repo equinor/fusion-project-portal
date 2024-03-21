@@ -103,7 +103,7 @@ spec:
             azureKeyVaults:
               - name: kv-pep-api-noe-prod
                 path: /mnt/key-vault
-                useAzureIdentity: false
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
@@ -208,7 +208,7 @@ spec:
             azureKeyVaults:
               - name: kv-pep-ws-noe-prod
                 path: /mnt/key-vault
-                useAzureIdentity: false
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
