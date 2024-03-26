@@ -83,6 +83,9 @@ export const Styled = {
 		margin-inline-start: 0px;
 		margin-inline-end: 0px;
 		padding-inline-start: 35px;
+		& > li {
+			padding-bottom: 0.5rem;
+		}
 	`,
 };
 

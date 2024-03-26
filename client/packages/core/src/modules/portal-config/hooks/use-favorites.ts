@@ -61,6 +61,7 @@ export const useFavorites = () => {
 	}, [isPinned, appCategories]);
 
 	return {
+		apps,
 		appGroups: appGroupsWithPinned,
 		favorites: favoritesWithDisabled,
 		disabledAppKeys,
