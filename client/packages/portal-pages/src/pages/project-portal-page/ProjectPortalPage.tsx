@@ -152,15 +152,13 @@ export const ProjectPortalPage = (): JSX.Element => {
 									/>
 								</Styles.Heading>
 								<Typography>
-									By analyzing your allocations, we can provide predictions regarding which projects
-									you may want to prioritize. Here is a list of {value ? 'all your' : 'your current'}{' '}
-									projects:
+									{value ? 'All' : 'Current'}{' '} projects:
 								</Typography>
 							</Styles.Section>
 							{isLoading ? (
 								<Styles.Loading>
 									<LinearProgress />
-									<Typography>Analyzing your allocations...</Typography>
+									<Typography>Finding your allocations...</Typography>
 								</Styles.Loading>
 							) : (
 								<Styles.Nav>
