@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 3.0.5
+
+### Patch Changes
+
+- 4514a8f: App and Context expansion message.
+
 ## 3.0.4
 
 ### Patch Changes
