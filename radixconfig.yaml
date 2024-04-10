@@ -15,6 +15,7 @@ spec:
     - alias: project.fusion.equinor.com
       environment: prod
       component: webserver
+      useCertificateAutomation: true
   components:
     # Backend API
     - name: backend
