@@ -147,7 +147,7 @@ export function MenuGroups() {
 							{displayAppGroups && !!displayAppGroups?.length ? (
 								activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 									<InfoMessage>
-										Looks like you do not have any pinned apps yet. <br /> Click the star icon on
+										Looks like you do not have any pinned apps yet. <br /> Click the star on
 										apps to add them to the pinned app section.
 									</InfoMessage>
 								) : (
