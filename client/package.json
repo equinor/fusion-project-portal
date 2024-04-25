@@ -42,7 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-tsdoc": "^0.2.17",
     "jsdom": "^22.1.0",
-    "lerna": "^7.1.1",
+    "lerna": "^8.0.1",
     "lodash": "^4.17.21",
     "prettier": "^2.6.2",
     "ts-jest": "29.0.5",
