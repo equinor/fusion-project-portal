@@ -15,6 +15,7 @@ spec:
     - alias: project.fusion.equinor.com
       environment: prod
       component: webserver
+      useCertificateAutomation: true
   components:
     # Backend API
     - name: backend
@@ -33,16 +34,21 @@ spec:
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
         AssetProxy__TokenScope: ""
+        Fusion__Environment: "ci"
       ports:
         - name: http
           port: 5000
       publicPort: http
       environmentConfig:
         - environment: feature
+          identity:
+            azure:
+              clientId: a2d39bc8-9295-4334-ab21-603526e018e5
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-api-noe-feature
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
@@ -63,10 +69,14 @@ spec:
               memory: "2048Mi"
               cpu: "800m"
         - environment: test
+          identity:
+            azure:
+              clientId: b25cacc1-d1ec-4b2a-b215-deabb25f9a46
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-api-noe-test
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
@@ -87,10 +97,14 @@ spec:
               memory: "2048Mi"
               cpu: "800m"
         - environment: prod
+          identity:
+            azure:
+              clientId: 0520a73c-9d8c-433a-a8a4-188a1088761a
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-api-noe-prod
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
@@ -123,6 +137,7 @@ spec:
         ApplicationInsights__ConnectionString: ""
         AzureAd__ClientId: ""
         ClientBundle__Msal__ClientId: ""
+        ClientBundle__PortalId: ""
         FusionPortalApi__BaseAddress: ""
         FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
@@ -140,10 +155,14 @@ spec:
       publicPort: http
       environmentConfig:
         - environment: feature
+          identity: 
+            azure:
+              clientId: 2440e826-7642-4862-be77-2ce311780ac6
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-ws-noe-feature
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
@@ -158,10 +177,14 @@ spec:
               memory: "2048Mi"
               cpu: "800m"
         - environment: test
+          identity:
+            azure:
+              clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-ws-noe-test
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret
@@ -179,10 +202,14 @@ spec:
               memory: "2048Mi"
               cpu: "800m"
         - environment: prod
+          identity:
+            azure:
+              clientId: d4f30a66-e05b-4e17-bab2-6dd43b1ef91b
           secretRefs:
             azureKeyVaults:
               - name: kv-pep-ws-noe-prod
                 path: /mnt/key-vault
+                useAzureIdentity: true
                 items:
                   - name: AzureAd--ClientSecret
                     type: secret

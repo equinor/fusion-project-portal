@@ -17,6 +17,16 @@ const Styles = {
 		background-position: center;
 		border: ${({ borderColor }) => (borderColor ? `3px solid ${borderColor}` : '2px solid none')};
 	`,
+	icon: styled(Icon).withConfig({ displayName: 'project' })<{
+		height?: number;
+		width?: number;
+		borderColor?: `#${string}`;
+	}>`
+		border-radius: 50%;
+		height: ${({ height }) => (height ? `${height}px` : '32px')};
+		width: ${({ width }) => (width ? `${width}px` : '32px')};
+		border: ${({ borderColor }) => (borderColor ? `3px solid ${borderColor}` : '2px solid none')};
+	`,
 };
 ``;
 type AvatarProps = {
@@ -29,11 +39,14 @@ type AvatarProps = {
 export const Avatar = ({ url, width, height, borderColor }: AvatarProps): JSX.Element | null => {
 	if (!url) {
 		return (
-			<Icon
+			<Styles.icon
 				color={tokens.colors.interactive.primary__resting.hex}
 				data={account_circle}
 				data-testid="avatar-icon"
 				aria-label="User Avatar"
+				width={width}
+				height={height}
+				borderColor={borderColor}
 			/>
 		);
 	}

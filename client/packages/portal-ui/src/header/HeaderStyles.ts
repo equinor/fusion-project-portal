@@ -7,6 +7,7 @@ export const StyledHeader = styled(TopBar.Header)`
 
 export const StyledTopBar = styled(TopBar)`
 	padding: 0px;
+	grid-column-gap: 0px;
 	height: var(--header-height);
 `;
 

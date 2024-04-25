@@ -1,4 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
@@ -18,6 +20,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
             Order = workSurfaceDto.Order;
             Icon = workSurfaceDto.Icon;
             IsDefault = workSurfaceDto.IsDefault;
+            Contexts = workSurfaceDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
             Apps = workSurfaceDto.Apps.Select(x => new ApiWorkSurfaceApp(x)).ToList();
         }
 
@@ -30,6 +33,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
         public int Order { get; set; }
         public string Icon { get; set; } = null!;
         public bool IsDefault { get; set; }
+        public IList<ApiContextType> Contexts { get; set; }
         public List<ApiWorkSurfaceApp> Apps { get; set; } = null!;
     }
 }

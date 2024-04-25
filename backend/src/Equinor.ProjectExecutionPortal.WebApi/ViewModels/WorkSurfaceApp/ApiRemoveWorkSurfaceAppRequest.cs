@@ -5,9 +5,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp
 {
     public class ApiRemoveWorkSurfaceAppRequest
     {
-        public RemoveContextAppFromWorkSurfaceCommand ToCommand(Guid workSurfaceId, string contextExternalId, string appKey)
+        public RemoveContextAppFromWorkSurfaceCommand ToCommand(Guid workSurfaceId, Guid contextId, string appKey)
         {
-            return new RemoveContextAppFromWorkSurfaceCommand(workSurfaceId, contextExternalId, appKey);
+            return new RemoveContextAppFromWorkSurfaceCommand(workSurfaceId, contextId, appKey);
         }
 
         public RemoveGlobalAppFromWorkSurfaceCommand ToCommand(Guid workSurfaceId, string appKey)

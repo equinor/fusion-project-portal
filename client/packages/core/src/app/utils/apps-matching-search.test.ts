@@ -1,37 +1,37 @@
 import { describe, test, expect } from 'vitest';
 import { appsMatchingSearch } from './apps-matching-search';
-import { AppGroup, App } from '@portal/types';
+import { AppCategory, AppManifest } from '@portal/core';
 
-const appGroups: AppGroup[] = [
+const appGroups: AppCategory[] = [
 	{
 		name: 'Construction',
-		accentColor: '1',
-		order: 1,
+		color: '1',
+		defaultIcon: '1',
 		apps: [
 			{
-				appKey: 'handover',
+				key: 'handover',
 				name: 'Handover',
 			},
 			{
-				appKey: 'swcr',
+				key: 'swcr',
 				name: 'SWCR',
 			},
 			{
-				appKey: 'scope',
+				key: 'scope',
 				name: 'Scope Change',
 			},
-		] as App[],
+		] as AppManifest[],
 	},
 	{
 		name: 'Collaboration',
-		accentColor: '1',
-		order: 1,
+		color: '2',
+		defaultIcon: '2',
 		apps: [
 			{
-				appKey: 'meetings',
+				key: 'meetings',
 				name: 'Meetings',
 			},
-		] as App[],
+		] as AppManifest[],
 	},
 ];
 describe('appsMatchingSearch', () => {
@@ -40,17 +40,17 @@ describe('appsMatchingSearch', () => {
 		expect(value).toBe(appGroups);
 	});
 	test('Should return Construction appGroups with swcr app', () => {
-		const expected: AppGroup[] = [
+		const expected: AppCategory[] = [
 			{
 				name: 'Construction',
-				accentColor: '1',
-				order: 1,
+				defaultIcon: '1',
+				color: '1',
 				apps: [
 					{
-						appKey: 'swcr',
+						key: 'swcr',
 						name: 'SWCR',
 					},
-				] as App[],
+				] as AppManifest[],
 			},
 		];
 
@@ -58,32 +58,32 @@ describe('appsMatchingSearch', () => {
 		expect(value).toEqual(expected);
 	});
 	test('Should return all appGroups', () => {
-		const expected: AppGroup[] = [
+		const expected: AppCategory[] = [
 			{
 				name: 'Construction',
-				accentColor: '1',
-				order: 1,
+				color: '1',
+				defaultIcon: '1',
 				apps: [
 					{
-						appKey: 'handover',
+						key: 'handover',
 						name: 'Handover',
 					},
 					{
-						appKey: 'scope',
+						key: 'scope',
 						name: 'Scope Change',
 					},
-				] as App[],
+				] as AppManifest[],
 			},
 			{
 				name: 'Collaboration',
-				accentColor: '1',
-				order: 1,
+				color: '2',
+				defaultIcon: '2',
 				apps: [
 					{
-						appKey: 'meetings',
+						key: 'meetings',
 						name: 'Meetings',
 					},
-				] as App[],
+				] as AppManifest[],
 			},
 		];
 

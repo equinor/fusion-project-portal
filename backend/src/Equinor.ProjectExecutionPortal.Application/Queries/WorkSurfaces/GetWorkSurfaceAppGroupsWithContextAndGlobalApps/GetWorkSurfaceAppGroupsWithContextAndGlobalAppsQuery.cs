@@ -11,14 +11,16 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWor
 
 public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IList<WorkSurfaceAppGroupWithAppsDto>?>
 {
-    public GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(Guid workSurfaceId, string? contextExternalId)
+    public GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery(Guid workSurfaceId, string? contextExternalId, string? contextType)
     {
         WorkSurfaceId = workSurfaceId;
         ContextExternalId = contextExternalId;
+        ContextType = contextType;
     }
 
     public Guid WorkSurfaceId { get; }
     public string? ContextExternalId { get; }
+    public string? ContextType { get; }
 
     public class Handler : IRequestHandler<GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery, IList<WorkSurfaceAppGroupWithAppsDto>?>
     {
@@ -39,7 +41,8 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IL
         {
             var workSurface = await _readWriteContext.Set<WorkSurface>()
                 .AsNoTracking()
-                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || app.OnboardedContext.ExternalId == request.ContextExternalId))
+                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || 
+                                                                      (app.OnboardedContext.ExternalId == request.ContextExternalId && app.OnboardedContext.Type == request.ContextType)))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);

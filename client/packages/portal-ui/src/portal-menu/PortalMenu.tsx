@@ -1,14 +1,66 @@
-import { useMenuContext } from '@equinor/portal-core';
-import { PropsWithChildren } from 'react';
-import { MenuScrim, MenuWrapper } from './MenuStyles';
+import { Scrim } from '@equinor/eds-core-react';
+import { tokens } from '@equinor/eds-tokens';
 
-export const PortalMenu = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
-	const { menuActive, closeMenu } = useMenuContext();
+import { PropsWithChildren } from 'react';
+import styled from 'styled-components';
+import { usePortalMenu } from '@portal/core';
+
+const Styles = {
+	Scrim: styled(Scrim)`
+		animation: MenuScrimAnimation ease 0.3s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+		top: var(--header-height) !important;
+		height: calc(100vh - var(--header-height));
+		overflow: hidden !important;
+		z-index: 2;
+		@keyframes MenuScrimAnimation {
+			0% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+	`,
+	Wrapper: styled.div`
+		max-height: 100% !important;
+		display: 'flex';
+		flex-direction: 'column';
+		gap: '1.2em';
+		min-width: 800px;
+		height: calc(100vh - var(--header-height));
+		position: absolute;
+		background-color: white;
+		top: 0px;
+		left: 0px;
+		padding: 1rem 2rem 1rem 2rem;
+		background: ${tokens.colors.ui.background__default.rgba};
+		transition: all 0.15s ease;
+		z-index: 1;
+		border-right: 1.5px solid #e0e0e0;
+		animation: MenuWrapperAnimation ease 0.3s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+		width: inherit;
+		@keyframes MenuWrapperAnimation {
+			0% {
+				left: -900px;
+			}
+			100% {
+				left: 0px;
+			}
+		}
+	`,
+};
+
+export const MenuScrim = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
+	const { menuActive, closeMenu } = usePortalMenu();
 	return (
-		<MenuScrim open={menuActive} isDismissable onClose={closeMenu}>
-			<MenuWrapper>{children}</MenuWrapper>
-		</MenuScrim>
+		<Styles.Scrim open={menuActive} isDismissable onClose={closeMenu}>
+			<Styles.Wrapper>{children}</Styles.Wrapper>
+		</Styles.Scrim>
 	);
 };
 
-export default PortalMenu;
+export default MenuScrim;

@@ -4,7 +4,7 @@ import { QueryClientProvider } from 'react-query';
 import Framework from '@equinor/fusion-framework-react';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
-import PortalRouter from './components/portal-router/PortalRouter';
+import { PortalProvider } from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
 import { createPortalFramework } from './lib';
 import { configureDebug } from '@equinor/portal-core';
@@ -22,14 +22,11 @@ configureDebug();
 
 const configure = createPortalFramework(portalConfig);
 
-/* fusion core is spamming the console form module this will remove it in production */
-configureDebug();
-
 root.render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<Framework configure={configure} fallback={<PortalProgressLoader title="Configuring Portal" />}>
-				<PortalRouter />
+				<PortalProvider />
 			</Framework>
 		</QueryClientProvider>
 	</StrictMode>

@@ -6,7 +6,7 @@ import { verifyDate } from '../utils/time';
 export async function getQueryAndNCRequest(client: IHttpClient, signal?: AbortSignal): Promise<Task[]> {
 	const response = await client.fetch('/persons/me/tasks', { signal });
 	const tasks: QueryTaskResponse[] = await response.json();
-	console.log(tasks);
+
 	return tasks.map((task) => ({
 		id: task.id,
 		title: task.title || 'Task with no title',

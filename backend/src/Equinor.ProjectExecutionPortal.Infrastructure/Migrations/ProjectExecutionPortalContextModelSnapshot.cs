@@ -17,10 +17,40 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "6.0.26")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ContextTypeOnboardedApp", b =>
+                {
+                    b.Property<Guid>("ContextTypesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OnboardedAppsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ContextTypesId", "OnboardedAppsId");
+
+                    b.HasIndex("OnboardedAppsId");
+
+                    b.ToTable("OnboardedAppContextTypes", (string)null);
+                });
+
+            modelBuilder.Entity("ContextTypeWorkSurface", b =>
+                {
+                    b.Property<Guid>("ContextTypesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkSurfacesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ContextTypesId", "WorkSurfacesId");
+
+                    b.HasIndex("WorkSurfacesId");
+
+                    b.ToTable("WorkSurfaceContextTypes", (string)null);
+                });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.AppGroup", b =>
                 {
@@ -56,6 +86,37 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppGroups");
+                });
+
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContextTypeKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContextTypeKey")
+                        .IsUnique();
+
+                    b.ToTable("ContextTypes");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
@@ -277,6 +338,36 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasIndex("WorkSurfaceId");
 
                     b.ToTable("WorkSurfaceApps");
+                });
+
+            modelBuilder.Entity("ContextTypeOnboardedApp", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
+                        .WithMany()
+                        .HasForeignKey("ContextTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", null)
+                        .WithMany()
+                        .HasForeignKey("OnboardedAppsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ContextTypeWorkSurface", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
+                        .WithMany()
+                        .HasForeignKey("ContextTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", null)
+                        .WithMany()
+                        .HasForeignKey("WorkSurfacesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>

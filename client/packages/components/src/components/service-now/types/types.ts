@@ -1,4 +1,10 @@
-import { Message } from '@portal/ui';
+export type Variant = 'Warning' | 'Error' | 'Info' | 'NoContent';
+
+export type Message = {
+	type?: Variant;
+	title: string;
+	messages?: string[];
+};
 
 export type Incident = {
 	active: boolean;

@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+﻿using Equinor.ProjectExecutionPortal.Application.Services.ContextService;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -8,40 +9,44 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddCo
 
 public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
 {
-    public AddContextAppToWorkSurfaceCommand(Guid workSurfaceId, string contextExternalId, string appKey)
+    public AddContextAppToWorkSurfaceCommand(Guid workSurfaceId, Guid contextId, string appKey)
     {
         WorkSurfaceId = workSurfaceId;
-        ContextExternalId = contextExternalId;
+        ContextId = contextId;
         AppKey = appKey;
     }
 
     public Guid WorkSurfaceId { get; }
-    public string ContextExternalId { get; }
+    public Guid ContextId { get; }
     public string AppKey { get; }
 
     public class Handler : IRequestHandler<AddContextAppToWorkSurfaceCommand, Unit>
     {
         private readonly IReadWriteContext _readWriteContext;
+        private readonly IContextService _contextService;
 
-        public Handler(IReadWriteContext readWriteContext)
+        public Handler(IReadWriteContext readWriteContext, IContextService contextService)
         {
             _readWriteContext = readWriteContext;
+            _contextService = contextService;
         }
 
         public async Task<Unit> Handle(AddContextAppToWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            if (command.ContextExternalId == null)
+            var fusionContext = await _contextService.GetFusionContext(command.ContextId, cancellationToken);
+            
+            if (fusionContext == null)
             {
                 throw new InvalidActionException($"Cannot add app '{command.AppKey} to '{command.WorkSurfaceId}'. Missing context parameter.");
             }
 
             var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ExternalId == command.ContextExternalId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.ExternalId == fusionContext.ExternalId && x.Type == fusionContext.Type.Name, cancellationToken);
 
             if (onboardedContext == null)
             {
-                throw new NotFoundException("Could not find any onboarded context with id", command.ContextExternalId);
+                throw new NotFoundException("Could not find any onboarded context with id", command.ContextId);
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
