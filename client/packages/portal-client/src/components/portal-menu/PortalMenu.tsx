@@ -1,22 +1,20 @@
 import { Search, Switch } from '@equinor/eds-core-react';
-import { GroupWrapper, InfoMessage, LoadingMenu, PortalMenu, StyledCategoryItem } from '@equinor/portal-ui';
-import { customAppGroupArraySort, getDisabledApps, getPinnedAppsGroup } from '@portal/utils';
+import { InfoMessage, MenuScrim, StyledCategoryItem } from '@equinor/portal-ui';
+import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, usePortalMenu, useTelemetry } from '@portal/core';
 
-import { useMenuContext } from '@equinor/portal-core';
-import { useAppGroupsQuery, appsMatchingSearch } from '@portal/core';
+import { appsMatchingSearch, usePortalApps } from '@portal/core';
 import { useState, useMemo } from 'react';
-import { css } from '@emotion/css';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
-import { AppGroup } from '@portal/components';
+import { AppContextMessage, AppGroup, LoadingMenu } from '@portal/components';
 
-const styles = {
-	divider: css`
+const Styles = {
+	Divider: styled.div`
 		border-right: 1px solid #dcdcdc;
 		height: 90%;
 	`,
-	categoryWrapper: css`
+	CategoryWrapper: styled.div`
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 2rem;
@@ -26,7 +24,7 @@ const styles = {
 		gap: 1rem;
 	`,
 
-	menuWrapper: css`
+	MenuWrapper: styled.div`
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
@@ -56,17 +54,26 @@ const styles = {
 			}
 		}
 	`,
+	Feature: styled.div`
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+	`,
+	AppMessageWrapper: styled.div`
+		padding: 1rem 0;
+	`,
 };
 
 export function MenuGroups() {
-	const { data, isLoading } = useAppGroupsQuery();
-	const { searchText, setSearchText } = useMenuContext();
+	const { dispatchEvent } = useTelemetry();
+	const { appCategories, isLoading } = usePortalApps();
+	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
 
 	const { feature, toggleFeature } = useFeature('new-menu');
 	const { addFavorite, appGroups, favorites } = useFavorites();
 
-	const categoryItems = ['Pinned Apps', ...(data?.map((item) => item.name) ?? []), 'All Apps'];
+	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.name) ?? []), 'All Apps'];
 
 	const favoriteGroup = useMemo(() => {
 		const enabledApps = (appGroups?.map((group) => group.apps) ?? []).flat();
@@ -80,26 +87,24 @@ export function MenuGroups() {
 		}
 		if (activeItem.includes('All Apps') || searchText != '') {
 			const appSearch = appsMatchingSearch(appGroups ?? [], searchText);
-			return appSearch.sort((a, b) => customAppGroupArraySort(a, b, activeItem));
+			return appSearch.sort(appGroupArraySort);
 		}
 		const filteredApps = appGroups?.filter((obj) => obj.name === activeItem);
 		return filteredApps;
 	}, [searchText, activeItem, appGroups, favoriteGroup]);
 
-	const hasApps = useMemo(() => Boolean(data && data.length !== 0), [data]);
+	const hasApps = useMemo(() => Boolean(appCategories && appCategories.length !== 0), [appCategories]);
 
-	const handleToggle = (name: string) => {
+	const handleToggle = (name: string | null) => {
 		if (activeItem === name) {
 			setActiveItem('All Apps');
 		} else {
-			setActiveItem(name);
+			name && setActiveItem(name);
 		}
 	};
 
-	const BREAK_COL_COUNT = 15;
-
 	return (
-		<PortalMenu>
+		<MenuScrim>
 			<Search
 				id="app-search"
 				placeholder={'Search for apps'}
@@ -111,72 +116,88 @@ export function MenuGroups() {
 				}}
 			/>
 
-			<div className={styles.menuWrapper}>
+			<Styles.MenuWrapper>
 				{isLoading ? (
 					<LoadingMenu />
 				) : (
 					<>
-						<div className={styles.divider}>
-							<div className={styles.categoryWrapper}>
+						<Styles.Divider>
+							<Styles.CategoryWrapper>
 								{categoryItems.map((item, index) => (
 									<StyledCategoryItem
 										key={index}
-										name={item}
+										name={item || ''}
 										isActive={activeItem === item}
 										onClick={() => handleToggle(item)}
 									/>
 								))}
-							</div>
+							</Styles.CategoryWrapper>
 							{/* Todo: remove when decided to use new menu */}
-							<div style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
+							<Styles.Feature>
 								<Switch
 									title="Toggle New Menu Feature"
 									checked={feature?.enabled}
 									disabled={feature?.readonly}
 									onChange={() => toggleFeature()}
 								/>
-							</div>
-						</div>
-						{displayAppGroups && !!displayAppGroups?.length ? (
-							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
-								<InfoMessage>
-									Looks like you do not have any pinned apps yet. <br /> Click the star icon on apps
-									to add them to the pinned app section.
-								</InfoMessage>
+							</Styles.Feature>
+						</Styles.Divider>
+						<div>
+							<AppContextMessage />
+							{displayAppGroups && !!displayAppGroups?.length ? (
+								activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
+									<InfoMessage>
+										Looks like you do not have any pinned apps yet. <br /> Click the star on
+										apps to add them to the pinned app section.
+									</InfoMessage>
+								) : (
+									<Styles.Wrapper>
+										{displayAppGroups &&
+											displayAppGroups.map((appGroup) => (
+												<div key={appGroup.name}>
+													<AppGroup
+														dark={false}
+														group={appGroup}
+														onClick={(app, e) => {
+															if (app.isDisabled) {
+																e.preventDefault();
+																return;
+															}
+															dispatchEvent(
+																{
+																	name: 'onAppNavigation',
+																},
+
+																{
+																	appKey: app.key,
+																	isFavorite: app.isPinned,
+																	source: 'app-menu',
+																}
+															);
+
+															closeMenu();
+														}}
+														onFavorite={(app) => addFavorite(app.key)}
+													/>
+												</div>
+											))}
+									</Styles.Wrapper>
+								)
 							) : (
 								<>
-									{feature?.enabled ? (
-										<styles.Wrapper>
-											{displayAppGroups &&
-												displayAppGroups.map((appGroup) => (
-													<div key={appGroup.name}>
-														<AppGroup
-															dark={false}
-															group={appGroup}
-															onFavorite={(app) => addFavorite(app.key)}
-														/>
-													</div>
-												))}
-										</styles.Wrapper>
-									) : (
-										<GroupWrapper appGroups={displayAppGroups} maxAppsInColumn={BREAK_COL_COUNT} />
-									)}
+									{searchText ? (
+										<InfoMessage>No results found for your search.</InfoMessage>
+									) : !hasApps ? (
+										<InfoMessage>
+											Please select a context to display a list of applications.
+										</InfoMessage>
+									) : null}
 								</>
-							)
-						) : (
-							<>
-								{searchText ? (
-									<InfoMessage>No results found for your search.</InfoMessage>
-								) : !hasApps ? (
-									<InfoMessage>
-										Please select a context to display a list of applications.
-									</InfoMessage>
-								) : null}
-							</>
-						)}
+							)}
+						</div>
 					</>
 				)}
-			</div>
-		</PortalMenu>
+			</Styles.MenuWrapper>
+		</MenuScrim>
 	);
 }

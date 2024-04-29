@@ -1,5 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
@@ -17,6 +19,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
             Name = onboardedAppDto.AppInformation?.Name;
             Description = onboardedAppDto.AppInformation?.Description;
             AppGroup = new ApiAppGroup(onboardedAppDto.AppGroup);
+            Contexts = onboardedAppDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
             AppInformation = onboardedAppDto.AppInformation != null ? new ApiFusionPortalAppInformation(onboardedAppDto.AppInformation) : null;
         }
 
@@ -27,6 +30,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         public string? Name { get; set; }
         public string? Description { get; set; }
         public ApiAppGroup AppGroup { get; set; } = null!;
+        public IList<ApiContextType> Contexts { get; set; }
         public ApiFusionPortalAppInformation? AppInformation { get; set; }
     }
 }

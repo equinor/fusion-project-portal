@@ -10,7 +10,7 @@ export const menuFavoritesController = {
 		if (!value) return;
 		next(subject$.value.includes(value) ? subject$.value.filter((s) => s !== value) : [...subject$.value, value]);
 	},
-	//Store everytime a new value is emitted
+	//Store every time a new value is emitted
 	cleanFavorites: () => {
 		return obs$.subscribe((favorites) => {
 			if (favorites.find((i) => i.includes('next'))) {

@@ -1,5 +1,109 @@
 # fusion-project-portal
 
+## 3.0.5
+
+### Patch Changes
+
+- 4514a8f: App and Context expansion message.
+
+## 3.0.4
+
+### Patch Changes
+
+- d3b86ff: Introduced managed Identity
+
+## 3.0.3
+
+### Patch Changes
+
+- 9029eb4: fix fusion link
+
+## 3.0.2
+
+### Patch Changes
+
+- a3f42ca: Environment variable update
+
+## 3.0.1
+
+### Patch Changes
+
+- bce448f: Small inital setup bug fixed
+
+## 3.0.0
+
+### Major Changes
+
+- b6994c7: The project portal has undergone a major rewrite for both frontend and portal api to accommodate for this release of the portal, now supporting `facility` context selection.
+
+  - Portal Landing page, has undergone some minor styling changes, user card and portal info card is added.
+  - The portal now supports facility context.
+  - The portal now is open to all context, this allows the user to select all contexts but all applications may not be available for all context.
+  - All contexts will display global applications
+  - When selecting a project, the portal will navigate the user to a project page
+  - When selecting a facility the portal will navigate the user to a facility page
+  - Updates to the underlying portal configuration. This will not impact the user but simplify portal configurations for developers.
+  - Portal now utilizes application manifest as defined in fusion, this allows application admins to change application category from the application admin interface.
+
+  Project page:
+
+  - Added navigation to the corresponding facilities of the selected project.
+  - Minor layout update to accommodate for smaller screens.
+  - Added icon to header for easier context identification.
+  - Added context type to header for easier context identification.
+
+  Facility page:
+
+  - Added navigation to the corresponding projects of the selected facility.
+  - Facility page shows the same my work assigned section.
+  - All corresponding project phases / DG phases will be de shown if data is available.
+  - Added icon to header for easier context identification.
+  - Added context type to header for easier context identification.
+  - Favorites are the same as on project page.
+  - Facility may show less applications as there are less applications supporting the context type.
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+### Minor Changes
+
+- bdfd7bb: Project prediction on landing page
+
+## 2.0.1
+
+### Patch Changes
+
+- b6c165e: Scoping for landing page.
+
+## 2.0.0
+
+### Major Changes
+
+- 1c607e3: Project Landing Page Update: Design and User Experience Enhancements
+  - Enhanced the project landing page by integrating a full-width header containing essential project information, aligning it with the Fusion landing page.
+  - Introduced a new Overview tab with a new layout.
+  - Users can now view their project allocation, with a direct link to the project organization application in Fusion.
+  - Displayed the project director prominently on the project landing page.
+  - Implemented a project phase indicator on the Overview tab, showcasing DG dates and the current DG phase of the project.
+  - Aligned the design of pinned apps with Fusion while maintaining content stored in local storage.
+  - Implemented cleanup functionality for removing deleted apps within pinned apps.
+  - Redesigned the contract list to feature cards instead of a table, categorizing contracts into active and closed groups based on closing date.
+  - Introduced a Project Portal Info section with quick facts.
+  - Implemented a Construction and Commissioning tab featuring milestones and CC-Application KPIs, accessible behind a feature flag.
+  - Developed a new menu design, also accessible behind a feature flag, in alignment with the all-apps list.
+  - Added functionality for feature flagging with local storage implementation utilizing the new feature flag module in Fusion.
+  - Introduced a "My Features" tab under the user's account to enable feature flags.
+  - Global app search and navigation behind feature flag.
+
+### Minor Changes
+
+- b96c30e: The top-bat extensions settings are moved to portal settings.
+  - Fix on the fullscreen button
+  - Added production scope for data gateway apo used on cc-tab
+  - Fixing new menu, now closing when selecting application
+  - Added no content message to my features tabs
+- 10cc29d: Portal now integrates with the Fusion feature logging system, enhancing the visibility of logged applicaion and context selected in the Fusion User Statistics report.
+
 ## 1.13.2
 
 ### Patch Changes

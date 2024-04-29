@@ -38,7 +38,7 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
         {
             var workSurface = await _readWriteContext.Set<WorkSurface>()
                 .AsNoTracking()
-                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContextId == null))
+                .Include(workSurface => workSurface.Apps)
                 .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
                 .ThenInclude(onboardedApp => onboardedApp.AppGroup)
                 .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);

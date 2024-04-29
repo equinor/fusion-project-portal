@@ -1,12 +1,12 @@
 import { describe, test, expect } from 'vitest';
 import { appsMatchingSearch } from './apps-matching-search';
-import { FusionAppGroup, FusionAppManifest } from '@portal/types';
+import { AppCategory, AppManifest } from '@portal/core';
 
-const appGroups: FusionAppGroup[] = [
+const appGroups: AppCategory[] = [
 	{
 		name: 'Construction',
-		accentColor: '1',
-		order: 1,
+		color: '1',
+		defaultIcon: '1',
 		apps: [
 			{
 				key: 'handover',
@@ -20,18 +20,18 @@ const appGroups: FusionAppGroup[] = [
 				key: 'scope',
 				name: 'Scope Change',
 			},
-		] as FusionAppManifest[],
+		] as AppManifest[],
 	},
 	{
 		name: 'Collaboration',
-		accentColor: '1',
-		order: 1,
+		color: '2',
+		defaultIcon: '2',
 		apps: [
 			{
 				key: 'meetings',
 				name: 'Meetings',
 			},
-		] as FusionAppManifest[],
+		] as AppManifest[],
 	},
 ];
 describe('appsMatchingSearch', () => {
@@ -40,17 +40,17 @@ describe('appsMatchingSearch', () => {
 		expect(value).toBe(appGroups);
 	});
 	test('Should return Construction appGroups with swcr app', () => {
-		const expected: FusionAppGroup[] = [
+		const expected: AppCategory[] = [
 			{
 				name: 'Construction',
-				accentColor: '1',
-				order: 1,
+				defaultIcon: '1',
+				color: '1',
 				apps: [
 					{
 						key: 'swcr',
 						name: 'SWCR',
 					},
-				] as FusionAppManifest[],
+				] as AppManifest[],
 			},
 		];
 
@@ -58,11 +58,11 @@ describe('appsMatchingSearch', () => {
 		expect(value).toEqual(expected);
 	});
 	test('Should return all appGroups', () => {
-		const expected: FusionAppGroup[] = [
+		const expected: AppCategory[] = [
 			{
 				name: 'Construction',
-				accentColor: '1',
-				order: 1,
+				color: '1',
+				defaultIcon: '1',
 				apps: [
 					{
 						key: 'handover',
@@ -72,18 +72,18 @@ describe('appsMatchingSearch', () => {
 						key: 'scope',
 						name: 'Scope Change',
 					},
-				] as FusionAppManifest[],
+				] as AppManifest[],
 			},
 			{
 				name: 'Collaboration',
-				accentColor: '1',
-				order: 1,
+				color: '2',
+				defaultIcon: '2',
 				apps: [
 					{
 						key: 'meetings',
 						name: 'Meetings',
 					},
-				] as FusionAppManifest[],
+				] as AppManifest[],
 			},
 		];
 

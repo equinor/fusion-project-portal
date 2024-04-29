@@ -1,4 +1,4 @@
-import { useFrameworkCurrentContext, useViewController } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppBreadcrumb } from './AppBreadcrumb';
@@ -6,10 +6,10 @@ import { AppGroupBreadCrumb } from './AppGroupBreadCrumb';
 
 import { StyledBreadcrumbs, StyledBreadcrumbItem, StyledBreadcrumbItemInteract } from './styles';
 import { useCurrentAppGroup } from '@portal/core';
+import { getContextTypeName } from '@equinor/portal-core';
 
 export const Breadcrumbs = () => {
 	const context = useFrameworkCurrentContext();
-	const { currentView } = useViewController();
 	const navigate = useNavigate();
 
 	const { appKey } = useParams();
@@ -18,25 +18,29 @@ export const Breadcrumbs = () => {
 	const [appSelectorOpen, setAppSelectorOpen] = useState(false);
 	const location = useLocation();
 
+	const contextName = getContextTypeName(context?.type.id);
+
 	return (
 		<StyledBreadcrumbs>
+			<StyledBreadcrumbItem> </StyledBreadcrumbItem>
 			{context && location.pathname !== '/' && (
 				<StyledBreadcrumbItemInteract
 					onClick={() => {
-						currentView && navigate(`/${currentView.key}/${context.id}`);
+						navigate(`/${contextName.toLowerCase()}/${context.id}`);
 					}}
 				>
-					{currentAppGroup ? <span>{currentView?.name}</span> : <b>{currentView?.name}</b>}
+					{currentAppGroup ? <span>{contextName}</span> : <b>{contextName}</b>}
 				</StyledBreadcrumbItemInteract>
 			)}
-			{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name} />}
+			{currentAppGroup && <AppGroupBreadCrumb name={currentAppGroup.name || 'unknown'} />}
 			{currentAppGroup && (
 				<AppBreadcrumb
-					appGroup={currentAppGroup}
+					appCategory={currentAppGroup}
 					isMenuOpen={appSelectorOpen}
 					setMenuOpen={setAppSelectorOpen}
 				/>
 			)}
+
 			<StyledBreadcrumbItem></StyledBreadcrumbItem>
 		</StyledBreadcrumbs>
 	);

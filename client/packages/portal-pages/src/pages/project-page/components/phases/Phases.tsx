@@ -1,8 +1,9 @@
 import { Card, Typography } from '@equinor/eds-core-react';
-import { useFrameworkCurrentContext, useRelationsByType } from '@equinor/portal-core';
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useMemo } from 'react';
 import { KpiCardItem } from './KpiItem';
 import styled from 'styled-components';
+import { useRelationsByType } from '@portal/core';
 
 const Styles = {
 	Content: styled(Card.Content).withConfig({ displayName: 'phase' })`
@@ -20,10 +21,12 @@ import { NoProjectInfoAccessMessage } from '../messages/NoProjectInfoAccessMessa
 
 export const Phases = () => {
 	const context = useFrameworkCurrentContext();
-	const equinorTask = useRelationsByType('OrgChart', context?.id);
+	const { data: equinorTask, error: relationsError } = useRelationsByType('OrgChart', context?.id);
 	const { data, isLoading, error } = useProjectDetails(equinorTask[0]?.externalId);
 
 	const current = useMemo(() => findActiveDate(data?.dates.gates as DateObject), [data]);
+
+	if (relationsError && equinorTask.length === 0) return null;
 
 	return (
 		<Card elevation="raised">

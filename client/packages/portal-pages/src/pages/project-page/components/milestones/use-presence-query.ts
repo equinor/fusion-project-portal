@@ -24,8 +24,19 @@ export async function getMilestones(
 	const res = await client.fetch(`/api/contexts/${contextId}/milestones`, { signal });
 
 	if (res.status === 403) throw new Error('No access');
+
+	const data = (await res.json()) as Milestones[];
+
+	if (res.status === 400 && (data as unknown as { detail: string }).detail.includes('Forbidden')) {
+		throw new Error('No access');
+	}
+
+	if (res.status === 424 && (data as unknown as { detail: string }).detail.includes('Forbidden')) {
+		throw new Error('No access');
+	}
+
 	if (!res.ok) throw new Error('Unknown Error');
-	return (await res.json()) as Milestones[];
+	return data;
 }
 
 export const useMilestoneQuery = () => {

@@ -35,10 +35,12 @@ const createApp = (app?: Mock, isLegacy?: boolean) =>
 			key: 'handover',
 			isLegacy,
 		},
-		script: {
-			renderApp: app,
-			default: app,
-		},
+		script: !isLegacy
+			? {
+					renderApp: app,
+					default: app,
+			  }
+			: { render: app },
 		config: undefined,
 	});
 

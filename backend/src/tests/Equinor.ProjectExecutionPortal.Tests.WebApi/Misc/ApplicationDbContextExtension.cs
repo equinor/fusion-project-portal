@@ -3,6 +3,7 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
@@ -52,6 +53,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
 
             dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
+
+            dbContext.SaveChanges();
+
+            //add contextTypes
+            var contextTypeProjectMaster = ContextTypeData.InitialSeedData.ContextType1;
+            var contextTypeFacility = ContextTypeData.InitialSeedData.ContextType2;
+
+            dbContext.AddRange(contextTypeProjectMaster,contextTypeFacility);
 
             dbContext.SaveChanges();
 

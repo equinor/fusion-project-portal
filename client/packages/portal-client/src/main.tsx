@@ -4,13 +4,12 @@ import { QueryClientProvider } from 'react-query';
 import Framework from '@equinor/fusion-framework-react';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
-import PortalRouter from './components/portal-router/PortalRouter';
+import { PortalProvider } from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
 import { createPortalFramework } from './lib';
 import { configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 import { PortalConfig } from '@portal/types';
-import PeopleResolverProvider from '@equinor/fusion-framework-react-components-people-provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -27,9 +26,7 @@ root.render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<Framework configure={configure} fallback={<PortalProgressLoader title="Configuring Portal" />}>
-				<PeopleResolverProvider>
-					<PortalRouter />
-				</PeopleResolverProvider>
+				<PortalProvider />
 			</Framework>
 		</QueryClientProvider>
 	</StrictMode>

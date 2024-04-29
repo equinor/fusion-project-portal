@@ -3,7 +3,7 @@ import { PortalConfig } from '@portal/types';
 export const getFusionPortalURL = () => {
 	switch (window._config_.fusionLegacyEnvIdentifier.toLowerCase()) {
 		case 'fprd':
-			return 'https://fusion.eqionor.com';
+			return 'https://fusion.equinor.com';
 		case 'ci':
 			return 'https://fusion-s-portal-ci.azurewebsites.net';
 		case 'fqa':

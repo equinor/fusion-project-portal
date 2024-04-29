@@ -1,7 +1,7 @@
 import { Button, Card, Icon, Typography } from '@equinor/eds-core-react';
 
-import { useRelationsByType, Relations, useFrameworkCurrentContext } from '@equinor/portal-core';
-
+import { useFrameworkCurrentContext } from '@equinor/portal-core';
+import { useRelationsByType, Relations, Contract } from '@portal/core';
 import styled from 'styled-components';
 import { useMemo, useState } from 'react';
 import { collapse, expand } from '@equinor/eds-icons';
@@ -41,7 +41,7 @@ const sortByDate = (a: Relations, b: Relations) =>
 
 export const Contracts = () => {
 	const context = useFrameworkCurrentContext();
-	const contracts = useRelationsByType('Contract', context?.id);
+	const { data: contracts } = useRelationsByType('Contract', context?.id);
 
 	const contractGroups = useMemo(() => {
 		return contracts.reduce(
@@ -54,7 +54,7 @@ export const Contracts = () => {
 
 				return acc;
 			},
-			{ open: [], closed: [] } as { open: Relations[]; closed: Relations[] }
+			{ open: [], closed: [] } as { open: Relations<Contract>[]; closed: Relations<Contract>[] }
 		);
 	}, [contracts]);
 

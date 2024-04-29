@@ -5,18 +5,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
 {
     public class ApiRemoveOnboardedContextRequest
     {
-        public string ExternalId { get; set; } = null!;
+        public Guid Id { get; set; }
 
         public RemoveOnboardedContextCommand ToCommand()
         {
-            return new RemoveOnboardedContextCommand(ExternalId);
+            return new RemoveOnboardedContextCommand(Id);
         }
 
         public class RemoveOnboardedContextRequestValidator : AbstractValidator<ApiRemoveOnboardedContextRequest>
         {
             public RemoveOnboardedContextRequestValidator()
             {
-                RuleFor(x => x.ExternalId)
+                RuleFor(x => x.Id)
                     .NotEmpty()
                     .WithMessage("External Id is required");
             }

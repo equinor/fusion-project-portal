@@ -1,154 +1,159 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "portal.config",
-    "title": "JSON schema for PortalConfig configuration",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-        "$schema": {
-            "type": "string",
-            "description": "The JSON schema version used to validate this configuration file"
-        },
-        "title": {
-            "type": "string",
-            "description": "Portal name",
-            "default": "0.0.0"
-        },
-        "description": {
-            "type": "string",
-            "description": "Portal name",
-            "default": "0.0.0"
-        },
-        "serviceDiscovery": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "Config for serviceDiscovery",
-            "properties": {
-                "client": {
-                    "type": "object",
-                    "description": "options for client",
-                    "properties": {
-                        "baseUri": {
-                            "type": "string",
-                            "description": "Portal name"
-                        },
-                        "defaultScopes": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "description": "scopes for the current client"
-                        }
-                    }
-                }
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "portal.config",
+  "title": "JSON schema for PortalConfig configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The JSON schema version used to validate this configuration file"
+    },
+    "title": {
+      "type": "string",
+      "description": "Portal name",
+      "default": "0.0.0"
+    },
+    "description": {
+      "type": "string",
+      "description": "Portal name",
+      "default": "0.0.0"
+    },
+    "portalId": {
+      "type": "string",
+      "description": "Portal identification",
+      "default": "guid"
+    },
+    "serviceDiscovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Config for serviceDiscovery",
+      "properties": {
+        "client": {
+          "type": "object",
+          "description": "options for client",
+          "properties": {
+            "baseUri": {
+              "type": "string",
+              "description": "Portal name"
+            },
+            "defaultScopes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "scopes for the current client"
             }
-        },
-        "portalClient": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "Config for serviceDiscovery",
-            "properties": {
-                "client": {
-                    "type": "object",
-                    "description": "options for client",
-                    "properties": {
-                        "baseUri": {
-                            "type": "string",
-                            "description": "Portal name"
-                        },
-                        "defaultScopes": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "description": "scopes for the current client"
-                        }
-                    }
-                }
-            }
-        },
-        "msal": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "Config for serviceDiscovery",
-            "properties": {
-                "client": {
-                    "type": "object",
-                    "description": "options for client",
-                    "properties": {
-                        "baseUri": {
-                            "type": "string",
-                            "description": "Portal name"
-                        },
-                        "defaultScopes": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "description": "scopes for the current client"
-                        }
-                    }
-                },
-                "options": {
-                    "type": "object",
-                    "additionalProperties": true,
-                    "properties": {
-                        "requiresAuth": {
-                            "type": "boolean"
-                        }
-                    }
-                }
-            }
-        },
-        "bookmarks": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "subSystem": {
-                    "type": "string"
-                },
-                "identifier": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "agGrid": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "licenseKey": {
-                    "type": "string"
-                }
-            }
-        },
-        "logger": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "level": {
-                    "type": "number"
-                },
-                "defaultClientLogger": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "active": {
-                            "type": "boolean"
-                        },
-                        "level": {
-                            "type": "number"
-                        }
-                    }
-                }
-            }
-        },
-        "fusionLegacyEnvIdentifier": {
-            "type": "string",
-            "additionalProperties": false,
-            "description": "Environment identifier for Fusion legacy application loader"
+          }
         }
+      }
+    },
+    "portalClient": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Config for serviceDiscovery",
+      "properties": {
+        "client": {
+          "type": "object",
+          "description": "options for client",
+          "properties": {
+            "baseUri": {
+              "type": "string",
+              "description": "Portal name"
+            },
+            "defaultScopes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "scopes for the current client"
+            }
+          }
+        }
+      }
+    },
+    "msal": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Config for serviceDiscovery",
+      "properties": {
+        "client": {
+          "type": "object",
+          "description": "options for client",
+          "properties": {
+            "baseUri": {
+              "type": "string",
+              "description": "Portal name"
+            },
+            "defaultScopes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "scopes for the current client"
+            }
+          }
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "requiresAuth": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "bookmarks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subSystem": {
+          "type": "string"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "agGrid": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "licenseKey": {
+          "type": "string"
+        }
+      }
+    },
+    "logger": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "type": "number"
+        },
+        "defaultClientLogger": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "active": {
+              "type": "boolean"
+            },
+            "level": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "fusionLegacyEnvIdentifier": {
+      "type": "string",
+      "additionalProperties": false,
+      "description": "Environment identifier for Fusion legacy application loader"
     }
+  }
 }

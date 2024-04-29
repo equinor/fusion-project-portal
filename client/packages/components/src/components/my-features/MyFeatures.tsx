@@ -7,6 +7,7 @@ import { tokens } from '@equinor/eds-tokens';
 import { useState } from 'react';
 import FeatureTogglerApp from './FeatureTogglerApp';
 import FeatureTogglerPortal from './FeatureTogglerPortal';
+import { useTelemetry } from '@portal/core';
 
 export const Style = {
 	Wrapper: styled.div`
@@ -54,6 +55,7 @@ export const Style = {
 
 export const MyFeatures = ({ onClick }: { onClick: VoidFunction }) => {
 	const [tab, setTab] = useState<number>(0);
+	const { dispatchEvent } = useTelemetry();
 
 	return (
 		<Style.Wrapper>
@@ -72,10 +74,38 @@ export const MyFeatures = ({ onClick }: { onClick: VoidFunction }) => {
 				</Tabs.List>
 				<Tabs.Panels>
 					<Tabs.Panel>
-						<FeatureTogglerPortal />
+						<FeatureTogglerPortal
+							onClick={(feature) => {
+								if (feature) {
+									dispatchEvent(
+										{
+											name: 'onPortalFeatureToggle',
+										},
+										{
+											key: feature.key,
+											title: feature.title,
+										}
+									);
+								}
+							}}
+						/>
 					</Tabs.Panel>
 					<Tabs.Panel>
-						<FeatureTogglerApp />
+						<FeatureTogglerApp
+							onClick={(feature) => {
+								if (feature) {
+									dispatchEvent(
+										{
+											name: 'onAppFeatureToggle',
+										},
+										{
+											key: feature.key,
+											title: feature.title,
+										}
+									);
+								}
+							}}
+						/>
 					</Tabs.Panel>
 				</Tabs.Panels>
 			</Tabs>

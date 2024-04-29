@@ -11,6 +11,7 @@ import {
 import { ServiceMessageIcon, ServiceMessages, ServiceMessageTooltip } from '@equinor/service-message';
 
 import { PortalAction } from './types';
+import { handleFullscreenClick } from './utils';
 
 export const actions: PortalAction[] = [
 	{
@@ -18,6 +19,7 @@ export const actions: PortalAction[] = [
 		name: 'Full screen',
 		icon: { component: FullscreenIcon, name: 'fullscreen' },
 		appendDivider: true,
+		onClick: handleFullscreenClick,
 		topParOnly: true,
 	},
 	{
@@ -26,7 +28,7 @@ export const actions: PortalAction[] = [
 		color: '#258800',
 		icon: 'account_circle',
 		component: MyAccount,
-		dropDownOnly: true,
+		hidden: true,
 	},
 	{
 		actionId: 'bookmarks',

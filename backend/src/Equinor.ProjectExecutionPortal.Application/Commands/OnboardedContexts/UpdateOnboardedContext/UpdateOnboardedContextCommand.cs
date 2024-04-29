@@ -8,13 +8,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedContexts.
 
 public class UpdateOnboardedContextCommand : IRequest<string>
 {
-    public UpdateOnboardedContextCommand(string externalId, string? description)
+    public UpdateOnboardedContextCommand(Guid id, string? description)
     {
-        ExternalId = externalId;
+        Id = id;
         Description = description;
     }
 
-    public string ExternalId { get; }
+    public Guid Id { get; }
     public string? Description { get; set; }
 
     public class Handler : IRequestHandler<UpdateOnboardedContextCommand, string>
@@ -29,11 +29,11 @@ public class UpdateOnboardedContextCommand : IRequest<string>
         public async Task<string> Handle(UpdateOnboardedContextCommand command, CancellationToken cancellationToken)
         {
             var entity = await _readWriteContext.Set<OnboardedContext>()
-                .FirstOrDefaultAsync(x => x.ExternalId == command.ExternalId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(OnboardedContext), command.ExternalId);
+                throw new NotFoundException(nameof(OnboardedContext), command.Id);
             }
 
             entity.Update(command.Description);

@@ -6,6 +6,9 @@ export const StyledBreadcrumbs = styled(EdsBreadcrumbs)`
 	> ol {
 		align-items: center;
 		flex-wrap: nowrap;
+		> li {
+			min-width: 0px;
+		}
 	}
 `;
 
@@ -14,7 +17,7 @@ export const StyledBreadcrumbItem = styled.span`
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: max-content;
-	min-width: 5px;
+	min-width: 0px;
 `;
 export const StyledBreadcrumbItemInteract = styled(StyledBreadcrumbItem)`
 	cursor: pointer;

@@ -11,10 +11,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
         public string? Description { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; } = null!;
+        public IList<string>? ContextTypes { get; set; }
 
         public CreateWorkSurfaceCommand ToCommand()
         {
-            return new CreateWorkSurfaceCommand(Name, ShortName, Subtext, Description, Order, Icon);
+            return new CreateWorkSurfaceCommand(Name, ShortName, Subtext, Description, Order, Icon, ContextTypes);
         }
 
         public class CreateWorkSurfaceRequestValidator : AbstractValidator<ApiCreateWorkSurfaceRequest>
