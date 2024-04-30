@@ -26,7 +26,7 @@ public class RemoveGlobalAppFromWorkSurfaceCommand : IRequest
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Unit> Handle(RemoveGlobalAppFromWorkSurfaceCommand command, CancellationToken cancellationToken)
+        public async Task Handle(RemoveGlobalAppFromWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
             var workSurfaceApp = await _readWriteContext.Set<WorkSurfaceApp>()
                 .Include(x => x.OnboardedApp)
@@ -45,7 +45,6 @@ public class RemoveGlobalAppFromWorkSurfaceCommand : IRequest
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
         }
     }
 }

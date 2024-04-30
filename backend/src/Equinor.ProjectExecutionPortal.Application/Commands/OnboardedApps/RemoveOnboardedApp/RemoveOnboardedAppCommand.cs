@@ -24,7 +24,7 @@ public class RemoveOnboardedAppCommand : IRequest
             _context = context;
         }
 
-        public async Task<Unit> Handle(RemoveOnboardedAppCommand command, CancellationToken cancellationToken)
+        public async Task Handle(RemoveOnboardedAppCommand command, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<OnboardedApp>()
                 .FirstOrDefaultAsync(onboardedApp => onboardedApp.AppKey == command.AppKey, cancellationToken);
@@ -38,7 +38,6 @@ public class RemoveOnboardedAppCommand : IRequest
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
         }
     }
 }
