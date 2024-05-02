@@ -46,7 +46,8 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-RUN adduser \
+RUN deluser app \
+    && adduser \
     --uid 1001 \
     --home /app \
     --gecos '' app \
