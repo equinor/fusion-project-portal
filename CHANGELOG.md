@@ -1,5 +1,12 @@
 # fusion-project-portal
 
+## 4.0.0
+
+### Major Changes
+
+- fff93ed: Dotnet version updated to dotnet 8
+  Nuget packages updated
+
 ## 3.0.6
 
 ### Patch Changes
