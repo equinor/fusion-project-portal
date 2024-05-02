@@ -27,7 +27,7 @@ public class RemoveContextTypeFromWorkSurfaceCommand : IRequest
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Unit> Handle(RemoveContextTypeFromWorkSurfaceCommand command, CancellationToken cancellationToken)
+        public async Task Handle(RemoveContextTypeFromWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
             var workSurfaceWithAllContextTypes = await _readWriteContext.Set<WorkSurface>()
                 .Include(x => x.ContextTypes)
@@ -49,7 +49,6 @@ public class RemoveContextTypeFromWorkSurfaceCommand : IRequest
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
         }
     }
 }

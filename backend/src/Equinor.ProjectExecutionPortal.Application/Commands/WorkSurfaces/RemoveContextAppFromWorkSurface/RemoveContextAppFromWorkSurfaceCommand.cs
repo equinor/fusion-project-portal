@@ -32,7 +32,7 @@ public class RemoveContextAppFromWorkSurfaceCommand : IRequest
             _contextService = contextService;
         }
 
-        public async Task<Unit> Handle(RemoveContextAppFromWorkSurfaceCommand command, CancellationToken cancellationToken)
+        public async Task Handle(RemoveContextAppFromWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
             var fusionContext = await _contextService.GetFusionContext(command.ContextId, cancellationToken);
             
@@ -61,7 +61,6 @@ public class RemoveContextAppFromWorkSurfaceCommand : IRequest
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
         }
     }
 }

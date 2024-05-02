@@ -45,7 +45,12 @@ public static class ApplicationModule
         services.AddInfrastructureModules(configuration);
 
         services.AddHttpContextAccessor();
-        services.AddMediatR(applicationAssembly);
+        services.AddMediatR
+        (cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(applicationAssembly);
+        });
+
         services.AddAutoMapper(applicationAssembly);
         services.AddValidatorsFromAssembly(applicationAssembly);
 
