@@ -48,7 +48,11 @@ builder.Services.AddFusionIntegration(f =>
     var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
     f.UseServiceInformation("Fusion.Project.Portal", environment);
     f.UseDefaultEndpointResolver(environment);
-    f.UseMsalTokenProvider();
+    f.UseDefaultTokenProvider(opts =>
+    {
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
+    });
     f.DisableClaimsTransformation();
 });
 
