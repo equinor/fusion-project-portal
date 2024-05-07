@@ -37,9 +37,14 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add fusion integration
 builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
 {
-    fusionIntegrationConfig.UseServiceInformation("Fusion.Project.Portal", "Dev");
-    fusionIntegrationConfig.UseDefaultEndpointResolver("ci");
-    fusionIntegrationConfig.UseMsalTokenProvider();
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    fusionIntegrationConfig.UseServiceInformation("Fusion.Project.Portal", environment);
+    fusionIntegrationConfig.UseDefaultEndpointResolver(environment);
+    fusionIntegrationConfig.UseDefaultTokenProvider(opts =>
+    {
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
+    });
     fusionIntegrationConfig.DisableClaimsTransformation();
 });
 
