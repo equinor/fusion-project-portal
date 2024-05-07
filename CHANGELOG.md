@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 4.0.1
+
+### Patch Changes
+
+- 5373870: Change from msal to default token
+
 ## 4.0.0
 
 ### Major Changes
