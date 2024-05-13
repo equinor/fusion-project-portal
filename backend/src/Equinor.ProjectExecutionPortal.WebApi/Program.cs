@@ -33,6 +33,11 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
 //Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration)
@@ -140,6 +145,8 @@ app.UseSwaggerUI(c =>
     c.OAuthAppName("Fusion Project Portal v1");
     c.OAuthClientId(builder.Configuration["Swagger:ClientId"]);
 });
+
+app.UseResponseCompression();
 
 app.UseHttpsRedirection();
 

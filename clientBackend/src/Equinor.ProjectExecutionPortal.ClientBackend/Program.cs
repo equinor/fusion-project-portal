@@ -55,6 +55,11 @@ builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusi
     fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
 });
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddResponseCaching();
@@ -106,6 +111,8 @@ app.UseAuthentication();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseResponseCompression();
 
 // Unless request matches any of these endpoint, the SPA will take control
 app.UseEndpoints(endpoints =>
