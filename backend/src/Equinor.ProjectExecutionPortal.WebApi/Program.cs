@@ -146,6 +146,8 @@ app.UseSwaggerUI(c =>
     c.OAuthClientId(builder.Configuration["Swagger:ClientId"]);
 });
 
+app.UseResponseCompression();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
