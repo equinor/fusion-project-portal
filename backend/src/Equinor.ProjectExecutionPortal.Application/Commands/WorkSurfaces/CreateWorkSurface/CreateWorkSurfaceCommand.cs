@@ -42,20 +42,9 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(CreateWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var portal = await _readWriteContext.Set<Portal>().FirstOrDefaultAsync(cancellationToken);
-
-            // Only one portal for now
-            if (portal == null)
-            {
-                throw new NotFoundException(nameof(Portal));
-            }
-
             var slug = SlugHelper.Sluggify(command.Name);
 
-            var workSurface = new WorkSurface(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon)
-            {
-                PortalId = portal.Id
-            };
+            var workSurface = new WorkSurface(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon);
 
             workSurface.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 

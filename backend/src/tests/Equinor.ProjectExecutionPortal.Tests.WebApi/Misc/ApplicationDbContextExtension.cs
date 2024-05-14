@@ -31,19 +31,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
         private static void SeedPortal(DbContext dbContext)
         {
-            // Create portal
-
-            var portal = PortalData.InitialSeedData.Portal;
-
-            // Add work surfaces
+            // Create portals
 
             var workSurfaceWithoutApps = WorkSurfaceData.InitialSeedData.WorkSurface1;
             var workSurfaceWithApps = WorkSurfaceData.InitialSeedData.WorkSurface2;
 
-            portal.AddWorkSurface(workSurfaceWithoutApps);
-            portal.AddWorkSurface(workSurfaceWithApps);
-
-            dbContext.Add(portal);
+            dbContext.AddRange(workSurfaceWithoutApps, workSurfaceWithApps);
+               
             dbContext.SaveChanges();
 
             // Add apps groups

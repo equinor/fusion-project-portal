@@ -37,9 +37,6 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     public string Icon { get; set; }
     public bool IsDefault { get; set; }
 
-    public Guid PortalId { get; set; }
-    public Portal Portal { get; set; }
-    
     public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
