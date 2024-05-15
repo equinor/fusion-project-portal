@@ -6,9 +6,9 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// The Work Surface App is the link between a Work Surface, an onboarded app and an onboarded context
 /// </summary>
-public class WorkSurfaceApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class PortalApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, Guid onboardedContextId, bool isHidden = false)
+    public PortalApp(Guid onboardedAppId, Guid workSurfaceId, Guid onboardedContextId, bool isHidden = false)
     {
         OnboardedAppId = onboardedAppId;
         IsHidden = isHidden;
@@ -16,7 +16,7 @@ public class WorkSurfaceApp : AuditableEntityBase, ICreationAuditable, IModifica
         OnboardedContextId = onboardedContextId;
     }
 
-    public WorkSurfaceApp(Guid onboardedAppId, Guid workSurfaceId, bool isHidden = false)
+    public PortalApp(Guid onboardedAppId, Guid workSurfaceId, bool isHidden = false)
     {
         OnboardedAppId = onboardedAppId;
         IsHidden = isHidden;

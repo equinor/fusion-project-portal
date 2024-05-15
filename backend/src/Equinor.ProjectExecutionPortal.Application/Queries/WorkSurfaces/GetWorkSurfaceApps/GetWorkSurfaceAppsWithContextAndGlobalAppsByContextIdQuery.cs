@@ -61,7 +61,7 @@ public class GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery : QueryB
 
             var workSurfaceApps = workSurface.Apps.Where(apps => apps.OnboardedApp.ContextTypes.Count == 0 || apps.OnboardedApp.ContextTypes.Any(m => m.ContextTypeKey == fusionContext.Type.Name)).ToList();
             
-            var workSurfaceAppsDto = _mapper.Map<List<WorkSurfaceApp>, List<WorkSurfaceAppDto>>(workSurfaceApps);
+            var workSurfaceAppsDto = _mapper.Map<List<PortalApp>, List<WorkSurfaceAppDto>>(workSurfaceApps);
             
             await _appService.EnrichAppsWithAllFusionAppData(workSurfaceAppsDto.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
 

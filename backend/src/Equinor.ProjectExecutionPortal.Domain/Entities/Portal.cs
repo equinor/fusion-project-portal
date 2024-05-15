@@ -14,7 +14,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public const int SubTextLengthMax = 200;
     public const int DescriptionLengthMax = 4000;
 
-    private readonly List<WorkSurfaceApp> _apps = new();
+    private readonly List<PortalApp> _apps = new();
     private readonly List<ContextType> _contextTypes = new();
 
     public Portal(string key, string name, string shortName, string subText, string? description, int order, string icon)
@@ -37,7 +37,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public string Icon { get; set; }
     public bool IsDefault { get; set; }
 
-    public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
+    public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
     public void Update(string key, string name, string shortName, string subText, string? description, int order, string icon)
@@ -61,7 +61,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         IsDefault = false;
     }
 
-    public void AddApp(WorkSurfaceApp app)
+    public void AddApp(PortalApp app)
     {
         _apps.Add(app);
     }
@@ -81,12 +81,12 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _contextTypes.Remove(contextType);
     }
 
-    public List<WorkSurfaceApp> GlobalApps()
+    public List<PortalApp> GlobalApps()
     {
         return _apps.Where(workSurfaceApp => workSurfaceApp.IsGlobal).ToList();
     }
 
-    public List<WorkSurfaceApp> ContextualApps(Guid? onboardedContextId = null)
+    public List<PortalApp> ContextualApps(Guid? onboardedContextId = null)
     {
         if (onboardedContextId == null)
         {

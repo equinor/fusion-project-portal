@@ -79,7 +79,7 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface and context");
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);
+            var workSurfaceApp = new PortalApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);
 
             workSurfaceWithAllApps.AddApp(workSurfaceApp);
 

@@ -28,7 +28,7 @@ public class RemoveGlobalAppFromWorkSurfaceCommand : IRequest
 
         public async Task Handle(RemoveGlobalAppFromWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceApp = await _readWriteContext.Set<WorkSurfaceApp>()
+            var workSurfaceApp = await _readWriteContext.Set<PortalApp>()
                 .Include(x => x.OnboardedApp)
                 .FirstOrDefaultAsync(x =>
                         x.WorkSurfaceId == command.WorkSurfaceId
@@ -38,10 +38,10 @@ public class RemoveGlobalAppFromWorkSurfaceCommand : IRequest
 
             if (workSurfaceApp == null)
             {
-                throw new NotFoundException(nameof(WorkSurfaceApp), command.AppKey);
+                throw new NotFoundException(nameof(PortalApp), command.AppKey);
             }
 
-            _readWriteContext.Set<WorkSurfaceApp>().Remove(workSurfaceApp);
+            _readWriteContext.Set<PortalApp>().Remove(workSurfaceApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

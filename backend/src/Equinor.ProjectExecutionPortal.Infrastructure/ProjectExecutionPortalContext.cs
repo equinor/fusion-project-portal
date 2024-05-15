@@ -34,7 +34,7 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public static DateTimeKindConverter DateTimeKindConverter { get; } = new();
 
     public DbSet<Portal> WorkSurfaces { get; set; }
-    public DbSet<WorkSurfaceApp> WorkSurfaceApps { get; set; }
+    public DbSet<PortalApp> WorkSurfaceApps { get; set; }
     public DbSet<AppGroup> AppGroups { get; set; }
     public DbSet<OnboardedApp> OnboardedApps { get; set; }
     public DbSet<OnboardedContext> OnboardedContexts { get; set; }

@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
 {
-    public class WorkSurfaceAppDto : IMapFrom<Domain.Entities.WorkSurfaceApp>
+    public class WorkSurfaceAppDto : IMapFrom<Domain.Entities.PortalApp>
     {
         public bool IsHidden { get; set; }
         public OnboardedAppDto OnboardedApp { get; set; }

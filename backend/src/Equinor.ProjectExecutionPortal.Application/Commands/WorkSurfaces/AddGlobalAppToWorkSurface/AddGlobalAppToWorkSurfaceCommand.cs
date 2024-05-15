@@ -66,7 +66,7 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
                 {
                     var allWorkSurfaceContextsWithApp = workSurfaceWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
 
-                    _readWriteContext.Set<WorkSurfaceApp>().RemoveRange(allWorkSurfaceContextsWithApp);
+                    _readWriteContext.Set<PortalApp>().RemoveRange(allWorkSurfaceContextsWithApp);
                 }
                 else
                 {
@@ -74,7 +74,7 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
                 }
             }
 
-            var workSurfaceApp = new WorkSurfaceApp(onboardedApp.Id, command.WorkSurfaceId);
+            var workSurfaceApp = new PortalApp(onboardedApp.Id, command.WorkSurfaceId);
 
             workSurfaceWithAllApps.AddApp(workSurfaceApp);
 

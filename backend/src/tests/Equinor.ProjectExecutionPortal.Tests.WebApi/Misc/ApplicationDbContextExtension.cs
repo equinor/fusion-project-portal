@@ -87,14 +87,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add apps to work surface
 
-            var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, workSurfaceWithApps.Id);
-            var globalReviewsApp = new WorkSurfaceApp(reviewsApp.Id, workSurfaceWithApps.Id);
-            var globalTasksApp = new WorkSurfaceApp(tasksApp.Id, workSurfaceWithApps.Id);
+            var globalMeetingsApp = new PortalApp(meetingsApp.Id, workSurfaceWithApps.Id);
+            var globalReviewsApp = new PortalApp(reviewsApp.Id, workSurfaceWithApps.Id);
+            var globalTasksApp = new PortalApp(tasksApp.Id, workSurfaceWithApps.Id);
 
-            var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
-            var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+            var jcaContextOrgChartApp = new PortalApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+            var jcaContextHandoverGardenApp = new PortalApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
 
-            var ogpContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id);
+            var ogpContextWorkOrderGardenApp = new PortalApp(workOrderGardenApp.Id, workSurfaceWithApps.Id);
 
             // Add context specific apps to work surfaces
 

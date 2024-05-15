@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations;
 
-public class WorkSurfaceAppConfiguration : IEntityTypeConfiguration<WorkSurfaceApp>
+public class WorkSurfaceAppConfiguration : IEntityTypeConfiguration<PortalApp>
 {
-    public void Configure(EntityTypeBuilder<WorkSurfaceApp> builder)
+    public void Configure(EntityTypeBuilder<PortalApp> builder)
     {
         builder.ConfigureCreationAudit();
         builder.ConfigureModificationAudit();
