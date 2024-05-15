@@ -6,7 +6,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// The Work Surface functions as a container for all apps and related information about a specific phase
 /// </summary>
-public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int KeyLengthMax = 200;
     public const int NameLengthMax = 200;
@@ -17,7 +17,7 @@ public class WorkSurface : AuditableEntityBase, ICreationAuditable, IModificatio
     private readonly List<WorkSurfaceApp> _apps = new();
     private readonly List<ContextType> _contextTypes = new();
 
-    public WorkSurface(string key, string name, string shortName, string subText, string? description, int order, string icon)
+    public Portal(string key, string name, string shortName, string subText, string? description, int order, string icon)
     {
         Key = key;
         Name = name;

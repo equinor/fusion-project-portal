@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations;
 
-public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
+public class WorkSurfaceConfiguration : IEntityTypeConfiguration<Portal>
 {
-    public void Configure(EntityTypeBuilder<WorkSurface> builder)
+    public void Configure(EntityTypeBuilder<Portal> builder)
     {
         builder.ConfigureCreationAudit();
         builder.ConfigureModificationAudit();
@@ -17,23 +17,23 @@ public class WorkSurfaceConfiguration : IEntityTypeConfiguration<WorkSurface>
             .IsUnique();
 
         builder.Property(t => t.Key)
-            .HasMaxLength(WorkSurface.KeyLengthMax)
+            .HasMaxLength(Portal.KeyLengthMax)
             .IsRequired();
 
         builder.Property(t => t.Name)
-            .HasMaxLength(WorkSurface.NameLengthMax)
+            .HasMaxLength(Portal.NameLengthMax)
             .IsRequired();
 
         builder.Property(t => t.ShortName)
-            .HasMaxLength(WorkSurface.ShortNameLengthMax)
+            .HasMaxLength(Portal.ShortNameLengthMax)
             .IsRequired();
 
         builder.Property(t => t.SubText)
-            .HasMaxLength(WorkSurface.SubTextLengthMax)
+            .HasMaxLength(Portal.SubTextLengthMax)
             .IsRequired();
 
         builder.Property(t => t.Description)
-            .HasMaxLength(WorkSurface.DescriptionLengthMax);
+            .HasMaxLength(Portal.DescriptionLengthMax);
 
         builder.Property(t => t.Icon)
             .IsRequired();

@@ -29,7 +29,7 @@ public class WorkSurfaceApp : AuditableEntityBase, ICreationAuditable, IModifica
     public OnboardedApp OnboardedApp { get; set; }
     
     public Guid WorkSurfaceId { get; set; }
-    public WorkSurface WorkSurface { get; set; }
+    public Portal WorkSurface { get; set; }
 
     public Guid? OnboardedContextId { get; set; }
     public OnboardedContext? OnboardedContext { get; set; }

@@ -39,7 +39,7 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IL
 
         public async Task<IList<WorkSurfaceAppGroupWithAppsDto>?> Handle(GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery request, CancellationToken cancellationToken)
         {
-            var workSurface = await _readWriteContext.Set<WorkSurface>()
+            var workSurface = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || 
                                                                       (app.OnboardedContext.ExternalId == request.ContextExternalId && app.OnboardedContext.Type == request.ContextType)))
@@ -52,7 +52,7 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsQuery : QueryBase<IL
                 return null;
             }
 
-            var workSurfaceDto = _mapper.Map<WorkSurface, WorkSurfaceDto>(workSurface);
+            var workSurfaceDto = _mapper.Map<Portal, WorkSurfaceDto>(workSurface);
 
             await _appService.EnrichAppsWithFusionAppData(workSurfaceDto.Apps.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
 

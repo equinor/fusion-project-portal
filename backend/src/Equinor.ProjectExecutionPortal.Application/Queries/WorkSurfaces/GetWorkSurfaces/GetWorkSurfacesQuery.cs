@@ -25,13 +25,13 @@ public class GetWorkSurfacesQuery : QueryBase<IList<WorkSurfaceDto>>
 
         public async Task<IList<WorkSurfaceDto>> Handle(GetWorkSurfacesQuery request, CancellationToken cancellationToken)
         {
-            var entities = await _context.Set<Domain.Entities.WorkSurface>()
+            var entities = await _context.Set<Domain.Entities.Portal>()
                 .OrderBy(x => x.Order)
                 .AsNoTracking()
                 .Include(x => x.ContextTypes)
                 .ToListAsync(cancellationToken);
 
-            var workSurfaces = _mapper.Map<List<Domain.Entities.WorkSurface>, List<WorkSurfaceDto>>(entities);
+            var workSurfaces = _mapper.Map<List<Domain.Entities.Portal>, List<WorkSurfaceDto>>(entities);
 
             // This causes projection to lazy load
             //var entities = await _context.Set<Domain.Entities.WorkSurface>()

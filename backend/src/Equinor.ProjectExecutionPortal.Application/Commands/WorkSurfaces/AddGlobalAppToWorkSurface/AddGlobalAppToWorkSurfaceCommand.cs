@@ -36,13 +36,13 @@ public class AddGlobalAppToWorkSurfaceCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(AddGlobalAppToWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithAllApps = await _readWriteContext.Set<WorkSurface>()
+            var workSurfaceWithAllApps = await _readWriteContext.Set<Portal>()
                 .Include(x => x.Apps)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurfaceWithAllApps == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()

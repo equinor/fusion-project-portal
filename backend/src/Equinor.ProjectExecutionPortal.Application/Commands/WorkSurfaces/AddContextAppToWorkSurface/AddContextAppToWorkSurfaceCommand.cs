@@ -58,7 +58,7 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
                 throw new NotFoundException("Could not find any onboarded app with id", command.AppKey);
             }
 
-            var workSurfaceWithAllApps = await _readWriteContext.Set<WorkSurface>()
+            var workSurfaceWithAllApps = await _readWriteContext.Set<Portal>()
                 .Include(x => x.Apps
                     .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.Id == onboardedContext.Id))
                     .ThenInclude(x => x.OnboardedContext)
@@ -66,7 +66,7 @@ public class AddContextAppToWorkSurfaceCommand : IRequest<Unit>
 
             if (workSurfaceWithAllApps == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
             }
 
             if (workSurfaceWithAllApps.HasGlobalApp(onboardedApp.Id))

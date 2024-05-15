@@ -27,12 +27,12 @@ public class SetWorkSurfaceAsDefaultCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(SetWorkSurfaceAsDefaultCommand command, CancellationToken cancellationToken)
         {
-            var entity = await _readWriteContext.Set<WorkSurface>()
+            var entity = await _readWriteContext.Set<Portal>()
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
             }
 
             if (entity.IsDefault)
@@ -41,7 +41,7 @@ public class SetWorkSurfaceAsDefaultCommand : IRequest<Guid>
             }
 
             // Remove isDefault from other entities
-            var otherWorkSurfaces = await _readWriteContext.Set<WorkSurface>()
+            var otherWorkSurfaces = await _readWriteContext.Set<Portal>()
                 .Where(x => x.Id != entity.Id && x.IsDefault)
                 .ToListAsync(cancellationToken);
 

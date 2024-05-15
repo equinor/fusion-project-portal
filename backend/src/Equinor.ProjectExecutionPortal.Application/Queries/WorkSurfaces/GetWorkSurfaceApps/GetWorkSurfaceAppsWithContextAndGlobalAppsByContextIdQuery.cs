@@ -47,7 +47,7 @@ public class GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery : QueryB
                 throw new InvalidActionException($"Invalid context-id: {request.ContextId}");
             }
 
-            var workSurface = await _readWriteContext.Set<WorkSurface>()
+            var workSurface = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || (app.OnboardedContext.ExternalId == fusionContext.ExternalId && app.OnboardedContext.Type == fusionContext.Type.Name)))
                 .ThenInclude(app => app.OnboardedApp)

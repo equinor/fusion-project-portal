@@ -44,11 +44,11 @@ public class CreateWorkSurfaceCommand : IRequest<Guid>
         {
             var slug = SlugHelper.Sluggify(command.Name);
 
-            var workSurface = new WorkSurface(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon);
+            var workSurface = new Portal(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon);
 
             workSurface.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
-            await _readWriteContext.Set<WorkSurface>().AddAsync(workSurface, cancellationToken);
+            await _readWriteContext.Set<Portal>().AddAsync(workSurface, cancellationToken);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

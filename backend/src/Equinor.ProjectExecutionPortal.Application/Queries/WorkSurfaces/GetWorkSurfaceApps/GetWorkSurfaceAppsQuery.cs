@@ -35,7 +35,7 @@ public class GetWorkSurfaceAppsQuery : QueryBase<WorkSurfaceDto?>
 
         public async Task<WorkSurfaceDto?> Handle(GetWorkSurfaceAppsQuery request, CancellationToken cancellationToken)
         {
-            var workSurface = await _readWriteContext.Set<WorkSurface>()
+            var workSurface = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps)
                 .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
@@ -47,7 +47,7 @@ public class GetWorkSurfaceAppsQuery : QueryBase<WorkSurfaceDto?>
                 return null;
             }
 
-            var workSurfaceDto = _mapper.Map<WorkSurface, WorkSurfaceDto>(workSurface);
+            var workSurfaceDto = _mapper.Map<Portal, WorkSurfaceDto>(workSurface);
 
             await _appService.EnrichAppsWithAllFusionAppData(workSurfaceDto.Apps.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
             

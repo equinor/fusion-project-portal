@@ -29,13 +29,13 @@ public class RemoveContextTypeFromWorkSurfaceCommand : IRequest
 
         public async Task Handle(RemoveContextTypeFromWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithAllContextTypes = await _readWriteContext.Set<WorkSurface>()
+            var workSurfaceWithAllContextTypes = await _readWriteContext.Set<Portal>()
                 .Include(x => x.ContextTypes)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurfaceWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
             }
 
             var contextTypeToRemove = workSurfaceWithAllContextTypes.ContextTypes.FirstOrDefault(x => x.ContextTypeKey.Equals(command.ContextType, StringComparison.InvariantCultureIgnoreCase));

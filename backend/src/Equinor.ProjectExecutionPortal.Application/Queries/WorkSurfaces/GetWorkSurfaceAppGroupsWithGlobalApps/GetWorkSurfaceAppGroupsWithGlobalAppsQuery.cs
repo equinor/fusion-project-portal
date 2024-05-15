@@ -36,7 +36,7 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
 
         public async Task<IList<WorkSurfaceAppGroupWithAppsDto>?> Handle(GetWorkSurfaceAppGroupsWithGlobalAppsQuery request, CancellationToken cancellationToken)
         {
-            var workSurface = await _readWriteContext.Set<WorkSurface>()
+            var workSurface = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps)
                 .ThenInclude(workSurfaceApp => workSurfaceApp.OnboardedApp)
@@ -48,7 +48,7 @@ public class GetWorkSurfaceAppGroupsWithGlobalAppsQuery : QueryBase<IList<WorkSu
                 return null;
             }
 
-            var workSurfaceDto = _mapper.Map<WorkSurface, WorkSurfaceDto>(workSurface);
+            var workSurfaceDto = _mapper.Map<Portal, WorkSurfaceDto>(workSurface);
 
             await _appService.EnrichAppsWithFusionAppData(workSurfaceDto.Apps.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
 

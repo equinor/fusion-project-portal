@@ -32,13 +32,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddCo
 
         public async Task<Unit> Handle(AddContextTypeToWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithAllContextTypes = await _readWriteContext.Set<WorkSurface>()
+            var workSurfaceWithAllContextTypes = await _readWriteContext.Set<Portal>()
                 .Include(x => x.ContextTypes)
                 .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
 
             if (workSurfaceWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
             }
 
             var contextTypeExistsOnWorkSurface = workSurfaceWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);

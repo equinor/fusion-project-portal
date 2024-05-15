@@ -39,7 +39,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface
 
                 RuleFor(x => x.Description)
                     .NotContainScriptTag()
-                    .MaximumLength(Domain.Entities.WorkSurface.DescriptionLengthMax);
+                    .MaximumLength(Domain.Entities.Portal.DescriptionLengthMax);
 
                 RuleFor(x => x.Order)
                     .NotEmpty()

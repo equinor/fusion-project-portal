@@ -35,7 +35,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.AddC
 
             if (onboardedAppWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.AppKey);
+                throw new NotFoundException(nameof(Portal), command.AppKey);
             }
 
             var contextTypeExistsOnOnboardedApp = onboardedAppWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);

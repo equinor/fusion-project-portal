@@ -50,7 +50,7 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery : Q
                 throw new InvalidActionException($"Invalid context-id: {request.ContextId}");
             }
 
-            var workSurface = await _readWriteContext.Set<WorkSurface>()
+            var workSurface = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
                 .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null ||
                                                                       (app.OnboardedContext.ExternalId == fusionContext.ExternalId && app.OnboardedContext.Type == fusionContext.Type.Name)))
@@ -63,7 +63,7 @@ public class GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery : Q
                 return null;
             }
 
-            var workSurfaceDto = _mapper.Map<WorkSurface, WorkSurfaceDto>(workSurface);
+            var workSurfaceDto = _mapper.Map<Portal, WorkSurfaceDto>(workSurface);
 
             await _appService.EnrichAppsWithFusionAppData(workSurfaceDto.Apps.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
 

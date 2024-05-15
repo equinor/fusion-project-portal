@@ -39,12 +39,12 @@ public class UpdateWorkSurfaceCommand : IRequest<Guid>
 
         public async Task<Guid> Handle(UpdateWorkSurfaceCommand command, CancellationToken cancellationToken)
         {
-            var entity = await _readWriteContext.Set<WorkSurface>()
+            var entity = await _readWriteContext.Set<Portal>()
                 .FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.Id);
+                throw new NotFoundException(nameof(Portal), command.Id);
             }
 
             var slug = SlugHelper.Sluggify(command.Name);

@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces
 {
-    public class WorkSurfaceDto : IMapFrom<Domain.Entities.WorkSurface>
+    public class WorkSurfaceDto : IMapFrom<Domain.Entities.Portal>
     {
         public Guid Id { get; set; }
         public string Key { get; set; }
