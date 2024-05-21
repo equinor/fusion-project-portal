@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.AddContextTypeToOnboardedApp;
-using Equinor.ProjectExecutionPortal.Application.Commands.WorkSurfaces.AddContextTypeToWorkSurface;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType

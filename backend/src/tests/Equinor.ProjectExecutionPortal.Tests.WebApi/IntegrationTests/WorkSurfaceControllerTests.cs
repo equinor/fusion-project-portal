@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -157,12 +157,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         #region Helpers
 
-        public static async Task<IList<ApiWorkSurface>?> AssertGetAllWorksurfaces(UserType userType, HttpStatusCode expectedStatusCode)
+        public static async Task<IList<ApiPortal>?> AssertGetAllWorksurfaces(UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetAllWorksurfaces(userType);
             var content = await response.Content.ReadAsStringAsync();
-            var workSurfaces = JsonConvert.DeserializeObject<IList<ApiWorkSurface>>(content);
+            var workSurfaces = JsonConvert.DeserializeObject<IList<ApiPortal>>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -184,12 +184,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return workSurfaces;
         }
 
-        private static async Task<ApiWorkSurface?> AssertGetWorksurface(Guid workSurfaceId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<ApiPortal?> AssertGetWorksurface(Guid workSurfaceId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetWorksurface(workSurfaceId, userType);
             var content = await response.Content.ReadAsStringAsync();
-            var workSurface = JsonConvert.DeserializeObject<ApiWorkSurface>(content);
+            var workSurface = JsonConvert.DeserializeObject<ApiPortal>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -207,12 +207,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return workSurface;
         }
 
-        private static async Task<IList<ApiWorkSurfaceAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? contextExternalId, string? contextType, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiPortalAppGroupWithApps>?> AssertGetAppsForWorksurface(Guid workSurfaceId, string? contextExternalId, string? contextType, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetAppsForWorksurface(workSurfaceId, contextExternalId, contextType, userType);
             var content = await response.Content.ReadAsStringAsync();
-            var appGroups = JsonConvert.DeserializeObject<IList<ApiWorkSurfaceAppGroupWithApps>>(content);
+            var appGroups = JsonConvert.DeserializeObject<IList<ApiPortalAppGroupWithApps>>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);

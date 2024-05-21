@@ -7,7 +7,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities
     {
         public const int ContextTypeKeyLengthMax = 200;
 
-        private readonly List<Portal> _workSurfaces = new();
+        private readonly List<Portal> _portals = new();
         private readonly List<OnboardedApp> _onboardedApps = new();
 
         public ContextType(string contextTypeKey)
@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities
 
         public string ContextTypeKey { get; set; }
 
-        public IReadOnlyCollection<Portal> WorkSurfaces => _workSurfaces.AsReadOnly();
+        public IReadOnlyCollection<Portal> Portals => _portals.AsReadOnly();
         public IReadOnlyCollection<OnboardedApp> OnboardedApps => _onboardedApps.AsReadOnly();
 
     }

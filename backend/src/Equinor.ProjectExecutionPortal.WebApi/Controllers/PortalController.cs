@@ -5,9 +5,9 @@ using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSur
 using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaces;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurface;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceApp;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.WorkSurfaceContextType;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -21,15 +21,15 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     public class PortalController : ApiControllerBase
     {
         [HttpGet("")]
-        public async Task<ActionResult<IList<ApiWorkSurface>>> WorkSurfaces()
+        public async Task<ActionResult<IList<ApiPortal>>> WorkSurfaces()
         {
             var workSurfaceDtos = await Mediator.Send(new GetWorkSurfacesQuery());
 
-            return Ok(workSurfaceDtos.Select(dto => new ApiWorkSurface(dto)).ToList());
+            return Ok(workSurfaceDtos.Select(dto => new ApiPortal(dto)).ToList());
         }
 
         [HttpGet("{portalId:guid}")]
-        public async Task<ActionResult<ApiWorkSurface>> WorkSurface([FromRoute] Guid portalId)
+        public async Task<ActionResult<ApiPortal>> WorkSurface([FromRoute] Guid portalId)
         {
             var workSurfaceWithAppsDto = await Mediator.Send(new GetWorkSurfaceQuery(portalId));
 
@@ -38,12 +38,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(portalId, "Could not find portal");
             }
 
-            return Ok(new ApiWorkSurface(workSurfaceWithAppsDto));
+            return Ok(new ApiPortal(workSurfaceWithAppsDto));
         }
 
         [HttpPost("")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> CreateWorkSurface([FromBody] ApiCreateWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> CreateWorkSurface([FromBody] ApiCreatePortalRequest request)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPut("{portalId:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> UpdateWorkSurface([FromRoute] Guid portalId, [FromBody] ApiUpdateWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> UpdateWorkSurface([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalRequest request)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult<Guid>> SetWorkSurfaceAsDefault([FromRoute] Guid portalId)
         {
-            var request = new ApiSetWorkSurfaceAsDefaultRequest();
+            var request = new ApiSetPortalAsDefaultRequest();
 
             try
             {
@@ -110,7 +110,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         // Apps
 
         [HttpGet("{portalId:guid}/app-groups")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid portalId)
+        public async Task<ActionResult<List<ApiPortalAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid portalId)
         {
 
             var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithGlobalAppsQuery(portalId));
@@ -120,11 +120,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
             }
 
-            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+            return Ok(appGroupsDto.Select(x => new ApiPortalAppGroupWithApps(x)).ToList());
         }
 
         [HttpGet("{portalId:guid}/contexts/{contextExternalId}/type/{contextType}/app-groups")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid portalId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
+        public async Task<ActionResult<List<ApiPortalAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid portalId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
             var fusionContextType = FusionContextType.Resolve(contextType);
@@ -142,11 +142,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
             }
 
-            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+            return Ok(appGroupsDto.Select(x => new ApiPortalAppGroupWithApps(x)).ToList());
         }
 
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/app-groups")]
-        public async Task<ActionResult<List<ApiWorkSurfaceAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid portalId, [FromRoute] Guid contextId)
+        public async Task<ActionResult<List<ApiPortalAppGroupWithApps>>> WorkSurfaceAppGroups([FromRoute] Guid portalId, [FromRoute] Guid contextId)
         {
 
             var appGroupsDto = await Mediator.Send(new GetWorkSurfaceAppGroupsWithContextAndGlobalAppsByContextIdQuery(portalId,contextId));
@@ -156,11 +156,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
             }
 
-            return Ok(appGroupsDto.Select(x => new ApiWorkSurfaceAppGroupWithApps(x)).ToList());
+            return Ok(appGroupsDto.Select(x => new ApiPortalAppGroupWithApps(x)).ToList());
         }
 
         [HttpGet("{portalId:guid}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceApp>>> WorkSurfaceApps([FromRoute] Guid portalId)
+        public async Task<ActionResult<List<ApiPortalApp>>> WorkSurfaceApps([FromRoute] Guid portalId)
         {
             //TODO: improve error handling
             var workSurfaceAppsDto = await Mediator.Send(new GetWorkSurfaceAppsQuery(portalId));
@@ -173,12 +173,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             var workSurfaceApps = workSurfaceAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
 
-            return Ok(workSurfaceApps.Select(x => new ApiWorkSurfaceApp(x)).ToList());
+            return Ok(workSurfaceApps.Select(x => new ApiPortalApp(x)).ToList());
 
         }
 
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
-        public async Task<ActionResult<List<ApiWorkSurfaceApp>>> WorkSurfaceApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
+        public async Task<ActionResult<List<ApiPortalApp>>> WorkSurfaceApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
         {
             //TODO: improve error handling
             var workSurfaceAppsDto = await Mediator.Send(new GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery(portalId, contextId));
@@ -188,12 +188,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
             }
             
-            return Ok(workSurfaceAppsDto.Select(x => new ApiWorkSurfaceApp(x)).ToList());
+            return Ok(workSurfaceAppsDto.Select(x => new ApiPortalApp(x)).ToList());
         }
 
         [HttpPost("{portalId:guid}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid portalId, [FromBody] ApiAddGlobalAppToWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid portalId, [FromBody] ApiAddGlobalAppToPortalRequest request)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPost("{portalId:guid}/contexts/{contextId}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid portalId, Guid contextId, [FromBody] ApiAddContextAppToWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> AddWorkSurfaceApp([FromRoute] Guid portalId, Guid contextId, [FromBody] ApiAddContextAppToPortalRequest request)
         {
 
            try
@@ -245,7 +245,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid portalId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
-            var request = new ApiRemoveWorkSurfaceAppRequest();
+            var request = new ApiRemovePortalAppRequest();
 
             try
             {
@@ -268,7 +268,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         public async Task<ActionResult> RemoveWorkSurfaceApp([FromRoute] Guid portalId, Guid contextId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
-            var request = new ApiRemoveWorkSurfaceAppRequest();
+            var request = new ApiRemovePortalAppRequest();
 
             try
             {
@@ -289,7 +289,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         //ContextTypes
         [HttpPost("{portalId:guid}/context-type")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> AddContextType([FromRoute] Guid portalId, [FromBody] ApiAddContextTypeToWorkSurfaceRequest request)
+        public async Task<ActionResult<Guid>> AddContextType([FromRoute] Guid portalId, [FromBody] ApiAddContextTypeToPortalRequest request)
         {
             try
             {
@@ -315,7 +315,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         public async Task<ActionResult> RemoveContextType([FromRoute] Guid portalId, [FromRoute] string contextType)
         {
-            var request = new ApiRemoveWorkSurfaceContextType();
+            var request = new ApiRemovePortalContextType();
             try
             {
                 await Mediator.Send(request.ToCommand(portalId, contextType));

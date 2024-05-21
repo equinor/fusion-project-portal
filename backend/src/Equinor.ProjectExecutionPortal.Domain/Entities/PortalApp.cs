@@ -8,19 +8,19 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// </summary>
 public class PortalApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public PortalApp(Guid onboardedAppId, Guid workSurfaceId, Guid onboardedContextId, bool isHidden = false)
+    public PortalApp(Guid onboardedAppId, Guid portalId, Guid onboardedContextId, bool isHidden = false)
     {
         OnboardedAppId = onboardedAppId;
         IsHidden = isHidden;
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         OnboardedContextId = onboardedContextId;
     }
 
-    public PortalApp(Guid onboardedAppId, Guid workSurfaceId, bool isHidden = false)
+    public PortalApp(Guid onboardedAppId, Guid portalId, bool isHidden = false)
     {
         OnboardedAppId = onboardedAppId;
         IsHidden = isHidden;
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
     }
 
     public bool IsHidden { get; set; }
@@ -28,8 +28,8 @@ public class PortalApp : AuditableEntityBase, ICreationAuditable, IModificationA
     public Guid OnboardedAppId { get; set; }
     public OnboardedApp OnboardedApp { get; set; }
     
-    public Guid WorkSurfaceId { get; set; }
-    public Portal WorkSurface { get; set; }
+    public Guid PortalId { get; set; }
+    public Portal Portal { get; set; }
 
     public Guid? OnboardedContextId { get; set; }
     public OnboardedContext? OnboardedContext { get; set; }
