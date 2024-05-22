@@ -5,18 +5,18 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurface;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 
-public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
+public class GetPortalQuery : QueryBase<PortalDto?>
 {
-    public GetWorkSurfaceQuery(Guid workSurfaceId)
+    public GetPortalQuery(Guid portalId)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceQuery, WorkSurfaceDto?>
+    public class Handler : IRequestHandler<GetPortalQuery, PortalDto?>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IMapper _mapper;
@@ -27,16 +27,16 @@ public class GetWorkSurfaceQuery : QueryBase<WorkSurfaceDto?>
             _mapper = mapper;
         }
 
-        public async Task<WorkSurfaceDto?> Handle(GetWorkSurfaceQuery request, CancellationToken cancellationToken)
+        public async Task<PortalDto?> Handle(GetPortalQuery request, CancellationToken cancellationToken)
         {
             var entity = await _readWriteContext.Set<Portal>()
             .AsNoTracking()
             .Include(x => x.ContextTypes)
-            .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
-            var workSurface = _mapper.Map<Portal?, WorkSurfaceDto?>(entity);
+            var portal = _mapper.Map<Portal?, PortalDto?>(entity);
 
-            return workSurface;
+            return portal;
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.RemoveCont
 
 public class RemoveContextTypeFromPortalCommand : IRequest
 {
-    public RemoveContextTypeFromPortalCommand(Guid workSurfaceId, string contextType)
+    public RemoveContextTypeFromPortalCommand(Guid portalId, string contextType)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         ContextType = contextType;
       
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
     public string ContextType { get; }
 
     public class Handler : IRequestHandler<RemoveContextTypeFromPortalCommand>
@@ -29,23 +29,23 @@ public class RemoveContextTypeFromPortalCommand : IRequest
 
         public async Task Handle(RemoveContextTypeFromPortalCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithAllContextTypes = await _readWriteContext.Set<Portal>()
+            var portalWithAllContextTypes = await _readWriteContext.Set<Portal>()
                 .Include(x => x.ContextTypes)
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
 
-            if (workSurfaceWithAllContextTypes == null)
+            if (portalWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.PortalId);
             }
 
-            var contextTypeToRemove = workSurfaceWithAllContextTypes.ContextTypes.FirstOrDefault(x => x.ContextTypeKey.Equals(command.ContextType, StringComparison.InvariantCultureIgnoreCase));
+            var contextTypeToRemove = portalWithAllContextTypes.ContextTypes.FirstOrDefault(x => x.ContextTypeKey.Equals(command.ContextType, StringComparison.InvariantCultureIgnoreCase));
             
             if (contextTypeToRemove == null)
             {
                 throw new InvalidActionException($"Context-type: {command.ContextType} is not enabled on portal ");
             }
 
-            workSurfaceWithAllContextTypes.RemoveContextType(contextTypeToRemove);
+            portalWithAllContextTypes.RemoveContextType(contextTypeToRemove);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

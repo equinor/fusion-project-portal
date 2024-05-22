@@ -9,13 +9,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContext
 {
     public class AddContextTypeToPortalCommand : IRequest<Unit>
     {
-        public AddContextTypeToPortalCommand(Guid workSurfaceId, string type)
+        public AddContextTypeToPortalCommand(Guid portalId, string type)
         {
-            WorkSurfaceId = workSurfaceId;
+            PortalId = portalId;
             Type = type;
         }
 
-        public Guid WorkSurfaceId { get; }
+        public Guid PortalId { get; }
         public string Type { get; }
     }
 
@@ -32,18 +32,18 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContext
 
         public async Task<Unit> Handle(AddContextTypeToPortalCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithAllContextTypes = await _readWriteContext.Set<Portal>()
+            var portalWithAllContextTypes = await _readWriteContext.Set<Portal>()
                 .Include(x => x.ContextTypes)
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
 
-            if (workSurfaceWithAllContextTypes == null)
+            if (portalWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.PortalId);
             }
 
-            var contextTypeExistsOnWorkSurface = workSurfaceWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);
+            var contextTypeExistsOnPortal = portalWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);
 
-            if (contextTypeExistsOnWorkSurface.Any())
+            if (contextTypeExistsOnPortal.Any())
             {
                 throw new InvalidActionException($"context-type {command.Type}is already enabled on portal");
             }
@@ -57,7 +57,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContext
                 throw new InvalidActionException($"context-type: {command.Type} is not supported");
             }
 
-            workSurfaceWithAllContextTypes.AddContextType(contextType);
+            portalWithAllContextTypes.AddContextType(contextType);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

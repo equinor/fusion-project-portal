@@ -8,14 +8,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddGlobalA
 
 public class AddGlobalAppToPortalCommand : IRequest<Unit>
 {
-    public AddGlobalAppToPortalCommand(Guid workSurfaceId, string appKey, bool removeAppForContexts)
+    public AddGlobalAppToPortalCommand(Guid portalId, string appKey, bool removeAppForContexts)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         AppKey = appKey;
         RemoveAppForContexts = removeAppForContexts;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
     public string AppKey { get; }
 
     /// <summary>
@@ -36,13 +36,13 @@ public class AddGlobalAppToPortalCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(AddGlobalAppToPortalCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceWithAllApps = await _readWriteContext.Set<Portal>()
+            var portalWithAllApps = await _readWriteContext.Set<Portal>()
                 .Include(x => x.Apps)
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
 
-            if (workSurfaceWithAllApps == null)
+            if (portalWithAllApps == null)
             {
-                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.PortalId);
             }
 
             var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
@@ -54,19 +54,19 @@ public class AddGlobalAppToPortalCommand : IRequest<Unit>
                 throw new NotFoundException("Could not find any onboarded app with that id", command.AppKey);
             }
 
-            if (workSurfaceWithAllApps.HasGlobalApp(onboardedApp.Id))
+            if (portalWithAllApps.HasGlobalApp(onboardedApp.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added globally to this Work Surface.");
             }
 
             // Perform cleanup of all contextual instances of this app to avoid duplicates.
-            if (workSurfaceWithAllApps.HasAppForAnyContexts(onboardedApp.Id))
+            if (portalWithAllApps.HasAppForAnyContexts(onboardedApp.Id))
             {
                 if (command.RemoveAppForContexts)
                 {
-                    var allWorkSurfaceContextsWithApp = workSurfaceWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
+                    var allPortalContextsWithApp = portalWithAllApps.Apps.Where(x => x.OnboardedAppId == onboardedApp.Id && x.IsContextual);
 
-                    _readWriteContext.Set<PortalApp>().RemoveRange(allWorkSurfaceContextsWithApp);
+                    _readWriteContext.Set<PortalApp>().RemoveRange(allPortalContextsWithApp);
                 }
                 else
                 {
@@ -74,9 +74,9 @@ public class AddGlobalAppToPortalCommand : IRequest<Unit>
                 }
             }
 
-            var workSurfaceApp = new PortalApp(onboardedApp.Id, command.WorkSurfaceId);
+            var portalApp = new PortalApp(onboardedApp.Id, command.PortalId);
 
-            workSurfaceWithAllApps.AddApp(workSurfaceApp);
+            portalWithAllApps.AddApp(portalApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

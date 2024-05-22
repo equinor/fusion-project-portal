@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePortal;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -9,12 +8,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.SetPortalA
 
 public class SetPortalAsDefaultCommand : IRequest<Guid>
 {
-    public SetPortalAsDefaultCommand(Guid workSurfaceId)
+    public SetPortalAsDefaultCommand(Guid portalId)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
 
     public class Handler : IRequestHandler<SetPortalAsDefaultCommand, Guid>
     {
@@ -28,11 +27,11 @@ public class SetPortalAsDefaultCommand : IRequest<Guid>
         public async Task<Guid> Handle(SetPortalAsDefaultCommand command, CancellationToken cancellationToken)
         {
             var entity = await _readWriteContext.Set<Portal>()
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.PortalId);
             }
 
             if (entity.IsDefault)
@@ -41,13 +40,13 @@ public class SetPortalAsDefaultCommand : IRequest<Guid>
             }
 
             // Remove isDefault from other entities
-            var otherWorkSurfaces = await _readWriteContext.Set<Portal>()
+            var otherPortals = await _readWriteContext.Set<Portal>()
                 .Where(x => x.Id != entity.Id && x.IsDefault)
                 .ToListAsync(cancellationToken);
 
-            foreach (var otherWorkSurface in otherWorkSurfaces)
+            foreach (var otherPortal in otherPortals)
             {
-                otherWorkSurface.UnsetAsDefault();
+                otherPortal.UnsetAsDefault();
             }
 
             entity.SetAsDefault();

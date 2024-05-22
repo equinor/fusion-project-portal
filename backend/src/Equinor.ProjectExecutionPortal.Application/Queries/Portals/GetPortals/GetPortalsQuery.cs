@@ -4,15 +4,15 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaces;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 
-public class GetWorkSurfacesQuery : QueryBase<IList<WorkSurfaceDto>>
+public class GetPortalsQuery : QueryBase<IList<PortalDto>>
 {
-    public GetWorkSurfacesQuery()
+    public GetPortalsQuery()
     {
     }
 
-    public class Handler : IRequestHandler<GetWorkSurfacesQuery, IList<WorkSurfaceDto>>
+    public class Handler : IRequestHandler<GetPortalsQuery, IList<PortalDto>>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class GetWorkSurfacesQuery : QueryBase<IList<WorkSurfaceDto>>
             _mapper = mapper;
         }
 
-        public async Task<IList<WorkSurfaceDto>> Handle(GetWorkSurfacesQuery request, CancellationToken cancellationToken)
+        public async Task<IList<PortalDto>> Handle(GetPortalsQuery request, CancellationToken cancellationToken)
         {
             var entities = await _context.Set<Domain.Entities.Portal>()
                 .OrderBy(x => x.Order)
@@ -31,14 +31,14 @@ public class GetWorkSurfacesQuery : QueryBase<IList<WorkSurfaceDto>>
                 .Include(x => x.ContextTypes)
                 .ToListAsync(cancellationToken);
 
-            var workSurfaces = _mapper.Map<List<Domain.Entities.Portal>, List<WorkSurfaceDto>>(entities);
+            var portals = _mapper.Map<List<Domain.Entities.Portal>, List<PortalDto>>(entities);
 
             // This causes projection to lazy load
-            //var entities = await _context.Set<Domain.Entities.WorkSurface>()
+            //var entities = await _context.Set<Domain.Entities.portal>()
             //    .AsNoTracking()
             //    .ProjectToListAsync<WorkSurfaceDto>(_mapper.ConfigurationProvider);
 
-            return workSurfaces;
+            return portals;
         }
     }
 }

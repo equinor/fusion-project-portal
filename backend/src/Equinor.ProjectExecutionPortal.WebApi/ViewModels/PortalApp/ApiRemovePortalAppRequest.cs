@@ -5,14 +5,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 {
     public class ApiRemovePortalAppRequest
     {
-        public RemoveContextAppFromPortalCommand ToCommand(Guid workSurfaceId, Guid contextId, string appKey)
+        public RemoveContextAppFromPortalCommand ToCommand(Guid portalId, Guid contextId, string appKey)
         {
-            return new RemoveContextAppFromPortalCommand(workSurfaceId, contextId, appKey);
+            return new RemoveContextAppFromPortalCommand(portalId, contextId, appKey);
         }
 
-        public RemoveGlobalAppFromPortalCommand ToCommand(Guid workSurfaceId, string appKey)
+        public RemoveGlobalAppFromPortalCommand ToCommand(Guid portalId, string appKey)
         {
-            return new RemoveGlobalAppFromPortalCommand(workSurfaceId, appKey);
+            return new RemoveGlobalAppFromPortalCommand(portalId, appKey);
         }
     }
 }

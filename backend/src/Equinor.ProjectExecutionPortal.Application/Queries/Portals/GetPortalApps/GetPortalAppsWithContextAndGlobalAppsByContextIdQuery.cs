@@ -8,21 +8,21 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces.GetWorkSurfaceApps;
+namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 
-public class GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<IList<WorkSurfaceAppDto?>>
+public class GetPortalAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<IList<PortalAppDto?>>
 {
 
-    public GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery(Guid workSurfaceId, Guid contextId)
+    public GetPortalAppsWithContextAndGlobalAppsByContextIdQuery(Guid portalId, Guid contextId)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         ContextId = contextId;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
     public Guid ContextId { get; }
 
-    public class Handler : IRequestHandler<GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery, IList<WorkSurfaceAppDto?>>
+    public class Handler : IRequestHandler<GetPortalAppsWithContextAndGlobalAppsByContextIdQuery, IList<PortalAppDto?>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
@@ -37,7 +37,7 @@ public class GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery : QueryB
             _contextService = contextService;
         }
 
-        public async Task<IList<WorkSurfaceAppDto?>> Handle(GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery request, CancellationToken cancellationToken)
+        public async Task<IList<PortalAppDto?>> Handle(GetPortalAppsWithContextAndGlobalAppsByContextIdQuery request, CancellationToken cancellationToken)
         {
             //TODO: Improve error handling
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
@@ -47,25 +47,25 @@ public class GetWorkSurfaceAppsWithContextAndGlobalAppsByContextIdQuery : QueryB
                 throw new InvalidActionException($"Invalid context-id: {request.ContextId}");
             }
 
-            var workSurface = await _readWriteContext.Set<Portal>()
+            var portal = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
-                .Include(workSurface => workSurface.Apps.Where(app => app.OnboardedContext == null || (app.OnboardedContext.ExternalId == fusionContext.ExternalId && app.OnboardedContext.Type == fusionContext.Type.Name)))
+                .Include(portal => portal.Apps.Where(app => app.OnboardedContext == null || (app.OnboardedContext.ExternalId == fusionContext.ExternalId && app.OnboardedContext.Type == fusionContext.Type.Name)))
                 .ThenInclude(app => app.OnboardedApp)
                 .ThenInclude(app => app.ContextTypes)
-                .FirstOrDefaultAsync(x => x.Id == request.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
-            if (workSurface == null)
+            if (portal == null)
             {
                 return null;
             }
 
-            var workSurfaceApps = workSurface.Apps.Where(apps => apps.OnboardedApp.ContextTypes.Count == 0 || apps.OnboardedApp.ContextTypes.Any(m => m.ContextTypeKey == fusionContext.Type.Name)).ToList();
+            var portalApps = portal.Apps.Where(apps => apps.OnboardedApp.ContextTypes.Count == 0 || apps.OnboardedApp.ContextTypes.Any(m => m.ContextTypeKey == fusionContext.Type.Name)).ToList();
             
-            var workSurfaceAppsDto = _mapper.Map<List<PortalApp>, List<WorkSurfaceAppDto>>(workSurfaceApps);
+            var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalAppDto>>(portalApps);
             
-            await _appService.EnrichAppsWithAllFusionAppData(workSurfaceAppsDto.Select(workSurfaceAppDto => workSurfaceAppDto.OnboardedApp).ToList(), cancellationToken);
+            await _appService.EnrichAppsWithAllFusionAppData(portalAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
 
-            return workSurfaceAppsDto;
+            return portalAppsDto;
         }
     }
 }

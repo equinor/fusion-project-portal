@@ -42,7 +42,7 @@ public class PortalConfiguration : IEntityTypeConfiguration<Portal>
             .WithOne(x => x.Portal)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(x => x.ContextTypes).WithMany(x => x.Portals).UsingEntity(join => join.ToTable("WorkSurfaceContextTypes"));
+        builder.HasMany(x => x.ContextTypes).WithMany(x => x.Portals).UsingEntity(join => join.ToTable("PortalContextTypes"));
 
     }
 }

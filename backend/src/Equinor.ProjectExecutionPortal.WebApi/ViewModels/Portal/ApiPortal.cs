@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
@@ -8,19 +8,19 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
     {
         public ApiPortal() { }
 
-        public ApiPortal(WorkSurfaceDto workSurfaceDto)
+        public ApiPortal(PortalDto portalDto)
         {
-            Id = workSurfaceDto.Id;
-            Key = workSurfaceDto.Key;
-            Name = workSurfaceDto.Name;
-            ShortName = workSurfaceDto.ShortName;
-            Subtext = workSurfaceDto.SubText;
-            Description = workSurfaceDto.Description;
-            Order = workSurfaceDto.Order;
-            Icon = workSurfaceDto.Icon;
-            IsDefault = workSurfaceDto.IsDefault;
-            Contexts = workSurfaceDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
-            Apps = workSurfaceDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
+            Id = portalDto.Id;
+            Key = portalDto.Key;
+            Name = portalDto.Name;
+            ShortName = portalDto.ShortName;
+            Subtext = portalDto.SubText;
+            Description = portalDto.Description;
+            Order = portalDto.Order;
+            Icon = portalDto.Icon;
+            IsDefault = portalDto.IsDefault;
+            Contexts = portalDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
+            Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         }
 
         public Guid Id { get; set; }

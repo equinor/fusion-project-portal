@@ -83,22 +83,22 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
 
     public List<PortalApp> GlobalApps()
     {
-        return _apps.Where(workSurfaceApp => workSurfaceApp.IsGlobal).ToList();
+        return _apps.Where(portalApp => portalApp.IsGlobal).ToList();
     }
 
     public List<PortalApp> ContextualApps(Guid? onboardedContextId = null)
     {
         if (onboardedContextId == null)
         {
-            return _apps.Where(workSurfaceApp => workSurfaceApp.IsContextual).ToList();
+            return _apps.Where(portalApp => portalApp.IsContextual).ToList();
         }
 
-        return _apps.Where(workSurfaceApp => workSurfaceApp.IsContextual && workSurfaceApp.OnboardedContextId == onboardedContextId).ToList();
+        return _apps.Where(portalApp => portalApp.IsContextual && portalApp.OnboardedContextId == onboardedContextId).ToList();
     }
 
     public bool HasApp(Guid onboardedAppId)
     {
-        return _apps.Any(workSurfaceApp => workSurfaceApp.OnboardedAppId == onboardedAppId);
+        return _apps.Any(portalApp => portalApp.OnboardedAppId == onboardedAppId);
     }
 
     public bool HasGlobalApp(Guid onboardedAppId)
@@ -116,6 +116,6 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public bool HasAppForAnyContexts(Guid onboardedAppId)
     {
         return HasApp(onboardedAppId) &&
-               _apps.Any(workSurfaceApp => workSurfaceApp.IsContextual);
+               _apps.Any(portalApp => portalApp.IsContextual);
     }
 }

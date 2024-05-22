@@ -8,13 +8,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.RemoveGlob
 
 public class RemoveGlobalAppFromPortalCommand : IRequest
 {
-    public RemoveGlobalAppFromPortalCommand(Guid workSurfaceId, string appKey)
+    public RemoveGlobalAppFromPortalCommand(Guid portalId, string appKey)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         AppKey = appKey;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
     public string AppKey { get; }
 
     public class Handler : IRequestHandler<RemoveGlobalAppFromPortalCommand>
@@ -28,20 +28,20 @@ public class RemoveGlobalAppFromPortalCommand : IRequest
 
         public async Task Handle(RemoveGlobalAppFromPortalCommand command, CancellationToken cancellationToken)
         {
-            var workSurfaceApp = await _readWriteContext.Set<PortalApp>()
+            var portalApp = await _readWriteContext.Set<PortalApp>()
                 .Include(x => x.OnboardedApp)
                 .FirstOrDefaultAsync(x =>
-                        x.PortalId == command.WorkSurfaceId
+                        x.PortalId == command.PortalId
                         && x.OnboardedContextId == null
                         && x.OnboardedApp.AppKey == command.AppKey,
                     cancellationToken);
 
-            if (workSurfaceApp == null)
+            if (portalApp == null)
             {
                 throw new NotFoundException(nameof(PortalApp), command.AppKey);
             }
 
-            _readWriteContext.Set<PortalApp>().Remove(workSurfaceApp);
+            _readWriteContext.Set<PortalApp>().Remove(portalApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

@@ -9,14 +9,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.RemoveCont
 
 public class RemoveContextAppFromPortalCommand : IRequest
 {
-    public RemoveContextAppFromPortalCommand(Guid workSurfaceId, Guid contextId, string appKey)
+    public RemoveContextAppFromPortalCommand(Guid portalId, Guid contextId, string appKey)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         ContextId = contextId;
         AppKey = appKey;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
     public Guid ContextId { get; }
    
     public string AppKey { get; }
@@ -38,26 +38,26 @@ public class RemoveContextAppFromPortalCommand : IRequest
             
             if (fusionContext == null)
             {
-                throw new InvalidActionException($"Cannot delete app '{command.AppKey} from '{command.WorkSurfaceId}'. Invalid context-id.");
+                throw new InvalidActionException($"Cannot delete app '{command.AppKey} from '{command.PortalId}'. Invalid context-id.");
             }
 
-            var workSurfaceApp = await _readWriteContext.Set<PortalApp>()
+            var portalApp = await _readWriteContext.Set<PortalApp>()
                 .Include(x => x.OnboardedApp)
                 .Include(x => x.OnboardedContext)
                 .FirstOrDefaultAsync(x =>
                         x.OnboardedContext != null
-                        && x.PortalId == command.WorkSurfaceId
+                        && x.PortalId == command.PortalId
                         && x.OnboardedContext.ExternalId == fusionContext.ExternalId
                         && x.OnboardedContext.Type == fusionContext.Type.Name
                         && x.OnboardedApp.AppKey == command.AppKey,
                     cancellationToken);
 
-            if (workSurfaceApp == null)
+            if (portalApp == null)
             {
                 throw new NotFoundException(nameof(PortalApp), command.AppKey);
             }
 
-            _readWriteContext.Set<PortalApp>().Remove(workSurfaceApp);
+            _readWriteContext.Set<PortalApp>().Remove(portalApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

@@ -19,9 +19,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
             return new CreatePortalCommand(Name, ShortName, Subtext, Description, Order, Icon, ContextTypes);
         }
 
-        public class CreateWorkSurfaceRequestValidator : AbstractValidator<ApiCreatePortalRequest>
+        public class CreatePortalRequestValidator : AbstractValidator<ApiCreatePortalRequest>
         {
-            public CreateWorkSurfaceRequestValidator()
+            public CreatePortalRequestValidator()
             {
                 RuleFor(x => x.Name)
                     .NotEmpty()

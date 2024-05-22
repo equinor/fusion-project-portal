@@ -1,11 +1,11 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.WorkSurfaces;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
 {
     public class ApiPortalAppGroupWithApps
     {
-        public ApiPortalAppGroupWithApps(WorkSurfaceAppGroupWithAppsDto appGroupDto)
+        public ApiPortalAppGroupWithApps(PortalAppGroupWithAppsDto appGroupDto)
         {
             Name = appGroupDto.Name;
             Order = appGroupDto.Order;

@@ -9,14 +9,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContext
 
 public class AddContextAppToPortalCommand : IRequest<Unit>
 {
-    public AddContextAppToPortalCommand(Guid workSurfaceId, Guid contextId, string appKey)
+    public AddContextAppToPortalCommand(Guid portalId, Guid contextId, string appKey)
     {
-        WorkSurfaceId = workSurfaceId;
+        PortalId = portalId;
         ContextId = contextId;
         AppKey = appKey;
     }
 
-    public Guid WorkSurfaceId { get; }
+    public Guid PortalId { get; }
     public Guid ContextId { get; }
     public string AppKey { get; }
 
@@ -37,7 +37,7 @@ public class AddContextAppToPortalCommand : IRequest<Unit>
             
             if (fusionContext == null)
             {
-                throw new InvalidActionException($"Cannot add app '{command.AppKey} to '{command.WorkSurfaceId}'. Missing context parameter.");
+                throw new InvalidActionException($"Cannot add app '{command.AppKey} to '{command.PortalId}'. Missing context parameter.");
             }
 
             var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
@@ -58,30 +58,30 @@ public class AddContextAppToPortalCommand : IRequest<Unit>
                 throw new NotFoundException("Could not find any onboarded app with id", command.AppKey);
             }
 
-            var workSurfaceWithAllApps = await _readWriteContext.Set<Portal>()
+            var portalWithAllApps = await _readWriteContext.Set<Portal>()
                 .Include(x => x.Apps
                     .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.Id == onboardedContext.Id))
                     .ThenInclude(x => x.OnboardedContext)
-                .FirstOrDefaultAsync(x => x.Id == command.WorkSurfaceId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
 
-            if (workSurfaceWithAllApps == null)
+            if (portalWithAllApps == null)
             {
-                throw new NotFoundException(nameof(Portal), command.WorkSurfaceId);
+                throw new NotFoundException(nameof(Portal), command.PortalId);
             }
 
-            if (workSurfaceWithAllApps.HasGlobalApp(onboardedApp.Id))
+            if (portalWithAllApps.HasGlobalApp(onboardedApp.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface as a global app");
             }
 
-            if (workSurfaceWithAllApps.HasAppForContext(onboardedApp.Id, onboardedContext.Id))
+            if (portalWithAllApps.HasAppForContext(onboardedApp.Id, onboardedContext.Id))
             {
                 throw new InvalidActionException($"App {onboardedApp.AppKey} have already been added to this Work Surface and context");
             }
 
-            var workSurfaceApp = new PortalApp(onboardedApp.Id, command.WorkSurfaceId, onboardedContext.Id);
+            var portalApp = new PortalApp(onboardedApp.Id, command.PortalId, onboardedContext.Id);
 
-            workSurfaceWithAllApps.AddApp(workSurfaceApp);
+            portalWithAllApps.AddApp(portalApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
