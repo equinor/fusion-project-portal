@@ -33,10 +33,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
         {
             // Create portals
 
-            var workSurfaceWithoutApps = WorkSurfaceData.InitialSeedData.WorkSurface1;
-            var workSurfaceWithApps = WorkSurfaceData.InitialSeedData.WorkSurface2;
+            var portalWithoutApps = PortalData.InitialSeedData.Portal1;
+            var portalWithApps = PortalData.InitialSeedData.Portal2;
 
-            dbContext.AddRange(workSurfaceWithoutApps, workSurfaceWithApps);
+            dbContext.AddRange(portalWithoutApps, portalWithApps);
                
             dbContext.SaveChanges();
 
@@ -87,14 +87,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add apps to work surface
 
-            var globalMeetingsApp = new PortalApp(meetingsApp.Id, workSurfaceWithApps.Id);
-            var globalReviewsApp = new PortalApp(reviewsApp.Id, workSurfaceWithApps.Id);
-            var globalTasksApp = new PortalApp(tasksApp.Id, workSurfaceWithApps.Id);
+            var globalMeetingsApp = new PortalApp(meetingsApp.Id, portalWithApps.Id);
+            var globalReviewsApp = new PortalApp(reviewsApp.Id, portalWithApps.Id);
+            var globalTasksApp = new PortalApp(tasksApp.Id, portalWithApps.Id);
 
-            var jcaContextOrgChartApp = new PortalApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
-            var jcaContextHandoverGardenApp = new PortalApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+            var jcaContextOrgChartApp = new PortalApp(orgChartApp.Id, portalWithApps.Id, jcaContext.Id);
+            var jcaContextHandoverGardenApp = new PortalApp(handoverGardenApp.Id, portalWithApps.Id, jcaContext.Id);
 
-            var ogpContextWorkOrderGardenApp = new PortalApp(workOrderGardenApp.Id, workSurfaceWithApps.Id);
+            var ogpContextWorkOrderGardenApp = new PortalApp(workOrderGardenApp.Id, portalWithApps.Id);
 
             // Add context specific apps to work surfaces
 

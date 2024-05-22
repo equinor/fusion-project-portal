@@ -7,7 +7,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 {
     public class AssertHelpers
     {
-        public static void AssertWorkSurfaceValues(ApiPortal? portal)
+        public static void AssertPortalValues(ApiPortal? portal)
         {
             if (portal == null)
             {
@@ -26,7 +26,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(portal);
         }
 
-        public static void AssertWorkSurfaceAppGroupValues(ApiPortalAppGroupWithApps? appGroup)
+        public static void AssertPortalAppGroupValues(ApiPortalAppGroupWithApps? appGroup)
         {
             if (appGroup == null)
             {
@@ -38,7 +38,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(appGroup.AccentColor);
         }
 
-        public static void AssertWorkSurfaceAppValues(ApiPortalApp? app)
+        public static void AssertPortalAppValues(ApiPortalApp? app)
         {
             if (app == null)
             {
