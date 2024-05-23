@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 4.0.3
+
+### Patch Changes
+
+- d7d86b0: Fixed app sorting in project portal
+
 ## 4.0.2
 
 ### Patch Changes
