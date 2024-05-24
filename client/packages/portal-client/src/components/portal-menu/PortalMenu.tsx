@@ -147,40 +147,53 @@ export function MenuGroups() {
 							{displayAppGroups && !!displayAppGroups?.length ? (
 								activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 									<InfoMessage>
-										Looks like you do not have any pinned apps yet. <br /> Click the star on
-										apps to add them to the pinned app section.
+										Looks like you do not have any pinned apps yet. <br /> Click the star on apps to
+										add them to the pinned app section.
 									</InfoMessage>
 								) : (
 									<Styles.Wrapper>
 										{displayAppGroups &&
-											displayAppGroups.map((appGroup) => (
-												<div key={appGroup.name}>
-													<AppGroup
-														dark={false}
-														group={appGroup}
-														onClick={(app, e) => {
-															if (app.isDisabled) {
-																e.preventDefault();
-																return;
-															}
-															dispatchEvent(
-																{
-																	name: 'onAppNavigation',
-																},
-
-																{
-																	appKey: app.key,
-																	isFavorite: app.isPinned,
-																	source: 'app-menu',
+											displayAppGroups.map((appGroup) => {
+												appGroup.apps = appGroup.apps.sort((a, b) => {
+													const nameA = a.name?.toUpperCase() ?? '';
+													const nameB = b.name?.toUpperCase() ?? '';
+													if (nameA > nameB) {
+														return 1;
+													}
+													if (nameA < nameB) {
+														return -1;
+													}
+													return 0;
+												});
+												return (
+													<div key={appGroup.name}>
+														<AppGroup
+															dark={false}
+															group={appGroup}
+															onClick={(app, e) => {
+																if (app.isDisabled) {
+																	e.preventDefault();
+																	return;
 																}
-															);
+																dispatchEvent(
+																	{
+																		name: 'onAppNavigation',
+																	},
 
-															closeMenu();
-														}}
-														onFavorite={(app) => addFavorite(app.key)}
-													/>
-												</div>
-											))}
+																	{
+																		appKey: app.key,
+																		isFavorite: app.isPinned,
+																		source: 'app-menu',
+																	}
+																);
+
+																closeMenu();
+															}}
+															onFavorite={(app) => addFavorite(app.key)}
+														/>
+													</div>
+												);
+											})}
 									</Styles.Wrapper>
 								)
 							) : (

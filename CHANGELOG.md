@@ -1,5 +1,20 @@
 # fusion-project-portal
 
+## 4.0.3
+
+### Patch Changes
+
+- d7d86b0: Fixed app sorting in project portal
+
+## 4.0.2
+
+### Patch Changes
+
+- 7f99a05: Deleted unused portal domain entity
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
 ## 4.0.1
 
 ### Patch Changes
