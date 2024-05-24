@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,264 +13,169 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropTable(
-            //    name: "WorkSurfaceApps");
+            migrationBuilder.DropForeignKey("FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId", "WorkSurfaceApps");
+            migrationBuilder.DropForeignKey("FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId", "WorkSurfaceApps");
+            migrationBuilder.DropForeignKey("FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId", "WorkSurfaceApps");
 
-            //migrationBuilder.DropTable(
-            //    name: "WorkSurfaceContextTypes");
+            migrationBuilder.DropForeignKey("FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId", "WorkSurfaceContextTypes");
+            migrationBuilder.DropForeignKey("FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId", "WorkSurfaceContextTypes");
 
-            //migrationBuilder.DropTable(
-            //    name: "WorkSurfaces");
+            migrationBuilder.DropPrimaryKey("PK_WorkSurfaces", "WorkSurfaces");
+            migrationBuilder.RenameTable("WorkSurfaces", "dbo", "Portals", "dbo");
+            migrationBuilder.AddPrimaryKey("PK_Portals", "Portals", "Id");
 
-            //migrationBuilder.CreateTable(
-            //    name: "Portals",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        Key = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-            //        Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-            //        ShortName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-            //        SubText = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-            //        Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
-            //        Order = table.Column<int>(type: "int", nullable: false),
-            //        Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        IsDefault = table.Column<bool>(type: "bit", nullable: false),
-            //        CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-            //        CreatedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-            //        ModifiedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_Portals", x => x.Id);
-            //    });
 
+            migrationBuilder.DropPrimaryKey("PK_WorkSurfaceApps", "WorkSurfaceApps");
             migrationBuilder.RenameColumn("WorkSurfaceId", "WorkSurfaceApps", "PortalId");
             migrationBuilder.RenameTable("WorkSurfaceApps", "dbo", "PortalApps", "dbo");
+            migrationBuilder.AddPrimaryKey("PK_PortalApps", "PortalApps", "Id");
+
+            migrationBuilder.AddForeignKey("FK_PortalApps_OnboardedApps_OnboardedAppId",
+                                            "PortalApps",
+                                        "OnboardedAppId",
+                                        "OnboardedApps",
+                                        "dbo",
+                                        "dbo",
+                                        "Id",
+                                        onDelete: ReferentialAction.Cascade);
+           
+            migrationBuilder.AddForeignKey("FK_PortalApps_OnboardedContexts_OnboardedContextId",
+                                            "PortalApps",
+                                            "OnboardedContextId",
+                                            "OnboardedContexts", 
+                                            "dbo",
+                                            "dbo",
+                                            "Id",
+                                            onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey("FK_PortalApps_Portals_PortalId", 
+                                            "PortalApps", 
+                                            "PortalId", 
+                                            "Portals", 
+                                            "dbo", 
+                                            "dbo",
+                                            "Id", 
+                                            onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.DropPrimaryKey("PK_WorkSurfaceContextTypes", "WorkSurfaceContextTypes");
 
             migrationBuilder.RenameColumn("WorkSurfacesId", "WorkSurfaceContextTypes", "PortalsId");
             migrationBuilder.RenameTable("WorkSurfaceContextTypes", "dbo", "PortalContextTypes", "dbo");
 
-            migrationBuilder.RenameTable("WorkSurfaces", "dbo", "Portals", "dbo");
-            
+            migrationBuilder.AddPrimaryKey("PK_PortalContextTypes", "PortalContextTypes", new string[] {"ContextTypesId", "PortalsId"});
 
+            migrationBuilder.AddForeignKey("FK_PortalContextTypes_ContextTypes_ContextTypesId", 
+                                        "PortalContextTypes", 
+                                        "ContextTypesId", 
+                                        "ContextTypes", 
+                                        "dbo", 
+                                        "dbo", 
+                                        "Id", 
+                                        onDelete: ReferentialAction.Cascade);
 
-            //migrationBuilder.CreateTable(
-            //    name: "PortalApps",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        IsHidden = table.Column<bool>(type: "bit", nullable: false),
-            //        OnboardedAppId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        PortalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        OnboardedContextId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-            //        CreatedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-            //        ModifiedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_PortalApps", x => x.Id);
-            //        table.ForeignKey(
-            //            name: "FK_PortalApps_OnboardedApps_OnboardedAppId",
-            //            column: x => x.OnboardedAppId,
-            //            principalTable: "OnboardedApps",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //        table.ForeignKey(
-            //            name: "FK_PortalApps_OnboardedContexts_OnboardedContextId",
-            //            column: x => x.OnboardedContextId,
-            //            principalTable: "OnboardedContexts",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Restrict);
-            //        table.ForeignKey(
-            //            name: "FK_PortalApps_Portals_PortalId",
-            //            column: x => x.PortalId,
-            //            principalTable: "Portals",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Restrict);
-            //    });
+            migrationBuilder.AddForeignKey("FK_PortalContextTypes_Portals_PortalsId", 
+                                            "PortalContextTypes", 
+                                            "PortalsId", 
+                                            "Portals", 
+                                            "dbo", 
+                                            "dbo", 
+                                            "Id", 
+                                            onDelete: ReferentialAction.Cascade);
 
-            //migrationBuilder.CreateTable(
-            //    name: "PortalContextTypes",
-            //    columns: table => new
-            //    {
-            //        ContextTypesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        PortalsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_PortalContextTypes", x => new { x.ContextTypesId, x.PortalsId });
-            //        table.ForeignKey(
-            //            name: "FK_PortalContextTypes_ContextTypes_ContextTypesId",
-            //            column: x => x.ContextTypesId,
-            //            principalTable: "ContextTypes",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //        table.ForeignKey(
-            //            name: "FK_PortalContextTypes_Portals_PortalsId",
-            //            column: x => x.PortalsId,
-            //            principalTable: "Portals",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //    });
+            migrationBuilder.RenameIndex("IX_WorkSurfaceApps_OnboardedAppId", "IX_PortalApps_OnboardedAppId", "PortalApps");
+            migrationBuilder.RenameIndex("IX_WorkSurfaceApps_OnboardedContextId", "IX_PortalApps_OnboardedContextId", "PortalApps");
+            migrationBuilder.RenameIndex("IX_WorkSurfaceApps_WorkSurfaceId", "IX_PortalApps_PortalId", "PortalApps");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_PortalApps_OnboardedAppId",
-            //    table: "PortalApps",
-            //    column: "OnboardedAppId");
+            migrationBuilder.RenameIndex("IX_WorkSurfaceContextTypes_WorkSurfacesId", "IX_PortalContextTypes_PortalsId", "PortalContextTypes");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_PortalApps_OnboardedContextId",
-            //    table: "PortalApps",
-            //    column: "OnboardedContextId");
+            migrationBuilder.RenameIndex("IX_WorkSurfaces_Key", "IX_Portals_Key", "Portals");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_PortalApps_PortalId",
-            //    table: "PortalApps",
-            //    column: "PortalId");
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_PortalContextTypes_PortalsId",
-            //    table: "PortalContextTypes",
-            //    column: "PortalsId");
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_Portals_Key",
-            //    table: "Portals",
-            //    column: "Key",
-            //    unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey("FK_PortalApps_OnboardedApps_OnboardedAppId", "PortalApps");
+            migrationBuilder.DropForeignKey("FK_PortalApps_OnboardedContexts_OnboardedContextId", "PortalApps");
+            migrationBuilder.DropForeignKey("FK_PortalApps_Portals_PortalId", "PortalApps");
+
+            migrationBuilder.DropForeignKey("FK_PortalContextTypes_ContextTypes_ContextTypesId", "PortalContextTypes");
+            migrationBuilder.DropForeignKey("FK_PortalContextTypes_Portals_PortalsId", "PortalContextTypes");
+
+            migrationBuilder.DropPrimaryKey("PK_Portals", "Portals");
+            migrationBuilder.RenameTable("Portals", "dbo", "WorkSurfaces", "dbo");
+            migrationBuilder.AddPrimaryKey("PK_WorkSurfaces", "WorkSurfaces", "Id");
+
+
+            migrationBuilder.DropPrimaryKey("PK_PortalApps", "PortalApps");
             migrationBuilder.RenameColumn("PortalId", "PortalApps", "WorkSurfaceId");
             migrationBuilder.RenameTable("PortalApps", "dbo", "WorkSurfaceApps", "dbo");
+            migrationBuilder.AddPrimaryKey("PK_WorkSurfaceApps", "WorkSurfaceApps", "Id");
+
+            migrationBuilder.AddForeignKey("FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId",
+                                            "WorkSurfaceApps",
+                                        "OnboardedAppId",
+                                        "OnboardedApps",
+                                        "dbo",
+                                        "dbo",
+                                        "Id",
+                                        onDelete: ReferentialAction.Cascade
+                                        );
+
+            migrationBuilder.AddForeignKey("FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId",
+                                            "WorkSurfaceApps",
+                                            "OnboardedContextId",
+                                            "OnboardedContexts",
+                                            "dbo",
+                                            "dbo",
+                                            "Id",
+                                            onDelete: ReferentialAction.Restrict);
+
+
+            migrationBuilder.AddForeignKey("FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId",
+                                            "WorkSurfaceApps",
+                                            "WorkSurfaceId",
+                                            "WorkSurfaces",
+                                            "dbo",
+                                            "dbo",
+                                            "Id",
+                                            onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.DropPrimaryKey("PK_PortalContextTypes", "PortalContextTypes");
 
             migrationBuilder.RenameColumn("PortalsId", "PortalContextTypes", "WorkSurfacesId");
             migrationBuilder.RenameTable("PortalContextTypes", "dbo", "WorkSurfaceContextTypes", "dbo");
 
-            migrationBuilder.RenameTable("Portals", "dbo", "WorkSurfaces", "dbo");
-            //migrationBuilder.DropTable(
-            //    name: "PortalApps");
+            migrationBuilder.AddPrimaryKey("PK_WorkSurfaceContextTypes", "WorkSurfaceContextTypes", new string[] { "ContextTypesId", "WorkSurfacesId" });
 
-            //migrationBuilder.DropTable(
-            //    name: "PortalContextTypes");
+            migrationBuilder.AddForeignKey("FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId",
+                                        "WorkSurfaceContextTypes",
+                                        "ContextTypesId",
+                                        "ContextTypes",
+                                        "dbo",
+                                        "dbo",
+                                        "Id",
+                                        onDelete: ReferentialAction.Cascade);
 
-            //migrationBuilder.DropTable(
-            //    name: "Portals");
+            migrationBuilder.AddForeignKey("FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId",
+                                            "WorkSurfaceContextTypes",
+                                            "WorkSurfacesId",
+                                            "WorkSurfaces",
+                                            "dbo",
+                                            "dbo",
+                                            "Id",
+                                            onDelete: ReferentialAction.Cascade);
 
-            //migrationBuilder.CreateTable(
-            //    name: "WorkSurfaces",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-            //        CreatedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
-            //        Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        IsDefault = table.Column<bool>(type: "bit", nullable: false),
-            //        Key = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-            //        ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-            //        ModifiedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-            //        Order = table.Column<int>(type: "int", nullable: false),
-            //        ShortName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-            //        SubText = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_WorkSurfaces", x => x.Id);
-            //    });
 
-            //migrationBuilder.CreateTable(
-            //    name: "WorkSurfaceApps",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        OnboardedAppId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        OnboardedContextId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        WorkSurfaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-            //        CreatedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-            //        IsHidden = table.Column<bool>(type: "bit", nullable: false),
-            //        ModifiedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-            //        ModifiedByAzureOid = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_WorkSurfaceApps", x => x.Id);
-            //        table.ForeignKey(
-            //            name: "FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId",
-            //            column: x => x.OnboardedAppId,
-            //            principalTable: "OnboardedApps",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //        table.ForeignKey(
-            //            name: "FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId",
-            //            column: x => x.OnboardedContextId,
-            //            principalTable: "OnboardedContexts",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Restrict);
-            //        table.ForeignKey(
-            //            name: "FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId",
-            //            column: x => x.WorkSurfaceId,
-            //            principalTable: "WorkSurfaces",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Restrict);
-            //    });
+            migrationBuilder.RenameIndex("IX_PortalApps_OnboardedAppId", "IX_WorkSurfaceApps_OnboardedAppId", "WorkSurfaceApps");
+            migrationBuilder.RenameIndex("IX_PortalApps_OnboardedContextId", "IX_WorkSurfaceApps_OnboardedContextId", "WorkSurfaceApps");
+            migrationBuilder.RenameIndex("IX_PortalApps_PortalId", "IX_WorkSurfaceApps_WorkSurfaceId", "WorkSurfaceApps");
 
-            //migrationBuilder.CreateTable(
-            //    name: "WorkSurfaceContextTypes",
-            //    columns: table => new
-            //    {
-            //        ContextTypesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-            //        WorkSurfacesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_WorkSurfaceContextTypes", x => new { x.ContextTypesId, x.WorkSurfacesId });
-            //        table.ForeignKey(
-            //            name: "FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId",
-            //            column: x => x.ContextTypesId,
-            //            principalTable: "ContextTypes",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //        table.ForeignKey(
-            //            name: "FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId",
-            //            column: x => x.WorkSurfacesId,
-            //            principalTable: "WorkSurfaces",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Cascade);
-            //    });
+            migrationBuilder.RenameIndex("IX_PortalContextTypes_PortalsId", "IX_WorkSurfaceContextTypes_WorkSurfacesId", "WorkSurfaceContextTypes");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_WorkSurfaceApps_OnboardedAppId",
-            //    table: "WorkSurfaceApps",
-            //    column: "OnboardedAppId");
+            migrationBuilder.RenameIndex("IX_Portals_Key", "IX_WorkSurfaces_Key", "WorkSurfaces");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_WorkSurfaceApps_OnboardedContextId",
-            //    table: "WorkSurfaceApps",
-            //    column: "OnboardedContextId");
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_WorkSurfaceApps_WorkSurfaceId",
-            //    table: "WorkSurfaceApps",
-            //    column: "WorkSurfaceId");
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_WorkSurfaceContextTypes_WorkSurfacesId",
-            //    table: "WorkSurfaceContextTypes",
-            //    column: "WorkSurfacesId");
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_WorkSurfaces_Key",
-            //    table: "WorkSurfaces",
-            //    column: "Key",
-            //    unique: true);
+           
         }
     }
 }
