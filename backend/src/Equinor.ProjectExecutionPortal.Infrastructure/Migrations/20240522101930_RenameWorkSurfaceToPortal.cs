@@ -13,167 +13,166 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey("FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId", "WorkSurfaceApps");
-            migrationBuilder.DropForeignKey("FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId", "WorkSurfaceApps");
-            migrationBuilder.DropForeignKey("FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId", "WorkSurfaceApps");
+            migrationBuilder.DropForeignKey(name: "FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId", table: "WorkSurfaceApps");
+            migrationBuilder.DropForeignKey(name: "FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId", table: "WorkSurfaceApps");
+            migrationBuilder.DropForeignKey(name: "FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId", table: "WorkSurfaceApps");
 
-            migrationBuilder.DropForeignKey("FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId", "WorkSurfaceContextTypes");
-            migrationBuilder.DropForeignKey("FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId", "WorkSurfaceContextTypes");
+            migrationBuilder.DropForeignKey(name: "FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId", table: "WorkSurfaceContextTypes");
+            migrationBuilder.DropForeignKey(name: "FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId", table: "WorkSurfaceContextTypes");
 
-            migrationBuilder.DropPrimaryKey("PK_WorkSurfaces", "WorkSurfaces");
-            migrationBuilder.RenameTable("WorkSurfaces", "dbo", "Portals", "dbo");
-            migrationBuilder.AddPrimaryKey("PK_Portals", "Portals", "Id");
+            migrationBuilder.DropPrimaryKey(name: "PK_WorkSurfaces", table: "WorkSurfaces");
+            migrationBuilder.RenameTable(name: "WorkSurfaces", schema: "dbo", newName: "Portals", newSchema: "dbo");
+            migrationBuilder.AddPrimaryKey(name: "PK_Portals", table: "Portals", column: "Id");
 
 
-            migrationBuilder.DropPrimaryKey("PK_WorkSurfaceApps", "WorkSurfaceApps");
-            migrationBuilder.RenameColumn("WorkSurfaceId", "WorkSurfaceApps", "PortalId");
-            migrationBuilder.RenameTable("WorkSurfaceApps", "dbo", "PortalApps", "dbo");
-            migrationBuilder.AddPrimaryKey("PK_PortalApps", "PortalApps", "Id");
+            migrationBuilder.DropPrimaryKey(name: "PK_WorkSurfaceApps", table: "WorkSurfaceApps");
+            migrationBuilder.RenameColumn(name: "WorkSurfaceId", table: "WorkSurfaceApps", newName: "PortalId");
+            migrationBuilder.RenameTable(name: "WorkSurfaceApps", schema: "dbo", newName: "PortalApps", newSchema: "dbo");
+            migrationBuilder.AddPrimaryKey(name: "PK_PortalApps", table: "PortalApps", column: "Id");
 
-            migrationBuilder.AddForeignKey("FK_PortalApps_OnboardedApps_OnboardedAppId",
-                                            "PortalApps",
-                                        "OnboardedAppId",
-                                        "OnboardedApps",
-                                        "dbo",
-                                        "dbo",
-                                        "Id",
-                                        onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(name: "FK_PortalApps_OnboardedApps_OnboardedAppId",
+                                            table: "PortalApps",
+                                            column: "OnboardedAppId",
+                                            principalTable: "OnboardedApps",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
+                                            onDelete: ReferentialAction.Cascade);
            
-            migrationBuilder.AddForeignKey("FK_PortalApps_OnboardedContexts_OnboardedContextId",
-                                            "PortalApps",
-                                            "OnboardedContextId",
-                                            "OnboardedContexts", 
-                                            "dbo",
-                                            "dbo",
-                                            "Id",
+            migrationBuilder.AddForeignKey(name: "FK_PortalApps_OnboardedContexts_OnboardedContextId",
+                                            table: "PortalApps",
+                                            column: "OnboardedContextId",
+                                            principalTable: "OnboardedContexts", 
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
                                             onDelete: ReferentialAction.Restrict);
 
-            migrationBuilder.AddForeignKey("FK_PortalApps_Portals_PortalId", 
-                                            "PortalApps", 
-                                            "PortalId", 
-                                            "Portals", 
-                                            "dbo", 
-                                            "dbo",
-                                            "Id", 
+            migrationBuilder.AddForeignKey(name: "FK_PortalApps_Portals_PortalId", 
+                                            table: "PortalApps", 
+                                            column: "PortalId", 
+                                            principalTable: "Portals",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id", 
                                             onDelete: ReferentialAction.Restrict);
 
-            migrationBuilder.DropPrimaryKey("PK_WorkSurfaceContextTypes", "WorkSurfaceContextTypes");
+            migrationBuilder.DropPrimaryKey(name:"PK_WorkSurfaceContextTypes", table:"WorkSurfaceContextTypes");
 
-            migrationBuilder.RenameColumn("WorkSurfacesId", "WorkSurfaceContextTypes", "PortalsId");
-            migrationBuilder.RenameTable("WorkSurfaceContextTypes", "dbo", "PortalContextTypes", "dbo");
+            migrationBuilder.RenameColumn(name: "WorkSurfacesId", table: "WorkSurfaceContextTypes", newName: "PortalsId");
+            migrationBuilder.RenameTable(name: "WorkSurfaceContextTypes", schema: "dbo", newName: "PortalContextTypes", newSchema: "dbo");
 
-            migrationBuilder.AddPrimaryKey("PK_PortalContextTypes", "PortalContextTypes", new string[] {"ContextTypesId", "PortalsId"});
+            migrationBuilder.AddPrimaryKey(name: "PK_PortalContextTypes", table: "PortalContextTypes", columns: new string[] { "ContextTypesId", "PortalsId" });
 
-            migrationBuilder.AddForeignKey("FK_PortalContextTypes_ContextTypes_ContextTypesId", 
-                                        "PortalContextTypes", 
-                                        "ContextTypesId", 
-                                        "ContextTypes", 
-                                        "dbo", 
-                                        "dbo", 
-                                        "Id", 
-                                        onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey("FK_PortalContextTypes_Portals_PortalsId", 
-                                            "PortalContextTypes", 
-                                            "PortalsId", 
-                                            "Portals", 
-                                            "dbo", 
-                                            "dbo", 
-                                            "Id", 
+            migrationBuilder.AddForeignKey(name: "FK_PortalContextTypes_ContextTypes_ContextTypesId", 
+                                            table: "PortalContextTypes", 
+                                            column: "ContextTypesId", 
+                                            principalTable: "ContextTypes", 
+                                            schema: "dbo", 
+                                            principalSchema: "dbo", 
+                                            principalColumn: "Id", 
                                             onDelete: ReferentialAction.Cascade);
 
-            migrationBuilder.RenameIndex("IX_WorkSurfaceApps_OnboardedAppId", "IX_PortalApps_OnboardedAppId", "PortalApps");
-            migrationBuilder.RenameIndex("IX_WorkSurfaceApps_OnboardedContextId", "IX_PortalApps_OnboardedContextId", "PortalApps");
-            migrationBuilder.RenameIndex("IX_WorkSurfaceApps_WorkSurfaceId", "IX_PortalApps_PortalId", "PortalApps");
+            migrationBuilder.AddForeignKey(name: "FK_PortalContextTypes_Portals_PortalsId", 
+                                            table: "PortalContextTypes", 
+                                            column: "PortalsId", 
+                                            principalTable: "Portals", 
+                                            schema: "dbo", 
+                                            principalSchema: "dbo", 
+                                            principalColumn: "Id", 
+                                            onDelete: ReferentialAction.Cascade);
 
-            migrationBuilder.RenameIndex("IX_WorkSurfaceContextTypes_WorkSurfacesId", "IX_PortalContextTypes_PortalsId", "PortalContextTypes");
+            migrationBuilder.RenameIndex(name: "IX_WorkSurfaceApps_OnboardedAppId", newName: "IX_PortalApps_OnboardedAppId", table: "PortalApps");
+            migrationBuilder.RenameIndex(name: "IX_WorkSurfaceApps_OnboardedContextId", newName: "IX_PortalApps_OnboardedContextId", table: "PortalApps");
+            migrationBuilder.RenameIndex(name: "IX_WorkSurfaceApps_WorkSurfaceId", newName: "IX_PortalApps_PortalId", table: "PortalApps");
 
-            migrationBuilder.RenameIndex("IX_WorkSurfaces_Key", "IX_Portals_Key", "Portals");
+            migrationBuilder.RenameIndex(name: "IX_WorkSurfaceContextTypes_WorkSurfacesId", newName: "IX_PortalContextTypes_PortalsId", table: "PortalContextTypes");
+
+            migrationBuilder.RenameIndex(name: "IX_WorkSurfaces_Key", newName: "IX_Portals_Key", table: "Portals");
 
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey("FK_PortalApps_OnboardedApps_OnboardedAppId", "PortalApps");
-            migrationBuilder.DropForeignKey("FK_PortalApps_OnboardedContexts_OnboardedContextId", "PortalApps");
-            migrationBuilder.DropForeignKey("FK_PortalApps_Portals_PortalId", "PortalApps");
+            migrationBuilder.DropForeignKey(name: "FK_PortalApps_OnboardedApps_OnboardedAppId", table: "PortalApps");
+            migrationBuilder.DropForeignKey(name: "FK_PortalApps_OnboardedContexts_OnboardedContextId", table: "PortalApps");
+            migrationBuilder.DropForeignKey(name: "FK_PortalApps_Portals_PortalId", table: "PortalApps");
 
-            migrationBuilder.DropForeignKey("FK_PortalContextTypes_ContextTypes_ContextTypesId", "PortalContextTypes");
-            migrationBuilder.DropForeignKey("FK_PortalContextTypes_Portals_PortalsId", "PortalContextTypes");
+            migrationBuilder.DropForeignKey(name: "FK_PortalContextTypes_ContextTypes_ContextTypesId", table: "PortalContextTypes");
+            migrationBuilder.DropForeignKey(name: "FK_PortalContextTypes_Portals_PortalsId", table: "PortalContextTypes");
 
-            migrationBuilder.DropPrimaryKey("PK_Portals", "Portals");
-            migrationBuilder.RenameTable("Portals", "dbo", "WorkSurfaces", "dbo");
-            migrationBuilder.AddPrimaryKey("PK_WorkSurfaces", "WorkSurfaces", "Id");
+            migrationBuilder.DropPrimaryKey(name: "PK_Portals", table: "Portals");
+            migrationBuilder.RenameTable(name: "Portals", schema: "dbo", newName: "WorkSurfaces", newSchema: "dbo");
+            migrationBuilder.AddPrimaryKey(name: "PK_WorkSurfaces", table: "WorkSurfaces", column: "Id");
 
 
-            migrationBuilder.DropPrimaryKey("PK_PortalApps", "PortalApps");
-            migrationBuilder.RenameColumn("PortalId", "PortalApps", "WorkSurfaceId");
-            migrationBuilder.RenameTable("PortalApps", "dbo", "WorkSurfaceApps", "dbo");
-            migrationBuilder.AddPrimaryKey("PK_WorkSurfaceApps", "WorkSurfaceApps", "Id");
+            migrationBuilder.DropPrimaryKey(name: "PK_PortalApps", table: "PortalApps");
+            migrationBuilder.RenameColumn(name:"PortalId", table:"PortalApps", newName:"WorkSurfaceId");
+            migrationBuilder.RenameTable(name:"PortalApps", schema:"dbo", newName:"WorkSurfaceApps", newSchema:"dbo");
+            migrationBuilder.AddPrimaryKey(name:"PK_WorkSurfaceApps", table:"WorkSurfaceApps", column:"Id");
 
-            migrationBuilder.AddForeignKey("FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId",
-                                            "WorkSurfaceApps",
-                                        "OnboardedAppId",
-                                        "OnboardedApps",
-                                        "dbo",
-                                        "dbo",
-                                        "Id",
-                                        onDelete: ReferentialAction.Cascade
-                                        );
+            migrationBuilder.AddForeignKey(name: "FK_WorkSurfaceApps_OnboardedApps_OnboardedAppId",
+                                            table: "WorkSurfaceApps",
+                                            column: "OnboardedAppId",
+                                            principalTable: "OnboardedApps",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
+                                            onDelete: ReferentialAction.Cascade);
 
-            migrationBuilder.AddForeignKey("FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId",
-                                            "WorkSurfaceApps",
-                                            "OnboardedContextId",
-                                            "OnboardedContexts",
-                                            "dbo",
-                                            "dbo",
-                                            "Id",
+            migrationBuilder.AddForeignKey(name: "FK_WorkSurfaceApps_OnboardedContexts_OnboardedContextId",
+                                            table: "WorkSurfaceApps",
+                                            column: "OnboardedContextId",
+                                            principalTable: "OnboardedContexts",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
                                             onDelete: ReferentialAction.Restrict);
 
 
-            migrationBuilder.AddForeignKey("FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId",
-                                            "WorkSurfaceApps",
-                                            "WorkSurfaceId",
-                                            "WorkSurfaces",
-                                            "dbo",
-                                            "dbo",
-                                            "Id",
+            migrationBuilder.AddForeignKey(name: "FK_WorkSurfaceApps_WorkSurfaces_WorkSurfaceId",
+                                            table: "WorkSurfaceApps",
+                                            column: "WorkSurfaceId",
+                                            principalTable: "WorkSurfaces",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
                                             onDelete: ReferentialAction.Restrict);
 
-            migrationBuilder.DropPrimaryKey("PK_PortalContextTypes", "PortalContextTypes");
+            migrationBuilder.DropPrimaryKey(name: "PK_PortalContextTypes", table: "PortalContextTypes");
 
-            migrationBuilder.RenameColumn("PortalsId", "PortalContextTypes", "WorkSurfacesId");
-            migrationBuilder.RenameTable("PortalContextTypes", "dbo", "WorkSurfaceContextTypes", "dbo");
+            migrationBuilder.RenameColumn(name: "PortalsId", table:"PortalContextTypes", newName: "WorkSurfacesId");
+            migrationBuilder.RenameTable(name: "PortalContextTypes", schema: "dbo", newName: "WorkSurfaceContextTypes", newSchema: "dbo");
 
-            migrationBuilder.AddPrimaryKey("PK_WorkSurfaceContextTypes", "WorkSurfaceContextTypes", new string[] { "ContextTypesId", "WorkSurfacesId" });
+            migrationBuilder.AddPrimaryKey(name: "PK_WorkSurfaceContextTypes", table:"WorkSurfaceContextTypes", columns: new string[] { "ContextTypesId", "WorkSurfacesId" });
 
-            migrationBuilder.AddForeignKey("FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId",
-                                        "WorkSurfaceContextTypes",
-                                        "ContextTypesId",
-                                        "ContextTypes",
-                                        "dbo",
-                                        "dbo",
-                                        "Id",
-                                        onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(name: "FK_WorkSurfaceContextTypes_ContextTypes_ContextTypesId",
+                                            table: "WorkSurfaceContextTypes",
+                                            column: "ContextTypesId",
+                                            principalTable: "ContextTypes",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
+                                            onDelete: ReferentialAction.Cascade);
 
-            migrationBuilder.AddForeignKey("FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId",
-                                            "WorkSurfaceContextTypes",
-                                            "WorkSurfacesId",
-                                            "WorkSurfaces",
-                                            "dbo",
-                                            "dbo",
-                                            "Id",
+            migrationBuilder.AddForeignKey(name: "FK_WorkSurfaceContextTypes_WorkSurfaces_WorkSurfacesId",
+                                            table: "WorkSurfaceContextTypes",
+                                            column: "WorkSurfacesId",
+                                            principalTable: "WorkSurfaces",
+                                            schema: "dbo",
+                                            principalSchema: "dbo",
+                                            principalColumn: "Id",
                                             onDelete: ReferentialAction.Cascade);
 
 
-            migrationBuilder.RenameIndex("IX_PortalApps_OnboardedAppId", "IX_WorkSurfaceApps_OnboardedAppId", "WorkSurfaceApps");
-            migrationBuilder.RenameIndex("IX_PortalApps_OnboardedContextId", "IX_WorkSurfaceApps_OnboardedContextId", "WorkSurfaceApps");
-            migrationBuilder.RenameIndex("IX_PortalApps_PortalId", "IX_WorkSurfaceApps_WorkSurfaceId", "WorkSurfaceApps");
+            migrationBuilder.RenameIndex(name: "IX_PortalApps_OnboardedAppId", newName: "IX_WorkSurfaceApps_OnboardedAppId", table: "WorkSurfaceApps");
+            migrationBuilder.RenameIndex(name:"IX_PortalApps_OnboardedContextId", newName: "IX_WorkSurfaceApps_OnboardedContextId", table: "WorkSurfaceApps");
+            migrationBuilder.RenameIndex(name: "IX_PortalApps_PortalId", newName: "IX_WorkSurfaceApps_WorkSurfaceId", table: "WorkSurfaceApps");
 
-            migrationBuilder.RenameIndex("IX_PortalContextTypes_PortalsId", "IX_WorkSurfaceContextTypes_WorkSurfacesId", "WorkSurfaceContextTypes");
+            migrationBuilder.RenameIndex(name:"IX_PortalContextTypes_PortalsId", newName: "IX_WorkSurfaceContextTypes_WorkSurfacesId", table: "WorkSurfaceContextTypes");
 
-            migrationBuilder.RenameIndex("IX_Portals_Key", "IX_WorkSurfaces_Key", "WorkSurfaces");
+            migrationBuilder.RenameIndex(name: "IX_Portals_Key", newName: "IX_WorkSurfaces_Key", table: "WorkSurfaces");
 
            
         }
