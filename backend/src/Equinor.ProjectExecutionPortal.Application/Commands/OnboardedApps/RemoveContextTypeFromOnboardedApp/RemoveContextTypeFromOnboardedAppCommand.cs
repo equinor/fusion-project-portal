@@ -34,7 +34,7 @@ public class RemoveContextTypeFromFromOnboardedAppCommand : IRequest
 
             if (onboardedAppWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.AppKey);
+                throw new NotFoundException(nameof(Portal), command.AppKey);
             }
 
             var contextTypeToRemove = onboardedAppWithAllContextTypes.ContextTypes.FirstOrDefault(x => x.ContextTypeKey.Equals(command.ContextType, StringComparison.InvariantCultureIgnoreCase));

@@ -37,19 +37,19 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("OnboardedAppContextTypes", (string)null);
                 });
 
-            modelBuilder.Entity("ContextTypeWorkSurface", b =>
+            modelBuilder.Entity("ContextTypePortal", b =>
                 {
                     b.Property<Guid>("ContextTypesId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("WorkSurfacesId")
+                    b.Property<Guid>("PortalsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ContextTypesId", "WorkSurfacesId");
+                    b.HasKey("ContextTypesId", "PortalsId");
 
-                    b.HasIndex("WorkSurfacesId");
+                    b.HasIndex("PortalsId");
 
-                    b.ToTable("WorkSurfaceContextTypes", (string)null);
+                    b.ToTable("PortalContextTypes", (string)null);
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.AppGroup", b =>
@@ -201,7 +201,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("OnboardedContexts");
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", b =>
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -258,10 +258,10 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasIndex("Key")
                         .IsUnique();
 
-                    b.ToTable("WorkSurfaces");
+                    b.ToTable("Portals");
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceApp", b =>
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -288,7 +288,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid?>("OnboardedContextId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("WorkSurfaceId")
+                    b.Property<Guid>("PortalId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -297,9 +297,9 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
                     b.HasIndex("OnboardedContextId");
 
-                    b.HasIndex("WorkSurfaceId");
+                    b.HasIndex("PortalId");
 
-                    b.ToTable("WorkSurfaceApps");
+                    b.ToTable("PortalApps");
                 });
 
             modelBuilder.Entity("ContextTypeOnboardedApp", b =>
@@ -317,7 +317,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ContextTypeWorkSurface", b =>
+            modelBuilder.Entity("ContextTypePortal", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
                         .WithMany()
@@ -325,9 +325,9 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", null)
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", null)
                         .WithMany()
-                        .HasForeignKey("WorkSurfacesId")
+                        .HasForeignKey("PortalsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -343,7 +343,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Navigation("AppGroup");
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurfaceApp", b =>
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", "OnboardedApp")
                         .WithMany()
@@ -356,9 +356,9 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .HasForeignKey("OnboardedContextId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", "WorkSurface")
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", "Portal")
                         .WithMany("Apps")
-                        .HasForeignKey("WorkSurfaceId")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -366,7 +366,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
                     b.Navigation("OnboardedContext");
 
-                    b.Navigation("WorkSurface");
+                    b.Navigation("Portal");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.AppGroup", b =>
@@ -379,7 +379,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Navigation("Apps");
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.WorkSurface", b =>
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
                 {
                     b.Navigation("Apps");
                 });

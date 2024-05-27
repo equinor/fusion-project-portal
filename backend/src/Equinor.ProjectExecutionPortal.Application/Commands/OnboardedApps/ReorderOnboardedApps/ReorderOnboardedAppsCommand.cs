@@ -34,7 +34,7 @@ public class ReorderOnboardedAppsCommand : IRequest<Guid>
 
             if (appGroup == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.AppGroupId);
+                throw new NotFoundException(nameof(Portal), command.AppGroupId);
             }
 
             var hasUnmatchedIds = appGroup.Apps.Select(x => x.Id).Except(command.ReorderedAppIds).Any();

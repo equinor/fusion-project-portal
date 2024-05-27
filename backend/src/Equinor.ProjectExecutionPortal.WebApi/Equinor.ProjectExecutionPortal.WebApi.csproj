@@ -6,14 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>25465625-ab8e-47cd-ac4a-2f944c30a5ec</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ViewModels\WorkSurfaceAppGroup\**" />
-    <Content Remove="ViewModels\WorkSurfaceAppGroup\**" />
-    <EmbeddedResource Remove="ViewModels\WorkSurfaceAppGroup\**" />
-    <None Remove="ViewModels\WorkSurfaceAppGroup\**" />
-  </ItemGroup>
+  </PropertyGroup> 
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
