@@ -7,9 +7,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
     {
         public string AppKey { get; set; } = null!;
 
-        public AddContextAppToPortalCommand ToCommand(Guid workSurfaceId, Guid contextId)
+        public AddContextAppToPortalCommand ToCommand(Guid portalId, Guid contextId)
         {
-            return new AddContextAppToPortalCommand(workSurfaceId, contextId, AppKey);
+            return new AddContextAppToPortalCommand(portalId, contextId, AppKey);
         }
 
         public class ApiAddContextAppToPortalRequestValidator : AbstractValidator<ApiAddContextAppToPortalRequest>

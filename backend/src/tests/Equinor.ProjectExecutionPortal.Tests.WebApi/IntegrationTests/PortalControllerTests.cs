@@ -184,10 +184,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return portals;
         }
 
-        private static async Task<ApiPortal?> AssertGetPortal(Guid workSurfaceId, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<ApiPortal?> AssertGetPortal(Guid portalId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
-            var response = await GetPortal(workSurfaceId, userType);
+            var response = await GetPortal(portalId, userType);
             var content = await response.Content.ReadAsStringAsync();
             var portal = JsonConvert.DeserializeObject<ApiPortal>(content);
 

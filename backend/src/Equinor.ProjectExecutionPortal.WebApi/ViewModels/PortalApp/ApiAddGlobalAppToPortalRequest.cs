@@ -15,9 +15,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
         /// </summary>
         public bool RemoveAppForContexts { get; set; }
 
-        public AddGlobalAppToPortalCommand ToCommand(Guid workSurfaceId)
+        public AddGlobalAppToPortalCommand ToCommand(Guid portalId)
         {
-            return new AddGlobalAppToPortalCommand(workSurfaceId, AppKey, RemoveAppForContexts);
+            return new AddGlobalAppToPortalCommand(portalId, AppKey, RemoveAppForContexts);
         }
 
         public class ApiAddGlobalAppToPortalRequestValidator : AbstractValidator<ApiAddGlobalAppToPortalRequest>

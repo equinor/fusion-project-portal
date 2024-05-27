@@ -36,7 +36,7 @@ public class GetPortalsQuery : QueryBase<IList<PortalDto>>
             // This causes projection to lazy load
             //var entities = await _context.Set<Domain.Entities.portal>()
             //    .AsNoTracking()
-            //    .ProjectToListAsync<WorkSurfaceDto>(_mapper.ConfigurationProvider);
+            //    .ProjectToListAsync<PortalDto>(_mapper.ConfigurationProvider);
 
             return portals;
         }

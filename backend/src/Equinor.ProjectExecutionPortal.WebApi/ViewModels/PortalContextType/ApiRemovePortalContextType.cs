@@ -4,9 +4,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType
 {
     public class ApiRemovePortalContextType
     {
-        public RemoveContextTypeFromPortalCommand ToCommand(Guid workSurfaceId, string contextType)
+        public RemoveContextTypeFromPortalCommand ToCommand(Guid portalId, string contextType)
         {
-            return new RemoveContextTypeFromPortalCommand(workSurfaceId, contextType);
+            return new RemoveContextTypeFromPortalCommand(portalId, contextType);
         }
     }
 }
