@@ -1,5 +1,21 @@
 # fusion-project-portal
 
+## 4.0.4
+
+### Patch Changes
+
+- 171ee82: Deleted unused portal domain entity
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- 171ee82: All worksurface references has been renamed to portal,
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- 69065ef: Update packages
+
 ## 4.0.3
 
 ### Patch Changes
