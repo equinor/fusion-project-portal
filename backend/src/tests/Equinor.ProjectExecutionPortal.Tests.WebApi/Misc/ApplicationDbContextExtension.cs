@@ -40,16 +40,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
                
             dbContext.SaveChanges();
 
-            // Add apps groups
-
-            //var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
-            //var appGroupWithContextAppsOnly = AppGroupData.InitialSeedData.AppGroup2;
-            //var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
-
-            //dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
-
-            //dbContext.SaveChanges();
-
             //add contextTypes
             var contextTypeProjectMaster = ContextTypeData.InitialSeedData.ContextType1;
             var contextTypeFacility = ContextTypeData.InitialSeedData.ContextType2;
@@ -66,15 +56,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var orgChartApp = OnboardedAppsData.InitialSeedData.OrgChartApp;
             var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
             var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
-
-            //appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
-            //appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
-
-            //appGroupWithContextAppsOnly.AddApp(orgChartApp);
-            //appGroupWithContextAppsOnly.AddApp(handoverGardenApp);
-
-            //appGroupWithMixedApps.AddApp(workOrderGardenApp);
-            //appGroupWithMixedApps.AddApp(tasksApp);
 
             //add apps
             dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
