@@ -10,17 +10,15 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, bool isLegacy, Guid appGroupId, IList<string> contextTypes)
+    public OnboardAppCommand(string appKey, bool isLegacy, IList<string> contextTypes)
     {
         AppKey = appKey;
         IsLegacy = isLegacy;
-        AppGroupId = appGroupId;
         ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
     public bool IsLegacy { get; }
-    public Guid AppGroupId { get; }
     public IList<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
@@ -52,22 +50,11 @@ public class OnboardAppCommand : IRequest<Guid>
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }
 
-            var appGroup = await _readWriteContext.Set<AppGroup>()
-                .Include(x => x.Apps)
-                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId, cancellationToken);
-
-            if (appGroup == null)
-            {
-                throw new NotFoundException($"App Group '{command.AppGroupId}' was not found");
-            }
-
-            var onboardedAppsCount = appGroup.Apps.Count;
-
-            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount, command.IsLegacy);
+            var onboardedApp = new OnboardedApp(command.AppKey, 0, command.IsLegacy);
 
             onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
-            appGroup.AddApp(onboardedApp);
+            _readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

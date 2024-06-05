@@ -86,7 +86,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Add_Valid_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+           // var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
             var getAllBeforeAdded = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
             var totalCountBeforeAdded = getAllBeforeAdded?.Count;
 
@@ -94,7 +94,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             {
                 AppKey = "test-app",
                 IsLegacy = false,
-                AppGroupId = getAllAppGroups!.First().Id,
+               // AppGroupId = getAllAppGroups!.First().Id,
                 ContextTypes = new List<string>() {"ProjectMaster"}
             };
 
@@ -119,7 +119,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             {
                 AppKey = "test-app",
                 IsLegacy = false,
-                AppGroupId = Guid.NewGuid()
+                //AppGroupId = Guid.NewGuid()
             };
 
             // Act
@@ -137,7 +137,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             {
                 AppKey = "test-app",
                 IsLegacy = false,
-                AppGroupId = Guid.NewGuid()
+               // AppGroupId = Guid.NewGuid()
             };
 
             // Act
@@ -188,12 +188,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var getAllBeforeUpdated = await AssertGetAllOnboardedApps(UserType.Administrator, HttpStatusCode.OK);
             var theOneToUpdate = getAllBeforeUpdated!.First();
-            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
-            var theNewAppGroup = getAllAppGroups!.First(x => x.Id != theOneToUpdate.AppGroup.Id);
+           // var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+           // var theNewAppGroup = getAllAppGroups!.First(x => x.Id != theOneToUpdate.AppGroup.Id);
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                AppGroupId = theNewAppGroup.Id,
+               // AppGroupId = theNewAppGroup.Id,
                 IsLegacy = false
             };
 
@@ -207,8 +207,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
             Assert.AreEqual(theOneToUpdate.IsLegacy, theOneAfterUpdate.IsLegacy);
-            Assert.AreEqual(theOneAfterUpdate.AppGroup.Id, theNewAppGroup.Id);
-            Assert.AreNotEqual(theOneToUpdate.AppGroup.Id, theOneAfterUpdate.AppGroup.Id);
+           // Assert.AreEqual(theOneAfterUpdate.AppGroup.Id, theNewAppGroup.Id);
+            //Assert.AreNotEqual(theOneToUpdate.AppGroup.Id, theOneAfterUpdate.AppGroup.Id);
         }
 
         [TestMethod]
@@ -217,7 +217,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                AppGroupId = Guid.NewGuid()
+                //AppGroupId = Guid.NewGuid()
             };
 
             // Act
@@ -233,7 +233,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                AppGroupId = Guid.NewGuid()
+               // AppGroupId = Guid.NewGuid()
             };
 
             // Act
@@ -247,13 +247,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
+           // var getAllAppGroups = await AppGroupControllerTests.AssertGetAllAppGroups(UserType.Administrator, HttpStatusCode.OK);
 
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "app-to-be-removed",
                 IsLegacy = false,
-                AppGroupId = getAllAppGroups!.First().Id,
+               // AppGroupId = getAllAppGroups!.First().Id,
                 ContextTypes = new List<string>() { "ProjectMaster" }
             };
 

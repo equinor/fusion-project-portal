@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
-using Equinor.ProjectExecutionPortal.Application.Services.PortalService;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -22,14 +21,12 @@ public class GetPortalAppsQuery : QueryBase<PortalDto?>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
-        private readonly IPortalService _portalService;
         private readonly IMapper _mapper;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService, IPortalService portalService, IMapper mapper)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IMapper mapper)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
-            _portalService = portalService;
             _mapper = mapper;
         }
 

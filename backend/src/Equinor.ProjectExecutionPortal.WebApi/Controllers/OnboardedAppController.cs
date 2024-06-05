@@ -102,30 +102,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut("reorder")]
-        [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> ReorderOnboardedApps([FromBody] ApiReorderOnboardedAppsRequest request)
-        {
-            try
-            {
-                await Mediator.Send(request.ToCommand());
-            }
-            catch (NotFoundException ex)
-            {
-                return FusionApiError.NotFound(request.AppGroupId, ex.Message);
-            }
-            catch (InvalidActionException ex)
-            {
-                return FusionApiError.InvalidOperation("500", ex.Message);
-            }
-            catch (Exception)
-            {
-                return FusionApiError.InvalidOperation("500", "An error occurred while reordering onboarded apps");
-            }
-
-            return Ok();
-        }
-
         //ContextTypes
         [HttpPost("{appKey}/context-type")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]

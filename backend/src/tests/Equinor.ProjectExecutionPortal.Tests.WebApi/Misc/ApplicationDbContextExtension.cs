@@ -42,13 +42,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add apps groups
 
-            var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
-            var appGroupWithContextAppsOnly = AppGroupData.InitialSeedData.AppGroup2;
-            var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
+            //var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
+            //var appGroupWithContextAppsOnly = AppGroupData.InitialSeedData.AppGroup2;
+            //var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
 
-            dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
+            //dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
 
-            dbContext.SaveChanges();
+            //dbContext.SaveChanges();
 
             //add contextTypes
             var contextTypeProjectMaster = ContextTypeData.InitialSeedData.ContextType1;
@@ -67,14 +67,17 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
             var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
 
-            appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
-            appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
+            //appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
+            //appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
 
-            appGroupWithContextAppsOnly.AddApp(orgChartApp);
-            appGroupWithContextAppsOnly.AddApp(handoverGardenApp);
+            //appGroupWithContextAppsOnly.AddApp(orgChartApp);
+            //appGroupWithContextAppsOnly.AddApp(handoverGardenApp);
 
-            appGroupWithMixedApps.AddApp(workOrderGardenApp);
-            appGroupWithMixedApps.AddApp(tasksApp);
+            //appGroupWithMixedApps.AddApp(workOrderGardenApp);
+            //appGroupWithMixedApps.AddApp(tasksApp);
+
+            //add apps
+            dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
 
             dbContext.SaveChanges();
 

@@ -1,6 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
-using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAppGroupsWithContextAndGlobalApps;
-using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAppGroupsWithGlobalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
@@ -8,7 +6,6 @@ using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
-using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -108,56 +105,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         // Apps
-
-        [HttpGet("{portalId:guid}/app-groups")]
-        public async Task<ActionResult<List<ApiPortalAppGroupWithApps>>> PortalAppGroups([FromRoute] Guid portalId)
-        {
-
-            var appGroupsDto = await Mediator.Send(new GetPortalAppGroupsWithGlobalAppsQuery(portalId));
-            
-            if (appGroupsDto == null)
-            {
-                return FusionApiError.NotFound(portalId, "Could not find portal with id");
-            }
-
-            return Ok(appGroupsDto.Select(x => new ApiPortalAppGroupWithApps(x)).ToList());
-        }
-
-        [HttpGet("{portalId:guid}/contexts/{contextExternalId}/type/{contextType}/app-groups")]
-        public async Task<ActionResult<List<ApiPortalAppGroupWithApps>>> PortalAppGroups([FromRoute] Guid portalId, [FromRoute] string contextExternalId, [FromRoute] string contextType)
-        {
-            var contextIdentifier = ContextIdentifier.FromExternalId(contextExternalId);
-            var fusionContextType = FusionContextType.Resolve(contextType);
-            var context = await ContextResolver.ResolveContextAsync(contextIdentifier, fusionContextType);
-
-            if (context == null)
-            {
-                return FusionApiError.NotFound(contextExternalId, "Could not find context by external id and type");
-            }
-
-            var appGroupsDto =  await Mediator.Send(new GetPortalAppGroupsWithContextAndGlobalAppsQuery(portalId, contextExternalId, contextType));
-
-            if (appGroupsDto == null)
-            {
-                return FusionApiError.NotFound(portalId, "Could not find portal with id");
-            }
-
-            return Ok(appGroupsDto.Select(x => new ApiPortalAppGroupWithApps(x)).ToList());
-        }
-
-        [HttpGet("{portalId:guid}/contexts/{contextId:guid}/app-groups")]
-        public async Task<ActionResult<List<ApiPortalAppGroupWithApps>>> PortalAppGroups([FromRoute] Guid portalId, [FromRoute] Guid contextId)
-        {
-
-            var appGroupsDto = await Mediator.Send(new GetPortalAppGroupsWithContextAndGlobalAppsByContextIdQuery(portalId,contextId));
-
-            if (appGroupsDto == null)
-            {
-                return FusionApiError.NotFound(portalId, "Could not find portal with id");
-            }
-
-            return Ok(appGroupsDto.Select(x => new ApiPortalAppGroupWithApps(x)).ToList());
-        }
 
         [HttpGet("{portalId:guid}/apps")]
         public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId)
