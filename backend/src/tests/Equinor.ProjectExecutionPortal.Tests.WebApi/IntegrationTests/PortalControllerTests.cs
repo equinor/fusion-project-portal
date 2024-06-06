@@ -79,12 +79,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(apps);
             Assert.AreEqual(apps.Count, 2);
 
-            // Verify that only global apps are returned.
-            var appGroupWithGlobalApps = apps.ElementAt(0);
-            var appGroupWithMixedApps = apps.ElementAt(1);
-
-            //Assert.AreEqual(appGroupWithGlobalApps.Apps.Count, 2);
-            //Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
         }
 
         [Ignore] // TODO: Need to perform clean up after each test
@@ -102,14 +96,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(apps);
             Assert.AreEqual(apps.Count, 3);
 
-            // Verify that both global and context (for JCA) apps are returned
-            var appGroupWithGlobalApps = apps.ElementAt(0);
-            var appGroupWithContextApps = apps.ElementAt(1);
-            var appGroupWithMixedApps = apps.ElementAt(2);
-
-            //Assert.AreEqual(appGroupWithGlobalApps.Apps.Count, 2);
-            //Assert.AreEqual(appGroupWithContextApps.Apps.Count, 2);
-            //Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
         }
 
         [Ignore]

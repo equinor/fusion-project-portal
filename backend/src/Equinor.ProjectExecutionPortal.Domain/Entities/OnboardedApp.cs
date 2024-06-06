@@ -25,8 +25,7 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     public string AppKey { get; set; }
 
     /// <summary>
-    /// Order was originally used with groups, not in use now.
-    /// This means that multiple onboarded apps could have the same order (but different AppGroup)
+    /// For ordering apps, not used per now
     /// </summary>
     public int Order { get; set; }
 
