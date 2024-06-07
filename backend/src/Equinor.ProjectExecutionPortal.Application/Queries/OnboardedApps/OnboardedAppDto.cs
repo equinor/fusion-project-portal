@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
-using Equinor.ProjectExecutionPortal.Application.Queries.AppGroups;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
@@ -17,7 +16,6 @@ public class OnboardedAppDto : IMapFrom<Domain.Entities.OnboardedApp>
     public string AppKey { get; set; }
     public int Order { get; set; }
     public bool IsLegacy { get; set; }
-    public AppGroupDto AppGroup { get; set; }
     public FusionPortalAppInformation? AppInformation { get; set; }
     public IList<ContextTypeDto> ContextTypes { get; set; }
 

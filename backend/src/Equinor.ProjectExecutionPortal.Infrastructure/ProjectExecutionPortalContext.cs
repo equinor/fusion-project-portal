@@ -35,7 +35,6 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 
     public DbSet<Portal> Portals { get; set; }
     public DbSet<PortalApp> PortalApps { get; set; }
-    public DbSet<AppGroup> AppGroups { get; set; }
     public DbSet<OnboardedApp> OnboardedApps { get; set; }
     public DbSet<OnboardedContext> OnboardedContexts { get; set; }
     public DbSet<ContextType> ContextTypes { get; set; }

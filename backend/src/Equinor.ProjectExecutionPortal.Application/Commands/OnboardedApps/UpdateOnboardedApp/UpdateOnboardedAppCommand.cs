@@ -8,16 +8,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Upda
 
 public class UpdateOnboardedAppCommand : IRequest<Guid>
 {
-    public UpdateOnboardedAppCommand(string appKey, bool isLegacy, Guid appGroupId)
+    public UpdateOnboardedAppCommand(string appKey, bool isLegacy)
     {
         AppKey = appKey;
         IsLegacy = isLegacy;
-        AppGroupId = appGroupId;
     }
 
     public string AppKey { get; }
     public bool IsLegacy { get; }
-    public Guid AppGroupId { get; }
 
     public class Handler : IRequestHandler<UpdateOnboardedAppCommand, Guid>
     {
@@ -38,7 +36,7 @@ public class UpdateOnboardedAppCommand : IRequest<Guid>
                 throw new NotFoundException("App is not onboarded", command.AppKey);
             }
 
-            entity.Update(command.IsLegacy, command.AppGroupId);
+            entity.Update(command.IsLegacy);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

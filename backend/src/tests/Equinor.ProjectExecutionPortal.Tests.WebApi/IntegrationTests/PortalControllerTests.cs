@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -72,18 +73,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.Single(x => x.Order == 1);
 
             // Act
-            var appGroups = await AssertGetAppsForPortal(portalToTest!.Id, null, null, UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, null, null, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
-            Assert.IsNotNull(appGroups);
-            Assert.AreEqual(appGroups.Count, 2);
+            Assert.IsNotNull(apps);
+            Assert.AreEqual(apps.Count, 2);
 
-            // Verify that only global apps are returned. No app empty app groups
-            var appGroupWithGlobalApps = appGroups.ElementAt(0);
-            var appGroupWithMixedApps = appGroups.ElementAt(1);
-
-            Assert.AreEqual(appGroupWithGlobalApps.Apps.Count, 2);
-            Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
         }
 
         [Ignore] // TODO: Need to perform clean up after each test
@@ -95,20 +90,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.Single(x => x.Order == 1);
 
             // Act
-            var appGroups = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType,UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType,UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
-            Assert.IsNotNull(appGroups);
-            Assert.AreEqual(appGroups.Count, 3);
+            Assert.IsNotNull(apps);
+            Assert.AreEqual(apps.Count, 3);
 
-            // Verify that both global and context (for JCA) apps are returned
-            var appGroupWithGlobalApps = appGroups.ElementAt(0);
-            var appGroupWithContextApps = appGroups.ElementAt(1);
-            var appGroupWithMixedApps = appGroups.ElementAt(2);
-
-            Assert.AreEqual(appGroupWithGlobalApps.Apps.Count, 2);
-            Assert.AreEqual(appGroupWithContextApps.Apps.Count, 2);
-            Assert.AreEqual(appGroupWithMixedApps.Apps.Count, 1);
         }
 
         [Ignore]
@@ -120,7 +107,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.Single(x => x.Order == 1);
 
             // Act
-            var appGroups = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextExternalId, FusionContextData.InitialSeedData.ContextType,UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextExternalId, FusionContextData.InitialSeedData.ContextType,UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             // TODO Fusion 404 returned
@@ -139,20 +126,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForPortal_WithoutContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var appGroups = await AssertGetAppsForPortal(new Guid(), null, null, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var apps = await AssertGetAppsForPortal(new Guid(), null, null, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
-            Assert.IsNull(appGroups);
+            Assert.IsNull(apps);
         }
 
         [TestMethod]
         public async Task Get_AppsForPortal_WithValidContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var appGroups = await AssertGetAppsForPortal(new Guid(), FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var apps = await AssertGetAppsForPortal(new Guid(), FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
-            Assert.IsNull(appGroups);
+            Assert.IsNull(apps);
         }
 
         #region Helpers
@@ -207,35 +194,30 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return portal;
         }
 
-        private static async Task<IList<ApiPortalAppGroupWithApps>?> AssertGetAppsForPortal(Guid portalId, string? contextExternalId, string? contextType, UserType userType, HttpStatusCode expectedStatusCode)
+        private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, string? contextExternalId, string? contextType, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
             var response = await GetAppsForPortal(portalId, contextExternalId, contextType, userType);
             var content = await response.Content.ReadAsStringAsync();
-            var appGroups = JsonConvert.DeserializeObject<IList<ApiPortalAppGroupWithApps>>(content);
+            var apps = JsonConvert.DeserializeObject<IList<ApiPortalApp>>(content);
 
             // Assert
             Assert.AreEqual(expectedStatusCode, response.StatusCode);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                return appGroups;
+                return apps;
             }
 
             Assert.IsNotNull(content);
-            Assert.IsNotNull(appGroups);
+            Assert.IsNotNull(apps);
 
-            foreach (var appGroup in appGroups)
+            foreach (var app in apps)
             {
-                AssertHelpers.AssertPortalAppGroupValues(appGroup);
-
-                foreach (var app in appGroup.Apps)
-                {
-                    AssertHelpers.AssertPortalAppValues(app);
-                }
+                AssertHelpers.AssertPortalAppValues(app);
             }
 
-            return appGroups;
+            return apps;
         }
 
         private static async Task<HttpResponseMessage> GetAllPortals(UserType userType)
@@ -256,7 +238,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
         private static async Task<HttpResponseMessage> GetAppsForPortal(Guid portalId, string? contextExternalId, string? contextType, UserType userType)
         {
-            var route = contextExternalId != null ? $"{Route}/{portalId}/contexts/{contextExternalId}/type/{contextType}/app-groups" : $"{Route}/{portalId}/app-groups";
+            var route = contextExternalId != null ? $"{Route}/{portalId}/contexts/{contextExternalId}/apps" : $"{Route}/{portalId}/apps";
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.GetAsync(route);
 

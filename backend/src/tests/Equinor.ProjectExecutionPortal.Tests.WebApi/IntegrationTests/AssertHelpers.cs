@@ -26,17 +26,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(portal);
         }
 
-        public static void AssertPortalAppGroupValues(ApiPortalAppGroupWithApps? appGroup)
-        {
-            if (appGroup == null)
-            {
-                Assert.Fail();
-            }
-
-            Assert.IsNotNull(appGroup.Name);
-            Assert.IsNotNull(appGroup.Order);
-            Assert.IsNotNull(appGroup.AccentColor);
-        }
+      
 
         public static void AssertPortalAppValues(ApiPortalApp? app)
         {
