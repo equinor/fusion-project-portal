@@ -1,5 +1,14 @@
 # fusion-project-portal
 
+## 4.0.5
+
+### Patch Changes
+
+- d43dd84: Removed app-groups from backend
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
 ## 4.0.4
 
 ### Patch Changes
