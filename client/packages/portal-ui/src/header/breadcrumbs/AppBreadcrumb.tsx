@@ -43,24 +43,37 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appCategory, isMenuOpen, 
 					}}
 					anchorEl={ref.current}
 				>
-					{appCategory.apps.map((app) => (
-						<Menu.Item
-							as={Link}
-							key={app.key}
-							to={`/apps/${app.key}/`}
-							onClick={() => {
-								toggleMenuOpen(false);
-								dispatchEvent(
-									{
-										name: 'onAppNavigation',
-									},
-									{ appKey: app.key, source: 'top-bar-navigation' }
-								);
-							}}
-						>
-							{currentApp?.key === app.key ? <b>{app.name}</b> : app.name}
-						</Menu.Item>
-					))}
+					{appCategory.apps.map((app) => {
+						appCategory.apps = appCategory.apps.sort((a, b) => {
+							const nameA = a.name?.toUpperCase() ?? '';
+							const nameB = b.name?.toUpperCase() ?? '';
+							if (nameA > nameB) {
+								return 1;
+							}
+							if (nameA < nameB) {
+								return -1;
+							}
+							return 0;
+						});						
+						return (
+							<Menu.Item
+								as={Link}
+								key={app.key}
+								to={`/apps/${app.key}/`}
+								onClick={() => {
+									toggleMenuOpen(false);
+									dispatchEvent(
+										{
+											name: 'onAppNavigation',
+										},
+										{ appKey: app.key, source: 'top-bar-navigation' }
+									);
+								}}
+							>
+								{currentApp?.key === app.key ? <b>{app.name}</b> : app.name}
+							</Menu.Item>
+						);
+					})}
 				</Menu>
 			)}
 		</>
