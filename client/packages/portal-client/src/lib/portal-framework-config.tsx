@@ -135,13 +135,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableFeatureFlagging(config, (builder) => {
 			builder.addPlugin(
-				createLocalStoragePlugin([
-					{
-						key: 'new-menu',
-						title: 'New Portal Menu',
-						description: 'When enabled you will be able to try out the new portal menu',
-						enabled: true,
-					},
+				createLocalStoragePlugin([					
 					{
 						key: 'project-prediction',
 						title: 'Allocated Projects',
