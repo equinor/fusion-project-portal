@@ -69,8 +69,7 @@ export function MenuGroups() {
 	const { appCategories, isLoading } = usePortalApps();
 	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
-
-	const { feature, toggleFeature } = useFeature('new-menu');
+	
 	const { addFavorite, appGroups, favorites } = useFavorites();
 
 	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.name) ?? []), 'All Apps'];
@@ -131,16 +130,7 @@ export function MenuGroups() {
 										onClick={() => handleToggle(item)}
 									/>
 								))}
-							</Styles.CategoryWrapper>
-							{/* Todo: remove when decided to use new menu */}
-							<Styles.Feature>
-								<Switch
-									title="Toggle New Menu Feature"
-									checked={feature?.enabled}
-									disabled={feature?.readonly}
-									onChange={() => toggleFeature()}
-								/>
-							</Styles.Feature>
+							</Styles.CategoryWrapper>							
 						</Styles.Divider>
 						<div>
 							<AppContextMessage />
