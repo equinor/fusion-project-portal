@@ -13,6 +13,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [AllowAnonymous]
         [HttpGet("{appKey}")]
         [HttpGet("{appKey}.js")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> FusionPortalAppBundle([FromServices] IFusionPortalApiService fusionPortalApiService, [FromRoute] string appKey)
         {
             try

@@ -1,4 +1,4 @@
-using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +14,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     {
 
         [HttpGet("context/{externalId}/type/{contextType}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FusionContext>> GetFusionContext([FromRoute] string externalId, string contextType)
         {
             var fusionContextType = FusionContextType.Resolve(contextType);
@@ -44,6 +46,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("apps/{appKey}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IAppService appService)
         {
             var fusionApp = await appService.GetFusionApp(appKey);
@@ -52,6 +56,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("apps/{appKey}/config")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FusionAppEnvironmentConfig?>> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IAppService appService)
         {
             var appConfig = await appService.GetFusionAppConfig(appKey);
