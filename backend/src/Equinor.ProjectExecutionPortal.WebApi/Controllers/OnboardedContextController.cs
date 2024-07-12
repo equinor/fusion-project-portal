@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
+﻿using System.Net.Mime;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
@@ -7,7 +8,6 @@ using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Fusion.Infrastructure.HttpClientNames;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
@@ -25,6 +25,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{contextId:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiOnboardedContext>> OnboardedContextByContextId([FromRoute] Guid contextId)
         {
             var onboardedContext = await Mediator.Send(new GetOnboardedContextByContextIdQuery(contextId));
@@ -38,6 +40,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{contextExternalId}/type{type}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string contextExternalId, string type)
         {
             var onboardedContext = await Mediator.Send(new GetOnboardedContextByExternalIdContextTypeQuery(contextExternalId, type));
@@ -52,6 +56,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPost("")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
         {
             var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
@@ -69,7 +80,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (InvalidActionException ex)
             {
-                return FusionApiError.InvalidOperation("500", ex.Message);
+                return FusionApiError.ResourceExists("Context", ex.Message, ex);
             }
             catch (Exception)
             {
@@ -81,6 +92,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPut("{id:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] Guid id, [FromBody] ApiUpdateOnboardedContextRequest request)
         {
             try
@@ -101,6 +118,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpDelete("{id:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemoveOnboardedContext([FromRoute] Guid id)
         {
             var request = new ApiRemoveOnboardedContextRequest { Id = id };
