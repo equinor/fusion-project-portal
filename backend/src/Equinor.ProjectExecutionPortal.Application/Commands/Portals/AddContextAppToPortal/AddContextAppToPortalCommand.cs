@@ -37,7 +37,7 @@ public class AddContextAppToPortalCommand : IRequest<Unit>
             
             if (fusionContext == null)
             {
-                throw new InvalidActionException($"Cannot add app '{command.AppKey} to '{command.PortalId}'. Missing context parameter.");
+                throw new InvalidOperationException($"Cannot add app '{command.AppKey} to '{command.PortalId}'. Missing context parameter.");
             }
 
             var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
