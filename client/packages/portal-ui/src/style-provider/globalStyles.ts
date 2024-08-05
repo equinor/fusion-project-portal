@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
         --custom-header-height: 0px;
         --custom-side-sheet-height: 100%
         --portal-header-height: 48px;
-	} 
+	}
 
     body {
         font-family: Equinor, sans-serif;
