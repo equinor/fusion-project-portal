@@ -23,7 +23,7 @@ export function PortalSideSheet() {
 	if (portalAction && Component) {
 		return (
 			<SideSheetWrapper>
-				<Component action={portalAction} onClose={closeActiveAction} open={!!portalAction} />{' '}
+				<Component action={portalAction} onClose={closeActiveAction} open={!!portalAction} />
 			</SideSheetWrapper>
 		);
 	}
