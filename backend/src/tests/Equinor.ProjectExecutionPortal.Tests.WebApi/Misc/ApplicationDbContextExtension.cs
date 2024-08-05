@@ -31,29 +31,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
         private static void SeedPortal(DbContext dbContext)
         {
-            // Create portal
+            // Create portals
 
-            var portal = PortalData.InitialSeedData.Portal;
+            var portalWithoutApps = PortalData.InitialSeedData.Portal1;
+            var portalWithApps = PortalData.InitialSeedData.Portal2;
 
-            // Add work surfaces
-
-            var workSurfaceWithoutApps = WorkSurfaceData.InitialSeedData.WorkSurface1;
-            var workSurfaceWithApps = WorkSurfaceData.InitialSeedData.WorkSurface2;
-
-            portal.AddWorkSurface(workSurfaceWithoutApps);
-            portal.AddWorkSurface(workSurfaceWithApps);
-
-            dbContext.Add(portal);
-            dbContext.SaveChanges();
-
-            // Add apps groups
-
-            var appGroupWithGlobalAppsOnly = AppGroupData.InitialSeedData.AppGroup1;
-            var appGroupWithContextAppsOnly = AppGroupData.InitialSeedData.AppGroup2;
-            var appGroupWithMixedApps = AppGroupData.InitialSeedData.AppGroup3;
-
-            dbContext.AddRange(appGroupWithGlobalAppsOnly, appGroupWithContextAppsOnly, appGroupWithMixedApps);
-
+            dbContext.AddRange(portalWithoutApps, portalWithApps);
+               
             dbContext.SaveChanges();
 
             //add contextTypes
@@ -73,14 +57,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
             var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
 
-            appGroupWithGlobalAppsOnly.AddApp(meetingsApp);
-            appGroupWithGlobalAppsOnly.AddApp(reviewsApp);
-
-            appGroupWithContextAppsOnly.AddApp(orgChartApp);
-            appGroupWithContextAppsOnly.AddApp(handoverGardenApp);
-
-            appGroupWithMixedApps.AddApp(workOrderGardenApp);
-            appGroupWithMixedApps.AddApp(tasksApp);
+            //add apps
+            dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
 
             dbContext.SaveChanges();
 
@@ -93,14 +71,14 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add apps to work surface
 
-            var globalMeetingsApp = new WorkSurfaceApp(meetingsApp.Id, workSurfaceWithApps.Id);
-            var globalReviewsApp = new WorkSurfaceApp(reviewsApp.Id, workSurfaceWithApps.Id);
-            var globalTasksApp = new WorkSurfaceApp(tasksApp.Id, workSurfaceWithApps.Id);
+            var globalMeetingsApp = new PortalApp(meetingsApp.Id, portalWithApps.Id);
+            var globalReviewsApp = new PortalApp(reviewsApp.Id, portalWithApps.Id);
+            var globalTasksApp = new PortalApp(tasksApp.Id, portalWithApps.Id);
 
-            var jcaContextOrgChartApp = new WorkSurfaceApp(orgChartApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
-            var jcaContextHandoverGardenApp = new WorkSurfaceApp(handoverGardenApp.Id, workSurfaceWithApps.Id, jcaContext.Id);
+            var jcaContextOrgChartApp = new PortalApp(orgChartApp.Id, portalWithApps.Id, jcaContext.Id);
+            var jcaContextHandoverGardenApp = new PortalApp(handoverGardenApp.Id, portalWithApps.Id, jcaContext.Id);
 
-            var ogpContextWorkOrderGardenApp = new WorkSurfaceApp(workOrderGardenApp.Id, workSurfaceWithApps.Id);
+            var ogpContextWorkOrderGardenApp = new PortalApp(workOrderGardenApp.Id, portalWithApps.Id);
 
             // Add context specific apps to work surfaces
 

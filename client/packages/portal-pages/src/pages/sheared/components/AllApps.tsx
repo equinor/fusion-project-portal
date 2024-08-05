@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { AppGroup } from '@portal/components';
+import { AppContextMessage, AppGroup } from '@portal/components';
 import { appGroupArraySort, useFavorites } from '@portal/core';
 
 import { ProgressLoader } from '@equinor/portal-ui';
@@ -9,6 +9,7 @@ const Styles = {
 	Wrapper: styled.div`
 		column-count: 3;
 		max-width: calc(100vw - 490px);
+
 		gap: 1.5rem;
 
 		@media only screen and (max-width: 1500px) {
@@ -39,34 +40,37 @@ export const AllApps = () => {
 		);
 	}
 	return (
-		<Styles.Wrapper>
-			{appGroups &&
-				appGroups.sort(appGroupArraySort).map((appGroup) => (
-					<div key={appGroup.name}>
-						<AppGroup
-							dark={true}
-							group={appGroup}
-							onClick={(app, e) => {
-								if (app.isDisabled) {
-									e.preventDefault();
-									return;
-								}
-								dispatchEvent(
-									{
-										name: 'onAppNavigation',
-									},
-
-									{
-										appKey: app.key,
-										isFavorite: app.isPinned,
-										source: 'app-menu',
+		<>
+			<AppContextMessage />
+			<Styles.Wrapper>
+				{appGroups &&
+					appGroups.sort(appGroupArraySort).map((appGroup) => (
+						<div key={appGroup.name}>
+							<AppGroup
+								dark={true}
+								group={appGroup}
+								onClick={(app, e) => {
+									if (app.isDisabled) {
+										e.preventDefault();
+										return;
 									}
-								);
-							}}
-							onFavorite={(app) => addFavorite(app.key)}
-						/>
-					</div>
-				))}
-		</Styles.Wrapper>
+									dispatchEvent(
+										{
+											name: 'onAppNavigation',
+										},
+
+										{
+											appKey: app.key,
+											isFavorite: app.isPinned,
+											source: 'app-menu',
+										}
+									);
+								}}
+								onFavorite={(app) => addFavorite(app.key)}
+							/>
+						</div>
+					))}
+			</Styles.Wrapper>
+		</>
 	);
 };

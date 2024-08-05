@@ -28,14 +28,12 @@ public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
 
         public async Task<IList<OnboardedAppDto>> Handle(GetOnboardedAppsQuery request, CancellationToken cancellationToken)
         {
-            var enitity = await _context.Set<Domain.Entities.OnboardedApp>()
-                .Include(x => x.AppGroup)
+            var entity = await _context.Set<Domain.Entities.OnboardedApp>()
                 .Include(x => x.ContextTypes)
-                .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            var onboardedApps = _mapper.Map<List<Domain.Entities.OnboardedApp>, List<OnboardedAppDto>>(enitity);
+            var onboardedApps = _mapper.Map<List<Domain.Entities.OnboardedApp>, List<OnboardedAppDto>>(entity);
             
             await _appService.EnrichAppsWithFusionAppData(onboardedApps, cancellationToken);
             

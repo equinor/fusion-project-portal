@@ -26,7 +26,7 @@ public class RemoveContextTypeFromFromOnboardedAppCommand : IRequest
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<Unit> Handle(RemoveContextTypeFromFromOnboardedAppCommand command, CancellationToken cancellationToken)
+        public async Task Handle(RemoveContextTypeFromFromOnboardedAppCommand command, CancellationToken cancellationToken)
         {
             var onboardedAppWithAllContextTypes = await _readWriteContext.Set<OnboardedApp>()
                 .Include(x => x.ContextTypes)
@@ -34,7 +34,7 @@ public class RemoveContextTypeFromFromOnboardedAppCommand : IRequest
 
             if (onboardedAppWithAllContextTypes == null)
             {
-                throw new NotFoundException(nameof(WorkSurface), command.AppKey);
+                throw new NotFoundException(nameof(Portal), command.AppKey);
             }
 
             var contextTypeToRemove = onboardedAppWithAllContextTypes.ContextTypes.FirstOrDefault(x => x.ContextTypeKey.Equals(command.ContextType, StringComparison.InvariantCultureIgnoreCase));
@@ -47,8 +47,6 @@ public class RemoveContextTypeFromFromOnboardedAppCommand : IRequest
             onboardedAppWithAllContextTypes.RemoveContextType(contextTypeToRemove);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

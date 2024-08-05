@@ -7,7 +7,7 @@ import { useState, useMemo } from 'react';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
-import { AppGroup, LoadingMenu } from '@portal/components';
+import { AppContextMessage, AppGroup, LoadingMenu } from '@portal/components';
 
 const Styles = {
 	Divider: styled.div`
@@ -59,6 +59,9 @@ const Styles = {
 		bottom: 1rem;
 		right: 1rem;
 	`,
+	AppMessageWrapper: styled.div`
+		padding: 1rem 0;
+	`,
 };
 
 export function MenuGroups() {
@@ -66,8 +69,7 @@ export function MenuGroups() {
 	const { appCategories, isLoading } = usePortalApps();
 	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
-
-	const { feature, toggleFeature } = useFeature('new-menu');
+	
 	const { addFavorite, appGroups, favorites } = useFavorites();
 
 	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.name) ?? []), 'All Apps'];
@@ -128,67 +130,74 @@ export function MenuGroups() {
 										onClick={() => handleToggle(item)}
 									/>
 								))}
-							</Styles.CategoryWrapper>
-							{/* Todo: remove when decided to use new menu */}
-							<Styles.Feature>
-								<Switch
-									title="Toggle New Menu Feature"
-									checked={feature?.enabled}
-									disabled={feature?.readonly}
-									onChange={() => toggleFeature()}
-								/>
-							</Styles.Feature>
+							</Styles.CategoryWrapper>							
 						</Styles.Divider>
-						{displayAppGroups && !!displayAppGroups?.length ? (
-							activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
-								<InfoMessage>
-									Looks like you do not have any pinned apps yet. <br /> Click the star icon on apps
-									to add them to the pinned app section.
-								</InfoMessage>
-							) : (
-								<Styles.Wrapper>
-									{displayAppGroups &&
-										displayAppGroups.map((appGroup) => (
-											<div key={appGroup.name}>
-												<AppGroup
-													dark={false}
-													group={appGroup}
-													onClick={(app, e) => {
-														if (app.isDisabled) {
-															e.preventDefault();
-															return;
-														}
-														dispatchEvent(
-															{
-																name: 'onAppNavigation',
-															},
-
-															{
-																appKey: app.key,
-																isFavorite: app.isPinned,
-																source: 'app-menu',
-															}
-														);
-
-														closeMenu();
-													}}
-													onFavorite={(app) => addFavorite(app.key)}
-												/>
-											</div>
-										))}
-								</Styles.Wrapper>
-							)
-						) : (
-							<>
-								{searchText ? (
-									<InfoMessage>No results found for your search.</InfoMessage>
-								) : !hasApps ? (
+						<div>
+							<AppContextMessage />
+							{displayAppGroups && !!displayAppGroups?.length ? (
+								activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 									<InfoMessage>
-										Please select a context to display a list of applications.
+										Looks like you do not have any pinned apps yet. <br /> Click the star on apps to
+										add them to the pinned app section.
 									</InfoMessage>
-								) : null}
-							</>
-						)}
+								) : (
+									<Styles.Wrapper>
+										{displayAppGroups &&
+											displayAppGroups.map((appGroup) => {
+												appGroup.apps = appGroup.apps.sort((a, b) => {
+													const nameA = a.name?.toUpperCase() ?? '';
+													const nameB = b.name?.toUpperCase() ?? '';
+													if (nameA > nameB) {
+														return 1;
+													}
+													if (nameA < nameB) {
+														return -1;
+													}
+													return 0;
+												});
+												return (
+													<div key={appGroup.name}>
+														<AppGroup
+															dark={false}
+															group={appGroup}
+															onClick={(app, e) => {
+																if (app.isDisabled) {
+																	e.preventDefault();
+																	return;
+																}
+																dispatchEvent(
+																	{
+																		name: 'onAppNavigation',
+																	},
+
+																	{
+																		appKey: app.key,
+																		isFavorite: app.isPinned,
+																		source: 'app-menu',
+																	}
+																);
+
+																closeMenu();
+															}}
+															onFavorite={(app) => addFavorite(app.key)}
+														/>
+													</div>
+												);
+											})}
+									</Styles.Wrapper>
+								)
+							) : (
+								<>
+									{searchText ? (
+										<InfoMessage>No results found for your search.</InfoMessage>
+									) : !hasApps ? (
+										<InfoMessage>
+											Please select a context to display a list of applications.
+										</InfoMessage>
+									) : null}
+								</>
+							)}
+						</div>
 					</>
 				)}
 			</Styles.MenuWrapper>

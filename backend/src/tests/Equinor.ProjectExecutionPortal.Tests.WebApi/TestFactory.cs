@@ -184,7 +184,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
 
         private static string GetTestLocalDbConnectionString(string projectDir)
         {
-            const string DbName = "ProjectPortalIntegrationTestsDB";
+            const string DbName = "ProjectPortalIntegrationTestsDB2";
             var dbPath = Path.Combine(projectDir, $"{DbName}.mdf");
 
             // Set Initial Catalog to be able to delete database!

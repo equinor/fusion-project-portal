@@ -25,8 +25,7 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     public string AppKey { get; set; }
 
     /// <summary>
-    /// Order is contextually based on AppGroup.
-    /// This means that multiple onboarded apps can have the same order (but different AppGroup)
+    /// For ordering apps, not used per now
     /// </summary>
     public int Order { get; set; }
 
@@ -34,16 +33,13 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     /// This flag is used for conditional rendering of legacy apps on the client application
     /// </summary>
     public bool IsLegacy { get; set; }
-
-    public Guid AppGroupId { get; set; }
-    public AppGroup AppGroup { get; set; }
+    
 
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
-    public void Update(bool isLegacy, Guid appGroupId)
+    public void Update(bool isLegacy)
     {
         IsLegacy = isLegacy;
-        AppGroupId = appGroupId;
     }
 
     public void AddContextTypes(IList<ContextType> contextTypes)

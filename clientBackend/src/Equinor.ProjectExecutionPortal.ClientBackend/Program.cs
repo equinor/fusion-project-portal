@@ -37,9 +37,14 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add fusion integration
 builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
 {
-    fusionIntegrationConfig.UseServiceInformation("Fusion.Project.Portal", "Dev");
-    fusionIntegrationConfig.UseDefaultEndpointResolver("ci");
-    fusionIntegrationConfig.UseMsalTokenProvider();
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    fusionIntegrationConfig.UseServiceInformation("Fusion.Project.Portal", environment);
+    fusionIntegrationConfig.UseDefaultEndpointResolver(environment);
+    fusionIntegrationConfig.UseDefaultTokenProvider(opts =>
+    {
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
+    });
     fusionIntegrationConfig.DisableClaimsTransformation();
 });
 
@@ -48,6 +53,11 @@ builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusi
 {
     fusionHttpClientOptions.UseDelegateToken = true;
     fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
+});
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
 });
 
 builder.Services.AddControllersWithViews();
@@ -101,6 +111,8 @@ app.UseAuthentication();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseResponseCompression();
 
 // Unless request matches any of these endpoint, the SPA will take control
 app.UseEndpoints(endpoints =>
