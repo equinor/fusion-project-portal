@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, test, expect } from 'vitest';
 import { createAppElement } from './app-element';
 import { JSDOM } from 'jsdom';

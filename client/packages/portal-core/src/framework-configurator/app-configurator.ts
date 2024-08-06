@@ -5,7 +5,7 @@ import { Client } from '@portal/types';
 
 const manifestMapper =
 	(basePath: string) =>
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	(value: any): AppManifest => {
 		const { appKey, appInformation, isLegacy } = value;
 		return { ...appInformation, entry: `${basePath}/api/bundles/${appKey}`, isLegacy };

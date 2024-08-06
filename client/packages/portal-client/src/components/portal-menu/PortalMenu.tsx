@@ -1,10 +1,9 @@
-import { Search, Switch } from '@equinor/eds-core-react';
+import { Search } from '@equinor/eds-core-react';
 import { InfoMessage, MenuScrim, StyledCategoryItem } from '@equinor/portal-ui';
 import { appGroupArraySort, getDisabledApps, getPinnedAppsGroup, usePortalMenu, useTelemetry } from '@portal/core';
 
 import { appsMatchingSearch, usePortalApps } from '@portal/core';
 import { useState, useMemo } from 'react';
-import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
 import { AppContextMessage, AppGroup, LoadingMenu } from '@portal/components';
@@ -69,7 +68,7 @@ export function MenuGroups() {
 	const { appCategories, isLoading } = usePortalApps();
 	const { searchText, closeMenu, setSearchText } = usePortalMenu();
 	const [activeItem, setActiveItem] = useState('All Apps');
-	
+
 	const { addFavorite, appGroups, favorites } = useFavorites();
 
 	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.name) ?? []), 'All Apps'];
@@ -130,7 +129,7 @@ export function MenuGroups() {
 										onClick={() => handleToggle(item)}
 									/>
 								))}
-							</Styles.CategoryWrapper>							
+							</Styles.CategoryWrapper>
 						</Styles.Divider>
 						<div>
 							<AppContextMessage />

@@ -82,7 +82,7 @@ const SEARCH_PARM_TAB = 'tab';
 
 export const FacilityPage = () => {
 	const { contextId } = useParams();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	const [searchParams, setSearchparams] = useSearchParams();
 
 	const [activeTab, setActiveTab] = useState(0);

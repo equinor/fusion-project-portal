@@ -1,4 +1,3 @@
-/* eslint-disable tsdoc/syntax */
 import { useMemo } from 'react';
 import { usePortalConfig } from './use-portal-config';
 import { appsToAppCategory } from '../utils/appsToAppCategory';
