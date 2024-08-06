@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+ 
 import styled from 'styled-components';
 import { tokens } from '@equinor/eds-tokens';
 import { Button, Typography } from '@equinor/eds-core-react';

@@ -53,7 +53,7 @@ export function createObservableProxy<T extends Record<PropertyKey, unknown>>(
 			}
 
 			subjects.get(`${String(index)}$`)?.next(newVal);
-			// eslint-disable-next-line no-param-reassign
+			 
 			prop[index as keyof T] = newVal;
 			return true;
 		},

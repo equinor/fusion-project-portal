@@ -121,7 +121,7 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		return this._AppsBuContext({ portalId, contextId });
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	public getPortalRoutesById$ = (_portalId?: string): Observable<PortalRoutes> => {
 		return new Observable((sub) => sub.next(this.#config.portalConfig.routes));
 	};
