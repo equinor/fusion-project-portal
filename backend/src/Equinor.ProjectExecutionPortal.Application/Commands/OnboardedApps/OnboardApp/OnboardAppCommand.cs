@@ -51,8 +51,16 @@ public class OnboardAppCommand : IRequest<Guid>
             }
 
             var onboardedApp = new OnboardedApp(command.AppKey, 0, command.IsLegacy);
+            
+            try
+            {
+                onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+            }
+            catch (InvalidActionException ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
 
-            onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
             _readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
 

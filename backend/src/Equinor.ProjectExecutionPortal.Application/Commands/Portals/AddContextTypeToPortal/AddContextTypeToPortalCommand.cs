@@ -54,7 +54,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContext
 
             if (contextType == null)
             {
-                throw new InvalidActionException($"context-type: {command.Type} is not supported");
+                throw new InvalidOperationException($"context-type: {command.Type} is not supported");
             }
 
             portalWithAllContextTypes.AddContextType(contextType);

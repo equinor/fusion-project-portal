@@ -42,7 +42,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.AddC
 
             if (contextTypeExistsOnOnboardedApp.Any())
             {
-                throw new InvalidActionException($"context-type {command.Type}is already enabled on onboarded app");
+                throw new InvalidOperationException($"context-type {command.Type} is already enabled on onboarded app");
             }
 
             var contextType = await _readWriteContext.Set<ContextType>()

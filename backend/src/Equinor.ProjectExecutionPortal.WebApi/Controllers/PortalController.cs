@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
+﻿using System.Net.Mime;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
@@ -26,6 +27,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{portalId:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiPortal>> Portal([FromRoute] Guid portalId)
         {
             var portalWithAppsDto = await Mediator.Send(new GetPortalQuery(portalId));
@@ -40,6 +43,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPost("")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> CreatePortal([FromBody] ApiCreatePortalRequest request)
         {
             try
@@ -64,6 +73,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPut("{portalId:guid}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> UpdatePortal([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalRequest request)
         {
             try
@@ -84,6 +99,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPut("{portalId:guid}/setAsDefault")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> SetPortalAsDefault([FromRoute] Guid portalId)
         {
             var request = new ApiSetPortalAsDefaultRequest();
@@ -107,6 +128,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         // Apps
 
         [HttpGet("{portalId:guid}/apps")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId)
         {
             //TODO: improve error handling
@@ -125,6 +148,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
         {
             //TODO: improve error handling
@@ -140,6 +165,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPost("{portalId:guid}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> AddPortalApp([FromRoute] Guid portalId, [FromBody] ApiAddGlobalAppToPortalRequest request)
         {
             try
@@ -152,7 +184,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (InvalidActionException ex)
             {
-                return FusionApiError.InvalidOperation("500", ex.Message);
+                return FusionApiError.ResourceExists(request.AppKey, ex.Message, ex);
             }
             catch (Exception)
             {
@@ -164,31 +196,45 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPost("{portalId:guid}/contexts/{contextId}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> AddPortalApp([FromRoute] Guid portalId, Guid contextId, [FromBody] ApiAddContextAppToPortalRequest request)
         {
-
-           try
-           {
-               await Mediator.Send(request.ToCommand(portalId, contextId));
-           }
-           catch (NotFoundException ex)
-           {
-               return FusionApiError.NotFound(portalId, ex.Message);
-           }
-           catch (InvalidActionException ex)
-           {
-               return FusionApiError.InvalidOperation("500", ex.Message);
-           }
-           catch (Exception)
-           {
+            try
+            {
+                await Mediator.Send(request.ToCommand(portalId, contextId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+               return FusionApiError.ResourceExists(request.AppKey, ex.Message, ex);
+            }
+            catch (Exception)
+            {
                return FusionApiError.InvalidOperation("500", "An error occurred while adding portal app");
-           }
+            }
 
-           return Ok();
+            return Ok();
         }
 
         [HttpDelete("{portalId:guid}/apps/{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
@@ -212,6 +258,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpDelete("{portalId:guid}/contexts/{contextId:guid}/apps/{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, Guid contextId, [FromRoute] string appKey)
         {
             // TODO: Removing global should come with a warning. E.g highlight affected contexts
@@ -236,6 +286,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         //ContextTypes
         [HttpPost("{portalId:guid}/context-type")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> AddContextType([FromRoute] Guid portalId, [FromBody] ApiAddContextTypeToPortalRequest request)
         {
             try
@@ -248,7 +305,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (InvalidActionException ex)
             {
-                return FusionApiError.InvalidOperation("500", ex.Message);
+                return FusionApiError.ResourceExists(request.Type, ex.Message, ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {
@@ -260,6 +321,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         
         [HttpDelete("{portalId:guid}/context-type/{contextType}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemoveContextType([FromRoute] Guid portalId, [FromRoute] string contextType)
         {
             var request = new ApiRemovePortalContextType();
@@ -273,7 +338,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (InvalidActionException ex)
             {
-                return FusionApiError.InvalidOperation("500", ex.Message);
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {

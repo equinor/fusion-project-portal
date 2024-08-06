@@ -38,7 +38,7 @@ public class AddContextTypeCommand : IRequest<Guid>
 
             if (!FusionContextType.IsValid(command.ContextTypeKey))
             {
-                throw new InvalidActionException($"ContextType: {command.ContextTypeKey} is not a valid Context type");
+                throw new NotFoundException($"ContextType: {command.ContextTypeKey} is not a valid Context type");
             };  
 
             var contextType = new ContextType(command.ContextTypeKey);
