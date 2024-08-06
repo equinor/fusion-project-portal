@@ -3,6 +3,9 @@ kind: RadixApplication
 metadata:
   name: fusion-project-portal
 spec:
+  build:
+    useBuildKit: true
+    useBuildCache: true
   environments:
     - name: feature
       build:
@@ -155,7 +158,7 @@ spec:
       publicPort: http
       environmentConfig:
         - environment: feature
-          identity: 
+          identity:
             azure:
               clientId: 2440e826-7642-4862-be77-2ce311780ac6
           secretRefs:
