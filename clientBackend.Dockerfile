@@ -1,7 +1,7 @@
 # 1: Generate the client javascript bundle 
 # ----------------------------------------------------
 
-FROM registry.hub.docker.com/library/node:20.0.0-slim AS build-client
+FROM registry.hub.docker.com/library/node:20.1.0-slim AS build-client
 
 RUN ls
 
