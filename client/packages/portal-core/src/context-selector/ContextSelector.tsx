@@ -40,6 +40,7 @@ export const ContextSelector = ({ variant }: ContextSelectorProps) => {
 			}}
 			value={currentContext?.id ? currentContext?.title || '' : ''}
 			placeholder="Start to type to search..."
+			selectTextOnFocus={true}
 		/>
 	);
 };
