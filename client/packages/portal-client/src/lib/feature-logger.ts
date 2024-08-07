@@ -83,7 +83,7 @@ const getEntry = (
 	type: 'App selected' | 'Context selected',
 	app?: AppManifest,
 	context?: ContextItem
-): FeatureLogEntryRequest => {
+): FeatureLogEntryRequest | undefined => {
 	return {
 		appKey: app?.key || null,
 		contextId: context?.id || null,
@@ -116,13 +116,13 @@ export class FeatureLogger {
 		});
 		this.fusion.event.addEventListener('onCurrentContextChanged', (e) => {
 			this.context = e.detail.next || undefined;
-			this.log('Context selected');
+			if (e.detail.next) this.log('Context selected');
 		});
 	}
 
 	public log = (type: 'App selected' | 'Context selected') => {
 		const entire = getEntry(type, this.manifest, this.context);
-		if (!this.entries.find((e) => e.appKey === entire.appKey && e.feature === entire.feature)) {
+		if (entire && !this.entries.find((e) => e.dateTimeUtc.toString() === entire.dateTimeUtc.toString())) {
 			this.entries.push(entire);
 		}
 		this.scheduleDispatch();
@@ -133,11 +133,10 @@ export class FeatureLogger {
 			clearTimeout(this.timer);
 		}
 
-		if (this.entries.length >= 10) {
+		if (this.entries.length >= 3) {
 			this.dispatchLogs();
 			return;
 		}
-
 		this.timer = setTimeout(() => {
 			this.dispatchLogs();
 		}, 5000);
@@ -150,6 +149,7 @@ export class FeatureLogger {
 
 		if (this.state === 'sending') {
 			this.scheduleDispatch();
+			return;
 		}
 
 		this.state = 'sending';
@@ -168,7 +168,9 @@ export class FeatureLogger {
 				body: JSON.stringify(body),
 				method: 'POST',
 			});
-			this.entries = [];
+			this.entries = this.entries.filter(
+				(e) => !body.entries.find((sentEntry) => sentEntry.dateTimeUtc.toString() === e.dateTimeUtc.toString())
+			);
 			this.state = 'idle';
 		} catch (error) {
 			this.state = 'idle';
