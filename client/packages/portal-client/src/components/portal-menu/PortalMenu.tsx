@@ -33,10 +33,14 @@ const Styles = {
 		padding-top: 2rem;
 	`,
 
+	AppsListWrapper: styled.div`
+		overflow: auto;
+		height: inherit;
+	`,
+
 	Wrapper: styled.div`
 		column-count: 3;
 		height: 100%;
-
 		gap: 1.5rem;
 		overflow: auto;
 		@media only screen and (max-width: 1500px) {
@@ -131,7 +135,7 @@ export function MenuGroups() {
 								))}
 							</Styles.CategoryWrapper>
 						</Styles.Divider>
-						<div>
+						<Styles.AppsListWrapper>
 							<AppContextMessage />
 							{displayAppGroups && !!displayAppGroups?.length ? (
 								activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
@@ -196,7 +200,7 @@ export function MenuGroups() {
 									) : null}
 								</>
 							)}
-						</div>
+						</Styles.AppsListWrapper>
 					</>
 				)}
 			</Styles.MenuWrapper>
