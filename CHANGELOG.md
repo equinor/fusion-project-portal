@@ -1,5 +1,13 @@
 # fusion-project-portal
 
+## 4.0.8
+
+### Patch Changes
+
+- 26a492e: Bug Fix: The application list in the menu now features a scrollbar for better usability on smaller screens.
+- 66114d6: Updated styled-components to version 5.3.11 to prevent critical vulnerability
+- 8e44445: Now, when selecting context all text highlighted in the same way as we are used to in browsers.
+
 ## 4.0.7
 
 ### Patch Changes
