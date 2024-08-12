@@ -12,6 +12,7 @@ import { useAppModules } from "@equinor/fusion-framework-react-app";
 import SideSheet from "@equinor/fusion-react-side-sheet";
 import { useQuery } from "react-query";
 import styled from "styled-components";
+import { Portal } from "../types";
 
 const Style = {
   Wrapper: styled.div`
@@ -30,19 +31,6 @@ const Style = {
       0px 2px 4px -2px rgba(16, 24, 40, 0.2);
     width: ${({ col }) => `calc(calc(100vw / ${col || 3} ) - 3rem)`};
   `,
-};
-
-export type Portal = {
-  name: string;
-  shortName: string;
-  subtext: string;
-  id: string;
-  key: string;
-  type: string;
-  icon: string;
-  isDefault: boolean;
-  description: string;
-  contexts: { type: string }[];
 };
 
 export function PortalSideSheet({
