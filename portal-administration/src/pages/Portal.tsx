@@ -11,9 +11,10 @@ import { useAppModules } from "@equinor/fusion-framework-react-app";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { Portal, PortalSideSheet } from "../components/PortalSideSheet";
+import { PortalSideSheet } from "../components/PortalSideSheet";
 import { EditPortal } from "../components/EditPortal";
 import { tokens } from "@equinor/eds-tokens";
+import { Portal } from "../types";
 
 const Style = {
   Background: styled.div`
@@ -40,7 +41,7 @@ const Style = {
   `,
 };
 
-export function Portals() {
+export function Portals(props: { onNewPortal: VoidFunction }) {
   const client = useAppModules().http.createClient("portal-client");
   const [activePortal, setActivePortal] = useState<Portal | undefined>(
     undefined
@@ -74,7 +75,7 @@ export function Portals() {
             <Typography>
               Please select an existing portal to manage or create a new one.
             </Typography>
-            <Button variant="ghost_icon">
+            <Button variant="ghost_icon" onClick={() => props.onNewPortal()}>
               <Icon data={add}></Icon>
             </Button>
           </Style.Menu>

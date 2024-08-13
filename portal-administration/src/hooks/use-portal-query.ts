@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAppModules } from "@equinor/fusion-framework-react-app";
 import { FormattedError, Portal } from "../types";
-import { createPortalQuery, getPortalsQuery } from "../querty/portal-query";
+import {
+  createPortalQuery,
+  getPortalsQuery,
+  updatePortalQuery,
+} from "../query/portal-query";
+import { PortalInputs } from "../schema";
 
 export const useGetPortals = () => {
   const client = useAppModules().http.createClient("portal-client");
@@ -17,7 +22,7 @@ export const useCreatePortal = () => {
 
   const queryClient = useQueryClient();
 
-  return useMutation<Portal, FormattedError, Portal, Portal>({
+  return useMutation<PortalInputs, FormattedError, PortalInputs, PortalInputs>({
     mutationKey: ["create-portal"],
     mutationFn: (body) => createPortalQuery(client, body),
     onSuccess() {
@@ -31,11 +36,11 @@ export const useUpdatePortal = () => {
 
   const queryClient = useQueryClient();
 
-  return useMutatxion<Portal, FormattedError, Portal, Portal>({
-    mutationKey: ["update-portal", poralId],
-    mutationFn: (body) => createPortalQuery(client, body),
+  return useMutation<Portal, FormattedError, Portal, Portal>({
+    mutationKey: ["update-portal"],
+    mutationFn: (body) => updatePortalQuery(client, body),
     onSuccess() {
-      queryClient.invalidateQueries(["create-portal"]);
+      queryClient.invalidateQueries(["update-portal"]);
     },
   });
 };

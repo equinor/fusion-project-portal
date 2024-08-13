@@ -2,7 +2,7 @@ import { FormattedError } from "../types";
 
 export const DEFAULT_ERROR: FormattedError = {
   type: "Error",
-  title: "Unable to connect to ServiceNow",
+  title: "Generic Error",
   status: -1,
 };
 

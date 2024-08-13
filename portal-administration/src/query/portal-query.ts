@@ -1,6 +1,7 @@
 import { IHttpClient } from "@equinor/fusion-framework-module-http";
 import { formatError } from "../utils/error-utils";
-import { Portal } from "../types";
+import { CreatePortal, Portal } from "../types";
+import { PortalInputs } from "../schema";
 
 export const getPortalsQuery = async (
   client: IHttpClient,
@@ -19,7 +20,10 @@ export const getPortalsQuery = async (
   return data as Portal[];
 };
 
-export const createPortalQuery = async (client: IHttpClient, body: Portal) => {
+export const createPortalQuery = async (
+  client: IHttpClient,
+  body: PortalInputs
+) => {
   const response = await client.fetch<Response>(`api/portals`, {
     method: "POST",
     headers: {
@@ -35,12 +39,9 @@ export const createPortalQuery = async (client: IHttpClient, body: Portal) => {
   const data = await response.json();
   return data as Portal;
 };
-export const updatePortalQuery = async (
-  client: IHttpClient,
-  body: Portal,
-  portalId: string
-) => {
-  const response = await client.fetch<Response>(`api/portals/${portalId}`, {
+
+export const updatePortalQuery = async (client: IHttpClient, body: Portal) => {
+  const response = await client.fetch<Response>(`api/portals/${body.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

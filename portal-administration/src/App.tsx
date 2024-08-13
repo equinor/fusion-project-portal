@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import styled from "styled-components";
 import { Portals } from "./pages/Portal";
+import { CreatePortal } from "./pages/CreateProtal";
 
 const queryClient = new QueryClient();
 
@@ -37,13 +38,26 @@ const Style = {
 };
 
 export default function () {
+  const [createPortal, setCreatePortal] = useState(false);
   return (
     <QueryClientProvider client={queryClient}>
       <Style.Wrapper>
         <Style.Padding>
           <Typography variant="h4">Portal Administration</Typography>
         </Style.Padding>
-         <Portals />
+        {createPortal ? (
+          <CreatePortal
+            onClose={() => {
+              setCreatePortal(false);
+            }}
+          />
+        ) : (
+          <Portals
+            onNewPortal={() => {
+              setCreatePortal(true);
+            }}
+          />
+        )}
       </Style.Wrapper>
     </QueryClientProvider>
   );

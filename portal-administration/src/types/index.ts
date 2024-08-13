@@ -6,17 +6,18 @@ export type Portal = {
   key: string;
   type: string;
   icon: string;
-  isDefault: boolean;
   description: string;
-  contexts: PortalContext[];
+  contexts: ContextType[];
 };
+
+export type CreatePortal = Omit<Portal, "id">;
 
 export type PortalAppCreate = {
   appKey: string;
   removeAppFromContexts: boolean;
 };
 
-export type PortalContext = {
+export type ContextType = {
   type: string;
 };
 
