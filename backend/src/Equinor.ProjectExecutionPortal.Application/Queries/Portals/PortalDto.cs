@@ -13,8 +13,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals
         public string? Description { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; }
-        public bool IsDefault { get; set; }
-        public IList<ContextTypeDto> ContextTypes { get; set; }
+       public IList<ContextTypeDto> ContextTypes { get; set; }
         public List<PortalAppDto> Apps { get; set; }
     }
 }

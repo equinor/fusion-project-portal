@@ -17,7 +17,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(portal.Id);
             Assert.IsNotNull(portal.Name);
             Assert.IsNotNull(portal.Icon);
-            Assert.IsNotNull(portal.IsDefault);
             Assert.IsNotNull(portal.Key);
             Assert.IsNotNull(portal.Order);
             Assert.IsNotNull(portal.ShortName);
