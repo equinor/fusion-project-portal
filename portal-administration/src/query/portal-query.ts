@@ -1,7 +1,7 @@
 import { IHttpClient } from "@equinor/fusion-framework-module-http";
 import { formatError } from "../utils/error-utils";
 import { CreatePortal, Portal } from "../types";
-import { PortalInputs } from "../schema";
+import { PortalCreateInputs, PortalEditInputs } from "../schema";
 
 export const getPortalsQuery = async (
   client: IHttpClient,
@@ -22,7 +22,7 @@ export const getPortalsQuery = async (
 
 export const createPortalQuery = async (
   client: IHttpClient,
-  body: PortalInputs
+  body: PortalCreateInputs
 ) => {
   const response = await client.fetch<Response>(`api/portals`, {
     method: "POST",
@@ -37,10 +37,13 @@ export const createPortalQuery = async (
   }
 
   const data = await response.json();
-  return data as Portal;
+  return data as PortalCreateInputs;
 };
 
-export const updatePortalQuery = async (client: IHttpClient, body: Portal) => {
+export const updatePortalQuery = async (
+  client: IHttpClient,
+  body: PortalEditInputs
+) => {
   const response = await client.fetch<Response>(`api/portals/${body.id}`, {
     method: "PUT",
     headers: {
@@ -53,8 +56,7 @@ export const updatePortalQuery = async (client: IHttpClient, body: Portal) => {
     throw formatError(await response.json(), response.status);
   }
 
-  const data = await response.json();
-  return data as Portal;
+  return response.ok;
 };
 
 export const getPortalByIdQuery = async (
@@ -72,7 +74,7 @@ export const getPortalByIdQuery = async (
   }
 
   const data = await response.json();
-  return data as Portal;
+  return data as PortalEditInputs;
 };
 
 export const getPortalAppsQuery = async (
@@ -90,5 +92,5 @@ export const getPortalAppsQuery = async (
   }
 
   const data = await response.json();
-  return data as Portal;
+  return data as any;
 };

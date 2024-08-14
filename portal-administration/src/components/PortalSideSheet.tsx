@@ -10,7 +10,7 @@ import {
 
 import { useAppModules } from "@equinor/fusion-framework-react-app";
 import SideSheet from "@equinor/fusion-react-side-sheet";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { Portal } from "../types";
 
@@ -42,7 +42,8 @@ export function PortalSideSheet({
 }) {
   const client = useAppModules().http.createClient("portal-client");
 
-  const { isLoading, data } = useQuery<Portal>("portal", {
+  const { isLoading, data } = useQuery<Portal>({
+    queryKey: ["portal"],
     enabled: Boolean(activePortalId),
     initialData: undefined,
     queryFn: async () =>
@@ -50,7 +51,8 @@ export function PortalSideSheet({
         .fetch(`api/portals/${activePortalId}`)
         .then((res) => res.json()),
   });
-  const { data: apps } = useQuery<any>("apps", {
+  const { data: apps } = useQuery<any>({
+    queryKey: ["apps"],
     enabled: Boolean(activePortalId),
     initialData: undefined,
     queryFn: async () =>

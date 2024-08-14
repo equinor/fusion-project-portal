@@ -1,3 +1,5 @@
+import { AppManifest } from "@equinor/fusion-framework-react-app";
+
 export type Portal = {
   name: string;
   shortName: string;
@@ -32,3 +34,19 @@ export type Message = {
 export type FormattedError = {
   status: number;
 } & Message;
+
+export type PortalApp = {
+  name: string;
+  id: string;
+  appKey: string;
+  isLegacy: boolean;
+  description: string;
+  contexts: [{ type: string }];
+  appInformation: { icon: string };
+};
+
+export type AppManifestResponse = {
+  key: string;
+  contextTypes: ContextType[];
+  appManifest: AppManifest;
+};

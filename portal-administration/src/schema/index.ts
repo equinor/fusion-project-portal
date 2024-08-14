@@ -1,23 +1,21 @@
 import * as z from "zod";
-export const contextTypeSchema = z
-  .object({
-    type: z
-      .string()
-      .min(3, "Context type description must contain at least 3 character(s)")
-      .max(30),
-  })
-  .required();
+export const contextTypeSchema = z.object({
+  type: z
+    .string()
+    .min(3, "Context type description must contain at least 3 character(s)")
+    .max(30),
+});
 
 export type ContextTypeInputs = z.infer<typeof contextTypeSchema>;
 
-export const portalInputSchema = z.object({
+const base = {
   name: z
     .string()
     .min(3, "Short description must contain at least 3 character(s)")
     .max(50),
   shortName: z
     .string()
-    .min(3, "Short Name must contain at least 3 character(s)")
+    .min(2, "Short Name must contain at least 2 character(s)")
     .max(150, "Short Name can contain at most 300 character(s)"),
   subtext: z
     .string()
@@ -25,13 +23,22 @@ export const portalInputSchema = z.object({
     .max(150, "Short Name can contain at most 300 character(s)"),
   description: z
     .string()
-    .min(3, "Description must contain at least 3 character(s)")
-    .max(300, "Description can contain at most 300 character(s)"),
-  context: z.array(contextTypeSchema.optional()).optional(),
+    .max(500, "Description can contain at most 300 character(s)")
+    .optional(),
+  order: z.number().default(0),
+  icon: z.string().default("home"),
+};
+
+export const portalInputSchema = z.object({
+  ...base,
+  contextTypes: z.array(z.string()),
 });
 
-export const portalContextInputSchema = z.object({
-  context: z.array(contextTypeSchema.optional()).optional(),
+export const portalEditInputSchema = z.object({
+  ...base,
+  id: z.string().uuid(),
+  contexts: z.array(contextTypeSchema),
 });
 
-export type PortalInputs = z.infer<typeof portalInputSchema>;
+export type PortalCreateInputs = z.infer<typeof portalInputSchema>;
+export type PortalEditInputs = z.infer<typeof portalEditInputSchema>;

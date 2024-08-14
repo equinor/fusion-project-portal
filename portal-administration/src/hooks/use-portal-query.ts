@@ -1,15 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useAppModules } from "@equinor/fusion-framework-react-app";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FormattedError, Portal } from "../types";
 import {
   createPortalQuery,
+  getPortalByIdQuery,
   getPortalsQuery,
   updatePortalQuery,
 } from "../query/portal-query";
-import { PortalInputs } from "../schema";
+import { PortalCreateInputs, PortalEditInputs } from "../schema";
+import { useHttpClient } from "@equinor/fusion-framework-react-app/http";
 
 export const useGetPortals = () => {
-  const client = useAppModules().http.createClient("portal-client");
+  const client = useHttpClient("portal-client");
 
   return useQuery<Portal[], FormattedError>({
     queryKey: ["portals"],
@@ -17,30 +18,50 @@ export const useGetPortals = () => {
   });
 };
 
+export const useGetPortal = (portalId?: string) => {
+  const client = useHttpClient("portal-client");
+
+  return useQuery<PortalEditInputs, FormattedError>({
+    queryKey: ["portal", { portalId }],
+    queryFn: ({ signal }) => getPortalByIdQuery(client, portalId, signal),
+    enabled: Boolean(portalId),
+  });
+};
+
 export const useCreatePortal = () => {
-  const client = useAppModules().http.createClient("portal-client");
+  const client = useHttpClient("portal-client");
 
   const queryClient = useQueryClient();
 
-  return useMutation<PortalInputs, FormattedError, PortalInputs, PortalInputs>({
+  return useMutation<
+    PortalCreateInputs,
+    FormattedError,
+    PortalCreateInputs,
+    PortalCreateInputs
+  >({
     mutationKey: ["create-portal"],
     mutationFn: (body) => createPortalQuery(client, body),
     onSuccess() {
-      queryClient.invalidateQueries(["create-portal"]);
+      queryClient.invalidateQueries({ queryKey: ["create-portal"] });
     },
   });
 };
 
-export const useUpdatePortal = () => {
-  const client = useAppModules().http.createClient("portal-client");
+export const useUpdatePortal = (portalId: string) => {
+  const client = useHttpClient("portal-client");
 
   const queryClient = useQueryClient();
 
-  return useMutation<Portal, FormattedError, Portal, Portal>({
-    mutationKey: ["update-portal"],
+  return useMutation<
+    boolean,
+    FormattedError,
+    PortalEditInputs,
+    PortalEditInputs
+  >({
+    mutationKey: ["portal", { portalId }],
     mutationFn: (body) => updatePortalQuery(client, body),
     onSuccess() {
-      queryClient.invalidateQueries(["update-portal"]);
+      queryClient.invalidateQueries({ queryKey: ["portal"] });
     },
   });
 };

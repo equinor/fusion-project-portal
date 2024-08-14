@@ -1,16 +1,17 @@
-import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
-import SideMenu from "../components/SideMenu";
+import { CreatePortalForm } from "../components/CreatePortalForm";
 import { Header } from "../components/Header";
+import { Typography } from "@equinor/eds-core-react";
 
 const Styles = {
   Content: styled.div`
     display: flex;
+    flex-direction: column;
     padding: 1rem;
+    gap: 1rem;
   `,
   Section: styled.section`
     display: flex;
-
     height: 100%;
   `,
   Wrapper: styled.div`
@@ -18,25 +19,16 @@ const Styles = {
     height: 100%;
   `,
 };
-
-export const Portal = () => {
-  const { portalId } = useParams();
-
-  if (!portalId) {
-    return <>No portalId provided</>;
-  }
-
+export const NewPortal = () => {
   return (
     <Styles.Wrapper>
       <Header />
       <Styles.Section>
-        <SideMenu />
         <Styles.Content>
-          <Outlet />
+          <Typography variant="h4">Create New Portal</Typography>
+          <CreatePortalForm />
         </Styles.Content>
       </Styles.Section>
     </Styles.Wrapper>
   );
 };
-
-export default Portal;
