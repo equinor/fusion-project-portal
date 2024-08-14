@@ -143,7 +143,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var addDuplicateResponse = await AddOnboardedContext(UserType.Administrator, payload);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.BadRequest, addDuplicateResponse.StatusCode);
+            Assert.AreEqual(HttpStatusCode.Conflict, addDuplicateResponse.StatusCode);
         }
 
         [Ignore] //TODO: Need to resolve id to delete
