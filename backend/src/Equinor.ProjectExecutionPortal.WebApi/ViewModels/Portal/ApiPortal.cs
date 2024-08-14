@@ -18,7 +18,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
             Description = portalDto.Description;
             Order = portalDto.Order;
             Icon = portalDto.Icon;
-            IsDefault = portalDto.IsDefault;
             Contexts = portalDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
             Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         }
@@ -31,7 +30,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         public string? Description { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; } = null!;
-        public bool IsDefault { get; set; }
         public IList<ApiContextType> Contexts { get; set; }
         public List<ApiPortalApp> Apps { get; set; } = null!;
     }

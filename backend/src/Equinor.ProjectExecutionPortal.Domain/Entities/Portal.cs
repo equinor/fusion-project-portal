@@ -35,7 +35,6 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public string? Description { get; set; }
     public int Order { get; set; }
     public string Icon { get; set; }
-    public bool IsDefault { get; set; }
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
@@ -49,16 +48,6 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         Description = description;
         Order = order;
         Icon = icon;
-    }
-
-    public void SetAsDefault()
-    {
-        IsDefault = true;
-    }
-
-    public void UnsetAsDefault()
-    {
-        IsDefault = false;
     }
 
     public void AddApp(PortalApp app)

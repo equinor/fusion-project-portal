@@ -180,9 +180,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(200)
