@@ -105,7 +105,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.IsNotNull(totalCountBeforeAdded);
             Assert.IsNotNull(totalCountAfterAdded);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
             Assert.AreEqual(totalCountBeforeAdded + 1, totalCountAfterAdded);
         }
 
@@ -175,7 +175,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var addDuplicateResponse = await AddOnboardedApp(UserType.Administrator, payload);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.BadRequest, addDuplicateResponse.StatusCode);
+            Assert.AreEqual(HttpStatusCode.Conflict, addDuplicateResponse.StatusCode);
         }
 
         [TestMethod]
