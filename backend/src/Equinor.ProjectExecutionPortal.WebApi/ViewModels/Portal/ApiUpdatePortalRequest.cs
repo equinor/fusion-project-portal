@@ -11,10 +11,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         public string? Description { get; set; }
         public int Order { get; set; }
         public string Icon { get; set; } = null!;
+        public IList<string>? ContextTypes { get; set; }
 
         public UpdatePortalCommand ToCommand(Guid id)
         {
-            return new UpdatePortalCommand(id, Name, ShortName, Subtext, Description, Order, Icon);
+            return new UpdatePortalCommand(id, Name, ShortName, Subtext, Description, Order, Icon, ContextTypes);
         }
 
         public class UpdatePortalRequestValidator : AbstractValidator<ApiUpdatePortalRequest>
