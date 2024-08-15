@@ -12,6 +12,7 @@ const Style = {
   Root: styled.div`
     background-color: ${tokens.colors.ui.background__light.hex};
     height: 100%;
+    width: 100%;
     overflow: hidden;
   `,
 };

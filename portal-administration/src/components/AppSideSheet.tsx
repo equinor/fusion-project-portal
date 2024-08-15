@@ -33,7 +33,7 @@ export function AppSideSheet({
   app,
   onClose,
 }: {
-  app?: PortalApp;
+  app?: Partial<PortalApp>;
   onClose: VoidFunction;
 }) {
   const { data: contextTypes } = useGetContextTypes();

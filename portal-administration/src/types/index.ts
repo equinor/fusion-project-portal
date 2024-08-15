@@ -41,7 +41,7 @@ export type PortalApp = {
   appKey: string;
   isLegacy: boolean;
   description: string;
-  contexts: [{ type: string }];
+  contexts: ContextType[];
   appInformation: { icon: string };
 };
 

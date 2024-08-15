@@ -17,6 +17,14 @@
   dependencies:
     tslib "^2.3.0"
 
+"@ag-grid-community/core@^32.1.0":
+  version "32.1.0"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/core/-/core-32.1.0.tgz#cbc50f00a63a3edc539d046fb712132c15092214"
+  integrity sha512-fHpgSZa/aBjg2DdOzooDxILFZqxmxP8vsjRfeZVtqby19mTKwNAclE7Z6rWzOA0GYjgN9s8JwLFcNA5pvfswMg==
+  dependencies:
+    ag-charts-types "10.1.0"
+    tslib "^2.3.0"
+
 "@ag-grid-community/csv-export@31.2.1":
   version "31.2.1"
   resolved "https://registry.yarnpkg.com/@ag-grid-community/csv-export/-/csv-export-31.2.1.tgz#040a04b7cdc5ec23208e270b120790071a4a633e"
@@ -29,6 +37,13 @@
   version "31.2.1"
   resolved "https://registry.yarnpkg.com/@ag-grid-community/react/-/react-31.2.1.tgz#73c670f495b4753970b40ebdb0865a310d748c27"
   integrity sha512-PDbvU965Zr6iE6QvEPeJpNRKvJfIv8z8gPWKuAyiUrQUowBjzFHe80XwSyOzYwWg1+79hJbGioPdBglLwLm0GQ==
+  dependencies:
+    prop-types "^15.8.1"
+
+"@ag-grid-community/react@^32.1.0":
+  version "32.1.0"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/react/-/react-32.1.0.tgz#98fde13b891c0b637b473b89dfea69ec3c3fe0fa"
+  integrity sha512-ObaMk+g5IpfuiHSNar56IhJ0dLKkHaeMQYI9H1JlJyf5+3IafY1DiuGZ5mZTU7GyfNBgmMuRWrUxwOyt0tp7Lw==
   dependencies:
     prop-types "^15.8.1"
 
@@ -2931,6 +2946,11 @@ adm-zip@^0.5.10:
   version "0.5.15"
   resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.5.15.tgz#c2c9b3d4f3b1c911e72b2394e84fd91bcc81e08e"
   integrity sha512-jYPWSeOA8EFoZnucrKCNihqBjoEGQSU4HKgHYQgKNEQ0pQF9a/DYuo/+fAxY76k4qe75LUlLWpAM1QWcBMTOKw==
+
+ag-charts-types@10.1.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/ag-charts-types/-/ag-charts-types-10.1.0.tgz#f265665f6b92742bb0bc2dcfab319b21e6d78749"
+  integrity sha512-pk9ft8hbgTXJ/thI/SEUR1BoauNplYExpcHh7tMOqVikoDsta1O15TB1ZL4XWnl4TPIzROBmONKsz7d8a2HBuQ==
 
 ansi-regex@^6.0.1:
   version "6.0.1"
