@@ -17,14 +17,13 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     private readonly List<PortalApp> _apps = new();
     private readonly List<ContextType> _contextTypes = new();
 
-    public Portal(string key, string name, string shortName, string subText, string? description, int order, string icon)
+    public Portal(string key, string name, string shortName, string subText, string? description, string icon)
     {
         Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Description = description;
-        Order = order;
         Icon = icon;
     }
 
@@ -33,20 +32,18 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public string ShortName { get; set; }
     public string SubText { get; set; }
     public string? Description { get; set; }
-    public int Order { get; set; }
     public string Icon { get; set; }
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
-    public void Update(string key, string name, string shortName, string subText, string? description, int order, string icon)
+    public void Update(string key, string name, string shortName, string subText, string? description, string icon)
     {
         Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Description = description;
-        Order = order;
         Icon = icon;
     }
 

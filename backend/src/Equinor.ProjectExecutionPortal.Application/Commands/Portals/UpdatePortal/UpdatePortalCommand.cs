@@ -10,14 +10,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePort
 
 public class UpdatePortalCommand : IRequest<Guid>
 {
-    public UpdatePortalCommand(Guid id, string name, string shortName, string subText, string? description, int order, string icon, IList<string>? contextTypes)
+    public UpdatePortalCommand(Guid id, string name, string shortName, string subText, string? description, string icon, IList<string>? contextTypes)
     {
         Id = id;
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Description = description;
-        Order = order;
         Icon = icon;
         ContextTypes = contextTypes;
     }
@@ -27,7 +26,6 @@ public class UpdatePortalCommand : IRequest<Guid>
     public string ShortName { get; }
     public string SubText { get; }
     public string? Description { get; set; }
-    public int Order { get; }
     public string Icon { get; }
     public IList<string>? ContextTypes { get; set; }
 
@@ -55,7 +53,7 @@ public class UpdatePortalCommand : IRequest<Guid>
 
             var slug = SlugHelper.Sluggify(command.Name);
 
-            entity.Update(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon);
+            entity.Update(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
 
             entity.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
