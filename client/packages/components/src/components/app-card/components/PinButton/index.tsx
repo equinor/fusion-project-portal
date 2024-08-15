@@ -63,6 +63,7 @@ export const PinButtonContainer = ({ app, isLoading, onFavorite }: PinButtonProp
 	const pinApp = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.preventDefault();
+			event.stopPropagation();
 			onFavorite && onFavorite(app);
 		},
 		[app, onFavorite]
