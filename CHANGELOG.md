@@ -1,5 +1,22 @@
 # fusion-project-portal
 
+## 4.0.8
+
+### Patch Changes
+
+- 26a492e: Bug Fix: The application list in the menu now features a scrollbar for better usability on smaller screens.
+- 66114d6: Updated styled-components to version 5.3.11 to prevent critical vulnerability
+- 8e44445: Now, when selecting context all text highlighted in the same way as we are used to in browsers.
+- e190d97: The fusion feature logger will now not log when no context is selected.
+- 8ac7ca1: Menu not closing when selecting a favorite.
+- b0280d3: Set as default endpoint has been removed
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- e4c4394: Context types updated on put
+- a54f436: Context types can be added in OnboardedApp PUT endpoint
+
 ## 4.0.7
 
 ### Patch Changes
