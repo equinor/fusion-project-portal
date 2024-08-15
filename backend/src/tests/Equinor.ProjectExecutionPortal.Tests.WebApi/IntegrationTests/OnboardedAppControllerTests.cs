@@ -92,7 +92,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
-                IsLegacy = false,
                 ContextTypes = new List<string>() {"ProjectMaster"}
             };
 
@@ -116,7 +115,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
-                IsLegacy = false
             };
 
             // Act
@@ -133,7 +131,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
-                IsLegacy = false
             };
 
             // Act
@@ -150,8 +147,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist-in-fusion",
-                IsLegacy = false
+                AppKey = "i-do-not-exist-in-fusion"
             };
 
             // Act
@@ -167,8 +163,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey,
-                IsLegacy = false
+                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey
             };
 
             // Act
@@ -187,9 +182,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                IsLegacy = false,
                 ContextTypes = new List<string>() {}
-                
+
             };
 
             // Act
@@ -201,7 +195,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
-            Assert.AreEqual(theOneToUpdate.IsLegacy, theOneAfterUpdate.IsLegacy);
             Assert.AreEqual(theOneToUpdate.Contexts.Count, theOneAfterUpdate.Contexts.Count);
         }
 
@@ -239,7 +232,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "app-to-be-removed",
-                IsLegacy = false,
                 ContextTypes = new List<string>() { "ProjectMaster" }
             };
 

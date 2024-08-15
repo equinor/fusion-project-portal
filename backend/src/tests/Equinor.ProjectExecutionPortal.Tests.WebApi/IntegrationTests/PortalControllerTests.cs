@@ -39,7 +39,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.Single();
+            var portalToTest = portals?.FirstOrDefault();
 
             // Act & Assert
             await AssertGetPortal(portalToTest!.Id, UserType.Authenticated, HttpStatusCode.OK);
@@ -70,7 +70,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.Single();
+            var portalToTest = portals?.FirstOrDefault();
 
             // Act
             var apps = await AssertGetAppsForPortal(portalToTest!.Id, null, null, UserType.Authenticated, HttpStatusCode.OK);
@@ -87,7 +87,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.Single();
+            var portalToTest = portals?.FirstOrDefault();
 
             // Act
             var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType,UserType.Authenticated, HttpStatusCode.OK);
@@ -104,7 +104,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.Single();
+            var portalToTest = portals?.FirstOrDefault();
 
             // Act
             var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextExternalId, FusionContextData.InitialSeedData.ContextType,UserType.Authenticated, HttpStatusCode.OK);
