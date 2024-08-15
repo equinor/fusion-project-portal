@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, bool isLegacy, IList<string> contextTypes)
+    public OnboardAppCommand(string appKey, bool isLegacy, IList<string>? contextTypes)
     {
         AppKey = appKey;
         IsLegacy = isLegacy;
@@ -19,7 +19,7 @@ public class OnboardAppCommand : IRequest<Guid>
 
     public string AppKey { get; }
     public bool IsLegacy { get; }
-    public IList<string> ContextTypes { get; set; }
+    public IList<string>? ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {

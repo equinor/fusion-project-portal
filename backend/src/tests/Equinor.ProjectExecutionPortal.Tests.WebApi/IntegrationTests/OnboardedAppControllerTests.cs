@@ -187,7 +187,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                IsLegacy = false
+                IsLegacy = false,
+                ContextTypes = new List<string>() {}
+                
             };
 
             // Act
@@ -200,6 +202,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
             Assert.AreEqual(theOneToUpdate.IsLegacy, theOneAfterUpdate.IsLegacy);
+            Assert.AreEqual(theOneToUpdate.Contexts.Count, theOneAfterUpdate.Contexts.Count);
         }
 
         [TestMethod]
