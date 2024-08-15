@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -100,17 +100,11 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsLegacy")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("ModifiedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ModifiedByAzureOid")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -195,9 +189,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.Property<string>("ShortName")
                         .IsRequired()
