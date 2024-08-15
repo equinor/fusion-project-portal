@@ -14,8 +14,6 @@ public class OnboardedAppDto : IMapFrom<Domain.Entities.OnboardedApp>
 {
     public Guid Id { get; set; }
     public string AppKey { get; set; }
-    public int Order { get; set; }
-    public bool IsLegacy { get; set; }
     public FusionPortalAppInformation? AppInformation { get; set; }
     public IList<ContextTypeDto> ContextTypes { get; set; }
 
