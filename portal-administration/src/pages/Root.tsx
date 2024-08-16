@@ -1,12 +1,12 @@
 import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import SideMenu from "../components/SideMenu";
-import { Header } from "../components/Header";
+import { PortalContextComponent } from "../context/PortalContext";
 
 const Styles = {
   Content: styled.div`
     display: flex;
-    padding: 1rem;
+    flex-direction: column;
     width: 100%;
     height: 100%;
   `,
@@ -21,23 +21,17 @@ const Styles = {
   `,
 };
 
-export const Portal = () => {
-  const { portalId } = useParams();
-
-  if (!portalId) {
-    return <>No portalId provided</>;
-  }
-
+export const Root = () => {
   return (
     <Styles.Wrapper>
-      <Header />
-      <Styles.Section>
-        <Styles.Content>
-          <Outlet />
-        </Styles.Content>
-      </Styles.Section>
+      <PortalContextComponent>
+        <Styles.Section>
+          <SideMenu />
+          <Styles.Content>
+            <Outlet />
+          </Styles.Content>
+        </Styles.Section>
+      </PortalContextComponent>
     </Styles.Wrapper>
   );
 };
-
-export default Portal;

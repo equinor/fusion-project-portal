@@ -22,6 +22,14 @@ export type PortalAppCreate = {
 export type ContextType = {
   type: string;
 };
+export type OnboardedContext = {
+  title: string;
+  id: string;
+  contextId: string;
+  externalId: string;
+  type: string;
+  description: string;
+};
 
 export type Variant = "Warning" | "Error" | "Info" | "NoContent";
 
@@ -43,6 +51,9 @@ export type PortalApp = {
   description: string;
   contexts: ContextType[];
   appInformation: { icon: string };
+};
+export type PortalAppMutation = {
+  contextTypes: string[];
 };
 
 export type AppManifestResponse = {

@@ -1,11 +1,11 @@
 import { Button, Card, Icon, Typography } from "@equinor/eds-core-react";
-import { useAppModules } from "@equinor/fusion-framework-react-app";
-import { useQuery } from "@tanstack/react-query";
+
 import styled from "styled-components";
-import { PortalApp } from "../types";
+import { PortalApp } from "../../types";
 import { useState } from "react";
 import { AppSideSheet } from "./AppSideSheet";
 import { delete_to_trash, edit } from "@equinor/eds-icons";
+import { useOnboardedApps } from "../../hooks/use-onboarded-apps";
 
 const Style = {
   CardList: styled.div`
@@ -32,13 +32,8 @@ const Style = {
 };
 
 export function AppsList() {
-  const client = useAppModules().http.createClient("portal-client");
+  const { data, isLoading } = useOnboardedApps();
   const [selectedApp, setSelectedApp] = useState<PortalApp | undefined>();
-  const { isLoading, error, data } = useQuery<PortalApp[]>({
-    queryKey: ["onboarded-app"],
-    queryFn: async () =>
-      await client.fetch("api/onboarded-apps").then((res) => res.json()),
-  });
 
   if (isLoading) return "Loading...";
 
@@ -60,23 +55,26 @@ export function AppsList() {
                 <Typography>
                   ContextTypes:{" "}
                   {item.contexts.length > 0
-                    ? item.contexts.map((context) => (
-                        <span>{context.type}</span>
+                    ? item.contexts.map((context, i) => (
+                        <span>
+                          {context.type}{" "}
+                          {item.contexts.length > i + 1 ? " | " : ""}
+                        </span>
                       ))
                     : "No Support"}
                 </Typography>
               </div>
-              <div>
+              <Button.Group>
                 <Button
-                  variant="ghost_icon"
                   onClick={() => setSelectedApp(item)}
+                  variant="ghost_icon"
                 >
                   <Icon data={edit} />
                 </Button>
                 <Button variant="ghost_icon">
                   <Icon data={delete_to_trash} />
                 </Button>
-              </div>
+              </Button.Group>
             </Style.Content>
           </Style.Card>
         ))}

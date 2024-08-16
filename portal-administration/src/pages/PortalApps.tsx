@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { Header } from "../components/Header";
 import { Chip, SideSheet, Typography } from "@equinor/eds-core-react";
-import { AppsList } from "../components/AppsList";
+import { AppsList } from "../components/OnboardedApps/AppsList";
 import { useParams } from "react-router-dom";
 import { useGetPortalApps } from "../hooks/use-portal-apps";
 import { ClientGrid } from "@equinor/workspace-ag-grid";
@@ -10,7 +10,7 @@ import { ClientGrid } from "@equinor/workspace-ag-grid";
 import { useResizeObserver } from "../hooks/use-resise-observer";
 import { useRef, useState } from "react";
 import { tokens } from "@equinor/eds-tokens";
-import { AppSideSheet } from "../components/AppSideSheet";
+import { AppSideSheet } from "../components/OnboardedApps/AppSideSheet";
 import { AppManifestResponse, ContextType, PortalApp } from "../types";
 import { CustomCellRendererProps } from "@ag-grid-community/react";
 import { RowSelectedEvent } from "@ag-grid-community/core";

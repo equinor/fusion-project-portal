@@ -6,12 +6,11 @@ import {
   Checkbox,
 } from "@equinor/eds-core-react";
 
-import { useAppModules } from "@equinor/fusion-framework-react-app";
 import SideSheet from "@equinor/fusion-react-side-sheet";
-import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { Portal, PortalApp } from "../types";
-import { useGetContextTypes } from "../hooks/use-context-type-query";
+import { PortalApp } from "../../types";
+import { useGetContextTypes } from "../../hooks/use-context-type-query";
+import { useEditOnboardedApp } from "../../hooks/use-onboarded-apps";
 
 const Style = {
   Wrapper: styled.div`
@@ -29,7 +28,7 @@ const Style = {
   `,
 };
 
-export function AppSideSheet({
+export function AddOnboardedContextSideSheet({
   app,
   onClose,
 }: {
@@ -37,7 +36,7 @@ export function AppSideSheet({
   onClose: VoidFunction;
 }) {
   const { data: contextTypes } = useGetContextTypes();
-  console.log(app);
+  const { mutateAsync } = useEditOnboardedApp(app?.appKey);
   if (!app) return null;
   return (
     <SideSheet
@@ -91,6 +90,11 @@ export function AppSideSheet({
               initialSelectedOptions={app.contexts}
               itemCompare={(item, compare) => {
                 return item.type === compare.type;
+              }}
+              onOptionsChange={(change) => {
+                mutateAsync({
+                  contextTypes: change.selectedItems.map((c) => c.type),
+                });
               }}
               label="Context Types"
             />

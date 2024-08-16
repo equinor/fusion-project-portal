@@ -15,7 +15,7 @@ import styled from "styled-components";
 import { useCreatePortal } from "../hooks/use-portal-query";
 import { PortalCreateInputs, portalInputSchema } from "../schema";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { edit, error_filled, label } from "@equinor/eds-icons";
+import { edit, error_filled } from "@equinor/eds-icons";
 import { useGetContextTypes } from "../hooks/use-context-type-query";
 import { useState } from "react";
 import { EditContextTypeForm } from "./ContextType";

@@ -7,8 +7,7 @@ import { OnboardedContextsList } from "../components/OnboardedContects/Onboraded
 import { OnboardedContextsTable } from "../components/OnboardedContects/OnboradedContextsTable";
 import { Button, Icon } from "@equinor/eds-core-react";
 import { add, list, view_agenda } from "@equinor/eds-icons";
-import { AppsList } from "../components/OnboardedApps/AppsList";
-import { AppsTable } from "../components/OnboardedApps/AppsTable";
+import { tokens } from "@equinor/eds-tokens";
 
 const Styles = {
   Content: styled.div`
@@ -23,16 +22,16 @@ const Styles = {
   `,
 };
 
-export const OnboardedApps = () => {
+export const OnboardedContext = () => {
   const [isList, setIsList] = useState(false);
 
   return (
     <div>
-      <Header title="Onboarded Apps" />
+      <Header title="Onboarded Contexts" />
       <Styles.ActionBar>
         <Button variant="outlined">
           <Icon data={add} />
-          Add new App
+          Add new Context
         </Button>
         <div>
           <Button
@@ -41,7 +40,10 @@ export const OnboardedApps = () => {
               setIsList(true);
             }}
           >
-            <Icon data={view_agenda} />
+            <Icon
+              data={view_agenda}
+              color={isList ? tokens.colors.interactive.focus.hex : ""}
+            />
           </Button>
           <Button
             variant="ghost_icon"
@@ -49,11 +51,16 @@ export const OnboardedApps = () => {
               setIsList(false);
             }}
           >
-            <Icon data={list} />
+            <Icon
+              data={list}
+              color={!isList ? tokens.colors.interactive.focus.hex : ""}
+            />
           </Button>
         </div>
       </Styles.ActionBar>
-      <Styles.Content>{isList ? <AppsList /> : <AppsTable />}</Styles.Content>
+      <Styles.Content>
+        {isList ? <OnboardedContextsList /> : <OnboardedContextsTable />}
+      </Styles.Content>
     </div>
   );
 };

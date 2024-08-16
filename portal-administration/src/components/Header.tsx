@@ -9,10 +9,14 @@ const Style = {
   `,
 };
 
-export const Header = () => {
+interface HeaderProps {
+  title?: string;
+}
+
+export const Header = ({ title }: HeaderProps) => {
   return (
     <Style.Content>
-      <Typography variant="h4">Portal Administration</Typography>
+      <Typography variant="h4">{title || "Portal Administration"}</Typography>
     </Style.Content>
   );
 };

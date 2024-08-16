@@ -10,6 +10,7 @@ import { PortalSideSheet } from "../components/PortalSideSheet";
 import { Portal } from "../types";
 import { Header } from "../components/Header";
 import { Link } from "react-router-dom";
+import { usePortalContext } from "../context/PortalContext";
 
 const Style = {
   Content: styled.div`
@@ -18,7 +19,8 @@ const Style = {
   CardList: styled.div`
     padding-top: 1rem;
     display: flex;
-    flex-direction: row-reverse;
+
+    flex-wrap: wrap;
     gap: 2rem;
   `,
   Menu: styled.div`
@@ -30,13 +32,14 @@ const Style = {
   Card: styled(Card)<{ col?: number }>`
     box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.2),
       0px 2px 4px -2px rgba(16, 24, 40, 0.2);
+    width: ${({ col }) => `calc(calc(100vw / ${col || 3} ) - 10rem)`};
   `,
 };
 
 export const Portals = () => {
   const client = useAppModules().http.createClient("portal-client");
 
-  const [editPortal, setEditPortal] = useState<Portal | undefined>(undefined);
+  const { setActivePortalById, activePortalId } = usePortalContext();
 
   const { isLoading, data } = useQuery<Portal[]>({
     queryKey: ["portals"],
@@ -48,15 +51,8 @@ export const Portals = () => {
 
   return (
     <>
-      <Header />
+      <Header title="Portals" />
       <Style.Content>
-        <PortalSideSheet
-          activePortalId={editPortal?.id}
-          onClose={() => {
-            setEditPortal(undefined);
-          }}
-        />
-
         <div>
           <Style.Menu>
             <Typography>
@@ -73,7 +69,12 @@ export const Portals = () => {
               <Style.Card key={item.id}>
                 <Card.Header>
                   <Card.HeaderTitle>
-                    <h2>{item.name}</h2>
+                    <Typography
+                      variant="h3"
+                      color={item.id === activePortalId ? "Green" : ""}
+                    >
+                      {item.name}
+                    </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
                 <Card.Content>
@@ -89,7 +90,7 @@ export const Portals = () => {
                     to={`portal/${item.id}/overview`}
                     variant="ghost_icon"
                     onClick={() => {
-                      setEditPortal(item);
+                      setActivePortalById(item.id);
                     }}
                   >
                     <Icon data={edit} />

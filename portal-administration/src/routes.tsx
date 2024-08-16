@@ -5,14 +5,11 @@ import { Portals } from "./pages/Portals";
 
 import { EditPortal } from "./pages/EditPortal";
 import { RouterConfig } from "./pages/RouterConfig";
-import { ContextConfig } from "./pages/ContextConfig";
+import { OnboardedContext } from "./pages/OnboardedContext";
 import Portal from "./pages/Portal";
 import { OnboardedApps } from "./pages/OnboardedApps";
 import { PortalApps } from "./pages/PortalApps";
-
-const Root = () => {
-  return <Outlet />;
-};
+import { Root } from "./pages/Root";
 
 export const routes: RouteObject[] = [
   {
@@ -30,6 +27,10 @@ export const routes: RouteObject[] = [
       {
         path: "apps",
         Component: OnboardedApps,
+      },
+      {
+        Component: OnboardedContext,
+        path: "context",
       },
       {
         path: "portal/:portalId",
@@ -51,7 +52,7 @@ export const routes: RouteObject[] = [
             path: "apps",
           },
           {
-            Component: ContextConfig,
+            Component: OnboardedContext,
             path: "context",
           },
         ],
