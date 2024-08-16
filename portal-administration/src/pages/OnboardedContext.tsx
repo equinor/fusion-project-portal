@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom";
-
 import { useState } from "react";
 import { Header } from "../components/Header";
 import styled from "styled-components";
 import { OnboardedContextsList } from "../components/OnboardedContects/OnboradedContextsList";
 import { OnboardedContextsTable } from "../components/OnboardedContects/OnboradedContextsTable";
-import { Button, Icon } from "@equinor/eds-core-react";
+import { Button, Card, Icon, Typography } from "@equinor/eds-core-react";
 import { add, list, view_agenda } from "@equinor/eds-icons";
 import { tokens } from "@equinor/eds-tokens";
+import { ContextSelector } from "../components/OnboardedContects/ContextSelector";
 
 const Styles = {
   Content: styled.div`
     padding: 0 1rem;
-
-    overflow: hidden;
+  `,
+  Card: styled(Card)`
+    padding: 1rem;
   `,
   ActionBar: styled.div`
     padding: 1rem;
@@ -29,10 +29,13 @@ export const OnboardedContext = () => {
     <div>
       <Header title="Onboarded Contexts" />
       <Styles.ActionBar>
-        <Button variant="outlined">
-          <Icon data={add} />
-          Add new Context
-        </Button>
+        <div>
+          <ContextSelector />
+          <Button variant="outlined">
+            <Icon data={add} />
+            Add new Context
+          </Button>
+        </div>
         <div>
           <Button
             variant="ghost_icon"

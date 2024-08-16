@@ -698,6 +698,15 @@
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-ag-grid-styles/-/fusion-react-ag-grid-styles-31.2.4.tgz#63c364b1f5ad167724194e54eb0450adc0112e0a"
   integrity sha512-hJ+2xtKmBedJwjKDGrQvcaPppX7/mrNel1XzlPU9DO4ZLiU6misACESqNq3gyiY1+ad7etH07v4EHWXJ3dw85w==
 
+"@equinor/fusion-react-searchable-dropdown@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-searchable-dropdown/-/fusion-react-searchable-dropdown-0.5.2.tgz#a139ac5465b366b1b44af3b1fbab78e07a33e458"
+  integrity sha512-spfXwfFBMyv8c8biX0tn3GJhzM5TOWoxTRBgNBbzuDZzBKZ8KpmdzzHth5EOgV7BqsiVGLtQheZBZP9rNI1G/A==
+  dependencies:
+    "@equinor/fusion-react-utils" "^2.1.1"
+    "@equinor/fusion-wc-icon" "^2.3.0"
+    "@equinor/fusion-wc-searchable-dropdown" "^3.7.2"
+
 "@equinor/fusion-react-side-sheet@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-side-sheet/-/fusion-react-side-sheet-1.3.3.tgz#73073e6cbd0aedd5466511b0b18c5696f77892b2"
@@ -715,6 +724,13 @@
     "@equinor/fusion-web-theme" "^0.1.10"
     "@material-ui/styles" "^4.11.4"
     clsx "^2.1.0"
+
+"@equinor/fusion-react-utils@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-utils/-/fusion-react-utils-2.1.1.tgz#05a8b49e473d2c881410418cd39d45530bae5e05"
+  integrity sha512-UU3afQMaKeiUseEfOwigTZqV0J6+2PTNFzqhOb0MAAwYsNthQWn77puHVjomsi4tbh8MsxqEIdq4303RA8x2lw==
+  dependencies:
+    date-fns "^3.2.0"
 
 "@equinor/fusion-wc-avatar@^3.2.2":
   version "3.2.2"
@@ -855,7 +871,7 @@
     "@material/mwc-ripple" "^0.27.0"
     lit "3.0.2"
 
-"@equinor/fusion-wc-searchable-dropdown@^3.7.3":
+"@equinor/fusion-wc-searchable-dropdown@^3.7.2", "@equinor/fusion-wc-searchable-dropdown@^3.7.3":
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-wc-searchable-dropdown/-/fusion-wc-searchable-dropdown-3.7.3.tgz#d961e7c22ece8c961f52c0bcaf2649bf341834e1"
   integrity sha512-2NzLqDK6zQpYTRNWYeemoY9Bz0O1HzG1bVjKZuFExCoSHThMeBXXaf5+WTWtkhpikSGU9GAjFMgDVGhQ0/8T0w==
@@ -3188,6 +3204,11 @@ csstype@^2.5.2:
   version "2.6.21"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.21.tgz#2efb85b7cc55c80017c66a5ad7cbd931fda3a90e"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
+
+date-fns@^3.2.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
+  integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
 
 debug@2.6.9:
   version "2.6.9"

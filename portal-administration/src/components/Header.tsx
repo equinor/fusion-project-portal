@@ -3,9 +3,8 @@ import styled from "styled-components";
 
 const Style = {
   Content: styled.div`
-    background-color: #fff;
     display: flex;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
   `,
 };
 

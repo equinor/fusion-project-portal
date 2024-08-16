@@ -30,12 +30,9 @@ const Style = {
   `,
 };
 
-export const EditContextTypeForm = ({ onClose }: { onClose: VoidFunction }) => {
-  const {
-    mutateAsync: createContextType,
-    reset: resetCreate,
-    data,
-  } = useCreateContextType();
+export const EditContextTypeForm = () => {
+  const { mutateAsync: createContextType, reset: resetCreate } =
+    useCreateContextType();
 
   const {
     register,
@@ -48,13 +45,11 @@ export const EditContextTypeForm = ({ onClose }: { onClose: VoidFunction }) => {
   });
 
   const onSubmit: SubmitHandler<ContextTypeInputs> = async (newContextType) => {
-    console.log(newContextType);
     const contextType = await createContextType(newContextType);
 
     if (contextType) {
       reset();
       resetCreate();
-      onClose();
     }
   };
 
@@ -63,7 +58,6 @@ export const EditContextTypeForm = ({ onClose }: { onClose: VoidFunction }) => {
 
   return (
     <Style.From onSubmit={handleSubmit(onSubmit)} id="context-type-form">
-      <Style.Heading variant="h3">Edit Context Types</Style.Heading>
       <Typography>
         If the desired context type is not available, you can add it here.
         Please note that only valid fusion context types are permitted.
@@ -86,7 +80,7 @@ export const EditContextTypeForm = ({ onClose }: { onClose: VoidFunction }) => {
       >
         Remove
       </Button>
-      <Button onClick={() => onClose()}>Done</Button>
+
       {contextTypes?.map((t) => (
         <div key={t.type}>{t.type}</div>
       ))}

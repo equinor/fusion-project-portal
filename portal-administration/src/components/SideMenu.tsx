@@ -34,7 +34,6 @@ export const SideMenu = () => {
       to: `/`,
       as: Link,
     },
-
     {
       label: "Portal",
       active: !!useMatch({ path: `portal/:portalId`, end: false }),
@@ -78,12 +77,17 @@ export const SideMenu = () => {
       label: "Onboarded Context",
       icon: build_wrench,
       to: `context`,
-      active: !!useMatch(`portal/:portalId/context`),
+      active: !!useMatch(`context`),
+      as: Link,
+    },
+    {
+      label: "Context Types",
+      icon: build_wrench,
+      to: `context-types`,
+      active: !!useMatch(`context-types`),
       as: Link,
     },
   ];
-
-  const [selected, setSelected] = useState<string>("");
 
   return (
     <SideBar open={true}>

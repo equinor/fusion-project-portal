@@ -45,7 +45,6 @@ export const AppsTable = () => {
         }}
       />
       <Styles.Content>
-        <Typography variant="h4">Portal Apps</Typography>
         <ClientGrid<PortalApp>
           height={700}
           rowData={data}

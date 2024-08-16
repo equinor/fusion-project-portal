@@ -13,16 +13,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 
 import { useUpdatePortal } from "../hooks/use-portal-query";
-import {
-  PortalEditInputs,
-  portalEditInputSchema,
-  portalInputSchema,
-} from "../schema";
+import { PortalEditInputs, portalEditInputSchema } from "../schema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { edit, error_filled } from "@equinor/eds-icons";
 import { useEffect, useState } from "react";
 import { EditContextTypeForm } from "./ContextType";
-import { Portal, ContextType } from "../types";
+import { ContextType } from "../types";
 
 const Style = {
   Wrapper: styled.div`
@@ -195,7 +191,7 @@ export const EditPortalForm = (props: {
 
       {editContextTypes && (
         <Style.Card>
-          <EditContextTypeForm onClose={() => setEditContextTypes(false)} />
+          <EditContextTypeForm />
         </Style.Card>
       )}
       <Style.Card>

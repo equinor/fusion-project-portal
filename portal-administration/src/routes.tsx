@@ -10,6 +10,7 @@ import Portal from "./pages/Portal";
 import { OnboardedApps } from "./pages/OnboardedApps";
 import { PortalApps } from "./pages/PortalApps";
 import { Root } from "./pages/Root";
+import { ContextTypes } from "./pages/ContextTypes";
 
 export const routes: RouteObject[] = [
   {
@@ -31,6 +32,10 @@ export const routes: RouteObject[] = [
       {
         Component: OnboardedContext,
         path: "context",
+      },
+      {
+        Component: ContextTypes,
+        path: "context-types",
       },
       {
         path: "portal/:portalId",
