@@ -1,5 +1,5 @@
 import { CustomCellRendererProps } from "@ag-grid-community/react";
-import { Chip, Typography } from "@equinor/eds-core-react";
+import { Chip } from "@equinor/eds-core-react";
 import { ClientGrid } from "@equinor/workspace-ag-grid";
 import { useState } from "react";
 import styled from "styled-components";

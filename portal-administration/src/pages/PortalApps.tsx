@@ -1,28 +1,27 @@
 import styled from "styled-components";
 
-import { Header } from "../components/Header";
-import { Chip, SideSheet, Typography } from "@equinor/eds-core-react";
-import { AppsList } from "../components/OnboardedApps/AppsList";
+import { Checkbox, Chip, Typography } from "@equinor/eds-core-react";
 import { useParams } from "react-router-dom";
-import { useGetPortalApps } from "../hooks/use-portal-apps";
+
 import { ClientGrid } from "@equinor/workspace-ag-grid";
 
-import { useResizeObserver } from "../hooks/use-resise-observer";
-import { useRef, useState } from "react";
-import { tokens } from "@equinor/eds-tokens";
+import { useState } from "react";
+
 import { AppSideSheet } from "../components/OnboardedApps/AppSideSheet";
-import { AppManifestResponse, ContextType, PortalApp } from "../types";
+import { ContextType, PortalApp } from "../types";
 import { CustomCellRendererProps } from "@ag-grid-community/react";
-import { RowSelectedEvent } from "@ag-grid-community/core";
+import { useOnboardApps } from "../hooks/use-onboard-apps";
 
 const Styles = {
   Content: styled.div`
     width: 100%;
     display: grid;
-
     gap: 1rem;
   `,
-
+  CellWrapper: styled.div`
+    display: flex;
+    gap: 0.5rem;
+  `,
   Wrapper: styled.div`
     height: 100%;
     width: 100%;
@@ -30,13 +29,19 @@ const Styles = {
   Chip: styled(Chip)`
     margin-top: 3px;
   `,
+  Checkbox: styled(Checkbox)`
+    margin: 0;
+    padding: 0;
+    > * {
+      padding: 2px;
+    }
+  `,
 };
+
 export const PortalApps = () => {
   const { portalId } = useParams();
 
-  const ref = useRef(null);
-  const [_, height] = useResizeObserver(ref);
-  const { data, isLoading } = useGetPortalApps(portalId);
+  const { data, isLoading } = useOnboardApps(portalId);
   const [selectedApp, setSelectedApp] = useState<
     Partial<PortalApp> | undefined
   >();
@@ -57,9 +62,9 @@ export const PortalApps = () => {
           setSelectedApp(undefined);
         }}
       />
-      <Styles.Content ref={ref}>
+      <Styles.Content>
         <Typography variant="h4">Portal Apps</Typography>
-        <ClientGrid<AppManifestResponse>
+        <ClientGrid<PortalApp>
           height={700}
           rowData={data}
           enableCellTextSelection
@@ -71,47 +76,54 @@ export const PortalApps = () => {
           }}
           onRowSelected={(event) => {
             setSelectedApp({
-              appKey: event.data?.key || "",
+              appKey: event.data?.appKey || "",
               id: "-",
-              name: event.data?.appManifest.name,
-              contexts: event.data?.contextTypes || [],
+              name: event.data?.name,
+              contexts: event.data?.contexts || [],
             });
           }}
           colDefs={[
             {
-              field: "appManifest.key",
+              field: "isActive",
+              headerName: "Is Active",
+              width: 80,
+              cellRenderer: (
+                params: CustomCellRendererProps<{ isActive?: Boolean }>
+              ) => {
+                return (
+                  <Styles.Checkbox
+                    checked={Boolean(params.data?.isActive)}
+                  ></Styles.Checkbox>
+                );
+              },
+            },
+            {
+              field: "appKey",
               headerName: "Application key",
             },
+
             {
-              field: "appManifest.version",
-              headerName: "Version",
-            },
-            {
-              field: "appManifest.name",
+              field: "name",
               headerName: "Name",
             },
             {
-              field: "appManifest.description",
+              field: "description",
               headerName: "Description",
             },
             {
-              field: "appManifest.category.name",
-              headerName: "Category",
-            },
-            {
-              field: "contextTypes",
+              field: "contexts",
               headerName: "Contexts Types",
               cellRenderer: (
-                params: CustomCellRendererProps<{ contextTypes: ContextType[] }>
+                params: CustomCellRendererProps<{ contexts: ContextType[] }>
               ) => {
                 return (
-                  <>
-                    {params?.data?.contextTypes?.map((ct) => {
+                  <Styles.CellWrapper>
+                    {params?.data?.contexts?.map((ct) => {
                       return (
                         <Styles.Chip variant="default">{ct.type}</Styles.Chip>
                       );
                     })}
-                  </>
+                  </Styles.CellWrapper>
                 );
               },
             },

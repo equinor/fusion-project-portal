@@ -18,7 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { edit, error_filled } from "@equinor/eds-icons";
 import { useEffect, useState } from "react";
 import { EditContextTypeForm } from "./ContextType";
-import { ContextType } from "../types";
+import { ContextType, Portal } from "../types";
 
 const Style = {
   Wrapper: styled.div`
@@ -46,7 +46,7 @@ const Style = {
 };
 
 export const EditPortalForm = (props: {
-  portal: PortalEditInputs;
+  portal: Portal;
   contextTypes: ContextType[];
 }) => {
   const { id, contexts } = props.portal;
@@ -68,7 +68,10 @@ export const EditPortalForm = (props: {
     setValue,
   } = useForm<PortalEditInputs>({
     resolver: zodResolver(portalEditInputSchema),
-    defaultValues: props.portal,
+    defaultValues: {
+      ...props.portal,
+      contextTypes: props.portal.contexts.map((a) => a.type),
+    },
   });
 
   const onSubmit: SubmitHandler<PortalEditInputs> = async (editedPortal) => {
@@ -173,18 +176,17 @@ export const EditPortalForm = (props: {
         <Autocomplete
           id="textfield-context-types"
           multiple
-          variant={errors.contexts && "error"}
-          helperText={errors.contexts?.message}
-          options={props.contextTypes}
-          selectedOptions={watch().contexts}
+          variant={errors.contextTypes && "error"}
+          helperText={errors.contextTypes?.message}
+          options={props.contextTypes?.map((ct) => ct.type) || []}
+          selectedOptions={watch().contextTypes}
           onOptionsChange={({ selectedItems }) => {
-            setValue("contexts", selectedItems);
+            setValue("contextTypes", selectedItems);
           }}
           itemCompare={(item, compare) => {
-            return item.type === compare.type;
+            return item === compare;
           }}
           disabled={!contextEnabled}
-          optionLabel={(option: { type: string }) => option.type}
           label="Context Types"
         />
       </Style.Card>

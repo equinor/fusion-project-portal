@@ -51,6 +51,7 @@ export type PortalApp = {
   description: string;
   contexts: ContextType[];
   appInformation: { icon: string };
+  isActive?: boolean;
 };
 export type PortalAppMutation = {
   contextTypes: string[];

@@ -37,7 +37,7 @@ export const portalInputSchema = z.object({
 export const portalEditInputSchema = z.object({
   ...base,
   id: z.string().uuid(),
-  contexts: z.array(contextTypeSchema),
+  contextTypes: z.array(z.string()),
 });
 
 export type PortalCreateInputs = z.infer<typeof portalInputSchema>;

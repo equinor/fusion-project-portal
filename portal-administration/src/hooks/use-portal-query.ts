@@ -21,7 +21,7 @@ export const useGetPortals = () => {
 export const useGetPortal = (portalId?: string) => {
   const client = useHttpClient("portal-client");
 
-  return useQuery<PortalEditInputs, FormattedError>({
+  return useQuery<Portal, FormattedError>({
     queryKey: ["portal", { portalId }],
     queryFn: ({ signal }) => getPortalByIdQuery(client, portalId, signal),
     enabled: Boolean(portalId),

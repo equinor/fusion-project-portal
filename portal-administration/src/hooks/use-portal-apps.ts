@@ -8,7 +8,7 @@ export const useGetPortalApps = (portalId?: string) => {
   const client = useHttpClient("portal-client");
 
   return useQuery<AppManifestResponse[], FormattedError>({
-    queryKey: ["portal-apps"],
+    queryKey: ["portal-apps", portalId],
     queryFn: ({ signal }) => getPortalAppsById(client, portalId, signal),
     enabled: Boolean(portalId),
   });

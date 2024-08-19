@@ -3,10 +3,10 @@ import { Header } from "../components/Header";
 import styled from "styled-components";
 import { OnboardedContextsList } from "../components/OnboardedContects/OnboradedContextsList";
 import { OnboardedContextsTable } from "../components/OnboardedContects/OnboradedContextsTable";
-import { Button, Card, Icon, Typography } from "@equinor/eds-core-react";
-import { add, list, view_agenda } from "@equinor/eds-icons";
+import { Button, Card, Icon } from "@equinor/eds-core-react";
+import { list, view_agenda } from "@equinor/eds-icons";
 import { tokens } from "@equinor/eds-tokens";
-import { ContextSelector } from "../components/OnboardedContects/ContextSelector";
+import { AddContext } from "../components/OnboardedContects/AddContext";
 
 const Styles = {
   Content: styled.div`
@@ -29,13 +29,6 @@ export const OnboardedContext = () => {
     <div>
       <Header title="Onboarded Contexts" />
       <Styles.ActionBar>
-        <div>
-          <ContextSelector />
-          <Button variant="outlined">
-            <Icon data={add} />
-            Add new Context
-          </Button>
-        </div>
         <div>
           <Button
             variant="ghost_icon"
@@ -61,6 +54,7 @@ export const OnboardedContext = () => {
           </Button>
         </div>
       </Styles.ActionBar>
+      <AddContext />
       <Styles.Content>
         {isList ? <OnboardedContextsList /> : <OnboardedContextsTable />}
       </Styles.Content>

@@ -174,7 +174,7 @@ export const CreatePortalForm = () => {
 
         {editContextTypes && (
           <Style.Card>
-            <EditContextTypeForm onClose={() => setEditContextTypes(false)} />
+            <EditContextTypeForm />
           </Style.Card>
         )}
 

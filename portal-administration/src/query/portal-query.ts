@@ -74,7 +74,7 @@ export const getPortalByIdQuery = async (
   }
 
   const data = await response.json();
-  return data as PortalEditInputs;
+  return data as Portal;
 };
 
 export const getPortalAppsQuery = async (

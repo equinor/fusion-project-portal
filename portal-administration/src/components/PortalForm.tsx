@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 
 import { useCreatePortal } from "../hooks/use-portal-query";
-import { PortalCeateInputs, portalInputSchema } from "../schema";
+import { , PortalCreateInputs, portalInputSchema } from "../schema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { edit, error_filled, label } from "@equinor/eds-icons";
 import { useGetContextTypes } from "../hooks/use-context-type-query";
@@ -63,13 +63,12 @@ export const CreatePortalForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    ß,
-  } = useForm<PortalCeateInputs>({
+  } = useForm<PortalCreateInputs>({
     resolver: zodResolver(portalInputSchema),
     defaultValues: data,
   });
 
-  const onSubmit: SubmitHandler<PortalCeateInputs> = async (newPortal) => {
+  const onSubmit: SubmitHandler<PortalCreateInputs> = async (newPortal) => {
     const portal = await createPortal(newPortal);
 
     if (portal) {
@@ -145,11 +144,11 @@ export const CreatePortalForm = () => {
           unavailable, click the edit button to add or remove context types.
         </Typography>
         <Autocomplete
-          {...register("context")}
+          {...register("contextTypes")}
           id="textfield-context-types"
           multiple
-          variant={errors.context && "error"}
-          helperText={errors.context?.message}
+          variant={errors.contextTypes && "error"}
+          helperText={errors.contextTypes?.message}
           options={
             ContextTypes?.map((ct) => ({
               label: ct.type,
@@ -164,7 +163,7 @@ export const CreatePortalForm = () => {
 
       {editContextTypes && (
         <Style.Card>
-          <EditContextTypeForm onClose={() => setEditContextTypes(false)} />
+          <EditContextTypeForm  />
         </Style.Card>
       )}
 
