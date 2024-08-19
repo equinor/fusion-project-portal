@@ -11,6 +11,8 @@ import { AppSideSheet } from "../components/OnboardedApps/AppSideSheet";
 import { ContextType, PortalApp } from "../types";
 import { CustomCellRendererProps } from "@ag-grid-community/react";
 import { useOnboardApps } from "../hooks/use-onboard-apps";
+import { Header } from "../components/Header";
+import { useGetPortal } from "../hooks/use-portal-query";
 
 const Styles = {
   Content: styled.div`
@@ -42,6 +44,8 @@ export const PortalApps = () => {
   const { portalId } = useParams();
 
   const { data, isLoading } = useOnboardApps(portalId);
+  const { data: portal, isLoading: portalIsLoading } = useGetPortal(portalId);
+
   const [selectedApp, setSelectedApp] = useState<
     Partial<PortalApp> | undefined
   >();
@@ -63,7 +67,9 @@ export const PortalApps = () => {
         }}
       />
       <Styles.Content>
-        <Typography variant="h4">Portal Apps</Typography>
+        <Typography variant="h4">
+          {portal ? `${portal.name} - Apps Config` : "Postal Apps Config"}
+        </Typography>
         <ClientGrid<PortalApp>
           height={700}
           rowData={data}

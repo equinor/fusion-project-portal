@@ -5,10 +5,12 @@ import {
   useReducer,
   useState,
 } from "react";
+import { useGetPortal } from "../hooks/use-portal-query";
+import { Portal } from "../types";
 
 export type PortalContextState = {
   activePortalId: string | undefined;
-};
+} & Partial<Portal>;
 
 export type PortalContext = {
   setActivePortalById: (id?: string) => void;
@@ -21,12 +23,14 @@ const Context = createContext<PortalContext>({
 export const PortalContextComponent = ({ children }: PropsWithChildren) => {
   const [activePortalId, setActivePortalId] = useState<string | undefined>();
 
+  const { data } = useGetPortal(activePortalId);
+
   const setActivePortalById = (id?: string) => {
     setActivePortalId(id);
   };
 
   return (
-    <Context.Provider value={{ activePortalId, setActivePortalById }}>
+    <Context.Provider value={{ ...data, activePortalId, setActivePortalById }}>
       {children}
     </Context.Provider>
   );

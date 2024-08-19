@@ -1,19 +1,16 @@
 import { Link, useMatch, type LinkProps } from "react-router-dom";
-import { Icon, SideBar, SidebarLinkProps } from "@equinor/eds-core-react";
+import { SideBar, SidebarLinkProps } from "@equinor/eds-core-react";
 
 import {
   dashboard,
-  code,
-  comment_notes,
   build_wrench,
   briefcase,
-  view_agenda,
   apps,
   desktop_mac,
+  settings,
 } from "@equinor/eds-icons";
 import { usePortalContext } from "../context/PortalContext";
-
-import { useState } from "react";
+import { useMemo } from "react";
 
 type MenuItemProps =
   | SidebarLinkProps &
@@ -23,9 +20,8 @@ type MenuItemProps =
       } & Pick<SidebarLinkProps, "active">;
 
 export const SideMenu = () => {
-  Icon.add({ code, comment_notes, build_wrench, briefcase });
-
   const { activePortalId } = usePortalContext();
+
   const menuItems: MenuItemProps[] = [
     {
       label: "Portals",
@@ -67,25 +63,32 @@ export const SideMenu = () => {
       ],
     },
     {
-      label: "Onboarded Apps",
-      icon: apps,
-      active: !!useMatch({ path: `apps`, end: false }),
-      to: `apps`,
-      as: Link,
-    },
-    {
-      label: "Onboarded Context",
-      icon: build_wrench,
-      to: `context`,
-      active: !!useMatch(`context`),
-      as: Link,
-    },
-    {
-      label: "Context Types",
-      icon: build_wrench,
-      to: `context-types`,
-      active: !!useMatch(`context-types`),
-      as: Link,
+      label: "Settings",
+      active: !!useMatch({ path: `portal/settings`, end: false }),
+      icon: settings,
+      subItems: [
+        {
+          label: "Onboarded Apps",
+          icon: apps,
+          active: !!useMatch({ path: `apps`, end: false }),
+          to: `apps`,
+          as: Link,
+        },
+        {
+          label: "Onboarded Context",
+          icon: build_wrench,
+          to: `context`,
+          active: !!useMatch(`context`),
+          as: Link,
+        },
+        {
+          label: "Context Types",
+          icon: build_wrench,
+          to: `context-types`,
+          active: !!useMatch(`context-types`),
+          as: Link,
+        },
+      ],
     },
   ];
 
@@ -102,6 +105,7 @@ export const SideMenu = () => {
                 active={menuItem.active}
                 label={menuItem.label}
                 icon={menuItem.icon}
+                isExpanded={menuItem.active}
                 disabled={menuItem.disabled}
               >
                 {menuItem.subItems.map((menuItem) => (
