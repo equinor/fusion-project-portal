@@ -1,4 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
+﻿using System.Runtime.InteropServices.JavaScript;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
+using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
@@ -18,6 +20,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
             Description = portalDto.Description;
             Icon = portalDto.Icon;
             Contexts = portalDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
+            ContextTypes = portalDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
             Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         }
 
@@ -29,6 +32,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         public string? Description { get; set; }
         public string Icon { get; set; } = null!;
         public IList<ApiContextType> Contexts { get; set; }
+        public IList<string> ContextTypes { get; set; }
         public List<ApiPortalApp> Apps { get; set; } = null!;
     }
 }
