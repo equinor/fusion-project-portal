@@ -26,7 +26,6 @@ public class GetPortalsQuery : QueryBase<IList<PortalDto>>
         public async Task<IList<PortalDto>> Handle(GetPortalsQuery request, CancellationToken cancellationToken)
         {
             var entities = await _context.Set<Domain.Entities.Portal>()
-                .OrderBy(x => x.Order)
                 .AsNoTracking()
                 .Include(x => x.ContextTypes)
                 .ToListAsync(cancellationToken);

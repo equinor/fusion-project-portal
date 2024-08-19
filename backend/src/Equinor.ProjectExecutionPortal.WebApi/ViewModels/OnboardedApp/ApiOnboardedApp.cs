@@ -12,8 +12,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         {
             Id = onboardedAppDto.Id;
             AppKey = onboardedAppDto.AppKey;
-            Order = onboardedAppDto.Order;
-            IsLegacy = onboardedAppDto.IsLegacy;
             Name = onboardedAppDto.AppInformation?.Name;
             Description = onboardedAppDto.AppInformation?.Description;
             Contexts = onboardedAppDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
@@ -22,8 +20,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 
         public Guid Id { get; set; }
         public string AppKey { get; set; } = null!;
-        public int Order { get; set; }
-        public bool IsLegacy { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public IList<ApiContextType> Contexts { get; set; }

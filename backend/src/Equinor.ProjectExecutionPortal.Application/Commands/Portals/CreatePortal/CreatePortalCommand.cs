@@ -1,6 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Helpers;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -9,13 +8,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.CreatePort
 
 public class CreatePortalCommand : IRequest<Guid>
 {
-    public CreatePortalCommand(string name, string shortName, string subText, string? description, int order, string icon, IList<string> contextTypes)
+    public CreatePortalCommand(string name, string shortName, string subText, string? description, string icon, IList<string> contextTypes)
     {
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Description = description;
-        Order = order;
         Icon = icon;
         ContextTypes = contextTypes;
     }
@@ -24,7 +22,6 @@ public class CreatePortalCommand : IRequest<Guid>
     public string ShortName { get; set; }
     public string SubText { get; set; }
     public string? Description { get; set; }
-    public int Order { get; set; }
     public string Icon { get; set; }
     public IList<string> ContextTypes { get; set; }
 
@@ -43,7 +40,7 @@ public class CreatePortalCommand : IRequest<Guid>
         {
             var slug = SlugHelper.Sluggify(command.Name);
 
-            var portal = new Portal(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Order, command.Icon);
+            var portal = new Portal(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
            
             portal.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
 
