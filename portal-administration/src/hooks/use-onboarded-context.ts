@@ -6,6 +6,7 @@ import {
   updateOnboardedContext,
 } from "../query/onboarded-context";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSnackBar } from "./use-snack-bar";
 
 export const ussOnboardedContexts = () => {
   const client = useHttpClient("portal-client");
@@ -21,6 +22,8 @@ export const useEditOnboardContext = () => {
 
   const queryClient = useQueryClient();
 
+  const { sendMessage } = useSnackBar();
+
   return useMutation<
     string,
     FormattedError,
@@ -29,8 +32,13 @@ export const useEditOnboardContext = () => {
   >({
     mutationKey: ["onboarded-context"],
     mutationFn: (body) => updateOnboardedContext(client, body),
+
+    onError() {
+      sendMessage("Context update failed", "Error");
+    },
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["onboarded-contexts"] });
+      sendMessage("Context update successful", "Info");
     },
   });
 };
@@ -39,6 +47,7 @@ export const useOnboardContext = () => {
   const client = useHttpClient("portal-client");
 
   const queryClient = useQueryClient();
+  const { sendMessage } = useSnackBar();
 
   return useMutation<
     string,
@@ -47,28 +56,34 @@ export const useOnboardContext = () => {
     string
   >({
     mutationFn: (type) => onboardContext(client, type),
+    onError() {
+      sendMessage("Context creation failed", "Error");
+    },
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["context-types"] });
+      sendMessage("Context onboarded successful", "Info");
     },
   });
 };
-export const useFusionContextsContext = () => {
-  const client = useHttpClient("context");
+// export const useFusionContextsContext = () => {
+//   const client = useHttpClient("context");
 
-  const queryClient = useQueryClient();
+//   const queryClient = useQueryClient();
 
-  return useMutation<
-    string,
-    FormattedError,
-    Pick<OnboardedContext, "externalId" | "type" | "description">,
-    string
-  >({
-    mutationFn: (type) => onboardContext(client, type),
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["context-types"] });
-    },
-  });
-};
+//   const { sendMessage } = useSnackBar();
+//   return useMutation<
+//     string,
+//     FormattedError,
+//     Pick<OnboardedContext, "externalId" | "type" | "description">,
+//     string
+//   >({
+//     mutationFn: (type) => onboardContext(client, type),
+//     onSuccess() {
+//       queryClient.invalidateQueries({ queryKey: ["context-types"] });
+//       sendMessage("Context update successful", "Info");
+//     },
+//   });
+// };
 // export const useRemoveContextType = () => {
 //   const client = useHttpClient("portal-client");
 

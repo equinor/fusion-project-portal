@@ -1,7 +1,7 @@
 import { Card } from "@equinor/eds-core-react";
-
 import styled from "styled-components";
-import { ussOnboardedContexts } from "../../hooks/use-onboarded-context";
+
+import { OnboardedContext } from "../../types";
 
 const Style = {
   Padding: styled.div`
@@ -10,7 +10,6 @@ const Style = {
   Wrapper: styled.div`
     height: 100%;
   `,
-
   CardList: styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -24,25 +23,25 @@ const Style = {
   `,
 };
 
-export function OnboardedContextsList() {
-  const { isLoading, error, data } = ussOnboardedContexts();
-
-  if (isLoading) return "Loading...";
-
+export function OnboardedContextsList({
+  onboardedContexts,
+}: {
+  onboardedContexts?: OnboardedContext[];
+}) {
   return (
     <Style.CardList>
-      {data?.map((item) => (
-        <Style.Card key={item.id}>
+      {onboardedContexts?.map((context) => (
+        <Style.Card key={context.id}>
           <Card.Header>
             <Card.HeaderTitle>
-              <h3>{item.title}</h3>
+              <h3>{context.title}</h3>
             </Card.HeaderTitle>
-            <strong>{item.type}</strong>
+            <strong>{context.type}</strong>
           </Card.Header>
           <Card.Content>
-            <p>{item.externalId}</p>
+            <p>{context.externalId}</p>
             <br></br>
-            <strong>{item.description}</strong>
+            <strong>{context.description}</strong>
           </Card.Content>
         </Style.Card>
       ))}

@@ -13,6 +13,7 @@ import { CustomCellRendererProps } from "@ag-grid-community/react";
 import { useOnboardApps } from "../hooks/use-onboard-apps";
 import { Header } from "../components/Header";
 import { useGetPortal } from "../hooks/use-portal-query";
+import { Loading } from "../components/Loading";
 
 const Styles = {
   Content: styled.div`
@@ -53,7 +54,7 @@ export const PortalApps = () => {
     return <>No portalId provided</>;
   }
   if (isLoading) {
-    return <>Loading....</>;
+    return <Loading detail="Loading Portal App Config" />;
   }
 
   if (!data) return <>No data provided</>;

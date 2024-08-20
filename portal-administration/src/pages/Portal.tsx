@@ -1,9 +1,8 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import SideMenu from "../components/SideMenu";
-import { Header } from "../components/Header";
 import { useEffect } from "react";
 import { usePortalContext } from "../context/PortalContext";
+import { PageMessage } from "../components/PageMessage/PageMessage";
 
 const Styles = {
   Content: styled.div`
@@ -30,14 +29,14 @@ export const Portal = () => {
 
   useEffect(() => {
     if (!portalId || portalId === "undefined") {
-      navigate("/");
+      navigate("portals");
     } else {
       activePortalId !== portalId && setActivePortalById(portalId);
     }
   }, [portalId, activePortalId, setActivePortalById]);
 
   if (!portalId) {
-    return <>No portalId provided</>;
+    return <PageMessage title="No Portal ID" type="Error" />;
   }
 
   return (

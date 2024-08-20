@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import {
-  useEditOnboardContext,
-  ussOnboardedContexts,
-} from "../../hooks/use-onboarded-context";
+import { ClientGrid } from "@equinor/workspace-ag-grid";
+
+import { useEditOnboardContext } from "../../hooks/use-onboarded-context";
 import { OnboardedContext } from "../../types";
 import { useState } from "react";
-import { ClientGrid } from "@equinor/workspace-ag-grid";
 
 const Style = {
   Wrapper: styled.div`
@@ -14,29 +12,24 @@ const Style = {
   `,
 };
 
-export function OnboardedContextsTable() {
-  const { isLoading, error, data } = ussOnboardedContexts();
+export function OnboardedContextsTable({
+  onboardedContexts,
+}: {
+  onboardedContexts?: OnboardedContext[];
+}) {
   const { mutateAsync } = useEditOnboardContext();
-  const [selectedAContext, setSelectedContext] = useState<
-    Partial<OnboardedContext> | undefined
-  >();
-
-  if (isLoading) return "Loading...";
 
   return (
     <Style.Wrapper>
       <ClientGrid<OnboardedContext>
         height={900}
-        rowData={data || []}
+        rowData={onboardedContexts || []}
         enableCellTextSelection
         ensureDomOrder
         autoSizeStrategy={{
           type: "fitGridWidth",
           defaultMinWidth: 80,
           defaultMaxWidth: 300,
-        }}
-        onRowSelected={(event) => {
-          setSelectedContext(event);
         }}
         onCellValueChanged={(event) => {
           if (event.data) mutateAsync(event.data);

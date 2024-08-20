@@ -5,6 +5,7 @@ import { EditPortalForm } from "../components/EditPortalForm";
 import { useGetPortal } from "../hooks/use-portal-query";
 import { useGetContextTypes } from "../hooks/use-context-type-query";
 import { Typography } from "@equinor/eds-core-react";
+import { Loading } from "../components/Loading";
 
 const Style = {
   Wrapper: styled.div`
@@ -26,7 +27,7 @@ export const EditPortal = () => {
     useGetContextTypes();
 
   if (portalLoading || contextTypeLoading) {
-    return <div>Loading...</div>;
+    return <Loading detail="Loading Portal Config" />;
   }
 
   if (!portalId || !portal || !contextTypes) {

@@ -8,6 +8,7 @@ import {
 } from "../query/portal-query";
 import { PortalCreateInputs, PortalEditInputs } from "../schema";
 import { useHttpClient } from "@equinor/fusion-framework-react-app/http";
+import { useSnackBar } from "./use-snack-bar";
 
 export const useGetPortals = () => {
   const client = useHttpClient("portal-client");
@@ -33,6 +34,8 @@ export const useCreatePortal = () => {
 
   const queryClient = useQueryClient();
 
+  const { sendMessage } = useSnackBar();
+
   return useMutation<
     PortalCreateInputs,
     FormattedError,
@@ -41,8 +44,12 @@ export const useCreatePortal = () => {
   >({
     mutationKey: ["create-portal"],
     mutationFn: (body) => createPortalQuery(client, body),
+    onError() {
+      sendMessage("Failed to create portal", "Error");
+    },
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["create-portal"] });
+      sendMessage("Portal created success", "Info");
     },
   });
 };
@@ -52,6 +59,8 @@ export const useUpdatePortal = (portalId: string) => {
 
   const queryClient = useQueryClient();
 
+  const { sendMessage } = useSnackBar();
+
   return useMutation<
     boolean,
     FormattedError,
@@ -60,8 +69,12 @@ export const useUpdatePortal = (portalId: string) => {
   >({
     mutationKey: ["portal", { portalId }],
     mutationFn: (body) => updatePortalQuery(client, body),
+    onError() {
+      sendMessage("Failed to update portal", "Error");
+    },
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["portal"] });
+      sendMessage("Portal updated success", "Info");
     },
   });
 };

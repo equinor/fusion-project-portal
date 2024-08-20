@@ -11,6 +11,7 @@ const queryClient = new QueryClient();
 const Style = {
   Root: styled.div`
     background-color: ${tokens.colors.ui.background__light.hex};
+    position: absolute;
     height: 100%;
     width: 100%;
     overflow: hidden;

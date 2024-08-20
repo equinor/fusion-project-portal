@@ -7,10 +7,18 @@ import { Button, Card, Icon } from "@equinor/eds-core-react";
 import { list, view_agenda } from "@equinor/eds-icons";
 import { tokens } from "@equinor/eds-tokens";
 import { AddContext } from "../components/OnboardedContects/AddContext";
+import { Loading } from "../components/Loading";
+import { ussOnboardedContexts } from "../hooks/use-onboarded-context";
 
 const Styles = {
+  Wrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  `,
   Content: styled.div`
     padding: 0 1rem;
+    margin-bottom: 1rem;
   `,
   Card: styled(Card)`
     padding: 1rem;
@@ -24,10 +32,16 @@ const Styles = {
 
 export const OnboardedContext = () => {
   const [isList, setIsList] = useState(false);
+  const { isLoading, error, data: onboardedContexts } = ussOnboardedContexts();
+
+  if (isLoading) return <Loading detail="Loading Onboarded Contexts" />;
 
   return (
-    <div>
+    <>
       <Header title="Onboarded Contexts" />
+      <Styles.Content>
+        <AddContext />
+      </Styles.Content>
       <Styles.ActionBar>
         <div>
           <Button
@@ -54,10 +68,13 @@ export const OnboardedContext = () => {
           </Button>
         </div>
       </Styles.ActionBar>
-      <AddContext />
       <Styles.Content>
-        {isList ? <OnboardedContextsList /> : <OnboardedContextsTable />}
+        {isList ? (
+          <OnboardedContextsList onboardedContexts={onboardedContexts} />
+        ) : (
+          <OnboardedContextsTable onboardedContexts={onboardedContexts} />
+        )}
       </Styles.Content>
-    </div>
+    </>
   );
 };

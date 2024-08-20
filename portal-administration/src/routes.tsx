@@ -1,6 +1,5 @@
-import { Outlet, RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router-dom";
 
-import { NewPortal } from "./pages/NewPortal";
 import { Portals } from "./pages/Portals";
 
 import { EditPortal } from "./pages/EditPortal";
@@ -22,23 +21,24 @@ export const routes: RouteObject[] = [
         Component: Portals,
       },
       {
-        path: "new",
-        Component: NewPortal,
+        path: "portals",
+        index: true,
+        Component: Portals,
       },
       {
-        path: "apps",
+        path: "settings/apps",
         Component: OnboardedApps,
       },
       {
         Component: OnboardedContext,
-        path: "context",
+        path: "settings/context",
       },
       {
         Component: ContextTypes,
-        path: "context-types",
+        path: "settings/context-types",
       },
       {
-        path: "portal/:portalId",
+        path: "portals/:portalId",
         Component: Portal,
         children: [
           {

@@ -12,14 +12,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import styled from "styled-components";
 
-import { useCreatePortal } from "../hooks/use-portal-query";
-import { PortalCreateInputs, portalInputSchema } from "../schema";
+import { useCreatePortal } from "../../hooks/use-portal-query";
+import { PortalCreateInputs, portalInputSchema } from "../../schema";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { edit, error_filled } from "@equinor/eds-icons";
-import { useGetContextTypes } from "../hooks/use-context-type-query";
+import { error_filled } from "@equinor/eds-icons";
+import { useGetContextTypes } from "../../hooks/use-context-type-query";
 import { useState } from "react";
-import { EditContextTypeForm } from "./ContextType";
-import { Link } from "react-router-dom";
 
 const Style = {
   Wrapper: styled.div`
@@ -31,7 +29,6 @@ const Style = {
     padding: 1rem;
   `,
   Form: styled.form`
-    padding-top: 1rem;
     padding-bottom: 1rem;
     display: flex;
     flex-direction: column;
@@ -41,15 +38,11 @@ const Style = {
     padding-top: 1rem;
     padding-bottom: 1rem;
   `,
-  Heading: styled(Typography)`
-    padding: 0.5rem 0;
-  `,
 };
 
 export const CreatePortalForm = () => {
   const { mutateAsync: createPortal, reset: resetCreate } = useCreatePortal();
   const [contextEnabled, setContextEnabled] = useState<boolean>(false);
-  const [editContextTypes, setEditContextTypes] = useState<boolean>(false);
 
   const {
     register,
@@ -66,7 +59,6 @@ export const CreatePortalForm = () => {
       icon: "home",
     },
   });
-  console.log(errors);
 
   const onSubmit: SubmitHandler<PortalCreateInputs> = async (newPortal) => {
     console.log(newPortal);
@@ -84,7 +76,7 @@ export const CreatePortalForm = () => {
     <Style.Wrapper>
       <Style.Form onSubmit={handleSubmit(onSubmit)} id="create">
         <Style.Card>
-          <Style.Heading variant="h3">Details</Style.Heading>
+          <Typography variant="h3">Details</Typography>
           <TextField
             {...register("name")}
             id="textfield-name"
@@ -132,14 +124,8 @@ export const CreatePortalForm = () => {
         </Style.Card>
         <Style.Card>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Style.Heading variant="h3">Context</Style.Heading>
+            <Typography variant="h3">Context</Typography>
             <div>
-              <Button
-                onClick={() => setEditContextTypes((value) => !value)}
-                variant="ghost_icon"
-              >
-                <Icon data={edit} />
-              </Button>
               <Checkbox
                 label="Enable Context"
                 onChange={() => {
@@ -172,19 +158,9 @@ export const CreatePortalForm = () => {
           />
         </Style.Card>
 
-        {editContextTypes && (
-          <Style.Card>
-            <EditContextTypeForm />
-          </Style.Card>
-        )}
-
         <Style.Card>
           <Button type="submit" disabled={isSubmitting} form="create">
             Create
-          </Button>
-
-          <Button to={"/"} as={Link} variant="outlined">
-            Back
           </Button>
         </Style.Card>
       </Style.Form>

@@ -1,18 +1,26 @@
-import { Card, Button, Icon, Typography } from "@equinor/eds-core-react";
-import { add, delete_to_trash, edit } from "@equinor/eds-icons";
-import { useAppModules } from "@equinor/fusion-framework-react-app";
+import { Card, Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
+import { add, view_list, view_module } from "@equinor/eds-icons";
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { PortalSideSheet } from "../components/PortalSideSheet";
 
-import { Portal } from "../types";
 import { Header } from "../components/Header";
 import { Link } from "react-router-dom";
-import { usePortalContext } from "../context/PortalContext";
+
+import { Loading } from "../components/Loading";
+import { usePortalsQuery } from "../hooks/use-portals-query";
+import { PortalList } from "../components/Portals/PortalList";
+import { PortalTable } from "../components/Portals/PortalTable";
+import { Message } from "../components/Message";
+import { CreatePortalForm } from "../components/PortalForm";
+import { useTabs } from "../hooks/use-tabs";
 
 const Style = {
+  TabsListWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `,
   Content: styled.div`
     padding: 1rem;
   `,
@@ -37,69 +45,54 @@ const Style = {
 };
 
 export const Portals = () => {
-  const client = useAppModules().http.createClient("portal-client");
+  const { isLoading: portalIsLoading, data: portalsData } = usePortalsQuery();
 
-  const { setActivePortalById, activePortalId } = usePortalContext();
+  const { onTabChange, activeTab } = useTabs(["list", "table", "new"], "list");
 
-  const { isLoading, data } = useQuery<Portal[]>({
-    queryKey: ["portals"],
-    queryFn: async () =>
-      await client.fetch("api/portals").then((res) => res.json()),
-  });
-
-  if (isLoading) return "Loading...";
+  if (portalIsLoading) return <Loading detail="Loading Portals" />;
 
   return (
     <>
       <Header title="Portals" />
       <Style.Content>
-        <div>
-          <Style.Menu>
-            <Typography>
-              Please select an existing portal to manage or create a new one.
-            </Typography>
-
-            <Button as={Link} to={"new"} variant="ghost_icon">
-              <Icon data={add}></Icon>
-            </Button>
-          </Style.Menu>
-
-          <Style.CardList>
-            {data?.map((item) => (
-              <Style.Card key={item.id}>
-                <Card.Header>
-                  <Card.HeaderTitle>
-                    <Typography
-                      variant="h3"
-                      color={item.id === activePortalId ? "Green" : ""}
-                    >
-                      {item.name}
-                    </Typography>
-                  </Card.HeaderTitle>
-                </Card.Header>
-                <Card.Content>
-                  <span>{item.shortName}</span>
-                  <span>{item.subtext}</span>
-                </Card.Content>
-                <Card.Actions>
-                  <Button variant="ghost_icon">
-                    <Icon data={delete_to_trash} />
-                  </Button>
-                  <Button
-                    as={Link}
-                    to={`portal/${item.id}/overview`}
-                    variant="ghost_icon"
-                    onClick={() => {
-                      setActivePortalById(item.id);
-                    }}
-                  >
-                    <Icon data={edit} />
-                  </Button>
-                </Card.Actions>
-              </Style.Card>
-            ))}
-          </Style.CardList>
-        </div>
+        <Tabs activeTab={activeTab} onChange={onTabChange}>
+          <Style.TabsListWrapper>
+            <Message
+              title="  Please select portal to manage."
+              messages={[
+                "You can create a new portal by pressing the plus button on the right ",
+              ]}
+            />
+            <Tabs.List>
+              <Tabs.Tab title="List View">
+                <Tooltip title="List View">
+                  <Icon data={view_module} />
+                </Tooltip>
+              </Tabs.Tab>
+              <Tabs.Tab title="Table View">
+                <Tooltip title="Table View">
+                  <Icon data={view_list} />
+                </Tooltip>
+              </Tabs.Tab>
+              <Tabs.Tab title="Create New Portal">
+                <Tooltip title="Create New Portal">
+                  <Icon data={add}></Icon>
+                </Tooltip>
+              </Tabs.Tab>
+            </Tabs.List>
+          </Style.TabsListWrapper>
+          <Tabs.Panels>
+            <Tabs.Panel>
+              <PortalList portalsData={portalsData} />
+            </Tabs.Panel>
+            <Tabs.Panel>
+              <PortalTable portalsData={portalsData} />
+            </Tabs.Panel>
+            <Tabs.Panel>
+              <CreatePortalForm />
+            </Tabs.Panel>
+          </Tabs.Panels>
+        </Tabs>
       </Style.Content>
     </>
   );
