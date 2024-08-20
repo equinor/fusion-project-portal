@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
-using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
