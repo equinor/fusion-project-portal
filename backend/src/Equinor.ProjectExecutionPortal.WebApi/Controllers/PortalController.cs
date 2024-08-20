@@ -97,6 +97,32 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
+        [HttpDelete("{portalId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId)
+        {
+            var request = new ApiRemovePortalRequest() { Id = portalId };
+
+            try
+            {
+                await Mediator.Send(request.ToCommand(portalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing portal");
+            }
+
+            return Ok();
+        }
+
         // Apps
 
         [HttpGet("{portalId:guid}/apps")]
