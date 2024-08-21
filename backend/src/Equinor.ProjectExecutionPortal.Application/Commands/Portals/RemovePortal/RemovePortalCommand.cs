@@ -27,11 +27,17 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.RemovePort
             public async Task Handle(RemovePortalCommand command, CancellationToken cancellationToken)
             {
                 var entity = await _context.Set<Portal>()
+                    .Include(x => x.Apps)
                     .FirstOrDefaultAsync(portal => portal.Id == command.Id, cancellationToken);
 
                 if (entity == null)
                 {
                     throw new NotFoundException(nameof(Portal), command.Id);
+                }
+
+                if (entity.Apps.Any())
+                {
+                    throw new InvalidOperationException("Cannot remove Portal, portal has onboarded apps");
                 }
 
                 _context.Set<Portal>().Remove(entity);
