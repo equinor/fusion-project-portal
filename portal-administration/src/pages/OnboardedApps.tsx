@@ -5,55 +5,78 @@ import { Header } from "../components/Header";
 import styled from "styled-components";
 import { OnboardedContextsList } from "../components/OnboardedContects/OnboradedContextsList";
 import { OnboardedContextsTable } from "../components/OnboardedContects/OnboradedContextsTable";
-import { Button, Icon } from "@equinor/eds-core-react";
-import { add, list, view_agenda } from "@equinor/eds-icons";
+import { Button, Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
+import {
+  add,
+  list,
+  view_agenda,
+  view_list,
+  view_module,
+} from "@equinor/eds-icons";
 import { AppsList } from "../components/OnboardedApps/AppsList";
 import { AppsTable } from "../components/OnboardedApps/AppsTable";
+import { useTabs } from "../hooks/use-tabs";
+import { Message } from "../components/Message";
+import { OnboardApp } from "../components/OnboardedApps/OnboardApp";
 
-const Styles = {
-  Content: styled.div`
-    padding: 0 1rem;
-
-    overflow: hidden;
-  `,
+const Style = {
   ActionBar: styled.div`
     padding: 1rem;
     display: flex;
     justify-content: space-between;
   `,
+  TabsListWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    align-items: flex-end;
+  `,
 };
 
 export const OnboardedApps = () => {
-  const [isList, setIsList] = useState(false);
-
+  const { onTabChange, activeTab } = useTabs(["list", "table", "new"], "list");
   return (
-    <div>
+    <>
       <Header title="Onboarded Apps" />
-      <Styles.ActionBar>
-        <Button variant="outlined">
-          <Icon data={add} />
-          Add new App
-        </Button>
-        <div>
-          <Button
-            variant="ghost_icon"
-            onClick={() => {
-              setIsList(true);
-            }}
-          >
-            <Icon data={view_agenda} />
-          </Button>
-          <Button
-            variant="ghost_icon"
-            onClick={() => {
-              setIsList(false);
-            }}
-          >
-            <Icon data={list} />
-          </Button>
-        </div>
-      </Styles.ActionBar>
-      <Styles.Content>{isList ? <AppsList /> : <AppsTable />}</Styles.Content>
-    </div>
+      <Tabs activeTab={activeTab} onChange={onTabChange}>
+        <Style.TabsListWrapper>
+          <Message
+            title="Select application to edit"
+            messages={[
+              "You can onboard a new application by using the plus button",
+            ]}
+          />
+          <Tabs.List>
+            <Tabs.Tab title="List View">
+              <Tooltip title="List View">
+                <Icon data={view_module} />
+              </Tooltip>
+            </Tabs.Tab>
+            <Tabs.Tab title="Table View">
+              <Tooltip title="Table View">
+                <Icon data={view_list} />
+              </Tooltip>
+            </Tabs.Tab>
+            <Tabs.Tab title="Create New Portal">
+              <Tooltip title="Create New Portal">
+                <Icon data={add}></Icon>
+              </Tooltip>
+            </Tabs.Tab>
+          </Tabs.List>
+        </Style.TabsListWrapper>
+        <Tabs.Panels>
+          <Tabs.Panel>
+            <AppsList />
+          </Tabs.Panel>
+          <Tabs.Panel>
+            <AppsTable />
+          </Tabs.Panel>
+          <Tabs.Panel>
+            <OnboardApp />
+          </Tabs.Panel>
+        </Tabs.Panels>
+      </Tabs>
+    </>
   );
 };

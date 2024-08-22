@@ -5,13 +5,20 @@ import { PortalApp } from "../../types";
 import { useState } from "react";
 import { AppSideSheet } from "./AppSideSheet";
 import { delete_to_trash, edit } from "@equinor/eds-icons";
-import { useOnboardedApps } from "../../hooks/use-onboarded-apps";
+import {
+  useDeleteOnboardedApp,
+  useOnboardedApps,
+} from "../../hooks/use-onboarded-apps";
+import { Loading } from "../Loading";
 
 const Style = {
   CardList: styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 0 1rem;
+    height: calc(100vh - 250px);
+    overflow: auto;
   `,
   Content: styled.div`
     display: flex;
@@ -32,10 +39,11 @@ const Style = {
 };
 
 export function AppsList() {
-  const { data, isLoading } = useOnboardedApps();
+  const { data: apps, isLoading } = useOnboardedApps();
+  const { mutateAsync: deleteAppByAppKey } = useDeleteOnboardedApp();
   const [selectedApp, setSelectedApp] = useState<PortalApp | undefined>();
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <Loading detail="Loading onboarded apps" />;
 
   return (
     <>
@@ -46,19 +54,19 @@ export function AppsList() {
         }}
       />
       <Style.CardList>
-        {data?.map((item) => (
-          <Style.Card key={item.id}>
+        {apps?.map((app) => (
+          <Style.Card key={app.id}>
             <Style.Content>
               <div>
-                <Typography variant="h4">{item.name}</Typography>
+                <Typography variant="h4">{app.name}</Typography>
 
                 <Typography>
                   ContextTypes:{" "}
-                  {item.contexts.length > 0
-                    ? item.contexts.map((context, i) => (
+                  {app.contexts.length > 0
+                    ? app.contexts.map((context, i) => (
                         <span>
                           {context.type}{" "}
-                          {item.contexts.length > i + 1 ? " | " : ""}
+                          {app.contexts.length > i + 1 ? " | " : ""}
                         </span>
                       ))
                     : "No Support"}
@@ -66,12 +74,17 @@ export function AppsList() {
               </div>
               <Button.Group>
                 <Button
-                  onClick={() => setSelectedApp(item)}
+                  onClick={() => setSelectedApp(app)}
                   variant="ghost_icon"
                 >
                   <Icon data={edit} />
                 </Button>
-                <Button variant="ghost_icon">
+                <Button
+                  variant="ghost_icon"
+                  onClick={() => {
+                    deleteAppByAppKey(app.appKey);
+                  }}
+                >
                   <Icon data={delete_to_trash} />
                 </Button>
               </Button.Group>

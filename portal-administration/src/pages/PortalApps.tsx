@@ -1,11 +1,18 @@
 import styled from "styled-components";
 
-import { Checkbox, Chip, Typography } from "@equinor/eds-core-react";
+import {
+  Checkbox,
+  Chip,
+  Icon,
+  Tabs,
+  Tooltip,
+  Typography,
+} from "@equinor/eds-core-react";
 import { useParams } from "react-router-dom";
 
 import { ClientGrid } from "@equinor/workspace-ag-grid";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { AppSideSheet } from "../components/OnboardedApps/AppSideSheet";
 import { ContextType, PortalApp } from "../types";
@@ -14,42 +21,52 @@ import { useOnboardApps } from "../hooks/use-onboard-apps";
 import { Header } from "../components/Header";
 import { useGetPortal } from "../hooks/use-portal-query";
 import { Loading } from "../components/Loading";
+import { BehaviorSubject } from "rxjs";
+import { ActionBar } from "../components/PortalApps/ActionBar";
+import { tokens } from "@equinor/eds-tokens";
+import { useResizeObserver } from "../hooks/use-resise-observer";
+import { PortalAppTable } from "../components/PortalApps/PortalAppTable";
+import { view_module, view_list, add } from "@equinor/eds-icons";
+import { Message } from "../components/Message";
+import { AppsList } from "../components/OnboardedApps/AppsList";
+import { AppsTable } from "../components/OnboardedApps/AppsTable";
+import { OnboardApp } from "../components/OnboardedApps/OnboardApp";
+import { useTabs } from "../hooks/use-tabs";
 
-const Styles = {
-  Content: styled.div`
-    width: 100%;
-    display: grid;
-    gap: 1rem;
-  `,
-  CellWrapper: styled.div`
-    display: flex;
-    gap: 0.5rem;
-  `,
+const Style = {
   Wrapper: styled.div`
     height: 100%;
     width: 100%;
+    position: absolute;
   `,
-  Chip: styled(Chip)`
-    margin-top: 3px;
+  Content: styled.div`
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    position: relative;
   `,
-  Checkbox: styled(Checkbox)`
-    margin: 0;
-    padding: 0;
-    > * {
-      padding: 2px;
-    }
+  ActionBar: styled.div`
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+  `,
+  TabsListWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    padding-bottom: 0rem;
+    align-items: flex-end;
   `,
 };
 
 export const PortalApps = () => {
   const { portalId } = useParams();
 
-  const { data, isLoading } = useOnboardApps(portalId);
+  const { data: portalApps, isLoading } = useOnboardApps(portalId);
   const { data: portal, isLoading: portalIsLoading } = useGetPortal(portalId);
+  const { onTabChange, activeTab } = useTabs(["list", "table"], "table");
 
-  const [selectedApp, setSelectedApp] = useState<
-    Partial<PortalApp> | undefined
-  >();
   if (!portalId) {
     return <>No portalId provided</>;
   }
@@ -57,86 +74,39 @@ export const PortalApps = () => {
     return <Loading detail="Loading Portal App Config" />;
   }
 
-  if (!data) return <>No data provided</>;
+  if (!portalApps) return <>No data provided</>;
 
   return (
-    <Styles.Wrapper>
-      <AppSideSheet
-        app={selectedApp}
-        onClose={() => {
-          setSelectedApp(undefined);
-        }}
-      />
-      <Styles.Content>
-        <Typography variant="h4">
-          {portal ? `${portal.name} - Apps Config` : "Postal Apps Config"}
-        </Typography>
-        <ClientGrid<PortalApp>
-          height={700}
-          rowData={data}
-          enableCellTextSelection
-          ensureDomOrder
-          autoSizeStrategy={{
-            type: "fitGridWidth",
-            defaultMinWidth: 80,
-            defaultMaxWidth: 300,
-          }}
-          onRowSelected={(event) => {
-            setSelectedApp({
-              appKey: event.data?.appKey || "",
-              id: "-",
-              name: event.data?.name,
-              contexts: event.data?.contexts || [],
-            });
-          }}
-          colDefs={[
-            {
-              field: "isActive",
-              headerName: "Is Active",
-              width: 80,
-              cellRenderer: (
-                params: CustomCellRendererProps<{ isActive?: Boolean }>
-              ) => {
-                return (
-                  <Styles.Checkbox
-                    checked={Boolean(params.data?.isActive)}
-                  ></Styles.Checkbox>
-                );
-              },
-            },
-            {
-              field: "appKey",
-              headerName: "Application key",
-            },
-
-            {
-              field: "name",
-              headerName: "Name",
-            },
-            {
-              field: "description",
-              headerName: "Description",
-            },
-            {
-              field: "contexts",
-              headerName: "Contexts Types",
-              cellRenderer: (
-                params: CustomCellRendererProps<{ contexts: ContextType[] }>
-              ) => {
-                return (
-                  <Styles.CellWrapper>
-                    {params?.data?.contexts?.map((ct) => {
-                      return (
-                        <Styles.Chip variant="default">{ct.type}</Styles.Chip>
-                      );
-                    })}
-                  </Styles.CellWrapper>
-                );
-              },
-            },
-          ]}
-        />
-      </Styles.Content>
-    </Styles.Wrapper>
+    <>
+      <Style.Wrapper>
+        <Tabs activeTab={activeTab} onChange={onTabChange}>
+          <Style.TabsListWrapper>
+            <Typography variant="h4">
+              {portal ? `${portal.name} - Apps Config` : "Postal Apps Config"}
+            </Typography>
+            <Tabs.List>
+              <Tabs.Tab title="List View">
+                <Tooltip title="List View">
+                  <Icon data={view_module} />
+                </Tooltip>
+              </Tabs.Tab>
+              <Tabs.Tab title="Table View">
+                <Tooltip title="Table View">
+                  <Icon data={view_list} />
+                </Tooltip>
+              </Tabs.Tab>
+            </Tabs.List>
+          </Style.TabsListWrapper>
+          <Tabs.Panels>
+            <Tabs.Panel>test</Tabs.Panel>
+            <Tabs.Panel>
+              <Style.Wrapper>
+                <PortalAppTable portalApps={portalApps} />
+              </Style.Wrapper>
+            </Tabs.Panel>
+          </Tabs.Panels>
+        </Tabs>
+      </Style.Wrapper>
+    </>
   );
 };

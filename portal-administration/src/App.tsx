@@ -23,7 +23,7 @@ export default function () {
   return (
     <Style.Root>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
+        {/* <ReactQueryDevtools /> */}
         <RouterProvider router={router} fallbackElement={<p>Error...</p>} />
       </QueryClientProvider>
     </Style.Root>

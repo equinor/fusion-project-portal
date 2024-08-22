@@ -19,7 +19,8 @@ const Style = {
   TabsListWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: center;
+
+    align-items: flex-end;
   `,
   Content: styled.div`
     padding: 1rem;

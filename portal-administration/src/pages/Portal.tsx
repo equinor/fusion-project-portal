@@ -7,7 +7,6 @@ import { PageMessage } from "../components/PageMessage/PageMessage";
 const Styles = {
   Content: styled.div`
     display: flex;
-    padding: 1rem;
     width: 100%;
     height: 100%;
   `,
