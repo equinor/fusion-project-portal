@@ -9,28 +9,11 @@ import {
   Typography,
 } from "@equinor/eds-core-react";
 import { useParams } from "react-router-dom";
-
-import { ClientGrid } from "@equinor/workspace-ag-grid";
-
-import { useEffect, useRef, useState } from "react";
-
-import { AppSideSheet } from "../components/OnboardedApps/AppSideSheet";
-import { ContextType, PortalApp } from "../types";
-import { CustomCellRendererProps } from "@ag-grid-community/react";
 import { useOnboardApps } from "../hooks/use-onboard-apps";
-import { Header } from "../components/Header";
 import { useGetPortal } from "../hooks/use-portal-query";
 import { Loading } from "../components/Loading";
-import { BehaviorSubject } from "rxjs";
-import { ActionBar } from "../components/PortalApps/ActionBar";
-import { tokens } from "@equinor/eds-tokens";
-import { useResizeObserver } from "../hooks/use-resise-observer";
 import { PortalAppTable } from "../components/PortalApps/PortalAppTable";
-import { view_module, view_list, add } from "@equinor/eds-icons";
-import { Message } from "../components/Message";
-import { AppsList } from "../components/OnboardedApps/AppsList";
-import { AppsTable } from "../components/OnboardedApps/AppsTable";
-import { OnboardApp } from "../components/OnboardedApps/OnboardApp";
+import { view_module, view_list } from "@equinor/eds-icons";
 import { useTabs } from "../hooks/use-tabs";
 
 const Style = {
@@ -70,11 +53,9 @@ export const PortalApps = () => {
   if (!portalId) {
     return <>No portalId provided</>;
   }
-  if (isLoading) {
+  if (isLoading || portalIsLoading) {
     return <Loading detail="Loading Portal App Config" />;
   }
-
-  if (!portalApps) return <>No data provided</>;
 
   return (
     <>
