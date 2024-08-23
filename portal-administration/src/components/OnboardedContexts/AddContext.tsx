@@ -1,8 +1,19 @@
-import { Card, Button, Icon, Autocomplete } from "@equinor/eds-core-react";
+import {
+  Card,
+  Button,
+  Icon,
+  Autocomplete,
+  Typography,
+} from "@equinor/eds-core-react";
 import { add } from "@equinor/eds-icons";
 import styled from "styled-components";
 import { useGetContextTypes } from "../../hooks/use-context-type-query";
-import { ContextSelector, useContextById } from "./ContextSelector";
+import { ussOnboardedContexts } from "../../hooks/use-onboarded-context";
+import {
+  ContextSelector,
+  useAddContext,
+  useContextById,
+} from "./ContextSelector";
 import { useState } from "react";
 import { Message } from "../Message";
 import { tokens } from "@equinor/eds-tokens";
@@ -31,7 +42,10 @@ export const AddContext = () => {
     ""
   );
 
-  const { data } = useContextById(activeContextIs);
+  const { data: selectedContext } = useContextById(activeContextIs);
+  const { isLoading, data: onboardedContexts } = ussOnboardedContexts();
+  const { mutateAsync } = useAddContext();
+
   return (
     <Styles.Content>
       <Styles.Card background={tokens.colors.ui.background__info.hex}>
@@ -65,11 +79,33 @@ export const AddContext = () => {
             setActiveContextId(context.id);
           }}
         />
-        <Button variant="outlined">
+        <Button
+          disabled={!selectedContext}
+          onClick={() => {
+            mutateAsync({
+              externalId: selectedContext.externalId,
+              type: selectedContext.type.id,
+              description: selectedContext.title,
+            });
+          }}
+        >
           <Icon data={add} />
           Add Context
         </Button>
       </Styles.Card>
+      {selectedContext && (
+        <Styles.Card>
+          <Card.Header>
+            <Card.HeaderTitle>
+              <Typography variant="h4">{selectedContext.title}</Typography>
+            </Card.HeaderTitle>
+          </Card.Header>
+          <Card.Content>
+            <strong>{selectedContext.type.id}</strong>
+            <p>{selectedContext.externalId}</p>
+          </Card.Content>
+        </Styles.Card>
+      )}
     </Styles.Content>
   );
 };

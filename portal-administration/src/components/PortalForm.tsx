@@ -18,7 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { edit, error_filled } from "@equinor/eds-icons";
 import { useGetContextTypes } from "../hooks/use-context-type-query";
 import { useState } from "react";
-import { EditContextTypeForm } from "./OnboardedContects/ContextType";
+import { EditContextTypeForm } from "./OnboardedContexts/ContextType";
 import { Link } from "react-router-dom";
 
 const Style = {

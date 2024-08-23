@@ -11,7 +11,6 @@ const Style = {
     gap: 1rem;
     padding: 0 1rem;
     /* height: calc(100vh - 250px); */
-0
     overflow: auto;
   `,
   CardList: styled.div`

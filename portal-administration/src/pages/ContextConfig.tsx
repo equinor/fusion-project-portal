@@ -1,24 +1,14 @@
-import { useState } from "react";
 import { Header } from "../components/Header";
 import styled from "styled-components";
-import { OnboardedContextsList } from "../components/OnboardedContects/OnboradedContextsList";
-import { OnboardedContextsTable } from "../components/OnboardedContects/OnboradedContextsTable";
-import { Button, Card, Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
-import {
-  add,
-  list,
-  settings,
-  view_agenda,
-  view_list,
-  view_module,
-} from "@equinor/eds-icons";
-import { tokens } from "@equinor/eds-tokens";
-import { AddContext } from "../components/OnboardedContects/AddContext";
+import { OnboardedContextsList } from "../components/OnboardedContexts/OnboradedContextsList";
+import { OnboardedContextsTable } from "../components/OnboardedContexts/OnboradedContextsTable";
+import { Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
+import { add, settings, view_list, view_module } from "@equinor/eds-icons";
+import { AddContext } from "../components/OnboardedContexts/AddContext";
 import { Loading } from "../components/Loading";
-import { ussOnboardedContexts as useOnboardedContexts } from "../hooks/use-onboarded-context";
-import { Message } from "../components/Message";
+import { ussOnboardedContexts } from "../hooks/use-onboarded-context";
 import { useTabs } from "../hooks/use-tabs";
-import { EditContextTypeForm } from "../components/OnboardedContects/ContextType";
+import { EditContextTypeForm } from "../components/OnboardedContexts/ContextType";
 
 const Style = {
   Content: styled.div`
@@ -41,7 +31,7 @@ export const Context = () => {
     "list"
   );
 
-  const { isLoading, data: onboardedContexts } = useOnboardedContexts();
+  const { isLoading, data: onboardedContexts } = ussOnboardedContexts();
 
   if (isLoading) return <Loading detail="Loading Onboarded Contexts" />;
 

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Header } from "../components/Header";
 import styled from "styled-components";
-import { OnboardedContextsList } from "../components/OnboardedContects/OnboradedContextsList";
-import { OnboardedContextsTable } from "../components/OnboardedContects/OnboradedContextsTable";
+import { OnboardedContextsList } from "../components/OnboardedContexts/OnboradedContextsList";
+import { OnboardedContextsTable } from "../components/OnboardedContexts/OnboradedContextsTable";
 import { Button, Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
 import {
   add,

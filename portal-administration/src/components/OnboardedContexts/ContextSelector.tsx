@@ -8,8 +8,15 @@ import { ContextApiClient } from "@equinor/fusion-framework-module-services/cont
 import { useFramework } from "@equinor/fusion-framework-react";
 import { useCallback, useEffect, useState } from "react";
 import { Autocomplete, Typography } from "@equinor/eds-core-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
+import {
+  IHttpClient,
+  useHttpClient,
+} from "@equinor/fusion-framework-react-app/http";
+import { formatError } from "../../utils/error-utils";
+import { useSnackBar } from "../../hooks/use-snack-bar";
+import { FormattedError } from "../../types";
 
 const singleItem = (props: unknown): SearchableDropdownResultItem => {
   return Object.assign({ id: "0", title: "Dummy title" }, props);
@@ -155,6 +162,46 @@ export const useContextById = (id?: string) => {
     queryKey: ["context", id],
     queryFn: async () => await getContextById(id),
     enabled: Boolean(id),
+  });
+};
+
+export const addContext = async (client: IHttpClient, body: AddContext) => {
+  const response = await client.fetch<Response>(`api/onboarded-contexts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw formatError(await response.json(), response.status);
+  }
+
+  const data = await response.text();
+  return data;
+};
+
+type AddContext = { externalId: string; type: string; description: string };
+
+export const useAddContext = () => {
+  const client = useHttpClient("portal-client");
+
+  const queryClient = useQueryClient();
+
+  const { sendMessage } = useSnackBar();
+
+  return useMutation<string, FormattedError, AddContext, AddContext>({
+    mutationFn: async (data) => {
+      return await addContext(client, data);
+    },
+    onError() {
+      sendMessage("Failed to add context", "Error");
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["create-portal"] });
+      sendMessage("Add context success", "Info");
+    },
   });
 };
 
