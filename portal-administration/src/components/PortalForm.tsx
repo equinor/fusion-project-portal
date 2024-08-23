@@ -54,7 +54,6 @@ export const CreatePortalForm = () => {
   } = useCreatePortal();
   const [contextEnabled, setContextEnabled] = useState<boolean>(false);
   const [editContextTypes, setEditContextTypes] = useState<boolean>(false);
-  console.log(data);
   const {
     register,
     handleSubmit,
