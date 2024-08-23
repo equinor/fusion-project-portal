@@ -6,7 +6,7 @@ import { Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
 import { add, settings, view_list, view_module } from "@equinor/eds-icons";
 import { AddContext } from "../components/OnboardedContexts/AddContext";
 import { Loading } from "../components/Loading";
-import { ussOnboardedContexts } from "../hooks/use-onboarded-context";
+import { useOnboardedContexts } from "../hooks/use-onboarded-context";
 import { useTabs } from "../hooks/use-tabs";
 import { EditContextTypeForm } from "../components/OnboardedContexts/ContextType";
 
@@ -31,7 +31,7 @@ export const Context = () => {
     "list"
   );
 
-  const { isLoading, data: onboardedContexts } = ussOnboardedContexts();
+  const { isLoading, data: onboardedContexts } = useOnboardedContexts();
 
   if (isLoading) return <Loading detail="Loading Onboarded Contexts" />;
 

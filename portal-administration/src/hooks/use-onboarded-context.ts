@@ -8,7 +8,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSnackBar } from "./use-snack-bar";
 
-export const ussOnboardedContexts = () => {
+export const useOnboardedContexts = () => {
   const client = useHttpClient("portal-client");
 
   return useQuery<OnboardedContext[], FormattedError>({

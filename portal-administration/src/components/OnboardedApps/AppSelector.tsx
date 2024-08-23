@@ -98,7 +98,6 @@ export const AppSelector = ({
   };
 
   const options = useMemo(() => {
-    console.log(data?.length);
     return (
       data?.filter(
         (app) =>
