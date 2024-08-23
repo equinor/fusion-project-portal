@@ -11,6 +11,7 @@ const Style = {
   Wrapper: styled.div`
     gap: 1rem;
     display: flex;
+    padding: 1rem;
     flex-direction: column;
   `,
   Heading: styled(Typography)`
@@ -39,7 +40,7 @@ export const EditPortal = () => {
       <Typography variant="h4">
         {portal ? `${portal.name} - Apps Config` : "Postal Apps Config"}
       </Typography>
-      <EditPortalForm portal={portal} contextTypes={contextTypes} />;
+      <EditPortalForm portal={portal} contextTypes={contextTypes} />
     </Style.Wrapper>
   );
 };

@@ -16,6 +16,11 @@ import { CreatePortalForm } from "../components/PortalForm";
 import { useTabs } from "../hooks/use-tabs";
 
 const Style = {
+  Wrapper: styled.div`
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  `,
   TabsListWrapper: styled.div`
     display: flex;
     justify-content: space-between;
@@ -24,24 +29,6 @@ const Style = {
   `,
   Content: styled.div`
     padding: 1rem;
-  `,
-  CardList: styled.div`
-    padding-top: 1rem;
-    display: flex;
-
-    flex-wrap: wrap;
-    gap: 2rem;
-  `,
-  Menu: styled.div`
-    display: flex;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  `,
-  Card: styled(Card)<{ col?: number }>`
-    box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.2),
-      0px 2px 4px -2px rgba(16, 24, 40, 0.2);
-    width: ${({ col }) => `calc(calc(100vw / ${col || 3} ) - 10rem)`};
   `,
 };
 
@@ -67,12 +54,12 @@ export const Portals = () => {
             <Tabs.List>
               <Tabs.Tab title="List View">
                 <Tooltip title="List View">
-                  <Icon data={view_module} />
+                  <Icon data={view_list} />
                 </Tooltip>
               </Tabs.Tab>
               <Tabs.Tab title="Table View">
                 <Tooltip title="Table View">
-                  <Icon data={view_list} />
+                  <Icon data={view_module} />
                 </Tooltip>
               </Tabs.Tab>
               <Tabs.Tab title="Create New Portal">
@@ -87,7 +74,9 @@ export const Portals = () => {
               <PortalList portalsData={portalsData} />
             </Tabs.Panel>
             <Tabs.Panel>
-              <PortalTable portalsData={portalsData} />
+              <Style.Wrapper>
+                <PortalTable portalsData={portalsData} />
+              </Style.Wrapper>
             </Tabs.Panel>
             <Tabs.Panel>
               <CreatePortalForm />

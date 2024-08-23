@@ -10,7 +10,6 @@ import { usePortalContext } from "../../context/PortalContext";
 import { PortalIcon } from "./PortalIcon";
 import { useState } from "react";
 import { tokens } from "@equinor/eds-tokens";
-import { useSnackBar } from "../../hooks/use-snack-bar";
 
 Icon.add(AllIcons);
 

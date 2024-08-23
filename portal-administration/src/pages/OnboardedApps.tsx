@@ -20,16 +20,12 @@ import { Message } from "../components/Message";
 import { OnboardApp } from "../components/OnboardedApps/OnboardApp";
 
 const Style = {
-  ActionBar: styled.div`
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-  `,
   TabsListWrapper: styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    padding-bottom: 0px;
     align-items: flex-end;
   `,
 };

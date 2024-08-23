@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { PortalApp } from "../../types";
-import { Button, Label, Typography } from "@equinor/eds-core-react";
+import { Button, Icon, Label, Typography } from "@equinor/eds-core-react";
 import {
   useAddPortalApps,
   useRemovePortalApps,
 } from "../../hooks/use-portal-apps";
 import { usePortalContext } from "../../context/PortalContext";
+import { add_circle_filled, edit, remove_outlined } from "@equinor/eds-icons";
 
 const Styles = {
   Wrapper: styled.div`
@@ -29,37 +30,53 @@ const Styles = {
 
 export const ActionBar = ({ selection }: { selection: PortalApp[] }) => {
   const { activePortalId } = usePortalContext();
-  if (selection.length === 0) return null;
 
   const { mutateAsync: addApps } = useAddPortalApps(activePortalId);
   const { mutateAsync: removeApps } = useRemovePortalApps(activePortalId);
 
+  if (selection.length === 0) return null;
   return (
     <Styles.Wrapper>
       <Styles.Content>
         <Styles.Actions>
           {Boolean(selection.find((a) => !a.isActive)) && (
             <Button
-              variant="outlined"
+              id="add-selected"
+              variant="ghost"
               onClick={() => {
                 addApps(selection.filter((a) => !a.isActive));
               }}
             >
-              Add Selected
+              <Icon data={add_circle_filled} /> Activate Selected
+            </Button>
+          )}
+          {Boolean(selection.find((a) => !a.isActive)) && (
+            <Button id="add-selected-with-context" variant="ghost">
+              <Icon data={add_circle_filled} /> Activate Selected with Context
             </Button>
           )}
           {Boolean(selection.find((a) => a.isActive)) && (
             <Button
-              variant="outlined"
+              id="edit-selected"
+              variant="ghost"
               onClick={() => {
                 removeApps(selection.filter((a) => a.isActive));
               }}
             >
-              Remove Selected
+              <Icon data={edit} /> Edit Selected (
+              {selection.filter((a) => a.isActive).length})
             </Button>
           )}
-          {Boolean(selection.find((a) => !a.isActive)) && (
-            <Button variant="outlined">Add Selected with Context</Button>
+          {Boolean(selection.find((a) => a.isActive)) && (
+            <Button
+              id="remove-selected"
+              variant="ghost"
+              onClick={() => {
+                removeApps(selection.filter((a) => a.isActive));
+              }}
+            >
+              <Icon data={remove_outlined} /> Remove Selected
+            </Button>
           )}
         </Styles.Actions>
         <Typography variant="h6">

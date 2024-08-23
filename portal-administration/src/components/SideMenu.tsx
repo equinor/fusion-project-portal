@@ -17,6 +17,7 @@ type MenuItemProps =
       Partial<LinkProps> & {
         subItems?: MenuItemProps[];
         disabled?: boolean;
+        expanded?: boolean;
       } & Pick<SidebarLinkProps, "active">;
 
 export const SideMenu = () => {
@@ -28,6 +29,7 @@ export const SideMenu = () => {
       icon: desktop_mac,
       active: !!useMatch(`portals`),
       to: `portals`,
+      disabled: Boolean(!activePortalId),
       as: Link,
     },
     {
@@ -35,13 +37,14 @@ export const SideMenu = () => {
       active: !!useMatch({ path: `portals/:portalId`, end: false }),
       icon: dashboard,
       disabled: Boolean(!activePortalId),
+      expanded: true,
       subItems: [
         {
           label: "Config",
           icon: dashboard,
           to: `portals/${activePortalId}/overview`,
           active: !!useMatch(`portals/:portalId/overview`),
-          disabled: Boolean(activePortalId),
+          disabled: Boolean(!activePortalId),
           as: Link,
         },
         {
@@ -49,7 +52,7 @@ export const SideMenu = () => {
           icon: build_wrench,
           to: `portals/${activePortalId}/apps`,
           active: !!useMatch(`portals/:portalId/apps`),
-          disabled: Boolean(activePortalId),
+          disabled: Boolean(!activePortalId),
           as: Link,
         },
         {
@@ -57,7 +60,7 @@ export const SideMenu = () => {
           icon: briefcase,
           to: `portals/${activePortalId}/router`,
           active: !!useMatch(`portals/:portalId/router`),
-          disabled: Boolean(activePortalId),
+          disabled: Boolean(!activePortalId),
           as: Link,
         },
       ],
@@ -75,17 +78,10 @@ export const SideMenu = () => {
           as: Link,
         },
         {
-          label: "Onboarded Context",
+          label: "Context",
           icon: build_wrench,
           to: `settings/context`,
           active: !!useMatch(`settings/context`),
-          as: Link,
-        },
-        {
-          label: "Context Types",
-          icon: build_wrench,
-          to: `settings/context-types`,
-          active: !!useMatch(`settings/context-types`),
           as: Link,
         },
       ],
@@ -101,19 +97,18 @@ export const SideMenu = () => {
           if (menuItem.subItems && menuItem.subItems?.length > 0) {
             return (
               <SideBar.Accordion
-                key={menuItem.id}
-                active={menuItem.active}
+                key={menuItem.label}
+                active={Boolean(menuItem.active)}
                 label={menuItem.label}
                 icon={menuItem.icon}
-                isExpanded={menuItem.active}
+                isExpanded={Boolean(menuItem.active)}
                 disabled={menuItem.disabled}
               >
                 {menuItem.subItems.map((menuItem) => (
                   <SideBar.AccordionItem
                     key={menuItem.label}
-                    active={menuItem.active}
+                    active={Boolean(menuItem.active)}
                     {...menuItem}
-                    disabled={menuItem.disabled}
                   />
                 ))}
               </SideBar.Accordion>
@@ -122,7 +117,8 @@ export const SideMenu = () => {
           return (
             <SideBar.Link
               key={menuItem.label}
-              active={menuItem.active}
+              active={Boolean(menuItem.active)}
+              disabled={menuItem.disabled}
               {...menuItem}
             ></SideBar.Link>
           );

@@ -78,13 +78,18 @@ export const AppsTable = () => {
             headerName: "Contexts Types",
 
             cellRenderer: (
-              params: CustomCellRendererProps<{ contexts: ContextType[] }>
+              params: CustomCellRendererProps<{
+                contextTypes: string[];
+                appKey: string;
+              }>
             ) => {
               return (
-                <Styles.CellWrapper>
-                  {params?.data?.contexts?.map((ct) => {
+                <Styles.CellWrapper key={params.context?.appKey}>
+                  {params?.data?.contextTypes?.map((type) => {
                     return (
-                      <Styles.Chip variant="default">{ct.type}</Styles.Chip>
+                      <Styles.Chip variant="default" key={type}>
+                        {type}
+                      </Styles.Chip>
                     );
                   })}
                 </Styles.CellWrapper>
@@ -96,7 +101,7 @@ export const AppsTable = () => {
             headerName: "Actions",
             cellRenderer: (params: CustomCellRendererProps<PortalApp>) => {
               return (
-                <Styles.CellWrapper>
+                <Styles.CellWrapper key={params.context?.appKey}>
                   <Button
                     variant="ghost"
                     onClick={(e) => {
