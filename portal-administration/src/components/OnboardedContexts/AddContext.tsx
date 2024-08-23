@@ -8,15 +8,17 @@ import {
 import { add } from "@equinor/eds-icons";
 import styled from "styled-components";
 import { useGetContextTypes } from "../../hooks/use-context-type-query";
-import { ussOnboardedContexts } from "../../hooks/use-onboarded-context";
-import {
-  ContextSelector,
-  useAddContext,
-  useContextById,
-} from "./ContextSelector";
-import { useState } from "react";
+import { ContextSelector } from "./ContextSelector";
+import { useMemo, useState } from "react";
 import { Message } from "../Message";
 import { tokens } from "@equinor/eds-tokens";
+import { useAddContext } from "../../hooks/use-add-context";
+import { useContextById } from "../../hooks/use-context-by-id";
+import {
+  useOnboardContext,
+  useOnboardedContexts,
+} from "../../hooks/use-onboarded-context";
+import { FieldError } from "react-hook-form";
 
 const Styles = {
   Content: styled.div`
@@ -42,8 +44,15 @@ export const AddContext = () => {
     ""
   );
 
+  const [contextError, setContextError] = useState<FieldError | undefined>();
+
   const { data: selectedContext } = useContextById(activeContextIs);
-  const { isLoading, data: onboardedContexts } = ussOnboardedContexts();
+  const { data: onboardedContexts } = useOnboardedContexts();
+
+  const onboardedContextIds = useMemo(() => {
+    return onboardedContexts?.map((context) => context.contextId) || [];
+  }, [onboardedContexts]);
+
   const { mutateAsync } = useAddContext();
 
   return (
@@ -75,7 +84,20 @@ export const AddContext = () => {
         />
         <ContextSelector
           types={types}
-          onChange={(context) => {
+          message={contextError?.message}
+          errors={contextError}
+          onChange={() => {
+            setContextError(undefined);
+          }}
+          onOptionsChange={(context) => {
+            setContextError(undefined);
+            if (onboardedContextIds.includes(context.id)) {
+              setContextError({
+                message: "Context is already onboarded",
+                type: "validate",
+              });
+              return;
+            }
             setActiveContextId(context.id);
           }}
         />
@@ -103,6 +125,7 @@ export const AddContext = () => {
           <Card.Content>
             <strong>{selectedContext.type.id}</strong>
             <p>{selectedContext.externalId}</p>
+            <p>{selectedContext.id}</p>
           </Card.Content>
         </Styles.Card>
       )}
