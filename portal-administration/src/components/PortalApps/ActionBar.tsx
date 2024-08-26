@@ -7,6 +7,8 @@ import {
 } from "../../hooks/use-portal-apps";
 import { usePortalContext } from "../../context/PortalContext";
 import { add_circle_filled, edit, remove_outlined } from "@equinor/eds-icons";
+import { ContextAppSideSheet } from "./ContextAppSideSheet";
+import { useState } from "react";
 
 const Styles = {
   Wrapper: styled.div`
@@ -33,10 +35,18 @@ export const ActionBar = ({ selection }: { selection: PortalApp[] }) => {
 
   const { mutateAsync: addApps } = useAddPortalApps(activePortalId);
   const { mutateAsync: removeApps } = useRemovePortalApps(activePortalId);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (selection.length === 0) return null;
   return (
     <Styles.Wrapper>
+      <ContextAppSideSheet
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        selection={selection}
+        isOpen={isOpen}
+      />
       <Styles.Content>
         <Styles.Actions>
           {Boolean(selection.find((a) => !a.isActive)) && (
@@ -51,7 +61,13 @@ export const ActionBar = ({ selection }: { selection: PortalApp[] }) => {
             </Button>
           )}
           {Boolean(selection.find((a) => !a.isActive)) && (
-            <Button id="add-selected-with-context" variant="ghost">
+            <Button
+              id="add-selected-with-context"
+              variant="ghost"
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
               <Icon data={add_circle_filled} /> Activate Selected with Context
             </Button>
           )}

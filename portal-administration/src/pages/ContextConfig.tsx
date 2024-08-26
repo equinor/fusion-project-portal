@@ -27,8 +27,8 @@ const Style = {
 
 export const Context = () => {
   const { onTabChange, activeTab } = useTabs(
-    ["list", "table", "new", "settings"],
-    "list"
+    ["new", "list", "table", "settings"],
+    "new"
   );
 
   const { isLoading, data: onboardedContexts } = useOnboardedContexts();

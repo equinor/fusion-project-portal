@@ -1,9 +1,4 @@
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AppManifestResponse, FormattedError, PortalApp } from "../types";
 
 import { useHttpClient } from "@equinor/fusion-framework-react-app/http";
