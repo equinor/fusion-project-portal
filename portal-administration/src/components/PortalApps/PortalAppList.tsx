@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { PortalApp } from "../../types";
 import { AppCard } from "./AppCard";
