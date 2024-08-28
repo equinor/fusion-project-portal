@@ -2,9 +2,10 @@ import { Button, Typography } from "@equinor/eds-core-react";
 import { tokens } from "@equinor/eds-tokens";
 import styled from "styled-components";
 
-import { Tree, TreeRoot } from "../Tree";
+import { Tree } from "../Tree/Tree";
 import { useRouterConfigContext } from "../../context/RouterContext";
 import { RouteTreeItem } from "./RouteTreeItem";
+import { TreeRoot } from "../Tree/TreeRoot";
 
 const Style = {
   Router: styled.span`

@@ -1,5 +1,5 @@
 import { tokens } from "@equinor/eds-tokens";
-import { TreeItem } from "../Tree";
+import { TreeItem } from "../Tree/Tree";
 import { Route } from "../../types/router-config";
 import { RouteMenu } from "./RouteMenu";
 import { useRouterConfigContext } from "../../context/RouterContext";
