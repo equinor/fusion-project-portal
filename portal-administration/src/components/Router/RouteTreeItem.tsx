@@ -1,10 +1,10 @@
 import { tokens } from "@equinor/eds-tokens";
-import { TreeItem } from "../Tree/Tree";
 import { Route } from "../../types/router-config";
 import { RouteMenu } from "./RouteMenu";
 import { useRouterConfigContext } from "../../context/RouterContext";
 import { Typography } from "@equinor/eds-core-react";
 import styled from "styled-components";
+import { TreeItem } from "../Tree/TreeItem";
 
 const Style = {
   Wrapper: styled.div`
