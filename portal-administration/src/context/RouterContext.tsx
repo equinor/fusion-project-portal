@@ -13,6 +13,8 @@ import { mockRoutes } from "./mocs/routes";
 export type RouterConfigContextState = {
   activeRoute?: Route;
   activeRouteControl?: Route;
+  rootActive: boolean;
+  configActive: boolean;
 } & Router;
 
 export type RouterConfigContext = {
@@ -22,16 +24,23 @@ export type RouterConfigContext = {
   removeRoute: (id: string) => void;
   updateRoute: (route?: Route) => void;
   updateRoot: (pageKey: string) => void;
-  hasChanges: boolean;
+  toggleRoot: VoidFunction;
+  seeConfig: VoidFunction;
 } & RouterConfigContextState;
 
 const initialState = {
   root: {
     pageKey: "project-portal",
+    messages: {
+      errorMessage: "Could not load landing page",
+    },
   },
   activeRoute: undefined,
   routes: mockRoutes,
+  rootActive: false,
+  configActive: false,
 } as RouterConfigContext;
+
 const Context = createContext<RouterConfigContext>(initialState);
 
 export const RouterConfigContextComponent = ({
@@ -47,6 +56,14 @@ export const RouterConfigContextComponent = ({
     dispatch({ type: "UPDATE_ROUTE_BY_FIELD", payload: event.target });
   };
 
+  const toggleRoot = () => {
+    dispatch({ type: "TOGGLE_ROOT" });
+  };
+
+  const seeConfig = () => {
+    dispatch({ type: "TOGGLE_CONFIG" });
+  };
+
   const updateRoute = (route?: Route) => {
     dispatch({
       type: "UPDATE_ROUTE",
@@ -55,11 +72,6 @@ export const RouterConfigContextComponent = ({
       },
     });
   };
-
-  const hasChanges = useMemo(
-    () => state.activeRoute !== state.activeRouteControl,
-    [state]
-  );
 
   const createNewRoute = (id?: string) => {
     dispatch({
@@ -91,13 +103,14 @@ export const RouterConfigContextComponent = ({
     <Context.Provider
       value={{
         ...state,
-        hasChanges,
         setActiveRoute,
         createNewRoute,
         updateRoute,
         removeRoute,
         handleChange,
         updateRoot,
+        toggleRoot,
+        seeConfig,
       }}
     >
       {children}

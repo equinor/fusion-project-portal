@@ -9,6 +9,12 @@ export type Actions =
       };
     }
   | {
+      type: "TOGGLE_ROOT";
+    }
+  | {
+      type: "TOGGLE_CONFIG";
+    }
+  | {
       type: "UPDATE_ROOT";
       payload: {
         pageKey: string;

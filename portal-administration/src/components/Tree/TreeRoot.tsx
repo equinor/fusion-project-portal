@@ -16,6 +16,7 @@ export const TreeRoot = ({
   Render,
   title,
   onClick,
+  selected,
 }: TreeBaseItemProps & {
   onClick?: React.MouseEventHandler<HTMLLIElement> | undefined;
 }) => {
@@ -27,7 +28,7 @@ export const TreeRoot = ({
         onClick && onClick(e);
       }}
     >
-      <TreeBaseItem title={title} Render={Render} initOpen>
+      <TreeBaseItem title={title} Render={Render} initOpen selected={selected}>
         {children}
       </TreeBaseItem>
     </Style.TreeRoot>

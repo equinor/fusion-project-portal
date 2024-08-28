@@ -25,12 +25,12 @@ const Style = {
 };
 
 export const RouterRoot = () => {
-  const { root, updateRoot } = useRouterConfigContext();
+  const { root, updateRoot, createNewRoute } = useRouterConfigContext();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useForm<RootInput>({
     resolver: zodResolver(rootInput),
     defaultValues: root,
@@ -41,11 +41,13 @@ export const RouterRoot = () => {
     updateRoot(root.pageKey);
   };
 
+  const disabled = Object.keys(touchedFields).length <= 0;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <Card.Header>
-          <Typography variant="h4">Edit Root</Typography>
+          <Typography variant="h4">Base Config</Typography>
           <Icon data={info_circle} />
         </Card.Header>
         <Style.Content>
@@ -59,11 +61,33 @@ export const RouterRoot = () => {
             }
             label="Root Page Id"
           />
-        </Style.Content>
 
+          <Typography variant="h6">Root Messages</Typography>
+
+          <TextField
+            {...register("messages.errorMessage")}
+            id="errorMessage"
+            label="Error Message"
+            variant={errors.messages?.errorMessage && "error"}
+            helperText={errors.messages?.errorMessage?.message}
+            inputIcon={
+              errors.messages?.errorMessage && (
+                <Icon data={error_filled} title="Error" />
+              )
+            }
+          />
+        </Style.Content>
         <Card.Actions>
-          <Button disabled={!errors} type="submit">
+          <Button disabled={disabled} type="submit">
             Save
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              createNewRoute();
+            }}
+          >
+            Add New route
           </Button>
         </Card.Actions>
       </Card>

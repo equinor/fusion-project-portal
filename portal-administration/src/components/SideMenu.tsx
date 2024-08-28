@@ -10,7 +10,6 @@ import {
   settings,
 } from "@equinor/eds-icons";
 import { usePortalContext } from "../context/PortalContext";
-import { useMemo } from "react";
 
 type MenuItemProps =
   | SidebarLinkProps &

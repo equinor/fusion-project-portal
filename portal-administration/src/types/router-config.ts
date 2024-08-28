@@ -1,5 +1,9 @@
 export type RootRoute = {
   pageKey: string;
+  messages: {
+    errorMessage: string;
+    noPageMessage?: string;
+  };
 };
 
 export type Router = {

@@ -15,8 +15,20 @@ export const reducer = (state: RouterConfigContextState, action: Actions) => {
       return {
         ...state,
         root: {
+          ...state.root,
           pageKey: action.payload.pageKey,
         },
+      };
+    case "TOGGLE_ROOT":
+      return {
+        ...state,
+        rootActive: true,
+        activeRoute: undefined,
+      };
+    case "TOGGLE_CONFIG":
+      return {
+        ...state,
+        configActive: !state.configActive,
       };
     case "SET_ACTIVE_ROUTE":
       const activeRoute = findRouteById(state.routes, action.payload?.id);
@@ -25,6 +37,7 @@ export const reducer = (state: RouterConfigContextState, action: Actions) => {
         ...state,
         activeRoute,
         activeRouteControl: activeRoute,
+        rootActive: false,
       };
     case "CREATE_ROUTE":
       const newRoute =
@@ -35,6 +48,7 @@ export const reducer = (state: RouterConfigContextState, action: Actions) => {
         ...state,
         routes: addRoute(newRoute, state.routes, action.payload.id) || [],
         activeRoute: newRoute,
+        rootActive: false,
       };
     case "REMOVE_ROUTE":
       return {
