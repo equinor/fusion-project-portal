@@ -50,7 +50,7 @@ export const EditPortalForm = (props: {
   contextTypes: ContextType[];
 }) => {
   const { id, contexts } = props.portal;
-  const { mutateAsync: updatePortal, reset: resetCreate } = useUpdatePortal(id);
+  const { mutateAsync: updatePortal } = useUpdatePortal(id);
 
   const [contextEnabled, setContextEnabled] = useState<boolean>();
   const [editContextTypes, setEditContextTypes] = useState<boolean>(false);
@@ -63,7 +63,6 @@ export const EditPortalForm = (props: {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-
     watch,
     setValue,
   } = useForm<PortalEditInputs>({
