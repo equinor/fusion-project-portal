@@ -25,6 +25,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         SubText = subText;
         Description = description;
         Icon = icon;
+        Configuration = new PortalConfiguration(null);
     }
 
     public string Key { get; set; }
@@ -33,6 +34,8 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public string SubText { get; set; }
     public string? Description { get; set; }
     public string Icon { get; set; }
+
+    public PortalConfiguration Configuration { get; set; }
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
@@ -57,9 +60,10 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _contextTypes.Clear();
         _contextTypes.AddRange(contextTypes);
     }
+
     public void AddContextType(ContextType contextType)
     {
-       _contextTypes.Add(contextType);
+        _contextTypes.Add(contextType);
     }
 
     public void RemoveContextType(ContextType contextType)
