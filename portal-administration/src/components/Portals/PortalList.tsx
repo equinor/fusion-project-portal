@@ -21,10 +21,18 @@ const Style = {
     height: calc(100vh - 200px);
     overflow: auto;
   `,
-  Card: styled(Card)`
+  Card: styled(Card)<{ active: string }>`
     padding: 1rem;
     display: flex;
     flex-direction: row;
+    background: ${({ active }) => active};
+    &:hover {
+      background: ${tokens.colors.interactive.primary__hover_alt.hex};
+    }
+  `,
+  Item: styled.a`
+    cursor: pointer;
+    text-decoration: none;
   `,
   Content: styled(Card.Content)`
     display: flex;
@@ -72,87 +80,95 @@ const PortalCard = ({ portal }: { portal: Portal }) => {
   };
 
   return (
-    <Style.Card>
-      <Style.IconWrapper>
-        {portal.icon && Object.keys(AllIcons).includes(portal.icon) ? (
-          <Icon name={portal.icon} size={48} />
-        ) : (
-          <PortalIcon />
-        )}
-      </Style.IconWrapper>
-      <Style.Content>
-        <Typography
-          variant="h4"
-          color={
-            portal.id === activePortalId
-              ? colors.text.static_icons__tertiary.hex
-              : ""
-          }
-        >
-          {portal.name}
-        </Typography>
-        <Style.Description variant="caption">
-          Description: {portal.description}
-        </Style.Description>
-        {portal.contexts.length > 0 && (
+    <Style.Item
+      as={Link}
+      to={`/portals/${portal.id}/overview`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setActivePortalById(portal.id);
+      }}
+    >
+      <Style.Card
+        active={
+          portal.id === activePortalId
+            ? colors.interactive.primary__selected_highlight.hex
+            : ""
+        }
+      >
+        <Style.IconWrapper>
+          {portal.icon && Object.keys(AllIcons).includes(portal.icon) ? (
+            <Icon name={portal.icon} size={48} />
+          ) : (
+            <PortalIcon />
+          )}
+        </Style.IconWrapper>
+        <Style.Content>
+          <Typography variant="h4">{portal.name}</Typography>
           <Style.Description variant="caption">
-            ContextsTypes: {portal.contexts.map((c) => c.type).join(" | ")}
+            Description: {portal.description}
           </Style.Description>
-        )}
-      </Style.Content>
+          {portal.contexts.length > 0 && (
+            <Style.Description variant="caption">
+              ContextsTypes: {portal.contexts.map((c) => c.type).join(" | ")}
+            </Style.Description>
+          )}
+        </Style.Content>
 
-      <Style.MenuButton
-        ref={setAnchorEl}
-        onClick={() => {
-          openMenu();
-        }}
-        variant="ghost_icon"
-      >
-        <Icon data={more_vertical} />
-      </Style.MenuButton>
-      <Menu
-        open={isOpen}
-        id="menu-default"
-        aria-labelledby="anchor-default"
-        onClose={closeMenu}
-        anchorEl={anchorEl}
-        placement="left-start"
-      >
-        <Menu.Item
-          as={Link}
-          to={`/portals/${portal.id}/overview`}
+        <Style.MenuButton
+          ref={setAnchorEl}
           onClick={() => {
-            setActivePortalById(portal.id);
+            openMenu();
           }}
+          variant="ghost_icon"
         >
-          <Icon
-            data={edit}
-            size={16}
-            color={colors.text.static_icons__tertiary.hex}
-          />
-          <Typography group="navigation" variant="menu_title" as="span">
-            Edit
-          </Typography>
-        </Menu.Item>
-        <Menu.Section>
+          <Icon data={more_vertical} />
+        </Style.MenuButton>
+        <Menu
+          open={isOpen}
+          id="menu-default"
+          aria-labelledby="anchor-default"
+          onClose={closeMenu}
+          anchorEl={anchorEl}
+          placement="left-start"
+        >
           <Menu.Item
-            disabled
-            onClick={() => {
-              console.log("delete", portal.id);
+            as={Link}
+            to={`/portals/${portal.id}/overview`}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setActivePortalById(portal.id);
             }}
           >
             <Icon
-              data={delete_to_trash}
+              data={edit}
               size={16}
               color={colors.text.static_icons__tertiary.hex}
             />
             <Typography group="navigation" variant="menu_title" as="span">
-              Delete
+              Edit
             </Typography>
           </Menu.Item>
-        </Menu.Section>
-      </Menu>
-    </Style.Card>
+          <Menu.Section>
+            <Menu.Item
+              disabled
+              onClick={() => {
+                console.log("delete", portal.id);
+              }}
+            >
+              <Icon
+                data={delete_to_trash}
+                size={16}
+                color={colors.text.static_icons__tertiary.hex}
+              />
+              <Typography group="navigation" variant="menu_title" as="span">
+                Delete
+              </Typography>
+            </Menu.Item>
+          </Menu.Section>
+        </Menu>
+      </Style.Card>
+    </Style.Item>
   );
 };
 
