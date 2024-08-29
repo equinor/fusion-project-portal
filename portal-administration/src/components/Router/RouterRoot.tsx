@@ -48,7 +48,6 @@ export const RouterRoot = () => {
       <Card>
         <Card.Header>
           <Typography variant="h4">Base Config</Typography>
-          <Icon data={info_circle} />
         </Card.Header>
         <Style.Content>
           <TextField

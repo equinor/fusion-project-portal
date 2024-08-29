@@ -9,11 +9,15 @@ import { TreeRoot } from "../Tree/TreeRoot";
 
 const Style = {
   Router: styled.span`
-    padding: 2rem;
+    padding: 1rem;
     background-color: ${tokens.colors.ui.background__medium.hex};
+    border-right: 1px solid ${tokens.colors.ui.background__default.hex};
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    -webkit-box-shadow: -10px 0 20px 3px #00000005 inset;
+    -moz-box-shadow: -10px 0 20px 3px #00000005 inset;
+    box-shadow: -10px 0 20px 3px #00000005 inset;
   `,
   Top: styled.span`
     display: flex;
