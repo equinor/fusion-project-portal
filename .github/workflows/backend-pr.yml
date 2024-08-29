@@ -16,6 +16,13 @@ jobs:
     name: Backend pr job
     runs-on: ubuntu-latest
     steps:
-      - name: Write your own steps here
-        run: echo "----- Need Implementation ----"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dotnet build
         shell: bash
+        run: dotnet build ./backend/src/Equinor.ProjectExecutionPortal.sln
+
+      - name: Dotnet test
+        shell: bash
+        run: dotnet test ./backend/src/Equinor.ProjectExecutionPortal.sln
