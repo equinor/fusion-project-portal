@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
@@ -92,6 +93,47 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             catch (Exception)
             {
                 return FusionApiError.InvalidOperation("500", "An error occurred while updating portal");
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("{portalId:guid}/configuration")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiPortalConfiguration>> PortalConfiguration([FromRoute] Guid portalId)
+        {
+            var portalConfigurationDto = await Mediator.Send(new GetPortalConfigurationQuery(portalId));
+
+            if (portalConfigurationDto == null)
+            {
+                return FusionApiError.NotFound(portalId, "Could not find portal");
+            }
+
+            return Ok(new ApiPortalConfiguration(portalConfigurationDto));
+        }
+
+        [HttpPut("{portalId:guid}/configuration")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Guid>> UpdatePortalConfiguration([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalConfigurationRequest request)
+        {
+            try
+            {
+                await Mediator.Send(request.ToCommand(portalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while updating portal configuration");
             }
 
             return Ok();

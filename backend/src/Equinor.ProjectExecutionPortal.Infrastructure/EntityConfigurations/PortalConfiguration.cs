@@ -49,5 +49,10 @@ public class PortalConfiguration : IEntityTypeConfiguration<Portal>
         builder.HasMany(x => x.ContextTypes)
             .WithMany(x => x.Portals)
             .UsingEntity(join => join.ToTable("PortalContextTypes"));
+
+        builder.HasOne(x => x.Configuration)
+            .WithOne(x => x.Portal)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

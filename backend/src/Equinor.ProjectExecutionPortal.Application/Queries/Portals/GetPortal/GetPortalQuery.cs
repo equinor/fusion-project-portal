@@ -32,6 +32,7 @@ public class GetPortalQuery : QueryBase<PortalDto?>
             var entity = await _readWriteContext.Set<Portal>()
             .AsNoTracking()
             .Include(x => x.ContextTypes)
+            .Include(x => x.Configuration)
             .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
             var portal = _mapper.Map<Portal?, PortalDto?>(entity);

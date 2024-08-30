@@ -20,7 +20,7 @@ public class PortalConfiguration : AuditableEntityBase, ICreationAuditable, IMod
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; } = null!;
 
-    public void Update(string router)
+    public void Update(string? router)
     {
         Router = router;
     }
