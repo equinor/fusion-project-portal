@@ -10,24 +10,28 @@ import { createPortalFramework } from './lib';
 import { configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 import { PortalConfig } from '@portal/types';
+import { PortalFramework, PortalFrameworkConfigurator } from '@portal/framework';
+import { FusionFramework } from './FusionFramework';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const portalConfig = window['_config_'];
 
-document.title = `${portalConfig.title} | Fusion`;
-
 /* fusion core is spamming the console form module this will remove it in production */
 configureDebug();
 
-const configure = createPortalFramework(portalConfig);
+const config = (config: PortalFrameworkConfigurator) => {
+	config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
+	config.configureHttpClient('portal-client', portalConfig.portalClient.client);
+	config.configureServiceDiscovery(portalConfig.serviceDiscovery);
+};
 
 root.render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<Framework configure={configure} fallback={<PortalProgressLoader title="Configuring Portal" />}>
-				<PortalProvider />
-			</Framework>
+			<PortalFramework configure={config} fallback={<PortalProgressLoader title="Configuring Portal" />}>
+				<FusionFramework portalConfig={portalConfig} />
+			</PortalFramework>
 		</QueryClientProvider>
 	</StrictMode>
 );

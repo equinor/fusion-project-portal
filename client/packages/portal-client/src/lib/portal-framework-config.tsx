@@ -9,7 +9,7 @@ import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
+import { enablePortalMenu, enableTelemetry, Portal, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
@@ -26,9 +26,13 @@ function getClientIdFormScope(scope: string): string | undefined {
 	)?.[0];
 }
 
-export function createPortalFramework(portalConfig: PortalConfig) {
+export function createPortalFramework(portalConfig: PortalConfig, portal?: Portal) {
+	console.log(portal);
+	if (!portal) return;
 	return (config: FusionConfigurator) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
+
+		document.title = `${portal.name} | Fusion`;
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
@@ -135,7 +139,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableFeatureFlagging(config, (builder) => {
 			builder.addPlugin(
-				createLocalStoragePlugin([					
+				createLocalStoragePlugin([
 					{
 						key: 'project-prediction',
 						title: 'Allocated Projects',

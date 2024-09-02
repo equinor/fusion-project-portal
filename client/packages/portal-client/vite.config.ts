@@ -63,6 +63,7 @@ export default defineConfig(({ mode }) => {
 				'@portal/core': path.resolve(__dirname, '../core/src/index.ts'),
 				'@portal/ui': path.resolve(__dirname, '../ui/src/index.ts'),
 				'@portal/components': path.resolve(__dirname, '../components/src/index.ts'),
+				'@portal/framework': path.resolve(__dirname, '../portal-framework/src/index.ts'),
 			},
 		},
 	};
