@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-	/* padding: 0.2rem; */
 	> svg {
 		width: 35px;
 	}
 `;
-export function PortalIcon() {
+export function PortalIcon({ icon }: { icon?: string }) {
 	return (
 		<Wrapper>
 			<svg width="50" height="35" viewBox="0 0 50 35" fill="none">

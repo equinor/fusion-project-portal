@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Portal } from "../../types";
 import { usePortalContext } from "../../context/PortalContext";
-import { PortalIcon } from "./PortalIcon";
 import { useState } from "react";
 import { tokens } from "@equinor/eds-tokens";
 
@@ -64,6 +63,15 @@ const Style = {
     overflow: hidden;
     text-overflow: ellipsis;
   `,
+  AppIcon: styled.div`
+    --app-icon-size: 1.5rem;
+    --background-radius: 0.25rem;
+    padding: 1rem;
+    > svg {
+      width: 30;
+      height: 30;
+    }
+  `,
 };
 
 const { colors } = tokens;
@@ -99,7 +107,7 @@ const PortalCard = ({ portal }: { portal: Portal }) => {
           {portal.icon && Object.keys(AllIcons).includes(portal.icon) ? (
             <Icon name={portal.icon} size={48} />
           ) : (
-            <PortalIcon />
+            <span dangerouslySetInnerHTML={{ __html: portal.icon }} />
           )}
         </Style.IconWrapper>
         <Style.Content>

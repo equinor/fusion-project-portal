@@ -10,6 +10,7 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import * as AllIcons from "@equinor/eds-icons";
 import styled from "styled-components";
 
 import { useUpdatePortal } from "../hooks/use-portal-query";
@@ -42,6 +43,33 @@ const Style = {
   `,
   Heading: styled(Typography)`
     padding: 0.5rem 0;
+  `,
+  IconWrapper: styled.div`
+    background: #00707920;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    > svg {
+      fill: #007079;
+      width: 50px;
+      height: 50px;
+    }
+  `,
+  Icon: styled.span`
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    > svg {
+      fill: #007079;
+      width: 50px;
+      height: 50px;
+    }
   `,
 };
 
@@ -128,6 +156,7 @@ export const EditPortalForm = (props: {
             label="Sub Text *"
             maxLength={151}
           />
+
           <TextField
             rows={3}
             multiline
@@ -142,6 +171,27 @@ export const EditPortalForm = (props: {
             maxLength={501}
           />
         </Style.From>
+      </Style.Card>
+
+      <Style.Card>
+        <Style.Heading variant="h3">Icon</Style.Heading>
+        <Style.IconWrapper>
+          {watch().icon && Object.keys(AllIcons).includes(watch().icon) ? (
+            <Icon name={watch().icon} size={48} />
+          ) : (
+            <span dangerouslySetInnerHTML={{ __html: watch().icon }} />
+          )}
+        </Style.IconWrapper>
+        <TextField
+          rows={3}
+          multiline
+          {...register("icon")}
+          id="textfield-icon"
+          variant={errors.icon && "error"}
+          helperText={errors.icon?.message}
+          inputIcon={errors.icon && <Icon data={error_filled} title="Error" />}
+          label="Icon"
+        />
       </Style.Card>
       <Style.Card>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
