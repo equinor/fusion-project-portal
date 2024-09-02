@@ -14,8 +14,9 @@ import { ActionBar } from "./ActionBar";
 const Styles = {
   TableContent: styled.div`
     position: relative;
-    width: 100%;
     height: 100%;
+    padding-left: 1rem;
+    width: calc(100% - 2rem);
   `,
   CellWrapper: styled.div`
     display: flex;
@@ -46,7 +47,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
   return (
     <Styles.TableContent ref={ref}>
       <ClientGrid<PortalApp>
-        height={selectedApps.length === 0 ? height : height - 250}
+        height={selectedApps.length === 0 ? height : height - 201}
         rowData={portalApps}
         enableCellTextSelection
         ensureDomOrder
