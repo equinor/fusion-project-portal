@@ -1,12 +1,9 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { QueryClientProvider } from 'react-query';
-import Framework from '@equinor/fusion-framework-react';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
-import { PortalProvider } from './components/portal-router/PortalRouter';
 import { queryClient } from './utils/queryClient/query-client';
-import { createPortalFramework } from './lib';
 import { configureDebug } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 import { PortalConfig } from '@portal/types';
