@@ -27,12 +27,12 @@ function getClientIdFormScope(scope: string): string | undefined {
 }
 
 export function createPortalFramework(portalConfig: PortalConfig, portal?: Portal) {
-	console.log(portal);
 	if (!portal) return;
+	console.log(portal);
 	return (config: FusionConfigurator) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
-		document.title = `${portal.name} | Fusion`;
+		document.title = `${portal?.name} | Fusion`;
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
