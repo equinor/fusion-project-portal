@@ -14,5 +14,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals
         public string Icon { get; set; }
         public IList<ContextTypeDto> ContextTypes { get; set; }
         public List<PortalAppDto> Apps { get; set; }
+        public PortalConfigurationDto? Configuration { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
             Contexts = portalDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
             ContextTypes = portalDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
             Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
+            Configuration = portalDto.Configuration != null ? new ApiPortalConfiguration(portalDto.Configuration) : null;
         }
 
         public Guid Id { get; set; }
@@ -32,5 +33,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         public IList<ApiContextType> Contexts { get; set; }
         public IList<string> ContextTypes { get; set; }
         public List<ApiPortalApp> Apps { get; set; } = null!;
+        public ApiPortalConfiguration? Configuration { get; set; }
     }
 }
