@@ -6,6 +6,7 @@ import {
   TextField,
   Autocomplete,
   Checkbox,
+  Label,
 } from "@equinor/eds-core-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +28,11 @@ const Style = {
     display: flex;
     flex-direction: column;
   `,
+  Row: styled.div`
+    gap: 1rem;
+    display: flex;
+    flex-direction: row;
+  `,
   Card: styled(Card)`
     padding: 1rem;
   `,
@@ -46,29 +52,15 @@ const Style = {
   `,
   IconWrapper: styled.div`
     background: #00707920;
-    padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
-    > svg {
-      fill: #007079;
-      width: 50px;
-      height: 50px;
-    }
+    aspect-ratio: 1 / 1;
+    height: 90%;
   `,
   Icon: styled.span`
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
     > svg {
-      fill: #007079;
-      width: 50px;
-      height: 50px;
+      width: 100px;
     }
   `,
 };
@@ -175,23 +167,34 @@ export const EditPortalForm = (props: {
 
       <Style.Card>
         <Style.Heading variant="h3">Icon</Style.Heading>
-        <Style.IconWrapper>
-          {watch().icon && Object.keys(AllIcons).includes(watch().icon) ? (
-            <Icon name={watch().icon} size={48} />
-          ) : (
-            <span dangerouslySetInnerHTML={{ __html: watch().icon }} />
-          )}
-        </Style.IconWrapper>
-        <TextField
-          rows={3}
-          multiline
-          {...register("icon")}
-          id="textfield-icon"
-          variant={errors.icon && "error"}
-          helperText={errors.icon?.message}
-          inputIcon={errors.icon && <Icon data={error_filled} title="Error" />}
-          label="Icon"
-        />
+        <Style.Row>
+          <div>
+            <Label label="Icon Preview" htmlFor="icon-preview" />
+            <Style.IconWrapper id="icon-preview">
+              {watch().icon && Object.keys(AllIcons).includes(watch().icon) ? (
+                <Icon name={watch().icon} size={48} />
+              ) : (
+                <Style.Icon
+                  dangerouslySetInnerHTML={{
+                    __html: watch().icon.replace(/\s+/g, " ").trim(),
+                  }}
+                />
+              )}
+            </Style.IconWrapper>
+          </div>
+          <TextField
+            rows={5}
+            multiline
+            {...register("icon")}
+            id="textfield-icon"
+            variant={errors.icon && "error"}
+            helperText={errors.icon?.message}
+            inputIcon={
+              errors.icon && <Icon data={error_filled} title="Error" />
+            }
+            label="Icon"
+          />
+        </Style.Row>
       </Style.Card>
       <Style.Card>
         <div style={{ display: "flex", justifyContent: "space-between" }}>

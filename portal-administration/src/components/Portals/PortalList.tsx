@@ -107,7 +107,11 @@ const PortalCard = ({ portal }: { portal: Portal }) => {
           {portal.icon && Object.keys(AllIcons).includes(portal.icon) ? (
             <Icon name={portal.icon} size={48} />
           ) : (
-            <span dangerouslySetInnerHTML={{ __html: portal.icon }} />
+            <span
+              dangerouslySetInnerHTML={{
+                __html: `${portal.icon}`,
+              }}
+            />
           )}
         </Style.IconWrapper>
         <Style.Content>
