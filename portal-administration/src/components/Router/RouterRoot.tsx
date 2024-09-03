@@ -14,6 +14,8 @@ import { useRouterConfigContext } from "../../context/RouterContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RootInput, rootInput } from "../../schema/route";
+import { useUpdatePortalConfig } from "../../hooks/use-portal-config-query";
+import { usePortalContext } from "../../context/PortalContext";
 
 const Style = {
   Content: styled.div`
@@ -25,8 +27,8 @@ const Style = {
 };
 
 export const RouterRoot = () => {
-  const { root, updateRoot, createNewRoute } = useRouterConfigContext();
-
+  const { root, updateRoot, createNewRoute, routes } = useRouterConfigContext();
+  const { mutate } = useUpdatePortalConfig();
   const {
     register,
     handleSubmit,
@@ -36,9 +38,15 @@ export const RouterRoot = () => {
     defaultValues: root,
     reValidateMode: "onChange",
   });
-
+  const { activePortalId } = usePortalContext();
   const onSubmit: SubmitHandler<RootInput> = async (root) => {
     updateRoot(root.pageKey);
+    if (activePortalId) {
+      mutate({
+        id: activePortalId,
+        router: { root, routes },
+      });
+    }
   };
 
   const disabled = Object.keys(touchedFields).length <= 0;
