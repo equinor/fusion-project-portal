@@ -1,10 +1,13 @@
-﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using System.Threading;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 {
@@ -69,11 +72,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             dbContext.AddRange(jcaContext);
             dbContext.SaveChanges();
 
-            // Add apps to work surface
+           
+            // Add apps to portal
 
             var globalMeetingsApp = new PortalApp(meetingsApp.Id, portalWithApps.Id);
             var globalReviewsApp = new PortalApp(reviewsApp.Id, portalWithApps.Id);
             var globalTasksApp = new PortalApp(tasksApp.Id, portalWithApps.Id);
+            
 
             var jcaContextOrgChartApp = new PortalApp(orgChartApp.Id, portalWithApps.Id, jcaContext.Id);
             var jcaContextHandoverGardenApp = new PortalApp(handoverGardenApp.Id, portalWithApps.Id, jcaContext.Id);
