@@ -65,6 +65,126 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Create_Portal_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Arrange
+            var getAllBeforeCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+
+            var payload = new ApiCreatePortalRequest
+            {
+                Name = "Created portal name",
+                Description = "Created description",
+                ShortName = "Created short name",
+                Subtext = "Created subtext",
+                Icon = "Created icon",
+                ContextTypes = new List<string> { "ProjectMaster" }
+            };
+
+            // Act
+            var response = await CreatePortal(UserType.Administrator, payload);
+            var getAllAfterCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+            var theOneCreated = getAllAfterCreation!.Last();
+
+            // Assert
+            var createdPortal = await AssertGetPortal(theOneCreated.Id, UserType.Authenticated, HttpStatusCode.OK);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(getAllBeforeCreation!.Count + 1, getAllAfterCreation!.Count);
+            Assert.AreEqual(theOneCreated.Id, createdPortal!.Id);
+            Assert.AreEqual(payload.Name, createdPortal.Name);
+            Assert.AreEqual(payload.Description, createdPortal.Description);
+            Assert.AreEqual(payload.ShortName, createdPortal.ShortName);
+            Assert.AreEqual(payload.Subtext, createdPortal.Subtext);
+            Assert.AreEqual(payload.Icon, createdPortal.Icon);
+            Assert.AreEqual(payload.ContextTypes.Count, createdPortal.ContextTypes.Count);
+        }
+
+        [TestMethod]
+        public async Task Create_Portal_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiCreatePortalRequest();
+
+            // Act
+            var response = await CreatePortal(UserType.Authenticated, payload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Create_Portal_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var payload = new ApiCreatePortalRequest();
+
+            // Act
+            var response = await CreatePortal(UserType.Anonymous, payload);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Update_Portal_AsAdministratorUser_ShouldReturnOk()
+        {
+            // Arrange
+            var getAllBeforeUpdated = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+            var theOneToUpdate = getAllBeforeUpdated!.First();
+
+            var payload = new ApiUpdatePortalRequest
+            {
+                Name = "Updated portal name",
+                Description = "Updated description",
+                ShortName = "Updated short name",
+                Subtext = "Updated subtext",
+                Icon = "Updated icon",
+                ContextTypes = new List<string> { "ProjectMaster", "Facility" }
+            };
+
+            // Act
+            var response = await UpdatePortal(UserType.Administrator, payload, theOneToUpdate.Id);
+
+            // Assert
+            var theOneAfterUpdate = await AssertGetPortal(theOneToUpdate.Id, UserType.Authenticated, HttpStatusCode.OK);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(theOneToUpdate.Id, theOneAfterUpdate!.Id);
+            Assert.AreEqual(payload.Name, theOneAfterUpdate.Name);
+            Assert.AreEqual(payload.Description, theOneAfterUpdate.Description);
+            Assert.AreEqual(payload.ShortName, theOneAfterUpdate.ShortName);
+            Assert.AreEqual(payload.Subtext, theOneAfterUpdate.Subtext);
+            Assert.AreEqual(payload.Icon, theOneAfterUpdate.Icon);
+            Assert.AreEqual(payload.ContextTypes.Count, theOneAfterUpdate.ContextTypes.Count);
+        }
+
+        [TestMethod]
+        public async Task Update_Portal_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var payload = new ApiUpdatePortalRequest();
+
+            // Act
+            var response = await UpdatePortal(UserType.Authenticated, payload, Guid.NewGuid());
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Update_Portal_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            var payload = new ApiUpdatePortalRequest();
+
+            // Act
+            var response = await UpdatePortal(UserType.Anonymous, payload, Guid.NewGuid());
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [TestMethod]
         public async Task Get_PortalConfiguration_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
@@ -299,6 +419,28 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             AssertHelpers.AssertPortalConfigurationValues(portalConfiguration, acceptNullValues: true);
 
             return portalConfiguration;
+        }
+
+        private static async Task<HttpResponseMessage> CreatePortal(UserType userType, ApiCreatePortalRequest createdPortal)
+        {
+            var serializePayload = JsonConvert.SerializeObject(createdPortal);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.PostAsync($"{string.Format(Route)}", content);
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> UpdatePortal(UserType userType, ApiUpdatePortalRequest updatedPortal, Guid portalId)
+        {
+            var serializePayload = JsonConvert.SerializeObject(updatedPortal);
+            var content = new StringContent(serializePayload, Encoding.UTF8, "application/json");
+
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.PutAsync($"{string.Format(Route)}/{portalId}", content);
+
+            return response;
         }
 
         private static async Task<HttpResponseMessage> UpdatePortalConfiguration(UserType userType, ApiUpdatePortalConfigurationRequest updatedPortalConfiguration, Guid portalId)
