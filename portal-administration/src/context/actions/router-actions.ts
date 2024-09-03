@@ -1,5 +1,5 @@
 import { uuidv4 } from "uuidv7";
-import { Route } from "../../types/router-config";
+import { Route, Router } from "../../types/router-config";
 
 export type Actions =
   | {
@@ -10,6 +10,10 @@ export type Actions =
     }
   | {
       type: "TOGGLE_ROOT";
+    }
+  | {
+      type: "UPDATE_ROUTER";
+      payload: Router;
     }
   | {
       type: "TOGGLE_CONFIG";

@@ -6,8 +6,7 @@ const Wrapper = styled.span`
 	}
 `;
 export function PortalIcon({ icon }: { icon?: string }) {
-	console.log(icon);
-	if (!icon)
+	if (!icon) {
 		return (
 			<Wrapper>
 				<svg width="50" height="35" viewBox="0 0 50 35" fill="none">
@@ -59,5 +58,6 @@ export function PortalIcon({ icon }: { icon?: string }) {
 				</svg>
 			</Wrapper>
 		);
+	}
 	return <Wrapper dangerouslySetInnerHTML={{ __html: icon }} />;
 }

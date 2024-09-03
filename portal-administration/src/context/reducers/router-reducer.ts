@@ -11,6 +11,12 @@ import {
 
 export const reducer = (state: RouterConfigContextState, action: Actions) => {
   switch (action.type) {
+    case "UPDATE_ROUTER":
+      return {
+        ...state,
+        root: action.payload.root,
+        routes: action.payload.routes || [],
+      };
     case "UPDATE_ROOT":
       return {
         ...state,

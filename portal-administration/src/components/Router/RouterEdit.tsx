@@ -5,8 +5,8 @@ import { useRouterConfigContext } from "../../context/RouterContext";
 import { RouterRoot } from "./RouterRoot";
 import { RouteForm } from "./RouteForm";
 import { RouterConfig } from "./RouterConfig";
-import { info_circle } from "@equinor/eds-icons";
 import { Message } from "../Message";
+import { useUpdatePortalConfig } from "../../hooks/use-portal-config-query";
 
 const Style = {
   Wrapper: styled.div`

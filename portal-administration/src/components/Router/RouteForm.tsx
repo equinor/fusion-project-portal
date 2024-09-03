@@ -15,6 +15,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { route } from "../../schema/route";
 import { Route } from "../../types/router-config";
+import { usePortalContext } from "../../context/PortalContext";
+import { useUpdatePortalConfig } from "../../hooks/use-portal-config-query";
+import { updateRoute } from "../../context/actions/router-actions";
 
 const Style = {
   Content: styled.div`
@@ -26,8 +29,15 @@ const Style = {
 };
 
 export const RouteForm = () => {
-  const { activeRoute, updateRoute, createNewRoute } = useRouterConfigContext();
-
+  const {
+    activeRoute,
+    root,
+    updateRoute: updateRouteState,
+    createNewRoute,
+    routes,
+  } = useRouterConfigContext();
+  const { activePortalId } = usePortalContext();
+  const { mutate } = useUpdatePortalConfig();
   const {
     register,
     handleSubmit,
@@ -39,7 +49,14 @@ export const RouteForm = () => {
   });
 
   const onSubmit: SubmitHandler<Route> = async (newRoute) => {
-    updateRoute(newRoute);
+    updateRouteState(newRoute);
+
+    if (activePortalId && routes) {
+      mutate({
+        id: activePortalId,
+        router: { root, routes: updateRoute(newRoute, routes || []) },
+      });
+    }
   };
 
   const disabled = Object.keys(touchedFields).length <= 0;

@@ -1,4 +1,5 @@
 import { AppManifest } from "@equinor/fusion-framework-react-app";
+import { Router } from "./router-config";
 
 export type Portal = {
   name: string;
@@ -62,3 +63,11 @@ export type AppManifestResponse = {
   contextTypes: ContextType[];
   appManifest: AppManifest;
 };
+
+export type PortalConfiguration = {
+  router: Router;
+};
+
+export type PortalConfigurationEditInput = {
+  id: string;
+} & PortalConfiguration;

@@ -2,6 +2,7 @@ import {
   PropsWithChildren,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
 } from "react";
@@ -9,6 +10,8 @@ import { Route, Router } from "../types/router-config";
 import { reducer } from "./reducers/router-reducer";
 import { createRoute } from "./actions/router-actions";
 import { mockRoutes } from "./mocs/routes";
+import { usePortalContext } from "./PortalContext";
+import { useGetPortalConfiguration } from "../hooks/use-portal-config-query";
 
 export type RouterConfigContextState = {
   activeRoute?: Route;
@@ -30,13 +33,13 @@ export type RouterConfigContext = {
 
 const initialState = {
   root: {
-    pageKey: "project-portal",
+    pageKey: "",
     messages: {
-      errorMessage: "Could not load landing page",
+      errorMessage: "",
     },
   },
   activeRoute: undefined,
-  routes: mockRoutes,
+  routes: [] as Route[],
   rootActive: false,
   configActive: false,
 } as RouterConfigContext;
@@ -46,10 +49,22 @@ const Context = createContext<RouterConfigContext>(initialState);
 export const RouterConfigContextComponent = ({
   children,
 }: PropsWithChildren) => {
+  const { activePortalId } = usePortalContext();
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { data } = useGetPortalConfiguration(activePortalId);
+
+  useEffect(() => {
+    if (data) {
+      updateRouter(data.router);
+    }
+  }, [data]);
 
   const setActiveRoute = (id?: string) => {
     dispatch({ type: "SET_ACTIVE_ROUTE", payload: { id } });
+  };
+  const updateRouter = (router: Router) => {
+    dispatch({ type: "UPDATE_ROUTER", payload: router });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,6 +1,10 @@
 import { IHttpClient } from "@equinor/fusion-framework-module-http";
 import { formatError } from "../utils/error-utils";
-import { CreatePortal, Portal } from "../types";
+import {
+  Portal,
+  PortalConfiguration,
+  PortalConfigurationEditInput,
+} from "../types";
 import { PortalCreateInputs, PortalEditInputs } from "../schema";
 
 export const getPortalsQuery = async (
@@ -57,6 +61,49 @@ export const updatePortalQuery = async (
   }
 
   return response.ok;
+};
+export const updatePortalConfigQuery = async (
+  client: IHttpClient,
+  body: PortalConfigurationEditInput
+) => {
+  const response = await client.fetch<Response>(
+    `api/portals/${body.id}/configuration`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ router: JSON.stringify(body.router) }),
+    }
+  );
+
+  if (!response.ok) {
+    throw formatError(await response.json(), response.status);
+  }
+
+  return response.ok;
+};
+
+export const getPortalConfigByIdQuery = async (
+  client: IHttpClient,
+  activePortalId?: string,
+  signal?: AbortSignal
+) => {
+  const response = await client.fetch(
+    `api/portals/${activePortalId}/configuration`,
+    {
+      method: "GET",
+      signal,
+    }
+  );
+
+  if (!response.ok) {
+    throw formatError(await response.json(), response.status);
+  }
+
+  const router = JSON.parse((await response.json()).router);
+
+  return { router } as PortalConfiguration;
 };
 
 export const getPortalByIdQuery = async (
