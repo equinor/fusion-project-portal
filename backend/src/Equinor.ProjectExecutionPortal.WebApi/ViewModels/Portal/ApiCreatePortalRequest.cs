@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.CreatePortal;
-
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal

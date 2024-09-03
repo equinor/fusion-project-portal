@@ -25,9 +25,9 @@ public class UpdatePortalCommand : IRequest<Guid>
     public string Name { get; }
     public string ShortName { get; }
     public string SubText { get; }
-    public string? Description { get; set; }
+    public string? Description { get; }
     public string Icon { get; }
-    public IList<string>? ContextTypes { get; set; }
+    public IList<string>? ContextTypes { get; }
 
     public class Handler : IRequestHandler<UpdatePortalCommand, Guid>
     {

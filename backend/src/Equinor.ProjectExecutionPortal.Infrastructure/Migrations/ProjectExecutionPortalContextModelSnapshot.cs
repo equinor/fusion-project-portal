@@ -249,6 +249,39 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("PortalApps");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalConfiguration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PortalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Router")
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortalId")
+                        .IsUnique();
+
+                    b.ToTable("PortalConfiguration");
+                });
+
             modelBuilder.Entity("ContextTypeOnboardedApp", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
@@ -305,6 +338,17 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Navigation("Portal");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalConfiguration", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", "Portal")
+                        .WithOne("Configuration")
+                        .HasForeignKey("Equinor.ProjectExecutionPortal.Domain.Entities.PortalConfiguration", "PortalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Portal");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedContext", b =>
                 {
                     b.Navigation("Apps");
@@ -313,6 +357,9 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
                 {
                     b.Navigation("Apps");
+
+                    b.Navigation("Configuration")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

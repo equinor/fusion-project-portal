@@ -39,7 +39,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
                 RuleFor(x => x.Description)
                     .NotContainScriptTag()
                     .MaximumLength(Domain.Entities.Portal.DescriptionLengthMax);
-
             }
         }
     }
