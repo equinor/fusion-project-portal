@@ -41,59 +41,59 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 
 		enablePortalMenu(config);
 
-		enablePortalConfig(config, (builder) => {
-			builder.setConfig({
-				portalId: portalConfig.portalId,
-				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
-			});
+		// enablePortalConfig(config, (builder) => {
+		// 	builder.setConfig({
+		// 		portalId: portalConfig.portalId,
+		// 		portalEnv: portalConfig.fusionLegacyEnvIdentifier,
+		// 	});
 
-			builder.setRoutes({
-				root: {
-					pageKey: 'project-portal',
-				},
+		// 	builder.setRoutes({
+		// 		root: {
+		// 			pageKey: 'project-portal',
+		// 		},
 
-				routes: [
-					{
-						path: 'project/*',
-						pageKey: 'project',
-						messages: {
-							errorMessage: 'Fail to load project page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load project page',
-								},
-								path: ':contextId',
-								pageKey: 'project',
-							},
-						],
-					},
-					{
-						path: 'facility/*',
-						pageKey: 'facility',
-						messages: {
-							errorMessage: 'Fail to load facility page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load facility page',
-								},
-								path: ':contextId',
-								pageKey: 'facility',
-							},
-						],
-					},
-				],
-			});
-		});
+		// 		routes: [
+		// 			{
+		// 				path: 'project/*',
+		// 				pageKey: 'project',
+		// 				messages: {
+		// 					errorMessage: 'Fail to load project page',
+		// 				},
+		// 				children: [
+		// 					{
+		// 						messages: {
+		// 							errorMessage: 'Fail to load project page',
+		// 						},
+		// 						path: ':contextId',
+		// 						pageKey: 'project',
+		// 					},
+		// 				],
+		// 			},
+		// 			{
+		// 				path: 'facility/*',
+		// 				pageKey: 'facility',
+		// 				messages: {
+		// 					errorMessage: 'Fail to load facility page',
+		// 				},
+		// 				children: [
+		// 					{
+		// 						messages: {
+		// 							errorMessage: 'Fail to load facility page',
+		// 						},
+		// 						path: ':contextId',
+		// 						pageKey: 'facility',
+		// 					},
+		// 				],
+		// 			},
+		// 		],
+		// 	});
+		// });
 
-		enableContext(config);
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
+		enableContext(config);
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
 		if (portalConfig.agGrid?.licenseKey) {
@@ -240,11 +240,13 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 
 			// Todo: should be moved to context module
 
-			fusion.portalConfig.state$.subscribe((state) => {
-				if (state?.portal?.contexts) {
-					configurePortalContext(fusion.context);
-				}
-			});
+			// fusion.portalConfig.state$.subscribe((state) => {
+			// 	if (state?.portal?.contexts) {
+			// 		configurePortalContext(fusion.context);
+			// 	}
+			// });
+
+			configurePortalContext(fusion.context);
 
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {

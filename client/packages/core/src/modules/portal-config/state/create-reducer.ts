@@ -14,6 +14,9 @@ const portalMapper = (portalRequest: PortalRequest): Portal => ({
 	shortName: portalRequest.shortName,
 	subtext: portalRequest.subtext,
 	contexts: portalRequest.contexts,
+	configuration: {
+		router: portalRequest.routes!,
+	},
 });
 
 export const createReducer = (value: PortalStateInitial) =>
@@ -21,11 +24,8 @@ export const createReducer = (value: PortalStateInitial) =>
 		builder.addCase(actions.setPortal, (state, action) => {
 			state.portal = portalMapper(action.payload);
 			state.apps = action.payload.apps;
-			if (action.payload.routes) {
-				state.routes = action.payload.routes;
-			}
-			if (action.payload.extensions) {
-				state.extensions = action.payload.extensions;
+			if (action.payload.configuration) {
+				state.portal.configuration = action.payload.configuration;
 			}
 		});
 		builder.addCase(actions.setApps, (state, action) => {

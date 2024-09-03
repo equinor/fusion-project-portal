@@ -1,13 +1,28 @@
 /* eslint-disable class-methods-use-this */
 import { BaseConfigBuilder, ConfigBuilderCallbackArgs } from '@equinor/fusion-framework-module';
-import { AppManifestResponse, IClient, PortalConfiguration, PortalRoutes, PortalState } from './types';
+import {
+	AppManifestResponse,
+	IClient,
+	Portal,
+	PortalConfiguration,
+	PortalResponse,
+	PortalRoutes,
+	PortalState,
+} from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
 export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 	return {
 		getPortal: {
 			client: {
-				fn: (args) => httpClient.json(`/api/portals/${args.portalId}`),
+				fn: async (args) => {
+					const data = await httpClient.json<PortalResponse>(`/api/portals/${args.portalId}`);
+
+					return {
+						...data,
+						configuration: { router: JSON.parse(data.configuration.router || '') },
+					};
+				},
 			},
 			key: (args) => JSON.stringify(args),
 		},

@@ -21,7 +21,7 @@ export const initPortal = async <TModules extends Array<AnyModule>, TRef extends
 		modules,
 	};
 	window.FusionPortal = fusion as unknown as Fusion;
-	modules.event.dispatchEvent('onFrameworkLoaded', { detail: fusion });
+	modules.event.dispatchEvent('onPortalFrameworkLoaded', { detail: fusion });
 
 	return fusion as unknown as Fusion<TModules>;
 };

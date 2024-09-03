@@ -8,10 +8,11 @@ export const PortalFramework = (
 	props: PropsWithChildren<{
 		readonly configure: PortalConfigureCallback;
 		readonly fallback: NonNullable<ReactNode> | null;
+		readonly portalId: string;
 	}>
 ) => {
-	const { configure, fallback, children } = props;
-	const Component = useMemo(() => createPortalFrameworkProvider(configure), [configure]);
+	const { configure, fallback, children, portalId } = props;
+	const Component = useMemo(() => createPortalFrameworkProvider(configure, portalId), [configure, portalId]);
 	return (
 		<Suspense fallback={fallback}>
 			<Component>{children}</Component>

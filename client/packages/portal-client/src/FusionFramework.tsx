@@ -6,14 +6,18 @@ import Framework from '@equinor/fusion-framework-react';
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import { PortalProvider } from './components/portal-router/PortalRouter';
 import { createPortalFramework } from './lib';
-import { usePortalFrameworkModule } from '../../portal-framework/src';
-import { useQuery } from 'react-query';
-import { Portal } from '@portal/core';
+import { usePortalFramework } from '../../portal-framework/src';
+import { PortalConfig as PortalConfigModule } from '@portal/core';
+import { useObservableState } from '@equinor/fusion-observable/react';
+
+const usePortal = () => {
+	const { portalConfig: pcm } = usePortalFramework<[PortalConfigModule]>().modules;
+	return useObservableState(pcm.state$).value?.portal;
+};
 
 export const FusionFramework = ({ portalConfig }: { portalConfig: PortalConfig }) => {
-	const { data } = usePortalConfig(portalConfig.portalId);
-
-	const configure = useMemo(() => createPortalFramework(portalConfig, data), [portalConfig, data]);
+	const portal = usePortal();
+	const configure = useMemo(() => createPortalFramework(portalConfig, portal), [portalConfig, portal]);
 
 	if (!configure) return <PortalProgressLoader title="Configuring Portal" />;
 
@@ -22,15 +26,4 @@ export const FusionFramework = ({ portalConfig }: { portalConfig: PortalConfig }
 			<PortalProvider />
 		</Framework>
 	);
-};
-
-const usePortalConfig = (portalId: string) => {
-	const http = usePortalFrameworkModule('http');
-	const client = http?.createClient('portal-client');
-
-	return useQuery({
-		queryFn: () => {
-			return client?.json<Portal>(`api/portals/${portalId}`);
-		},
-	});
 };

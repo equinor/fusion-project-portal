@@ -12,6 +12,24 @@ export type Portal = {
 	shortName?: string;
 	subtext?: string;
 	contexts?: ContextType[];
+	apps?: AppManifest[];
+	configuration: {
+		router?: PortalRoutes;
+		extensions?: Extensions;
+	};
+};
+export type PortalResponse = {
+	id: string;
+	icon?: string;
+	name: string;
+	shortName?: string;
+	subtext?: string;
+	contexts?: ContextType[];
+	apps?: AppManifest[];
+	configuration: {
+		router?: string;
+		extensions?: string;
+	};
 };
 
 /**

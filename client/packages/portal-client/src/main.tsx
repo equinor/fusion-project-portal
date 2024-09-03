@@ -4,10 +4,12 @@ import { QueryClientProvider } from 'react-query';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import { queryClient } from './utils/queryClient/query-client';
-import { configureDebug } from '@equinor/portal-core';
+import { configureDebug, configurePortalContext } from '@equinor/portal-core';
 import './customElementsDefinePolyfill';
 import { PortalConfig } from '@portal/types';
 import { PortalFramework, PortalFrameworkConfigurator } from '@portal/framework';
+import { enablePortalConfig, PortalConfig as PortalConfigModule } from '@portal/core';
+
 import { FusionFramework } from './FusionFramework';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -18,6 +20,53 @@ const portalConfig = window['_config_'];
 configureDebug();
 
 const config = (config: PortalFrameworkConfigurator) => {
+	enablePortalConfig(config, (builder) => {
+		builder.setConfig({
+			portalId: portalConfig.portalId,
+			portalEnv: portalConfig.fusionLegacyEnvIdentifier,
+		});
+
+		// builder.setRoutes({
+		// 	root: {
+		// 		pageKey: 'project-portal',
+		// 	},
+
+		// 	routes: [
+		// 		{
+		// 			path: 'project/*',
+		// 			pageKey: 'project',
+		// 			messages: {
+		// 				errorMessage: 'Fail to load project page',
+		// 			},
+		// 			children: [
+		// 				{
+		// 					messages: {
+		// 						errorMessage: 'Fail to load project page',
+		// 					},
+		// 					path: ':contextId',
+		// 					pageKey: 'project',
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			path: 'facility/*',
+		// 			pageKey: 'facility',
+		// 			messages: {
+		// 				errorMessage: 'Fail to load facility page',
+		// 			},
+		// 			children: [
+		// 				{
+		// 					messages: {
+		// 						errorMessage: 'Fail to load facility page',
+		// 					},
+		// 					path: ':contextId',
+		// 					pageKey: 'facility',
+		// 				},
+		// 			],
+		// 		},
+		// 	],
+		// });
+	});
 	config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 	config.configureHttpClient('portal-client', portalConfig.portalClient.client);
 	config.configureServiceDiscovery(portalConfig.serviceDiscovery);
@@ -26,7 +75,11 @@ const config = (config: PortalFrameworkConfigurator) => {
 root.render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<PortalFramework configure={config} fallback={<PortalProgressLoader title="Configuring Portal" />}>
+			<PortalFramework
+				configure={config}
+				portalId={portalConfig.portalId}
+				fallback={<PortalProgressLoader title="Configuring Portal2" />}
+			>
 				<FusionFramework portalConfig={portalConfig} />
 			</PortalFramework>
 		</QueryClientProvider>

@@ -45,11 +45,12 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		this.#config = _config;
 		this.#state = createState({ ..._config.portalConfig }, this);
 		this.initialize();
+		this.#state.subscribe(console.log);
 	}
 
 	get routes$(): Observable<PortalRoutes> {
 		return this.#state.pipe(
-			map(({ routes }) => routes),
+			map(({ portal }) => portal.configuration.router),
 			filterEmpty()
 		);
 	}
@@ -121,7 +122,6 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		return this._AppsBuContext({ portalId, contextId });
 	};
 
-	 
 	public getPortalRoutesById$ = (_portalId?: string): Observable<PortalRoutes> => {
 		return new Observable((sub) => sub.next(this.#config.portalConfig.routes));
 	};
