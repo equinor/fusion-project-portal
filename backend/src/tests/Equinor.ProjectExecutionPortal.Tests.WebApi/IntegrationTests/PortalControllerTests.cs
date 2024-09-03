@@ -2,7 +2,6 @@
 using System.Text;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -52,7 +51,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_NonExistentPortal_AsAuthenticatedUser_ShouldReturnNotFound()
         {
             // Act & Assert
-            var portal = await AssertGetPortal(Guid.NewGuid(), UserType.Authenticated, HttpStatusCode.NotFound);
+            await AssertGetPortal(Guid.NewGuid(), UserType.Authenticated, HttpStatusCode.NotFound);
         }
 
         [TestMethod]
@@ -192,7 +191,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.FirstOrDefault();
 
             // Act
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextExternalId, FusionContextData.InitialSeedData.ContextType, UserType.Authenticated, HttpStatusCode.OK);
+            await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextExternalId, FusionContextData.InitialSeedData.ContextType, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             // TODO Fusion 404 returned
