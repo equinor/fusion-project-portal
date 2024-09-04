@@ -1,18 +1,19 @@
-import type { AppModuleInitiator } from "@equinor/fusion-framework-app";
-import { enableNavigation } from "@equinor/fusion-framework-module-navigation";
+import type { AppModuleInitiator } from '@equinor/fusion-framework-app';
+import { enableNavigation } from '@equinor/fusion-framework-module-navigation';
 
 interface Client {
-  baseUri: string;
-  defaultScopes: string[];
+	baseUri: string;
+	defaultScopes: string[];
 }
 
 export const configure: AppModuleInitiator = (configurator, { env }) => {
-  const { basename, config } = env;
-  enableNavigation(configurator, basename);
+	const { basename, config } = env;
 
-  const environment = config?.environment as { client: Client };
+	enableNavigation(configurator, basename);
 
-  configurator.configureHttpClient("portal-client", environment.client);
+	const environment = config?.environment as { client: Client };
+
+	configurator.configureHttpClient('portal-client', environment.client);
 };
 
 export default configure;
