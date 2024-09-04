@@ -5,6 +5,13 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  deployments: write
+  id-token: write
+
 jobs:
   build:
     environment: non-prod
