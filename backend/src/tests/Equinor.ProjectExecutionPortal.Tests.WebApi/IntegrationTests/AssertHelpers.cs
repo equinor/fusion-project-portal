@@ -24,7 +24,18 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(portal);
         }
 
-      
+        public static void AssertPortalConfigurationValues(ApiPortalConfiguration? portalConfiguration, bool acceptNullValues)
+        {
+            if (portalConfiguration == null)
+            {
+                Assert.Fail();
+            }
+
+            if (!acceptNullValues)
+            {
+                Assert.IsNotNull(portalConfiguration.Router);
+            }
+        }
 
         public static void AssertPortalAppValues(ApiPortalApp? app)
         {
