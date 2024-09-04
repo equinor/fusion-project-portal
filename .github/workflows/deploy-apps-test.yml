@@ -38,6 +38,8 @@ jobs:
           cd client
           yarn install
           npm i -g @equinor/fusion-framework-cli
+          cd apps/portal-administration
+          yarn install
 
       - name: Build
         run: |
