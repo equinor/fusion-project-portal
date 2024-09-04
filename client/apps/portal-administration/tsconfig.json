@@ -2,7 +2,7 @@
     "compilerOptions": {
         "rootDir": "src",
         "baseUrl": "src",
-        "jsx": "react-jsxdev",
+        "jsx": "react-jsx",
         "strict": true,
         "module": "ES2022",
         "target": "ES6",
@@ -22,7 +22,7 @@
             "dom.iterable"
         ],
         "composite": true,
-        "outDir": "./dist", 
+        "outDir": "./dist",
     },
     "include": [
         "./src",

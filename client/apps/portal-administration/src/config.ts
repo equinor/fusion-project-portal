@@ -1,9 +1,5 @@
 import type { AppModuleInitiator } from "@equinor/fusion-framework-app";
-import {
-  NavigationModule,
-  enableNavigation,
-} from "@equinor/fusion-framework-module-navigation";
-import { Fusion } from "@equinor/fusion-framework-react";
+import { enableNavigation } from "@equinor/fusion-framework-module-navigation";
 
 interface Client {
   baseUri: string;

@@ -1,11 +1,13 @@
 name: Deploy apps CI
 
 on:
+  pull_request:
   push:
     branches: ["main"]
 
 jobs:
   build:
+    environment: non-prod
     name: Deploy
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -20,9 +22,9 @@ jobs:
         id: "get-fusion-token"
         uses: ./.github/actions/get-fusion-token
         with:
-          client-id: ${{secrets.AZURE_CLIENT_ID}}
+          client-id: ${{secrets.AZURE_SP_FUSION}}
           tenant-id: ${{secrets.AZURE_TENANT_ID}}
-          resource-id: ${{secrets.AZURE_RESOURCE_ID}}
+          resource-id: ${{secrets.AZURE_FUSION_SCOPE}}
 
       - name: Install
         run: |
@@ -36,6 +38,5 @@ jobs:
       - name: Deploy
         run: |
           cd apps/portal-administration
-          yarn pack
-          curl -X POST -H "Authorization: Bearer ${{ steps.get-fusion-token.outputs.token }}" -F "
-          #deploy app-bundle.zip
+          yarn bundle
+          curl -T 'app-bundle.zip' -H 'Authorization: Bearer ${{ steps.get-fusion-token.outputs.token }}' -H "Content-Disposition: attachment; filename=app-bundle.zip" -H "Content-Type: application/zip" -X POST --show-error --url https://fusion-s-portal-ci.azurewebsites.net/api/apps/portal-administration/versions
