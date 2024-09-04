@@ -37,6 +37,7 @@ jobs:
         run: |
           cd client
           yarn install
+          npm i -g @equinor/fusion-framework-cli
 
       - name: Build
         run: |
