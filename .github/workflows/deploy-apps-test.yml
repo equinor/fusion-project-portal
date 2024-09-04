@@ -50,4 +50,4 @@ jobs:
         run: |
           cd client/apps/portal-administration
           yarn bundle
-          curl -T 'app-bundle.zip' -H 'Authorization: Bearer ${{ steps.get-fusion-token.outputs.token }}' -H "Content-Disposition: attachment; filename=app-bundle.zip" -H "Content-Type: application/zip" -X POST --show-error --url https://fusion-s-portal-ci.azurewebsites.net/api/apps/portal-administration/versions
+          curl -T 'app-bundle.zip' -H 'Authorization: Bearer ${{ steps.get-fusion-token.outputs.token }}' -H "Content-Disposition: attachment; filename=app-bundle.zip" -H "Content-Type: application/zip" -X POST --show-error -i --url https://fusion-s-portal-ci.azurewebsites.net/api/apps/portal-administration/versions
