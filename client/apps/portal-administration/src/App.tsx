@@ -1,7 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import { useRouter } from "@equinor/fusion-framework-react-app/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import styled from "styled-components";
 import routes from "./routes";
 import { tokens } from "@equinor/eds-tokens";
