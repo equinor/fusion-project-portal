@@ -331,7 +331,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForPortal_WithoutContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var apps = await AssertGetAppsForPortal(new Guid(), null, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var apps = await AssertGetAppsForPortal(Guid.NewGuid(), null, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(apps);
@@ -341,7 +341,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForPortal_WithValidContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var apps = await AssertGetAppsForPortal(new Guid(), FusionContextData.InitialSeedData.JcaContextId, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var apps = await AssertGetAppsForPortal(Guid.NewGuid(), FusionContextData.InitialSeedData.JcaContextId, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(apps);
@@ -497,8 +497,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             return response;
         }
-
-        private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, string? contextExternalId, string? contextType, UserType userType, HttpStatusCode expectedStatusCode)
+       
         private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
@@ -549,7 +548,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return response;
         }
 
-        private static async Task<HttpResponseMessage> GetAppsForPortal(Guid portalId, string? contextExternalId, string? contextType, UserType userType)
         private static async Task<HttpResponseMessage> GetAppsForPortal(Guid portalId, Guid? contextId, UserType userType)
         {
             var route = contextId != null ? $"{Route}/{portalId}/contexts/{contextId}/apps" : $"{Route}/{portalId}/apps";
