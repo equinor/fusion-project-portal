@@ -8,6 +8,7 @@ import {
 	PortalResponse,
 	PortalRoutes,
 	PortalState,
+	AppManifest,
 } from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
@@ -17,10 +18,12 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 			client: {
 				fn: async (args) => {
 					const data = await httpClient.json<PortalResponse>(`/api/portals/${args.portalId}`);
+					const apps = await httpClient.json<AppManifestResponse[]>(`/api/portals/${args.portalId}/apps`);
 
 					return {
 						...data,
 						configuration: { router: JSON.parse(data.configuration.router || '') },
+						apps: apps.map((app) => app.appManifest),
 					};
 				},
 			},

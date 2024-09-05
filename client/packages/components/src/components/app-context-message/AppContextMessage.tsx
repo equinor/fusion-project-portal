@@ -1,6 +1,7 @@
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
 import { MessageCard } from '@portal/ui';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 const Styles = {
 	AppMessageWrapper: styled.div`
@@ -12,9 +13,10 @@ const APP_COUNT = 15;
 
 export const AppContextMessage = () => {
 	const { apps } = useFavorites();
+	const { context } = useFramework().modules;
 	return (
 		<>
-			{apps && apps.length < APP_COUNT && (
+			{apps && apps.length < APP_COUNT && context.currentContext && (
 				<Styles.AppMessageWrapper>
 					<MessageCard
 						title="Application and Context Expansion"

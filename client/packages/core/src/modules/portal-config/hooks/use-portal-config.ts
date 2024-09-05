@@ -22,10 +22,11 @@ export const usePortalConfig = () => {
 			queryKey: ['portal'],
 		}),
 		queryApps: useQuery({
-			queryFn: async () =>
-				await portalConfig.getAppsByContextAsync(portal?.id || '', context.currentContext?.id || ''),
-			queryKey: ['portal', 'apps', context.currentContext?.id || 'context'],
-			enabled: Boolean(context.currentContext && portal?.id),
+			queryFn: async () => {
+				return await portalConfig.getAppsAsync(portal, context.currentContext?.id);
+			},
+			queryKey: ['portal', 'apps', context.currentContext?.id || 'app-portal'],
+			enabled: Boolean(portal?.id),
 		}),
 	};
 };
