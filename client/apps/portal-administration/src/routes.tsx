@@ -1,7 +1,5 @@
 import { RouteObject } from "react-router-dom";
-
 import { Portals } from "./pages/Portals";
-
 import { EditPortal } from "./pages/EditPortal";
 import { RouterConfig } from "./pages/RouterConfig";
 import { Context } from "./pages/ContextConfig";
