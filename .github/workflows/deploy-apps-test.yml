@@ -3,6 +3,7 @@ name: Deploy apps CI
 on:
   push:
     branches: ["main"]
+  pull_request:
     paths:
       - "client/apps/portal-administration/**"
 
