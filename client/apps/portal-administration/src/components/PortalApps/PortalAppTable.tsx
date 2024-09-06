@@ -10,13 +10,13 @@ import { CustomCellRendererProps } from '@ag-grid-community/react';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
 import { PortalApp, ContextType } from '../../types';
 import { ActionBar } from './ActionBar';
+import { AgStyle } from '../AgStyle';
 
 const Styles = {
 	TableContent: styled.div`
 		position: relative;
-		height: 100%;
-		padding-left: 1rem;
 		width: calc(100% - 2rem);
+		height: 100%;
 	`,
 	CellWrapper: styled.div`
 		display: flex;
@@ -45,82 +45,84 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
 
 	return (
-		<Styles.TableContent ref={ref}>
-			<ClientGrid<PortalApp>
-				height={selectedApps.length === 0 ? height - 32 : height - 201}
-				rowData={portalApps}
-				enableCellTextSelection
-				ensureDomOrder
-				rowSelection="multiple"
-				rowHeight={36}
-				autoSizeStrategy={{
-					type: 'fitGridWidth',
-					defaultMinWidth: 80,
-					defaultMaxWidth: 300,
-				}}
-				onRowSelected={(event) => {
-					const selectedRows = event.api!.getSelectedRows();
+		<AgStyle>
+			<Styles.TableContent ref={ref}>
+				<ClientGrid<PortalApp>
+					height={selectedApps.length === 0 ? height - 150 : height - 201}
+					rowData={portalApps}
+					enableCellTextSelection
+					ensureDomOrder
+					rowSelection="multiple"
+					rowHeight={36}
+					autoSizeStrategy={{
+						type: 'fitGridWidth',
+						defaultMinWidth: 80,
+						defaultMaxWidth: 300,
+					}}
+					onRowSelected={(event) => {
+						const selectedRows = event.api!.getSelectedRows();
 
-					setSelectedApps(selectedRows);
-				}}
-				colDefs={[
-					{
-						field: 'isActive',
-						headerName: 'Is Active',
-						width: 80,
-						cellRenderer: (
-							params: CustomCellRendererProps<{
-								isActive?: boolean;
-								appKey: string;
-							}>
-						) => {
-							return (
-								<Styles.CellWrapper key={`active-${params.context?.appKey}`}>
-									<Styles.Indicator active={params.data?.isActive?.toString()} />
-								</Styles.CellWrapper>
-							);
+						setSelectedApps(selectedRows);
+					}}
+					colDefs={[
+						{
+							field: 'isActive',
+							headerName: 'Is Active',
+							width: 80,
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									isActive?: boolean;
+									appKey: string;
+								}>
+							) => {
+								return (
+									<Styles.CellWrapper key={`active-${params.context?.appKey}`}>
+										<Styles.Indicator active={params.data?.isActive?.toString()} />
+									</Styles.CellWrapper>
+								);
+							},
 						},
-					},
-					{
-						field: 'appKey',
-						headerName: 'Application key',
-					},
-
-					{
-						field: 'name',
-						headerName: 'Name',
-					},
-					{
-						field: 'description',
-						headerName: 'Description',
-					},
-					{
-						field: 'contexts',
-						headerName: 'Contexts Types',
-						cellRenderer: (
-							params: CustomCellRendererProps<{
-								contexts: ContextType[];
-								contextTypes: string[];
-								appKey: string;
-							}>
-						) => {
-							return (
-								<Styles.CellWrapper key={`contexts-${params.context?.appKey}`}>
-									{params?.data?.contextTypes?.map((type) => {
-										return (
-											<Styles.Chip variant="default" key={type}>
-												{type}
-											</Styles.Chip>
-										);
-									})}
-								</Styles.CellWrapper>
-							);
+						{
+							field: 'appKey',
+							headerName: 'Application key',
 						},
-					},
-				]}
-			/>
 
-			<ActionBar selection={selectedApps} />
-		</Styles.TableContent>
+						{
+							field: 'name',
+							headerName: 'Name',
+						},
+						{
+							field: 'description',
+							headerName: 'Description',
+						},
+						{
+							field: 'contexts',
+							headerName: 'Contexts Types',
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									contexts: ContextType[];
+									contextTypes: string[];
+									appKey: string;
+								}>
+							) => {
+								return (
+									<Styles.CellWrapper key={`contexts-${params.context?.appKey}`}>
+										{params?.data?.contextTypes?.map((type) => {
+											return (
+												<Styles.Chip variant="default" key={type}>
+													{type}
+												</Styles.Chip>
+											);
+										})}
+									</Styles.CellWrapper>
+								);
+							},
+						},
+					]}
+				/>
+
+				<ActionBar selection={selectedApps} />
+			</Styles.TableContent>
+		</AgStyle>
 	);
 };

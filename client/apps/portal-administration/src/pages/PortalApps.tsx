@@ -9,6 +9,9 @@ import { PortalAppTable } from '../components/PortalApps/PortalAppTable';
 import { view_module, view_list } from '@equinor/eds-icons';
 import { useTabs } from '../hooks/use-tabs';
 import { PortalAppList } from '../components/PortalApps/PortalAppList';
+import { DataClarification } from '../components/DataClarification';
+
+import { InfoPopover } from '../components/InfoPopover';
 
 const Style = {
 	Wrapper: styled.div`
@@ -17,11 +20,8 @@ const Style = {
 		position: absolute;
 	`,
 	Content: styled.div`
-		width: 100%;
-		gap: 1rem;
 		padding: 1rem;
-		padding-bottom: 0rem;
-		position: relative;
+		width: -webkit-fill-available;
 	`,
 	ActionBar: styled.div`
 		padding: 1rem;
@@ -30,11 +30,18 @@ const Style = {
 	`,
 	TabsListWrapper: styled.div`
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 		align-items: center;
-		padding: 1rem;
-		padding-bottom: 0rem;
-		align-items: flex-end;
+		width: 100%;
+		border-bottom: 2px solid #e0e0e0;
+	`,
+	Tab: styled(Tabs.Tab)`
+		${({ active }) => (!active ? 'border-bottom-color: transparent;' : '')};
+		border-bottom-width: 2px;
+	`,
+	Row: styled.div`
+		display: flex;
+		align-items: center;
 	`,
 };
 
@@ -53,40 +60,44 @@ export const PortalApps = () => {
 	}
 
 	return (
-		<>
-			<Style.Wrapper>
-				<Tabs activeTab={activeTab} onChange={onTabChange}>
-					<Style.Content>
+		<Style.Content>
+			<Tabs activeTab={activeTab} onChange={onTabChange}>
+				<Style.TabsListWrapper>
+					<Style.Row>
 						<Typography variant="h4">
 							{portal ? `${portal.name} - Apps Config` : 'Postal Apps Config'}
 						</Typography>
-					</Style.Content>
-					<Style.TabsListWrapper>
+						<InfoPopover title="Portal Apps Config">
+							<Typography>Configure the applications that are available in this portal.</Typography>
+						</InfoPopover>
+					</Style.Row>
+					<Style.Row>
+						<DataClarification />
 						<Tabs.List>
-							<Tabs.Tab title="Table View">
+							<Style.Tab title="Table View">
 								<Tooltip title="Table View">
 									<Icon data={view_module} />
 								</Tooltip>
-							</Tabs.Tab>
-							<Tabs.Tab title="List View">
+							</Style.Tab>
+							<Style.Tab title="List View">
 								<Tooltip title="List View">
 									<Icon data={view_list} />
 								</Tooltip>
-							</Tabs.Tab>
+							</Style.Tab>
 						</Tabs.List>
-					</Style.TabsListWrapper>
-					<Tabs.Panels>
-						<Tabs.Panel>
-							{activeTab === 0 && (
-								<Style.Wrapper>
-									<PortalAppTable portalApps={portalApps} />
-								</Style.Wrapper>
-							)}
-						</Tabs.Panel>
-						<Tabs.Panel>{activeTab === 1 && <PortalAppList portalApps={portalApps} />}</Tabs.Panel>
-					</Tabs.Panels>
-				</Tabs>
-			</Style.Wrapper>
-		</>
+					</Style.Row>
+				</Style.TabsListWrapper>
+				<Tabs.Panels>
+					<Tabs.Panel>
+						{activeTab === 0 && (
+							<Style.Wrapper>
+								<PortalAppTable portalApps={portalApps} />
+							</Style.Wrapper>
+						)}
+					</Tabs.Panel>
+					<Tabs.Panel>{activeTab === 1 && <PortalAppList portalApps={portalApps} />}</Tabs.Panel>
+				</Tabs.Panels>
+			</Tabs>
+		</Style.Content>
 	);
 };

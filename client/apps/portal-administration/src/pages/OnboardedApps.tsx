@@ -1,78 +1,90 @@
-import { Link } from "react-router-dom";
-
-import { useState } from "react";
-import { Header } from "../components/Header";
-import styled from "styled-components";
-import { OnboardedContextsList } from "../components/OnboardedContexts/OnboradedContextsList";
-import { OnboardedContextsTable } from "../components/OnboardedContexts/OnboradedContextsTable";
-import { Button, Icon, Tabs, Tooltip } from "@equinor/eds-core-react";
-import {
-  add,
-  list,
-  view_agenda,
-  view_list,
-  view_module,
-} from "@equinor/eds-icons";
-import { AppsList } from "../components/OnboardedApps/AppsList";
-import { AppsTable } from "../components/OnboardedApps/AppsTable";
-import { useTabs } from "../hooks/use-tabs";
-import { Message } from "../components/Message";
-import { OnboardApp } from "../components/OnboardedApps/OnboardApp";
+import { Header } from '../components/Header';
+import styled from 'styled-components';
+import { Icon, Tabs, Tooltip, Typography } from '@equinor/eds-core-react';
+import { add, view_list, view_module } from '@equinor/eds-icons';
+import { AppsList } from '../components/OnboardedApps/AppsList';
+import { AppsTable } from '../components/OnboardedApps/AppsTable';
+import { useTabs } from '../hooks/use-tabs';
+import { Message } from '../components/Message';
+import { OnboardApp } from '../components/OnboardedApps/OnboardApp';
+import { DataClarification } from '../components/DataClarification';
+import { Info } from 'luxon';
+import { InfoPopover } from '../components/InfoPopover';
 
 const Style = {
-  TabsListWrapper: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    padding-bottom: 0px;
-    align-items: flex-end;
-  `,
+	Wrapper: styled.div`
+		height: 100%;
+		width: 100%;
+		position: absolute;
+	`,
+	Content: styled.div`
+		padding: 1rem;
+		width: -webkit-fill-available;
+	`,
+	ActionBar: styled.div`
+		padding: 1rem;
+		display: flex;
+		justify-content: space-between;
+	`,
+	TabsListWrapper: styled.div`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		border-bottom: 2px solid #e0e0e0;
+	`,
+	Tab: styled(Tabs.Tab)`
+		${({ active }) => (!active ? 'border-bottom-color: transparent;' : '')};
+		border-bottom-width: 2px;
+	`,
+	Row: styled.div`
+		display: flex;
+		align-items: center;
+	`,
 };
 
 export const OnboardedApps = () => {
-  const { onTabChange, activeTab } = useTabs(["list", "table", "new"], "list");
-  return (
-    <>
-      <Header title="Onboarded Apps" />
-      <Tabs activeTab={activeTab} onChange={onTabChange}>
-        <Style.TabsListWrapper>
-          <Message
-            title="Select application to edit"
-            messages={[
-              "You can onboard a new application by using the plus button",
-            ]}
-          />
-          <Tabs.List>
-            <Tabs.Tab title="List View">
-              <Tooltip title="List View">
-                <Icon data={view_module} />
-              </Tooltip>
-            </Tabs.Tab>
-            <Tabs.Tab title="Table View">
-              <Tooltip title="Table View">
-                <Icon data={view_list} />
-              </Tooltip>
-            </Tabs.Tab>
-            <Tabs.Tab title="Create New Portal">
-              <Tooltip title="Create New Portal">
-                <Icon data={add}></Icon>
-              </Tooltip>
-            </Tabs.Tab>
-          </Tabs.List>
-        </Style.TabsListWrapper>
-        <Tabs.Panels>
-          <Tabs.Panel>
-            <AppsList />
-          </Tabs.Panel>
-          <Tabs.Panel>
-            <AppsTable />
-          </Tabs.Panel>
-          <Tabs.Panel>
-            <OnboardApp />
-          </Tabs.Panel>
-        </Tabs.Panels>
-      </Tabs>
-    </>
-  );
+	const { onTabChange, activeTab } = useTabs(['table', 'list', 'new'], 'table');
+	return (
+		<Style.Content>
+			<Tabs activeTab={activeTab} onChange={onTabChange}>
+				<Style.TabsListWrapper>
+					<Style.Row>
+						<Typography variant="h4">Onboarded Apps</Typography>
+						<InfoPopover title="Onboarded Apps">
+							<Typography>Onboarded apps are applications that have been activated for use.</Typography>
+							<Typography>They can be added to portals.</Typography>
+						</InfoPopover>
+					</Style.Row>
+					<Style.Row>
+						<DataClarification />
+						<Tabs.List>
+							<Style.Tab title="Table View">
+								<Tooltip title="Table View">
+									<Icon data={view_list} />
+								</Tooltip>
+							</Style.Tab>
+							<Style.Tab title="List View">
+								<Tooltip title="List View">
+									<Icon data={view_module} />
+								</Tooltip>
+							</Style.Tab>
+							<Style.Tab title="Create New Portal">
+								<Tooltip title="Create New Portal">
+									<Icon data={add}></Icon>
+								</Tooltip>
+							</Style.Tab>
+						</Tabs.List>
+					</Style.Row>
+				</Style.TabsListWrapper>
+				<Tabs.Panels>
+					<Tabs.Panel>
+						<Style.Wrapper>{activeTab === 0 && <AppsTable />}</Style.Wrapper>
+					</Tabs.Panel>
+					<Tabs.Panel>{activeTab === 1 && <AppsList />}</Tabs.Panel>
+					<Tabs.Panel>{activeTab === 2 && <OnboardApp />}</Tabs.Panel>
+				</Tabs.Panels>
+			</Tabs>
+		</Style.Content>
+	);
 };
