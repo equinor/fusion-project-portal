@@ -209,6 +209,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
                 {
                     return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.ExternalId == contextIdentifier.Identifier));
                 });
+
+            _fusionContextResolverMock.Setup(service => service.GetContextAsync(It.IsAny<Guid>())).Returns((Guid contextId) =>
+            {
+                return Task.FromResult(FusionContextData.ValidFusionContexts.First(x => x.Id == contextId));
+            });
+            
         }
 
         private void SetupTestUsers()

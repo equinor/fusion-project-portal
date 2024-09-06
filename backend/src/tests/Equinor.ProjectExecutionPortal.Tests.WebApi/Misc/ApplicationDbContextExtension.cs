@@ -3,7 +3,6 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
@@ -68,8 +67,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             dbContext.AddRange(jcaContext);
             dbContext.SaveChanges();
-
-            // Add apps to work surface
+           
+            // Add apps to portal
 
             var globalMeetingsApp = new PortalApp(meetingsApp.Id, portalWithApps.Id);
             var globalReviewsApp = new PortalApp(reviewsApp.Id, portalWithApps.Id);

@@ -53,7 +53,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return Ok(new ApiOnboardedContext(onboardedContext));
         }
-
+        
         [HttpPost("")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         [Consumes(MediaTypeNames.Application.Json)]

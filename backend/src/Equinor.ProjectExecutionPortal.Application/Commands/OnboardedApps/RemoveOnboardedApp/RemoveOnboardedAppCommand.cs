@@ -27,11 +27,17 @@ public class RemoveOnboardedAppCommand : IRequest
         public async Task Handle(RemoveOnboardedAppCommand command, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<OnboardedApp>()
+                .Include(x => x.Apps)
                 .FirstOrDefaultAsync(onboardedApp => onboardedApp.AppKey == command.AppKey, cancellationToken);
 
             if (entity == null)
             {
                 throw new NotFoundException(nameof(OnboardedApp), command.AppKey);
+            }
+
+            if (entity.Apps.Any())
+            {
+                throw new InvalidOperationException("Cannot remove onboarded app. App is in use in a portal.");
             }
 
             _context.Set<OnboardedApp>().Remove(entity);

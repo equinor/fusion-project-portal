@@ -10,6 +10,7 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
 {
     public const int AppKeyLengthMax = 200;
     private readonly List<ContextType> _contextTypes = new();
+    private readonly List<PortalApp> _apps = new();
 
     public OnboardedApp(string appKey)
     {
@@ -22,6 +23,7 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     public string AppKey { get; set; }
 
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
+    public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
 
     public void AddContextTypes(IList<ContextType> contextTypes)
     {
