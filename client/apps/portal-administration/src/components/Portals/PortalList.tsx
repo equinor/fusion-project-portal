@@ -153,7 +153,6 @@ const PortalCard = ({ portal, onQuickEdit }: { portal: Portal; onQuickEdit: (por
 						as={Link}
 						to={`/portals/${portal.id}/overview`}
 						onClick={(e) => {
-							e.preventDefault();
 							e.stopPropagation();
 							setActivePortalById(portal.id);
 						}}
