@@ -101,11 +101,12 @@ export const EditPortalForm = (props: {
 	}, [type]);
 
 	const onDisabled = props.onDisabled;
-	const disabled = useMemo(() => {
-		const isDisabled = Object.keys(touchedFields).length <= 0;
-		onDisabled && onDisabled(isDisabled);
-		return isDisabled;
-	}, [touchedFields, onDisabled]);
+
+	const disabled = Object.keys(touchedFields).length <= 0;
+
+	useEffect(() => {
+		onDisabled && onDisabled(disabled);
+	}, [disabled, onDisabled]);
 
 	return (
 		<Style.Wrapper>
