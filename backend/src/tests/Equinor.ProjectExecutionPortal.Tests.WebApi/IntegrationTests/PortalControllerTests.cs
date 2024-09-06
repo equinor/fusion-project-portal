@@ -348,7 +348,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        [Ignore] // TODO: Need to perform clean up after each test
         public async Task Delete_Portal_AsAdministrator_ShouldReturnOk()
         {
             // Arrange

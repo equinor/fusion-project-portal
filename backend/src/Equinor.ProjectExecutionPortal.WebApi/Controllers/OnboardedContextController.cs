@@ -44,7 +44,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string contextExternalId, string type)
         {
-            //TODO: Can be deleted
             var onboardedContext = await Mediator.Send(new GetOnboardedContextByExternalIdContextTypeQuery(contextExternalId, type));
 
             if (onboardedContext == null)
@@ -66,7 +65,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
         {
-            //TODO: Refactor to use contextId instead of externalId
             var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
 
             var context = await ContextResolver.ResolveContextAsync(contextIdentifier, request.Type);
