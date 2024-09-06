@@ -19,7 +19,7 @@ const Style = {
 		justify-content: space-between;
 		width: 100%;
 	`,
-	Row: styled.div<{ padding?: string }>`
+	Row: styled.div`
 		display: flex;
 		align-items: center;
 	`,
@@ -37,7 +37,7 @@ export const FormActionBar = ({ isDisabled, portal, isIcons }: FormActionBarProp
 	return (
 		<Style.Wrapper>
 			{!isIcons && (
-				<Style.Row padding={isIcons ? '0.5rem' : undefined}>
+				<Style.Row>
 					<Typography variant="h4">{portal ? `${portal.name} - Config` : 'Postal  Config'}</Typography>
 					<InfoPopover title="Portal Config">
 						<Typography>Portal configuration is where you can manage the portal settings.</Typography>
