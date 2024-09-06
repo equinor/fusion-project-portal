@@ -19,7 +19,7 @@ const Style = {
 		justify-content: space-between;
 		width: 100%;
 	`,
-	Row: styled.div`
+	Row: styled.div<{ padding?: string }>`
 		display: flex;
 		align-items: center;
 	`,
@@ -37,7 +37,7 @@ export const FormActionBar = ({ isDisabled, portal, isIcons }: FormActionBarProp
 	return (
 		<Style.Wrapper>
 			{!isIcons && (
-				<Style.Row>
+				<Style.Row padding={isIcons ? '0.5rem' : undefined}>
 					<Typography variant="h4">{portal ? `${portal.name} - Config` : 'Postal  Config'}</Typography>
 					<InfoPopover title="Portal Config">
 						<Typography>Portal configuration is where you can manage the portal settings.</Typography>
@@ -53,11 +53,11 @@ export const FormActionBar = ({ isDisabled, portal, isIcons }: FormActionBarProp
 						type="submit"
 						disabled={isDisabled}
 					>
-						<Icon data={save} size={16} />
+						{!isIcons ? <Icon data={save} size={16} /> : <Icon data={save} />}
 						{!isIcons && 'Save'}
 					</Button>
 					<Button variant={isIcons ? 'ghost_icon' : 'outlined'} onClick={() => setIsDeleting(true)}>
-						<Icon data={delete_to_trash} size={16} />
+						{!isIcons ? <Icon data={delete_to_trash} size={16} /> : <Icon data={delete_to_trash} />}
 						{!isIcons && 'Delete'}
 					</Button>
 

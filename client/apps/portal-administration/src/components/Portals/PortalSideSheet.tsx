@@ -20,6 +20,9 @@ const Style = {
 	PadTop: styled(Typography)`
 		padding-bottom: 1rem;
 	`,
+	PadBottom: styled.div`
+		padding-bottom: 0.5rem;
+	`,
 	Card: styled(Card)<{ col?: number }>`
 		box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.2), 0px 2px 4px -2px rgba(16, 24, 40, 0.2);
 		width: ${({ col }) => `calc(calc(100vw / ${col || 3} ) - 3rem)`};
@@ -42,7 +45,9 @@ export function PortalSideSheet({ portal, onClose }: { portal?: Portal; onClose:
 			<SideSheet.Title title={portal.name} />
 			<SideSheet.SubTitle subTitle="Portal Quick Edit" />
 			<SideSheet.Actions>
-				<FormActionBar isDisabled={isDisabled} portal={portal} isIcons />
+				<Style.PadBottom>
+					<FormActionBar isDisabled={isDisabled} portal={portal} isIcons />
+				</Style.PadBottom>
 			</SideSheet.Actions>
 			<SideSheet.Content>
 				<Style.Wrapper>
