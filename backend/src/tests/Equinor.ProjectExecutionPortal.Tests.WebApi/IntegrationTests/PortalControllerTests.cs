@@ -351,29 +351,40 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Delete_Portal_AsAdministrator_ShouldReturnOk()
         {
             // Arrange
-            var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
-            var portalToDelete = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal1.Key);
+            var payload = new ApiCreatePortalRequest
+            {
+                Name = "Portal to be deleted",
+                Description = "",
+                ShortName = "Created short name",
+                Subtext = "Created subtext",
+                Icon = "Created icon",
+                ContextTypes = new List<string> { "ProjectMaster" }
+            };
 
+            await CreatePortal(UserType.Administrator, payload);
+            var getAllAfterCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+            var theOneCreatedToBeDeleted = getAllAfterCreation!.Last();
+            
             // Act
-            var response = await DeletePortal(portalToDelete!.Id, UserType.Administrator);
+            var response = await DeletePortal(theOneCreatedToBeDeleted!.Id, UserType.Administrator);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             // Verify the portal is actually deleted
-            var deletedPortal = await AssertGetPortal(portalToDelete.Id, UserType.Authenticated, HttpStatusCode.NotFound);
+            var deletedPortal = await AssertGetPortal(theOneCreatedToBeDeleted.Id, UserType.Authenticated, HttpStatusCode.NotFound);
             Assert.IsNull(deletedPortal);
         }
 
         [TestMethod]
-        public async Task Delete_PortalWithApps_AsAuthenticatedUser_ShouldReturnForbidden()
+        public async Task Delete_PortalWithApps_AsAdministrator_ShouldReturnForbidden()
         {
             // Arrange
-            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
             var portalToDelete = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
 
             // Ensure the portal has apps
-            var apps = await AssertGetAppsForPortal(portalToDelete!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToDelete!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
         
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);
@@ -385,7 +396,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
 
             // Verify the portal is not deleted
-            var deletedPortal = await AssertGetPortal(portalToDelete.Id, UserType.Authenticated, HttpStatusCode.OK);
+            var deletedPortal = await AssertGetPortal(portalToDelete.Id, UserType.Administrator, HttpStatusCode.OK);
             Assert.IsNotNull(deletedPortal);
         }
 
