@@ -23,7 +23,7 @@ export const EditSelectedButton = ({ selection, editSelection }: EditSelectedBut
 				editSelection();
 			}}
 		>
-			<Icon data={edit} /> Edit Selected
+			<Icon data={edit} size={16} /> Edit Selected
 		</Button>
 	);
 };

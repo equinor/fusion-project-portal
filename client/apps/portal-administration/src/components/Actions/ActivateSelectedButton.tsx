@@ -32,7 +32,7 @@ export const ActivateSelectedButton = ({ selection, activateSelected }: Activate
 				activateSelected(selection.filter((a) => !a.isActive));
 			}}
 		>
-			<Icon data={add_circle_outlined} /> Activate Selected
+			<Icon data={add_circle_outlined} size={16} /> Activate Selected
 		</Button>
 	);
 };

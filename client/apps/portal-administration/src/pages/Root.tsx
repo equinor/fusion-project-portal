@@ -8,7 +8,8 @@ const Styles = {
 	Content: styled.div`
 		flex: 1;
 		position: relative;
-		overflow-y: auto;
+		overflow: auto;
+		overflow-x: hidden;
 	`,
 	Section: styled.section`
 		display: flex;

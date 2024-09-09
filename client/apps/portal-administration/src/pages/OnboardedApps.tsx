@@ -10,10 +10,12 @@ import { OnboardApp } from '../components/OnboardedApps/OnboardApp';
 import { DataClarification } from '../components/DataClarification';
 import { Info } from 'luxon';
 import { InfoPopover } from '../components/InfoPopover';
+import { useOnboardedApps } from '../hooks/use-onboarded-apps';
+import { Loading } from '../components/Loading';
 
 const Style = {
 	Wrapper: styled.div`
-		height: 100%;
+		height: calc(100% - 6rem);
 		width: 100%;
 		position: absolute;
 	`,
@@ -44,7 +46,9 @@ const Style = {
 };
 
 export const OnboardedApps = () => {
+	const { data, isLoading } = useOnboardedApps();
 	const { onTabChange, activeTab } = useTabs(['table', 'list', 'new'], 'table');
+	if (isLoading) return <Loading detail="Loading onboarded apps" />;
 	return (
 		<Style.Content>
 			<Tabs activeTab={activeTab} onChange={onTabChange}>
@@ -79,9 +83,9 @@ export const OnboardedApps = () => {
 				</Style.TabsListWrapper>
 				<Tabs.Panels>
 					<Tabs.Panel>
-						<Style.Wrapper>{activeTab === 0 && <AppsTable />}</Style.Wrapper>
+						<Style.Wrapper>{activeTab === 0 && <AppsTable onboardedApps={data} />}</Style.Wrapper>
 					</Tabs.Panel>
-					<Tabs.Panel>{activeTab === 1 && <AppsList />}</Tabs.Panel>
+					<Tabs.Panel>{activeTab === 1 && <AppsList onboardedApps={data} />}</Tabs.Panel>
 					<Tabs.Panel>{activeTab === 2 && <OnboardApp />}</Tabs.Panel>
 				</Tabs.Panels>
 			</Tabs>

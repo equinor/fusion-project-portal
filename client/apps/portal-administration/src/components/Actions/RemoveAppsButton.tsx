@@ -33,7 +33,7 @@ export const RemoveAppsButton = ({ selection, removeApps }: RemoveAppsButtonProp
 				removeApps(appsToRemove);
 			}}
 		>
-			<Icon data={remove_outlined} /> Remove Selected
+			<Icon data={remove_outlined} size={16} /> Remove Selected
 		</Button>
 	);
 };

@@ -51,10 +51,12 @@ export type PortalApp = {
 	isLegacy: boolean;
 	description: string;
 	contexts: ContextType[];
+	contextTypes: string[];
 	appInformation: { icon: string };
 	isActive?: boolean;
 };
 export type PortalAppMutation = {
+	appKey: string;
 	contextTypes: string[];
 };
 

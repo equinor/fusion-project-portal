@@ -32,7 +32,7 @@ export const MakeSelectionGlobalButton = ({ selection, makeSelectionGlobal }: Ma
 				makeSelectionGlobal(selection.filter((a) => a.isActive));
 			}}
 		>
-			<Icon data={check_circle_outlined} /> Make Global
+			<Icon data={check_circle_outlined} size={16} /> Make Global
 		</Button>
 	);
 };

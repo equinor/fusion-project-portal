@@ -1,57 +1,39 @@
-import styled from 'styled-components';
-
-import { Chip } from '@equinor/eds-core-react';
-
 import { ClientGrid } from '@equinor/workspace-ag-grid';
 
 import { useRef, useState } from 'react';
-import { tokens } from '@equinor/eds-tokens';
 import { CustomCellRendererProps } from '@ag-grid-community/react';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
 import { PortalApp, ContextType } from '../../types';
 import { ActionBar } from './ActionBar';
-import { AgStyle } from '../AgStyle';
-
-const Styles = {
-	TableContent: styled.div`
-		position: relative;
-		width: calc(100% - 2rem);
-		height: 100%;
-	`,
-	CellWrapper: styled.div`
-		display: flex;
-		align-items: center;
-		height: 36px;
-	`,
-
-	Chip: styled(Chip)`
-		margin-top: 3px;
-	`,
-	Indicator: styled.span<{ active?: string }>`
-		display: block;
-		height: 16px;
-		width: 16px;
-		background-color: ${({ active }) =>
-			active === 'true'
-				? tokens.colors.interactive.success__resting.hex
-				: tokens.colors.interactive.disabled__fill.hex};
-		border-radius: 50%;
-	`,
-};
+import { AgStyles } from '../AgStyle';
+import { Message } from '../Message';
+import { Loading } from '../Loading';
 
 export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 	const ref = useRef(null);
 	const [_, height] = useResizeObserver(ref);
+
 	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
 
 	return (
-		<AgStyle>
-			<Styles.TableContent ref={ref}>
+		<AgStyles.Wrapper>
+			<AgStyles.TableContent ref={ref}>
 				<ClientGrid<PortalApp>
-					height={selectedApps.length === 0 ? height - 150 : height - 201}
+					height={selectedApps.length === 0 ? height : height - 150}
 					rowData={portalApps}
+					noRowsOverlayComponent={() => <Message title="No data available" />}
 					enableCellTextSelection
+					defaultColDef={{
+						filter: true,
+						flex: 1,
+						sortable: true,
+						resizable: true,
+					}}
 					ensureDomOrder
+					onGridReady={(event) => {
+						const api = event.api;
+						api.sizeColumnsToFit();
+					}}
 					rowSelection="multiple"
 					rowHeight={36}
 					autoSizeStrategy={{
@@ -68,7 +50,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 						{
 							field: 'isActive',
 							headerName: 'Is Active',
-							width: 80,
+							maxWidth: 110,
 							cellRenderer: (
 								params: CustomCellRendererProps<{
 									isActive?: boolean;
@@ -76,28 +58,42 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 								}>
 							) => {
 								return (
-									<Styles.CellWrapper key={`active-${params.context?.appKey}`}>
-										<Styles.Indicator active={params.data?.isActive?.toString()} />
-									</Styles.CellWrapper>
+									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
+										<AgStyles.Indicator active={params.data?.isActive?.toString()} />
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
 						{
 							field: 'appKey',
 							headerName: 'Application key',
+							filterParams: {
+								filterOptions: ['contains', 'startsWith', 'endsWith'],
+								defaultOption: 'startsWith',
+							},
 						},
 
 						{
 							field: 'name',
 							headerName: 'Name',
+							filterParams: {
+								filterOptions: ['contains', 'startsWith', 'endsWith'],
+								defaultOption: 'startsWith',
+							},
 						},
+
 						{
 							field: 'description',
 							headerName: 'Description',
+							filterParams: {
+								filterOptions: ['contains', 'startsWith', 'endsWith'],
+								defaultOption: 'startsWith',
+							},
 						},
 						{
 							field: 'contexts',
 							headerName: 'Contexts Types',
+							filter: false,
 							cellRenderer: (
 								params: CustomCellRendererProps<{
 									contexts: ContextType[];
@@ -106,15 +102,15 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 								}>
 							) => {
 								return (
-									<Styles.CellWrapper key={`contexts-${params.context?.appKey}`}>
+									<AgStyles.CellWrapper key={`contexts-${params.context?.appKey}`}>
 										{params?.data?.contextTypes?.map((type) => {
 											return (
-												<Styles.Chip variant="default" key={type}>
+												<AgStyles.Chip variant="default" key={type}>
 													{type}
-												</Styles.Chip>
+												</AgStyles.Chip>
 											);
 										})}
-									</Styles.CellWrapper>
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
@@ -122,7 +118,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 				/>
 
 				<ActionBar selection={selectedApps} />
-			</Styles.TableContent>
-		</AgStyle>
+			</AgStyles.TableContent>
+		</AgStyles.Wrapper>
 	);
 };

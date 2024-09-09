@@ -3,7 +3,7 @@ import { ClientGrid } from '@equinor/workspace-ag-grid';
 import { Portal } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { Button, Chip, Icon } from '@equinor/eds-core-react';
+import { Button, Chip, Icon, Typography } from '@equinor/eds-core-react';
 import { edit, delete_to_trash, list } from '@equinor/eds-icons';
 import { useRef, useState } from 'react';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
@@ -11,27 +11,9 @@ import * as AllIcons from '@equinor/eds-icons';
 import { useDeletePortal } from '../../hooks/use-portal-query';
 import { DeleteDialog } from '../Dialogue/DeleteDialog';
 import { PortalSideSheet } from './PortalSideSheet';
-import { AgStyle } from '../AgStyle';
-const Styles = {
-	CellWrapper: styled.div`
-		display: flex;
-		justify-content: flex-end;
-	`,
-	Chip: styled(Chip)`
-		margin-top: 0.5rem;
-	`,
-	TableContent: styled.div`
-		position: relative;
-		width: calc(100% - 2rem);
-		height: 100%;
-	`,
-
-	Icon: styled.span`
-		> svg {
-			width: 25px;
-		}
-	`,
-};
+import { AgStyles } from '../AgStyle';
+import { Loading } from '../Loading';
+import { Message } from '../Message';
 
 export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 	const navigate = useNavigate();
@@ -44,18 +26,21 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 	const [quickEdit, setQuickEdit] = useState<Portal | undefined>();
 
 	return (
-		<AgStyle>
-			<Styles.TableContent ref={ref}>
+		<AgStyles.Wrapper>
+			<AgStyles.TableContent ref={ref}>
 				<ClientGrid<Portal>
-					height={height - 160}
+					height={height}
 					rowData={portalsData || []}
-					enableCellTextSelection
-					ensureDomOrder
+					noRowsOverlayComponent={() => <Message title="No data available" />}
 					rowHeight={36}
 					autoSizeStrategy={{
 						type: 'fitGridWidth',
 						defaultMinWidth: 80,
 						defaultMaxWidth: 300,
+					}}
+					onGridReady={(event) => {
+						const api = event.api;
+						api.sizeColumnsToFit();
 					}}
 					colDefs={[
 						{
@@ -77,17 +62,17 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 									return null;
 								}
 								return (
-									<Styles.CellWrapper key={params.data?.id}>
+									<AgStyles.CellWrapper key={params.data?.id}>
 										{params.data?.icon && Object.keys(AllIcons).includes(params.data?.icon) ? (
 											<Icon name={params.data?.icon} size={24} />
 										) : (
-											<Styles.Icon
+											<AgStyles.Icon
 												dangerouslySetInnerHTML={{
 													__html: params.data?.icon.replace(/\s+/g, ' ').trim(),
 												}}
 											/>
 										)}
-									</Styles.CellWrapper>
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
@@ -123,25 +108,25 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 								}>
 							) => {
 								return (
-									<Styles.CellWrapper key={params.context?.id}>
+									<AgStyles.CellWrapper key={params.context?.id}>
 										{params?.data?.contextTypes?.map((type) => {
 											return (
-												<Styles.Chip variant="default" key={type}>
+												<AgStyles.Chip variant="default" key={type}>
 													{type}
-												</Styles.Chip>
+												</AgStyles.Chip>
 											);
 										})}
-									</Styles.CellWrapper>
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
 						{
 							field: 'id',
 							headerName: 'Actions',
-							minWidth: 200,
+							maxWidth: 200,
 							cellRenderer: (params: CustomCellRendererProps<Portal>) => {
 								return (
-									<Styles.CellWrapper>
+									<AgStyles.CellWrapper>
 										<Button
 											variant="ghost"
 											onClick={(e) => {
@@ -173,7 +158,7 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 										>
 											<Icon data={delete_to_trash} size={16} />
 										</Button>
-									</Styles.CellWrapper>
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
@@ -190,7 +175,7 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 					title={isDeleting?.name || 'Portal'}
 				></DeleteDialog>
 				<PortalSideSheet portal={quickEdit} onClose={() => setQuickEdit(undefined)} />
-			</Styles.TableContent>
-		</AgStyle>
+			</AgStyles.TableContent>
+		</AgStyles.Wrapper>
 	);
 }

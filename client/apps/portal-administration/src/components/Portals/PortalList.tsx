@@ -181,7 +181,7 @@ const PortalCard = ({ portal, onQuickEdit }: { portal: Portal; onQuickEdit: (por
 	);
 };
 
-export const PortalList = ({ portalsData }: { portalsData: Portal[] | undefined }) => {
+export const PortalList = ({ portalsData }: { portalsData?: Portal[] }) => {
 	const [quickEdit, setQuickEdit] = useState<Portal | undefined>(undefined);
 	return (
 		<Style.CardList>

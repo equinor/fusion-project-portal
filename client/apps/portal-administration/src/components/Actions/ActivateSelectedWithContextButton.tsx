@@ -26,7 +26,7 @@ export const ActivateSelectedWithContextButton = ({
 				activateSelectedWithContext();
 			}}
 		>
-			<Icon data={add_circle_filled} /> Activate Selected with Context
+			<Icon data={add_circle_filled} size={16} /> Activate Selected with Context
 		</Button>
 	);
 };

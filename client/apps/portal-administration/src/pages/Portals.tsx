@@ -16,7 +16,7 @@ import { DataClarification } from '../components/DataClarification';
 
 const Style = {
 	Wrapper: styled.div`
-		height: 100%;
+		height: calc(100% - 6rem);
 		width: 100%;
 		position: absolute;
 	`,
@@ -66,11 +66,9 @@ const Title = ({ activeTab }: { activeTab: number }) => {
 };
 
 export const Portals = () => {
-	const { isLoading: portalIsLoading, data: portalsData } = usePortalsQuery();
+	const { isLoading, data: portalsData } = usePortalsQuery();
 
 	const { onTabChange, activeTab } = useTabs(['table', 'list', 'new'], 'table');
-
-	if (portalIsLoading) return <Loading detail="Loading Portals" />;
 
 	return (
 		<Style.Content>
@@ -99,11 +97,28 @@ export const Portals = () => {
 						</Tabs.List>
 					</Style.Row>
 				</Style.TabsListWrapper>
+
 				<Tabs.Panels>
 					<Tabs.Panel>
-						<Style.Wrapper>{activeTab === 0 && <PortalTable portalsData={portalsData} />}</Style.Wrapper>
+						{isLoading ? (
+							<Style.Wrapper>
+								<Loading detail="Loading Portal App Config" />
+							</Style.Wrapper>
+						) : (
+							<Style.Wrapper>
+								{activeTab === 0 && <PortalTable portalsData={portalsData} />}
+							</Style.Wrapper>
+						)}
 					</Tabs.Panel>
-					<Tabs.Panel>{activeTab === 1 && <PortalList portalsData={portalsData} />}</Tabs.Panel>
+					<Tabs.Panel>
+						{isLoading ? (
+							<Style.Wrapper>
+								<Loading detail="Loading Portal App Config" />
+							</Style.Wrapper>
+						) : (
+							<div>{activeTab === 1 && <PortalList portalsData={portalsData} />}</div>
+						)}
+					</Tabs.Panel>
 					<Tabs.Panel>{activeTab === 2 && <CreatePortalForm />}</Tabs.Panel>
 				</Tabs.Panels>
 			</Tabs>

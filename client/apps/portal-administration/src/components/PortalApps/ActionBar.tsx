@@ -10,14 +10,16 @@ import { ActivateSelectedButton } from '../Actions/ActivateSelectedButton';
 import { RemoveAppsButton } from '../Actions/RemoveAppsButton';
 import { EditSelectedButton } from '../Actions/EditSelectedButton';
 import { ActivateSelectedWithContextButton } from '../Actions/ActivateSelectedWithContextButton';
+import { Row } from '@equinor/eds-core-react/dist/types/components/Table/Row';
 
 const Styles = {
 	Wrapper: styled.div`
+		margin-top: 1rem;
 		width: 100%;
-		height: 150px;
+		height: 100px;
 		background-color: #fff;
 		position: relative;
-		flex: 1;
+		padding-bottom: 2rem;
 	`,
 	Content: styled.div`
 		padding: 1rem;
@@ -27,7 +29,11 @@ const Styles = {
 	`,
 	Actions: styled.div`
 		display: flex;
+		flex-direction: column;
 		gap: 1rem;
+	`,
+	Row: styled.div`
+		display: flex;
 	`,
 };
 
@@ -50,21 +56,24 @@ export const ActionBar = ({ selection }: { selection: PortalApp[] }) => {
 			/>
 			<Styles.Content>
 				<Styles.Actions>
-					<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />
-					<ActivateSelectedWithContextButton
-						selection={selection}
-						activateSelectedWithContext={() => setIsOpen(true)}
-					/>
-					<EditSelectedButton
-						editSelection={() => {
-							setIsOpen(true);
-						}}
-						selection={selection}
-					/>
-					<MakeSelectionGlobalButton selection={selection} makeSelectionGlobal={activateSelected} />
-					<RemoveAppsButton selection={selection} removeApps={removeSelected} />
+					<Typography variant="overline">Portal Apps Actions</Typography>
+					<Styles.Row>
+						<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />
+						<ActivateSelectedWithContextButton
+							selection={selection}
+							activateSelectedWithContext={() => setIsOpen(true)}
+						/>
+						<EditSelectedButton
+							editSelection={() => {
+								setIsOpen(true);
+							}}
+							selection={selection}
+						/>
+						<MakeSelectionGlobalButton selection={selection} makeSelectionGlobal={activateSelected} />
+						<RemoveAppsButton selection={selection} removeApps={removeSelected} />
+					</Styles.Row>
 				</Styles.Actions>
-				<Typography variant="h6">Selected applications ({selection.length})</Typography>
+				<Typography variant="overline">Selected applications ({selection.length})</Typography>
 			</Styles.Content>
 		</Styles.Wrapper>
 	);

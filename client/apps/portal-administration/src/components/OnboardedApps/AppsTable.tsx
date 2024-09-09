@@ -1,59 +1,50 @@
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { Button, Chip, Icon } from '@equinor/eds-core-react';
+import { Button, Icon } from '@equinor/eds-core-react';
 import { ClientGrid } from '@equinor/workspace-ag-grid';
-import { useState } from 'react';
-import styled from 'styled-components';
+
+import { useRef, useState } from 'react';
+
 import { useDeleteOnboardedApp, useOnboardedApps } from '../../hooks/use-onboarded-apps';
 import { PortalApp } from '../../types';
 import { AppSideSheet } from './AppSideSheet';
 import { Loading } from '../Loading';
 import { delete_to_trash, edit } from '@equinor/eds-icons';
-import { AgStyle } from '../AgStyle';
+import { AgStyles } from '../AgStyle';
+import { OnboardedAppsActionBar } from './OnboardedAppsActionBar';
+import { useResizeObserver } from '../../hooks/use-resise-observer';
+import { Message } from '../Message';
 
-const Styles = {
-	TableContent: styled.div`
-		position: relative;
-		width: calc(100% - 2rem);
-		height: 100%;
-	`,
-	CellWrapper: styled.div`
-		display: flex;
-		justify-content: flex-end;
-	`,
-	Chip: styled(Chip)`
-		margin-top: 0.25rem;
-		margin-right: 0.5rem;
-	`,
-};
-export const AppsTable = () => {
-	const { data, isLoading } = useOnboardedApps();
+export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | undefined }) => {
 	const [selectedApp, setSelectedApp] = useState<PortalApp | undefined>();
-
+	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
 	const { mutateAsync: deleteAppByAppKey } = useDeleteOnboardedApp();
-	if (isLoading) return <Loading detail="Loading onboarded apps" />;
 
-	if (!data) return <>No data provided</>;
+	const ref = useRef(null);
+	const [_, height] = useResizeObserver(ref);
 
 	return (
-		<AgStyle>
-			<Styles.TableContent>
-				<AppSideSheet
-					app={selectedApp}
-					onClose={() => {
-						setSelectedApp(undefined);
-					}}
-				/>
-
+		<AgStyles.Wrapper>
+			<AgStyles.TableContent ref={ref}>
 				<ClientGrid<PortalApp>
-					height={window.innerHeight - 250}
-					rowData={data}
-					enableCellTextSelection
-					ensureDomOrder
+					height={selectedApps.length === 0 ? height : height - 150}
+					rowData={onboardedApps || []}
+					noRowsOverlayComponent={() => <Message title="No data available" />}
+					rowSelection="multiple"
 					rowHeight={36}
 					autoSizeStrategy={{
 						type: 'fitGridWidth',
 						defaultMinWidth: 80,
 						defaultMaxWidth: 300,
+					}}
+					onGridReady={(event) => {
+						const api = event.api;
+						// gridApi.current = api;
+						api.sizeColumnsToFit();
+					}}
+					onRowSelected={(event) => {
+						const selectedRows = event.api!.getSelectedRows();
+
+						setSelectedApps(selectedRows);
 					}}
 					colDefs={[
 						{
@@ -64,10 +55,12 @@ export const AppsTable = () => {
 						{
 							field: 'name',
 							headerName: 'Name',
+							filter: true,
 						},
 						{
 							field: 'appKey',
 							headerName: 'App Key',
+							filter: true,
 						},
 						{
 							field: 'description',
@@ -77,6 +70,7 @@ export const AppsTable = () => {
 						{
 							field: 'contexts',
 							headerName: 'Contexts Types',
+							filter: true,
 
 							cellRenderer: (
 								params: CustomCellRendererProps<{
@@ -85,15 +79,15 @@ export const AppsTable = () => {
 								}>
 							) => {
 								return (
-									<Styles.CellWrapper key={params.context?.appKey}>
+									<AgStyles.CellWrapper key={params.context?.appKey}>
 										{params?.data?.contextTypes?.map((type) => {
 											return (
-												<Styles.Chip variant="default" key={type}>
+												<AgStyles.Chip variant="default" key={type}>
 													{type}
-												</Styles.Chip>
+												</AgStyles.Chip>
 											);
 										})}
-									</Styles.CellWrapper>
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
@@ -102,7 +96,7 @@ export const AppsTable = () => {
 							headerName: 'Actions',
 							cellRenderer: (params: CustomCellRendererProps<PortalApp>) => {
 								return (
-									<Styles.CellWrapper key={params.context?.appKey}>
+									<AgStyles.CellWrapper key={params.context?.appKey}>
 										<Button
 											variant="ghost"
 											onClick={(e) => {
@@ -125,13 +119,20 @@ export const AppsTable = () => {
 										>
 											<Icon data={delete_to_trash} size={16} />
 										</Button>
-									</Styles.CellWrapper>
+									</AgStyles.CellWrapper>
 								);
 							},
 						},
 					]}
 				/>
-			</Styles.TableContent>
-		</AgStyle>
+				<OnboardedAppsActionBar selection={selectedApps} />
+				<AppSideSheet
+					app={selectedApp}
+					onClose={() => {
+						setSelectedApp(undefined);
+					}}
+				/>
+			</AgStyles.TableContent>
+		</AgStyles.Wrapper>
 	);
 };

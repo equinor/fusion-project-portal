@@ -15,13 +15,14 @@ import { InfoPopover } from '../components/InfoPopover';
 
 const Style = {
 	Wrapper: styled.div`
-		height: 100%;
+		height: calc(100% - 6rem);
 		width: 100%;
 		position: absolute;
 	`,
 	Content: styled.div`
 		padding: 1rem;
 		width: -webkit-fill-available;
+		height: -webkit-fill-available;
 	`,
 	ActionBar: styled.div`
 		padding: 1rem;
@@ -49,14 +50,11 @@ export const PortalApps = () => {
 	const { portalId } = useParams();
 
 	const { data: portalApps, isLoading } = useOnboardApps(portalId);
-	const { data: portal, isLoading: portalIsLoading } = useGetPortal(portalId);
+	const { data: portal } = useGetPortal(portalId);
 	const { onTabChange, activeTab } = useTabs(['table', 'list'], 'table');
 
 	if (!portalId) {
 		return <>No portalId provided</>;
-	}
-	if (isLoading || portalIsLoading) {
-		return <Loading detail="Loading Portal App Config" />;
 	}
 
 	return (
@@ -87,16 +85,22 @@ export const PortalApps = () => {
 						</Tabs.List>
 					</Style.Row>
 				</Style.TabsListWrapper>
-				<Tabs.Panels>
-					<Tabs.Panel>
-						{activeTab === 0 && (
-							<Style.Wrapper>
-								<PortalAppTable portalApps={portalApps} />
-							</Style.Wrapper>
-						)}
-					</Tabs.Panel>
-					<Tabs.Panel>{activeTab === 1 && <PortalAppList portalApps={portalApps} />}</Tabs.Panel>
-				</Tabs.Panels>
+				{isLoading ? (
+					<Style.Wrapper>
+						<Loading detail="Loading Portal App Config" />
+					</Style.Wrapper>
+				) : (
+					<Tabs.Panels>
+						<Tabs.Panel>
+							{activeTab === 0 && (
+								<Style.Wrapper>
+									<PortalAppTable portalApps={portalApps} />
+								</Style.Wrapper>
+							)}
+						</Tabs.Panel>
+						<Tabs.Panel>{activeTab === 1 && <PortalAppList portalApps={portalApps} />}</Tabs.Panel>
+					</Tabs.Panels>
+				)}
 			</Tabs>
 		</Style.Content>
 	);
