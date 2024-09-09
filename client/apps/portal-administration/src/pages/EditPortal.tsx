@@ -7,6 +7,7 @@ import { useGetContextTypes } from '../hooks/use-context-type-query';
 import { Typography } from '@equinor/eds-core-react';
 import { Loading } from '../components/Loading';
 import { EditPortalForm } from '../components/Portal/EditPortalForm';
+import { Message } from '../components/Message';
 
 const Style = {
 	Wrapper: styled.div`
@@ -14,6 +15,8 @@ const Style = {
 		display: flex;
 		padding: 1rem;
 		flex-direction: column;
+		width: -webkit-fill-available;
+		height: -webkit-fill-available;
 	`,
 	Heading: styled(Typography)`
 		padding: 0.5rem 0;
@@ -32,7 +35,7 @@ export const EditPortal = () => {
 	}
 
 	if (!portalId || !portal || !contextTypes) {
-		return <>No portalId provided</>;
+		return <Message title="No portalId provided" />;
 	}
 
 	return (
