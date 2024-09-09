@@ -35,7 +35,6 @@ type IconInputProps = {
 };
 
 export const IconInput = ({ register, errors, icon }: IconInputProps) => {
-	console.log(JSON.stringify(icon));
 	return (
 		<Style.Row>
 			<div>

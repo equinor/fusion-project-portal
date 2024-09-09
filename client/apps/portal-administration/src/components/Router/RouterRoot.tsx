@@ -29,9 +29,10 @@ export const RouterRoot = () => {
 		formState: { errors, touchedFields },
 	} = useForm<RootInput>({
 		resolver: zodResolver(rootInput),
-		defaultValues: root,
+		values: root,
 		reValidateMode: 'onChange',
 	});
+
 	const { activePortalId } = usePortalContext();
 	const onSubmit: SubmitHandler<RootInput> = async (root) => {
 		updateRoot(root.pageKey);
