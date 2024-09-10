@@ -1,0 +1,26 @@
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using ApiContextType = Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType.ApiContextType;
+
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
+{
+    public class ApiPortalOnboardedApp
+    {
+        public ApiPortalOnboardedApp(PortalOnboardedAppDto portalOnboardedAppDto)
+        {
+            Key = portalOnboardedAppDto.OnboardedApp.AppKey;
+            ContextTypes = portalOnboardedAppDto.OnboardedApp.ContextTypes.Select(x => new ApiContextType(x)).ToList();
+            AppManifest = portalOnboardedAppDto.OnboardedApp.AppInformation != null ? new ApiFusionPortalAppInformation(portalOnboardedAppDto.OnboardedApp.AppInformation) : null;
+            IsActive = portalOnboardedAppDto.IsActive;
+            IsGlobal = portalOnboardedAppDto.IsGlobal;
+            IsContextual = portalOnboardedAppDto.IsContextual;
+        }
+
+        public string Key { get; set; }
+        public IList<ApiContextType> ContextTypes { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsGlobal { get; set; }
+        public bool IsContextual { get; set; }
+        public ApiFusionPortalAppInformation? AppManifest { get; set; }
+    }
+}
