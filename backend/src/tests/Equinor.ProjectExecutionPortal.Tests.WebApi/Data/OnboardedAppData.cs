@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
-    internal class OnboardedAppsData
+    internal class OnboardedAppData
     {
         public class InitialSeedData
         {

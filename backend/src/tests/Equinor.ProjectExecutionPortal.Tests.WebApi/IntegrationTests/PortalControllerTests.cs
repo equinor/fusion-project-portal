@@ -139,7 +139,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 ShortName = "Updated short name",
                 Subtext = "Updated subtext",
                 Icon = "Updated icon",
-                ContextTypes = new List<string> { "ProjectMaster", "Facility" }
+                ContextTypes = new List<string> { "ProjectMaster" }
             };
 
             // Act
@@ -300,7 +300,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Assert
             Assert.IsNotNull(apps);
             Assert.AreEqual(apps.Count, 6);
-
         }
 
         [Ignore]
@@ -312,7 +311,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.FirstOrDefault();
 
             // Act
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId,UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             // TODO Fusion 404 returned
@@ -364,7 +363,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             await CreatePortal(UserType.Administrator, payload);
             var getAllAfterCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
             var theOneCreatedToBeDeleted = getAllAfterCreation!.Last();
-            
+
             // Act
             var response = await DeletePortal(theOneCreatedToBeDeleted!.Id, UserType.Administrator);
 
@@ -385,7 +384,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Ensure the portal has apps
             var apps = await AssertGetAppsForPortal(portalToDelete!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
-        
+
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);
 
@@ -445,9 +444,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             }
 
             Assert.IsNotNull(content);
-            Assert.IsNotNull(portal);
             AssertHelpers.AssertPortalValues(portal);
-            AssertHelpers.AssertPortalConfigurationValues(portal.Configuration, acceptNullValues: true);
+            AssertHelpers.AssertPortalConfigurationValues(portal!.Configuration, acceptNullValues: true);
             Assert.AreEqual(portal.Apps.Count, 0); // No relational data should be included in this request
 
             return portal;
@@ -507,7 +505,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             return response;
         }
-       
+
         private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act

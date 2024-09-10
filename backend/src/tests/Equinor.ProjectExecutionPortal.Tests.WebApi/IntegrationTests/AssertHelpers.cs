@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,24 +38,34 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             }
         }
 
-        public static void AssertPortalAppValues(ApiPortalApp? app)
+        public static void AssertPortalAppValues(ApiPortalApp? portalAll)
         {
-            if (app == null)
+            if (portalAll == null)
             {
                 Assert.Fail();
             }
 
-            Assert.IsNotNull(app.Key);
+            Assert.IsNotNull(portalAll.Key);
         }
 
-        public static void AssertOnboardedAppValues(ApiOnboardedApp? app)
+        public static void AssertOnboardedAppValues(ApiOnboardedApp? onboardedApp)
         {
-            if (app == null)
+            if (onboardedApp == null)
             {
                 Assert.Fail();
             }
 
-            Assert.IsNotNull(app.AppKey);
+            Assert.IsNotNull(onboardedApp.AppKey);
+        }
+
+        public static void AssertContextTypeValues(ApiContextType? contextType)
+        {
+            if (contextType == null)
+            {
+                Assert.Fail();
+            }
+
+            Assert.IsNotNull(contextType.Type);
         }
     }
 }
