@@ -28,7 +28,9 @@ export const useAppLoader = (appKey: string) => {
 					appRef.current = createAppElement();
 
 					// Generate basename for application regex extracts /apps/:appKey
-					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
+					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
+							location.pathname,
+						] ?? [''];
 
 					try {
 						//Casting to se if manifest is for fusion legacy application
