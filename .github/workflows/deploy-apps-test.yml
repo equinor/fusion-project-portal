@@ -3,6 +3,8 @@ name: Deploy apps CI
 on:
   push:
     branches: ["main"]
+    paths:
+      - "client/apps/portal-administration/**"
 
 permissions:
   actions: read
