@@ -17,7 +17,6 @@
   },
   "private": true,
   "devDependencies": {
-    "@equinor/fusion-framework-cli": "^9.12.11",
     "@hirez_io/observer-spy": "^2.2.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
