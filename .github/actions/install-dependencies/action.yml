@@ -14,3 +14,9 @@ runs:
       run: |
         npm i -g @equinor/fusion-framework-cli
       shell: bash
+
+    - name: Install App Deps
+      run: |
+        cd client/apps/portal-administration
+        yarn install
+      shell: bash
