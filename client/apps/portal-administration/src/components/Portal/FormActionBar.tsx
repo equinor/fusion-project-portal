@@ -7,6 +7,7 @@ import { useDeletePortal } from '../../hooks/use-portal-query';
 import { Portal } from '../../types';
 import { InfoPopover } from '../InfoPopover';
 import { DataClarification } from '../DataClarification';
+import { useNavigate } from 'react-router-dom';
 
 const Style = {
 	ActionBar: styled.div<{ gap: string }>`
@@ -29,11 +30,13 @@ type FormActionBarProps = {
 	isDisabled: boolean;
 	portal: Portal;
 	isIcons?: boolean;
+	onClose: VoidFunction;
 };
 
-export const FormActionBar = ({ isDisabled, portal, isIcons }: FormActionBarProps) => {
+export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActionBarProps) => {
 	const { mutateAsync: deletePortal } = useDeletePortal();
 	const [isDeleting, setIsDeleting] = useState<boolean>(false);
+	const navigation = useNavigate();
 	return (
 		<Style.Wrapper>
 			{!isIcons && (
@@ -68,6 +71,8 @@ export const FormActionBar = ({ isDisabled, portal, isIcons }: FormActionBarProp
 						onDelete={() => {
 							deletePortal(portal);
 							setIsDeleting(false);
+							navigation('/portals');
+							onClose();
 						}}
 						title={portal.name}
 					></DeleteDialog>

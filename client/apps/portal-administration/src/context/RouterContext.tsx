@@ -1,10 +1,10 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import { Route, Router } from '../types/router-config';
 import { reducer } from './reducers/router-reducer';
-import { createRoute } from './actions/router-actions';
+import { addRoute, createRoute, removeRoute } from './actions/router-actions';
 import { mockRoutes } from './mocs/routes';
 import { usePortalContext } from './PortalContext';
-import { useGetPortalConfiguration } from '../hooks/use-portal-config-query';
+import { useGetPortalConfiguration, useUpdatePortalConfig } from '../hooks/use-portal-config-query';
 
 export type RouterConfigContextState = {
 	activeRoute?: Route;
@@ -17,7 +17,7 @@ export type RouterConfigContext = {
 	setActiveRoute: (is?: string) => void;
 	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	createNewRoute: (id?: string) => void;
-	removeRoute: (id: string) => void;
+	removeRouteById: (id: string) => void;
 	updateRoute: (route?: Route) => void;
 	updateRoot: (pageKey: string) => void;
 	toggleRoot: VoidFunction;
@@ -44,7 +44,7 @@ export const RouterConfigContextComponent = ({ children }: PropsWithChildren) =>
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	const { data } = useGetPortalConfiguration(activePortalId);
-
+	const { mutate: updatePortalConfig } = useUpdatePortalConfig();
 	useEffect(() => {
 		if (data) {
 			updateRouter(data.router);
@@ -80,21 +80,34 @@ export const RouterConfigContextComponent = ({ children }: PropsWithChildren) =>
 	};
 
 	const createNewRoute = (id?: string) => {
+		const route = createRoute();
 		dispatch({
 			type: 'CREATE_ROUTE',
 			payload: {
 				id,
-				route: createRoute(),
+				route,
 			},
 		});
+		if (activePortalId && state.routes && state.root) {
+			updatePortalConfig({
+				id: activePortalId,
+				router: { root: state.root, routes: addRoute(route, state.routes) || [] },
+			});
+		}
 	};
-	const removeRoute = (id: string) => {
+	const removeRouteById = (id: string) => {
 		dispatch({
 			type: 'REMOVE_ROUTE',
 			payload: {
 				id,
 			},
 		});
+		if (activePortalId && state.routes && state.root) {
+			updatePortalConfig({
+				id: activePortalId,
+				router: { root: state.root, routes: removeRoute(id, state.routes) || [] },
+			});
+		}
 	};
 	const updateRoot = (pageKey: string) => {
 		dispatch({
@@ -112,7 +125,7 @@ export const RouterConfigContextComponent = ({ children }: PropsWithChildren) =>
 				setActiveRoute,
 				createNewRoute,
 				updateRoute,
-				removeRoute,
+				removeRouteById,
 				handleChange,
 				updateRoot,
 				toggleRoot,

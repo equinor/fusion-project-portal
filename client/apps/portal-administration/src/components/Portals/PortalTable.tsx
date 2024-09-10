@@ -1,10 +1,9 @@
-import styled from 'styled-components';
 import { ClientGrid } from '@equinor/workspace-ag-grid';
 import { Portal } from '../../types';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { Button, Chip, Icon, Typography } from '@equinor/eds-core-react';
-import { edit, delete_to_trash, list } from '@equinor/eds-icons';
+import { Button, Icon, Typography } from '@equinor/eds-core-react';
+import { edit, delete_to_trash, apps, tag_relations, assignment } from '@equinor/eds-icons';
 import { useRef, useState } from 'react';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
 import * as AllIcons from '@equinor/eds-icons';
@@ -12,12 +11,12 @@ import { useDeletePortal } from '../../hooks/use-portal-query';
 import { DeleteDialog } from '../Dialogue/DeleteDialog';
 import { PortalSideSheet } from './PortalSideSheet';
 import { AgStyles } from '../AgStyle';
-import { Loading } from '../Loading';
 import { Message } from '../Message';
+import { usePortalContext } from '../../context/PortalContext';
 
 export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
-	const navigate = useNavigate();
 	const { mutateAsync: deletePortal } = useDeletePortal();
+	const { setActivePortalById, activePortalId } = usePortalContext();
 
 	const ref = useRef(null);
 	const [_, height] = useResizeObserver(ref);
@@ -79,8 +78,23 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 						{
 							field: 'name',
 							headerName: 'Name',
-							onCellClicked: (event) => {
-								navigate(`/portals/${event.data?.id}/overview`);
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									name: string;
+									id: string;
+								}>
+							) => {
+								return (
+									<AgStyles.TextCellWrapper key={params.data?.id}>
+										<Typography
+											as={Link}
+											to={`/portals/${params.data?.id}/overview`}
+											variant="body_short"
+										>
+											{params.data?.name}
+										</Typography>
+									</AgStyles.TextCellWrapper>
+								);
 							},
 						},
 						{
@@ -123,7 +137,7 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 						{
 							field: 'id',
 							headerName: 'Actions',
-							maxWidth: 200,
+							maxWidth: 300,
 							cellRenderer: (params: CustomCellRendererProps<Portal>) => {
 								return (
 									<AgStyles.CellWrapper>
@@ -135,18 +149,43 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 												setQuickEdit(params.data);
 											}}
 										>
-											<Icon data={AllIcons.assignment} size={16} />
+											<Icon data={assignment} size={16} />
 										</Button>
 										<Button
+											title="Portal configuration overview"
+											as={Link}
+											to={`/portals/${params.data?.id}/overview`}
 											variant="ghost"
 											onClick={(e) => {
-												e.preventDefault();
 												e.stopPropagation();
-
-												navigate(`/portals/${params.data?.id}/overview`);
+												setActivePortalById(params.data?.id);
 											}}
 										>
 											<Icon data={edit} size={16} />
+										</Button>
+										<Button
+											title="Apps configuration"
+											variant="ghost"
+											as={Link}
+											to={`/portals/${params.data?.id}/apps`}
+											onClick={(e) => {
+												e.stopPropagation();
+												setActivePortalById(params.data?.id);
+											}}
+										>
+											<Icon data={apps} size={16} />
+										</Button>
+										<Button
+											title="Apps configuration"
+											variant="ghost"
+											as={Link}
+											to={`/portals/${params.data?.id}/router`}
+											onClick={(e) => {
+												e.stopPropagation();
+												setActivePortalById(params.data?.id);
+											}}
+										>
+											<Icon data={tag_relations} size={16} />
 										</Button>
 										<Button
 											variant="ghost"
@@ -154,6 +193,7 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 												e.preventDefault();
 												e.stopPropagation();
 												setIsDeleting(params.data);
+												setActivePortalById(params.data?.id);
 											}}
 										>
 											<Icon data={delete_to_trash} size={16} />

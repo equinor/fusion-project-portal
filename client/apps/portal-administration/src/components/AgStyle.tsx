@@ -7,6 +7,10 @@ export const AgStyles = {
 		display: flex;
 		justify-content: flex-end;
 	`,
+	TextCellWrapper: styled.div`
+		display: flex;
+		padding: 0.5rem;
+	`,
 	Chip: styled(Chip)`
 		margin-top: 0.5rem;
 	`,

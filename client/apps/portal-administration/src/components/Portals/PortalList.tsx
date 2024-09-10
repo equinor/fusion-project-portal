@@ -1,5 +1,5 @@
 import { Card, Typography, Button, Icon, Menu } from '@equinor/eds-core-react';
-import { assignment, delete_to_trash, edit, more_vertical } from '@equinor/eds-icons';
+import { apps, assignment, delete_to_trash, edit, more_vertical, tag_relations } from '@equinor/eds-icons';
 
 import * as AllIcons from '@equinor/eds-icons';
 
@@ -10,6 +10,8 @@ import { usePortalContext } from '../../context/PortalContext';
 import { useState } from 'react';
 import { tokens } from '@equinor/eds-tokens';
 import { PortalSideSheet } from './PortalSideSheet';
+import { useDeletePortal } from '../../hooks/use-portal-query';
+import { DeleteDialog } from '../Dialogue/DeleteDialog';
 
 Icon.add(AllIcons);
 
@@ -79,8 +81,13 @@ const { colors } = tokens;
 
 const PortalCard = ({ portal, onQuickEdit }: { portal: Portal; onQuickEdit: (portal: Portal) => void }) => {
 	const { setActivePortalById, activePortalId } = usePortalContext();
+
+	const { mutateAsync: deletePortal } = useDeletePortal();
+	const [isDeleting, setIsDeleting] = useState<Portal | undefined>();
+
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
 	const openMenu = () => {
 		setIsOpen(true);
 	};
@@ -162,11 +169,37 @@ const PortalCard = ({ portal, onQuickEdit }: { portal: Portal; onQuickEdit: (por
 							Edit
 						</Typography>
 					</Menu.Item>
+
+					<Menu.Item
+						as={Link}
+						to={`/portals/${portal.id}/apps`}
+						onClick={(e) => {
+							e.stopPropagation();
+							setActivePortalById(portal.id);
+						}}
+					>
+						<Icon data={apps} size={16} color={colors.text.static_icons__tertiary.hex} />
+						<Typography group="navigation" variant="menu_title" as="span">
+							Applications
+						</Typography>
+					</Menu.Item>
+					<Menu.Item
+						as={Link}
+						to={`/portals/${portal.id}/router`}
+						onClick={(e) => {
+							e.stopPropagation();
+							setActivePortalById(portal.id);
+						}}
+					>
+						<Icon data={tag_relations} size={16} color={colors.text.static_icons__tertiary.hex} />
+						<Typography group="navigation" variant="menu_title" as="span">
+							Router
+						</Typography>
+					</Menu.Item>
 					<Menu.Section>
 						<Menu.Item
-							disabled
 							onClick={() => {
-								console.log('delete', portal.id);
+								setIsDeleting(portal);
 							}}
 						>
 							<Icon data={delete_to_trash} size={16} color={colors.text.static_icons__tertiary.hex} />
@@ -176,6 +209,16 @@ const PortalCard = ({ portal, onQuickEdit }: { portal: Portal; onQuickEdit: (por
 						</Menu.Item>
 					</Menu.Section>
 				</Menu>
+				<DeleteDialog
+					type="Portal"
+					open={Boolean(isDeleting)}
+					onClose={() => setIsDeleting(undefined)}
+					onDelete={() => {
+						deletePortal(isDeleting);
+						setIsDeleting(undefined);
+					}}
+					title={isDeleting?.name || 'Portal'}
+				></DeleteDialog>
 			</Style.Card>
 		</Style.Item>
 	);

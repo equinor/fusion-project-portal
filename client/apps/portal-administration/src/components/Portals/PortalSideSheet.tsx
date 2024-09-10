@@ -1,13 +1,10 @@
-import { Card, TextField, Autocomplete, Typography, Checkbox } from '@equinor/eds-core-react';
+import { Card, Typography } from '@equinor/eds-core-react';
 
 import SideSheet from '@equinor/fusion-react-side-sheet';
 import styled from 'styled-components';
-import { Portal, PortalApp } from '../../types';
+import { Portal } from '../../types';
 import { useGetContextTypes } from '../../hooks/use-context-type-query';
-import { useEditOnboardedApp } from '../../hooks/use-onboarded-apps';
 import { EditPortalForm } from '../Portal/EditPortalForm';
-import { useParams } from 'react-router-dom';
-import { useGetPortal } from '../../hooks/use-portal-query';
 import { FormActionBar } from '../Portal/FormActionBar';
 import { useState } from 'react';
 
@@ -46,7 +43,7 @@ export function PortalSideSheet({ portal, onClose }: { portal?: Portal; onClose:
 			<SideSheet.SubTitle subTitle="Portal Quick Edit" />
 			<SideSheet.Actions>
 				<Style.PadBottom>
-					<FormActionBar isDisabled={isDisabled} portal={portal} isIcons />
+					<FormActionBar isDisabled={isDisabled} portal={portal} isIcons onClose={onClose} />
 				</Style.PadBottom>
 			</SideSheet.Actions>
 			<SideSheet.Content>

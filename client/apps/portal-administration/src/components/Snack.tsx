@@ -40,7 +40,9 @@ const Styled = {
 	`,
 	Snackbar: styled(Snackbar).attrs<{ $idx?: number }>((props) => ({
 		$idx: props.$idx || 0,
-	}))``,
+	}))`
+		bottom: calc(16px + (${(props) => props.$idx} * 4rem));
+	`,
 	SnackContent: styled.div`
 		display: flex;
 		align-items: flex-end;

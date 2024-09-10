@@ -7,9 +7,10 @@ import {
 	getPortalsQuery,
 	updatePortalQuery,
 } from '../query/portal-query';
-import { PortalCreateInputs, PortalInputs } from '../schema';
+import { PortalInputs } from '../schema';
 import { useHttpClient } from '@equinor/fusion-framework-react-app/http';
 import { useSnackBar } from './use-snack-bar';
+import { useNavigate } from 'react-router-dom';
 
 export const useGetPortals = () => {
 	const client = useHttpClient('portal-client');
@@ -38,7 +39,10 @@ export const useDeletePortal = () => {
 	return useMutation<boolean, FormattedError, Portal | undefined, Portal | undefined>({
 		mutationFn: (portal) => deletePortalByIdQuery(client, portal?.id),
 		onError(_, portal) {
-			sendMessage(`Failed to delete  - ${portal?.name || 'Portal'}`, 'Error');
+			sendMessage(
+				`Failed to delete ${portal?.name || 'Portal'}. The Portal may have one or more applications enabled`,
+				'Error'
+			);
 		},
 		onSuccess(_, portal) {
 			queryClient.invalidateQueries({ queryKey: ['portals'] });
@@ -51,18 +55,21 @@ export const useCreatePortal = () => {
 	const client = useHttpClient('portal-client');
 
 	const queryClient = useQueryClient();
-
+	const navigate = useNavigate();
 	const { sendMessage } = useSnackBar();
 
-	return useMutation<PortalInputs, FormattedError, PortalInputs, PortalInputs>({
+	return useMutation<string, FormattedError, PortalInputs, PortalInputs>({
 		mutationKey: ['create-portal'],
 		mutationFn: (body) => createPortalQuery(client, body),
 		onError() {
 			sendMessage('Failed to create portal', 'Error');
 		},
-		onSuccess() {
+		onSuccess(_, portal) {
 			queryClient.invalidateQueries({ queryKey: ['create-portal'] });
-			sendMessage('Portal created success', 'Info');
+			queryClient.invalidateQueries({ queryKey: ['portals'] });
+			queryClient.invalidateQueries({ queryKey: ['portal'] });
+			sendMessage(`Portal ${portal.name} was created successfully`, 'Info');
+			navigate(`/portals?tab=table`);
 		},
 	});
 };

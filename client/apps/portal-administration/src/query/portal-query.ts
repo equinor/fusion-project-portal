@@ -1,7 +1,7 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { formatError } from '../utils/error-utils';
 import { Portal, PortalConfiguration, PortalConfigurationEditInput } from '../types';
-import { PortalCreateInputs, PortalInputs } from '../schema';
+import { PortalInputs } from '../schema';
 
 export const getPortalsQuery = async (client: IHttpClient, signal?: AbortSignal) => {
 	const response = await client.fetch(`api/portals`, {
@@ -30,8 +30,7 @@ export const createPortalQuery = async (client: IHttpClient, body: PortalInputs)
 		throw formatError(await response.json(), response.status);
 	}
 
-	const data = await response.json();
-	return data as PortalInputs;
+	return await response.text();
 };
 
 export const updatePortalQuery = async (client: IHttpClient, body: PortalInputs) => {
