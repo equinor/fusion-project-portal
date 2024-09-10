@@ -476,7 +476,7 @@
     "@equinor/fusion-framework-module-http" "^6.0.3"
     "@equinor/fusion-framework-module-msal" "^3.1.4"
 
-"@equinor/fusion-framework-cli@^9.12.14":
+"@equinor/fusion-framework-cli@^9.12.11":
   version "9.12.14"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-cli/-/fusion-framework-cli-9.12.14.tgz#00fc345cf7c89044ea79d5922ec799dc437db3bd"
   integrity sha512-F2JjWFWUa9jIowrk+fiDYTjrLSTQVf5h1wAyiJ0KjwrLO+L02We5ssSKFiLpBvoBqHyRW/NGbEPkhKoBPG+Ylg==
