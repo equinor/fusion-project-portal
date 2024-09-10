@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { DeleteDialog } from '../Dialogue/DeleteDialog';
-import { Button, Icon, TextField, Typography } from '@equinor/eds-core-react';
+import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { save, delete_to_trash } from '@equinor/eds-icons';
 import { useState } from 'react';
 import { useDeletePortal } from '../../hooks/use-portal-query';
@@ -30,7 +30,7 @@ type FormActionBarProps = {
 	isDisabled: boolean;
 	portal: Portal;
 	isIcons?: boolean;
-	onClose: VoidFunction;
+	onClose?: VoidFunction;
 };
 
 export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActionBarProps) => {
@@ -72,7 +72,7 @@ export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActi
 							deletePortal(portal);
 							setIsDeleting(false);
 							navigation('/portals');
-							onClose();
+							onClose && onClose();
 						}}
 						title={portal.name}
 					></DeleteDialog>

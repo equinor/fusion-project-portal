@@ -1,22 +1,10 @@
-import {
-	Card,
-	Button,
-	Icon,
-	Typography,
-	TextField,
-	Autocomplete,
-	Checkbox,
-	Label,
-	Radio,
-} from '@equinor/eds-core-react';
+import { Card, Typography, Autocomplete, Radio } from '@equinor/eds-core-react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import * as AllIcons from '@equinor/eds-icons';
 import styled from 'styled-components';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { error_filled } from '@equinor/eds-icons';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useUpdatePortal } from '../../hooks/use-portal-query';
 import { PortalInputs, portalEditInputSchema } from '../../schema';

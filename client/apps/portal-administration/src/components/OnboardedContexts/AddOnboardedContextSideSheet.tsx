@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { PortalApp } from '../../types';
 import { useGetContextTypes } from '../../hooks/use-context-type-query';
 import { useEditOnboardedApp } from '../../hooks/use-onboarded-apps';
+import { PartialWithDefined } from '../../types/utils';
 
 const Style = {
 	Wrapper: styled.div`
@@ -21,10 +22,17 @@ const Style = {
 	`,
 };
 
-export function AddOnboardedContextSideSheet({ app, onClose }: { app?: Partial<PortalApp>; onClose: VoidFunction }) {
+export function AddOnboardedContextSideSheet({
+	app,
+	onClose,
+}: {
+	app?: PartialWithDefined<PortalApp, 'appKey' | 'name'>;
+	onClose: VoidFunction;
+}) {
 	const { data: contextTypes } = useGetContextTypes();
 	const { mutateAsync } = useEditOnboardedApp(app?.appKey);
 	if (!app) return null;
+
 	return (
 		<SideSheet
 			isOpen={Boolean(app)}
@@ -59,6 +67,7 @@ export function AddOnboardedContextSideSheet({ app, onClose }: { app?: Partial<P
 							}}
 							onOptionsChange={(change) => {
 								mutateAsync({
+									appKey: app.appKey,
 									contextTypes: change.selectedItems.map((c) => c.type),
 								});
 							}}

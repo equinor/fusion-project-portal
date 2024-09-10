@@ -6,9 +6,7 @@ import { add, edit, more_vertical, remove_outlined } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { Route } from '../../types/router-config';
 import { useRouterConfigContext } from '../../context/RouterContext';
-import { useUpdatePortalConfig } from '../../hooks/use-portal-config-query';
 import { usePortalContext } from '../../context/PortalContext';
-import { addRoute, createRoute, removeRoute } from '../../context/actions/router-actions';
 
 export const RouteMenu = ({ route }: { route: Route }) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);

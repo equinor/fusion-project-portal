@@ -1,14 +1,11 @@
-import { Header } from '../components/Header';
 import styled from 'styled-components';
 import { Icon, Tabs, Tooltip, Typography } from '@equinor/eds-core-react';
 import { add, view_list, view_module } from '@equinor/eds-icons';
 import { AppsList } from '../components/OnboardedApps/AppsList';
 import { AppsTable } from '../components/OnboardedApps/AppsTable';
 import { useTabs } from '../hooks/use-tabs';
-import { Message } from '../components/Message';
 import { OnboardApp } from '../components/OnboardedApps/OnboardApp';
 import { DataClarification } from '../components/DataClarification';
-import { Info } from 'luxon';
 import { InfoPopover } from '../components/InfoPopover';
 import { useOnboardedApps } from '../hooks/use-onboarded-apps';
 import { Loading } from '../components/Loading';

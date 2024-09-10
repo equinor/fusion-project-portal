@@ -1,7 +1,7 @@
 import { Button, Icon } from '@equinor/eds-core-react';
 import { PortalApp } from '../../types';
 
-import { add_circle_filled, add_circle_outlined } from '@equinor/eds-icons';
+import { add_circle_filled } from '@equinor/eds-icons';
 
 type ActivateSelectedWithContextButtonProps = {
 	selection: PortalApp[];

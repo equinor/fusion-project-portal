@@ -10,7 +10,6 @@ import { ActivateSelectedButton } from '../Actions/ActivateSelectedButton';
 import { RemoveAppsButton } from '../Actions/RemoveAppsButton';
 import { EditSelectedButton } from '../Actions/EditSelectedButton';
 import { ActivateSelectedWithContextButton } from '../Actions/ActivateSelectedWithContextButton';
-import { Row } from '@equinor/eds-core-react/dist/types/components/Table/Row';
 
 const Styles = {
 	Wrapper: styled.div`

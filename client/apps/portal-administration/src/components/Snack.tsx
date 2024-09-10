@@ -1,7 +1,6 @@
 import { Icon, Snackbar } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { useSnackBar } from '../hooks/use-snack-bar';
-import { W } from 'vitest/dist/chunks/reporters.C_zwCd4j';
 
 export const Snack = () => {
 	const { messages, removeMessage } = useSnackBar();

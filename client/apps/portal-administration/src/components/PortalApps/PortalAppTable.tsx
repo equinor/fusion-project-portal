@@ -7,7 +7,6 @@ import { PortalApp, ContextType } from '../../types';
 import { ActionBar } from './ActionBar';
 import { AgStyles } from '../AgStyle';
 import { Message } from '../Message';
-import { Loading } from '../Loading';
 
 export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 	const ref = useRef(null);

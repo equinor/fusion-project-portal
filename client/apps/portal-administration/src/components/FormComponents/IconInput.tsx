@@ -1,4 +1,4 @@
-import { Label, Icon, TextField, Typography } from '@equinor/eds-core-react';
+import { Label, Icon, TextField } from '@equinor/eds-core-react';
 import { error_filled } from '@equinor/eds-icons';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { PortalInputs } from '../../schema';

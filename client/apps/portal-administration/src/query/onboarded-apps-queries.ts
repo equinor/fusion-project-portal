@@ -1,5 +1,5 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
-import { PortalApp, PortalAppMutation } from '../types';
+import { PortalAppMutation } from '../types';
 import { Result } from './apps-queries';
 
 export const editOnboardedApp = async (client: IHttpClient, app: PortalAppMutation) => {

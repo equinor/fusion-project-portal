@@ -1,6 +1,6 @@
 import { ClientGrid } from '@equinor/workspace-ag-grid';
 import { Portal } from '../../types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CustomCellRendererProps } from '@ag-grid-community/react';
 import { Button, Icon, Typography } from '@equinor/eds-core-react';
 import { edit, delete_to_trash, apps, tag_relations, assignment } from '@equinor/eds-icons';

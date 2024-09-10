@@ -5,8 +5,7 @@ import { PortalApp } from '../../types';
 import { useState } from 'react';
 import { AppSideSheet } from './AppSideSheet';
 import { delete_to_trash, edit } from '@equinor/eds-icons';
-import { useDeleteOnboardedApp, useOnboardedApps } from '../../hooks/use-onboarded-apps';
-import { Loading } from '../Loading';
+import { useDeleteOnboardedApp } from '../../hooks/use-onboarded-apps';
 
 const Style = {
 	CardList: styled.div`

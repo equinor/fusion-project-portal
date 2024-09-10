@@ -4,10 +4,9 @@ import { ClientGrid } from '@equinor/workspace-ag-grid';
 
 import { useRef, useState } from 'react';
 
-import { useDeleteOnboardedApp, useOnboardedApps } from '../../hooks/use-onboarded-apps';
+import { useDeleteOnboardedApp } from '../../hooks/use-onboarded-apps';
 import { PortalApp } from '../../types';
 import { AppSideSheet } from './AppSideSheet';
-import { Loading } from '../Loading';
 import { delete_to_trash, edit } from '@equinor/eds-icons';
 import { AgStyles } from '../AgStyle';
 import { OnboardedAppsActionBar } from './OnboardedAppsActionBar';
@@ -38,7 +37,6 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 					}}
 					onGridReady={(event) => {
 						const api = event.api;
-						// gridApi.current = api;
 						api.sizeColumnsToFit();
 					}}
 					onRowSelected={(event) => {

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { PortalApp } from '../../types';
 import { AppCard } from './AppCard';
-import { Loading } from '../Loading';
 
 const Style = {
 	CardList: styled.div`

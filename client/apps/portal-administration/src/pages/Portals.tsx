@@ -1,4 +1,4 @@
-import { Icon, Tabs, TextField, Tooltip, Typography } from '@equinor/eds-core-react';
+import { Icon, Tabs, Tooltip, Typography } from '@equinor/eds-core-react';
 import { add, view_list, view_module } from '@equinor/eds-icons';
 
 import styled from 'styled-components';
@@ -11,7 +11,6 @@ import { PortalTable } from '../components/Portals/PortalTable';
 import { useTabs } from '../hooks/use-tabs';
 import { CreatePortalForm } from '../components/Portals/CreatePortalForm';
 import { InfoPopover } from '../components/InfoPopover';
-import { Row } from '@equinor/eds-core-react/dist/types/components/Table/Row';
 import { DataClarification } from '../components/DataClarification';
 
 const Style = {

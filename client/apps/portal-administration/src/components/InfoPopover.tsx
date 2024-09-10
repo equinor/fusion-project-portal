@@ -1,5 +1,5 @@
 import { Button, Popover, Icon } from '@equinor/eds-core-react';
-import { close, info_circle, title } from '@equinor/eds-icons';
+import { info_circle } from '@equinor/eds-icons';
 import { useState, useRef, PropsWithChildren } from 'react';
 
 export const InfoPopover = ({ children, title }: PropsWithChildren<{ title: string }>) => {
