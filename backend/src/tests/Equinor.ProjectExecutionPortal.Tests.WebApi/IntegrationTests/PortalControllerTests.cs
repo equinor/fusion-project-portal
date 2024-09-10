@@ -326,7 +326,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
-
+        
         [TestMethod]
         public async Task Get_AppsForPortal_WithoutContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
@@ -345,6 +345,26 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Assert
             Assert.IsNull(apps);
+        }
+
+        [TestMethod]
+        public async Task Get_PortalOnboardedApps_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portalToTest = portals!.First();
+
+            // Act
+            var response = await GetPortalOnboardedApps(portalToTest.Id, UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var apps = JsonConvert.DeserializeObject<IList<ApiPortalApp>>(content);
+
+            Assert.IsNotNull(apps);
+            Assert.IsTrue(apps.Count > 0);
         }
 
         [TestMethod]
@@ -561,6 +581,15 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         private static async Task<HttpResponseMessage> GetAppsForPortal(Guid portalId, Guid? contextId, UserType userType)
         {
             var route = contextId != null ? $"{Route}/{portalId}/contexts/{contextId}/apps" : $"{Route}/{portalId}/apps";
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync(route);
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> GetPortalOnboardedApps(Guid portalId, UserType userType)
+        {
+            var route = $"{Route}/{portalId}/onboarded-apps";
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.GetAsync(route);
 
