@@ -5,10 +5,10 @@ import { Client } from '@portal/types';
 
 const manifestMapper =
 	(basePath: string) =>
-	 
+
 	(value: any): AppManifest => {
 		const { appKey, appInformation, isLegacy } = value;
-		return { ...appInformation, entry: `${basePath}/api/bundles/${appKey}`, isLegacy };
+		return { ...appInformation, entry: `${basePath}/bundles/apps/${appKey}`, isLegacy };
 	};
 
 const manifestMappers =
@@ -28,7 +28,7 @@ export const appConfigurator =
 		builder.setAppClient({
 			getAppManifest: (query) => {
 				return portalClient.json$(`/api/onboarded-apps/${query.appKey}`, {
-					selector: async (res) => manifestMapper(client.baseUri)(await res.json()),
+					selector: async (res) => manifestMapper("")(await res.json()),
 				});
 			},
 			getAppManifests: () =>
