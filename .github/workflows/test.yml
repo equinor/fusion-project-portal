@@ -13,8 +13,10 @@ jobs:
     steps:
       - name: Check Changed Files
         run: |
-          if git diff --no-index --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^client/apps/"; then
-            echo "Files in client/apps/ have changed"
+          if git diff --no-index --name-only ${{ github.ref }}...${{ github.head_ref }} | grep -q "^client/apps/"; then
+          echo "Files in client/apps/ have changed"
           else
-            echo "No files in client/apps/ have changed"
+          echo "No files in client/apps/ have changed"
           fi
+          echo "Current branch: ${{ github.ref }}"
+          echo "Base branch: ${{ github.base_ref }}"
