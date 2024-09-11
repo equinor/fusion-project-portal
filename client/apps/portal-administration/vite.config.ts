@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
 
 const fix = `
 var process = {
@@ -7,28 +7,29 @@ var process = {
   }
 };
 var production = "production";
+
 `;
 
 export const InjectProcessPlugin = {
-  name: 'rollup-plugin-metadata',
-  renderChunk: (code: any) => fix + code,
+	name: 'rollup-plugin-metadata',
+	renderChunk: (code: any) => fix + code,
 };
 
 export default defineConfig({
-  appType: 'custom',
-  build: {
-    emptyOutDir: true,
-    minify: false,
-    rollupOptions: {
-      plugins: [InjectProcessPlugin],
-      output: {
-        inlineDynamicImports: true,
-      },
-    },
-    lib: {
-      entry: './src/index.ts',
-      fileName: 'app-bundle',
-      formats: ['es'],
-    },
-  }
+	appType: 'custom',
+	build: {
+		emptyOutDir: true,
+		minify: false,
+		rollupOptions: {
+			plugins: [InjectProcessPlugin],
+			output: {
+				inlineDynamicImports: true,
+			},
+		},
+		lib: {
+			entry: './src/index.ts',
+			fileName: 'app-bundle',
+			formats: ['es'],
+		},
+	},
 });

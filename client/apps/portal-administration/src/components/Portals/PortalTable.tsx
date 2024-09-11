@@ -13,6 +13,7 @@ import { PortalSideSheet } from './PortalSideSheet';
 import { AgStyles } from '../AgStyle';
 import { Message } from '../Message';
 import { usePortalContext } from '../../context/PortalContext';
+import { tokens } from '@equinor/eds-tokens';
 
 export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 	const { mutateAsync: deletePortal } = useDeletePortal();
@@ -40,6 +41,11 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 					onGridReady={(event) => {
 						const api = event.api;
 						api.sizeColumnsToFit();
+					}}
+					getRowStyle={(params) => {
+						if (params.data?.id === activePortalId) {
+							return { backgroundColor: tokens.colors.ui.background__info.rgba };
+						}
 					}}
 					colDefs={[
 						{

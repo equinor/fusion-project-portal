@@ -27,7 +27,6 @@ export const ActivateSelectedButton = ({ selection, activateSelected }: Activate
 	return (
 		<Button
 			id="activate-selected"
-			variant="ghost"
 			onClick={() => {
 				activateSelected(selection.filter((a) => !a.isActive));
 			}}

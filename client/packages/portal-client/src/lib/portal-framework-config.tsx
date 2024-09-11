@@ -81,6 +81,22 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 							},
 						],
 					},
+					{
+						path: 'admin/*',
+						pageKey: 'portal-administration',
+						messages: {
+							errorMessage: 'Fail to load portal administration page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load portal administration page',
+								},
+								path: ':portalId',
+								pageKey: 'portal-administration',
+							},
+						],
+					},
 				],
 			});
 		});
@@ -135,7 +151,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableFeatureFlagging(config, (builder) => {
 			builder.addPlugin(
-				createLocalStoragePlugin([					
+				createLocalStoragePlugin([
 					{
 						key: 'project-prediction',
 						title: 'Allocated Projects',
