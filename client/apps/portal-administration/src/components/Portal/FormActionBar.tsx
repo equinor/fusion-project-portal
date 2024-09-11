@@ -1,13 +1,13 @@
 import { styled } from 'styled-components';
 import { DeleteDialog } from '../Dialogue/DeleteDialog';
-import { Button, Icon, Typography } from '@equinor/eds-core-react';
+import { Breadcrumbs, Button, Icon, Typography } from '@equinor/eds-core-react';
 import { save, delete_to_trash } from '@equinor/eds-icons';
 import { useState } from 'react';
 import { useDeletePortal } from '../../hooks/use-portal-query';
 import { Portal } from '../../types';
 import { InfoPopover } from '../InfoPopover';
 import { DataClarification } from '../DataClarification';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Style = {
 	ActionBar: styled.div<{ gap: string }>`
@@ -19,10 +19,17 @@ const Style = {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
+		height: 45px;
+		border-bottom: 2px solid #e0e0e0;
 	`,
 	Row: styled.div`
 		display: flex;
 		align-items: center;
+	`,
+	Breadcrumbs: styled(Breadcrumbs)`
+		> * > li > * {
+			font-size: 1.25em;
+		}
 	`,
 };
 
@@ -41,7 +48,17 @@ export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActi
 		<Style.Wrapper>
 			{!isIcons && (
 				<Style.Row>
-					<Typography variant="h4">{portal ? `${portal.name} - Config` : 'Postal  Config'}</Typography>
+					<Style.Breadcrumbs separator={'|'}>
+						<Breadcrumbs.Breadcrumb as={Link} to="/portals">
+							Portals
+						</Breadcrumbs.Breadcrumb>
+						<Breadcrumbs.Breadcrumb as={Link} to={`/portals/${portal.id}/overview`} aria-current="page">
+							{portal ? portal.name : 'Portal'}
+						</Breadcrumbs.Breadcrumb>
+						<Breadcrumbs.Breadcrumb as={Link} to={`/portals/${portal.id}/overview`} aria-current="page">
+							Overview
+						</Breadcrumbs.Breadcrumb>
+					</Style.Breadcrumbs>
 					<InfoPopover title="Portal Config">
 						<Typography>Portal configuration is where you can manage the portal settings.</Typography>
 					</InfoPopover>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { Icon, Tabs, Tooltip, Typography } from '@equinor/eds-core-react';
-import { useParams } from 'react-router-dom';
+import { Breadcrumbs, Icon, Tabs, Tooltip, Typography } from '@equinor/eds-core-react';
+import { Link, useParams } from 'react-router-dom';
 import { useOnboardApps } from '../hooks/use-onboard-apps';
 import { useGetPortal } from '../hooks/use-portal-query';
 import { Loading } from '../components/Loading';
@@ -35,6 +35,7 @@ const Style = {
 		align-items: center;
 		width: 100%;
 		border-bottom: 2px solid #e0e0e0;
+		height: 45px;
 	`,
 	Tab: styled(Tabs.Tab)`
 		${({ active }) => (!active ? 'border-bottom-color: transparent;' : '')};
@@ -43,6 +44,12 @@ const Style = {
 	Row: styled.div`
 		display: flex;
 		align-items: center;
+	`,
+	Breadcrumbs: styled(Breadcrumbs)`
+		> * > li > * {
+			overflow: visible;
+			font-size: 1.25em;
+		}
 	`,
 };
 
@@ -62,9 +69,21 @@ export const PortalApps = () => {
 			<Tabs activeTab={activeTab} onChange={onTabChange}>
 				<Style.TabsListWrapper>
 					<Style.Row>
-						<Typography variant="h4">
-							{portal ? `${portal.name} - Apps Config` : 'Postal Apps Config'}
-						</Typography>
+						<Style.Breadcrumbs separator={'|'}>
+							<Breadcrumbs.Breadcrumb as={Link} to="/portals">
+								Portals
+							</Breadcrumbs.Breadcrumb>
+							<Breadcrumbs.Breadcrumb
+								as={Link}
+								to={`/portals/${portal?.id}/overview`}
+								aria-current="page"
+							>
+								{portal ? portal.name : 'Portal'}
+							</Breadcrumbs.Breadcrumb>
+							<Breadcrumbs.Breadcrumb as={Link} to={`/portals/${portal?.id}/apps`} aria-current="page">
+								Apps Config
+							</Breadcrumbs.Breadcrumb>
+						</Style.Breadcrumbs>
 						<InfoPopover title="Portal Apps Config">
 							<Typography>Configure the applications that are available in this portal.</Typography>
 						</InfoPopover>
