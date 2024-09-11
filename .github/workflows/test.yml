@@ -1,4 +1,4 @@
-name: TEst
+name: Test
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check Changed Files
         run: |
-          if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^/client/apps/"; then
+          if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^client/apps/*"; then
             echo "Files in client/apps/ have changed2"
           else
             echo "No files in client/apps/ have changed"
