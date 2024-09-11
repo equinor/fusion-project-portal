@@ -1,7 +1,8 @@
 name: TEst
 
 on:
-  workflow_dispatch:
+  push:
+    branches: ["*"]
 
 jobs:
   web-client-test:
