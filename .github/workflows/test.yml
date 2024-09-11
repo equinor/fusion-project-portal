@@ -20,3 +20,4 @@ jobs:
           fi
           echo "Current branch: ${{ github.ref }}"
           echo "Base branch: ${{ github.base_ref }}"
+          echo "Head branch: ${{ github.head_ref }}"
