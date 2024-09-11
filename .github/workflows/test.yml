@@ -2,7 +2,7 @@ name: TEst
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - feat/portal-administration
 
