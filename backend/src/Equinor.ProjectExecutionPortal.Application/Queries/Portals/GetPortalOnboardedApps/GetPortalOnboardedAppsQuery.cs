@@ -46,7 +46,6 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
             var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(portalApps);
 
             await _appService.SetAppsAsActiveInPortal(portalAppsDto, cancellationToken);
-           
 
             var onboardedApps = await _readWriteContext.Set<OnboardedApp>()
                 .AsNoTracking()
