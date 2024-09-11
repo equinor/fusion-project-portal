@@ -3,10 +3,10 @@ name: Check Changes in client/apps
 on:
   pull_request:
     branches:
-      - '*'
+      - "*"
   push:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   check-changes:
@@ -31,4 +31,5 @@ jobs:
           fi
 
       - name: Output result
-        run: echo "Changes in client/apps: ${{ steps.check_changes.outputs.changes_detected }}"
+        run: |
+          echo "Changes in client/apps: ${{ steps.check_changes.outputs.changes_detected }}"
