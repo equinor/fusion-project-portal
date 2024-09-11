@@ -28,6 +28,19 @@ jobs:
           else
           echo "No files in client/apps/ have changed"
           fi
-          echo "Current branch: ${{ github.ref }}"
-          echo "Base branch: ${{ github.base_ref }}"
-          echo "Head branch: ${{ github.head_ref }}"
+
+      - name: Check Changed Files Main2
+        run: |
+          if git diff --no-index --name-only ${{ github.ref }}...main | grep -q "/client/apps/"; then
+          echo "Files in client/apps/ have changed"
+          else
+          echo "No files in client/apps/ have changed"
+          fi
+
+      - name: Check Changed Files Main3
+        run: |
+          if git diff --no-index --name-only ${{ github.ref }}...main | grep -q "^/client/apps/"; then
+          echo "Files in client/apps/ have changed"
+          else
+          echo "No files in client/apps/ have changed"
+          fi
