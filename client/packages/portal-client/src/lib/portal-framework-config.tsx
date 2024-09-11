@@ -94,7 +94,7 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 
 		enableContext(config);
-		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
+		// config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);

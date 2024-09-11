@@ -11,6 +11,7 @@ import { PortalFramework, PortalFrameworkConfigurator } from '@portal/framework'
 import { enablePortalConfig, PortalConfig as PortalConfigModule } from '@portal/core';
 
 import { FusionFramework } from './FusionFramework';
+import { ContextModuleConfigurator } from '@equinor/fusion-framework-module-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -19,7 +20,8 @@ const portalConfig = window['_config_'];
 /* fusion core is spamming the console form module this will remove it in production */
 configureDebug();
 
-const config = (config: PortalFrameworkConfigurator) => {
+const config = async (config: PortalFrameworkConfigurator) => {
+	config.logger.level = 4;
 	enablePortalConfig(config, (builder) => {
 		builder.setConfig({
 			portalId: portalConfig.portalId,
