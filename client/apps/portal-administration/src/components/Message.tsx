@@ -11,12 +11,14 @@ export const Message = ({ title, messages, type = 'Info', children }: PropsWithC
 
 	return (
 		<Styled.Content>
-			<Styled.Header>
-				<Styled.Icon color={variant.backColor} title="Icon">
-					<Icon data={variant.data} color={variant.color} type={variant.type} />
-				</Styled.Icon>
-				<span>{title}</span>
-			</Styled.Header>
+			{title && (
+				<Styled.Header>
+					<Styled.Icon color={variant.backColor} title="Icon">
+						<Icon data={variant.data} color={variant.color} type={variant.type} />
+					</Styled.Icon>
+					<span>{title}</span>
+				</Styled.Header>
+			)}
 			{messages && (
 				<Styled.UL>
 					{messages?.map((message, i) => (
@@ -61,7 +63,7 @@ export const getIconVariant = (type: Variant) => {
 
 export type MessageProps = {
 	type?: Variant;
-	title: string;
+	title?: string;
 	messages?: string[];
 };
 
@@ -77,7 +79,6 @@ export const Styled = {
 		border-bottom-left-radius: 4px;
 	`,
 	Content: styled.div`
-		padding: 1rem;
 		display: flex;
 		flex-direction: column;
 	`,

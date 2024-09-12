@@ -1,7 +1,7 @@
 import { Link, useMatch, type LinkProps } from 'react-router-dom';
 import { SideBar, SidebarLinkProps } from '@equinor/eds-core-react';
 
-import { dashboard, build_wrench, briefcase, apps, desktop_mac, settings } from '@equinor/eds-icons';
+import { dashboard, build_wrench, briefcase, apps, desktop_mac, settings, view_list, add } from '@equinor/eds-icons';
 import { usePortalContext } from '../context/PortalContext';
 
 type MenuItemProps =
@@ -21,18 +21,33 @@ export const SideMenu = () => {
 			icon: desktop_mac,
 			active: !!useMatch(`portals`),
 			to: `portals`,
-			disabled: Boolean(!activePortalId),
 			as: Link,
+			subItems: [
+				{
+					label: 'Portals',
+					icon: view_list,
+					to: `portals`,
+					active: !!useMatch(`portals`),
+					as: Link,
+				},
+				{
+					label: 'Create New Portal',
+					icon: add,
+					to: `portals/create`,
+					active: !!useMatch(`portals/create`),
+					as: Link,
+				},
+			],
 		},
 		{
 			label: 'Portal',
-			active: !!useMatch({ path: `portals/:portalId`, end: false }),
+			active: !!useMatch({ path: `portals/:portalId/:page`, end: true }),
 			icon: dashboard,
 			disabled: Boolean(!activePortalId),
 			expanded: true,
 			subItems: [
 				{
-					label: 'Config',
+					label: 'Overview',
 					icon: dashboard,
 					to: `portals/${activePortalId}/overview`,
 					active: !!useMatch(`portals/:portalId/overview`),
@@ -73,15 +88,22 @@ export const SideMenu = () => {
 				{
 					label: 'Onboarded Apps',
 					icon: apps,
-					active: !!useMatch('settings/apps'),
+					active: !!useMatch({ path: `settings/apps`, end: true }),
 					to: `settings/apps`,
 					as: Link,
 				},
 				{
-					label: 'Context',
+					label: 'Contexts',
 					icon: build_wrench,
-					to: `settings/context`,
-					active: !!useMatch(`settings/context`),
+					to: `settings/contexts`,
+					active: !!useMatch({ path: `settings/contexts`, end: true }),
+					as: Link,
+				},
+				{
+					label: 'Context Types',
+					icon: build_wrench,
+					to: `settings/contexts/types`,
+					active: !!useMatch(`settings/contexts/types`),
 					as: Link,
 				},
 			],

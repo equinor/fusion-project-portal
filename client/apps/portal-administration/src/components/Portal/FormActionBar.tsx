@@ -5,9 +5,9 @@ import { save, delete_to_trash } from '@equinor/eds-icons';
 import { useState } from 'react';
 import { useDeletePortal } from '../../hooks/use-portal-query';
 import { Portal } from '../../types';
-import { InfoPopover } from '../InfoPopover';
+
 import { DataClarification } from '../DataClarification';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Style = {
 	ActionBar: styled.div<{ gap: string }>`
@@ -19,8 +19,6 @@ const Style = {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
-		height: 45px;
-		border-bottom: 2px solid #e0e0e0;
 	`,
 	Row: styled.div`
 		display: flex;
@@ -42,30 +40,13 @@ type FormActionBarProps = {
 
 export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActionBarProps) => {
 	const { mutateAsync: deletePortal } = useDeletePortal();
+
 	const [isDeleting, setIsDeleting] = useState<boolean>(false);
 	const navigation = useNavigate();
 	return (
 		<Style.Wrapper>
-			{!isIcons && (
-				<Style.Row>
-					<Style.Breadcrumbs separator={'|'}>
-						<Breadcrumbs.Breadcrumb as={Link} to="/portals">
-							Portals
-						</Breadcrumbs.Breadcrumb>
-						<Breadcrumbs.Breadcrumb as={Link} to={`/portals/${portal.id}/overview`} aria-current="page">
-							{portal ? portal.name : 'Portal'}
-						</Breadcrumbs.Breadcrumb>
-						<Breadcrumbs.Breadcrumb as={Link} to={`/portals/${portal.id}/overview`} aria-current="page">
-							Overview
-						</Breadcrumbs.Breadcrumb>
-					</Style.Breadcrumbs>
-					<InfoPopover title="Portal Config">
-						<Typography>Portal configuration is where you can manage the portal settings.</Typography>
-					</InfoPopover>
-				</Style.Row>
-			)}
 			<Style.Row>
-				<DataClarification />
+				{isIcons && <DataClarification />}
 				<Style.ActionBar gap={isIcons ? '0' : '1rem'}>
 					<Button
 						variant={isIcons ? 'ghost_icon' : 'contained'}

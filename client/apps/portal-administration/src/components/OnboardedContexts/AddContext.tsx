@@ -1,5 +1,5 @@
 import { Card, Button, Icon, Autocomplete, Typography } from '@equinor/eds-core-react';
-import { add } from '@equinor/eds-icons';
+import { add, chevron_down, chevron_left } from '@equinor/eds-icons';
 import styled from 'styled-components';
 import { useGetContextTypes } from '../../hooks/use-context-type-query';
 import { ContextSelector } from './ContextSelector';
@@ -10,21 +10,33 @@ import { useAddContext } from '../../hooks/use-add-context';
 import { useContextById } from '../../hooks/use-context-by-id';
 import { useOnboardedContexts } from '../../hooks/use-onboarded-context';
 import { FieldError } from 'react-hook-form';
+import { InfoPopover } from '../InfoPopover';
 
-const Styles = {
+const Style = {
 	Content: styled.div`
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 	`,
 	Card: styled(Card)<{ background?: string }>`
-		padding: 1rem;
+		padding: 0.5rem 1rem;
 		background-color: ${({ background }) => background};
 	`,
 	ActionBar: styled.div`
 		padding: 1rem;
 		display: flex;
 		justify-content: space-between;
+	`,
+	From: styled.form`
+		padding-bottom: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	`,
+	Row: styled.div`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	`,
 };
 
@@ -34,6 +46,7 @@ export const AddContext = () => {
 	const [activeContextIs, setActiveContextId] = useState<string | undefined>('');
 
 	const [contextError, setContextError] = useState<FieldError | undefined>();
+	const [active, setActive] = useState<boolean>(false);
 
 	const { data: selectedContext } = useContextById(activeContextIs);
 	const { data: onboardedContexts } = useOnboardedContexts();
@@ -45,67 +58,73 @@ export const AddContext = () => {
 	const { mutateAsync } = useAddContext();
 
 	return (
-		<Styles.Content>
-			<Styles.Card background={tokens.colors.ui.background__info.hex}>
-				<Message
-					title="Add Context"
-					messages={[
-						'To be able to make a app context specific the system needs to add the context',
-						'Search for the context that is missing',
-						'Press add to alow for the context tu be utilized',
-						'Use the context type filter to specify your search',
-					]}
-				/>
-			</Styles.Card>
-			<Styles.Card>
-				<Autocomplete<string>
-					id="app-context-types"
-					multiple
-					options={contextTypes?.map((c) => c.type) || []}
-					optionLabel={(contextTypes) => contextTypes}
-					itemCompare={(item, compare) => {
-						return item === compare;
-					}}
-					onOptionsChange={({ selectedItems }) => {
-						setTypes(selectedItems);
-					}}
-					label="Context Types"
-				/>
-				<ContextSelector
-					types={types}
-					message={contextError?.message}
-					errors={contextError}
-					onChange={() => {
-						setContextError(undefined);
-					}}
-					onOptionsChange={(context) => {
-						setContextError(undefined);
-						if (onboardedContextIds.includes(context.id)) {
-							setContextError({
-								message: 'Context is already onboarded',
-								type: 'validate',
-							});
-							return;
-						}
-						setActiveContextId(context.id);
-					}}
-				/>
-				<Button
-					disabled={!selectedContext}
-					onClick={() => {
-						mutateAsync({
-							externalId: selectedContext.externalId,
-							type: selectedContext.type.id,
-							description: selectedContext.title,
-						});
-					}}
-				>
-					<Icon data={add} />
-					Add Context
-				</Button>
-			</Styles.Card>
+		<Style.Content>
+			<Style.Card>
+				<Style.Row>
+					<Style.Row>
+						<Typography variant="h6">Add Context Type</Typography>
+						<InfoPopover title="Add Context Type">
+							<Typography>
+								Expand the form to add new context type by pressing the chevron icon.
+							</Typography>
+						</InfoPopover>
+					</Style.Row>
+					<Button variant="ghost_icon" onClick={() => setActive((s) => !s)}>
+						<Icon data={active ? chevron_down : chevron_left} />
+					</Button>
+				</Style.Row>
+				{active && (
+					<Style.From>
+						<Autocomplete<string>
+							id="app-context-types"
+							multiple
+							options={contextTypes?.map((c) => c.type) || []}
+							optionLabel={(contextTypes) => contextTypes}
+							itemCompare={(item, compare) => {
+								return item === compare;
+							}}
+							onOptionsChange={({ selectedItems }) => {
+								setTypes(selectedItems);
+							}}
+							label="Filter Search By Context Types"
+						/>
+						<ContextSelector
+							types={types}
+							message={contextError?.message}
+							errors={contextError}
+							onChange={() => {
+								setContextError(undefined);
+							}}
+							onOptionsChange={(context) => {
+								setContextError(undefined);
+								if (onboardedContextIds.includes(context.id)) {
+									setContextError({
+										message: 'Context is already onboarded',
+										type: 'validate',
+									});
+									return;
+								}
+								setActiveContextId(context.id);
+							}}
+						/>
+						<Button
+							disabled={!selectedContext}
+							onClick={() => {
+								mutateAsync({
+									externalId: selectedContext.externalId,
+									type: selectedContext.type.id,
+									description: selectedContext.title,
+								});
+							}}
+						>
+							<Icon data={add} />
+							Add Context
+						</Button>
+					</Style.From>
+				)}
+			</Style.Card>
 			{selectedContext && (
-				<Styles.Card>
+				<Style.Card>
 					<Card.Header>
 						<Card.HeaderTitle>
 							<Typography variant="h4">{selectedContext.title}</Typography>
@@ -116,8 +135,8 @@ export const AddContext = () => {
 						<p>{selectedContext.externalId}</p>
 						<p>{selectedContext.id}</p>
 					</Card.Content>
-				</Styles.Card>
+				</Style.Card>
 			)}
-		</Styles.Content>
+		</Style.Content>
 	);
 };

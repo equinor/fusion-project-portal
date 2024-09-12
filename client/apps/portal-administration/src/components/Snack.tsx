@@ -1,6 +1,7 @@
 import { Icon, Snackbar } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import { useSnackBar } from '../hooks/use-snack-bar';
+import { check_circle_outlined, error_filled } from '@equinor/eds-icons';
 
 export const Snack = () => {
 	const { messages, removeMessage } = useSnackBar();
@@ -20,7 +21,7 @@ export const Snack = () => {
 						}}
 					>
 						<Styled.SnackContent>
-							<Icon name={type === 'error' ? 'error_filled' : 'check_circle_outlined'} size={16} />
+							<Icon data={type === 'error' ? error_filled : check_circle_outlined} size={16} />
 							<div>{message}</div>
 						</Styled.SnackContent>
 					</Styled.Snackbar>

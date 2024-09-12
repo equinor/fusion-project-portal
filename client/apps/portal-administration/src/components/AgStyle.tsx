@@ -15,9 +15,10 @@ export const AgStyles = {
 		margin-top: 0.5rem;
 	`,
 	TableContent: styled.div`
+		padding-top: 1rem;
 		position: relative;
-		width: calc(100% - 2rem);
-		height: 100%;
+		height: calc(100% - 3rem);
+		width: 100%;
 	`,
 
 	Icon: styled.span`
@@ -44,7 +45,7 @@ export const AgStyles = {
 		.ag-advanced-filter-header {
 			border-bottom: solid 1px var(--ag-border-color) !important;
 		}
-		//height: -webkit-fill-available;
+
 		height: 100%;
 		position: relative;
 	`,

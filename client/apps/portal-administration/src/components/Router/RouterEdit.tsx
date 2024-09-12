@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card, Typography } from '@equinor/eds-core-react';
+import { Card } from '@equinor/eds-core-react';
 
 import { useRouterConfigContext } from '../../context/RouterContext';
 import { RouterRoot } from './RouterRoot';
@@ -11,70 +11,86 @@ const Style = {
 	Wrapper: styled.div`
 		gap: 1rem;
 		display: flex;
-		padding: 1rem;
+		padding: 1rem 0;
 		width: 100%;
 		flex-direction: column;
 	`,
 	Content: styled.div`
+		padding: 0 1rem;
 		gap: 1rem;
 		display: flex;
 
 		flex-direction: column;
 	`,
+	CodeContent: styled.div`
+		padding: 0 1rem;
+		gap: 1rem;
+		display: flex;
+
+		flex-direction: column;
+	`,
+	Full: styled.div`
+		width: 100%;
+	`,
+	CardContent: styled(Card.Content)`
+		padding: 1rem;
+	`,
 };
 
-export const RouterEdit = ({ portalName }: { portalName?: string }) => {
+export const RouterEdit = () => {
 	const { rootActive, configActive } = useRouterConfigContext();
 
 	return (
-		<Style.Wrapper>
-			<Typography variant="h5">
-				{portalName ? `${portalName} - Router Config` : 'Postal - Router Config'}
-			</Typography>
-
+		<Style.Full>
 			{configActive ? (
-				<Style.Content>
+				<Style.CodeContent>
 					<RouterConfig />
 					<Card>
-						<Message
-							title="Configuration"
-							messages={['This is used for developers to ensure the configuration is proper']}
-						/>
+						<Style.CardContent>
+							<Message
+								title="Configuration"
+								messages={['This is used for developers to ensure the configuration is proper']}
+							/>
+						</Style.CardContent>
 					</Card>
-				</Style.Content>
+				</Style.CodeContent>
 			) : (
-				<>
+				<Style.Wrapper>
 					{rootActive ? (
 						<Style.Content>
 							<RouterRoot />
 							<Card>
-								<Message
-									title="Base Config Help"
-									messages={[
-										'The page key is used to decide what application to load',
-										'Error message is shown if application fails to load',
-									]}
-								/>
+								<Style.CardContent>
+									<Message
+										title="Base Config Help"
+										messages={[
+											'The page key is used to decide what application to load',
+											'Error message is shown if application fails to load',
+										]}
+									/>
+								</Style.CardContent>
 							</Card>
 						</Style.Content>
 					) : (
 						<Style.Content>
 							<RouteForm />
 							<Card>
-								<Message
-									title="Route Help"
-									messages={[
-										'A * on the end will hit all sub paths, ie. my-page/*',
-										'Adding : at the front will result in a readable parameter ie. :myid',
-										'The page key is used to decide what application to load',
-										'Error message is shown if application fails to load',
-									]}
-								/>
+								<Style.CardContent>
+									<Message
+										title="Route Help"
+										messages={[
+											'A * on the end will hit all sub paths, ie. my-page/*',
+											'Adding : at the front will result in a readable parameter ie. :myid',
+											'The page key is used to decide what application to load',
+											'Error message is shown if application fails to load',
+										]}
+									/>
+								</Style.CardContent>
 							</Card>
 						</Style.Content>
 					)}
-				</>
+				</Style.Wrapper>
 			)}
-		</Style.Wrapper>
+		</Style.Full>
 	);
 };

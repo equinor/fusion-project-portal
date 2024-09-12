@@ -42,6 +42,10 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 						const api = event.api;
 						api.sizeColumnsToFit();
 					}}
+					onGridSizeChanged={(event) => {
+						const api = event.api;
+						api.sizeColumnsToFit();
+					}}
 					getRowStyle={(params) => {
 						if (params.data?.id === activePortalId) {
 							return { backgroundColor: tokens.colors.ui.background__info.rgba };
@@ -49,14 +53,10 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 					}}
 					colDefs={[
 						{
-							field: 'id',
-							headerName: 'Id',
-							hide: true,
-						},
-						{
 							field: 'icon',
 							headerName: 'Icon',
 							maxWidth: 70,
+							minWidth: 70,
 							cellRenderer: (
 								params: CustomCellRendererProps<{
 									icon: string;
@@ -115,6 +115,7 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 						},
 						{
 							field: 'description',
+							width: 500,
 							headerName: 'Description',
 						},
 						{
@@ -143,6 +144,7 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 						{
 							field: 'id',
 							headerName: 'Actions',
+							minWidth: 300,
 							maxWidth: 300,
 							cellRenderer: (params: CustomCellRendererProps<Portal>) => {
 								return (

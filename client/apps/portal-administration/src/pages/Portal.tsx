@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import { usePortalContext } from '../context/PortalContext';
 import { PageMessage } from '../components/PageMessage/PageMessage';
+import { useGetPortal } from '../hooks/use-portal-query';
+import { PortalHeader } from '../components/Portal/PortalHeader';
 
 const Styles = {
 	Content: styled.div`
@@ -11,12 +13,14 @@ const Styles = {
 		height: 100%;
 	`,
 	Section: styled.section`
+		flex-direction: column;
+		padding: 1rem;
 		display: flex;
-
 		height: 100%;
 	`,
 	Wrapper: styled.div`
 		display: block;
+		overflow: hidden;
 		height: 100%;
 	`,
 };
@@ -34,6 +38,8 @@ export const Portal = () => {
 		}
 	}, [portalId, activePortalId, setActivePortalById]);
 
+	const { data: portal } = useGetPortal(portalId);
+
 	if (!portalId) {
 		return <PageMessage title="No Portal ID" type="Error" />;
 	}
@@ -41,6 +47,7 @@ export const Portal = () => {
 	return (
 		<Styles.Wrapper>
 			<Styles.Section>
+				<PortalHeader portal={portal} />
 				<Styles.Content>
 					<Outlet />
 				</Styles.Content>

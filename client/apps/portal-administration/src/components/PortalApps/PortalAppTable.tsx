@@ -42,8 +42,10 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 					}}
 					onRowSelected={(event) => {
 						const selectedRows = event.api!.getSelectedRows();
-
 						setSelectedApps(selectedRows);
+					}}
+					onRowDataUpdated={() => {
+						setSelectedApps([]);
 					}}
 					colDefs={[
 						{

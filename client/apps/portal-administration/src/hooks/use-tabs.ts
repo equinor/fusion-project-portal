@@ -1,38 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { IconData } from '@equinor/eds-icons';
+import { FC, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-export const useTabs = <Keys extends string, Key extends Keys>(keys: Keys[], defaultTab?: Key) => {
-	const tabMap = useMemo(
-		() =>
-			keys.reduce((map, key, index) => {
-				Object.assign(map, { [key]: index });
-				return map;
-			}, {} as Record<Keys, number>),
-		[]
-	);
+type Tab<Key> = { key: Key; title: string; route: string; description: string | FC; icon?: IconData };
+export type TabsList<Key extends string> = Tab<Key>[];
 
-	const [activeTab, setActiveTabIndex] = useState(defaultTab ? tabMap[defaultTab] : 0);
+export const useTabs = <Keys extends string, Key extends Keys>(tabs: TabsList<Key>, defaultTabKey: Key) => {
+	const defaultTab = tabs.find((tab) => tab.key === defaultTabKey)!;
+	const [activeTab, setActiveTab] = useState<Tab<Key>>(defaultTab);
 
-	let [searchParams, setSearchParams] = useSearchParams();
+	const { pathname } = useLocation();
 
 	useEffect(() => {
-		const tab = searchParams.get('tab');
-		if (tab && Object.keys(tabMap).includes(tab)) {
-			setActiveTabIndex(tabMap[tab as Keys]);
+		const match = tabs.find((tab) => pathname.endsWith(tab.route));
+		if (match) {
+			setActiveTab(match);
 		} else if (defaultTab) {
-			setSearchParams({ tab: defaultTab });
+			setActiveTab(defaultTab);
 		}
-	}, [searchParams, tabMap, defaultTab]);
+	}, [pathname, tabs, defaultTab]);
 
-	const onTabChange = (index: number) => {
-		setActiveTabIndex(index);
-		const tab = Object.keys(tabMap).find((key) => tabMap[key as Keys] === index);
-		if (tab) setSearchParams({ tab });
-	};
-
-	const setActiveTab = (tab: Keys) => {
-		setActiveTabIndex(tabMap[tab]);
-	};
-
-	return { onTabChange, setActiveTab, activeTab };
+	return { activeTab, setActiveTab };
 };

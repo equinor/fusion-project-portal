@@ -1,13 +1,19 @@
-import { RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import { Portals } from './pages/Portals';
 import { EditPortal } from './pages/EditPortal';
 import { RouterConfig } from './pages/RouterConfig';
 import { Context } from './pages/ContextConfig';
 import Portal from './pages/Portal';
-import { OnboardedApps } from './pages/OnboardedApps';
+import { Settings } from './pages/Settings';
 import { PortalApps } from './pages/PortalApps';
 import { Root } from './pages/Root';
 import { ShowConfigPage } from './components/Portal/ShowConfig';
+import { PortalList } from './pages/PortalsList';
+import { CreatePortal } from './pages/CreatePortal';
+
+import { OnboardedApps } from './pages/OnboardedAppsTable';
+
+import { ContextTypesPage } from './pages/ContextTypesPage';
 
 export const routes: RouteObject[] = [
 	{
@@ -16,28 +22,50 @@ export const routes: RouteObject[] = [
 		children: [
 			{
 				index: true,
-				Component: Portals,
-			},
-			{
-				path: 'portals',
-				index: true,
-				Component: Portals,
+				Component: () => <Navigate to="/portals" />,
 			},
 			{
 				path: 'settings/apps',
-				Component: OnboardedApps,
+				Component: Settings,
+				children: [
+					{
+						index: true,
+						Component: OnboardedApps,
+					},
+				],
 			},
 			{
-				Component: Context,
-				path: 'settings/context',
+				Component: Settings,
+				path: 'settings/contexts',
+				children: [
+					{
+						index: true,
+						Component: Context,
+					},
+					{
+						path: 'types',
+						Component: ContextTypesPage,
+					},
+				],
+			},
+			{
+				path: 'portals',
+				Component: Portals,
+				children: [
+					{
+						index: true,
+						Component: PortalList,
+					},
+					{
+						path: 'create',
+						Component: CreatePortal,
+					},
+				],
 			},
 			{
 				path: 'portals/:portalId',
 				Component: Portal,
 				children: [
-					{
-						Component: EditPortal,
-					},
 					{
 						path: 'overview',
 						Component: EditPortal,

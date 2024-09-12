@@ -36,7 +36,7 @@ const Style = {
 	Row: styled.div`
 		display: flex;
 		flex-direction: row;
-		gap: 2rem;
+		gap: 1rem;
 	`,
 	ErrorWrapper: styled.div`
 		padding-top: 1rem;
@@ -86,6 +86,24 @@ export const CreatePortalForm = () => {
 	return (
 		<Style.Wrapper>
 			<Style.Form onSubmit={handleSubmit(onSubmit)} id="create">
+				<Style.Card>
+					<Typography variant="overline">Create Portal Actions</Typography>
+					<Style.Row>
+						<Button type="submit" disabled={!isValid || isSubmitting} form="create">
+							Create Portal
+						</Button>
+						<Button
+							variant="outlined"
+							onClick={() => {
+								resetCreate();
+								reset();
+								clearErrors();
+							}}
+						>
+							Clear From
+						</Button>
+					</Style.Row>
+				</Style.Card>
 				<Style.Card>
 					<Typography variant="h5">General</Typography>
 					<NameInput register={register} errors={errors} />
@@ -144,22 +162,6 @@ export const CreatePortalForm = () => {
 						/>
 					</Style.Card>
 				)}
-
-				<Style.Card>
-					<Button type="submit" disabled={!isValid || isSubmitting} form="create">
-						Create Portal
-					</Button>
-					<Button
-						variant="outlined"
-						onClick={() => {
-							resetCreate();
-							reset();
-							clearErrors();
-						}}
-					>
-						Clear From
-					</Button>
-				</Style.Card>
 			</Style.Form>
 		</Style.Wrapper>
 	);

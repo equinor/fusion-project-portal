@@ -1,18 +1,19 @@
 import styled from 'styled-components';
+
 import { Outlet } from 'react-router-dom';
-import { PortalsHeader } from '../components/Portals/PortalsHeader';
+import { SettingsHeader } from '../components/Settings/SettingsHeader';
 
 const Styles = {
 	Content: styled.div`
 		display: flex;
 		width: 100%;
-		height: 100%;
+		height: inherit;
 	`,
 	Section: styled.section`
 		flex-direction: column;
 		padding: 1rem;
 		display: flex;
-		height: 100%;
+		height: inherit;
 	`,
 	Wrapper: styled.div`
 		display: block;
@@ -21,11 +22,11 @@ const Styles = {
 	`,
 };
 
-export const Portals = () => {
+export const Settings = () => {
 	return (
 		<Styles.Wrapper>
 			<Styles.Section>
-				<PortalsHeader />
+				<SettingsHeader />
 				<Styles.Content>
 					<Outlet />
 				</Styles.Content>

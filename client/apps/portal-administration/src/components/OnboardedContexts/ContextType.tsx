@@ -6,23 +6,25 @@ import styled from 'styled-components';
 
 import { ContextTypeInputs, contextTypeSchema } from '../../schema';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { error_filled } from '@equinor/eds-icons';
-import { useCreateContextType, useGetContextTypes, useRemoveContextType } from '../../hooks/use-context-type-query';
-import { Message } from '../Message';
-import { tokens } from '@equinor/eds-tokens';
+import { chevron_down, chevron_left, error_filled } from '@equinor/eds-icons';
+import { useCreateContextType, useGetContextTypes } from '../../hooks/use-context-type-query';
+
+import { ContextTypeTable } from './ContextTypeTable';
+import { InfoPopover } from '../InfoPopover';
+import { useState } from 'react';
 
 const Style = {
 	Content: styled.div`
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+
+		height: 100%;
 	`,
 	Card: styled(Card)<{ background?: string }>`
-		padding: 1rem;
+		padding: 0.5rem 1rem;
 		background-color: ${({ background }) => background};
 	`,
 	From: styled.form`
-		padding-top: 1rem;
 		padding-bottom: 1rem;
 		display: flex;
 		flex-direction: column;
@@ -35,6 +37,12 @@ const Style = {
 	Heading: styled(Typography)`
 		padding: 0.5rem 0;
 	`,
+
+	Row: styled.div`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	`,
 };
 
 export const EditContextTypeForm = () => {
@@ -45,10 +53,11 @@ export const EditContextTypeForm = () => {
 		handleSubmit,
 		formState: { errors, isSubmitting },
 		reset,
-		watch,
 	} = useForm<ContextTypeInputs>({
 		resolver: zodResolver(contextTypeSchema),
 	});
+
+	const [active, setActive] = useState<boolean>(false);
 
 	const onSubmit: SubmitHandler<ContextTypeInputs> = async (newContextType) => {
 		const contextType = await createContextType(newContextType);
@@ -60,45 +69,41 @@ export const EditContextTypeForm = () => {
 	};
 
 	const { data: contextTypes } = useGetContextTypes();
-	const { mutateAsync: removeContextType } = useRemoveContextType();
 
 	return (
 		<Style.Content>
-			<Style.Card background={tokens.colors.ui.background__info.hex}>
-				<Message
-					title="Context Types"
-					messages={[
-						'If the desired context type is not available, you can add it here.',
-						'Please note that only valid fusion context types are permitted.',
-					]}
-				/>
-			</Style.Card>
 			<Style.Card>
-				<Style.From onSubmit={handleSubmit(onSubmit)} id="context-type-form">
-					<TextField
-						{...register('type')}
-						id="textfield-context-type"
-						variant={errors.type && 'error'}
-						helperText={errors.type?.message}
-						inputIcon={errors.type && <Icon data={error_filled} title="Error" />}
-						label="Type *"
-						maxLength={31}
-					/>
-					<Button form="context-type-form" type="submit" disabled={isSubmitting}>
-						Add
+				<Style.Row>
+					<Style.Row>
+						<Typography variant="h6">Add Context Type</Typography>
+						<InfoPopover title="Add Context Type">
+							<Typography>
+								Expand the form to add new context type by pressing the chevron icon.
+							</Typography>
+						</InfoPopover>
+					</Style.Row>
+					<Button variant="ghost_icon" onClick={() => setActive((s) => !s)}>
+						<Icon data={active ? chevron_down : chevron_left} />
 					</Button>
-					<Button
-						onClick={() => removeContextType(watch('type'))}
-						disabled={!Boolean(contextTypes?.find((c) => c.type === watch('type')))}
-					>
-						Remove
-					</Button>
-
-					{contextTypes?.map((t) => (
-						<div key={t.type}>{t.type}</div>
-					))}
-				</Style.From>
+				</Style.Row>
+				{active && (
+					<Style.From onSubmit={handleSubmit(onSubmit)} id="context-type-form">
+						<TextField
+							{...register('type')}
+							id="textfield-context-type"
+							variant={errors.type && 'error'}
+							helperText={errors.type?.message}
+							inputIcon={errors.type && <Icon data={error_filled} title="Error" />}
+							label="Type *"
+							maxLength={31}
+						/>
+						<Button form="context-type-form" type="submit" disabled={isSubmitting}>
+							Add
+						</Button>
+					</Style.From>
+				)}
 			</Style.Card>
+			{contextTypes?.length && <ContextTypeTable contextTypes={contextTypes} />}
 		</Style.Content>
 	);
 };

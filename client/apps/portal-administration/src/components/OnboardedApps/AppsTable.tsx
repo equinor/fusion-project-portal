@@ -30,18 +30,26 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 					noRowsOverlayComponent={() => <Message title="No data available" />}
 					rowSelection="multiple"
 					rowHeight={36}
+					defaultColDef={{
+						filter: true,
+						flex: 1,
+						sortable: true,
+						resizable: true,
+					}}
 					autoSizeStrategy={{
 						type: 'fitGridWidth',
 						defaultMinWidth: 80,
-						defaultMaxWidth: 300,
+						defaultMaxWidth: 700,
 					}}
 					onGridReady={(event) => {
 						const api = event.api;
 						api.sizeColumnsToFit();
 					}}
+					onRowDataUpdated={() => {
+						setSelectedApps([]);
+					}}
 					onRowSelected={(event) => {
 						const selectedRows = event.api!.getSelectedRows();
-
 						setSelectedApps(selectedRows);
 					}}
 					colDefs={[
@@ -63,6 +71,7 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 						{
 							field: 'description',
 							headerName: 'Description',
+							width: 700,
 						},
 
 						{
@@ -91,22 +100,14 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 						},
 						{
 							field: 'appKey',
-							headerName: 'Actions',
+							headerName: 'Action',
+							maxWidth: 100,
+							resizable: false,
 							cellRenderer: (params: CustomCellRendererProps<PortalApp>) => {
 								return (
 									<AgStyles.CellWrapper key={params.context?.appKey}>
 										<Button
-											variant="ghost"
-											onClick={(e) => {
-												e.preventDefault();
-												e.stopPropagation();
-
-												setSelectedApp(params.data);
-											}}
-										>
-											<Icon data={edit} size={16} />
-										</Button>
-										<Button
+											title={`Delete ${params.data?.name} from system`}
 											variant="ghost"
 											onClick={(e) => {
 												e.preventDefault();
@@ -124,12 +125,6 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 					]}
 				/>
 				<OnboardedAppsActionBar selection={selectedApps} />
-				<AppSideSheet
-					app={selectedApp}
-					onClose={() => {
-						setSelectedApp(undefined);
-					}}
-				/>
 			</AgStyles.TableContent>
 		</AgStyles.Wrapper>
 	);

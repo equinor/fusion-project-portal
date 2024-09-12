@@ -13,7 +13,7 @@ const Style = {
 	Wrapper: styled.div`
 		gap: 1rem;
 		display: flex;
-		padding: 1rem;
+		padding: 1rem 0;
 		flex-direction: column;
 		width: -webkit-fill-available;
 		height: -webkit-fill-available;

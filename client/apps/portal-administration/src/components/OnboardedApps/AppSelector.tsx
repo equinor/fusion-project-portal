@@ -79,6 +79,7 @@ export const AppSelector = ({
 	message,
 }: {
 	onChange: (context?: SearchableDropdownResultItem) => void;
+
 	errors?: FieldError;
 	message?: string;
 }) => {
@@ -110,6 +111,12 @@ export const AppSelector = ({
 			helperIcon={errors && <Icon data={error_filled} title="Error" size={16} />}
 			onOptionsChange={(value) => {
 				onChange(value?.selectedItems[0]);
+			}}
+			onKeyDown={(event) => {
+				if (event.key === 'Enter') {
+					console.log(event.key);
+					setInput('');
+				}
 			}}
 			noOptionsText={isLoading ? 'Loading data..' : 'No options'}
 			optionComponent={CustomItem}
