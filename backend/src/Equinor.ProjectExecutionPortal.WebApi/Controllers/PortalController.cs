@@ -2,6 +2,7 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
@@ -205,6 +206,22 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
 
             return Ok(portalOnboardedAppsDto.Select(x => new ApiPortalOnboardedApp(x)).ToList());
+
+        }
+
+        [HttpGet("{portalId:guid}/onboarded-apps/{appKey}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiPortalOnboardedApp>> PortalOnboardedApp([FromRoute] Guid portalId, string appKey)
+        {
+            var portalOnboardedAppDto = await Mediator.Send(new GetPortalOnboardedAppQuery(portalId, appKey));
+
+            if (portalOnboardedAppDto == null)
+            {
+                return FusionApiError.NotFound(portalId, "Could not find portal with id or appkey is invalid");
+            }
+
+            return new ApiPortalOnboardedApp(portalOnboardedAppDto);
 
         }
 

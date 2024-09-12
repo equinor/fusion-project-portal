@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Application.Services.PortalService;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -17,12 +17,14 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
+        private readonly IPortalService _portalService;
         private readonly IMapper _mapper;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService, IMapper mapper)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IPortalService portalService, IMapper mapper)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
+            _portalService = portalService;
             _mapper = mapper;
         }
 
@@ -41,39 +43,16 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
                 return new List<PortalOnboardedAppDto?>();
             }
 
-            var portalApps = portal.Apps.GroupBy(app => app.OnboardedApp.Id).Select(group => group.First()).ToList();
-     
-            var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(portalApps);
-
-            await _appService.SetAppsAsActiveInPortal(portalAppsDto, cancellationToken);
-
             var onboardedApps = await _readWriteContext.Set<OnboardedApp>()
                 .AsNoTracking()
                 .Include(onboardedApp => onboardedApp.ContextTypes)
                 .ToListAsync(cancellationToken);
 
-            var onBoardedAppsNotActiveInPortal = portal.ContextTypes.Any() ? 
-                onboardedApps
-                    .Where(onboardedApp =>
-                        portal.Apps.All(portalAppDto => portalAppDto.OnboardedApp.Id != onboardedApp.Id) &&
-                        (onboardedApp.ContextTypes.Count == 0 ||
-                         onboardedApp.ContextTypes.Any(m => portal.ContextTypes.Any(n => n.ContextTypeKey == m.ContextTypeKey))))
-                    .ToList() : 
-                onboardedApps
-                    .Where(onboardedApp => portal.Apps.All(portalAppDto => portalAppDto.OnboardedApp.Id != onboardedApp.Id))
-                    .ToList();
+            var portalOnboardedAppsDto = await _portalService.CombinePortalAppsWithOnboardedApps(portal, onboardedApps, cancellationToken);
 
-            portalAppsDto.AddRange(onBoardedAppsNotActiveInPortal.Select(onBoardedApp => new PortalOnboardedAppDto()
-            {
-                OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onBoardedApp),
-                IsActive = false
-            }));
+            await _appService.EnrichAppsWithAllFusionAppData(portalOnboardedAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
             
-            portalAppsDto = portalAppsDto.OrderBy(x => x.OnboardedApp?.AppKey).ToList();
-
-            await _appService.EnrichAppsWithAllFusionAppData(portalAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).OrderBy(x => x.AppKey).ToList(), cancellationToken);
-            
-            return portalAppsDto;
+            return portalOnboardedAppsDto;
         }
     }
 }

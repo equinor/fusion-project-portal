@@ -75,15 +75,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return onboardedApps;
         }
 
-        public async Task<IList<PortalOnboardedAppDto>> SetAppsAsActiveInPortal(IList<PortalOnboardedAppDto> apps, CancellationToken cancellationToken)
-        {
-            foreach (var app in apps)
-            {
-                app.IsActive = true;
-            }
-            return apps;
-        }
-
         private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<FusionPortalAppInformation> fusionApps, bool? allFusionData)
         {
             if (onboardedAppDto == null)
