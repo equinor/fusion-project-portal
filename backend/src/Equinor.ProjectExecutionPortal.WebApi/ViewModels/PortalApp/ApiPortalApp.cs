@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
-using ApiContextType = Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType.ApiContextType;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 {

@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Fusion.Integration;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.ContextService
@@ -47,6 +48,24 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextService
             var context = await _fusionContextResolver.GetContextAsync(contextId);
    
             return context;
+        }
+
+        public async Task<IList<Guid>> GetFusionContextIds(IList<OnboardedContext> contexts, CancellationToken cancellationToken)
+        {
+            var contextIds = new List<Guid>();
+
+            foreach (var context in contexts)
+            {
+                var contextIdentifier = ContextIdentifier.FromExternalId(context.ExternalId);
+                var fusionContext = await _fusionContextResolver.ResolveContextAsync(contextIdentifier);
+
+                if (fusionContext != null)
+                {
+                    contextIds.Add(fusionContext.Id);
+                }
+            }
+
+            return contextIds;
         }
     }
 }
