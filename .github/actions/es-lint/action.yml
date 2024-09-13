@@ -22,7 +22,7 @@ runs:
         report-json: "eslint-report.log.json"
 
     - name: Upload ESLint report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       continue-on-error: true
       with:
         name: eslint-report.log.json
