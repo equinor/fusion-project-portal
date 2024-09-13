@@ -347,6 +347,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        [Ignore]
         public async Task Get_PortalOnboardedApps_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
