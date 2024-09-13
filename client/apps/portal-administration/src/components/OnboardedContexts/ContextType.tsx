@@ -37,8 +37,13 @@ const Style = {
 	Heading: styled(Typography)`
 		padding: 0.5rem 0;
 	`,
-
 	Row: styled.div`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	`,
+	RowHead: styled.div`
+		cursor: pointer;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -51,7 +56,7 @@ export const EditContextTypeForm = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors, isSubmitting, isValid },
 		reset,
 	} = useForm<ContextTypeInputs>({
 		resolver: zodResolver(contextTypeSchema),
@@ -73,7 +78,7 @@ export const EditContextTypeForm = () => {
 	return (
 		<Style.Content>
 			<Style.Card>
-				<Style.Row>
+				<Style.Row onClick={() => setActive((s) => !s)}>
 					<Style.Row>
 						<Typography variant="h6">Add Context Type</Typography>
 						<InfoPopover title="Add Context Type">
@@ -82,7 +87,14 @@ export const EditContextTypeForm = () => {
 							</Typography>
 						</InfoPopover>
 					</Style.Row>
-					<Button variant="ghost_icon" onClick={() => setActive((s) => !s)}>
+					<Button
+						variant="ghost_icon"
+						onClick={(event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							setActive((s) => !s);
+						}}
+					>
 						<Icon data={active ? chevron_down : chevron_left} />
 					</Button>
 				</Style.Row>
@@ -97,7 +109,7 @@ export const EditContextTypeForm = () => {
 							label="Type *"
 							maxLength={31}
 						/>
-						<Button form="context-type-form" type="submit" disabled={isSubmitting}>
+						<Button form="context-type-form" type="submit" disabled={isSubmitting || !isValid}>
 							Add
 						</Button>
 					</Style.From>

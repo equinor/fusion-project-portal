@@ -19,7 +19,10 @@ export const InfoPopover = ({ children, title }: PropsWithChildren<{ title: stri
 				aria-expanded={isOpen}
 				variant="ghost_icon"
 				ref={referenceElement}
-				onClick={handleOpen}
+				onClick={(event) => {
+					event.stopPropagation();
+					handleOpen();
+				}}
 			>
 				<Icon data={info_circle} size={18} />
 			</Button>

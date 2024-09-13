@@ -39,6 +39,12 @@ const Style = {
 		justify-content: space-between;
 		align-items: center;
 	`,
+	RowHead: styled.div`
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	`,
 };
 
 export const OnboardApp = () => {
@@ -83,7 +89,7 @@ export const OnboardApp = () => {
 	return (
 		<Style.Wrapper>
 			<Style.Card>
-				<Style.Row>
+				<Style.RowHead onClick={() => setActive((s) => !s)}>
 					<Style.Row>
 						<Typography variant="h6">Onboard App</Typography>
 						<InfoPopover title="Onboard App">
@@ -91,10 +97,17 @@ export const OnboardApp = () => {
 							<Typography> By pressing the chevron icon. </Typography>
 						</InfoPopover>
 					</Style.Row>
-					<Button variant="ghost_icon" onClick={() => setActive((s) => !s)}>
+					<Button
+						variant="ghost_icon"
+						onClick={(event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							setActive((s) => !s);
+						}}
+					>
 						<Icon data={active ? chevron_down : chevron_left} />
 					</Button>
-				</Style.Row>
+				</Style.RowHead>
 				{active && (
 					<Style.From onSubmit={handleSubmit(onSubmit)} id="test">
 						<AppSelector

@@ -38,6 +38,12 @@ const Style = {
 		justify-content: space-between;
 		align-items: center;
 	`,
+	RowHead: styled.div`
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	`,
 };
 
 export const AddContext = () => {
@@ -60,7 +66,7 @@ export const AddContext = () => {
 	return (
 		<Style.Content>
 			<Style.Card>
-				<Style.Row>
+				<Style.RowHead onClick={() => setActive((s) => !s)}>
 					<Style.Row>
 						<Typography variant="h6">Add Context Type</Typography>
 						<InfoPopover title="Add Context Type">
@@ -69,10 +75,17 @@ export const AddContext = () => {
 							</Typography>
 						</InfoPopover>
 					</Style.Row>
-					<Button variant="ghost_icon" onClick={() => setActive((s) => !s)}>
+					<Button
+						variant="ghost_icon"
+						onClick={(event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							setActive((s) => !s);
+						}}
+					>
 						<Icon data={active ? chevron_down : chevron_left} />
 					</Button>
-				</Style.Row>
+				</Style.RowHead>
 				{active && (
 					<Style.From>
 						<Autocomplete<string>
