@@ -48,7 +48,6 @@ export const AgStyles = {
 		.ag-advanced-filter-header {
 			border-bottom: solid 1px var(--ag-border-color) !important;
 		}
-
 		height: 100%;
 		position: relative;
 	`,

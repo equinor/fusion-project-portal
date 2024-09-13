@@ -19,7 +19,6 @@ const Style = {
 		padding: 0 1rem;
 		gap: 1rem;
 		display: flex;
-
 		flex-direction: column;
 	`,
 	CodeContent: styled.div`

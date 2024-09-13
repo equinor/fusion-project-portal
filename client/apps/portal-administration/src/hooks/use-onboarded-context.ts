@@ -65,34 +65,3 @@ export const useOnboardContext = () => {
     },
   });
 };
-// export const useFusionContextsContext = () => {
-//   const client = useHttpClient("context");
-
-//   const queryClient = useQueryClient();
-
-//   const { sendMessage } = useSnackBar();
-//   return useMutation<
-//     string,
-//     FormattedError,
-//     Pick<OnboardedContext, "externalId" | "type" | "description">,
-//     string
-//   >({
-//     mutationFn: (type) => onboardContext(client, type),
-//     onSuccess() {
-//       queryClient.invalidateQueries({ queryKey: ["context-types"] });
-//       sendMessage("Context update successful", "Info");
-//     },
-//   });
-// };
-// export const useRemoveContextType = () => {
-//   const client = useHttpClient("portal-client");
-
-//   const queryClient = useQueryClient();
-
-//   return useMutation<boolean, FormattedError, string, string>({
-//     mutationFn: (type) => removeContextType(client, type),
-//     onSuccess() {
-//       queryClient.invalidateQueries({ queryKey: ["context-types"] });
-//     },
-//   });
-// };
