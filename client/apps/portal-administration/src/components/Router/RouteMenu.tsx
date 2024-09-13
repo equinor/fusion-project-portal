@@ -1,19 +1,16 @@
 import { Button, Icon, Menu, Typography } from '@equinor/eds-core-react';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { add, edit, more_vertical, remove_outlined } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { Route } from '../../types/router-config';
 import { useRouterConfigContext } from '../../context/RouterContext';
-import { usePortalContext } from '../../context/PortalContext';
 
 export const RouteMenu = ({ route }: { route: Route }) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-	const { createNewRoute, removeRouteById, setActiveRoute, root, routes } = useRouterConfigContext();
-
-	const { activePortalId } = usePortalContext();
+	const { createNewRoute, removeRouteById, setActiveRoute } = useRouterConfigContext();
 
 	const openMenu = () => {
 		setIsOpen(true);
@@ -22,14 +19,6 @@ export const RouteMenu = ({ route }: { route: Route }) => {
 	const closeMenu = () => {
 		setIsOpen(false);
 	};
-
-	const handleAddRoute = useCallback(
-		(routeId: string) => {
-			if (activePortalId && routes && root) {
-			}
-		},
-		[createNewRoute]
-	);
 
 	return (
 		<div>

@@ -33,6 +33,7 @@ const Styles = {
 	`,
 	Row: styled.div`
 		display: flex;
+		gap: 1rem;
 	`,
 };
 
@@ -55,19 +56,19 @@ export const ActionBar = ({ selection }: { selection: PortalApp[] }) => {
 			/>
 			<Styles.Content>
 				<Styles.Actions>
-					<Typography variant="overline">Portal Apps Actions</Typography>
+					<Typography variant="overline">Portal Application Actions</Typography>
 					<Styles.Row>
 						<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />
-						<ActivateSelectedWithContextButton
+						{/* <ActivateSelectedWithContextButton
 							selection={selection}
 							activateSelectedWithContext={() => setIsOpen(true)}
-						/>
-						<EditSelectedButton
+						/> */}
+						{/* <EditSelectedButton
 							editSelection={() => {
 								setIsOpen(true);
 							}}
 							selection={selection}
-						/>
+						/> */}
 						<MakeSelectionGlobalButton selection={selection} makeSelectionGlobal={activateSelected} />
 						<RemoveAppsButton selection={selection} removeApps={removeSelected} />
 					</Styles.Row>

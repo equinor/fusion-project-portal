@@ -87,24 +87,6 @@ export const CreatePortalForm = () => {
 		<Style.Wrapper>
 			<Style.Form onSubmit={handleSubmit(onSubmit)} id="create">
 				<Style.Card>
-					<Typography variant="overline">Create Portal Actions</Typography>
-					<Style.Row>
-						<Button type="submit" disabled={!isValid || isSubmitting} form="create">
-							Create Portal
-						</Button>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								resetCreate();
-								reset();
-								clearErrors();
-							}}
-						>
-							Clear From
-						</Button>
-					</Style.Row>
-				</Style.Card>
-				<Style.Card>
 					<Typography variant="h5">General</Typography>
 					<NameInput register={register} errors={errors} />
 					<Style.Row>
@@ -162,6 +144,24 @@ export const CreatePortalForm = () => {
 						/>
 					</Style.Card>
 				)}
+				<Style.Card>
+					<Typography variant="overline">Create Portal Actions</Typography>
+					<Style.Row>
+						<Button type="submit" disabled={!isValid || isSubmitting} form="create">
+							Create Portal
+						</Button>
+						<Button
+							variant="outlined"
+							onClick={() => {
+								resetCreate();
+								reset();
+								clearErrors();
+							}}
+						>
+							Clear From
+						</Button>
+					</Style.Row>
+				</Style.Card>
 			</Style.Form>
 		</Style.Wrapper>
 	);

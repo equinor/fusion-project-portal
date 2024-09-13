@@ -98,7 +98,6 @@ export const EditPortalForm = (props: {
 
 	return (
 		<Style.Wrapper>
-			{!props.isSideSheet && <FormActionBar isDisabled={isSubmitting || disabled} portal={props.portal} />}
 			<Style.Card>
 				<Style.Heading variant="h5">General</Style.Heading>
 				<Style.From onSubmit={handleSubmit(onSubmit)} id="portal">
@@ -158,6 +157,14 @@ export const EditPortalForm = (props: {
 						}}
 						label="Context Types"
 					/>
+				</Style.Card>
+			)}
+			{!props.isSideSheet && (
+				<Style.Card>
+					<Typography variant="overline">Portal Actions</Typography>
+					<Style.Row>
+						<FormActionBar isDisabled={isSubmitting || disabled} portal={props.portal} />
+					</Style.Row>
 				</Style.Card>
 			)}
 		</Style.Wrapper>

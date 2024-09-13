@@ -28,7 +28,7 @@ export const RemoveAppsButton = ({ selection, removeApps }: RemoveAppsButtonProp
 	return (
 		<Button
 			id="remove-selected"
-			variant="ghost"
+			variant="outlined"
 			onClick={() => {
 				removeApps(appsToRemove);
 			}}

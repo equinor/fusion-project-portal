@@ -2,7 +2,7 @@ import { Button, Icon } from '@equinor/eds-core-react';
 import { AppManifestResponse, FormattedError, PortalApp } from '../../types';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { Result } from '../../query/apps-queries';
-import { check_circle_outlined, title } from '@equinor/eds-icons';
+import { check_circle_outlined } from '@equinor/eds-icons';
 
 type MakeSelectionGlobalButtonProps = {
 	selection: PortalApp[];
@@ -27,7 +27,7 @@ export const MakeSelectionGlobalButton = ({ selection, makeSelectionGlobal }: Ma
 	return (
 		<Button
 			id="make-global"
-			variant="ghost"
+			variant="outlined"
 			onClick={() => {
 				makeSelectionGlobal(selection.filter((a) => a.isActive));
 			}}
