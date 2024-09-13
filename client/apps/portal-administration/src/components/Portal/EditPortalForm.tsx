@@ -139,7 +139,7 @@ export const EditPortalForm = (props: {
 			{type === 'context-portal' && (
 				<Style.Card>
 					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<Typography variant="h3">Context</Typography>
+						<Typography variant="h5">Context</Typography>
 					</div>
 
 					<Autocomplete

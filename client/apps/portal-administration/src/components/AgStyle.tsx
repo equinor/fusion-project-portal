@@ -5,14 +5,17 @@ import styled from 'styled-components';
 export const AgStyles = {
 	CellWrapper: styled.div`
 		display: flex;
+		gap: 0.5rem;
 		justify-content: flex-end;
+		align-items: center;
 	`,
 	TextCellWrapper: styled.div`
 		display: flex;
 		padding: 0.5rem;
+		overflow: hidden;
 	`,
 	Chip: styled(Chip)`
-		margin-top: 0.5rem;
+		margin-top: 0.25rem;
 	`,
 	TableContent: styled.div`
 		padding-top: 1rem;

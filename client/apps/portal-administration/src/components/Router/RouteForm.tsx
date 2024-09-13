@@ -12,9 +12,7 @@ import { Route } from '../../types/router-config';
 import { usePortalContext } from '../../context/PortalContext';
 import { useUpdatePortalConfig } from '../../hooks/use-portal-config-query';
 import { updateRoute } from '../../context/actions/router-actions';
-import { ac } from 'vitest/dist/chunks/reporters.C_zwCd4j';
 import { Message } from '../Message';
-import { Form } from 'react-router-dom';
 
 const Style = {
 	Content: styled.div`
@@ -77,7 +75,7 @@ export const RouteForm = () => {
 		<Style.Form onSubmit={handleSubmit(onSubmit)} id="route">
 			<Card>
 				<Card.Header>
-					<Typography variant="h4">Route Config</Typography>
+					<Typography variant="h5">Route Config</Typography>
 				</Card.Header>
 				<Style.Content>
 					<TextField id="id" label="Route Id" readOnly value={activeRoute?.id} />

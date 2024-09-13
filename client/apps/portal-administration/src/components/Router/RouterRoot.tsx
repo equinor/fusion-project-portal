@@ -65,7 +65,7 @@ export const RouterRoot = () => {
 		<Style.Form onSubmit={handleSubmit(onSubmit)}>
 			<Card>
 				<Card.Header>
-					<Typography variant="h4">Base Route Config</Typography>
+					<Typography variant="h5">Base Route Config</Typography>
 				</Card.Header>
 				<Style.Content>
 					<TextField

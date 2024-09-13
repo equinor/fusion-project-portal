@@ -66,17 +66,17 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 							},
 						},
 						{
-							field: 'appKey',
-							headerName: 'Application key',
+							field: 'name',
+							headerName: 'Name',
 							filterParams: {
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
 								defaultOption: 'startsWith',
 							},
 						},
-
 						{
-							field: 'name',
-							headerName: 'Name',
+							field: 'appKey',
+							maxWidth: 350,
+							headerName: 'Application key',
 							filterParams: {
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
 								defaultOption: 'startsWith',
@@ -90,6 +90,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
 								defaultOption: 'startsWith',
 							},
+							width: 500,
 						},
 						{
 							field: 'contexts',
