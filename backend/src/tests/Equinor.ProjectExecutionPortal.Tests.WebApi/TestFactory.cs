@@ -199,10 +199,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupServiceMock()
         {
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApps())
-                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps as IList<FusionPortalAppInformation>));
+                .Returns(Task.FromResult(FusionPortalAppData.ValidFusionApps as IList<FusionPortalAppInformation>));
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
-                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));
+                .Returns(Task.FromResult(FusionPortalAppData.ValidFusionApps.FirstOrDefault()));
 
             _fusionContextResolverMock.Setup(service => service.ResolveContextAsync(It.IsAny<ContextIdentifier>(), It.IsAny<FusionContextType>()))
                 .Returns((ContextIdentifier contextIdentifier, FusionContextType type) =>
@@ -214,7 +214,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
             {
                 return Task.FromResult(FusionContextData.ValidFusionContexts.First(x => x.Id == contextId));
             });
-            
         }
 
         private void SetupTestUsers()
