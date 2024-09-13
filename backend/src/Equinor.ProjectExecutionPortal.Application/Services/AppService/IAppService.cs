@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
-using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
