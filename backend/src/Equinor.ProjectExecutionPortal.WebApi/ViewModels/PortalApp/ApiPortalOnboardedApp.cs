@@ -7,6 +7,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 {
     public class ApiPortalOnboardedApp
     {
+        public ApiPortalOnboardedApp() { }
+
         public ApiPortalOnboardedApp(PortalOnboardedAppDto portalOnboardedAppDto)
         {
             Key = portalOnboardedAppDto.OnboardedApp.AppKey;
