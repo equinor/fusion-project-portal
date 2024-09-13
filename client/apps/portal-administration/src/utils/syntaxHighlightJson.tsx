@@ -7,7 +7,8 @@ export const CodeStyle = styled.pre`
 	color: #ffffff;
 	padding: 1.5rem;
 	font-family: monospace;
-	max-height: 1000px;
+	max-height: -webkit-fill-available;
+	margin-bottom: 4rem;
 	overflow: auto;
 	.key {
 		color: rgb(156, 220, 254);

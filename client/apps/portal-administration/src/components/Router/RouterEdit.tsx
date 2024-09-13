@@ -59,34 +59,10 @@ export const RouterEdit = () => {
 					{rootActive ? (
 						<Style.Content>
 							<RouterRoot />
-							<Card>
-								<Style.CardContent>
-									<Message
-										title="Base Config Help"
-										messages={[
-											'The page key is used to decide what application to load',
-											'Error message is shown if application fails to load',
-										]}
-									/>
-								</Style.CardContent>
-							</Card>
 						</Style.Content>
 					) : (
 						<Style.Content>
 							<RouteForm />
-							<Card>
-								<Style.CardContent>
-									<Message
-										title="Route Help"
-										messages={[
-											'A * on the end will hit all sub paths, ie. my-page/*',
-											'Adding : at the front will result in a readable parameter ie. :myid',
-											'The page key is used to decide what application to load',
-											'Error message is shown if application fails to load',
-										]}
-									/>
-								</Style.CardContent>
-							</Card>
 						</Style.Content>
 					)}
 				</Style.Wrapper>

@@ -5,20 +5,19 @@ import { useGetPortal } from '../../hooks/use-portal-query';
 import { useGetPortalApps } from '../../hooks/use-portal-apps';
 import { Card } from '@equinor/eds-core-react';
 import { Message } from '../Message';
-import { Code, CodeStyle } from '../../utils/syntaxHighlightJson';
+import { Code } from '../../utils/syntaxHighlightJson';
 
 const Style = {
 	Wrapper: styled.div`
-		gap: 1rem;
+		padding: 1rem 0;
 		display: flex;
 		width: 100%;
 		flex-direction: column;
 	`,
 	Content: styled.div`
-		padding: 1rem 0;
+		padding: 1rem;
 		gap: 1rem;
 		display: flex;
-
 		flex-direction: column;
 	`,
 };
@@ -39,45 +38,22 @@ export const ShowConfigPage: React.FC = () => {
 
 		configuration: {
 			router: JSON.parse((portal as any)?.configuration?.router || '{}'),
-			extensions: [
-				{
-					type: 'topbar-widget',
-					key: 'bookmark',
-					config: {
-						// some config
-					},
-				},
-				{
-					type: 'topbar-widget',
-					key: 'service message',
-				},
-				{
-					type: 'topbar-widget',
-					key: 'notifications',
-				},
-				{
-					type: 'topbar-action,',
-					key: 'search',
-				},
-			],
 		},
 		apps: portal.contexts && portal.contexts.length > 0 ? apps : [],
 	};
 
 	return (
 		<Style.Wrapper>
-			<Style.Content>
-				<Code config={config} />
+			<Card>
+				<Style.Content>
+					<Message
+						title="Configuration"
+						messages={['This is used for developers to ensure the configuration is proper']}
+					/>
+				</Style.Content>
+			</Card>
 
-				<Card>
-					<Style.Content>
-						<Message
-							title="Configuration"
-							messages={['This is used for developers to ensure the configuration is proper']}
-						/>
-					</Style.Content>
-				</Card>
-			</Style.Content>
+			<Code config={config} />
 		</Style.Wrapper>
 	);
 };

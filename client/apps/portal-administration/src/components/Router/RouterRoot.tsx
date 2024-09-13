@@ -10,13 +10,28 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { RootInput, rootInput } from '../../schema/route';
 import { useUpdatePortalConfig } from '../../hooks/use-portal-config-query';
 import { usePortalContext } from '../../context/PortalContext';
+import { Message } from '../Message';
 
 const Style = {
 	Content: styled.div`
-		padding: 1rem;
+		padding: 0 1rem;
 		gap: 1rem;
 		display: flex;
 		flex-direction: column;
+	`,
+	CardContent: styled(Card.Content)`
+		padding: 1rem;
+		gap: 1rem;
+	`,
+	Form: styled.form`
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	`,
+	Row: styled.div`
+		gap: 1rem;
+		display: flex;
+		flex-direction: row;
 	`,
 };
 
@@ -47,10 +62,10 @@ export const RouterRoot = () => {
 	const disabled = Object.keys(touchedFields).length <= 0;
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<Style.Form onSubmit={handleSubmit(onSubmit)}>
 			<Card>
 				<Card.Header>
-					<Typography variant="h4">Base Config</Typography>
+					<Typography variant="h4">Base Route Config</Typography>
 				</Card.Header>
 				<Style.Content>
 					<TextField
@@ -73,20 +88,39 @@ export const RouterRoot = () => {
 						inputIcon={errors.messages?.errorMessage && <Icon data={error_filled} title="Error" />}
 					/>
 				</Style.Content>
-				<Card.Actions>
-					<Button disabled={disabled} type="submit">
-						Save
-					</Button>
-					<Button
-						variant="outlined"
-						onClick={() => {
-							createNewRoute();
-						}}
-					>
-						Add New route
-					</Button>
-				</Card.Actions>
+				<Card.Actions></Card.Actions>
 			</Card>
-		</form>
+			<Card>
+				<Card>
+					<Style.CardContent>
+						<Message
+							title="Base Route Config Help"
+							messages={[
+								'The page key is used to decide what application to load',
+								'Error message is shown if application fails to load',
+							]}
+						/>
+					</Style.CardContent>
+				</Card>
+			</Card>
+			<Card>
+				<Style.CardContent>
+					<Typography variant="overline">Base Route Actions</Typography>
+					<Style.Row>
+						<Button disabled={disabled} type="submit">
+							Save
+						</Button>
+						<Button
+							variant="outlined"
+							onClick={() => {
+								createNewRoute();
+							}}
+						>
+							Add New route
+						</Button>
+					</Style.Row>
+				</Style.CardContent>
+			</Card>
+		</Style.Form>
 	);
 };

@@ -12,18 +12,42 @@ import { Route } from '../../types/router-config';
 import { usePortalContext } from '../../context/PortalContext';
 import { useUpdatePortalConfig } from '../../hooks/use-portal-config-query';
 import { updateRoute } from '../../context/actions/router-actions';
+import { ac } from 'vitest/dist/chunks/reporters.C_zwCd4j';
+import { Message } from '../Message';
+import { Form } from 'react-router-dom';
 
 const Style = {
 	Content: styled.div`
-		padding: 1rem;
+		padding: 0 1rem;
 		gap: 1rem;
 		display: flex;
 		flex-direction: column;
 	`,
+	CardContent: styled(Card.Content)`
+		padding: 1rem;
+		gap: 1rem;
+	`,
+	Form: styled.form`
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	`,
+	Row: styled.div`
+		gap: 1rem;
+		display: flex;
+		flex-direction: row;
+	`,
 };
 
 export const RouteForm = () => {
-	const { activeRoute, root, updateRoute: updateRouteState, createNewRoute, routes } = useRouterConfigContext();
+	const {
+		activeRoute,
+		root,
+		updateRoute: updateRouteState,
+		removeRouteById,
+		createNewRoute,
+		routes,
+	} = useRouterConfigContext();
 	const { activePortalId } = usePortalContext();
 	const { mutate: updatePortalConfig } = useUpdatePortalConfig();
 	const {
@@ -50,11 +74,10 @@ export const RouteForm = () => {
 	const disabled = Object.keys(touchedFields).length <= 0;
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} id="route">
+		<Style.Form onSubmit={handleSubmit(onSubmit)} id="route">
 			<Card>
 				<Card.Header>
 					<Typography variant="h4">Route Config</Typography>
-					<Icon data={info_circle} />
 				</Card.Header>
 				<Style.Content>
 					<TextField id="id" label="Route Id" readOnly value={activeRoute?.id} />
@@ -105,20 +128,52 @@ export const RouteForm = () => {
 						inputIcon={errors.messages?.noPageMessage && <Icon data={error_filled} title="Error" />}
 					/>
 				</Style.Content>
-				<Card.Actions>
-					<Button disabled={!activeRoute || activeRoute?.id === '' || disabled} type="submit" form="route">
-						Save
-					</Button>
-					<Button
-						variant="outlined"
-						onClick={() => {
-							createNewRoute();
-						}}
-					>
-						Add New route
-					</Button>
-				</Card.Actions>
 			</Card>
-		</form>
+			<Card>
+				<Style.CardContent>
+					<Message
+						title="Route Help"
+						messages={[
+							'A * on the end will hit all sub paths, ie. my-page/*',
+							'Adding : at the front will result in a readable parameter ie. :myid',
+							'The page key is used to decide what application to load',
+							'Error message is shown if application fails to load',
+							'Deleting a parent route will delete all child routes',
+						]}
+					/>
+				</Style.CardContent>
+			</Card>
+			<Card>
+				<Style.CardContent>
+					<Typography variant="overline">Route Actions</Typography>
+					<Style.Row>
+						<Button
+							disabled={!activeRoute || activeRoute?.id === '' || disabled}
+							type="submit"
+							form="route"
+						>
+							Save
+						</Button>
+						<Button
+							variant="outlined"
+							onClick={() => {
+								createNewRoute();
+							}}
+						>
+							Add New route
+						</Button>
+						<Button
+							variant="outlined"
+							disabled={!activeRoute || activeRoute?.id === ''}
+							onClick={() => {
+								activeRoute && removeRouteById(activeRoute?.id);
+							}}
+						>
+							Delete Route
+						</Button>
+					</Style.Row>
+				</Style.CardContent>
+			</Card>
+		</Style.Form>
 	);
 };

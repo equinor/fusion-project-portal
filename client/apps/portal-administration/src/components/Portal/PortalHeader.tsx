@@ -17,8 +17,34 @@ const tabs: TabsList<'overview' | 'apps' | 'router' | 'show'> = [
 		route: 'apps',
 		description: 'Configure the applications that are available in this portal.',
 	},
-	{ key: 'router', title: 'Router Config', route: 'router', description: 'Router Configuration' },
-	{ key: 'show', title: 'Config', route: 'show', description: 'Configuration' },
+	{
+		key: 'router',
+		title: 'Router Config',
+		route: 'router',
+		description: () => (
+			<div>
+				<Typography variant="body_long_bold">Configure the routing for the portal.</Typography>
+				<Typography>
+					The firs route is the root route for the portal. The root route is the route that is shown when the
+					portal is opened.
+				</Typography>
+
+				<br />
+				<Typography variant="body_long_bold">Routes</Typography>
+				<Typography>
+					Routes are created by pressing the new route button, and the route is created as a child of the
+					selected route. The route can be edited by selecting it, and the route can be removed by pressing
+					the delete route button under the contextual menu.
+				</Typography>
+			</div>
+		),
+	},
+	{
+		key: 'show',
+		title: 'Portal Config',
+		route: 'show',
+		description: 'This is a json view of the current portal configuration, it is used by developers only.',
+	},
 ];
 
 export const PortalHeader = ({ portal }: { portal?: Portal }) => {
@@ -42,7 +68,11 @@ export const PortalHeader = ({ portal }: { portal?: Portal }) => {
 					</Breadcrumbs.Breadcrumb>
 				</Styles.Breadcrumbs>
 				<InfoPopover title={activeTab.title}>
-					<Typography>{activeTab.description}</Typography>
+					{typeof activeTab.description === 'string' ? (
+						<Typography>{activeTab.description}</Typography>
+					) : (
+						<activeTab.description />
+					)}
 				</InfoPopover>
 			</Styles.Row>
 			<Styles.Row>
