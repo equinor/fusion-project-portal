@@ -30,19 +30,19 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 
 export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfiguration> {
 	public setConfig(config: { portalId: string; portalEnv: string }) {
-		this._set('base', () => config);
+		this._set('base', async () => config);
 	}
 
 	public setClient(client: IClient) {
-		this._set('client', () => client);
+		this._set('client', async () => client);
 	}
 
 	public setRoutes(client: PortalRoutes) {
-		this._set('portalConfig.routes', () => client);
+		this._set('portalConfig.routes', async () => client);
 	}
 
 	public setPortalConfig(config: PortalState) {
-		this._set('portalConfig', () => config);
+		this._set('portalConfig', async () => config);
 	}
 
 	/**
