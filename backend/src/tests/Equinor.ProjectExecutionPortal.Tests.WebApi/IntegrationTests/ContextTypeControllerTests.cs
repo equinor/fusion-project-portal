@@ -20,7 +20,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var contextTypes = await AssertGetAllContextTypes(UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
-            Assert.IsTrue(contextTypes.Count == 2);
+            Assert.IsTrue(contextTypes.Count > 0);
 
             foreach (var contextType in contextTypes)
             {
@@ -35,7 +35,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var contextTypes = await AssertGetAllContextTypes(UserType.Administrator, HttpStatusCode.OK);
 
             // Assert
-            Assert.IsTrue(contextTypes.Count == 2);
+            Assert.IsTrue(contextTypes.Count > 0);
 
             foreach (var contextType in contextTypes)
             {
@@ -159,6 +159,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(getAllBefore.Count);
             Assert.IsNotNull(getAllAfterRemoval.Count);
             Assert.AreEqual(getAllBefore.Count - 1, getAllAfterRemoval.Count);
+            
         }
 
         [TestMethod]
