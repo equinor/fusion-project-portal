@@ -70,6 +70,7 @@ export const EditPortalForm = (props: {
 		formState: { errors, isSubmitting, touchedFields },
 		watch,
 		setValue,
+		reset,
 	} = useForm<PortalInputs>({
 		resolver: zodResolver(portalEditInputSchema),
 		defaultValues: {
@@ -79,13 +80,14 @@ export const EditPortalForm = (props: {
 
 	const onSubmit: SubmitHandler<PortalInputs> = async (editedPortal) => {
 		await updatePortal(editedPortal);
+		reset();
 	};
 
 	const [type, setType] = useState(contexts && contexts?.length > 0 ? 'context-portal' : 'app-portal');
 	const onTypeChange = (event: ChangeEvent<HTMLInputElement>) => setType(event.target.value);
 
 	useEffect(() => {
-		type === 'app-portal' && setValue('contextTypes', []);
+		type === 'app-portal' && setValue('contextTypes', [], { shouldTouch: true });
 	}, [type]);
 
 	const onDisabled = props.onDisabled;
@@ -150,7 +152,7 @@ export const EditPortalForm = (props: {
 						options={props.contextTypes?.map((ct) => ct.type) || []}
 						selectedOptions={watch().contextTypes}
 						onOptionsChange={({ selectedItems }) => {
-							setValue('contextTypes', selectedItems);
+							setValue('contextTypes', selectedItems, { shouldTouch: true });
 						}}
 						itemCompare={(item, compare) => {
 							return item === compare;
