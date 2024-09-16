@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useGetPortal } from '../../hooks/use-portal-query';
@@ -6,6 +5,7 @@ import { usePortalApps } from '../../hooks/use-portal-apps';
 import { Card } from '@equinor/eds-core-react';
 import { Message } from '../Message';
 import { Code } from '../../utils/syntaxHighlightJson';
+import { FC } from 'react';
 
 const Style = {
 	Wrapper: styled.div`
@@ -22,7 +22,7 @@ const Style = {
 	`,
 };
 
-export const ShowConfigPage: React.FC = () => {
+export const ShowConfigPage: FC = () => {
 	const { portalId } = useParams();
 
 	const { data } = useGetPortal(portalId);
