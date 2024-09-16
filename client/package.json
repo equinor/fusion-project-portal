@@ -6,6 +6,7 @@
     "dev": "npx lerna run dev",
     "start": "npx lerna run serve",
     "build": "npx lerna run build",
+    "build:apps": "npx lerna run build:apps",
     "test:all": "test:coverage && build:coverage",
     "test": "lerna  run test",
     "test:coverage": "lerna run test:coverage",
