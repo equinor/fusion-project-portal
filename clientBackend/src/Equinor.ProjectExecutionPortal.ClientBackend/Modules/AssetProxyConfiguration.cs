@@ -14,7 +14,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
             services.AddScoped<LegacyAppResourcesRequestTransformer>();
             services.AddScoped<ProfileImageRequestTransformer>();
 
-            services.AddScoped<FusionAppRequestTransformer>();
+            //services.AddScoped<FusionAppRequestTransformer>();
 
             return services;
         }
@@ -25,7 +25,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
             endpoints.MapGet("/assets/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
             endpoints.MapGet("/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
 
-            endpoints.MapGet("/bundles/apps/{appKey}", AssetProxyHandler.ProxyRequestAsync<FusionAppRequestTransformer>);
+            //endpoints.MapGet("/bundles/apps/{appKey}", AssetProxyHandler.ProxyRequestAsync<FusionAppRequestTransformer>);
 
             return endpoints;
         }
