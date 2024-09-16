@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useGetPortal } from '../../hooks/use-portal-query';
-import { useGetPortalApps } from '../../hooks/use-portal-apps';
+import { usePortalApps } from '../../hooks/use-portal-apps';
 import { Card } from '@equinor/eds-core-react';
 import { Message } from '../Message';
 import { Code } from '../../utils/syntaxHighlightJson';
@@ -26,7 +26,7 @@ export const ShowConfigPage: React.FC = () => {
 	const { portalId } = useParams();
 
 	const { data } = useGetPortal(portalId);
-	const { data: apps } = useGetPortalApps(portalId);
+	const { data: apps } = usePortalApps(portalId);
 
 	const portal = { ...data };
 	if (portal) {

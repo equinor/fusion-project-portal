@@ -65,6 +65,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 								);
 							},
 						},
+
 						{
 							field: 'name',
 							headerName: 'Name',
@@ -92,6 +93,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 							},
 							width: 500,
 						},
+
 						{
 							field: 'contexts',
 							headerName: 'Contexts Types',
@@ -112,6 +114,23 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 												</AgStyles.Chip>
 											);
 										})}
+									</AgStyles.CellWrapper>
+								);
+							},
+						},
+						{
+							field: 'isContextual',
+							headerName: 'Is Contextual',
+							maxWidth: 130,
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									isContextual?: boolean;
+									appKey: string;
+								}>
+							) => {
+								return (
+									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
+										<AgStyles.ContextIndicator active={params.data?.isContextual?.toString()} />
 									</AgStyles.CellWrapper>
 								);
 							},
