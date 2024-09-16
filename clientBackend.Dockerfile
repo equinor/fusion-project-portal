@@ -9,6 +9,7 @@ WORKDIR /app-client
 
 COPY ["/client", "."]
 
+RUN npm i -g @equinor/fusion-framework-cli
 RUN yarn install --frozen-lockfile
 RUN npx yarn run build
 
