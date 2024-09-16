@@ -13,7 +13,8 @@
     "lint": "eslint \"packages/**\"",
     "update:fusion": "ncu -i -f /fusion/",
     "update:vite": "ncu -i -f /vite/",
-    "postinstall": "cd .. && yarn"
+    "postinstall": "cd .. && yarn",
+    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
   },
   "private": true,
   "devDependencies": {
