@@ -13,7 +13,6 @@ RUN yarn install --frozen-lockfile
 
 # run yarn install for the portal-administration app
 RUN cd apps/portal-administration
-RUN npm i -g @equinor/fusion-framework-cli
 RUN yarn install
 RUN cd ../..
 
