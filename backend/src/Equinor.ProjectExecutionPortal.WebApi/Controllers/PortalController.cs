@@ -342,7 +342,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, Guid contextId, [FromRoute] string appKey)
         {
-            // TODO: Removing global should come with a warning. E.g highlight affected contexts
             var request = new ApiRemovePortalAppRequest();
 
             try

@@ -3,6 +3,7 @@ using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.RemoveGlobalAppFromPortal;
 
@@ -33,7 +34,7 @@ public class RemoveAppFromPortalCommand : IRequest
                 .Where(x => x.PortalId == command.PortalId && x.OnboardedApp.AppKey == command.AppKey)
                 .ToListAsync(cancellationToken);
             
-            if (portalApps == null)
+            if (portalApps.IsNullOrEmpty())
             {
                 throw new NotFoundException(nameof(PortalApp), command.AppKey);
             }
