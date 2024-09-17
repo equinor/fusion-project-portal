@@ -3,23 +3,23 @@ import { ClientGrid } from '@equinor/workspace-ag-grid';
 import { useRef, useState } from 'react';
 import { CustomCellRendererProps } from '@ag-grid-community/react';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
-import { PortalApp, ContextType } from '../../types';
+import { ContextType, PortalApplication } from '../../types';
 import { ActionBar } from './ActionBar';
 import { AgStyles } from '../AgStyle';
 import { Message } from '../Message';
 
-export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
+export const PortalAppTable = ({ portalApps }: { portalApps: PortalApplication[] }) => {
 	const ref = useRef(null);
 	const [_, height] = useResizeObserver(ref);
 
-	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
+	const [selectedApps, setSelectedApps] = useState<PortalApplication[]>([]);
 
 	return (
 		<AgStyles.Wrapper>
 			<AgStyles.TableContent ref={ref}>
-				<ClientGrid<PortalApp>
+				<ClientGrid<PortalApplication>
 					height={selectedApps.length === 0 ? height : height - 150}
-					rowData={portalApps}
+					rowData={portalApps || []}
 					noRowsOverlayComponent={() => <Message title="No data available" />}
 					enableCellTextSelection
 					defaultColDef={{
@@ -50,24 +50,54 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 					colDefs={[
 						{
 							field: 'isActive',
-							headerName: 'Is Active',
+							headerName: 'Status',
 							maxWidth: 110,
 							cellRenderer: (
 								params: CustomCellRendererProps<{
 									isActive?: boolean;
+									isContextual?: boolean;
+									appKey: string;
+									appManifest: { name: string };
+								}>
+							) => {
+								return (
+									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
+										{params.data?.isContextual ? (
+											<AgStyles.ContextIndicator
+												title={`${params.data?.appManifest.name} is activated with contexts`}
+												active={params.data?.isContextual?.toString()}
+											/>
+										) : (
+											<AgStyles.Indicator
+												title={`${params.data?.appManifest.name} is active`}
+												active={params.data?.isActive?.toString()}
+											/>
+										)}
+									</AgStyles.CellWrapper>
+								);
+							},
+						},
+						{
+							field: 'isContextual',
+							headerName: 'Is Contextual',
+							maxWidth: 130,
+							hide: true,
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									isContextual?: boolean;
 									appKey: string;
 								}>
 							) => {
 								return (
 									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
-										<AgStyles.Indicator active={params.data?.isActive?.toString()} />
+										<AgStyles.ContextIndicator active={params.data?.isContextual?.toString()} />
 									</AgStyles.CellWrapper>
 								);
 							},
 						},
 
 						{
-							field: 'name',
+							field: 'appManifest.name',
 							headerName: 'Name',
 							filterParams: {
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
@@ -75,7 +105,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 							},
 						},
 						{
-							field: 'appKey',
+							field: 'key',
 							maxWidth: 350,
 							headerName: 'Application key',
 							filterParams: {
@@ -85,7 +115,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 						},
 
 						{
-							field: 'description',
+							field: 'appManifest.description',
 							headerName: 'Description',
 							filterParams: {
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
@@ -114,23 +144,6 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApp[] }) => {
 												</AgStyles.Chip>
 											);
 										})}
-									</AgStyles.CellWrapper>
-								);
-							},
-						},
-						{
-							field: 'isContextual',
-							headerName: 'Is Contextual',
-							maxWidth: 130,
-							cellRenderer: (
-								params: CustomCellRendererProps<{
-									isContextual?: boolean;
-									appKey: string;
-								}>
-							) => {
-								return (
-									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
-										<AgStyles.ContextIndicator active={params.data?.isContextual?.toString()} />
 									</AgStyles.CellWrapper>
 								);
 							},

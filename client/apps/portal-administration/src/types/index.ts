@@ -30,6 +30,7 @@ export type OnboardedContext = {
 	externalId: string;
 	type: string;
 	description: string;
+	isActive?: boolean;
 };
 
 export type Variant = 'Warning' | 'Error' | 'Info' | 'NoContent';
@@ -66,6 +67,7 @@ export type PortalApplication = {
 	isActive?: boolean;
 	isGlobal?: boolean;
 	isContextual?: boolean;
+	contextIds?: string[];
 };
 
 export type PortalAppMutation = {

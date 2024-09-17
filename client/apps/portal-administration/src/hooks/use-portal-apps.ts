@@ -2,7 +2,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AppManifestResponse, FormattedError, PortalApp, PortalApplication } from '../types';
 
 import { useHttpClient } from '@equinor/fusion-framework-react-app/http';
-import { Result, addPortalApps, getOnboardedApps, getPortalAppsById, removePortalApps } from '../query/apps-queries';
+import {
+	Result,
+	addPortalApps,
+	getOnboardedPortalAppByAppKey,
+	getOnboardedPortalApps,
+	getPortalAppsByPortalId,
+	removePortalApps,
+} from '../query/apps-queries';
 import { useSnackBar } from './use-snack-bar';
 import { mutateDeletePortalApps, mutatePortalApps as mutateAddPortalApps } from '../query/apps-mutations';
 
@@ -11,7 +18,7 @@ export const usePortalApps = (portalId?: string) => {
 
 	return useQuery<AppManifestResponse[], FormattedError>({
 		queryKey: ['portal-apps', portalId],
-		queryFn: ({ signal }) => getPortalAppsById(client, portalId, signal),
+		queryFn: ({ signal }) => getPortalAppsByPortalId(client, portalId, signal),
 		enabled: Boolean(portalId),
 	});
 };
@@ -21,8 +28,18 @@ export const useGetPortalApps = (portalId?: string) => {
 
 	return useQuery<PortalApplication[], FormattedError>({
 		queryKey: ['portal-onboarded-apps', portalId],
-		queryFn: ({ signal }) => getOnboardedApps(client, portalId, signal),
+		queryFn: ({ signal }) => getOnboardedPortalApps(client, portalId, signal),
 		enabled: Boolean(portalId),
+	});
+};
+
+export const useGetPortalApp = (portalId?: string, appKey?: string) => {
+	const client = useHttpClient('portal-client');
+
+	return useQuery<PortalApplication, FormattedError>({
+		queryKey: ['portal-onboarded-app', portalId, appKey],
+		queryFn: ({ signal }) => getOnboardedPortalAppByAppKey(client, portalId, appKey, signal),
+		enabled: Boolean(portalId && appKey),
 	});
 };
 

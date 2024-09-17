@@ -1,10 +1,10 @@
 import { Button, Icon } from '@equinor/eds-core-react';
-import { PortalApp } from '../../types';
+import { PortalApp, PortalApplication } from '../../types';
 
 import { add_circle_filled } from '@equinor/eds-icons';
 
 type ActivateSelectedWithContextButtonProps = {
-	selection: PortalApp[];
+	selection: PortalApplication[];
 	activateSelectedWithContext: VoidFunction;
 };
 
@@ -12,9 +12,9 @@ export const ActivateSelectedWithContextButton = ({
 	selection,
 	activateSelectedWithContext,
 }: ActivateSelectedWithContextButtonProps) => {
-	const isActive = selection.some((a) => a.isActive);
+	const isActive = selection.some((a) => !a.isActive) && selection.length < 2;
 
-	if (isActive) {
+	if (!isActive) {
 		return null;
 	}
 

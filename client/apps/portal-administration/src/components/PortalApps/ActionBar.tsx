@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { PortalApp } from '../../types';
+import { PortalApp, PortalApplication } from '../../types';
 import { Typography } from '@equinor/eds-core-react';
 import { useAddPortalApps, useRemovePortalApps } from '../../hooks/use-portal-apps';
 import { usePortalContext } from '../../context/PortalContext';
@@ -10,6 +10,8 @@ import { ActivateSelectedButton } from '../Actions/ActivateSelectedButton';
 import { RemoveAppsButton } from '../Actions/RemoveAppsButton';
 import { EditSelectedButton } from '../Actions/EditSelectedButton';
 import { ActivateSelectedWithContextButton } from '../Actions/ActivateSelectedWithContextButton';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRemoveAppWithContexts } from '../../hooks/use-add-app-with-context';
 
 const Styles = {
 	Wrapper: styled.div`
@@ -37,38 +39,45 @@ const Styles = {
 	`,
 };
 
-export const ActionBar = ({ selection }: { selection: PortalApp[] }) => {
+export const ActionBar = ({ selection }: { selection: PortalApplication[] }) => {
 	const { activePortalId } = usePortalContext();
+	const queryClient = useQueryClient();
 
 	const { mutateAsync: activateSelected } = useAddPortalApps(activePortalId);
 	const { mutateAsync: removeSelected } = useRemovePortalApps(activePortalId);
+
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (selection.length === 0) return null;
+
 	return (
 		<Styles.Wrapper>
-			<ContextAppSideSheet
-				onClose={() => {
-					setIsOpen(false);
-				}}
-				selection={selection}
-				isOpen={isOpen}
-			/>
+			{isOpen && (
+				<ContextAppSideSheet
+					onClose={() => {
+						setIsOpen(false);
+						queryClient.invalidateQueries({ queryKey: ['portal-onboarded-apps'] });
+					}}
+					app={selection[0]}
+					isOpen={isOpen}
+				/>
+			)}
+
 			<Styles.Content>
 				<Styles.Actions>
 					<Typography variant="overline">Portal Application Actions</Typography>
 					<Styles.Row>
 						<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />
-						{/* <ActivateSelectedWithContextButton
+						<ActivateSelectedWithContextButton
 							selection={selection}
 							activateSelectedWithContext={() => setIsOpen(true)}
-						/> */}
-						{/* <EditSelectedButton
+						/>
+						<EditSelectedButton
 							editSelection={() => {
 								setIsOpen(true);
 							}}
 							selection={selection}
-						/> */}
+						/>
 						<MakeSelectionGlobalButton selection={selection} makeSelectionGlobal={activateSelected} />
 						<RemoveAppsButton selection={selection} removeApps={removeSelected} />
 					</Styles.Row>
