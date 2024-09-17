@@ -10,9 +10,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
             return new RemoveContextAppFromPortalCommand(portalId, contextId, appKey);
         }
 
-        public RemoveGlobalAppFromPortalCommand ToCommand(Guid portalId, string appKey)
+        public RemoveAppFromPortalCommand ToCommand(Guid portalId, string appKey)
         {
-            return new RemoveGlobalAppFromPortalCommand(portalId, appKey);
+            return new RemoveAppFromPortalCommand(portalId, appKey);
         }
     }
 }
