@@ -8,7 +8,6 @@ import { ClientGrid } from '@equinor/workspace-ag-grid';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useActiveOnboardedContext } from '../../hooks/use-active-onbaorded-context';
 import { Message } from '../Message';
-import { Link } from 'react-router-dom';
 import { useGetPortalApp } from '../../hooks/use-portal-apps';
 
 import { usePortalContext } from '../../context/PortalContext';
@@ -16,6 +15,8 @@ import { useAddAppWithContexts, useRemoveAppWithContexts } from '../../hooks/use
 import { useQueryClient } from '@tanstack/react-query';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
 import { AgStyles } from '../AgStyle';
+import { AddContext } from '../OnboardedContexts/AddContext';
+import { Loading } from '../Loading';
 
 const Style = {
 	Wrapper: styled.div`
@@ -23,7 +24,7 @@ const Style = {
 		flex-direction: column;
 		gap: 1rem;
 		padding-left: 0.5rem;
-		height: 100%;
+		height: calc(100% - 10rem);
 	`,
 	PadTop: styled(Typography)`
 		padding-bottom: 0.2rem;
@@ -32,9 +33,33 @@ const Style = {
 		box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.2), 0px 2px 4px -2px rgba(16, 24, 40, 0.2);
 		width: ${({ col }) => `calc(calc(100vw / ${col || 3} ) - 3rem)`};
 	`,
+	Actions: styled.div`
+		position: absolute;
+		bottom: -1rem;
+		display: flex;
+		flex-direction: column;
+		height: 100px;
+		gap: 1rem;
+	`,
 	Row: styled.div`
 		display: flex;
+
 		gap: 1rem;
+	`,
+	TableContent: styled.div`
+		padding-top: 1rem;
+		position: relative;
+		height: 100%;
+		width: 100%;
+	`,
+	AddContext: styled.div`
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 100%;
+
+		z-index: 9;
+		box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.1);
 	`,
 };
 
@@ -54,16 +79,6 @@ export function ContextAppSideSheet({
 	const [selectedContexts, setSelectedContexts] = useState<OnboardedContext[]>([]);
 
 	const { data: activeApp, isLoading } = useGetPortalApp(activePortalId, app.key);
-	const queryClient = useQueryClient();
-
-	useEffect(() => {
-		const cache = queryClient.getQueryData<PortalApplication>([
-			'portal-onboarded-app',
-			activePortalId,
-			activeApp?.key,
-		]);
-		console.log('ActiveApp', cache);
-	}, [activeApp, activePortalId, queryClient]);
 
 	const contexts: OnboardedContext[] = useMemo(() => {
 		if (!activeApp || !activeContexts) return [];
@@ -92,110 +107,125 @@ export function ContextAppSideSheet({
 			<SideSheet.SubTitle subTitle="Activate application with contexts" />
 			<SideSheet.Actions></SideSheet.Actions>
 			<SideSheet.Content>
+				<div style={{ position: 'relative', height: '60px' }}>
+					<Style.AddContext>
+						<AddContext />
+					</Style.AddContext>
+				</div>
 				<Style.Wrapper>
 					<AgStyles.Wrapper>
-						<AgStyles.TableContent ref={ref}>
-							<ClientGrid<OnboardedContext>
-								height={height}
-								rowData={contexts}
-								rowSelection="multiple"
-								rowHeight={36}
-								onRowSelected={(event) => {
-									const selectedRows = event.api!.getSelectedRows();
+						<Style.TableContent ref={ref}>
+							{isLoading ? (
+								<Loading detail="Loading Application Data" />
+							) : (
+								<ClientGrid<OnboardedContext>
+									height={height}
+									rowData={contexts}
+									rowSelection="multiple"
+									rowHeight={36}
+									onRowSelected={(event) => {
+										const selectedRows = event.api!.getSelectedRows();
 
-									setSelectedContexts(selectedRows);
-								}}
-								noRowsOverlayComponent={() => (
-									<Message
-										type="NoContent"
-										title={`No contexts matching ${contextTypes?.join(' | ')}`}
-										messages={['If context is not present use add context']}
-									/>
-								)}
-								defaultColDef={{
-									filter: true,
-									flex: 1,
-									sortable: true,
-									resizable: true,
-								}}
-								ensureDomOrder
-								onGridReady={(event) => {
-									const api = event.api;
-									api.sizeColumnsToFit();
-								}}
-								autoSizeStrategy={{
-									type: 'fitGridWidth',
-									defaultMinWidth: 80,
-									defaultMaxWidth: 300,
-								}}
-								colDefs={[
-									{
-										field: 'id',
-										headerName: 'Id',
-										hide: true,
-									},
-									{
-										field: 'isActive',
-										headerName: 'Active',
-										maxWidth: 100,
-										editable: true,
-										onCellValueChanged: (event) => {
-											if (event.newValue) {
-												console.log('Activate context', event.data);
-												add({ appKey: app.key, contextIds: [event.data.contextId] });
-											} else {
-												remove({ appKey: app.key, contextIds: [event.data.contextId] });
-											}
+										setSelectedContexts(selectedRows);
+									}}
+									noRowsOverlayComponent={() => (
+										<Message
+											type="NoContent"
+											title={`No contexts matching ${contextTypes?.join(' | ')}`}
+											messages={['If context is not present use add context']}
+										/>
+									)}
+									defaultColDef={{
+										filter: true,
+										flex: 1,
+										sortable: true,
+										resizable: true,
+									}}
+									ensureDomOrder
+									onGridReady={(event) => {
+										const api = event.api;
+										api.sizeColumnsToFit();
+									}}
+									autoSizeStrategy={{
+										type: 'fitGridWidth',
+										defaultMinWidth: 80,
+										defaultMaxWidth: 300,
+									}}
+									colDefs={[
+										{
+											field: 'id',
+											headerName: 'Id',
+											hide: true,
 										},
-									},
-									{
-										field: 'title',
-										headerName: 'Title',
-									},
-									{
-										field: 'contextId',
-										headerName: 'Context Id',
-									},
-									{
-										field: 'externalId',
-										headerName: 'External Context Id',
-									},
-									{
-										field: 'type',
-										headerName: 'Context Type',
-									},
-								]}
-							/>
-						</AgStyles.TableContent>
+										{
+											field: 'isActive',
+											headerName: 'Active',
+											maxWidth: 100,
+											editable: true,
+											onCellValueChanged: (event) => {
+												if (event.newValue) {
+													console.log('Activate context', event.data);
+													add({ appKey: app.key, contextIds: [event.data.contextId] });
+												} else {
+													remove({ appKey: app.key, contextIds: [event.data.contextId] });
+												}
+											},
+										},
+										{
+											field: 'title',
+											headerName: 'Title',
+										},
+										{
+											field: 'contextId',
+											headerName: 'Context Id',
+										},
+										{
+											field: 'externalId',
+											headerName: 'External Context Id',
+										},
+										{
+											field: 'type',
+											headerName: 'Context Type',
+										},
+									]}
+								/>
+							)}
+						</Style.TableContent>
 					</AgStyles.Wrapper>
-					<Style.PadTop variant="overline">Activate Application With Context Actions</Style.PadTop>
-					<Style.Row>
-						<Button
-							disabled={selectedContexts?.filter((a) => !a.isActive).length === 0}
-							onClick={() => {
-								add({
-									appKey: app.key,
-									contextIds: selectedContexts.filter((a) => !a.isActive).map((a) => a.contextId),
-								});
-							}}
-						>
-							Activate selected
-						</Button>
-						<Button
-							disabled={selectedContexts?.filter((a) => a.isActive).length === 0}
-							onClick={() => {
-								remove({
-									appKey: app.key,
-									contextIds: selectedContexts.filter((a) => a.isActive).map((a) => a.contextId),
-								});
-							}}
-						>
-							Remove Selected
-						</Button>
-						<Button variant="outlined" as={Link} to={'/settings/contexts'}>
-							Add New Contexts
-						</Button>
-					</Style.Row>
+
+					<Style.Actions>
+						<Style.PadTop variant="overline">Activate Application With Context Actions</Style.PadTop>
+						<Style.Row>
+							{selectedContexts?.filter((a) => !a.isActive).length > 0 && (
+								<Button
+									onClick={() => {
+										add({
+											appKey: app.key,
+											contextIds: selectedContexts
+												.filter((a) => !a.isActive)
+												.map((a) => a.contextId),
+										});
+									}}
+								>
+									Activate selected
+								</Button>
+							)}
+							{selectedContexts?.filter((a) => a.isActive).length > 0 && (
+								<Button
+									onClick={() => {
+										remove({
+											appKey: app.key,
+											contextIds: selectedContexts
+												.filter((a) => a.isActive)
+												.map((a) => a.contextId),
+										});
+									}}
+								>
+									Remove Selected
+								</Button>
+							)}
+						</Style.Row>
+					</Style.Actions>
 				</Style.Wrapper>
 			</SideSheet.Content>
 		</SideSheet>
