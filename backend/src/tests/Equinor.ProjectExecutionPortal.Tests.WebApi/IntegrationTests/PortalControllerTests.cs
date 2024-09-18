@@ -436,13 +436,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var appToDelete = apps.First();
 
             // Act
-            var response = await DeletePortalApp(portalToTest.Id, appToDelete.Key, UserType.Administrator);
+            var response = await DeletePortalApp(portalToTest.Id, appToDelete.AppKey, UserType.Administrator);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             // Verify the app is actually deleted
-            var deletedApp = await AssertGetPortalApp(portalToTest.Id, appToDelete.Key, UserType.Authenticated, HttpStatusCode.NotFound);
+            var deletedApp = await AssertGetPortalApp(portalToTest.Id, appToDelete.AppKey, UserType.Authenticated, HttpStatusCode.NotFound);
             Assert.IsNull(deletedApp);
         }
 
@@ -462,7 +462,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var appToDelete = apps.First();
 
             // Act
-            var response = await DeletePortalApp(portalToTest!.Id,appToDelete.Key, UserType.Authenticated);
+            var response = await DeletePortalApp(portalToTest!.Id,appToDelete.AppKey, UserType.Authenticated);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
@@ -485,7 +485,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var appToDelete = apps.First();
 
             // Act
-            var response = await DeletePortalApp(portalToTest.Id!, appToDelete.Key, UserType.Anonymous);
+            var response = await DeletePortalApp(portalToTest.Id!, appToDelete.AppKey, UserType.Anonymous);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
