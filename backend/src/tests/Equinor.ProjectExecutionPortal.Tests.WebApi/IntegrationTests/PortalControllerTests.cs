@@ -420,7 +420,99 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(deletedPortal);
         }
 
+        [TestMethod]
+        public async Task Delete_PortalApp_AsAdministrator_ShouldReturnOk()
+        {
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+
+            // Ensure the portal has apps
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
+
+            Assert.IsNotNull(apps);
+            Assert.IsTrue(apps.Count > 0);
+
+            var appToDelete = apps.First();
+
+            // Act
+            var response = await DeletePortalApp(portalToTest.Id, appToDelete.Key, UserType.Administrator);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            // Verify the app is actually deleted
+            var deletedApp = await AssertGetPortalApp(portalToTest.Id, appToDelete.Key, UserType.Authenticated, HttpStatusCode.NotFound);
+            Assert.IsNull(deletedApp);
+        }
+
+        [TestMethod]
+        public async Task Delete_PortalApp_AsAuthenticatedUser_ShouldReturnForbidden()
+        {
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+
+            // Ensure the portal has apps
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+
+            Assert.IsNotNull(apps);
+            Assert.IsTrue(apps.Count > 0);
+
+            var appToDelete = apps.First();
+
+            // Act
+            var response = await DeletePortalApp(portalToTest!.Id,appToDelete.Key, UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Delete_PortalApp_AsAnonymousUser_ShouldReturnUnauthorized()
+        {
+            // Arrange
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+
+            // Ensure the portal has apps
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+
+            Assert.IsNotNull(apps);
+            Assert.IsTrue(apps.Count > 0);
+
+            var appToDelete = apps.First();
+
+            // Act
+            var response = await DeletePortalApp(portalToTest.Id!, appToDelete.Key, UserType.Anonymous);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
         #region Helpers
+
+        private static async Task<ApiPortalApp?> AssertGetPortalApp(Guid portalId, string appKey, UserType userType, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            var response = await GetPortalApp(portalId, appKey, userType);
+            var content = await response.Content.ReadAsStringAsync();
+            var app = JsonConvert.DeserializeObject<ApiPortalApp>(content);
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return null;
+            }
+
+            Assert.IsNotNull(content);
+            AssertHelpers.AssertPortalAppValues(app);
+
+            return app;
+        }
 
         private static async Task<IList<ApiPortal>?> AssertGetAllPortals(UserType userType, HttpStatusCode expectedStatusCode)
         {
@@ -494,6 +586,32 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return portalConfiguration;
         }
 
+        private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            var response = await GetAppsForPortal(portalId, contextId, userType);
+            var content = await response.Content.ReadAsStringAsync();
+            var apps = JsonConvert.DeserializeObject<IList<ApiPortalApp>>(content);
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return apps;
+            }
+
+            Assert.IsNotNull(content);
+            Assert.IsNotNull(apps);
+
+            foreach (var app in apps)
+            {
+                AssertHelpers.AssertPortalAppValues(app);
+            }
+
+            return apps;
+        }
+
         private static async Task<HttpResponseMessage> CreatePortal(UserType userType, ApiCreatePortalRequest createdPortal)
         {
             var serializePayload = JsonConvert.SerializeObject(createdPortal);
@@ -525,32 +643,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var response = await client.PutAsync($"{string.Format(Route)}/{portalId}/configuration", content);
 
             return response;
-        }
-
-        private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
-        {
-            // Act
-            var response = await GetAppsForPortal(portalId, contextId, userType);
-            var content = await response.Content.ReadAsStringAsync();
-            var apps = JsonConvert.DeserializeObject<IList<ApiPortalApp>>(content);
-
-            // Assert
-            Assert.AreEqual(expectedStatusCode, response.StatusCode);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                return apps;
-            }
-
-            Assert.IsNotNull(content);
-            Assert.IsNotNull(apps);
-
-            foreach (var app in apps)
-            {
-                AssertHelpers.AssertPortalAppValues(app);
-            }
-
-            return apps;
         }
 
         private static async Task<HttpResponseMessage> GetAllPortals(UserType userType)
@@ -598,6 +690,24 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         private static async Task<HttpResponseMessage> DeletePortal(Guid portalId, UserType userType)
         {
             var route = $"{Route}/{portalId}";
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.DeleteAsync(route);
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> GetPortalApp(Guid portalId, string appKey, UserType userType)
+        {
+            var route = $"{Route}{portalId}/onboarded-apps/{appKey}";
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync(route);
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> DeletePortalApp(Guid portalId, string appId, UserType userType)
+        {
+            var route = $"{Route}/{portalId}/apps/{appId}";
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.DeleteAsync(route);
 
