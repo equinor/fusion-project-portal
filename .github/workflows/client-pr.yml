@@ -13,7 +13,7 @@ jobs:
     name: Open Pull Request
     strategy:
       matrix:
-        version: [18.x]
+        version: [21.x]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
