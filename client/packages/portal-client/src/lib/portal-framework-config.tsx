@@ -1,17 +1,22 @@
 import { FusionConfigurator } from '@equinor/fusion-framework';
-import { enableAppModule } from '@equinor/fusion-framework-module-app';
+import { AppModule, enableAppModule } from '@equinor/fusion-framework-module-app';
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
-import { ConsoleLogger } from '@equinor/fusion-framework-module-msal/client';
+
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
-import { addPortalClient, configurePortalContext, appConfigurator, TelemetryModule } from '@equinor/portal-core';
+import { addPortalClient, configurePortalContext, appConfigurator } from '@equinor/portal-core';
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enableTelemetry } from '@equinor/portal-core';
+import { enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
+import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
+import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
+import { FeatureLogger } from './feature-logger';
+import { enablePortalConfig } from '@portal/core';
+import { PortalConfig as PortalConfigModule } from '@portal/core';
 
 const showInfo = false;
 
@@ -29,6 +34,73 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
+
+		enablePortalMenu(config);
+
+		enablePortalConfig(config, (builder) => {
+			builder.setConfig({
+				portalId: portalConfig.portalId,
+				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
+			});
+
+			builder.setRoutes({
+				root: {
+					pageKey: 'project-portal',
+				},
+
+				routes: [
+					{
+						path: 'project/*',
+						pageKey: 'project',
+						messages: {
+							errorMessage: 'Fail to load project page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load project page',
+								},
+								path: ':contextId',
+								pageKey: 'project',
+							},
+						],
+					},
+					{
+						path: 'facility/*',
+						pageKey: 'facility',
+						messages: {
+							errorMessage: 'Fail to load facility page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load facility page',
+								},
+								path: ':contextId',
+								pageKey: 'facility',
+							},
+						],
+					},
+					{
+						path: 'admin/*',
+						pageKey: 'portal-administration',
+						messages: {
+							errorMessage: 'Fail to load portal administration page',
+						},
+						children: [
+							{
+								messages: {
+									errorMessage: 'Fail to load portal administration page',
+								},
+								path: ':portalId',
+								pageKey: 'portal-administration',
+							},
+						],
+					},
+				],
+			});
+		});
+
 		enableContext(config);
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
@@ -77,6 +149,36 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			})
 		);
 
+		enableFeatureFlagging(config, (builder) => {
+			builder.addPlugin(
+				createLocalStoragePlugin([
+					{
+						key: 'project-prediction',
+						title: 'Allocated Projects',
+						description: 'When enabled you will get your allocated projects on the portal landing page',
+						enabled: true,
+					},
+					{
+						key: 'cc-tab',
+						title: 'New Construction and Commissioning Tab',
+						description: 'When enabled you will be able to tryout the new CC tab on project page',
+					},
+					{
+						key: 'app-search',
+						title: 'New App Search',
+						description: 'When enabled you will be able to tryout the application search on project page',
+					},
+					{
+						key: 'top-bar-app-search',
+						title: 'New App Search in Top bar',
+						description:
+							'When enabled you will be able to tryout the application search in the top-bar. When active hit F1 to start searching.',
+						enabled: true,
+					},
+				])
+			);
+		});
+
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);
 		});
@@ -120,15 +222,41 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
 		});
 
+		config.configureHttpClient('cc-api', {
+			baseUri: ((): string => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FPRD':
+						return 'https://backend-fusion-data-gateway-prod.radix.equinor.com';
+					default:
+						return 'https://backend-fusion-data-gateway-test.radix.equinor.com';
+				}
+			})(),
+			defaultScopes: ((): string[] => {
+				switch (portalConfig.fusionLegacyEnvIdentifier) {
+					case 'FPRD':
+						return ['api://5b5025d2-182d-4f10-baf9-1960a2c03733/access_as_user'];
+					default:
+						return ['api://ed6de162-dd30-4757-95eb-0ffc8d34fbe0/access_as_user'];
+				}
+			})(),
+		});
+
 		if (showInfo) {
 			config.onConfigured(() => {
 				showInfo && console.log('framework config done');
 			});
 		}
 
-		config.onInitialized<[NavigationModule, TelemetryModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
+			new FeatureLogger(fusion);
+
 			// Todo: should be moved to context module
-			configurePortalContext(fusion.context);
+
+			fusion.portalConfig.state$.subscribe((state) => {
+				if (state?.portal?.contexts) {
+					configurePortalContext(fusion.context);
+				}
+			});
 
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
@@ -156,20 +284,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 					navigator.replace(to);
 				}
 			});
-
-			if (showInfo) {
-				fusion.auth.defaultClient.setLogger(new ConsoleLogger(0));
-				console.debug('📒 subscribing to all events');
-
-				fusion.event.subscribe((e) => {
-					console.debug(`🔔🌍 [${e.type}]`, e);
-				});
-
-				console.debug('📒 subscribing to [onReactAppLoaded]');
-				fusion.event.addEventListener('onReactAppLoaded', (e) => {
-					console.debug('🔔 [onReactAppLoaded]', e);
-				});
-			}
 		});
 	};
 }

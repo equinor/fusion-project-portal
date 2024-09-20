@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
-using Equinor.ProjectExecutionPortal.WebApi.ViewModels.AppGroup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
@@ -12,21 +12,19 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         {
             Id = onboardedAppDto.Id;
             AppKey = onboardedAppDto.AppKey;
-            Order = onboardedAppDto.Order;
-            IsLegacy = onboardedAppDto.IsLegacy;
             Name = onboardedAppDto.AppInformation?.Name;
             Description = onboardedAppDto.AppInformation?.Description;
-            AppGroup = new ApiAppGroup(onboardedAppDto.AppGroup);
+            Contexts = onboardedAppDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
+            ContextTypes = onboardedAppDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
             AppInformation = onboardedAppDto.AppInformation != null ? new ApiFusionPortalAppInformation(onboardedAppDto.AppInformation) : null;
         }
 
         public Guid Id { get; set; }
         public string AppKey { get; set; } = null!;
-        public int Order { get; set; }
-        public bool IsLegacy { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public ApiAppGroup AppGroup { get; set; } = null!;
+        public IList<ApiContextType> Contexts { get; set; }
+        public IList<string> ContextTypes { get; set; }
         public ApiFusionPortalAppInformation? AppInformation { get; set; }
     }
 }

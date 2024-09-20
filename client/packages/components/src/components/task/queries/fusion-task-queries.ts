@@ -32,7 +32,7 @@ export async function getPimsTasks(client: IHttpClient, signal?: AbortSignal): P
 export async function getProCoSysAssignments(client: IHttpClient, signal?: AbortSignal): Promise<Task[]> {
 	const response = await client.fetch('/persons/me/tasks/procosys', { signal });
 
-	const fusionTask: ProcosysTasks[] = await response.json();
+	const fusionTask: ProcosysTasks[] = (await response.json()) || [];
 
 	return fusionTask.map((task) => ({
 		id: task.id,

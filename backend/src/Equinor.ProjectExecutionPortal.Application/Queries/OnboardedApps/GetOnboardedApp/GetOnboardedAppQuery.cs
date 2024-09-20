@@ -32,18 +32,17 @@ public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto?>
 
         public async Task<OnboardedAppDto?> Handle(GetOnboardedAppQuery request, CancellationToken cancellationToken)
         {
-            var enitity = await _context.Set<OnboardedApp>()
-                .Include(x => x.AppGroup)
-                .OrderBy(x => x.AppGroup.Order).ThenBy(y => y.Order)
+            var entity = await _context.Set<OnboardedApp>()
+                .Include(x => x.ContextTypes)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.AppKey == request.AppKey, cancellationToken);
 
-            if (enitity == null)
+            if (entity == null)
             {
                 return null;
             }
 
-            var onboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(enitity);
+            var onboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(entity);
 
             await _appService.EnrichAppWithFusionAppData(onboardedApp, cancellationToken);
 

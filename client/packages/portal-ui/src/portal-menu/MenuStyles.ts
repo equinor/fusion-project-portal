@@ -47,10 +47,10 @@ export const MenuWrapper = styled.div`
 	transition: all 0.15s ease;
 	z-index: 1;
 	border-right: 1.5px solid #e0e0e0;
-
 	animation: MenuWrapperAnimation ease 0.3s;
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;
+	width: inherit;
 	@keyframes MenuWrapperAnimation {
 		0% {
 			left: -900px;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { Task } from '../types/task';
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { verifyContextInURL } from '../../utils/context-utils';
 import { AppProvider } from '../../components/app-provider/AppProvider';
@@ -8,6 +8,7 @@ import { AppModule, AppModulesInstance } from '@equinor/fusion-framework-module-
 import { ContextModule } from '@equinor/fusion-framework-module-context';
 import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
+// todo move to context in core. handling legacy context
 const useAppContextHandler = () => {
 	const { contextId } = useParams();
 	const framework = useFramework<[AppModule, NavigationModule]>();

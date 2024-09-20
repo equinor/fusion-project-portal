@@ -1,9 +1,10 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
+﻿using System.Net.Mime;
+using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("{appKey}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiOnboardedApp>> OnboardedApp([FromRoute] string appKey)
         {
             var onboardedAppDto = await Mediator.Send(new GetOnboardedAppQuery(appKey));
@@ -38,6 +41,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpPost("")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
         {
             try
@@ -50,18 +60,28 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (InvalidActionException ex)
             {
-                return FusionApiError.InvalidOperation("500", ex.Message);
+                return FusionApiError.ResourceExists(request.AppKey, ex.Message, ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {
                 return FusionApiError.InvalidOperation("500", "An error occurred while onboarding app");
             }
 
-            return Ok();
+            return Created();
         }
 
         [HttpPut("{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
         {
             try
@@ -71,6 +91,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             catch (NotFoundException ex)
             {
                 return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {
@@ -82,6 +106,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         [HttpDelete("{appKey}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
         {
             var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
@@ -94,6 +122,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             {
                 return FusionApiError.NotFound(appKey, ex.Message);
             }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
+            }
             catch (Exception)
             {
                 return FusionApiError.InvalidOperation("500", "An error occurred while removing the onboarded app");
@@ -102,25 +134,66 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut("reorder")]
+        //ContextTypes
+        [HttpPost("{appKey}/context-type")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        public async Task<ActionResult<Guid>> ReorderOnboardedApps([FromBody] ApiReorderOnboardedAppsRequest request)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Guid>> AddContextType([FromRoute] string appKey, [FromBody] ApiAddContextTypeToOnboardedAppRequest request)
         {
             try
             {
-                await Mediator.Send(request.ToCommand());
+                await Mediator.Send(request.ToCommand(appKey));
             }
             catch (NotFoundException ex)
             {
-                return FusionApiError.NotFound(request.AppGroupId, ex.Message);
+                return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.ResourceExists(request.Type, ex.Message, ex);
             }
             catch (InvalidActionException ex)
             {
-                return FusionApiError.InvalidOperation("500", ex.Message);
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {
-                return FusionApiError.InvalidOperation("500", "An error occurred while reordering onboarded apps");
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding context-type");
+            }
+
+            return Ok();
+        }
+        
+        [HttpDelete("{appKey}/context-type/{contextType}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemoveContextType([FromRoute] string appKey, [FromRoute] string contextType)
+        {
+            var request = new ApiRemoveOnboardedAppContextType();
+            try
+            {
+                await Mediator.Send(request.ToCommand(appKey, contextType));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (InvalidActionException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing context-type");
             }
 
             return Ok();

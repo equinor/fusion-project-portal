@@ -45,7 +45,7 @@ const appConfigurator =
         });
       },
       getAppManifests: () => {
-        return portalClient.json$(`/api/portal/fusion/apps`, {
+        return portalClient.json$(`/api/fusion/apps`, {
           selector: async (res) =>
             (await res.json()).map(manifestMapper(client.baseUri)),
         });

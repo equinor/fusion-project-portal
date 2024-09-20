@@ -8,12 +8,12 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedContexts.
 
 public class RemoveOnboardedContextCommand : IRequest
 {
-    public RemoveOnboardedContextCommand(string externalId)
+    public RemoveOnboardedContextCommand(Guid id)
     {
-        ExternalId = externalId;
+        Id = id;
     }
 
-    public string ExternalId { get; }
+    public Guid Id { get; }
 
     public class Handler : IRequestHandler<RemoveOnboardedContextCommand>
     {
@@ -24,15 +24,15 @@ public class RemoveOnboardedContextCommand : IRequest
             _context = context;
         }
 
-        public async Task<Unit> Handle(RemoveOnboardedContextCommand command, CancellationToken cancellationToken)
+        public async Task Handle(RemoveOnboardedContextCommand command, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<OnboardedContext>()
                 .Include(x => x.Apps)
-                .SingleOrDefaultAsync(onboardedContext => onboardedContext.ExternalId == command.ExternalId, cancellationToken);
+                .SingleOrDefaultAsync(onboardedContext => onboardedContext.Id == command.Id, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(OnboardedContext), command.ExternalId);
+                throw new NotFoundException(nameof(OnboardedContext), command.Id);
             }
 
             if (entity.Apps.Any())
@@ -44,7 +44,6 @@ public class RemoveOnboardedContextCommand : IRequest
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
         }
     }
 }

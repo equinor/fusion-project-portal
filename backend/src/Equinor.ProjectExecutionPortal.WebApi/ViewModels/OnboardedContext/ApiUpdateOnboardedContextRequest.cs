@@ -7,9 +7,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
     {
         public string? Description { get; set; }
 
-        public UpdateOnboardedContextCommand ToCommand(string externalId)
+        public UpdateOnboardedContextCommand ToCommand(Guid id)
         {
-            return new UpdateOnboardedContextCommand(externalId, Description);
+            return new UpdateOnboardedContextCommand(id, Description);
         }
 
         public class UpdateOnboardedContextRequestValidator : AbstractValidator<ApiUpdateOnboardedContextRequest>

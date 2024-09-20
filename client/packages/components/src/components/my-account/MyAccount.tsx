@@ -16,7 +16,7 @@ import { MyRolesTab } from '../my-roles-tab/MyRolesTab';
 import { MyAllocationTab } from '../my-allocations-tab/MyAllocationTab';
 import { PortalSettingsTab } from '../portal-settings-tab/PortalSettingsTab';
 import { PortalActionProps } from '@equinor/portal-core';
-import { PresenceIndicator } from '../presence-indicator';
+import { MyFeatures } from '../my-features/MyFeatures';
 
 const Style = {
 	Wrapper: styled.div`
@@ -56,6 +56,7 @@ type Tabs = {
 	MyRoles: JSX.Element;
 	MyAllocations: JSX.Element;
 	PortalSettings: JSX.Element;
+	MyFeatures: JSX.Element;
 };
 
 export function MyAccount({ action, onClose, open }: PortalActionProps) {
@@ -67,8 +68,6 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 		return {
 			Profile: (
 				<>
-					<PresenceIndicator />
-					<hr />
 					<ProfileContactDetails user={user} isLoading={isLoading} />
 					<hr />
 					<ProfileManagerCard user={user} />
@@ -86,6 +85,14 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 							/>
 							My Roles
 						</Style.Button>
+						<Style.Button onClick={() => setActiveTab('MyFeatures')}>
+							<Icon
+								data={verified_user}
+								scale={40}
+								color={tokens.colors.text.static_icons__tertiary.hex}
+							/>
+							My Features
+						</Style.Button>
 					</Style.Wrapper>
 					<hr />
 					<Style.Wrapper>
@@ -99,6 +106,7 @@ export function MyAccount({ action, onClose, open }: PortalActionProps) {
 			MyRoles: <MyRolesTab onClick={() => setActiveTab('Profile')} userRoles={user?.roles} />,
 			MyAllocations: <MyAllocationTab onClick={() => setActiveTab('Profile')} positions={user?.positions} />,
 			PortalSettings: <PortalSettingsTab onClick={() => setActiveTab('Profile')} user={user} />,
+			MyFeatures: <MyFeatures onClick={() => setActiveTab('Profile')} />,
 		};
 	}, [user, setActiveTab]);
 

@@ -33,6 +33,11 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
 //Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration)
@@ -45,9 +50,14 @@ builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
 // Add fusion integration
 builder.Services.AddFusionIntegration(f =>
 {
-    f.UseServiceInformation("Fusion.Project.Portal", "Dev");
-    f.UseDefaultEndpointResolver("ci");
-    f.UseMsalTokenProvider();
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    f.UseServiceInformation("Fusion.Project.Portal", environment);
+    f.UseDefaultEndpointResolver(environment);
+    f.UseDefaultTokenProvider(opts =>
+    {
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
+    });
     f.DisableClaimsTransformation();
 });
 
@@ -135,6 +145,8 @@ app.UseSwaggerUI(c =>
     c.OAuthAppName("Fusion Project Portal v1");
     c.OAuthClientId(builder.Configuration["Swagger:ClientId"]);
 });
+
+app.UseResponseCompression();
 
 app.UseHttpsRedirection();
 

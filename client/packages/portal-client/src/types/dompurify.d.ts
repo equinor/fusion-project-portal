@@ -8,6 +8,7 @@
 //                 Nicholas Ellul <https://github.com/NicholasEllul>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 /// <reference types="trusted-types"/>
+
 declare module 'dompurify' {
 	export as namespace DOMPurify;
 	export = DOMPurify;

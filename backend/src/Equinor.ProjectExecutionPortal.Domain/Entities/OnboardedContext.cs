@@ -13,7 +13,7 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
     public const int TypeLengthMax = 200;
     public const int DescriptionLengthMax = 4000;
 
-    private readonly List<WorkSurfaceApp> _apps = new();
+    private readonly List<PortalApp> _apps = new();
 
     public OnboardedContext(string externalId, string type, string? description)
     {
@@ -26,7 +26,7 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
     public string Type { get; } // TODO: Necessary? Type can alternatively be resolved by Fusion Context
     public string? Description { get; set; }
 
-    public IReadOnlyCollection<WorkSurfaceApp> Apps => _apps.AsReadOnly();
+    public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
 
     public void Update(string? description)
     {

@@ -6,26 +6,21 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
     public class ApiOnboardAppRequest
     {
         public string AppKey { get; set; } = null!;
-        public bool IsLegacy { get; set; }
-        public Guid AppGroupId { get; set; }
+        public IList<string>? ContextTypes { get; set; }
 
         public OnboardAppCommand ToCommand()
         {
-            return new OnboardAppCommand(AppKey, IsLegacy, AppGroupId);
+            return new OnboardAppCommand(AppKey, ContextTypes);
         }
 
-        public class OnboardAppRequestalidator : AbstractValidator<ApiOnboardAppRequest>
+        public class OnboardAppRequestValidator : AbstractValidator<ApiOnboardAppRequest>
         {
-            public OnboardAppRequestalidator()
+            public OnboardAppRequestValidator()
             {
                 RuleFor(x => x.AppKey)
                     .NotEmpty()
                     .NotContainScriptTag()
                     .WithMessage("AppKey is required");
-
-                RuleFor(x => x.IsLegacy)
-                    .NotNull()
-                    .WithMessage("IsLegacy is required");
             }
         }
     }

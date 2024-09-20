@@ -1,0 +1,58 @@
+﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Application.Services.PortalService;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
+using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
+using Equinor.ProjectExecutionPortal.Infrastructure;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
+
+public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<PortalOnboardedAppDto?>>
+{
+    public Guid PortalId { get; } = portalId;
+
+    public class Handler : IRequestHandler<GetPortalOnboardedAppsQuery, IList<PortalOnboardedAppDto?>>
+    {
+        private readonly IReadWriteContext _readWriteContext;
+        private readonly IAppService _appService;
+        private readonly IPortalService _portalService;
+        private readonly IMapper _mapper;
+
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IPortalService portalService, IMapper mapper)
+        {
+            _readWriteContext = readWriteContext;
+            _appService = appService;
+            _portalService = portalService;
+            _mapper = mapper;
+        }
+
+        public async Task<IList<PortalOnboardedAppDto?>> Handle(GetPortalOnboardedAppsQuery request, CancellationToken cancellationToken)
+        {
+            var portal = await _readWriteContext.Set<Portal>()
+                .AsNoTracking()
+                .Include(portal => portal.ContextTypes)
+                .Include(portal => portal.Apps)
+                .ThenInclude(portalApp => portalApp.OnboardedApp)
+                .ThenInclude(app => app.ContextTypes)
+                .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
+
+            if (portal == null)
+            {
+                return new List<PortalOnboardedAppDto?>();
+            }
+
+            var onboardedApps = await _readWriteContext.Set<OnboardedApp>()
+                .AsNoTracking()
+                .Include(onboardedApp => onboardedApp.ContextTypes)
+                .ToListAsync(cancellationToken);
+
+            var portalOnboardedAppsDto = await _portalService.CombinePortalAppsWithOnboardedApps(portal, onboardedApps, cancellationToken);
+
+            await _appService.EnrichAppsWithAllFusionAppData(portalOnboardedAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
+            
+            return portalOnboardedAppsDto;
+        }
+    }
+}

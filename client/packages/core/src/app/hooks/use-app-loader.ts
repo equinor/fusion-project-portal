@@ -5,7 +5,7 @@ import { useAppModule } from './use-app-module';
 import { useLegacyAppLoader } from './use-legacy-app-loader';
 import { createAppElement } from '../utils/app-element';
 import { appRender } from '../render';
-import { isLegacyManifest, getLegacyClientConfig, getFusionLegacyEnvIdentifier } from '../utils';
+import { getLegacyClientConfig, getFusionLegacyEnvIdentifier } from '../utils';
 
 export const useAppLoader = (appKey: string) => {
 	const [loading, setLoading] = useState(false);
@@ -28,11 +28,13 @@ export const useAppLoader = (appKey: string) => {
 					appRef.current = createAppElement();
 
 					// Generate basename for application regex extracts /apps/:appKey
-					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [''];
+					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
+						window.location.pathname,
+					];
 
 					try {
 						//Casting to se if manifest is for fusion legacy application
-						if (isLegacyManifest(manifest)) {
+						if (!Boolean(script.default) && !Boolean(script.renderApp)) {
 							subscription.add(
 								appRender({
 									script: legacyAppScript,
@@ -48,6 +50,7 @@ export const useAppLoader = (appKey: string) => {
 													appKey,
 													env: getFusionLegacyEnvIdentifier(),
 													client: getLegacyClientConfig(),
+													loadingText: 'Loading',
 												},
 											},
 										},

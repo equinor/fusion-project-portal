@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -9,26 +10,26 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, bool isLegacy, Guid appGroupId)
+    public OnboardAppCommand(string appKey, IList<string>? contextTypes)
     {
         AppKey = appKey;
-        IsLegacy = isLegacy;
-        AppGroupId = appGroupId;
+        ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
-    public bool IsLegacy { get; }
-    public Guid AppGroupId { get; }
+    public IList<string>? ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
+        private readonly IContextTypeService _contextTypeService;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IContextTypeService contextTypeService)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
+            _contextTypeService = contextTypeService;
         }
 
         public async Task<Guid> Handle(OnboardAppCommand command, CancellationToken cancellationToken)
@@ -47,20 +48,18 @@ public class OnboardAppCommand : IRequest<Guid>
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }
 
-            var appGroup = await _readWriteContext.Set<AppGroup>()
-                .Include(x => x.Apps)
-                .FirstOrDefaultAsync(x => x.Id == command.AppGroupId, cancellationToken);
-
-            if (appGroup == null)
+            var onboardedApp = new OnboardedApp(command.AppKey);
+            
+            try
             {
-                throw new NotFoundException($"App Group '{command.AppGroupId}' was not found");
+                onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+            }
+            catch (InvalidActionException ex)
+            {
+                throw new InvalidOperationException(ex.Message);
             }
 
-            var onboardedAppsCount = appGroup.Apps.Count;
-
-            var onboardedApp = new OnboardedApp(command.AppKey, onboardedAppsCount, command.IsLegacy);
-
-            appGroup.AddApp(onboardedApp);
+            _readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

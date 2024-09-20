@@ -5,7 +5,7 @@ import { Client } from '@portal/types';
 
 const manifestMapper =
 	(basePath: string) =>
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	(value: any): AppManifest => {
 		const { appKey, appInformation, isLegacy } = value;
 		return { ...appInformation, entry: `${basePath}/api/bundles/${appKey}`, isLegacy };
@@ -32,7 +32,7 @@ export const appConfigurator =
 				});
 			},
 			getAppManifests: () =>
-				portalClient.json$(`/api/portal/fusion/apps`, {
+				portalClient.json$(`/api/fusion/apps`, {
 					selector: async (res) => (await res.json()).map(manifestMappers(client.baseUri)),
 				}),
 

@@ -9,11 +9,6 @@ export const StyledMenuItem = styled(Menu.Item)`
 	height: 48px;
 `;
 
-export const StyledItem = styled.div`
-	min-width: 250px;
-	padding-left: 0.5rem;
-`;
-
 export const StyledTopBarButton = styled(Button)`
 	height: 40px;
 	width: 40px;

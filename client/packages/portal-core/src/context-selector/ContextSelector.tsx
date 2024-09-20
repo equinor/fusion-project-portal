@@ -1,45 +1,46 @@
-import FusionContextSelector from '@equinor/fusion-react-context-selector';
+import FusionContextSelector, { ContextResult, ContextSelectEvent } from '@equinor/fusion-react-context-selector';
 import { NavigateFunction } from 'react-router-dom';
 import { useFrameworkContext } from '../hooks';
-import { getPathUrl } from '../utils';
+import { getContextPageURL } from '../utils';
 
 import { useOnboardedContexts } from '../hooks/use-onboarded-contexts';
+import { useEffect } from 'react';
+import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 interface ContextSelectorProps {
-	path: string;
 	variant?: string;
 	navigate?: NavigateFunction;
 }
 
-export const ContextSelector = ({ variant, path, navigate }: ContextSelectorProps) => {
+export const ContextSelector = ({ variant }: ContextSelectorProps) => {
 	const contextProvider = useFrameworkContext();
+	const { modules } = useFramework<[NavigationModule]>();
+	const { currentContext } = useOnboardedContexts();
 
-	const { onboardedContexts, currentContext } = useOnboardedContexts();
+	useEffect(() => {
+		//TODO: this should be configurable!
+		modules.event.addEventListener('onCurrentContextChanged', (event) => {
+			const url = new URL(getContextPageURL(event.detail.next), location.origin);
+
+			// Do not navigate if we are on a application route
+			if (location.href !== url.href && !location.href.includes('apps/')) modules.navigation.replace(url);
+		});
+	}, []);
 
 	return (
 		<FusionContextSelector
 			id="context-selector"
 			variant={variant}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			onSelect={(e: any) => {
+			onSelect={(e: ContextSelectEvent) => {
 				e.stopPropagation();
-
-				const newContextId = e.nativeEvent.detail.selected[0].id as string;
-				contextProvider.contextClient.setCurrentContext(newContextId);
-				if (
-					onboardedContexts?.find(
-						(context) => context.externalId === e.nativeEvent.detail.selected[0].externalId
-					)
-				) {
-					navigate &&
-						navigate(getPathUrl(path, newContextId), {
-							relative: 'route',
-							replace: false,
-						});
-				}
+				// sins this is a single select the will be the next context at index 0
+				const context = (e.nativeEvent.detail.selected as ContextResult)[0];
+				contextProvider.contextClient.setCurrentContext(context.id);
 			}}
 			value={currentContext?.id ? currentContext?.title || '' : ''}
 			placeholder="Start to type to search..."
+			selectTextOnFocus={true}
 		/>
 	);
 };

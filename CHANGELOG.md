@@ -1,5 +1,362 @@
 # fusion-project-portal
 
+## 4.0.8
+
+### Patch Changes
+
+- 26a492e: Bug Fix: The application list in the menu now features a scrollbar for better usability on smaller screens.
+- 66114d6: Updated styled-components to version 5.3.11 to prevent critical vulnerability
+- 8e44445: Now, when selecting context all text highlighted in the same way as we are used to in browsers.
+- e190d97: The fusion feature logger will now not log when no context is selected.
+- 8ac7ca1: Menu not closing when selecting a favorite.
+- b0280d3: Set as default endpoint has been removed
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- e4c4394: Context types updated on put
+- a54f436: Context types can be added in OnboardedApp PUT endpoint
+
+## 4.0.7
+
+### Patch Changes
+
+- 3d38a1d: Fixing application side-sheets so they display correctly under the top bar.
+  [RITM3381912 | Requested Item | ServiceNow Equinor Production System (service-now.com)](https://eur03.safelinks.protection.outlook.com/?url=https%3A%2F%2Fequinor.service-now.com%2Fnow%2Fnav%2Fui%2Fclassic%2Fparams%2Ftarget%2Fsc_req_item.do%253Fsys_id%253D5ec5a41c8377ca50b14992b5eeaad3b0%2526sysparm_view%253D%2526sysparm_domain%253Dnull%2526sysparm_domain_scope%253Dnull&data=05%7C02%7CCHBH%40equinor.com%7C580c6048428e4d2b841d08dcb53d496b%7C3aa4a235b6e248d591957fcf05b459b0%7C0%7C0%7C638584522033627619%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=Vdw9R6FuwNjc2aC4D6rkq5qXpAYOlXtzGla%2B0V8UO3k%3D&reserved=0)
+- 8f29069: Es lint update for better code quality.
+- ee4197e: Updating radixconfig with useBuildKit and useBuildCache
+- c66bacd: Change Node version for client build
+
+## 4.0.6
+
+### Patch Changes
+
+- f512441: CRUD for context type
+
+## 4.0.5
+
+### Patch Changes
+
+- d43dd84: Removed app-groups from backend
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+## 4.0.4
+
+### Patch Changes
+
+- 171ee82: Deleted unused portal domain entity
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- 171ee82: All worksurface references has been renamed to portal,
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- 69065ef: Update packages
+
+## 4.0.3
+
+### Patch Changes
+
+- d7d86b0: Fixed app sorting in project portal
+
+## 4.0.2
+
+### Patch Changes
+
+- 7f99a05: Deleted unused portal domain entity
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+## 4.0.1
+
+### Patch Changes
+
+- 5373870: Change from msal to default token
+
+## 4.0.0
+
+### Major Changes
+
+- fff93ed: Dotnet version updated to dotnet 8
+  Nuget packages updated
+
+## 3.0.6
+
+### Patch Changes
+
+- 1cd5fae: Updating axios version to 1.6.7
+
+  Bumps [axios](https://github.com/axios/axios) from 1.4.0 to 1.6.7.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a href="https://github.com/axios/axios/releases">axios's releases</a>.</em></p>
+  <blockquote>
+  <h2>Release v1.6.7</h2>
+  <h2>Release notes:</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>capture async stack only for rejections with native error objects; (<a href="https://redirect.github.com/axios/axios/issues/6203">#6203</a>) (<a href="https://github.com/axios/axios/commit/1a08f90f402336e4d00e9ee82f211c6adb1640b0">1a08f90</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/DigitalBrainJS" title="+30/-26 ([#6203](https://github.com/axios/axios/issues/6203) )">Dmitriy Mozgovoy</a></li>
+  <li> <a href="https://github.com/zh-lx" title="+0/-3 ([#6186](https://github.com/axios/axios/issues/6186) )">zhoulixiang</a></li>
+  </ul>
+  <h2>Release v1.6.6</h2>
+  <h2>Release notes:</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>fixed missed dispatchBeforeRedirect argument (<a href="https://redirect.github.com/axios/axios/issues/5778">#5778</a>) (<a href="https://github.com/axios/axios/commit/a1938ff073fcb0f89011f001dfbc1fa1dc995e39">a1938ff</a>)</li>
+  <li>wrap errors to improve async stack trace (<a href="https://redirect.github.com/axios/axios/issues/5987">#5987</a>) (<a href="https://github.com/axios/axios/commit/123f354b920f154a209ea99f76b7b2ef3d9ebbab">123f354</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/ikonst" title="+91/-8 ([#5987](https://github.com/axios/axios/issues/5987) )">Ilya Priven</a></li>
+  <li> <a href="https://github.com/zaosoula" title="+6/-6 ([#5778](https://github.com/axios/axios/issues/5778) )">Zao Soula</a></li>
+  </ul>
+  <h2>Release v1.6.5</h2>
+  <h2>Release notes:</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>ci:</strong> refactor notify action as a job of publish action; (<a href="https://redirect.github.com/axios/axios/issues/6176">#6176</a>) (<a href="https://github.com/axios/axios/commit/0736f95ce8776366dc9ca569f49ba505feb6373c">0736f95</a>)</li>
+  <li><strong>dns:</strong> fixed lookup error handling; (<a href="https://redirect.github.com/axios/axios/issues/6175">#6175</a>) (<a href="https://github.com/axios/axios/commit/f4f2b039dd38eb4829e8583caede4ed6d2dd59be">f4f2b03</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/DigitalBrainJS" title="+41/-6 ([#6176](https://github.com/axios/axios/issues/6176) [#6175](https://github.com/axios/axios/issues/6175) )">Dmitriy Mozgovoy</a></li>
+  <li> <a href="https://github.com/jasonsaayman" title="+6/-1 ()">Jay</a></li>
+  </ul>
+  <h2>Release v1.6.4</h2>
+  <h2>Release notes:</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>security:</strong> fixed formToJSON prototype pollution vulnerability; (<a href="https://redirect.github.com/axios/axios/issues/6167">#6167</a>) (<a href="https://github.com/axios/axios/commit/3c0c11cade045c4412c242b5727308cff9897a0e">3c0c11c</a>)</li>
+  <li><strong>security:</strong> fixed security vulnerability in follow-redirects (<a href="https://redirect.github.com/axios/axios/issues/6163">#6163</a>) (<a href="https://github.com/axios/axios/commit/75af1cdff5b3a6ca3766d3d3afbc3115bb0811b8">75af1cd</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/jasonsaayman" title="+34/-6 ()">Jay</a></li>
+  <li> <a href="https://github.com/DigitalBrainJS" title="+34/-3 ([#6172](https://github.com/axios/axios/issues/6172) [#6167](https://github.com/axios/axios/issues/6167) )">Dmitriy Mozgovoy</a></li>
+  <li> <a href="https://github.com/gnesher" title="+10/-10 ([#6163](https://github.com/axios/axios/issues/6163) )">Guy Nesher</a></li>
+  </ul>
+  <h2>Release v1.6.3</h2>
+  <h2>Release notes:</h2>
+
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a href="https://github.com/axios/axios/blob/v1.x/CHANGELOG.md">axios's changelog</a>.</em></p>
+  <blockquote>
+  <h2><a href="https://github.com/axios/axios/compare/v1.6.6...v1.6.7">1.6.7</a> (2024-01-25)</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>capture async stack only for rejections with native error objects; (<a href="https://redirect.github.com/axios/axios/issues/6203">#6203</a>) (<a href="https://github.com/axios/axios/commit/1a08f90f402336e4d00e9ee82f211c6adb1640b0">1a08f90</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/DigitalBrainJS" title="+30/-26 ([#6203](https://github.com/axios/axios/issues/6203) )">Dmitriy Mozgovoy</a></li>
+  <li> <a href="https://github.com/zh-lx" title="+0/-3 ([#6186](https://github.com/axios/axios/issues/6186) )">zhoulixiang</a></li>
+  </ul>
+  <h2><a href="https://github.com/axios/axios/compare/v1.6.5...v1.6.6">1.6.6</a> (2024-01-24)</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>fixed missed dispatchBeforeRedirect argument (<a href="https://redirect.github.com/axios/axios/issues/5778">#5778</a>) (<a href="https://github.com/axios/axios/commit/a1938ff073fcb0f89011f001dfbc1fa1dc995e39">a1938ff</a>)</li>
+  <li>wrap errors to improve async stack trace (<a href="https://redirect.github.com/axios/axios/issues/5987">#5987</a>) (<a href="https://github.com/axios/axios/commit/123f354b920f154a209ea99f76b7b2ef3d9ebbab">123f354</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/ikonst" title="+91/-8 ([#5987](https://github.com/axios/axios/issues/5987) )">Ilya Priven</a></li>
+  <li> <a href="https://github.com/zaosoula" title="+6/-6 ([#5778](https://github.com/axios/axios/issues/5778) )">Zao Soula</a></li>
+  </ul>
+  <h2><a href="https://github.com/axios/axios/compare/v1.6.4...v1.6.5">1.6.5</a> (2024-01-05)</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>ci:</strong> refactor notify action as a job of publish action; (<a href="https://redirect.github.com/axios/axios/issues/6176">#6176</a>) (<a href="https://github.com/axios/axios/commit/0736f95ce8776366dc9ca569f49ba505feb6373c">0736f95</a>)</li>
+  <li><strong>dns:</strong> fixed lookup error handling; (<a href="https://redirect.github.com/axios/axios/issues/6175">#6175</a>) (<a href="https://github.com/axios/axios/commit/f4f2b039dd38eb4829e8583caede4ed6d2dd59be">f4f2b03</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/DigitalBrainJS" title="+41/-6 ([#6176](https://github.com/axios/axios/issues/6176) [#6175](https://github.com/axios/axios/issues/6175) )">Dmitriy Mozgovoy</a></li>
+  <li> <a href="https://github.com/jasonsaayman" title="+6/-1 ()">Jay</a></li>
+  </ul>
+  <h2><a href="https://github.com/axios/axios/compare/v1.6.3...v1.6.4">1.6.4</a> (2024-01-03)</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>security:</strong> fixed formToJSON prototype pollution vulnerability; (<a href="https://redirect.github.com/axios/axios/issues/6167">#6167</a>) (<a href="https://github.com/axios/axios/commit/3c0c11cade045c4412c242b5727308cff9897a0e">3c0c11c</a>)</li>
+  <li><strong>security:</strong> fixed security vulnerability in follow-redirects (<a href="https://redirect.github.com/axios/axios/issues/6163">#6163</a>) (<a href="https://github.com/axios/axios/commit/75af1cdff5b3a6ca3766d3d3afbc3115bb0811b8">75af1cd</a>)</li>
+  </ul>
+  <h3>Contributors to this release</h3>
+  <ul>
+  <li> <a href="https://github.com/jasonsaayman" title="+34/-6 ()">Jay</a></li>
+  <li> <a href="https://github.com/DigitalBrainJS" title="+34/-3 ([#6172](https://github.com/axios/axios/issues/6172) [#6167](https://github.com/axios/axios/issues/6167) )">Dmitriy Mozgovoy</a></li>
+  </ul>
+
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a href="https://github.com/axios/axios/commit/a52e4d9af51205959ef924f87bcf90c605e08a1e"><code>a52e4d9</code></a> chore(release): v1.6.7 (<a href="https://redirect.github.com/axios/axios/issues/6204">#6204</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/2b69888dd5601bbc872452ccd24010219fb6e41a"><code>2b69888</code></a> chore: remove unnecessary check (<a href="https://redirect.github.com/axios/axios/issues/6186">#6186</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/1a08f90f402336e4d00e9ee82f211c6adb1640b0"><code>1a08f90</code></a> fix: capture async stack only for rejections with native error objects; (<a href="https://redirect.github.com/axios/axios/issues/6203">#6203</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/104aa3f65dc30d70273798dff413fb44edd1c9e6"><code>104aa3f</code></a> chore(release): v1.6.6 (<a href="https://redirect.github.com/axios/axios/issues/6199">#6199</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/a1938ff073fcb0f89011f001dfbc1fa1dc995e39"><code>a1938ff</code></a> fix: fixed missed dispatchBeforeRedirect argument (<a href="https://redirect.github.com/axios/axios/issues/5778">#5778</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/123f354b920f154a209ea99f76b7b2ef3d9ebbab"><code>123f354</code></a> fix: wrap errors to improve async stack trace (<a href="https://redirect.github.com/axios/axios/issues/5987">#5987</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/6d4c421ee157d93b47f3f9082a7044b1da221461"><code>6d4c421</code></a> chore(release): v1.6.5 (<a href="https://redirect.github.com/axios/axios/issues/6177">#6177</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/0736f95ce8776366dc9ca569f49ba505feb6373c"><code>0736f95</code></a> fix(ci): refactor notify action as a job of publish action; (<a href="https://redirect.github.com/axios/axios/issues/6176">#6176</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/f4f2b039dd38eb4829e8583caede4ed6d2dd59be"><code>f4f2b03</code></a> fix(dns): fixed lookup error handling; (<a href="https://redirect.github.com/axios/axios/issues/6175">#6175</a>)</li>
+  <li><a href="https://github.com/axios/axios/commit/1f73dcbbe0bb37f9e9908abb46a3c252536655c8"><code>1f73dcb</code></a> docs: update sponsor links</li>
+  <li>Additional commits viewable in <a href="https://github.com/axios/axios/compare/v1.4.0...v1.6.7">compare view</a></li>
+  </ul>
+  </details>
+  <br />
+
+  [![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=axios&package-manager=npm_and_yarn&previous-version=1.4.0&new-version=1.6.7)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+
+  You can trigger a rebase of this PR by commenting `@dependabot rebase`.
+
+  [//]: # "dependabot-automerge-start"
+  [//]: # "dependabot-automerge-end"
+
+  ***
+
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+
+  You can trigger Dependabot actions by commenting on this PR:
+
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+  - `@dependabot merge` will merge this PR after your CI passes on it
+  - `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+  - `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+  - `@dependabot reopen` will reopen this PR if it is closed
+  - `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+  - `@dependabot show <dependency name> ignore conditions` will show all of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+    You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/equinor/fusion-project-portal/network/alerts).
+
+  </details>
+
+  > **Note**
+  > Automatic rebases have been disabled on this pull request as it has been open for over 30 days.
+
+## 3.0.5
+
+### Patch Changes
+
+- 4514a8f: App and Context expansion message.
+
+## 3.0.4
+
+### Patch Changes
+
+- d3b86ff: Introduced managed Identity
+
+## 3.0.3
+
+### Patch Changes
+
+- 9029eb4: fix fusion link
+
+## 3.0.2
+
+### Patch Changes
+
+- a3f42ca: Environment variable update
+
+## 3.0.1
+
+### Patch Changes
+
+- bce448f: Small inital setup bug fixed
+
+## 3.0.0
+
+### Major Changes
+
+- b6994c7: The project portal has undergone a major rewrite for both frontend and portal api to accommodate for this release of the portal, now supporting `facility` context selection.
+
+  - Portal Landing page, has undergone some minor styling changes, user card and portal info card is added.
+  - The portal now supports facility context.
+  - The portal now is open to all context, this allows the user to select all contexts but all applications may not be available for all context.
+  - All contexts will display global applications
+  - When selecting a project, the portal will navigate the user to a project page
+  - When selecting a facility the portal will navigate the user to a facility page
+  - Updates to the underlying portal configuration. This will not impact the user but simplify portal configurations for developers.
+  - Portal now utilizes application manifest as defined in fusion, this allows application admins to change application category from the application admin interface.
+
+  Project page:
+
+  - Added navigation to the corresponding facilities of the selected project.
+  - Minor layout update to accommodate for smaller screens.
+  - Added icon to header for easier context identification.
+  - Added context type to header for easier context identification.
+
+  Facility page:
+
+  - Added navigation to the corresponding projects of the selected facility.
+  - Facility page shows the same my work assigned section.
+  - All corresponding project phases / DG phases will be de shown if data is available.
+  - Added icon to header for easier context identification.
+  - Added context type to header for easier context identification.
+  - Favorites are the same as on project page.
+  - Facility may show less applications as there are less applications supporting the context type.
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+### Minor Changes
+
+- bdfd7bb: Project prediction on landing page
+
+## 2.0.1
+
+### Patch Changes
+
+- b6c165e: Scoping for landing page.
+
+## 2.0.0
+
+### Major Changes
+
+- 1c607e3: Project Landing Page Update: Design and User Experience Enhancements
+  - Enhanced the project landing page by integrating a full-width header containing essential project information, aligning it with the Fusion landing page.
+  - Introduced a new Overview tab with a new layout.
+  - Users can now view their project allocation, with a direct link to the project organization application in Fusion.
+  - Displayed the project director prominently on the project landing page.
+  - Implemented a project phase indicator on the Overview tab, showcasing DG dates and the current DG phase of the project.
+  - Aligned the design of pinned apps with Fusion while maintaining content stored in local storage.
+  - Implemented cleanup functionality for removing deleted apps within pinned apps.
+  - Redesigned the contract list to feature cards instead of a table, categorizing contracts into active and closed groups based on closing date.
+  - Introduced a Project Portal Info section with quick facts.
+  - Implemented a Construction and Commissioning tab featuring milestones and CC-Application KPIs, accessible behind a feature flag.
+  - Developed a new menu design, also accessible behind a feature flag, in alignment with the all-apps list.
+  - Added functionality for feature flagging with local storage implementation utilizing the new feature flag module in Fusion.
+  - Introduced a "My Features" tab under the user's account to enable feature flags.
+  - Global app search and navigation behind feature flag.
+
+### Minor Changes
+
+- b96c30e: The top-bat extensions settings are moved to portal settings.
+  - Fix on the fullscreen button
+  - Added production scope for data gateway apo used on cc-tab
+  - Fixing new menu, now closing when selecting application
+  - Added no content message to my features tabs
+- 10cc29d: Portal now integrates with the Fusion feature logging system, enhancing the visibility of logged applicaion and context selected in the Fusion User Statistics report.
+
 ## 1.13.2
 
 ### Patch Changes

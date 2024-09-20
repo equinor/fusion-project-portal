@@ -184,7 +184,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
 
         private static string GetTestLocalDbConnectionString(string projectDir)
         {
-            const string DbName = "ProjectPortalIntegrationTestsDB";
+            const string DbName = "ProjectPortalIntegrationTestsDB2";
             var dbPath = Path.Combine(projectDir, $"{DbName}.mdf");
 
             // Set Initial Catalog to be able to delete database!
@@ -199,16 +199,21 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupServiceMock()
         {
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApps())
-                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps as IList<FusionPortalAppInformation>));
+                .Returns(Task.FromResult(FusionPortalAppData.ValidFusionApps as IList<FusionPortalAppInformation>));
 
             _fusionPortalApiServiceMock.Setup(service => service.TryGetFusionPortalApp(It.IsAny<string>()))
-                .Returns(Task.FromResult(FusionPortalAppsData.ValidFusionApps.FirstOrDefault()));
+                .Returns(Task.FromResult(FusionPortalAppData.ValidFusionApps.FirstOrDefault()));
 
             _fusionContextResolverMock.Setup(service => service.ResolveContextAsync(It.IsAny<ContextIdentifier>(), It.IsAny<FusionContextType>()))
                 .Returns((ContextIdentifier contextIdentifier, FusionContextType type) =>
                 {
                     return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.ExternalId == contextIdentifier.Identifier));
                 });
+
+            _fusionContextResolverMock.Setup(service => service.GetContextAsync(It.IsAny<Guid>())).Returns((Guid contextId) =>
+            {
+                return Task.FromResult(FusionContextData.ValidFusionContexts.First(x => x.Id == contextId));
+            });
         }
 
         private void SetupTestUsers()
