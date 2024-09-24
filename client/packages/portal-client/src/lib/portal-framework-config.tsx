@@ -41,54 +41,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 
 		enablePortalMenu(config);
 
-		// enablePortalConfig(config, (builder) => {
-		// 	builder.setConfig({
-		// 		portalId: portalConfig.portalId,
-		// 		portalEnv: portalConfig.fusionLegacyEnvIdentifier,
-		// 	});
-
-		// 	builder.setRoutes({
-		// 		root: {
-		// 			pageKey: 'project-portal',
-		// 		},
-
-		// 		routes: [
-		// 			{
-		// 				path: 'project/*',
-		// 				pageKey: 'project',
-		// 				messages: {
-		// 					errorMessage: 'Fail to load project page',
-		// 				},
-		// 				children: [
-		// 					{
-		// 						messages: {
-		// 							errorMessage: 'Fail to load project page',
-		// 						},
-		// 						path: ':contextId',
-		// 						pageKey: 'project',
-		// 					},
-		// 				],
-		// 			},
-		// 			{
-		// 				path: 'facility/*',
-		// 				pageKey: 'facility',
-		// 				messages: {
-		// 					errorMessage: 'Fail to load facility page',
-		// 				},
-		// 				children: [
-		// 					{
-		// 						messages: {
-		// 							errorMessage: 'Fail to load facility page',
-		// 						},
-		// 						path: ':contextId',
-		// 						pageKey: 'facility',
-		// 					},
-		// 				],
-		// 			},
-		// 		],
-		// 	});
-		// });
-
 		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
