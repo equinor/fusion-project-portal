@@ -30,6 +30,8 @@ jobs:
 
       - name: Setup node and install deps
         uses: ./.github/actions/node-setup
+        with:
+          versions: 21.x
 
       - name: install
         run: yarn
