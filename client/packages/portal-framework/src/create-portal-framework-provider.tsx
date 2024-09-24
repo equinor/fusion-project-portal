@@ -5,9 +5,6 @@ import { PortalFrameworkProvider } from './context';
 import type { AnyModule } from '@equinor/fusion-framework-module';
 import { ModuleProvider } from '@equinor/fusion-framework-react-module';
 import initPortal from './init';
-import { PortalConfig } from '@portal/core';
-import { Fusion } from './types';
-import { lastValueFrom } from 'rxjs';
 
 /**
  * Create a framework provider for react.

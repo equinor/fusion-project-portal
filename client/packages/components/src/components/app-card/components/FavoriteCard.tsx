@@ -4,7 +4,7 @@ import { tokens } from '@equinor/eds-tokens';
 import { Link } from 'react-router-dom';
 import { Typography } from '@equinor/eds-core-react';
 
-import AppIconContainer, { Styled as IconStyled } from './AppIcon';
+import AppIconContainer, { Styles as IconStyled } from './AppIcon';
 import PinButtonContainer from './PinButton';
 import { AppManifest } from '../types/types';
 

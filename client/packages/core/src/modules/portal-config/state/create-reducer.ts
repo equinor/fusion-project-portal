@@ -14,6 +14,7 @@ const portalMapper = (portalRequest: PortalRequest): Portal => ({
 	shortName: portalRequest.shortName,
 	subtext: portalRequest.subtext,
 	contexts: portalRequest.contexts,
+	type: 'app-portal',
 	configuration: {
 		router: portalRequest.routes!,
 	},

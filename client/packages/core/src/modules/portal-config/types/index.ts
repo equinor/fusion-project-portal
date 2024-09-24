@@ -10,8 +10,6 @@ export type Portal = {
 	icon?: string;
 	name: string;
 	shortName?: string;
-	portalKey: string;
-	origin: string;
 	subtext?: string;
 	contexts?: ContextType[];
 	type: 'app-portal';
