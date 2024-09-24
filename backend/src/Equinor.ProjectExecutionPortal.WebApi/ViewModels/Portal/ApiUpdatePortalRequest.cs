@@ -9,13 +9,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         public string ShortName { get; set; } = null!;
         public string Subtext { get; set; } = null!;
         public string? Description { get; set; }
-        public int Order { get; set; }
         public string Icon { get; set; } = null!;
         public IList<string>? ContextTypes { get; set; }
 
         public UpdatePortalCommand ToCommand(Guid id)
         {
-            return new UpdatePortalCommand(id, Name, ShortName, Subtext, Description, Order, Icon, ContextTypes);
+            return new UpdatePortalCommand(id, Name, ShortName, Subtext, Description, Icon, ContextTypes);
         }
 
         public class UpdatePortalRequestValidator : AbstractValidator<ApiUpdatePortalRequest>
@@ -40,10 +39,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
                 RuleFor(x => x.Description)
                     .NotContainScriptTag()
                     .MaximumLength(Domain.Entities.Portal.DescriptionLengthMax);
-
-                RuleFor(x => x.Order)
-                    .NotEmpty()
-                    .WithMessage("Order required");
             }
         }
     }

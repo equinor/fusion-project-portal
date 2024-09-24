@@ -1,11 +1,15 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
-using ApiContextType = Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType.ApiContextType;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 {
     public class ApiPortalApp
     {
+        public ApiPortalApp()
+        {
+
+        }
         public ApiPortalApp(PortalAppDto portalAppDto)
         {
             Key = portalAppDto.OnboardedApp.AppKey;

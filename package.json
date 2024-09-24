@@ -1,11 +1,11 @@
 {
   "name": "fusion-project-portal",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "license": "MIT",
   "description": "Project Portal powered by Fusion",
   "devDependencies": {
     "husky": "^8.0.3",
-    "@changesets/cli": "^2.26.2"
+    "@changesets/cli": "^2.27.1"
   },
   "scripts": {
     "change": "yarn changeset",
@@ -14,7 +14,7 @@
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
-    "node": "^20 || ^18",
+    "node": "^20 || ^21",
     "npm": "please-use-yarn"
   }
 }

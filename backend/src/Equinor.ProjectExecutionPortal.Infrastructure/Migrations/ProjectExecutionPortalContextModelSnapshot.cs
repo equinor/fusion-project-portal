@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -100,17 +100,11 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsLegacy")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("ModifiedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ModifiedByAzureOid")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -196,9 +190,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.Property<string>("ShortName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -258,6 +249,39 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("PortalApps");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalConfiguration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PortalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Router")
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortalId")
+                        .IsUnique();
+
+                    b.ToTable("PortalConfiguration");
+                });
+
             modelBuilder.Entity("ContextTypeOnboardedApp", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
@@ -314,6 +338,17 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Navigation("Portal");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalConfiguration", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", "Portal")
+                        .WithOne("Configuration")
+                        .HasForeignKey("Equinor.ProjectExecutionPortal.Domain.Entities.PortalConfiguration", "PortalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Portal");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedContext", b =>
                 {
                     b.Navigation("Apps");
@@ -322,6 +357,9 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
                 {
                     b.Navigation("Apps");
+
+                    b.Navigation("Configuration")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

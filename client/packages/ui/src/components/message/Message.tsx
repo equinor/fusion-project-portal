@@ -96,7 +96,7 @@ export const Message = ({ title, messages, type = 'Info', children }: PropsWithC
 		<Styled.Content>
 			<Styled.Header>
 				<Styled.Icon color={variant.backColor} title="Icon">
-					<Icon {...variant} />
+					<Icon data={variant.data} color={variant.color} type={variant.type} />
 				</Styled.Icon>
 				<span>{title}</span>
 			</Styled.Header>

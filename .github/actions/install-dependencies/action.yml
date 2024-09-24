@@ -9,3 +9,14 @@ runs:
         cd client
         yarn install --frozen-lockfile
       shell: bash
+
+    - name: Install Fusion CLI
+      run: |
+        npm i -g @equinor/fusion-framework-cli
+      shell: bash
+
+    - name: Install App Deps
+      run: |
+        cd client/apps/portal-administration
+        yarn install
+      shell: bash

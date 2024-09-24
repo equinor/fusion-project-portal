@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
+using Fusion.Integration;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
@@ -6,8 +7,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
     {
         public class InitialSeedData
         {
-            public static ContextType ContextType1 = new("ProjectMaster");
-            public static ContextType ContextType2 = new("Facility");
+            public static ContextType ContextType1 = new(ValidData.ProjectMasterContextTypeKey);
+            public static ContextType ContextType2 = new(ValidData.FacilityContextTypeKey);
+        }
+
+        public class ValidData
+        {
+            public static string ProjectMasterContextTypeKey = "ProjectMaster";
+            public static string FacilityContextTypeKey = "Facility";
+            public static string ContractContextTypeKey = "Contract";
+        }
+
+        public class InvalidData
+        {
+            public static string InvalidContextTypeKey = "SuperContext";
         }
     }
 }

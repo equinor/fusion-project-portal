@@ -52,7 +52,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Act
-            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Authenticated, HttpStatusCode.OK);
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialSeedData.MeetingsApp.AppKey, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(onboardedApp);
@@ -64,7 +64,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Act
-            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Administrator, HttpStatusCode.OK);
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialSeedData.MeetingsApp.AppKey, UserType.Administrator, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(onboardedApp);
@@ -76,7 +76,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApp_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act
-            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppsData.InitialSeedData.MeetingsApp.AppKey, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialSeedData.MeetingsApp.AppKey, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(onboardedApp);
@@ -92,8 +92,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
-                IsLegacy = false,
-                ContextTypes = new List<string>() {"ProjectMaster"}
+                ContextTypes = new List<string>() { "ProjectMaster" }
             };
 
             // Act
@@ -116,7 +115,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
-                IsLegacy = false
             };
 
             // Act
@@ -133,7 +131,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "test-app",
-                IsLegacy = false
             };
 
             // Act
@@ -150,8 +147,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist-in-fusion",
-                IsLegacy = false
+                AppKey = "i-do-not-exist-in-fusion"
             };
 
             // Act
@@ -167,8 +163,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey,
-                IsLegacy = false
+                AppKey = OnboardedAppData.InitialSeedData.OrgChartApp.AppKey
             };
 
             // Act
@@ -187,7 +182,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                IsLegacy = false
+                ContextTypes = new List<string>() { }
             };
 
             // Act
@@ -199,7 +194,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(theOneToUpdate.AppKey, theOneAfterUpdate.AppKey);
-            Assert.AreEqual(theOneToUpdate.IsLegacy, theOneAfterUpdate.IsLegacy);
+            Assert.AreEqual(theOneToUpdate.Contexts.Count, theOneAfterUpdate.Contexts.Count);
         }
 
         [TestMethod]
@@ -236,7 +231,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiOnboardAppRequest
             {
                 AppKey = "app-to-be-removed",
-                IsLegacy = false,
                 ContextTypes = new List<string>() { "ProjectMaster" }
             };
 
@@ -262,7 +256,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var existingOnboardedAppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey;
+            var existingOnboardedAppKey = OnboardedAppData.InitialSeedData.OrgChartApp.AppKey;
 
             // Act
             var removeResponse = await RemoveOnboardedApp(UserType.Authenticated, existingOnboardedAppKey);
@@ -275,7 +269,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var existingOnboardedAppKey = OnboardedAppsData.InitialSeedData.OrgChartApp.AppKey;
+            var existingOnboardedAppKey = OnboardedAppData.InitialSeedData.OrgChartApp.AppKey;
 
             // Act
             var removeResponse = await RemoveOnboardedApp(UserType.Anonymous, existingOnboardedAppKey);

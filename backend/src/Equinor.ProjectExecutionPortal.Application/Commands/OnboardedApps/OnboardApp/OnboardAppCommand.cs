@@ -10,16 +10,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, bool isLegacy, IList<string> contextTypes)
+    public OnboardAppCommand(string appKey, IList<string>? contextTypes)
     {
         AppKey = appKey;
-        IsLegacy = isLegacy;
         ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
-    public bool IsLegacy { get; }
-    public IList<string> ContextTypes { get; set; }
+    public IList<string>? ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {
@@ -50,7 +48,7 @@ public class OnboardAppCommand : IRequest<Guid>
                 throw new InvalidActionException($"Onboarded app: {command.AppKey} is already onboarded");
             }
 
-            var onboardedApp = new OnboardedApp(command.AppKey, 0, command.IsLegacy);
+            var onboardedApp = new OnboardedApp(command.AppKey);
             
             try
             {
@@ -60,7 +58,6 @@ public class OnboardAppCommand : IRequest<Guid>
             {
                 throw new InvalidOperationException(ex.Message);
             }
-
 
             _readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
 

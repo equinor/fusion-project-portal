@@ -42,6 +42,7 @@ const getRoutes = (portalRoutes: PortalRoutes | undefined): RouteObject[] => {
 					element: <PortalPage route={portalRoutes?.root} />,
 					errorElement: <PortalMessagePage title="Fail to load view page" type={'Error'} />,
 				},
+				...pages,
 				{
 					path: '/apps/:appKey',
 					element: <AppPage />,
@@ -54,7 +55,6 @@ const getRoutes = (portalRoutes: PortalRoutes | undefined): RouteObject[] => {
 					],
 					errorElement: <PortalMessagePage title="Fail to load application" type={'Error'} />,
 				},
-				...pages,
 				{
 					path: `/aka/*`,
 					element: <Navigate replace to={window.location.pathname.replace('aka', 'apps')} />,

@@ -3,7 +3,6 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
@@ -11,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
     public static class ApplicationDbContextExtension
     {
         private const string SeederOid = "00000000-0000-0000-0000-999999999999";
-        
+
         public static void CreateNewDatabaseWithCorrectSchema(this ProjectExecutionPortalContext dbContext)
         {
             //var migrations = dbContext.Database.GetPendingMigrations();
@@ -20,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             //    dbContext.Database.Migrate();
             //}
         }
-        
+
         public static void Seed(this ProjectExecutionPortalContext dbContext, IServiceProvider serviceProvider)
         {
             var userProvider = serviceProvider.GetRequiredService<CurrentUserProvider>();
@@ -37,39 +36,41 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             var portalWithApps = PortalData.InitialSeedData.Portal2;
 
             dbContext.AddRange(portalWithoutApps, portalWithApps);
-               
             dbContext.SaveChanges();
 
-            //add contextTypes
+            // Add context types
+
             var contextTypeProjectMaster = ContextTypeData.InitialSeedData.ContextType1;
             var contextTypeFacility = ContextTypeData.InitialSeedData.ContextType2;
 
-            dbContext.AddRange(contextTypeProjectMaster,contextTypeFacility);
+            // Connect portal with a context type
+            portalWithApps.AddContextType(contextTypeProjectMaster);
 
+            dbContext.AddRange(contextTypeProjectMaster, contextTypeFacility);
             dbContext.SaveChanges();
 
             // Add onboarded apps
 
-            var meetingsApp = OnboardedAppsData.InitialSeedData.MeetingsApp;
-            var reviewsApp = OnboardedAppsData.InitialSeedData.ReviewsApp;
-            var tasksApp = OnboardedAppsData.InitialSeedData.TasksApp;
-            var orgChartApp = OnboardedAppsData.InitialSeedData.OrgChartApp;
-            var handoverGardenApp = OnboardedAppsData.InitialSeedData.HandoverGardenApp;
-            var workOrderGardenApp = OnboardedAppsData.InitialSeedData.WorkOrderGardenApp;
+            var meetingsApp = OnboardedAppData.InitialSeedData.MeetingsApp;
+            var reviewsApp = OnboardedAppData.InitialSeedData.ReviewsApp;
+            var tasksApp = OnboardedAppData.InitialSeedData.TasksApp;
+            var orgChartApp = OnboardedAppData.InitialSeedData.OrgChartApp;
+            var handoverGardenApp = OnboardedAppData.InitialSeedData.HandoverGardenApp;
+            var workOrderGardenApp = OnboardedAppData.InitialSeedData.WorkOrderGardenApp;
 
-            //add apps
+            // Add apps
+
             dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
-
             dbContext.SaveChanges();
 
             // Add onboarded contexts
 
-            var jcaContext = OnboardedContextsData.InitialSeedData.JcaContext;
+            var jcaContext = OnboardedContextData.InitialSeedData.JcaContext;
 
             dbContext.AddRange(jcaContext);
             dbContext.SaveChanges();
 
-            // Add apps to work surface
+            // Add apps to portal
 
             var globalMeetingsApp = new PortalApp(meetingsApp.Id, portalWithApps.Id);
             var globalReviewsApp = new PortalApp(reviewsApp.Id, portalWithApps.Id);

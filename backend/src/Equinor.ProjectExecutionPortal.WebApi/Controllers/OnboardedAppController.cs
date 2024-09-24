@@ -92,6 +92,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             {
                 return FusionApiError.NotFound(appKey, ex.Message);
             }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
+            }
             catch (Exception)
             {
                 return FusionApiError.InvalidOperation("500", "An error occurred while updating the onboarded app");
@@ -117,6 +121,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             catch (NotFoundException ex)
             {
                 return FusionApiError.NotFound(appKey, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.InvalidOperation("400", ex.Message);
             }
             catch (Exception)
             {

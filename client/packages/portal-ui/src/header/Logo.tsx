@@ -27,7 +27,7 @@ export function PortalLogo({ onClick }: PortalLogoProps): JSX.Element {
 
 	return (
 		<StyledWrapper onClick={onClick}>
-			<PortalIcon />
+			<PortalIcon icon={portal?.icon?.toString()} />
 			<StyledTitle variant="h6" title={portal?.subtext}>
 				{portal?.name}
 			</StyledTitle>

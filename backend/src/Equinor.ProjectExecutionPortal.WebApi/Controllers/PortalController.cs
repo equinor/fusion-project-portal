@@ -1,6 +1,9 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApp;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
@@ -97,6 +100,77 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet("{portalId:guid}/configuration")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiPortalConfiguration>> PortalConfiguration([FromRoute] Guid portalId)
+        {
+            var portalConfigurationDto = await Mediator.Send(new GetPortalConfigurationQuery(portalId));
+
+            if (portalConfigurationDto == null)
+            {
+                return FusionApiError.NotFound(portalId, "Could not find portal");
+            }
+
+            return Ok(new ApiPortalConfiguration(portalConfigurationDto));
+        }
+
+        [HttpPut("{portalId:guid}/configuration")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Guid>> UpdatePortalConfiguration([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalConfigurationRequest request)
+        {
+            try
+            {
+                await Mediator.Send(request.ToCommand(portalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while updating portal configuration");
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("{portalId:guid}")]
+        [Authorize(Policy = Policies.ProjectPortal.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId)
+        {
+            var request = new ApiRemovePortalRequest();
+
+            try
+            {
+                await Mediator.Send(request.ToCommand(portalId));
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return FusionApiError.Forbidden(ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing portal");
+            }
+
+            return Ok();
+        }
+
         // Apps
 
         [HttpGet("{portalId:guid}/apps")]
@@ -116,6 +190,38 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             var portalApps = portalAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
 
             return Ok(portalApps.Select(x => new ApiPortalApp(x)).ToList());
+
+        }
+
+        [HttpGet("{portalId:guid}/onboarded-apps")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<ApiPortalOnboardedApp>>> PortalOnboardedApps([FromRoute] Guid portalId)
+        {
+            var portalOnboardedAppsDto = await Mediator.Send(new GetPortalOnboardedAppsQuery(portalId));
+
+            if (!portalOnboardedAppsDto.Any())
+            {
+                return FusionApiError.NotFound(portalId, "Could not find portal with id");
+            }
+
+            return Ok(portalOnboardedAppsDto.Select(x => new ApiPortalOnboardedApp(x)).ToList());
+
+        }
+
+        [HttpGet("{portalId:guid}/onboarded-apps/{appKey}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiPortalOnboardedApp>> PortalOnboardedApp([FromRoute] Guid portalId, string appKey)
+        {
+            var portalOnboardedAppDto = await Mediator.Send(new GetPortalOnboardedAppQuery(portalId, appKey));
+
+            if (portalOnboardedAppDto == null)
+            {
+                return FusionApiError.NotFound(portalId, "Could not find portal with id or appkey is invalid");
+            }
+
+            return new ApiPortalOnboardedApp(portalOnboardedAppDto);
 
         }
 
@@ -209,7 +315,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, [FromRoute] string appKey)
         {
-            // TODO: Removing global should come with a warning. E.g highlight affected contexts
             var request = new ApiRemovePortalAppRequest();
 
             try
@@ -236,7 +341,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, Guid contextId, [FromRoute] string appKey)
         {
-            // TODO: Removing global should come with a warning. E.g highlight affected contexts
             var request = new ApiRemovePortalAppRequest();
 
             try

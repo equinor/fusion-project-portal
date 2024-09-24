@@ -54,7 +54,6 @@ export const Styles = {
 		margin-inline-start: 0px;
 		margin-inline-end: 0px;
 		padding-inline-start: 0;
-		/* gap: 1rem; */
 	`,
 };
 
@@ -72,7 +71,7 @@ export const AppGroup = ({ group, onFavorite, dark, onClick }: AppGroupProps) =>
 	return (
 		<Styles.Group id={`groupe-${group.name}`}>
 			<Styles.Nav>
-				<Styles.Title isActive={isGroupActive} id={`groupe-${group.name}-name`} title={group.name}>
+				<Styles.Title isActive={isGroupActive} id={`groupe-${group.name}-name`} title={group.name || ''}>
 					{group.name}
 				</Styles.Title>
 				<Styles.List>

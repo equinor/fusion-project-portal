@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 /// <summary>
-/// The Work Surface functions as a container for all apps and related information about a specific phase
+/// The Portal functions as a container for enabled apps and contexts
 /// </summary>
 public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
@@ -17,15 +17,15 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     private readonly List<PortalApp> _apps = new();
     private readonly List<ContextType> _contextTypes = new();
 
-    public Portal(string key, string name, string shortName, string subText, string? description, int order, string icon)
+    public Portal(string key, string name, string shortName, string subText, string? description, string icon)
     {
         Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Description = description;
-        Order = order;
         Icon = icon;
+        Configuration = CreateDefaultPortalConfiguration();
     }
 
     public string Key { get; set; }
@@ -33,21 +33,26 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public string ShortName { get; set; }
     public string SubText { get; set; }
     public string? Description { get; set; }
-    public int Order { get; set; }
     public string Icon { get; set; }
+
+    public PortalConfiguration Configuration { get; set; }
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
 
-    public void Update(string key, string name, string shortName, string subText, string? description, int order, string icon)
+    public void Update(string key, string name, string shortName, string subText, string? description, string icon)
     {
         Key = key;
         Name = name;
         ShortName = shortName;
         SubText = subText;
         Description = description;
-        Order = order;
         Icon = icon;
+    }
+
+    private static PortalConfiguration CreateDefaultPortalConfiguration()
+    {
+        return new PortalConfiguration(null);
     }
 
     public void AddApp(PortalApp app)
@@ -60,9 +65,10 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _contextTypes.Clear();
         _contextTypes.AddRange(contextTypes);
     }
+
     public void AddContextType(ContextType contextType)
     {
-       _contextTypes.Add(contextType);
+        _contextTypes.Add(contextType);
     }
 
     public void RemoveContextType(ContextType contextType)
