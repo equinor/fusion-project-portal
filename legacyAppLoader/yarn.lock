@@ -636,6 +636,15 @@
     rxjs "^7.5.7"
     uuid "^8.3.2"
 
+"@equinor/fusion-observable@^8.4.0":
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-observable/-/fusion-observable-8.4.1.tgz#e8d429904313d66339447731594ff9156a009e95"
+  integrity sha512-MZfZ9X3JGkpdVvO8THBLe6gdtF3kUI16t6COxEKKlpGnZiWUjFIR0ZKqu38q0ve+0u3h5DqV1lSa1qqbXFoDzg==
+  dependencies:
+    immer "^9.0.16"
+    rxjs "^7.8.1"
+    uuid "^10.0.0"
+
 "@equinor/fusion-query@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-query/-/fusion-query-4.0.2.tgz#e88bf3872b8859bce8c795e2ee00f64077dcec62"
@@ -5896,6 +5905,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
+  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 uuid@^8.3.2:
   version "8.3.2"
