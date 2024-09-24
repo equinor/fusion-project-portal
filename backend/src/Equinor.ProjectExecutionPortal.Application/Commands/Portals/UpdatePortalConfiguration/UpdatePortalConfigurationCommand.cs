@@ -8,14 +8,18 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePort
 
 public class UpdatePortalConfigurationCommand : IRequest<Guid>
 {
-    public UpdatePortalConfigurationCommand(Guid portalId, string? router)
+    public UpdatePortalConfigurationCommand(Guid portalId, string? router, string? extension, string? environment)
     {
         PortalId = portalId;
         Router = router;
+        Extension = extension;
+        Environment = environment;
     }
 
     public Guid PortalId { get; }
     public string? Router { get; }
+    public string? Extension { get; }
+    public string? Environment { get; }
 
     public class Handler : IRequestHandler<UpdatePortalConfigurationCommand, Guid>
     {
@@ -37,7 +41,7 @@ public class UpdatePortalConfigurationCommand : IRequest<Guid>
                 throw new NotFoundException(nameof(PortalConfiguration), command.PortalId);
             }
 
-            entity.Configuration.Update(command.Router);
+            entity.Configuration.Update(command.Router, command.Extension, command.Environment);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

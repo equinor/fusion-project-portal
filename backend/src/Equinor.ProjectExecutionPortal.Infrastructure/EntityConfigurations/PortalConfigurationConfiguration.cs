@@ -13,5 +13,11 @@ public class PortalConfigurationConfiguration : IEntityTypeConfiguration<Domain.
 
         builder.Property(t => t.Router)
             .HasMaxLength(Domain.Entities.PortalConfiguration.RouterLengthMax);
+
+        builder.Property(t => t.Extension)
+            .HasMaxLength(Domain.Entities.PortalConfiguration.ExtensionLengthMax);
+
+        builder.Property(t => t.Environment)
+            .HasMaxLength(Domain.Entities.PortalConfiguration.EnvironmentLengthMax);
     }
 }
