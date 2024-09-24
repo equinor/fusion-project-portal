@@ -1,29 +1,29 @@
 import { Button, Icon } from '@equinor/eds-core-react';
-import { PortalApp } from '../../types';
+import { PortalApplication } from '../../types';
 
-import { add_circle_outlined, edit } from '@equinor/eds-icons';
+import { edit } from '@equinor/eds-icons';
 
 type EditSelectedButtonProps = {
-	selection: PortalApp[];
+	selection: PortalApplication[];
 	editSelection: VoidFunction;
 };
 
 export const EditSelectedButton = ({ selection, editSelection }: EditSelectedButtonProps) => {
-	const isActive = selection.some((a) => !a.isActive);
+	const isActive = selection.length === 1 && selection[0].isContextual;
 
-	if (isActive) {
+	if (!isActive) {
 		return null;
 	}
 
 	return (
 		<Button
 			id="activate-selected"
-			variant="ghost"
+			variant="outlined"
 			onClick={() => {
 				editSelection();
 			}}
 		>
-			<Icon data={edit} size={16} /> Edit Selected
+			<Icon data={edit} size={16} /> Edit Context
 		</Button>
 	);
 };

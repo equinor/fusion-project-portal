@@ -40,6 +40,15 @@ export const AgStyles = {
 		border-radius: 50%;
 		margin-top: 0.5rem;
 	`,
+	ContextIndicator: styled.span<{ active?: string }>`
+		display: block;
+		height: 16px;
+		width: 16px;
+		background-color: ${({ active }) =>
+			active === 'true' ? tokens.colors.interactive.warning__resting.hex : 'none'};
+		border-radius: 50%;
+		margin-top: 0.5rem;
+	`,
 	Wrapper: styled.div`
 		.ag-theme-alpine-fusion {
 			--ag-borders: solid 0px !important;
