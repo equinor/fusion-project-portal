@@ -85,6 +85,7 @@
     "@equinor/fusion-react-skeleton": "^0.3.0",
     "@equinor/fusion-react-styles": "^0.6.2",
     "@equinor/fusion-react-tooltip": "^1.1.11",
+    "@equinor/fusion-react-utils": "^2.1.1",
     "@hookform/resolvers": "^3.3.2",
     "@microsoft/applicationinsights-web": "^3.0.2",
     "@microsoft/signalr": "^7.0.0",

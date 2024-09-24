@@ -1,16 +1,19 @@
 import styled, { css } from 'styled-components';
-import { Skeleton } from '@equinor/fusion-react-skeleton';
+import { Skeleton, HTMLSkeletonCustomElement } from '@equinor/fusion-react-skeleton';
+import { WebComponent } from '@equinor/fusion-react-utils';
 import { tokens } from '@equinor/eds-tokens';
 
 import { AppCardType } from '../../types/types';
 
 export const primaryColor = tokens.colors.interactive.primary__resting.hex;
 
-export const IconSkeleton = styled(Skeleton as any)`
-	--fwc-skeleton-fill-color: var(--app-color-skeleton, ${primaryColor}33);
-`;
+type ElementProps = React.PropsWithChildren<
+	Partial<Pick<HTMLSkeletonCustomElement, 'size' | 'variant' | 'inactive' | 'fluid'>>
+>;
 
-export const AppIconSkeleton = styled(IconSkeleton)<{ $display: AppCardType }>`
+export const AppIconSkeleton = styled(Skeleton as WebComponent<HTMLSkeletonCustomElement, ElementProps>)<{
+	$display: AppCardType;
+}>`
 	--fwc-skeleton-fill-color: var(--app-color-skeleton, ${primaryColor}33);
 	${({ $display }) => {
 		switch ($display) {

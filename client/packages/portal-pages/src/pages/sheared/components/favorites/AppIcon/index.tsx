@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import styled, { css } from 'styled-components';
-import { Skeleton } from '@equinor/fusion-react-skeleton';
+import { Skeleton, HTMLSkeletonCustomElement } from '@equinor/fusion-react-skeleton';
+import { WebComponent } from '@equinor/fusion-react-utils';
 import { tokens } from '@equinor/eds-tokens';
 import { SkeletonSize, SkeletonVariant } from '@equinor/fusion-react-skeleton';
 
@@ -8,6 +9,10 @@ import { defaultIcon } from './defaultIcon';
 
 const primaryColor = tokens.colors.interactive.primary__resting.hex;
 const disabledColor = tokens.colors.interactive.disabled__border.hex;
+
+type ElementProps = React.PropsWithChildren<
+	Partial<Pick<HTMLSkeletonCustomElement, 'size' | 'variant' | 'inactive' | 'fluid'>>
+>;
 
 export const Styled = {
 	AppIcon: styled.div<{ display: string; disabled?: boolean }>`
@@ -80,7 +85,7 @@ export const Styled = {
 			return '';
 		}}
 	`,
-	AppIconSkeleton: styled(Skeleton)<{ display: string }>`
+	AppIconSkeleton: styled(Skeleton as WebComponent<HTMLSkeletonCustomElement, ElementProps>)<{ display: string }>`
 		--fwc-skeleton-fill-color: var(--app-color-skeleton, ${primaryColor}33);
 		${({ display }) => {
 			switch (display) {
