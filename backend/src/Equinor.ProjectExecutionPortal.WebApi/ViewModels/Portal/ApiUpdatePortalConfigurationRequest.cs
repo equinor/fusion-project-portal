@@ -6,10 +6,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
     public class ApiUpdatePortalConfigurationRequest
     {
         public string? Router { get; set; }
+        public string? Extension { get; set; }
+        public string? Environment { get; set; }
 
         public UpdatePortalConfigurationCommand ToCommand(Guid portalId)
         {
-            return new UpdatePortalConfigurationCommand(portalId, Router);
+            return new UpdatePortalConfigurationCommand(portalId, Router, Extension, Environment);
         }
 
         public class UpdatePortalConfigurationValidator : AbstractValidator<ApiUpdatePortalConfigurationRequest>
@@ -19,6 +21,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
                 RuleFor(x => x.Router)
                     .NotContainScriptTag()
                     .MaximumLength(Domain.Entities.PortalConfiguration.RouterLengthMax);
+
+                RuleFor(x => x.Extension)
+                    .NotContainScriptTag()
+                    .MaximumLength(Domain.Entities.PortalConfiguration.ExtensionLengthMax);
+
+                RuleFor(x => x.Environment)
+                    .NotContainScriptTag()
+                    .MaximumLength(Domain.Entities.PortalConfiguration.EnvironmentLengthMax);
             }
         }
     }
