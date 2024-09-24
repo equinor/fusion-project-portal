@@ -15,7 +15,7 @@ import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
-import { enablePortalConfig } from '@portal/core';
+
 import { PortalConfig as PortalConfigModule } from '@portal/core';
 
 const showInfo = false;
@@ -28,7 +28,7 @@ function getClientIdFormScope(scope: string): string | undefined {
 
 export function createPortalFramework(portalConfig: PortalConfig, portal?: Portal) {
 	if (!portal) return;
-	console.log(portal);
+
 	return (config: FusionConfigurator) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
@@ -192,11 +192,11 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 
 			// Todo: should be moved to context module
 
-			// fusion.portalConfig.state$.subscribe((state) => {
-			// 	if (state?.portal?.contexts) {
-			// 		configurePortalContext(fusion.context);
-			// 	}
-			// });
+			fusion.portalConfig.state$.subscribe((state) => {
+				if (state?.portal?.contexts) {
+					configurePortalContext(fusion.context);
+				}
+			});
 
 			configurePortalContext(fusion.context);
 

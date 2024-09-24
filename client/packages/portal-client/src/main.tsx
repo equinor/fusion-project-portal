@@ -21,54 +21,14 @@ const portalConfig = window['_config_'];
 configureDebug();
 
 const config = async (config: PortalFrameworkConfigurator) => {
-	config.logger.level = 4;
+	config.logger.level = 0;
 	enablePortalConfig(config, (builder) => {
 		builder.setConfig({
 			portalId: portalConfig.portalId,
 			portalEnv: portalConfig.fusionLegacyEnvIdentifier,
 		});
-
-		// builder.setRoutes({
-		// 	root: {
-		// 		pageKey: 'project-portal',
-		// 	},
-
-		// 	routes: [
-		// 		{
-		// 			path: 'project/*',
-		// 			pageKey: 'project',
-		// 			messages: {
-		// 				errorMessage: 'Fail to load project page',
-		// 			},
-		// 			children: [
-		// 				{
-		// 					messages: {
-		// 						errorMessage: 'Fail to load project page',
-		// 					},
-		// 					path: ':contextId',
-		// 					pageKey: 'project',
-		// 				},
-		// 			],
-		// 		},
-		// 		{
-		// 			path: 'facility/*',
-		// 			pageKey: 'facility',
-		// 			messages: {
-		// 				errorMessage: 'Fail to load facility page',
-		// 			},
-		// 			children: [
-		// 				{
-		// 					messages: {
-		// 						errorMessage: 'Fail to load facility page',
-		// 					},
-		// 					path: ':contextId',
-		// 					pageKey: 'facility',
-		// 				},
-		// 			],
-		// 		},
-		// 	],
-		// });
 	});
+
 	config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 	config.configureHttpClient('portal-client', portalConfig.portalClient.client);
 	config.configureServiceDiscovery(portalConfig.serviceDiscovery);

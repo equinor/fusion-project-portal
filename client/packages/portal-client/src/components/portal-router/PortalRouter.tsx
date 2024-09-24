@@ -83,7 +83,6 @@ export function PortalProvider() {
 	if (routesLoading || portalLoading || !portalRoutes) {
 		return <PortalProgressLoader title="Loading Portal Config" />;
 	}
-	console.log(portalRoutes);
 	return (
 		<PeopleResolverProvider>
 			{portalRoutes ? (
