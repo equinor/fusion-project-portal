@@ -1,5 +1,17 @@
 # fusion-project-portal
 
+## 4.1.1
+
+### Patch Changes
+
+- 62cdf00: The portal administration now also allows onboarding applications with a specific context.
+- 25deabf: Added extension and environment to portal configuration
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- 9a652e7: Access admin check endpoint
+
 ## 4.1.0
 
 ### Minor Changes
