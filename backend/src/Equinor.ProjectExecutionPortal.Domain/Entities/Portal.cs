@@ -52,7 +52,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
 
     private static PortalConfiguration CreateDefaultPortalConfiguration()
     {
-        return new PortalConfiguration(null);
+        return new PortalConfiguration(null,null, null);
     }
 
     public void AddApp(PortalApp app)
