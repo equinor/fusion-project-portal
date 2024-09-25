@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 import { useParams } from 'react-router-dom';
-import { useOnboardApps } from '../hooks/use-onboard-apps';
 
 import { PortalAppTable } from '../components/PortalApps/PortalAppTable';
 import { Loading } from '../components/Loading';
+import { useGetPortalApps } from '../hooks/use-portal-apps';
 
 const Style = {
 	Wrapper: styled.div`
@@ -21,7 +21,7 @@ const Style = {
 export const PortalApps = () => {
 	const { portalId } = useParams();
 
-	const { data: portalApps, isLoading } = useOnboardApps(portalId);
+	const { data: portalApps, isLoading } = useGetPortalApps(portalId);
 
 	if (!portalId) {
 		return <>No portalId provided</>;
@@ -33,7 +33,7 @@ export const PortalApps = () => {
 
 	return (
 		<Style.Content>
-			<PortalAppTable portalApps={portalApps} />
+			<PortalAppTable portalApps={portalApps ?? []} />
 		</Style.Content>
 	);
 };

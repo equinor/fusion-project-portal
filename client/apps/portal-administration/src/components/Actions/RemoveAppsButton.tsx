@@ -1,18 +1,18 @@
 import { Button, Icon } from '@equinor/eds-core-react';
-import { AppManifestResponse, FormattedError, PortalApp } from '../../types';
+import { FormattedError, PortalApplication } from '../../types';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { Result } from '../../query/apps-queries';
 import { remove_outlined } from '@equinor/eds-icons';
 
 type RemoveAppsButtonProps = {
-	selection: PortalApp[];
+	selection: PortalApplication[];
 	removeApps: UseMutateAsyncFunction<
 		Result[],
 		FormattedError,
-		PortalApp[],
+		PortalApplication[],
 		{
-			prevApps: AppManifestResponse[];
-			newApps: AppManifestResponse[];
+			prevApps: PortalApplication[];
+			newApps: PortalApplication[];
 		}
 	>;
 };
