@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 4.1.2
+
+### Patch Changes
+
+- a2f63b5: Release after build fail - old failing code removed
+
 ## 4.1.1
 
 ### Patch Changes
