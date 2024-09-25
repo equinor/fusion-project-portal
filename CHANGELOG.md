@@ -1,5 +1,60 @@
 # fusion-project-portal
 
+## 4.1.1
+
+### Patch Changes
+
+- 62cdf00: The portal administration now also allows onboarding applications with a specific context.
+- 25deabf: Added extension and environment to portal configuration
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- 9a652e7: Access admin check endpoint
+
+## 4.1.0
+
+### Minor Changes
+
+- dee5213: Portal administration application. for managing portal configurations
+- a4a6ebc: feat: add Configuration to Portal domain
+
+  To enable the configuration of pages such as the project page, facility page, and root page, it should be possible to add a route configuration to the portal.
+
+  A configuration model as been added, currently only with a router property (but designed to be exteded if needed in the future)
+
+  The following endpoints has been added:
+
+  - GET /portal/ID/configuration
+  - PUT /portal/ID/configuration
+
+  In addition the data is now included in the following endpoint:
+
+  - GET /portal/ID
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+### Patch Changes
+
+- 7c120c7: Order and IsLegacy is removed from Onboarded apps. Order is removed from Portal.
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+- f5b84fc: ContextTypes are returned as array of string
+- 73b2e3f: Added endpoint to delete a portal
+- a472034: Endpoint for Apps activated on portal combined with available apps for portal.
+  Endpoint for Portal-app with reference to contextIds.
+- 3e7ee5f: Added Fusion cli on build
+- 8feb4f5: apps are now on separate build pipeline
+- 0871598: Delete app now removes an app from a portal even if the app is contextual or global
+- 97867dc: The portal administration now also allows onboarding applications with a specific context.
+- 57de23f: Added extension and environment to portal configuration
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
 ## 4.0.8
 
 ### Patch Changes
