@@ -6,5 +6,8 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals
     {
         public Guid Id { get; set; }
         public string? Router { get; set; }
+        public string? Extension { get; set; }
+        public string? Environment { get; set; }
+
     }
 }
