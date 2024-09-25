@@ -261,6 +261,14 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Environment")
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Extension")
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModifiedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -315,7 +323,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", "OnboardedApp")
-                        .WithMany()
+                        .WithMany("Apps")
                         .HasForeignKey("OnboardedAppId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -347,6 +355,11 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Portal");
+                });
+
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
+                {
+                    b.Navigation("Apps");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedContext", b =>

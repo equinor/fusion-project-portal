@@ -228,10 +228,29 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 }
             );
 
+            var extensionDataData = JsonSerializer.Serialize(
+                new
+                {
+                    Extension = new { Root = "" },
+                    Extensions = (List<object>)[new { Id = 1 }, new { Id = 2 },]
+                }
+            );
+
+            var environmentData = JsonSerializer.Serialize(
+                new
+                {
+                    Environment = new { Root = "" },
+                    Environments = (List<object>)[new { Id = 1 }, new { Id = 2 },]
+                }
+            );
+
             var payload = new ApiUpdatePortalConfigurationRequest
             {
-                Router = routerData
+                Router = routerData,
+                Extension = extensionDataData,
+                Environment = environmentData
             };
+
 
             // Act
             var response = await UpdatePortalConfiguration(UserType.Administrator, payload, portalToTest.Id);
@@ -242,6 +261,13 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreNotEqual(payload.Router, theOneToUpdate!.Router);
             Assert.AreEqual(payload.Router, theOneAfterUpdate!.Router);
+            
+            Assert.AreNotEqual(payload.Extension, theOneToUpdate.Extension);
+            Assert.AreEqual(payload.Extension, theOneAfterUpdate.Extension);
+
+            Assert.AreNotEqual(payload.Environment, theOneToUpdate.Environment);
+            Assert.AreEqual(payload.Environment, theOneAfterUpdate.Environment);
+
         }
 
         [TestMethod]

@@ -30,6 +30,8 @@ jobs:
 
       - name: Setup node and install deps
         uses: ./.github/actions/node-setup
+        with:
+          versions: 21.x
 
       - name: install
         run: yarn
@@ -128,6 +130,11 @@ jobs:
           client-id: ${{secrets.AZURE_SP_FUSION}}
           tenant-id: ${{secrets.AZURE_TENANT_ID}}
           resource-id: ${{secrets.AZURE_FUSION_SCOPE}}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "21"
 
       - name: Install
         run: |
