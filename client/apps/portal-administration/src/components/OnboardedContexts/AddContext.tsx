@@ -68,8 +68,8 @@ export const AddContext = () => {
 			<Style.Card>
 				<Style.RowHead onClick={() => setActive((s) => !s)}>
 					<Style.Row>
-						<Typography variant="h6">Add Context Type</Typography>
-						<InfoPopover title="Add Context Type">
+						<Typography variant="h6">Add Context</Typography>
+						<InfoPopover title="Add Context">
 							<Typography>
 								Expand the form to add new context type by pressing the chevron icon.
 							</Typography>
@@ -139,14 +139,12 @@ export const AddContext = () => {
 			{selectedContext && (
 				<Style.Card>
 					<Card.Header>
-						<Card.HeaderTitle>
-							<Typography variant="h4">{selectedContext.title}</Typography>
-						</Card.HeaderTitle>
+						<Typography variant="h6">{selectedContext.title}</Typography>
 					</Card.Header>
 					<Card.Content>
-						<strong>{selectedContext.type.id}</strong>
-						<p>{selectedContext.externalId}</p>
-						<p>{selectedContext.id}</p>
+						<Typography variant="overline">
+							{selectedContext.type.id} - {selectedContext.externalId}
+						</Typography>
 					</Card.Content>
 				</Style.Card>
 			)}
