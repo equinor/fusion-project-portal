@@ -21,6 +21,9 @@ export const getAppManifestsMock = vi.fn();
 
 export const appProvider = new AppModuleProvider({
 	config: {
+		proxy: {
+			path: '',
+		},
 		client: {
 			getAppConfig: {
 				client: {
