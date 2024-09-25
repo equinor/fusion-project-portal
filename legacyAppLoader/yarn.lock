@@ -527,6 +527,15 @@
     "@equinor/fusion-framework-module-msal" "^3.0.7"
     rxjs "^7.8.1"
 
+"@equinor/fusion-framework-module-http@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-http/-/fusion-framework-module-http-5.2.3.tgz#209ff61bb9c82f71b98661f721baaf15d85a9915"
+  integrity sha512-lJZha1SoH89dpXeIdjEVGHWRgU8LTNEM1vhflKEJhcm9rJPEUkhhRnsg5HWiuJjMO0XBsFfWyzH79+KjB2MH0w==
+  dependencies:
+    "@equinor/fusion-framework-module" "^4.3.1"
+    "@equinor/fusion-framework-module-msal" "^3.1.1"
+    rxjs "^7.8.1"
+
 "@equinor/fusion-framework-module-msal@^3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-msal/-/fusion-framework-module-msal-3.0.7.tgz#848258b28962e9d981d5982f6b1ce4511c153f86"
@@ -534,6 +543,14 @@
   dependencies:
     "@azure/msal-browser" "^2.21.0"
     "@equinor/fusion-framework-module" "^4.2.5"
+
+"@equinor/fusion-framework-module-msal@^3.1.1":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-msal/-/fusion-framework-module-msal-3.1.4.tgz#624db485802c77ed307d4f699a2ee4ff06f057d3"
+  integrity sha512-Ip4f0nb4FAobEGSX3h/bL0+gzsYVNyxyKM2uN+g5S1Nop4uThnQPQpgPpxW5+xmIRRt/1Z1RUNMUWVOQqAwwqQ==
+  dependencies:
+    "@azure/msal-browser" "^2.21.0"
+    "@equinor/fusion-framework-module" "^4.3.4"
 
 "@equinor/fusion-framework-module-navigation@^3.0.6":
   version "3.0.6"
@@ -563,6 +580,14 @@
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module/-/fusion-framework-module-4.2.5.tgz#cb87b8d9085d10f9ea33abaa5a36bdee58198b44"
   integrity sha512-Bk0XkUPkfyo5u3Zqgx98zazy+mlig2Om6Z3hKbv17CnvuuaHHZfVzH8C9vmFwgVa9X/2bBzg4HRDpAc2Y5xNzQ==
+  dependencies:
+    rxjs "^7.8.1"
+    semver "^7.5.4"
+
+"@equinor/fusion-framework-module@^4.3.1", "@equinor/fusion-framework-module@^4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module/-/fusion-framework-module-4.3.4.tgz#07eb5453e58f2814f4ba73ec045b0cffd3ad313a"
+  integrity sha512-wJEt6Za6JP9zyGVwfTdLw4d48Ianrp+HVOamv+L+2lfZJtWZREdWSdcz9z/JWig5klw1kyLhM89gEAVQX+E7fA==
   dependencies:
     rxjs "^7.8.1"
     semver "^7.5.4"
