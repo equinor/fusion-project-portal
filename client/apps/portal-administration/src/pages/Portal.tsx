@@ -20,7 +20,6 @@ const Styles = {
 	`,
 	Wrapper: styled.div`
 		display: block;
-		overflow: hidden;
 		height: 100%;
 	`,
 };
