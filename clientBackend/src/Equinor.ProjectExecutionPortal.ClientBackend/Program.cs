@@ -17,7 +17,6 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.Configure<ClientBundleOptions>(builder.Configuration.GetSection("ClientBundle"));
 builder.Services.Configure<FusionBookmarksOptions>(builder.Configuration.GetSection("FusionBookmarks"));
 builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSection("FusionPortalApi"));
-builder.Services.Configure<FusionAppsApiOptions>(builder.Configuration.GetSection("FusionAppsApi"));
 builder.Services.Configure<FusionProjectPortalApiOptions>(builder.Configuration.GetSection("FusionProjectPortalApi"));
 builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
 builder.Services.Configure<ApplicationInsightsOptions>(builder.Configuration.GetSection("ApplicationInsights"));
