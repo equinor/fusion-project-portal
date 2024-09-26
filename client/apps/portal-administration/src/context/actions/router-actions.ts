@@ -155,7 +155,6 @@ export const updateRouteByField = (id: string, value: string, route?: Route): Ro
 	}
 	if (id.toLowerCase().includes('message')) {
 		return {
-			description: '',
 			...route,
 			messages: { ...route.messages, [id]: value },
 		};

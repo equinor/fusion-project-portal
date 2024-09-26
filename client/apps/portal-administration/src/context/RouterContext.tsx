@@ -88,12 +88,6 @@ export const RouterConfigContextComponent = ({ children }: PropsWithChildren) =>
 				route,
 			},
 		});
-		if (activePortalId && state.routes && state.root) {
-			updatePortalConfig({
-				id: activePortalId,
-				router: { root: state.root, routes: addRoute(route, state.routes) || [] },
-			});
-		}
 	};
 	const removeRouteById = (id: string) => {
 		dispatch({
