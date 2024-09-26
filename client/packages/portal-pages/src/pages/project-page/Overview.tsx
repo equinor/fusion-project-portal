@@ -12,7 +12,6 @@ import { ContextRelationNavigation } from '../sheared/components/context-relatio
 export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 	const { feature } = useFrameworkFeature('app-search');
 
-	const { feature: ccTabFeature } = useFrameworkFeature('cc-tab');
 	const { feature: projectMilestonesFeature } = useFrameworkFeature('project-milestones');
 	return (
 		<Styles.Row>
