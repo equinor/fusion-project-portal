@@ -3,6 +3,7 @@
 @using Microsoft.Extensions.Options
 @inject IOptions<ClientBundleOptions> ClientBundleOptions;
 @inject IOptions<FusionPortalApiOptions> FusionPortalApiOptions;
+@inject IOptions<FusionAppsApiOptions> FusionAppsApiOptions;
 @inject IOptions<FusionProjectPortalApiOptions> FusionProjectPortalApiOptions;
 @inject IOptions<FusionBookmarksOptions> FusionBookmarksOptions;
 @inject IOptions<ApplicationInsightsOptions> ApplicationInsightsOptions;
@@ -11,6 +12,7 @@
 @{
     var clientBundle = ClientBundleOptions.Value;
     var fusionPortalApi = FusionPortalApiOptions.Value;
+    var fusionAppsApi = FusionAppsApiOptions.Value;
     var fusionProjectPortalApi = FusionProjectPortalApiOptions.Value;
     var fusionBookmarks = FusionBookmarksOptions.Value;
     var applicationInsights = ApplicationInsightsOptions.Value;
@@ -20,7 +22,6 @@
 <div id="root"></div>
 
 <script type="module" src="~/@clientBundleFileName"></script>
-
 
 @section Headers {
     <script>

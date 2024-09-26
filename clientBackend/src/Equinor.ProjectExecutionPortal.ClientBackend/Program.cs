@@ -17,6 +17,7 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.Configure<ClientBundleOptions>(builder.Configuration.GetSection("ClientBundle"));
 builder.Services.Configure<FusionBookmarksOptions>(builder.Configuration.GetSection("FusionBookmarks"));
 builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSection("FusionPortalApi"));
+builder.Services.Configure<FusionAppsApiOptions>(builder.Configuration.GetSection("FusionAppsApi"));
 builder.Services.Configure<FusionProjectPortalApiOptions>(builder.Configuration.GetSection("FusionProjectPortalApi"));
 builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
 builder.Services.Configure<ApplicationInsightsOptions>(builder.Configuration.GetSection("ApplicationInsights"));
@@ -37,12 +38,12 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add fusion integration
 builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
 {
-    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment") ?? "ci";
     fusionIntegrationConfig.UseServiceInformation("Fusion.Project.Portal", environment);
     fusionIntegrationConfig.UseDefaultEndpointResolver(environment);
     fusionIntegrationConfig.UseDefaultTokenProvider(opts =>
     {
-        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId")!;
         opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
     });
     fusionIntegrationConfig.DisableClaimsTransformation();
