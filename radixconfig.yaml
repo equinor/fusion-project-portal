@@ -145,6 +145,7 @@ spec:
         FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__FusionAppsUrl: ""
         AssetProxy__TokenScope: ""
         FusionProjectPortalApi__BaseAddress: ""
         FusionProjectPortalApi__Scope: ""
