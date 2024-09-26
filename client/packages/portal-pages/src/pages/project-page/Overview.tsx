@@ -22,7 +22,6 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 			<Styles.Col>
 				<Phases />
 				<Favorites openAllApps={openAllApps} />
-				{/* Todo remove when cc tab is not in feature flag mode */}
 				{projectMilestonesFeature?.enabled && <Milestones />}
 				{feature?.enabled && <AppSearch />}
 				<Contracts />
