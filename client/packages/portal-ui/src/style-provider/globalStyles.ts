@@ -4,8 +4,7 @@ export const GlobalStyle = createGlobalStyle`
 
    :root {
 		--header-height: 48px;
-        --custom-side-sheet-height: 100%
-        --portal-header-height: 48px;
+    --portal-header-height: 48px;
 	}
 
     body {

@@ -108,6 +108,7 @@ function contextResultMappedByTypes(contexts: QueryContextResponse<'v1'>): Conte
 			singleItem({
 				id: context.id,
 				title: context.title || '',
+				subTitle: context.type?.id,
 			})
 		);
 

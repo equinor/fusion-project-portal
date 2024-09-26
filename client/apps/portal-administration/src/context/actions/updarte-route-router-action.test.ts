@@ -12,7 +12,7 @@ describe('updateRoute', () => {
 		const routes: Route[] = [
 			{
 				id: '1',
-				description: undefined,
+				description: '',
 				path: '/home',
 				pageKey: 'home',
 				messages: {
@@ -22,7 +22,7 @@ describe('updateRoute', () => {
 			},
 			{
 				id: '2',
-				description: undefined,
+				description: '',
 				path: '/about',
 				pageKey: 'about',
 				messages: {
@@ -40,7 +40,7 @@ describe('updateRoute', () => {
 			{
 				children: [],
 				id: '1',
-				description: undefined,
+				description: '',
 				path: '/about',
 				pageKey: 'about',
 				messages: {
@@ -49,7 +49,7 @@ describe('updateRoute', () => {
 			},
 			{
 				id: '2',
-				description: undefined,
+				description: '',
 				path: '/about',
 				pageKey: 'about',
 				messages: {
@@ -59,7 +59,7 @@ describe('updateRoute', () => {
 					{
 						children: undefined,
 						id: '3',
-						description: undefined,
+						description: '',
 						path: '/about',
 						pageKey: 'about',
 						messages: {
@@ -72,7 +72,7 @@ describe('updateRoute', () => {
 		const newRoute = {
 			children: undefined,
 			id: '3',
-			description: undefined,
+			description: '',
 			path: '/3',
 			pageKey: '3',
 			messages: {
@@ -83,7 +83,7 @@ describe('updateRoute', () => {
 			{
 				children: [],
 				id: '1',
-				description: undefined,
+				description: '',
 				path: '/about',
 				pageKey: 'about',
 				messages: {
@@ -92,7 +92,7 @@ describe('updateRoute', () => {
 			},
 			{
 				id: '2',
-				description: undefined,
+				description: '',
 				path: '/about',
 				pageKey: 'about',
 				messages: {

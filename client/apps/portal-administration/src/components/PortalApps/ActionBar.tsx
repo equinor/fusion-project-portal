@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { PortalApp, PortalApplication } from '../../types';
+import { PortalApplication } from '../../types';
 import { Typography } from '@equinor/eds-core-react';
 import { useAddPortalApps, useRemovePortalApps } from '../../hooks/use-portal-apps';
 import { usePortalContext } from '../../context/PortalContext';
@@ -11,7 +11,6 @@ import { RemoveAppsButton } from '../Actions/RemoveAppsButton';
 import { EditSelectedButton } from '../Actions/EditSelectedButton';
 import { ActivateSelectedWithContextButton } from '../Actions/ActivateSelectedWithContextButton';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRemoveAppWithContexts } from '../../hooks/use-add-app-with-context';
 
 const Styles = {
 	Wrapper: styled.div`
