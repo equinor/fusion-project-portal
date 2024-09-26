@@ -16,8 +16,6 @@ import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
 
-import { PortalConfig as PortalConfigModule } from '@portal/core';
-
 const showInfo = false;
 
 function getClientIdFormScope(scope: string): string | undefined {
@@ -187,19 +185,14 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 			});
 		}
 
-		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule]>(async (fusion) => {
 			new FeatureLogger(fusion);
 
 			// Todo: should be moved to context module
 
-			fusion.portalConfig.state$.subscribe((state) => {
-				if (state?.portal?.contexts) {
-					configurePortalContext(fusion.context);
-				}
-			});
-
-			configurePortalContext(fusion.context);
-
+			if (portal.contexts) {
+				configurePortalContext(fusion.context);
+			}
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
