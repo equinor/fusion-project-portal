@@ -10,9 +10,9 @@ import { Milestones } from './components/milestones/Milestones';
 import { ContextRelationNavigation } from '../sheared/components/context-relation-navigation/ContextRelationNavigation';
 
 export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
-	const { feature } = useFrameworkFeature('app-search');
-
+	const { feature: appSearchFeature } = useFrameworkFeature('app-search');
 	const { feature: projectMilestonesFeature } = useFrameworkFeature('project-milestones');
+
 	return (
 		<Styles.Row>
 			<Styles.Col>
@@ -23,7 +23,7 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 				<Phases />
 				<Favorites openAllApps={openAllApps} />
 				{projectMilestonesFeature?.enabled && <Milestones />}
-				{feature?.enabled && <AppSearch />}
+				{appSearchFeature?.enabled && <AppSearch />}
 				<Contracts />
 			</Styles.Col>
 		</Styles.Row>
