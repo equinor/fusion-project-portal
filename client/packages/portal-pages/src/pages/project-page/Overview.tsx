@@ -13,6 +13,7 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 	const { feature } = useFrameworkFeature('app-search');
 
 	const { feature: ccTabFeature } = useFrameworkFeature('cc-tab');
+	const { feature: projectMilestonesFeature } = useFrameworkFeature('project-milestones');
 	return (
 		<Styles.Row>
 			<Styles.Col>
@@ -23,7 +24,7 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 				<Phases />
 				<Favorites openAllApps={openAllApps} />
 				{/* Todo remove when cc tab is not in feature flag mode */}
-				{ccTabFeature?.enabled === false && <Milestones />}
+				{projectMilestonesFeature?.enabled && <Milestones />}
 				{feature?.enabled && <AppSearch />}
 				<Contracts />
 			</Styles.Col>
