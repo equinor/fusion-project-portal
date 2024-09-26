@@ -159,6 +159,12 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 						enabled: true,
 					},
 					{
+						key: 'project-milestones',
+						title: 'Project Milestones',
+						description: 'When enabled you will see the project milestones on the project landing page',
+						enabled: true,
+					},
+					{
 						key: 'cc-tab',
 						title: 'New Construction and Commissioning Tab',
 						description: 'When enabled you will be able to tryout the new CC tab on project page',
