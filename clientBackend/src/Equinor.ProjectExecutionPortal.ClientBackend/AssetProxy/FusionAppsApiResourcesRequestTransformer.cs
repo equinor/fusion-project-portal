@@ -7,24 +7,17 @@ using Yarp.ReverseProxy.Transforms;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
 {
-    public class FusionAppApiResourcesRequestTransformer : HttpTransformer
+    public class FusionAppsApiResourcesRequestTransformer(ITokenAcquisition tokenAcquisition, IOptions<AssetProxyOptions> options) : HttpTransformer
     {
-        private readonly ITokenAcquisition _tokenAcquisition;
-        private readonly AssetProxyOptions _options;
+        private readonly AssetProxyOptions _options = options.Value;
 
-        public FusionAppApiResourcesRequestTransformer(ITokenAcquisition tokenAcquisition, IOptions<AssetProxyOptions> options)
+        public override async ValueTask TransformRequestAsync(HttpContext httpContext, HttpRequestMessage proxyRequest, string destinationPrefix, CancellationToken cancellationToken)
         {
-            _tokenAcquisition = tokenAcquisition;
-            _options = options.Value;
-        }
-
-        public override async ValueTask TransformRequestAsync(HttpContext httpContext, HttpRequestMessage proxyRequest, string destinationPrefix)
-        {
-            var token = await _tokenAcquisition.GetAccessTokenForAppAsync(_options.TokenScope!);
+            var token = await tokenAcquisition.GetAccessTokenForAppAsync(_options.TokenScope!);
             var path = httpContext.Request.Path.Value?.Replace(Constants.FusionAppsRoute, string.Empty);
 
             // Copy all request headers
-            await base.TransformRequestAsync(httpContext, proxyRequest, destinationPrefix);
+            await base.TransformRequestAsync(httpContext, proxyRequest, destinationPrefix, cancellationToken);
 
             // Customize the query string:
             var queryContext = new QueryTransformContext(httpContext.Request);

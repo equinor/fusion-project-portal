@@ -6,25 +6,18 @@ using Yarp.ReverseProxy.Transforms;
 
 namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
 {
-    public class ProfileImageRequestTransformer : HttpTransformer
+    public class ProfileImageRequestTransformer(ITokenAcquisition tokenAcquisition, IOptions<AssetProxyOptions> options) : HttpTransformer
     {
-        private readonly ITokenAcquisition _tokenAcquisition;
-        private readonly AssetProxyOptions _options;
+        private readonly AssetProxyOptions _options = options.Value;
 
-        public ProfileImageRequestTransformer(ITokenAcquisition tokenAcquisition, IOptions<AssetProxyOptions> options)
-        {
-            _tokenAcquisition = tokenAcquisition;
-            _options = options.Value;
-        }
-
-        public override async ValueTask TransformRequestAsync(HttpContext httpContext, HttpRequestMessage proxyRequest, string destinationPrefix)
+        public override async ValueTask TransformRequestAsync(HttpContext httpContext, HttpRequestMessage proxyRequest, string destinationPrefix, CancellationToken cancellationToken)
         {
             var uniqueId = httpContext.Request.RouteValues["uniqueId"];
 
-            var token = await _tokenAcquisition.GetAccessTokenForAppAsync(_options.TokenScope!);
+            var token = await tokenAcquisition.GetAccessTokenForAppAsync(_options.TokenScope!);
 
             // Copy all request headers
-            await base.TransformRequestAsync(httpContext, proxyRequest, destinationPrefix);
+            await base.TransformRequestAsync(httpContext, proxyRequest, destinationPrefix, cancellationToken);
 
             // Customize the query string:
             var queryContext = new QueryTransformContext(httpContext.Request);
@@ -37,12 +30,6 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
 
             // Suppress the original request header, use the one from the destination Uri.
             proxyRequest.Headers.Host = null;
-        }
-
-        public override ValueTask<bool> TransformResponseAsync(HttpContext httpContext, HttpResponseMessage? proxyResponse)
-        {
-            // Could remove duplicate headers here
-            return base.TransformResponseAsync(httpContext, proxyResponse);
         }
     }
 }
