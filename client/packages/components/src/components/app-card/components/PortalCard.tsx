@@ -5,7 +5,7 @@ import { Styled as FavoriteStyled } from './FavoriteCard';
 import { tokens } from '@equinor/eds-tokens';
 import { Typography } from '@equinor/eds-core-react';
 
-import AppIconContainer, { Styled as IconStyled } from './AppIcon';
+import AppIconContainer, { Styles as IconStyled } from './AppIcon';
 import { getAppCardColor } from '../util/app-card-color';
 import { AppManifest } from '../types/types';
 

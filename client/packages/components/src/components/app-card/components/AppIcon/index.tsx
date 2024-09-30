@@ -1,14 +1,12 @@
 import styled, { css } from 'styled-components';
-import { Skeleton } from '@equinor/fusion-react-skeleton';
-import { tokens } from '@equinor/eds-tokens';
+
 import { SkeletonSize, SkeletonVariant } from '@equinor/fusion-react-skeleton';
 import { AppCardType } from '../../types/types';
 import { defaultIcon } from './defaultIcon';
 import { AppManifest } from '../../types/types';
+import { AppIconSkeleton, primaryColor } from './IconSceleton';
 
-const primaryColor = tokens.colors.interactive.primary__resting.hex;
-
-export const Styled = {
+export const Styles = {
 	AppIcon: styled.div<{ $display: AppCardType }>`
 		${({ $display }) => {
 			switch ($display) {
@@ -21,7 +19,7 @@ export const Styled = {
 					`;
 				case 'card':
 					return css`
-						--app-icon-size: 1.5rem;
+						--app-icon-size: 1.5rem;a
 						--background-radius: 0.25rem 0 0 0.25rem;
 						padding: 0 0.375rem;
 					`;
@@ -76,22 +74,6 @@ export const Styled = {
 			return '';
 		}}
 	`,
-	AppIconSkeleton: styled(Skeleton)<{ $display: AppCardType }>`
-		--fwc-skeleton-fill-color: var(--app-color-skeleton, ${primaryColor}33);
-		${({ $display }) => {
-			switch ($display) {
-				default:
-				case 'card':
-					return css`
-						margin: 1.313rem 0.625rem;
-					`;
-				case 'portal':
-					return css`
-						margin: 1.625rem 1.25rem;
-					`;
-			}
-		}}
-	`,
 };
 
 type AppIconProps = {
@@ -106,17 +88,17 @@ export const AppIconContainer = ({ app, display, loading }: AppIconProps): JSX.E
 
 	if (loading) {
 		return (
-			<Styled.AppIconSkeletonContainer $display={display}>
-				<Styled.AppIconSkeleton
+			<Styles.AppIconSkeletonContainer $display={display}>
+				<AppIconSkeleton
 					$display={display}
 					size={display === 'card' ? SkeletonSize.XSmall : SkeletonSize.small}
 					variant={SkeletonVariant.Square}
 				/>
-			</Styled.AppIconSkeletonContainer>
+			</Styles.AppIconSkeletonContainer>
 		);
 	}
 
-	return <Styled.AppIcon $display={display} dangerouslySetInnerHTML={{ __html: appIcon || defaultIcon }} />;
+	return <Styles.AppIcon $display={display} dangerouslySetInnerHTML={{ __html: appIcon || defaultIcon }} />;
 };
 
 export default AppIconContainer;

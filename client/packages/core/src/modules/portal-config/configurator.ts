@@ -1,15 +1,34 @@
 /* eslint-disable class-methods-use-this */
 import { BaseConfigBuilder, ConfigBuilderCallbackArgs } from '@equinor/fusion-framework-module';
-import { AppManifestResponse, IClient, PortalConfiguration, PortalRoutes, PortalState } from './types';
+import {
+	AppManifestResponse,
+	IClient,
+	Portal,
+	PortalConfiguration,
+	PortalResponse,
+	PortalRoutes,
+	PortalState,
+} from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
+import { PortalConfigProvider } from './provider';
 
 export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 	return {
 		getPortal: {
 			client: {
-				fn: (args) => httpClient.json(`/api/portals/${args.portalId}`),
+				fn: async (args) => {
+					const data = await httpClient.json<PortalResponse>(`/api/portals/${args.portalId}`);
+					const apps = await httpClient.json<AppManifestResponse[]>(`/api/portals/${args.portalId}/apps`);
+
+					return {
+						...data,
+						configuration: { router: JSON.parse(data.configuration.router || '') },
+						apps: apps.map((app) => app.appManifest),
+					} as Portal;
+				},
 			},
 			key: (args) => JSON.stringify(args),
+			expire: 5000,
 		},
 		getApps: {
 			client: {
@@ -24,6 +43,7 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 				},
 			},
 			key: (args) => JSON.stringify(args),
+			expire: 5000,
 		},
 	};
 };
@@ -64,6 +84,12 @@ export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfigurat
 	}
 
 	protected override async _processConfig(config: Partial<PortalConfiguration>, _init: ConfigBuilderCallbackArgs) {
+		const parentConfig = (_init.ref as { portalConfig: PortalConfigProvider })?.portalConfig.config;
+
+		if (parentConfig) {
+			config = parentConfig;
+		}
+
 		const httpClient = await this._createHttpClient('portal-client', _init);
 
 		if (!config.base) {
