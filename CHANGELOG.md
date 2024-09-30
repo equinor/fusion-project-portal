@@ -1,5 +1,15 @@
 # fusion-project-portal
 
+## 4.1.3
+
+### Patch Changes
+
+- b04726c: Poratl Administration - scrollbar on portal edit page
+- 548ab09: Fixing side sheet height for apps.
+- b7efa93: fixing the route creation in the portal admin app
+- b4c1939: Add context type name displayed on all context search results
+- c3ecf06: Add milestones under feature flag default on
+
 ## 4.1.2
 
 ### Patch Changes

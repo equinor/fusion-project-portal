@@ -10,9 +10,9 @@ import { Milestones } from './components/milestones/Milestones';
 import { ContextRelationNavigation } from '../sheared/components/context-relation-navigation/ContextRelationNavigation';
 
 export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
-	const { feature } = useFrameworkFeature('app-search');
+	const { feature: appSearchFeature } = useFrameworkFeature('app-search');
+	const { feature: projectMilestonesFeature } = useFrameworkFeature('project-milestones');
 
-	const { feature: ccTabFeature } = useFrameworkFeature('cc-tab');
 	return (
 		<Styles.Row>
 			<Styles.Col>
@@ -22,9 +22,8 @@ export const Overview = ({ openAllApps }: { openAllApps: () => void }) => {
 			<Styles.Col>
 				<Phases />
 				<Favorites openAllApps={openAllApps} />
-				{/* Todo remove when cc tab is not in feature flag mode */}
-				{ccTabFeature?.enabled === false && <Milestones />}
-				{feature?.enabled && <AppSearch />}
+				{projectMilestonesFeature?.enabled && <Milestones />}
+				{appSearchFeature?.enabled && <AppSearch />}
 				<Contracts />
 			</Styles.Col>
 		</Styles.Row>
