@@ -9,7 +9,9 @@ export const module: PortalConfig = {
 	configure: () => new PortalConfigConfigurator(),
 	initialize: async (args): Promise<IPortalConfigProvider> => {
 		const config = await (args.config as PortalConfigConfigurator).createConfigAsync(args, args.ref);
-		return args.ref?.portalConfig || new PortalConfigProvider(config);
+		const portalConfig = args.ref?.portalConfig || new PortalConfigProvider(config);
+		window['portalConfig'] = portalConfig;
+		return portalConfig;
 	},
 };
 
@@ -18,5 +20,11 @@ export default module;
 declare module '@equinor/fusion-framework-module' {
 	interface Modules {
 		portalServices: PortalConfig;
+	}
+}
+
+declare global {
+	interface Window {
+		portalConfig: PortalConfigProvider;
 	}
 }

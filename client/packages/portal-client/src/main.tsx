@@ -42,7 +42,7 @@ configurator.addConfig(configureHttpClient('portal-client', portalConfig.portalC
 
 enablePortalConfig(configurator, (builder) => {
 	builder.setConfig({
-		portalId: portalConfig.portalId,
+		portalId: localStorage.getItem('portalId') || portalConfig.portalId,
 		portalEnv: portalConfig.fusionLegacyEnvIdentifier,
 	});
 });

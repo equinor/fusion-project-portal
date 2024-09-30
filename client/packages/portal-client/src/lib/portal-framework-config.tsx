@@ -174,10 +174,11 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
-			console.log('hooooo', fusion);
 			new FeatureLogger(fusion as any);
+
 			// Todo: should be moved to context module
 			configurePortalContext(fusion.context);
+
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;

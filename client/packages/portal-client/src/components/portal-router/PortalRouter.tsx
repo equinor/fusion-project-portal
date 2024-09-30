@@ -10,6 +10,7 @@ import { AppPage } from '../../pages/AppPage/AppPage';
 import { PortalRoutes, usePortalConfig } from '@portal/core';
 import { PortalPage } from './PortalPage';
 import PeopleResolverProvider from '@equinor/fusion-framework-react-components-people-provider';
+import { PortalSelector } from '../../lib/PortalSelector';
 
 const getRoutes = (portalRoutes: PortalRoutes | undefined): RouteObject[] => {
 	const pages =
@@ -85,6 +86,7 @@ export function PortalProvider() {
 	}
 	return (
 		<PeopleResolverProvider>
+			<PortalSelector />
 			{portalRoutes ? (
 				<PortalRouter routes={getRoutes(portalRoutes)} />
 			) : (

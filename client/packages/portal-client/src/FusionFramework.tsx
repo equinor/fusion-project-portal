@@ -7,7 +7,7 @@ import { PortalProgressLoader } from '@equinor/portal-ui';
 import { PortalProvider } from './components/portal-router/PortalRouter';
 import { createPortalFramework } from './lib';
 
-import { ModulesInstance, AnyModule, ModulesInstanceType } from '@equinor/fusion-framework-module';
+import { ModulesInstance, AnyModule } from '@equinor/fusion-framework-module';
 
 export const FusionFramework = (props: { portalConfig: PortalConfig; modules: ModulesInstance<AnyModule[]> }) => {
 	const Framework = createFrameworkProvider(createPortalFramework(props.portalConfig), props.modules);
