@@ -1,4 +1,3 @@
-import { FusionConfigurator } from '@equinor/fusion-framework';
 import { AppModule, enableAppModule } from '@equinor/fusion-framework-module-app';
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
@@ -9,12 +8,16 @@ import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enablePortalMenu, enableTelemetry, Portal, TelemetryModule } from '@portal/core';
+import { enablePortalConfig, enablePortalMenu, enableTelemetry, Portal, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
+
+import { PortalConfig as PortalConfigModule } from '@portal/core';
+
+import { FrameworkConfigurator } from '@equinor/fusion-framework';
 
 const showInfo = false;
 
@@ -24,34 +27,29 @@ function getClientIdFormScope(scope: string): string | undefined {
 	)?.[0];
 }
 
-export function createPortalFramework(portalConfig: PortalConfig, portal?: Portal) {
-	if (!portal) return;
-
-	return (config: FusionConfigurator) => {
+export function createPortalFramework(portalConfig: PortalConfig) {
+	return (config: FrameworkConfigurator<[], any>) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
-
-		document.title = `${portal?.name} | Fusion`;
+		// is this needed?
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
 
+		config.configureHttpClient('portal-client', portalConfig.portalClient.client);
+
+		enablePortalConfig(config);
+
 		enablePortalMenu(config);
 
-		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
-
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
-
 		enableContext(config);
-		// config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
 		}
-
-		addPortalClient(config, portalConfig.portalClient.client);
-
+		// addPortalClient(config, portalConfig.portalClient.client);
 		/** Enabling application insight module */
 		if (portalConfig.applicationInsights) {
 			enableTelemetry(config, {
@@ -64,7 +62,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 				autoTrackPageVisitTime: true,
 			});
 		}
-
 		/** Enabling signal-r module for portal used for service messages */
 		enableSignalR(
 			config,
@@ -75,7 +72,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 				path: '/signalr/hubs/portal/?negotiateVersion=1',
 			})
 		);
-
 		/** Enabling signal-r module for portal used for notifications*/
 		enableSignalR(
 			config,
@@ -86,7 +82,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 				service: 'portal',
 			})
 		);
-
 		enableFeatureFlagging(config, (builder) => {
 			builder.addPlugin(
 				createLocalStoragePlugin([
@@ -116,14 +111,11 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 				])
 			);
 		});
-
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);
 		});
-
 		/** Enable Navigation module  */
 		enableNavigation(config);
-
 		// TODO remove and replace with service discovery!
 		config.configureHttpClient('query_api', {
 			baseUri: ((): string => {
@@ -145,7 +137,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 				}
 			})(),
 		});
-
 		config.configureHttpClient('review', {
 			baseUri: ((): string => {
 				switch (portalConfig.fusionLegacyEnvIdentifier) {
@@ -159,7 +150,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 			})(),
 			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
 		});
-
 		config.configureHttpClient('cc-api', {
 			baseUri: ((): string => {
 				switch (portalConfig.fusionLegacyEnvIdentifier) {
@@ -178,26 +168,20 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 				}
 			})(),
 		});
-
 		if (showInfo) {
 			config.onConfigured(() => {
 				showInfo && console.log('framework config done');
 			});
 		}
-
-		config.onInitialized<[NavigationModule, TelemetryModule, AppModule]>(async (fusion) => {
-			new FeatureLogger(fusion);
-
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
+			console.log('hooooo', fusion);
+			new FeatureLogger(fusion as any);
 			// Todo: should be moved to context module
-
-			if (portal.contexts) {
-				configurePortalContext(fusion.context);
-			}
+			configurePortalContext(fusion.context);
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
 				const client = fusion.telemetry?.client;
-
 				if (!context) {
 					navigator.replace('/');
 				} else {
@@ -212,7 +196,6 @@ export function createPortalFramework(portalConfig: PortalConfig, portal?: Porta
 						}
 					);
 				}
-
 				if (context && context.id && !window.location.pathname.includes(context.id)) {
 					const pathname = replaceContextInPathname(context.id, window.location.pathname);
 					const to = { pathname, search: window.location.search, hash: window.location.hash };

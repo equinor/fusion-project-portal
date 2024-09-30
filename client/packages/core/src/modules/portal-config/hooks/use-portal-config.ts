@@ -1,5 +1,5 @@
 import { useFramework } from '@equinor/fusion-framework-react';
-import { usePortalFramework } from '@portal/framework';
+
 import { PortalConfig } from '../module';
 
 import { useQuery } from 'react-query';
@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import { useObservableState } from '@equinor/fusion-observable/react';
 
 export const usePortalConfig = () => {
-	const { portalConfig } = usePortalFramework<[PortalConfig]>().modules;
+	const { portalConfig } = useFramework<[PortalConfig]>().modules;
 	const { context } = useFramework<[PortalConfig]>().modules;
 	const portal = useObservableState(portalConfig.state$).value?.portal;
 

@@ -78,9 +78,9 @@ function PortalRouter({ routes }: { routes: RouteObject[] }) {
 
 export function PortalProvider() {
 	const { data: portalRoutes, isLoading: routesLoading } = usePortalConfig().queryRoutes;
-	const { data: portal, isLoading: portalLoading } = usePortalConfig().queryPortal;
+	const { portal } = usePortalConfig();
 
-	if (routesLoading || portalLoading || !portalRoutes) {
+	if (routesLoading) {
 		return <PortalProgressLoader title="Loading Portal Config" />;
 	}
 	return (

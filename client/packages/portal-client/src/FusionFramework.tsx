@@ -1,29 +1,21 @@
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { PortalConfig } from '@portal/types';
 
-import Framework from '@equinor/fusion-framework-react';
+import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
 import { PortalProvider } from './components/portal-router/PortalRouter';
 import { createPortalFramework } from './lib';
-import { usePortalFramework } from '../../portal-framework/src';
-import { PortalConfig as PortalConfigModule } from '@portal/core';
-import { useObservableState } from '@equinor/fusion-observable/react';
 
-const usePortal = () => {
-	const { portalConfig: pcm } = usePortalFramework<[PortalConfigModule]>().modules;
-	return useObservableState(pcm.state$).value?.portal;
-};
+import { ModulesInstance, AnyModule, ModulesInstanceType } from '@equinor/fusion-framework-module';
 
-export const FusionFramework = ({ portalConfig }: { portalConfig: PortalConfig }) => {
-	const portal = usePortal();
-	const configure = useMemo(() => createPortalFramework(portalConfig, portal), [portalConfig, portal]);
-
-	if (!configure) return <PortalProgressLoader title="Configuring Portal" />;
-
+export const FusionFramework = (props: { portalConfig: PortalConfig; modules: ModulesInstance<AnyModule[]> }) => {
+	const Framework = createFrameworkProvider(createPortalFramework(props.portalConfig), props.modules);
 	return (
-		<Framework configure={configure} fallback={<PortalProgressLoader title="Configuring Portal" />}>
-			<PortalProvider />
-		</Framework>
+		<Suspense fallback={<PortalProgressLoader title="Configuring Portal" />}>
+			<Framework>
+				<PortalProvider />
+			</Framework>
+		</Suspense>
 	);
 };

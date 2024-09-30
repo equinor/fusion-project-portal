@@ -10,6 +10,7 @@ import {
 	PortalState,
 } from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
+import { PortalConfigProvider } from './provider';
 
 export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 	return {
@@ -27,6 +28,7 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 				},
 			},
 			key: (args) => JSON.stringify(args),
+			expire: 5000,
 		},
 		getApps: {
 			client: {
@@ -41,6 +43,7 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 				},
 			},
 			key: (args) => JSON.stringify(args),
+			expire: 5000,
 		},
 	};
 };
@@ -81,6 +84,12 @@ export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfigurat
 	}
 
 	protected override async _processConfig(config: Partial<PortalConfiguration>, _init: ConfigBuilderCallbackArgs) {
+		const parentConfig = (_init.ref as { portalConfig: PortalConfigProvider })?.portalConfig.config;
+
+		if (parentConfig) {
+			config = parentConfig;
+		}
+
 		const httpClient = await this._createHttpClient('portal-client', _init);
 
 		if (!config.base) {

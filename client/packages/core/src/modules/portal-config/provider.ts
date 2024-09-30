@@ -48,7 +48,7 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 
 	get routes$(): Observable<PortalRoutes> {
 		return this.#state.pipe(
-			map(({ portal }) => portal.configuration.router),
+			map(({ portal }) => portal?.configuration.router),
 			filterEmpty()
 		);
 	}
@@ -83,6 +83,9 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 			map((state) => state),
 			filterEmpty()
 		);
+	}
+	get config(): PortalConfiguration {
+		return this._config;
 	}
 
 	public getPortalStateAsync = async (): Promise<PortalState> => {
