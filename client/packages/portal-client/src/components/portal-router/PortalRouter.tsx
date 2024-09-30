@@ -82,7 +82,7 @@ export function PortalProvider() {
 	const { portal } = usePortalConfig();
 
 	if (routesLoading) {
-		return <PortalProgressLoader title="Loading Portal Config" />;
+		return <PortalProgressLoader title="Configuring Portal" />;
 	}
 	return (
 		<PeopleResolverProvider>
