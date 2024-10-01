@@ -19,6 +19,13 @@ builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("
 builder.Services.Configure<ApplicationInsightsOptions>(builder.Configuration.GetSection("ApplicationInsights"));
 builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache"));
 
+// CORS setup
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(corsPolicyBuilder =>
+        corsPolicyBuilder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()));
+
 // Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration)
@@ -99,6 +106,8 @@ app.UseResponseCaching();
 app.UseAuthentication();
 
 app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthorization();
 
