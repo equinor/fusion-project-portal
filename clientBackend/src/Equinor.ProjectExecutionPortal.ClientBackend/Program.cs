@@ -22,7 +22,8 @@ builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache
 // CORS setup
 builder.Services.AddCors(options =>
     options.AddDefaultPolicy(corsPolicyBuilder =>
-        corsPolicyBuilder.AllowAnyOrigin()
+        corsPolicyBuilder
+            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()));
 
