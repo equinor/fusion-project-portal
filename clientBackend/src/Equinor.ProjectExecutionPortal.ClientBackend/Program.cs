@@ -104,13 +104,7 @@ app.UseCookiePolicy(new CookiePolicyOptions
 
 app.UseResponseCaching();
 
-app.UseAuthentication();
-
 app.UseRouting();
-
-app.UseCors();
-
-app.UseAuthorization();
 
 app.UseResponseCompression();
 
@@ -121,6 +115,12 @@ app.MapFusionPortalAssetProxy();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Bundle}/{action=Index}/{id?}");
+
+app.UseCors();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 // SPA Configuration
 app.MapSpaEndpoints(builder);
