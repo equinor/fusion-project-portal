@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+﻿using Equinor.ProjectExecutionPortal.Application.Services.FusionAppsService;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 using Fusion.Integration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +12,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
     [Route("api/fusion")]
     public class FusionController : ApiControllerBase
     {
-
         [HttpGet("context/{externalId}/type/{contextType}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -38,9 +37,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("apps")]
-        public async Task<ActionResult<IList<FusionPortalAppInformation>>> GetAllFusionApps([FromServices] IAppService appService)
+        public async Task<ActionResult<IList<FusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionAppsService fusionAppsService)
         {
-            var apps = await appService.GetFusionApps();
+            var apps = await fusionAppsService.GetFusionApps();
 
             return Ok(apps.ToList());
         }
@@ -48,9 +47,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("apps/{appKey}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IAppService appService)
+        public async Task<ActionResult<FusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IFusionAppsService fusionAppsService)
         {
-            var fusionApp = await appService.GetFusionApp(appKey);
+            var fusionApp = await fusionAppsService.GetFusionApp(appKey);
 
             return fusionApp == null ? FusionApiError.NotFound(appKey, "Could not find fusion app") : Ok(fusionApp);
         }
@@ -58,9 +57,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("apps/{appKey}/config")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FusionAppEnvironmentConfig?>> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IAppService appService)
+        public async Task<ActionResult<FusionAppEnvironmentConfig?>> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IFusionAppsService fusionAppsService)
         {
-            var appConfig = await appService.GetFusionAppConfig(appKey);
+            var appConfig = await fusionAppsService.GetFusionAppConfig(appKey);
 
             return appConfig == null ? FusionApiError.NotFound(appKey, "Could not locate config for the specified appKey") : Ok(appConfig);
         }

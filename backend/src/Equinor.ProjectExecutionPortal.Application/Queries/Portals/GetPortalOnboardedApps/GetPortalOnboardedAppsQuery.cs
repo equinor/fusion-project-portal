@@ -48,9 +48,9 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
                 .Include(onboardedApp => onboardedApp.ContextTypes)
                 .ToListAsync(cancellationToken);
 
-            var portalOnboardedAppsDto = await _portalService.CombinePortalAppsWithOnboardedApps(portal, onboardedApps, cancellationToken);
+            var portalOnboardedAppsDto = _portalService.CombinePortalAppsWithOnboardedApps(portal, onboardedApps, cancellationToken);
 
-            await _appService.EnrichAppsWithAllFusionAppData(portalOnboardedAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
+            await _appService.EnrichWithFusionAppData(portalOnboardedAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
             
             return portalOnboardedAppsDto;
         }

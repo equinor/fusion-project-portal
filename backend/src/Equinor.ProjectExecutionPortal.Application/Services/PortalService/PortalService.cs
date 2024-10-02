@@ -6,27 +6,27 @@ using Equinor.ProjectExecutionPortal.Domain.Entities;
 namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
 {
     public class PortalService : IPortalService
-    {   
+    {
         private readonly IMapper _mapper;
 
         public PortalService(IMapper mapper)
         {
             _mapper = mapper;
         }
-        public async Task<IList<PortalOnboardedAppDto>> CombinePortalAppsWithOnboardedApps(Portal portal, IList<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
-        {
 
+        public IList<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, IList<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
+        {
             var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(GetDistinctPortalApps(portal.Apps.ToList()));
 
-            await SetAppsAsActiveInPortal(portalAppsDto, cancellationToken);
+            SetAppsAsActiveInPortal(portalAppsDto);
 
             var onBoardedAppsNotActiveInPortal = GetOnBoardedAppsNotActiveInPortal(portal, onboardedApps);
 
             portalAppsDto.AddRange(onBoardedAppsNotActiveInPortal);
 
             return portalAppsDto.OrderBy(x => x.OnboardedApp?.AppKey).ToList();
-
         }
+
         public async Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, IList<Guid> contextIds, CancellationToken cancellationToken)
         {
             portalOnboardedAppDto.ContextIds = contextIds.ToList();
@@ -36,7 +36,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
             return portalOnboardedAppDto;
         }
 
-        public async Task<PortalOnboardedAppDto> GetPortalOnboardedAppNotActive(OnboardedApp onboardedApp, CancellationToken cancellationToken)
+        public PortalOnboardedAppDto GetPortalOnboardedAppNotActive(OnboardedApp onboardedApp, CancellationToken cancellationToken)
         {
             return new PortalOnboardedAppDto()
             {
@@ -45,29 +45,29 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
             };
         }
 
-        public async Task<IList<PortalOnboardedAppDto>> SetAppsAsActiveInPortal(IList<PortalOnboardedAppDto> apps, CancellationToken cancellationToken)
+        public async Task<PortalOnboardedAppDto> SetAppAsActiveInPortal(PortalOnboardedAppDto app, CancellationToken cancellationToken)
+        {
+            app.IsActive = true;
+
+            await Task.CompletedTask;
+
+            return app;
+        }
+
+        private static void SetAppsAsActiveInPortal(IList<PortalOnboardedAppDto> apps)
         {
             foreach (var app in apps)
             {
                 app.IsActive = true;
             }
-            await Task.CompletedTask;
-            return apps;
         }
 
-        public async Task<PortalOnboardedAppDto> SetAppAsActiveInPortal(PortalOnboardedAppDto app, CancellationToken cancellationToken)
-        {
-            app.IsActive = true;
-            
-            await Task.CompletedTask;
-            return app;
-        }
-
-        private List<PortalApp> GetDistinctPortalApps(List<PortalApp> portalApps)
+        private static List<PortalApp> GetDistinctPortalApps(List<PortalApp> portalApps)
         {
             var distinctPortalApps = portalApps.GroupBy(app => app.OnboardedApp.Id)
                 .Select(group => group.First())
                 .ToList();
+
             return distinctPortalApps;
         }
 
@@ -89,11 +89,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
                 OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onBoardedApp),
                 IsActive = false
             }).ToList();
-            
         }
-        private bool IsContextualPortal(Portal portal)
+
+        private static bool IsContextualPortal(Portal portal)
         {
-            return portal.ContextTypes.Count != 0;
+            return portal.ContextTypes.Count > 0;
         }
     }
 }

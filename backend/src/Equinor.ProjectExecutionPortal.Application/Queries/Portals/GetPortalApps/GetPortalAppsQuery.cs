@@ -46,7 +46,7 @@ public class GetPortalAppsQuery : QueryBase<PortalDto?>
 
             var portalDto = _mapper.Map<Portal, PortalDto>(portal);
 
-            await _appService.EnrichAppsWithAllFusionAppData(portalDto.Apps.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
+            await _appService.EnrichWithFusionAppData(portalDto.Apps.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
             
             return portalDto;
         }

@@ -63,7 +63,7 @@ public class GetPortalAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<I
             
             var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalAppDto>>(portalApps);
             
-            await _appService.EnrichAppsWithAllFusionAppData(portalAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
+            await _appService.EnrichWithFusionAppData(portalAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
 
             return portalAppsDto;
         }

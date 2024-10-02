@@ -2,6 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 
+// TODO: Remove
 public class ApiFusionPortalAppInformation
 {
     public ApiFusionPortalAppInformation()
