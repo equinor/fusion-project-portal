@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
-using Fusion.Integration.Apps.Abstractions.Models;
+﻿using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Cache;
 

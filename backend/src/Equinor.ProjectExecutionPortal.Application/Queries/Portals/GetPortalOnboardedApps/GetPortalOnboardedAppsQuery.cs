@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Application.Services.PortalService;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
@@ -18,14 +17,12 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
         private readonly IPortalService _portalService;
-        private readonly IMapper _mapper;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService, IPortalService portalService, IMapper mapper)
+        public Handler(IReadWriteContext readWriteContext, IAppService appService, IPortalService portalService)
         {
             _readWriteContext = readWriteContext;
             _appService = appService;
             _portalService = portalService;
-            _mapper = mapper;
         }
 
         public async Task<IList<PortalOnboardedAppDto?>> Handle(GetPortalOnboardedAppsQuery request, CancellationToken cancellationToken)
@@ -51,7 +48,7 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
             var portalOnboardedAppsDto = _portalService.CombinePortalAppsWithOnboardedApps(portal, onboardedApps, cancellationToken);
 
             await _appService.EnrichWithFusionAppData(portalOnboardedAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
-            
+
             return portalOnboardedAppsDto;
         }
     }
