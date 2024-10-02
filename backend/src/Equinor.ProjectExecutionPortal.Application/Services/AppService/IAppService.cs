@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {
@@ -7,11 +8,11 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
     {
         Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken);
 
-        Task<IList<FusionPortalAppInformation>> GetFusionApps();
+        Task<IList<App>> GetFusionApps();
 
-        Task<FusionPortalAppInformation?> GetFusionApp(string appKey);
+        Task<App?> GetFusionApp(string appKey);
 
-        Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey);
+        Task<AppConfiguration?> GetFusionAppConfig(string appKey);
 
         Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken);
 

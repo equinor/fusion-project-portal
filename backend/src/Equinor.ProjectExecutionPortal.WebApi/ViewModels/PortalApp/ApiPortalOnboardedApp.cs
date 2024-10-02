@@ -13,7 +13,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
         {
             Key = portalOnboardedAppDto.OnboardedApp.AppKey;
             ContextTypes = portalOnboardedAppDto.OnboardedApp.ContextTypes.Select(x => x.ContextTypeKey).ToList();
-            AppManifest = portalOnboardedAppDto.OnboardedApp.AppInformation != null ? new ApiFusionPortalAppInformation(portalOnboardedAppDto.OnboardedApp.AppInformation) : null;
+            AppManifest = portalOnboardedAppDto.OnboardedApp.AppInformation != null ? new ApiFusionApp(portalOnboardedAppDto.OnboardedApp.AppInformation) : null;
             ContextIds = portalOnboardedAppDto.ContextIds;
             IsActive = portalOnboardedAppDto.IsActive;
             IsGlobal = portalOnboardedAppDto.IsGlobal;
@@ -26,6 +26,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
         public bool IsActive { get; set; }
         public bool IsGlobal { get; set; }
         public bool IsContextual { get; set; }
-        public ApiFusionPortalAppInformation? AppManifest { get; set; }
+        public ApiFusionApp? AppManifest { get; set; }
     }
 }

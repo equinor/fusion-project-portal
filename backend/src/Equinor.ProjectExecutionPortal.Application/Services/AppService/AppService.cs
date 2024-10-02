@@ -2,6 +2,8 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
 using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Fusion.Integration.Apps.Abstractions.Abstractions;
+using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {
@@ -9,33 +11,35 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
     {
         private readonly IFusionAppsCache _fusionAppsCache;
         private readonly IFusionPortalApiService _fusionPortalApiService;
+        private readonly IAppsClient _fusionAppsClient;
 
-        public AppService(IFusionAppsCache fusionAppsCache, IFusionPortalApiService fusionPortalApiService)
+        public AppService(IFusionAppsCache fusionAppsCache, IFusionPortalApiService fusionPortalApiService,  IAppsClient fusionAppsClient)
         {
             _fusionAppsCache = fusionAppsCache;
             _fusionPortalApiService = fusionPortalApiService;
+            _fusionAppsClient = fusionAppsClient;
         }
 
         public async Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken)
         {
             var fusionApps = await _fusionAppsCache.GetFusionApps();
 
-            return fusionApps.Any(app => app.Key == appKey);
+            return fusionApps.Any(app => app.AppKey == appKey);
         }
 
-        public async Task<IList<FusionPortalAppInformation>> GetFusionApps()
+        public async Task<IList<App>> GetFusionApps()
         {
             return await _fusionAppsCache.GetFusionApps();
         }
 
-        public async Task<FusionPortalAppInformation?> GetFusionApp(string appKey)
+        public async Task<App?> GetFusionApp(string appKey)
         {
             return await _fusionAppsCache.GetFusionApp(appKey);
         }
 
-        public async Task<FusionAppEnvironmentConfig?> GetFusionAppConfig(string appKey)
+        public async Task<AppConfiguration?> GetFusionAppConfig(string appKey)
         {
-            return await _fusionPortalApiService.TryGetFusionPortalAppConfig(appKey);
+            return await _fusionAppsClient.GetAppConfig(appKey, new TagNameIdentifier("latest"));
         }
         
         public async Task<OnboardedAppDto> EnrichAppWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
@@ -74,14 +78,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return onboardedApps;
         }
 
-        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<FusionPortalAppInformation> fusionApps, bool? allFusionData)
+        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<App> fusionApps, bool? allFusionData)
         {
             if (onboardedAppDto == null)
             {
                 return;
             }
 
-            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.Key, onboardedAppDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
+            var fusionApp = fusionApps.FirstOrDefault(x => string.Equals(x.AppKey, onboardedAppDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
             
             if (fusionApp != null)

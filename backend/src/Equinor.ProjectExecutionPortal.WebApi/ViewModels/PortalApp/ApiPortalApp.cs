@@ -14,11 +14,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
         {
             Key = portalAppDto.OnboardedApp.AppKey;
             ContextTypes = portalAppDto.OnboardedApp.ContextTypes.Select(x => new ApiContextType(x)).ToList();
-            AppManifest = portalAppDto.OnboardedApp.AppInformation != null ? new ApiFusionPortalAppInformation(portalAppDto.OnboardedApp.AppInformation) : null;
+            AppManifest = portalAppDto.OnboardedApp.AppInformation != null ? new ApiFusionApp(portalAppDto.OnboardedApp.AppInformation) : null;
         }
 
         public string Key { get; set; }
         public IList<ApiContextType> ContextTypes { get; set; }
-        public ApiFusionPortalAppInformation? AppManifest { get; set; }
+        public ApiFusionApp? AppManifest { get; set; }
     }
 }

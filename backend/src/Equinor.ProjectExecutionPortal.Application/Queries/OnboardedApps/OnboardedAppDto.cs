@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 
@@ -14,26 +14,25 @@ public class OnboardedAppDto : IMapFrom<Domain.Entities.OnboardedApp>
 {
     public Guid Id { get; set; }
     public string AppKey { get; set; }
-    public FusionPortalAppInformation? AppInformation { get; set; }
+    public string DisplayName { get; set; }
+    public string Description { get; set; }
+    public App? AppInformation { get; set; }
     public IList<ContextTypeDto> ContextTypes { get; set; }
 
-    public void SupplyWithFusionData(FusionPortalAppInformation appInformation, FusionPortalAppInformationAmount amount)
+    public void SupplyWithFusionData(App app, FusionPortalAppInformationAmount amount)
     {
+        // TODO: Move this to separate API models
         switch (amount)
         {
             case FusionPortalAppInformationAmount.All:
-                AppInformation = appInformation;
+                AppInformation = app;
                 break;
 
             case FusionPortalAppInformationAmount.Minimal:
-                var appInfo = new FusionPortalAppInformation
-                {
-                    Key = appInformation.Key,
-                    Name = appInformation.Name,
-                    Description = appInformation.Description
-                };
-
-                AppInformation = appInfo;
+                AppKey = app.AppKey;
+                DisplayName = app.DisplayName;
+                Description = app.Description;
+                AppInformation = null;
 
                 break;
 

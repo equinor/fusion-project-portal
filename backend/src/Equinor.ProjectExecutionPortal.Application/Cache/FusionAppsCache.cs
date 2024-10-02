@@ -1,25 +1,26 @@
 ﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Fusion.Integration.Apps.Abstractions.Abstractions;
+using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Cache;
 
 public class FusionAppsCache : IFusionAppsCache
 {
     private readonly ICacheManager _cacheManager;
-    private readonly IFusionPortalApiService _fusionPortalApiService;
+    private readonly IAppsClient _fusionAppsClient;
 
-    public FusionAppsCache(ICacheManager cacheManager, IFusionPortalApiService fusionPortalApiService)
+    public FusionAppsCache(ICacheManager cacheManager, IFusionPortalApiService fusionPortalApiService, IAppsClient fusionAppsClient)
     {
         _cacheManager = cacheManager;
-        _fusionPortalApiService = fusionPortalApiService;
+        _fusionAppsClient = fusionAppsClient;
     }
 
-    public async Task<List<FusionPortalAppInformation>> GetFusionApps()
+    public async Task<List<App>> GetFusionApps()
     {
         return await _cacheManager.GetOrCreateAsync("FUSION_APP",
             async () =>
             {
-                var fusionApps = await _fusionPortalApiService.TryGetFusionPortalApps();
+                var fusionApps = await _fusionAppsClient.GetAppsAsync();
 
                 return fusionApps.ToList();
             },
@@ -27,10 +28,10 @@ public class FusionAppsCache : IFusionAppsCache
             60);
     }
 
-    public async Task<FusionPortalAppInformation?> GetFusionApp(string appKey)
+    public async Task<App?> GetFusionApp(string appKey)
     {
         return await _cacheManager.GetOrCreateAsync("FUSION_APP",
-            async () => await _fusionPortalApiService.TryGetFusionPortalApp(appKey),
+            async () => await _fusionAppsClient.GetAppAsync(appKey),
             CacheDuration.Minutes,
             60);
     }

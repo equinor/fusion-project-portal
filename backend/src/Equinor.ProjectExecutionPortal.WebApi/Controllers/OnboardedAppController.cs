@@ -21,13 +21,14 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
 
+            // TODO: Create API model with minimal data
             return Ok(onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList());
         }
 
         [HttpGet("{appKey}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiOnboardedApp>> OnboardedApp([FromRoute] string appKey)
+        public async Task<ActionResult<ApiOnboardedAppExpanded>> OnboardedApp([FromRoute] string appKey)
         {
             var onboardedAppDto = await Mediator.Send(new GetOnboardedAppQuery(appKey));
 
@@ -36,7 +37,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(appKey, "Could not find onboarded app");
             }
 
-            return new ApiOnboardedApp(onboardedAppDto);
+            return new ApiOnboardedAppExpanded(onboardedAppDto);
         }
 
         [HttpPost("")]
@@ -169,7 +170,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return Ok();
         }
-        
+
         [HttpDelete("{appKey}/context-type/{contextType}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         [ProducesResponseType(StatusCodes.Status200OK)]
