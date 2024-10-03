@@ -5,8 +5,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "prebuild": "rm -f ../../../client/packages/portal-client/src/assets/appLegacyLoader.js",
-    "build:appLoader": "fusion-framework-cli app build && mv ./dist/app-bundle.js ../../../client/packages/portal-client/src/assets/appLegacyLoader.js",
+    "prebuild": "rm -f ../../packages/portal-client/src/assets/appLegacyLoader.js",
+    "build:appLoader": "fusion-framework-cli app build && mv ./dist/app-bundle.js ../../packages/portal-client/src/assets/appLegacyLoader.js",
     "build:resources": "tsc && vite build",
     "dev:appLoader": "fusion-framework-cli app dev -c vite.config.js",
     "docker": "cd .. && sh docker-script.sh app-react",

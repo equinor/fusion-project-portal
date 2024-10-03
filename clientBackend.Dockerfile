@@ -12,8 +12,7 @@ COPY ["/client", "."]
 RUN yarn install --frozen-lockfile
 
 # Build the leagasy app laoder
-
-RUN cd client/apps/legacy-app-loader && yarn install --frozen-lockfile && yarn build:appLoader
+RUN cd apps/fusion-app-loader && yarn install --frozen-lockfile && yarn build:appLoader
 
 RUN npx yarn run build
 
