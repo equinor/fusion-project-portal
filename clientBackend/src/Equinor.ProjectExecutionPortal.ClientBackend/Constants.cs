@@ -4,6 +4,6 @@
     {
         public const string ProfileImageRoute = "/images/profiles";
         public const string AssetProfileImageRoute = "/assets/images/profiles";
-        public const string FusionAppsRoute = "/fusion-apps";
+        public const string FusionAppsRoute = "/apps-proxy";
     }
 }

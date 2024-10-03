@@ -68,11 +68,13 @@ export const useAppLoader = (appKey: string) => {
 									},
 								})
 							);
+
+							/** remove app element when application unmounts */
+							subscription.add(() => appRef.current.remove());
 						}
 					} catch (error) {
 						console.error('App loading Error: ', error);
 						setError(error as Error);
-						setLoading(false);
 					}
 				},
 				complete: () => {
@@ -81,7 +83,6 @@ export const useAppLoader = (appKey: string) => {
 				error: (err) => {
 					console.error('App init Error: ', error);
 					setError(err);
-					setLoading(false);
 				},
 			})
 		);
