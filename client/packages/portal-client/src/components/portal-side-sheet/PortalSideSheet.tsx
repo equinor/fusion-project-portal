@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 const SideSheetWrapper = styled.div`
 	--custom-header-height: 0px;
+	--custom-side-sheet-height: 100%;
 `;
 
 export function PortalSideSheet() {
