@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {

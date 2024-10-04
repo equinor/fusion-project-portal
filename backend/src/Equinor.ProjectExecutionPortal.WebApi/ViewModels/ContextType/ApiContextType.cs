@@ -4,7 +4,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType
 {
     public class ApiContextType
     {
-        public ApiContextType() { }
+        public ApiContextType()
+        { }
 
         public ApiContextType(ContextTypeDto contextTypeDto)
         {
@@ -12,7 +13,5 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType
         }
 
         public string Type { get; set; }
-
-        
     }
 }
