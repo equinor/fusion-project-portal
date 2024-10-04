@@ -35,7 +35,7 @@ export const useUpdateUserRoleQuery = (roles?: Role[], userId?: string) => {
 			const data = await (
 				await client
 			).json<PersonRole>(`/persons/${userId}/roles/${roleName}`, {
-				method: 'Patch',
+				method: 'PATCH',
 				body: JSON.stringify({ isActive }),
 			});
 

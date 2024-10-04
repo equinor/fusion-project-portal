@@ -1,4 +1,4 @@
-import { EdsProvider, Table, Typography } from '@equinor/eds-core-react';
+import { Card, EdsProvider, Table, Typography } from '@equinor/eds-core-react';
 import { DateTime } from 'luxon';
 import { StyledCardWrapper, StyledContent, StyledHeader } from '../project-cards/styles';
 import { LoadingSkeleton } from './LoadingSection';
@@ -7,6 +7,8 @@ import { css } from '@emotion/css';
 import { Message } from '@portal/ui';
 import { sortByDate, sortMilestones } from './utils';
 import { useMemo } from 'react';
+import { DataInfo } from '../../../sheared/components/data-info/DataInfo';
+import styled from 'styled-components';
 
 function verifyDate(date?: string | null): string {
 	return new Date(date || '').toString() !== 'Invalid Date'
@@ -14,22 +16,19 @@ function verifyDate(date?: string | null): string {
 		: '-';
 }
 
-const styles = {
-	fullWidth: css`
-		width: 100%;
+const Styled = {
+	Wrapper: styled.div`
+		max-height: 350px;
+		overflow: auto;
+		display: 'grid';
 	`,
-	noContent: css`
-		width: 100%;
-		height: 200px;
-		display: flex;
-		justify-content: center;
-	`,
-	noWrap: css`
-		width: 1000px;
+	NoWrap: styled(Table.Cell)`
 		overflow: hidden;
 		text-overflow: ellipsis;
 	`,
-	table: css`
+	Table: styled(Table)`
+		width: 100%;
+
 		white-space: nowrap;
 		min-width: fit-content;
 		table-layout: fixed;
@@ -39,69 +38,85 @@ const styles = {
 export const Milestones = () => {
 	const { data, isLoading, error } = useMilestoneQuery();
 
-	const componentError = error as Error | undefined;
-
 	const milestones = useMemo(() => {
 		return data?.sort(sortMilestones).sort(sortByDate) || [];
 	}, [data]);
 
 	return (
-		<StyledCardWrapper elevation="raised">
-			<StyledHeader>
+		<Card elevation="raised">
+			<Card.Header>
 				<Typography variant="h5">Milestones</Typography>
-			</StyledHeader>
-			{componentError ? (
-				componentError.message.toLowerCase() === 'No Access'.toLowerCase() ? (
-					<Message type="Warning" title="You don't have access to see project data."></Message>
+				<DataInfo
+					title="Milestones"
+					azureUniqueId="9dfcc1c8-1b9c-4b53-8325-6b2a7786dfaf"
+					access="Internal"
+					dataSource="ProCoSys"
+				/>
+			</Card.Header>
+			{error ? (
+				error.error.code === 'NoDataAccess' ? (
+					<Message
+						type="Warning"
+						title={error.error.message}
+						messages={
+							error.error?.accessRequirements
+								? error.error.accessRequirements.map((a) => `${a.code} - ${a.description}`)
+								: []
+						}
+					></Message>
+				) : error.error.exceptionType === 'NotFoundError' ? (
+					<Message type="Error" title={error.title} messages={[error.detail]}></Message>
 				) : (
-					<Message type="Error" title="Error">
-						{componentError.message}
-					</Message>
+					<Message type="Error" title={error.message}></Message>
 				)
 			) : (
-				<StyledContent>
+				<Card.Content>
 					<EdsProvider density="compact">
-						<Table className={(styles.fullWidth, styles.table)}>
-							<Table.Head>
-								<Table.Row>
-									<Table.Cell>Milestone</Table.Cell>
-									<Table.Cell>Description</Table.Cell>
-									<Table.Cell>Planned</Table.Cell>
-									<Table.Cell>Forecast</Table.Cell>
-								</Table.Row>
-							</Table.Head>
-							<Table.Body>
-								{isLoading ? (
-									<LoadingSkeleton />
-								) : milestones.length > 0 ? (
-									milestones.map((milestone) => {
-										const datePlanned = verifyDate(milestone.datePlanned);
-										const dateForecast = verifyDate(milestone.dateForecast);
-										return (
-											<Table.Row key={milestone.milestone}>
-												<Table.Cell title={milestone.milestone}>
-													{milestone.milestone}
-												</Table.Cell>
-												<Table.Cell className={styles.noWrap} title={milestone.description}>
-													{milestone.description}
-												</Table.Cell>
-												<Table.Cell title={datePlanned}>{datePlanned}</Table.Cell>
-												<Table.Cell title={dateForecast}>{dateForecast}</Table.Cell>
-											</Table.Row>
-										);
-									})
-								) : (
-									<div className={styles.noContent}>
-										<Message type="NoContent" title="No content">
-											There are no milestones awaitable
-										</Message>
-									</div>
-								)}
-							</Table.Body>
-						</Table>
+						<Styled.Wrapper>
+							<Styled.Table>
+								<Table.Head sticky>
+									<Table.Row>
+										<Table.Cell width={150}>Milestone</Table.Cell>
+										<Table.Cell>Description</Table.Cell>
+										<Table.Cell width={120}>Planned</Table.Cell>
+										<Table.Cell width={120}>Forecast</Table.Cell>
+										<Table.Cell width={120}>Actual</Table.Cell>
+									</Table.Row>
+								</Table.Head>
+								<Table.Body>
+									{isLoading ? (
+										<LoadingSkeleton />
+									) : milestones.length > 0 ? (
+										milestones.map((milestone) => {
+											const datePlanned = verifyDate(milestone.datePlanned);
+											const dateForecast = verifyDate(milestone.dateForecast);
+											const dateActual = verifyDate(milestone.dateActual);
+											return (
+												<Table.Row key={milestone.milestone}>
+													<Styled.NoWrap title={milestone.milestone}>
+														{milestone.milestone}
+													</Styled.NoWrap>
+													<Styled.NoWrap title={milestone.description}>
+														{milestone.description}
+													</Styled.NoWrap>
+													<Table.Cell title={datePlanned}>{datePlanned}</Table.Cell>
+													<Table.Cell title={dateForecast}>{dateForecast}</Table.Cell>
+													<Table.Cell title={dateActual}>{dateActual}</Table.Cell>
+												</Table.Row>
+											);
+										})
+									) : (
+										<Message
+											type="NoContent"
+											title="No content - There are no milestones awaitable"
+										></Message>
+									)}
+								</Table.Body>
+							</Styled.Table>
+						</Styled.Wrapper>
 					</EdsProvider>
-				</StyledContent>
+				</Card.Content>
 			)}
-		</StyledCardWrapper>
+		</Card>
 	);
 };
