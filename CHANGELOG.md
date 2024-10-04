@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 4.1.4
+
+### Patch Changes
+
+- 915edf2: Add link to CC App sharepoint site in the Help section
+
 ## 4.1.3
 
 ### Patch Changes
