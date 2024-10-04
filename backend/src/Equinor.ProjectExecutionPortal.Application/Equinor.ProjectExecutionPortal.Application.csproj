@@ -8,8 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Fusion.Integration" Version="8.0.8" />
-    <PackageReference Include="Fusion.Integration.Apps" Version="8.0.0" />
+    <PackageReference Include="Fusion.Integration.Abstractions" Version="8.0.7" />
     <PackageReference Include="Fusion.Integration.Apps.Abstractions" Version="8.0.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
