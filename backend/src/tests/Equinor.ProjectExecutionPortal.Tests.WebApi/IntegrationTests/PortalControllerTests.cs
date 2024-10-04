@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text;
-using Azure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;

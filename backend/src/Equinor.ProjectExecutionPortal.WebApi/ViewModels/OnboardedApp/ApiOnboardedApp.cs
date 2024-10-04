@@ -20,7 +20,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
         }
 
         public Guid Id { get; set; }
-        public string AppKey { get; set; } = null!;
+        public string AppKey { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public IList<ApiContextType> Contexts { get; set; } = new List<ApiContextType>();

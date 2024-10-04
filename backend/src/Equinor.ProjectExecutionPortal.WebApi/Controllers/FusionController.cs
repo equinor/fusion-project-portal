@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {
+    // TODO: This controller should be removed and replaced with the ClientBackend proxy
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiVersion("0.1")]
     [Route("api/fusion")]

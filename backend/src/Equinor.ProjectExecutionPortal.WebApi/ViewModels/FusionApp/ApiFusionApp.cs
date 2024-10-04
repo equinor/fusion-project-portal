@@ -19,10 +19,10 @@ public class ApiFusionApp
         Build = fusionApp.Build != null ? new ApiFusionAppVersion(fusionApp.Build) : null;
     }
 
-    public string AppKey { get; set; } = null!;
-    public string DisplayName { get; set; } = null!;
-    public string? Description { get; set; } = null!;
-    public string? Type { get; set; } = null!;
+    public string AppKey { get; set; }
+    public string DisplayName { get; set; }
+    public string? Description { get; set; }
+    public string? Type { get; set; }
     public string? Version { get; set; }
     public bool? IsPinned { get; set; }
     public string? TemplateSource { get; set; }

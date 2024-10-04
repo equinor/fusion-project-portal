@@ -18,10 +18,10 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp
         }
 
         public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string DisplayName { get; set; } = null!;
-        public string Color { get; set; } = null!;
-        public string DefaultIcon { get; set; } = null!;
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Color { get; set; }
+        public string DefaultIcon { get; set; }
         public short SortOrder { get; set; }
     }
 }

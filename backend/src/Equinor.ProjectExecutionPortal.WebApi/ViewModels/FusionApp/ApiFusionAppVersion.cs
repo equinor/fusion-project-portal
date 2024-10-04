@@ -17,8 +17,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp
             ConfigUrl = fusionAppVersion.ConfigUrl;
         }
 
-        public string Version { get; set; } = null!;
-        public string EntryPoint { get; set; } = null!;
+        public string Version { get; set; }
+        public string EntryPoint { get; set; }
         public List<string>? Tags { get; set; }
         public string? Tag { get; set; }
         public string? AssetPath { get; set; }
