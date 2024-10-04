@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps;
-using Fusion.Integration.Apps.Abstractions.Abstractions;
+﻿using Fusion.Integration.Apps.Abstractions.Abstractions;
 using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Cache;
@@ -9,7 +8,7 @@ public class FusionAppsCache : IFusionAppsCache
     private readonly ICacheManager _cacheManager;
     private readonly IAppsClient _fusionAppsClient;
 
-    public FusionAppsCache(ICacheManager cacheManager, IFusionPortalApiService fusionPortalApiService, IAppsClient fusionAppsClient)
+    public FusionAppsCache(ICacheManager cacheManager, IAppsClient fusionAppsClient)
     {
         _cacheManager = cacheManager;
         _fusionAppsClient = fusionAppsClient;

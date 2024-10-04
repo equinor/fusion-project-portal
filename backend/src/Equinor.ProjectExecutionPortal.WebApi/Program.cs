@@ -130,7 +130,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddApplicationModules(builder.Configuration);
 builder.Services.AddApplicationServicesModules();
-builder.Services.AddApplicationIntegrationsModule();
 builder.Services.AddCacheModules();
 
 var app = builder.Build();

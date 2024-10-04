@@ -1,6 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Services.FusionAppsService;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
 using Fusion.Integration;
+using Fusion.Integration.Apps.Abstractions.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         }
 
         [HttpGet("apps")]
-        public async Task<ActionResult<IList<FusionPortalAppInformation>>> GetAllFusionApps([FromServices] IFusionAppsService fusionAppsService)
+        public async Task<ActionResult<IList<App>>> GetAllFusionApps([FromServices] IFusionAppsService fusionAppsService)
         {
             var apps = await fusionAppsService.GetFusionApps();
 
@@ -47,7 +47,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("apps/{appKey}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FusionPortalAppInformation?>> GetFusionApp([FromRoute] string appKey, [FromServices] IFusionAppsService fusionAppsService)
+        public async Task<ActionResult<App?>> GetFusionApp([FromRoute] string appKey, [FromServices] IFusionAppsService fusionAppsService)
         {
             var fusionApp = await fusionAppsService.GetFusionApp(appKey);
 
@@ -57,7 +57,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [HttpGet("apps/{appKey}/config")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FusionAppEnvironmentConfig?>> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IFusionAppsService fusionAppsService)
+        public async Task<ActionResult<AppConfiguration?>> GetFusionAppConfig([FromRoute] string appKey, [FromServices] IFusionAppsService fusionAppsService)
         {
             var appConfig = await fusionAppsService.GetFusionAppConfig(appKey);
 
