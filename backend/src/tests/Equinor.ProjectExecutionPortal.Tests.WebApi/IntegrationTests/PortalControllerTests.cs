@@ -326,7 +326,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(apps.Count, 6);
         }
 
-        //[Ignore]
         [TestMethod]
         public async Task Get_BothGlobalAndContextAppsForPortal_WithInvalidContext_AsAuthenticatedUser_ShouldReturn404()
         {
@@ -335,11 +334,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.FirstOrDefault();
 
             // Act
-            //var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated, HttpStatusCode.OK);
             var response = await GetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated);
 
             // Assert
-            // TODO Fusion 404 returned
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
