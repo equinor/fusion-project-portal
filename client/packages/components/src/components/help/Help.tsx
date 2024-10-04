@@ -26,7 +26,8 @@ export const Help = ({ action, onClose, open }: PortalActionProps) => {
 					<Typography variant="h5"> Welcome to the Fusion Project Portal!</Typography>
 					<Style.Content>
 						<Typography>
-							The application is created to show a complete view of fusion applications customized for the chosen project.
+							The application is created to show a complete view of fusion applications customized for the
+							chosen project.
 							<br />
 						</Typography>
 					</Style.Content>
@@ -67,6 +68,16 @@ export const Help = ({ action, onClose, open }: PortalActionProps) => {
 							title="Go to Changelog"
 							text="Project Portal Changelog"
 							href="https://equinor.github.io/fusion-project-portal-internal/docs/documentation/CHANGELOG"
+						/>
+					</Style.Content>
+					<Divider />
+
+					<Typography variant="h5">Project Portal Help</Typography>
+					<Style.Content>
+						<ExternalLink
+							title="Fusion Project Portal User Guide"
+							text="Fusion Project Portal User Guide"
+							href="https://statoilsrm.sharepoint.com/sites/FusionProjectPortalUserGuide/SitePages/Home.aspx"
 						/>
 					</Style.Content>
 				</Style.Wrapper>
