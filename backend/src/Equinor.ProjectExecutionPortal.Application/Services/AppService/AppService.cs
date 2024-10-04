@@ -34,26 +34,26 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
         {
             var fusionApps = await _fusionAppsService.GetFusionApps();
 
-            foreach (var onboardedAppDto in onboardedApps)
+            foreach (var onboardedApp in onboardedApps)
             {
-                CombineAppWithFusionAppData(onboardedAppDto, fusionApps);
+                CombineAppWithFusionAppData(onboardedApp, fusionApps);
             }
 
             return onboardedApps;
         }
 
-        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedAppDto, IEnumerable<App> fusionApps)
+        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedApp, IEnumerable<App> fusionApps)
         {
-            if (onboardedAppDto == null)
+            if (onboardedApp?.AppKey == null)
             {
                 return;
             }
 
-            var fusionApp = fusionApps.FirstOrDefault(fusionApp => string.Equals(fusionApp.AppKey, onboardedAppDto.AppKey, StringComparison.CurrentCultureIgnoreCase));
+            var fusionApp = fusionApps.FirstOrDefault(fusionApp => string.Equals(fusionApp.AppKey, onboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
             if (fusionApp != null)
             {
-                onboardedAppDto.SupplyWithFusionData(fusionApp);
+                onboardedApp.SupplyWithFusionData(fusionApp);
             }
         }
     }
