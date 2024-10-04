@@ -140,7 +140,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        [Ignore] // TODO: Mock service must accept dynamic values
         [TestMethod]
         public async Task Add_Invalid_OnboardedApp_AsAdministratorUser_ShouldThrowExeption()
         {
@@ -154,7 +153,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var response = await AddOnboardedApp(UserType.Administrator, payload);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [TestMethod]
@@ -230,7 +229,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "app-to-be-removed",
+                AppKey = "app-to-be-offboarded",
                 ContextTypes = new List<string>() { "ProjectMaster" }
             };
 
