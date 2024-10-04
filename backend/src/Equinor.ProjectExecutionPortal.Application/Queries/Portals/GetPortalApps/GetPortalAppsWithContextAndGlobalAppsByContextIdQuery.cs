@@ -44,7 +44,7 @@ public class GetPortalAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<I
 
             if (fusionContext == null)
             {
-                throw new InvalidActionException($"Invalid context-id: {request.ContextId}");
+                throw new NotFoundException($"Invalid context-id: {request.ContextId}");
             }
 
             var portal = await _readWriteContext.Set<Portal>()

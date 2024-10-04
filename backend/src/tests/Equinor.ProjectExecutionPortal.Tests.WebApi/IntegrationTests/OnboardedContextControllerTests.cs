@@ -56,9 +56,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = OnboardedContextData.InitialSeedData.OgpContext.ExternalId,
-                Type = OnboardedContextData.InitialSeedData.OgpContext.Type,
-                Description = "Description from test method"
+                ExternalId = FusionContextData.MongstadFusionContext.ExternalId!,
+                Type = FusionContextData.MongstadFusionContext.Type,
+                Description = "Some sort of very detailed description"
             };
 
             // Act
@@ -146,27 +146,23 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Conflict, addDuplicateResponse.StatusCode);
         }
 
-        [Ignore] //TODO: Need to resolve id to delete
         [TestMethod]
         public async Task Remove_OnboardedContext_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var payload = OnboardedContextData.InitialSeedData.OgpContext.Id;
+            var ogpExternalContextId = OnboardedContextData.InitialSeedData.OgpContext.ExternalId;
 
             // Act
-            var getAll = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
-            var totalCount = getAll?.Count;
+            var getAllBeforeRemoval = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
+            var payload = getAllBeforeRemoval!.First(x => x.ExternalId == ogpExternalContextId);
 
-            var removeResponse = await RemoveOnboardedContext(UserType.Administrator, payload);
+            var removeResponse = await RemoveOnboardedContext(UserType.Administrator, payload.Id);
 
             var getAllAfterRemoval = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
-            var totalCountAfterRemoval = getAllAfterRemoval?.Count;
 
             // Assert
-            Assert.IsNotNull(totalCount);
-            Assert.IsNotNull(totalCountAfterRemoval);
             Assert.AreEqual(HttpStatusCode.OK, removeResponse.StatusCode);
-            Assert.AreEqual(totalCount - 1, totalCountAfterRemoval);
+            Assert.AreEqual(getAllBeforeRemoval?.Count - 1, getAllAfterRemoval?.Count);
         }
 
         [TestMethod]

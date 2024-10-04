@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Azure.Core;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
@@ -184,13 +185,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             if (portalAppsDto == null)
             {
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
-
             }
 
             var portalApps = portalAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
 
             return Ok(portalApps.Select(x => new ApiPortalApp(x)).ToList());
-
         }
 
         [HttpGet("{portalId:guid}/onboarded-apps")]
@@ -206,7 +205,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
 
             return Ok(portalOnboardedAppsDto.Select(x => new ApiPortalOnboardedApp(x)).ToList());
-
         }
 
         [HttpGet("{portalId:guid}/onboarded-apps/{appKey}")]
@@ -222,7 +220,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
 
             return new ApiPortalOnboardedApp(portalOnboardedAppDto);
-
         }
 
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
@@ -230,15 +227,20 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
         {
-            //TODO: improve error handling
-            var portalAppsDto = await Mediator.Send(new GetPortalAppsWithContextAndGlobalAppsByContextIdQuery(portalId, contextId));
-
-            if (portalAppsDto == null)
+            try
             {
-                return FusionApiError.NotFound(portalId, "Could not find portal with id");
+                var portalAppsDto = await Mediator.Send(new GetPortalAppsWithContextAndGlobalAppsByContextIdQuery(portalId, contextId));
+                
+                return Ok(portalAppsDto.Select(x => new ApiPortalApp(x)).ToList());
             }
-            
-            return Ok(portalAppsDto.Select(x => new ApiPortalApp(x)).ToList());
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred while removing portal");
+            }
         }
 
         [HttpPost("{portalId:guid}/apps")]
@@ -297,11 +299,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (InvalidActionException ex)
             {
-               return FusionApiError.ResourceExists(request.AppKey, ex.Message, ex);
+                return FusionApiError.ResourceExists(request.AppKey, ex.Message, ex);
             }
             catch (Exception)
             {
-               return FusionApiError.InvalidOperation("500", "An error occurred while adding portal app");
+                return FusionApiError.InvalidOperation("500", "An error occurred while adding portal app");
             }
 
             return Ok();
@@ -394,7 +396,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
             return Ok();
         }
-        
+
         [HttpDelete("{portalId:guid}/context-type/{contextType}")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text;
+using Azure;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
@@ -251,7 +252,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 Environment = environmentData
             };
 
-
             // Act
             var response = await UpdatePortalConfiguration(UserType.Administrator, payload, portalToTest.Id);
 
@@ -261,13 +261,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.AreNotEqual(payload.Router, theOneToUpdate!.Router);
             Assert.AreEqual(payload.Router, theOneAfterUpdate!.Router);
-            
+
             Assert.AreNotEqual(payload.Extension, theOneToUpdate.Extension);
             Assert.AreEqual(payload.Extension, theOneAfterUpdate.Extension);
 
             Assert.AreNotEqual(payload.Environment, theOneToUpdate.Environment);
             Assert.AreEqual(payload.Environment, theOneAfterUpdate.Environment);
-
         }
 
         [TestMethod]
@@ -328,7 +327,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(apps.Count, 6);
         }
 
-        [Ignore]
+        //[Ignore]
         [TestMethod]
         public async Task Get_BothGlobalAndContextAppsForPortal_WithInvalidContext_AsAuthenticatedUser_ShouldReturn404()
         {
@@ -337,10 +336,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var portalToTest = portals?.FirstOrDefault();
 
             // Act
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated, HttpStatusCode.OK);
+            //var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var response = await GetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated);
 
             // Assert
             // TODO Fusion 404 returned
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [TestMethod]
@@ -351,7 +352,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
-        
+
         [TestMethod]
         public async Task Get_AppsForPortal_WithoutContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
@@ -412,7 +413,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var theOneCreatedToBeDeleted = getAllAfterCreation!.Last();
 
             // Act
-            var response = await DeletePortal(theOneCreatedToBeDeleted!.Id, UserType.Administrator);
+            var response = await DeletePortal(theOneCreatedToBeDeleted.Id, UserType.Administrator);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
@@ -488,7 +489,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var appToDelete = apps.First();
 
             // Act
-            var response = await DeletePortalApp(portalToTest!.Id,appToDelete.Key, UserType.Authenticated);
+            var response = await DeletePortalApp(portalToTest.Id, appToDelete.Key, UserType.Authenticated);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
@@ -497,7 +498,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         [TestMethod]
         public async Task Delete_PortalApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
-            // Arrange
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
             var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
@@ -511,7 +511,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var appToDelete = apps.First();
 
             // Act
-            var response = await DeletePortalApp(portalToTest.Id!, appToDelete.Key, UserType.Anonymous);
+            var response = await DeletePortalApp(portalToTest.Id, appToDelete.Key, UserType.Anonymous);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);

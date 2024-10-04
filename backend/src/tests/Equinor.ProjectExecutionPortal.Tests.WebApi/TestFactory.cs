@@ -216,7 +216,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
             _fusionContextResolverMock.Setup(service => service.GetContextAsync(It.IsAny<Guid>()))
                 .Returns((Guid contextId) =>
                 {
-                    return Task.FromResult(FusionContextData.ValidFusionContexts.First(x => x.Id == contextId));
+                    return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.Id == contextId));
                 });
         }
 

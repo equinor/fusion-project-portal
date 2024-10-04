@@ -66,8 +66,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             // Add onboarded contexts
 
             var jcaContext = OnboardedContextData.InitialSeedData.JcaContext;
+            var ogpContext = OnboardedContextData.InitialSeedData.OgpContext;
 
-            dbContext.AddRange(jcaContext);
+            dbContext.AddRange(jcaContext, ogpContext);
             dbContext.SaveChanges();
 
             // Add apps to portal
