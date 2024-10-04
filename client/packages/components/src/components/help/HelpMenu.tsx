@@ -1,5 +1,5 @@
 import { Button, Icon, Menu } from '@equinor/eds-core-react';
-import { file_description, help_outline, info_circle, launch, report_bug } from '@equinor/eds-icons';
+import { file_description, help, help_outline, info_circle, launch, report_bug } from '@equinor/eds-icons';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -69,6 +69,13 @@ export const HelpMenu = ({ setActiveActionById }: { setActiveActionById: (id: st
 					User Documentation
 				</MenuItem>
 				<Menu.Section title="">
+					<MenuItem
+						iconData={help_outline}
+						title="Fusion Project Portal User Guide"
+						link="https://statoilsrm.sharepoint.com/sites/FusionProjectPortalUserGuide/SitePages/Home.aspx"
+					>
+						Project Portal User Guide
+					</MenuItem>
 					<MenuItem
 						iconData={help_outline}
 						title="Report an error to service@equinor"
