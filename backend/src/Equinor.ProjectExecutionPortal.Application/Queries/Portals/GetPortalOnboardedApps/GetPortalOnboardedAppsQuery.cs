@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
 
-public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<PortalOnboardedAppDto?>>
+public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<PortalOnboardedAppDto>>
 {
     public Guid PortalId { get; } = portalId;
 
-    public class Handler : IRequestHandler<GetPortalOnboardedAppsQuery, IList<PortalOnboardedAppDto?>>
+    public class Handler : IRequestHandler<GetPortalOnboardedAppsQuery, IList<PortalOnboardedAppDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
@@ -25,7 +25,7 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
             _portalService = portalService;
         }
 
-        public async Task<IList<PortalOnboardedAppDto?>> Handle(GetPortalOnboardedAppsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<PortalOnboardedAppDto>> Handle(GetPortalOnboardedAppsQuery request, CancellationToken cancellationToken)
         {
             var portal = await _readWriteContext.Set<Portal>()
                 .AsNoTracking()
@@ -37,7 +37,7 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
 
             if (portal == null)
             {
-                return new List<PortalOnboardedAppDto?>();
+                return new List<PortalOnboardedAppDto>();
             }
 
             var onboardedApps = await _readWriteContext.Set<OnboardedApp>()

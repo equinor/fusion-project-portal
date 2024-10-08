@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
+using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAppKeys;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApp;
@@ -171,25 +172,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        // Apps
-
-        [HttpGet("{portalId:guid}/apps")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId)
-        {
-            //TODO: improve error handling
-            var portalAppsDto = await Mediator.Send(new GetPortalAppsQuery(portalId));
-
-            if (portalAppsDto == null)
-            {
-                return FusionApiError.NotFound(portalId, "Could not find portal with id");
-            }
-
-            var portalApps = portalAppsDto.Apps.DistinctBy(x => x.OnboardedApp.Id);
-
-            return Ok(portalApps.Select(x => new ApiPortalApp(x)).ToList());
-        }
+        // Onboarded Apps
 
         [HttpGet("{portalId:guid}/onboarded-apps")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -203,7 +186,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
                 return FusionApiError.NotFound(portalId, "Could not find portal with id");
             }
 
-            return Ok(portalOnboardedAppsDto.Select(x => new ApiPortalOnboardedApp(x)).ToList());
+            return Ok(portalOnboardedAppsDto.Select(onboardedAppDto => new ApiPortalOnboardedApp(onboardedAppDto)).ToList());
         }
 
         [HttpGet("{portalId:guid}/onboarded-apps/{appKey}")]
@@ -221,16 +204,18 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return new ApiPortalOnboardedApp(portalOnboardedAppDto);
         }
 
-        [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
+        // App Keys
+
+        [HttpGet("{portalId:guid}/appkeys")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
+        public async Task<ActionResult<List<string>>> PortalAppKeys([FromRoute] Guid portalId)
         {
             try
             {
-                var portalAppsDto = await Mediator.Send(new GetPortalAppsWithContextAndGlobalAppsByContextIdQuery(portalId, contextId));
-                
-                return Ok(portalAppsDto.Select(x => new ApiPortalApp(x)).ToList());
+                var portalGlobalAppKeys = await Mediator.Send(new GetGlobalAppKeysForPortalQuery(portalId));
+
+                return Ok(portalGlobalAppKeys);
             }
             catch (NotFoundException ex)
             {
@@ -238,7 +223,72 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
             catch (Exception)
             {
-                return FusionApiError.InvalidOperation("500", "An error occurred while removing portal");
+                return FusionApiError.InvalidOperation("500", "An error occurred");
+            }
+        }
+
+        [HttpGet("{portalId:guid}/contexts/{contextId:guid}/appkeys")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<string>>> PortalAppKeys([FromRoute] Guid portalId, [FromRoute] Guid contextId)
+        {
+            try
+            {
+                var portalContextualAppKeys = await Mediator.Send(new GetContextualAndGlobalAppKeysByPortalAndContextQuery(portalId, contextId));
+
+                return Ok(portalContextualAppKeys);
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred");
+            }
+        }
+
+        // Apps
+
+        [HttpGet("{portalId:guid}/apps")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId)
+        {
+            try
+            {
+                var portalAppsDto = await Mediator.Send(new GetGlobalAppsForPortalQuery(portalId));
+
+                return Ok(portalAppsDto.Select(portalAppDto => new ApiPortalApp(portalAppDto)).ToList());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred");
+            }
+        }
+
+        [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
+        {
+            try
+            {
+                var portalAppsDto = await Mediator.Send(new GetContextualAndGlobalAppsByPortalAndContextQuery(portalId, contextId));
+
+                return Ok(portalAppsDto.Select(portalAppDto => new ApiPortalApp(portalAppDto)).ToList());
+            }
+            catch (NotFoundException ex)
+            {
+                return FusionApiError.NotFound(portalId, ex.Message);
+            }
+            catch (Exception)
+            {
+                return FusionApiError.InvalidOperation("500", "An error occurred");
             }
         }
 

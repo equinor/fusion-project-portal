@@ -10,10 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 
-public class GetPortalAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<IList<PortalAppDto?>>
+public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList<PortalAppDto>>
 {
 
-    public GetPortalAppsWithContextAndGlobalAppsByContextIdQuery(Guid portalId, Guid contextId)
+    public GetContextualAndGlobalAppsByPortalAndContextQuery(Guid portalId, Guid contextId)
     {
         PortalId = portalId;
         ContextId = contextId;
@@ -22,7 +22,7 @@ public class GetPortalAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<I
     public Guid PortalId { get; }
     public Guid ContextId { get; }
 
-    public class Handler : IRequestHandler<GetPortalAppsWithContextAndGlobalAppsByContextIdQuery, IList<PortalAppDto?>>
+    public class Handler : IRequestHandler<GetContextualAndGlobalAppsByPortalAndContextQuery, IList<PortalAppDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
@@ -37,7 +37,7 @@ public class GetPortalAppsWithContextAndGlobalAppsByContextIdQuery : QueryBase<I
             _contextService = contextService;
         }
 
-        public async Task<IList<PortalAppDto?>> Handle(GetPortalAppsWithContextAndGlobalAppsByContextIdQuery request, CancellationToken cancellationToken)
+        public async Task<IList<PortalAppDto>> Handle(GetContextualAndGlobalAppsByPortalAndContextQuery request, CancellationToken cancellationToken)
         {
             //TODO: Improve error handling
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
