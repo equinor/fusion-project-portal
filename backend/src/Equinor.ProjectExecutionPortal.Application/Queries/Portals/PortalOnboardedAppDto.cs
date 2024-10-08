@@ -10,6 +10,5 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals
         public bool IsActive { get; set; } = false;
         public bool IsGlobal { get; set; }
         public bool IsContextual { get; set; }
-       
     }
 }

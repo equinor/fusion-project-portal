@@ -1,44 +1,22 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
-using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
-
-public enum FusionPortalAppInformationAmount
-{
-    Minimal,
-    All
-}
 
 public class OnboardedAppDto : IMapFrom<Domain.Entities.OnboardedApp>
 {
     public Guid Id { get; set; }
-    public string AppKey { get; set; }
-    public FusionPortalAppInformation? AppInformation { get; set; }
-    public IList<ContextTypeDto> ContextTypes { get; set; }
+    public string? AppKey { get; set; }
+    public string? DisplayName { get; set; }
+    public string? Description { get; set; }
+    public App? AppInformation { get; set; }
+    public IList<ContextTypeDto> ContextTypes { get; set; } = new List<ContextTypeDto>();
 
-    public void SupplyWithFusionData(FusionPortalAppInformation appInformation, FusionPortalAppInformationAmount amount)
+    public void SupplyWithFusionData(App app)
     {
-        switch (amount)
-        {
-            case FusionPortalAppInformationAmount.All:
-                AppInformation = appInformation;
-                break;
-
-            case FusionPortalAppInformationAmount.Minimal:
-                var appInfo = new FusionPortalAppInformation
-                {
-                    Key = appInformation.Key,
-                    Name = appInformation.Name,
-                    Description = appInformation.Description
-                };
-
-                AppInformation = appInfo;
-
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(amount), amount, null);
-        }
+        DisplayName = app.DisplayName;
+        Description = app.Description;
+        AppInformation = app;
     }
 }

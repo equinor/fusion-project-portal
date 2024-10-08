@@ -4,7 +4,6 @@ using Equinor.ProjectExecutionPortal.Application.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
-using Equinor.ProjectExecutionPortal.FusionPortalApi;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.Authentication;
@@ -28,7 +27,6 @@ public static class ApplicationModule
 
         services.Configure<CacheOptions>(configuration.GetSection("CacheOptions"));
         services.Configure<AuthenticatorOptions>(configuration.GetSection("Authenticator"));
-        services.Configure<FusionPortalApiOptions>(configuration.GetSection("FusionPortalApi"));
         services.Configure<AssetProxyOptions>(configuration.GetSection("AssetProxy"));
 
         services.AddAuthorization(options =>

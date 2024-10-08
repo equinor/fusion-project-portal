@@ -63,7 +63,7 @@ public class GetPortalOnboardedAppQuery(Guid portalId, string appKey) : QueryBas
 
                 await _portalService.SetAppAsActiveInPortal(portalOnboardedAppDto, cancellationToken);
 
-                await _appService.EnrichAppWithFusionAppData(portalOnboardedAppDto.OnboardedApp, cancellationToken);
+                await _appService.EnrichWithFusionAppData(portalOnboardedAppDto.OnboardedApp, cancellationToken);
 
                 return portalOnboardedAppDto;
             }
@@ -75,9 +75,9 @@ public class GetPortalOnboardedAppQuery(Guid portalId, string appKey) : QueryBas
 
             if (onboardedApp != null)
             {
-                var portalOnboardedAppNotActive = await _portalService.GetPortalOnboardedAppNotActive(onboardedApp, cancellationToken);
+                var portalOnboardedAppNotActive = _portalService.GetPortalOnboardedAppNotActive(onboardedApp, cancellationToken);
 
-                await _appService.EnrichAppWithFusionAppData(portalOnboardedAppNotActive.OnboardedApp, cancellationToken);
+                await _appService.EnrichWithFusionAppData(portalOnboardedAppNotActive.OnboardedApp, cancellationToken);
 
                 return portalOnboardedAppNotActive;
             }

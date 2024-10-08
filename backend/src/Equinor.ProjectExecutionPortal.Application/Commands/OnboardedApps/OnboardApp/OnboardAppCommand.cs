@@ -1,5 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
-using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
+﻿using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
+using Equinor.ProjectExecutionPortal.Application.Services.FusionAppsService;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -22,19 +22,19 @@ public class OnboardAppCommand : IRequest<Guid>
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
-        private readonly IAppService _appService;
+        private readonly IFusionAppsService _fusionAppsService;
         private readonly IContextTypeService _contextTypeService;
 
-        public Handler(IReadWriteContext readWriteContext, IAppService appService, IContextTypeService contextTypeService)
+        public Handler(IReadWriteContext readWriteContext, IFusionAppsService fusionAppsService, IContextTypeService contextTypeService)
         {
             _readWriteContext = readWriteContext;
-            _appService = appService;
+            _fusionAppsService = fusionAppsService;
             _contextTypeService = contextTypeService;
         }
 
         public async Task<Guid> Handle(OnboardAppCommand command, CancellationToken cancellationToken)
         {
-            if (!await _appService.FusionAppExist(command.AppKey, cancellationToken))
+            if (!await _fusionAppsService.FusionAppExist(command.AppKey, cancellationToken))
             {
                 throw new NotFoundException($"Could not locate app '{command.AppKey}' in Fusion.");
             }
@@ -49,7 +49,7 @@ public class OnboardAppCommand : IRequest<Guid>
             }
 
             var onboardedApp = new OnboardedApp(command.AppKey);
-            
+
             try
             {
                 onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));

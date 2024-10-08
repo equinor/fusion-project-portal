@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
-using Fusion.Integration;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {

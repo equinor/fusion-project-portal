@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetContextTypes;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
@@ -7,8 +6,6 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 {

@@ -15,8 +15,8 @@ public class GetOnboardedContextByExternalIdContextTypeQuery : QueryBase<Onboard
         ContextType = contextType;
     }
 
-    public string ExternalId { get; } = null!;
-    public string ContextType { get; } = null!;
+    public string ExternalId { get; }
+    public string ContextType { get; }
 
     public class Handler : IRequestHandler<GetOnboardedContextByExternalIdContextTypeQuery, OnboardedContextDto?>
     {
