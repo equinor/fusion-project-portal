@@ -294,23 +294,21 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        [Ignore] // TODO: Need to perform clean up after each test
         [TestMethod]
         public async Task Get_OnlyGlobalAppsForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.FirstOrDefault();
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
 
             // Act
             var apps = await AssertGetAppsForPortal(portalToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(apps);
-            Assert.AreEqual(apps.Count, 2);
+            Assert.AreEqual(4, apps.Count);
         }
 
-        [Ignore]// TODO: Need to perform clean up after each test
         [TestMethod] // Limitation: Invalid context not currently tested
         public async Task Get_BothGlobalAndContextAppsForPortal_WithValidContext_AsAuthenticatedUser_ShouldReturnOk()
         {
@@ -323,7 +321,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             // Assert
             Assert.IsNotNull(apps);
-            Assert.AreEqual(apps.Count, 6);
+            Assert.AreEqual(6, apps.Count);
         }
 
         [TestMethod]
@@ -370,7 +368,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Get_PortalOnboardedApps_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
@@ -384,7 +381,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var apps = JsonConvert.DeserializeObject<IList<ApiPortalApp>>(content);
+            var apps = JsonConvert.DeserializeObject<IList<ApiPortalOnboardedApp>>(content);
 
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);

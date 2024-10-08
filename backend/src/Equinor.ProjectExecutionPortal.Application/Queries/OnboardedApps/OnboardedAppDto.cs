@@ -15,7 +15,6 @@ public class OnboardedAppDto : IMapFrom<Domain.Entities.OnboardedApp>
 
     public void SupplyWithFusionData(App app)
     {
-        AppKey = app.AppKey;
         DisplayName = app.DisplayName;
         Description = app.Description;
         AppInformation = app;
