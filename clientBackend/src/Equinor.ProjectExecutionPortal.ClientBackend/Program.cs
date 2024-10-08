@@ -19,14 +19,6 @@ builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("
 builder.Services.Configure<ApplicationInsightsOptions>(builder.Configuration.GetSection("ApplicationInsights"));
 builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache"));
 
-// CORS setup
-builder.Services.AddCors(options =>
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-        corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()));
-
 // Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration)
@@ -115,8 +107,6 @@ app.MapFusionPortalAssetProxy();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Bundle}/{action=Index}/{id?}");
-
-app.UseCors();
 
 app.UseAuthentication();
 
