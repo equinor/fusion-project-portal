@@ -598,7 +598,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             foreach (var portal in portals)
             {
                 AssertHelpers.AssertPortalValues(portal);
-                Assert.AreEqual(portal.Apps.Count, 0); // No relational data should be included in this request
+                Assert.AreEqual(0, portal.Apps.Count); // No relational data should be included in this request
             }
 
             return portals;
@@ -622,7 +622,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.IsNotNull(content);
             AssertHelpers.AssertPortalValues(portal);
             AssertHelpers.AssertPortalConfigurationValues(portal!.Configuration, acceptNullValues: true);
-            Assert.AreEqual(portal.Apps.Count, 0); // No relational data should be included in this request
+            Assert.AreEqual(0, portal.Apps.Count); // No relational data should be included in this request
 
             return portal;
         }
