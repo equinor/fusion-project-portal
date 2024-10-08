@@ -2,14 +2,13 @@
     "compilerOptions": {
         "rootDir": "src",
         "baseUrl": "src",
-        "jsx": "react-jsxdev",
+        "jsx": "react-jsx",
         "strict": true,
         "module": "ES2022",
         "target": "ES6",
         "incremental": true,
         "removeComments": true,
         "preserveConstEnums": true,
-
         "inlineSourceMap":true,
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
@@ -22,9 +21,13 @@
             "dom.iterable"
         ],
         "composite": true,
-        "outDir": "./dist", 
+        "outDir": "./dist",
     },
     "include": [
         "./src",
       ],
+      "exclude": [
+        "node_modules",
+        "lib"
+      ]
 }

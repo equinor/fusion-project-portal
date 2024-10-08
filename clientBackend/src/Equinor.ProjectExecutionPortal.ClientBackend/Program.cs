@@ -1,12 +1,9 @@
 ﻿using Equinor.ProjectExecutionPortal.ClientBackend.Configurations;
 using Equinor.ProjectExecutionPortal.ClientBackend.Modules;
-using Fusion.Integration;
-using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
-using Constants = Equinor.ProjectExecutionPortal.ClientBackend.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,22 +34,15 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add fusion integration
 builder.Services.AddFusionIntegration(fusionIntegrationConfig =>
 {
-    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment") ?? "ci";
     fusionIntegrationConfig.UseServiceInformation("Fusion.Project.Portal", environment);
     fusionIntegrationConfig.UseDefaultEndpointResolver(environment);
     fusionIntegrationConfig.UseDefaultTokenProvider(opts =>
     {
-        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId")!;
         opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
     });
     fusionIntegrationConfig.DisableClaimsTransformation();
-});
-
-// Add http client to the fusion portal api. This can be fetched from the IHttpClientFactory
-builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, fusionHttpClientOptions =>
-{
-    fusionHttpClientOptions.UseDelegateToken = true;
-    fusionHttpClientOptions.UseFusionEndpoint(FusionEndpoint.Portal);
 });
 
 builder.Services.AddResponseCompression(options =>
@@ -106,24 +96,21 @@ app.UseCookiePolicy(new CookiePolicyOptions
 
 app.UseResponseCaching();
 
-app.UseAuthentication();
-
 app.UseRouting();
-
-app.UseAuthorization();
 
 app.UseResponseCompression();
 
 // Unless request matches any of these endpoint, the SPA will take control
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapDefaultControllerRoute();
-    endpoints.MapFusionPortalAssetProxy();
+app.MapDefaultControllerRoute();
+app.MapFusionPortalAssetProxy();
 
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Bundle}/{action=Index}/{id?}");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Bundle}/{action=Index}/{id?}");
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 // SPA Configuration
 app.MapSpaEndpoints(builder);

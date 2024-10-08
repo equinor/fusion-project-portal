@@ -4,7 +4,7 @@ import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-mo
 
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
 import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
-import { addPortalClient, configurePortalContext, appConfigurator } from '@equinor/portal-core';
+import { addPortalClient, configurePortalContext } from '@equinor/portal-core';
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
@@ -17,6 +17,7 @@ import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-featu
 import { FeatureLogger } from './feature-logger';
 import { enablePortalConfig } from '@portal/core';
 import { PortalConfig as PortalConfigModule } from '@portal/core';
+import { enableServiceDiscovery } from '@equinor/fusion-framework-module-service-discovery';
 
 const showInfo = false;
 
@@ -28,12 +29,19 @@ function getClientIdFormScope(scope: string): string | undefined {
 
 export function createPortalFramework(portalConfig: PortalConfig) {
 	return (config: FusionConfigurator) => {
-		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
+		config.logger.level = 4; // (portalConfig.logger?.level as LoggerLevel) || 0;
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
+
+		config.configureHttpClient('service_discovery', {
+			baseUri: `https://discovery.fusion.equinor.com/service-registry/environments/${portalConfig.fusionLegacyEnvIdentifier}/services`,
+			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
+		});
+
+		enableServiceDiscovery(config);
 
 		enablePortalMenu(config);
 
@@ -102,9 +110,14 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		});
 
 		enableContext(config);
-		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
 
-		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
+		// enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
+		enableAppModule(config);
+
+		config.configureHttpClient('app', {
+			baseUri: new URL('/apps-proxy/', location.origin).href,
+			defaultScopes: ['5a842df8-3238-415d-b168-9f16a6a6031b/.default'],
+		});
 
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 
@@ -254,6 +267,11 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		}
 
 		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
+			// const appService = await fusion.serviceDiscovery.resolveService('apps');
+			// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// // @ts-ignore
+			// modules.http.config._clients.apps = { baseUri: appService.uri, defaultScopes: appService.scopes };
+
 			new FeatureLogger(fusion);
 
 			// Todo: should be moved to context module

@@ -5,10 +5,10 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "prebuild": "rm -f ../client/packages/portal-client/src/assets/appLegacyLoader.js",
-    "build": "fusion-framework-cli app build && mv ./dist/app-bundle.js ../client/packages/portal-client/src/assets/appLegacyLoader.js",
+    "prebuild": "rm -f ../../packages/portal-client/src/assets/appLegacyLoader.js",
+    "build:appLoader": "fusion-framework-cli app build && mv ./dist/app-bundle.js ../../packages/portal-client/src/assets/appLegacyLoader.js",
     "build:resources": "tsc && vite build",
-    "dev": "fusion-framework-cli app dev -c vite.config.js",
+    "dev:appLoader": "fusion-framework-cli app dev -c vite.config.js",
     "docker": "cd .. && sh docker-script.sh app-react",
     "update:fusion": "ncu -i -f /fusion/"
   },
@@ -16,15 +16,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@equinor/fusion": "^3.4.13",
+    "@equinor/eds-core-react": "^0.42.0",
+    "@equinor/fusion": "^3.4.16",
     "@equinor/fusion-components": "^2.12.0",
-    "@equinor/fusion-framework-cli": "^7.0.12",
-    "@equinor/fusion-framework-module-http": "^5.1.1",
-    "@equinor/fusion-framework-module-navigation": "^3.0.6",
-    "@equinor/fusion-framework-react": "^5.3.2",
-    "@equinor/fusion-framework-react-app": "^4.1.9",
-    "@equinor/fusion-observable": "^8.1.2",
-    "@equinor/fusion-react-styles": "^0.5.11",
+    "@equinor/fusion-framework-app": "^9.1.10-next-9f6eec8c5a4cb3dd430fc6bee227442a3dc28bb8",
+    "@equinor/fusion-framework-module-app": "^6.0.0-next-9f6eec8c5a4cb3dd430fc6bee227442a3dc28bb8",
+    "@equinor/fusion-framework-module-http": "^6.2.0",
+    "@equinor/fusion-framework-module-navigation": "^4.0.7",
+    "@equinor/fusion-framework-react": "^7.3.0-next-9f6eec8c5a4cb3dd430fc6bee227442a3dc28bb8",
+    "@equinor/fusion-framework-react-app": "^5.2.10-next-9f6eec8c5a4cb3dd430fc6bee227442a3dc28bb8",
+    "@equinor/fusion-observable": "^8.4.1",
+    "@equinor/fusion-react-styles": "^0.6.2",
     "@types/react": "^17.0.70",
     "@types/react-dom": "^17.0.25",
     "react": "^17.0.1",
@@ -39,6 +41,7 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
+    "@equinor/fusion-framework-cli": "^10.0.0-next-499bdf0f6597dbdcfdabd563b94ed08de36bbfe4",
     "@types/react-router-dom": "^5.3.3",
     "vite-plugin-static-copy": "^0.17.0"
   }

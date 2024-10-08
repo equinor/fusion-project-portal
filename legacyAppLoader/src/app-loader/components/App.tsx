@@ -19,19 +19,20 @@ export const App = (props: {
 	fusion: Fusion;
 	env: {
 		config: {
-			environment: { appKey: string; fusionEnv: string; loadingText?: string };
+			environment: { appKey: string; env: string; loadingText?: string };
 		};
 	};
 }) => {
 	const fusion = useFramework<[AppModule, NavigationModule]>();
 	const appFramework = useAppModules<[AppModule]>();
+
 	return (
 		<LegacyFusionWrapper
 			framework={fusion}
 			options={{
 				loadBundlesFromDisk: false,
 				environment: {
-					env: props.env.config.environment.fusionEnv,
+					env: props.env.config.environment.env,
 				},
 			}}
 			loader={<ProgressLoader title={props.env.config.environment.loadingText || 'Loading'} />}
@@ -45,10 +46,13 @@ export const App = (props: {
 const appComponent = (args: any) => createElement(App, args);
 
 /** create React render root component */
-export const createApp = (args: ComponentRenderArgs) => makeComponent(appComponent(args), args, configure as any);
+export const createApp = (args: ComponentRenderArgs) => {
+	return makeComponent(appComponent(args), args, configure as any);
+};
 
 export const AppComponent = (args: ComponentRenderArgs) => {
 	const AppComponent = createApp(args);
+	return 'hello';
 	return (
 		<Suspense fallback={<></>}>
 			<AppComponent />
