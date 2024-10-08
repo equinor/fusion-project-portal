@@ -295,6 +295,50 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         }
 
         [TestMethod]
+        public async Task Get_OnlyGlobalAppKeysForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+
+            // Act
+            var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(apps);
+            Assert.AreEqual(4, apps.Count);
+        }
+
+        [TestMethod]
+        public async Task Get_BothGlobalAndContextAppKeysForPortal_WithValidContext_AsAuthenticatedUser_ShouldReturnOk()
+        {
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+
+            // Act
+            var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+
+            // Assert
+            Assert.IsNotNull(apps);
+            Assert.AreEqual(6, apps.Count);
+        }
+
+        [TestMethod]
+        public async Task Get_BothGlobalAndContextAppKeysForPortal_WithInvalidContext_AsAuthenticatedUser_ShouldReturn404()
+        {
+            // Arrange
+            var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+
+            // Act
+            var response = await GetAppKeysForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
         public async Task Get_OnlyGlobalAppsForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
@@ -309,7 +353,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(4, apps.Count);
         }
 
-        [TestMethod] // Limitation: Invalid context not currently tested
+        [TestMethod]
         public async Task Get_BothGlobalAndContextAppsForPortal_WithValidContext_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Arrange
@@ -329,7 +373,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.FirstOrDefault();
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
 
             // Act
             var response = await GetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated);
@@ -605,6 +649,33 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             return portalConfiguration;
         }
 
+        private static async Task<IList<string>?> AssertGetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            var response = await GetAppKeysForPortal(portalId, contextId, userType);
+            var content = await response.Content.ReadAsStringAsync();
+            var appKeys = JsonConvert.DeserializeObject<IList<string>>(content);
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return appKeys;
+            }
+
+            Assert.IsNotNull(content);
+            Assert.IsNotNull(appKeys);
+
+            foreach (var appKey in appKeys)
+            {
+                Assert.IsNotNull(appKey);
+                Assert.IsInstanceOfType<string>(appKey);
+            }
+
+            return appKeys;
+        }
+
         private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
         {
             // Act
@@ -684,6 +755,15 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             var client = TestFactory.Instance.GetHttpClient(userType);
             var response = await client.GetAsync($"{Route}/{portalId}/configuration");
+
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> GetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType)
+        {
+            var route = contextId != null ? $"{Route}/{portalId}/contexts/{contextId}/appkeys" : $"{Route}/{portalId}/appkeys";
+            var client = TestFactory.Instance.GetHttpClient(userType);
+            var response = await client.GetAsync(route);
 
             return response;
         }
