@@ -21,7 +21,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
         {
             var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
 
-            // TODO: Create API model with minimal data
             return Ok(onboardedAppsDto.Select(onboardedAppDto => new ApiOnboardedApp(onboardedAppDto)).ToList());
         }
 

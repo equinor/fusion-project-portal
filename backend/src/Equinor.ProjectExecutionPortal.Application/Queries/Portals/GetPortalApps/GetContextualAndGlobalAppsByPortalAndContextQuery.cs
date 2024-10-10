@@ -12,7 +12,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAp
 
 public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList<PortalAppDto>>
 {
-
     public GetContextualAndGlobalAppsByPortalAndContextQuery(Guid portalId, Guid contextId)
     {
         PortalId = portalId;
@@ -39,7 +38,6 @@ public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList
 
         public async Task<IList<PortalAppDto>> Handle(GetContextualAndGlobalAppsByPortalAndContextQuery request, CancellationToken cancellationToken)
         {
-            //TODO: Improve error handling
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
 
             if (fusionContext == null)
@@ -56,13 +54,13 @@ public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList
 
             if (portal == null)
             {
-                return null;
+                throw new NotFoundException(nameof(Portal), request.PortalId);
             }
 
             var portalApps = portal.Apps.Where(apps => apps.OnboardedApp.ContextTypes.Count == 0 || apps.OnboardedApp.ContextTypes.Any(m => m.ContextTypeKey == fusionContext.Type.Name)).ToList();
-            
+
             var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalAppDto>>(portalApps);
-            
+
             await _appService.EnrichWithFusionAppData(portalAppsDto.Select(portalAppDto => portalAppDto.OnboardedApp).ToList(), cancellationToken);
 
             return portalAppsDto;

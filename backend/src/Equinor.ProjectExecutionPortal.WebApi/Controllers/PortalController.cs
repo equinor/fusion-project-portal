@@ -323,7 +323,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{portalId:guid}/contexts/{contextId}/apps")]
+        [HttpPost("{portalId:guid}/contexts/{contextId:guid}/apps")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -410,7 +410,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             return Ok();
         }
 
-        //ContextTypes
+        // ContextTypes
         [HttpPost("{portalId:guid}/context-type")]
         [Authorize(Policy = Policies.ProjectPortal.Admin)]
         [Consumes(MediaTypeNames.Application.Json)]
