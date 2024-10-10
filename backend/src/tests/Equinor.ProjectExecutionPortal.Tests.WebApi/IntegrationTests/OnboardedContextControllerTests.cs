@@ -56,8 +56,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = FusionContextData.MongstadFusionContext.ExternalId!,
-                Type = FusionContextData.MongstadFusionContext.Type,
+                ExternalId = FusionContextApiData.MongstadFusionContext.ExternalId!,
+                Type = FusionContextApiData.MongstadFusionContext.Type,
                 Description = "Some sort of very detailed description"
             };
 
@@ -80,8 +80,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = OnboardedContextData.InitialSeedData.JcaContext.ExternalId,
-                Type = OnboardedContextData.InitialSeedData.JcaContext.Type,
+                ExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.ExternalId,
+                Type = OnboardedContextData.InitialDbSeedData.JcaContext.Type,
                 Description = "Description from test method"
             };
 
@@ -98,8 +98,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = OnboardedContextData.InitialSeedData.JcaContext.ExternalId,
-                Type = OnboardedContextData.InitialSeedData.JcaContext.Type,
+                ExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.ExternalId,
+                Type = OnboardedContextData.InitialDbSeedData.JcaContext.Type,
                 Description = "Description from test method"
             };
 
@@ -134,8 +134,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = OnboardedContextData.InitialSeedData.JcaContext.ExternalId,
-                Type = OnboardedContextData.InitialSeedData.JcaContext.Type,
+                ExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.ExternalId,
+                Type = OnboardedContextData.InitialDbSeedData.JcaContext.Type,
                 Description = "Description from test method"
             };
 
@@ -150,7 +150,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedContext_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var ogpExternalContextId = OnboardedContextData.InitialSeedData.OgpContext.ExternalId;
+            var ogpExternalContextId = OnboardedContextData.InitialDbSeedData.OgpContext.ExternalId;
 
             // Act
             var getAllBeforeRemoval = await AssertGetAllOnboardedContexts(UserType.Administrator, HttpStatusCode.OK);
@@ -169,7 +169,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedContext_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var existingOnboardedContextExternalId = OnboardedContextData.InitialSeedData.JcaContext.Id;
+            var existingOnboardedContextExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.Id;
 
             // Act
             var removeResponse = await RemoveOnboardedContext(UserType.Authenticated, existingOnboardedContextExternalId);
@@ -182,7 +182,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var existingOnboardedContextExternalId = OnboardedContextData.InitialSeedData.JcaContext.Id;
+            var existingOnboardedContextExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.Id;
 
             // Act
             var removeResponse = await RemoveOnboardedContext(UserType.Anonymous, existingOnboardedContextExternalId);

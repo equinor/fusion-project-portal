@@ -299,7 +299,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Act
             var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
@@ -314,10 +314,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Act
-            var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(apps);
@@ -329,10 +329,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Act
-            var response = await GetAppKeysForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated);
+            var response = await GetAppKeysForPortal(portalToTest!.Id, FusionContextApiData.InvalidContextId, UserType.Authenticated);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
@@ -343,7 +343,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Act
             var apps = await AssertGetAppsForPortal(portalToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
@@ -358,10 +358,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Act
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(apps);
@@ -373,10 +373,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Act
-            var response = await GetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.InvalidContextId, UserType.Authenticated);
+            var response = await GetAppsForPortal(portalToTest!.Id, FusionContextApiData.InvalidContextId, UserType.Authenticated);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
@@ -405,7 +405,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_AppsForPortal_WithValidContext_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Act
-            var apps = await AssertGetAppsForPortal(Guid.NewGuid(), FusionContextData.InitialSeedData.JcaContextId, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var apps = await AssertGetAppsForPortal(Guid.NewGuid(), FusionContextApiData.JcaContextId, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(apps);
@@ -465,10 +465,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
-            var portalToDelete = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToDelete = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Ensure the portal has apps
-            var apps = await AssertGetAppsForPortal(portalToDelete!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToDelete!.Id, FusionContextApiData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
 
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);
@@ -489,10 +489,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Ensure the portal has apps
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Administrator, HttpStatusCode.OK);
 
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);
@@ -515,10 +515,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Ensure the portal has apps
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
 
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);
@@ -537,10 +537,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         {
             // Arrange
             var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialSeedData.Portal2.Key);
+            var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
 
             // Ensure the portal has apps
-            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextData.InitialSeedData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
+            var apps = await AssertGetAppsForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
 
             Assert.IsNotNull(apps);
             Assert.IsTrue(apps.Count > 0);

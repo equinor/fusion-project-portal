@@ -199,24 +199,24 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi
         private void SetupServiceMock()
         {
             _fusionAppsClientMock.Setup(service => service.GetAppsAsync(default))
-                .Returns(Task.FromResult<IEnumerable<App>>(FusionAppData.ValidFusionApps));
+                .Returns(Task.FromResult<IEnumerable<App>>(FusionAppApiData.ValidFusionApps));
 
             _fusionAppsClientMock.Setup(service => service.GetAppAsync(It.IsAny<string>(), default))
                 .Returns((string appKey, CancellationToken token) =>
                 {
-                    return Task.FromResult(FusionAppData.ValidFusionApps.FirstOrDefault(x => x.AppKey == appKey));
+                    return Task.FromResult(FusionAppApiData.ValidFusionApps.FirstOrDefault(x => x.AppKey == appKey))!;
                 });
 
             _fusionContextResolverMock.Setup(service => service.ResolveContextAsync(It.IsAny<ContextIdentifier>(), It.IsAny<FusionContextType>()))
                 .Returns((ContextIdentifier contextIdentifier, FusionContextType type) =>
                 {
-                    return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.ExternalId == contextIdentifier.Identifier));
+                    return Task.FromResult(FusionContextApiData.ValidFusionContexts.FirstOrDefault(x => x.ExternalId == contextIdentifier.Identifier));
                 });
 
             _fusionContextResolverMock.Setup(service => service.GetContextAsync(It.IsAny<Guid>()))
                 .Returns((Guid contextId) =>
                 {
-                    return Task.FromResult(FusionContextData.ValidFusionContexts.FirstOrDefault(x => x.Id == contextId));
+                    return Task.FromResult(FusionContextApiData.ValidFusionContexts.FirstOrDefault(x => x.Id == contextId))!;
                 });
         }
 
