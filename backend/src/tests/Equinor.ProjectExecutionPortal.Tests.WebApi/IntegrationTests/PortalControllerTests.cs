@@ -77,7 +77,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 ShortName = "Created short name",
                 Subtext = "Created subtext",
                 Icon = "Created icon",
-                ContextTypes = new List<string> { "ProjectMaster" }
+                ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
             };
 
             // Act
@@ -139,7 +139,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 ShortName = "Updated short name",
                 Subtext = "Updated subtext",
                 Icon = "Updated icon",
-                ContextTypes = new List<string> { "ProjectMaster" }
+                ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
             };
 
             // Act

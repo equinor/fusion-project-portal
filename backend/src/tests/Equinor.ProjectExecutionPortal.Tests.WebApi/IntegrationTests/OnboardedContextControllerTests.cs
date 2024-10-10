@@ -80,9 +80,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.ExternalId,
-                Type = OnboardedContextData.InitialDbSeedData.JcaContext.Type,
-                Description = "Description from test method"
+                ExternalId = FusionContextApiData.MongstadFusionContext.ExternalId!,
+                Type = FusionContextApiData.MongstadFusionContext.Type,
+                Description = "Some sort of very detailed description"
             };
 
             // Act
@@ -98,9 +98,9 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = OnboardedContextData.InitialDbSeedData.JcaContext.ExternalId,
-                Type = OnboardedContextData.InitialDbSeedData.JcaContext.Type,
-                Description = "Description from test method"
+                ExternalId = FusionContextApiData.MongstadFusionContext.ExternalId!,
+                Type = FusionContextApiData.MongstadFusionContext.Type,
+                Description = "Some sort of very detailed description"
             };
 
             // Act
@@ -116,7 +116,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardContextRequest
             {
-                ExternalId = "1337olol-392f-4d7e-bb14-79a006571337",
+                ExternalId = FusionContextApiData.InvalidContextExternalId,
                 Type = "tanteSofie",
                 Description = "A non-existent context"
             };

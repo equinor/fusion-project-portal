@@ -10,6 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
         public static Guid OgpContextId = new("ce31b83a-b6cd-4267-89f3-db308edf721e");
         public static string MongstadContextExternalId = "09206ca3-02ac-4c65-adbf-caa7b66364ea";
         public static Guid MongstadContextId = new("4CB78175-46CF-41A3-58DB-08DC74C80D40");
+        public static string InvalidContextExternalId = "11111111-1111-1111-1111-111111111111";
         public static Guid InvalidContextId = new("11111111-1111-1111-1111-111111111111");
 
         public static FusionContext JcaFusionContext => new()

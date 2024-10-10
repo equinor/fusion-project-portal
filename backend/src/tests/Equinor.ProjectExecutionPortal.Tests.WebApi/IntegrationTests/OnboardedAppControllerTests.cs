@@ -91,8 +91,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app",
-                ContextTypes = new List<string>() { "ProjectMaster" }
+                AppKey = FusionAppApiData.TestFusion.AppKey,
+                ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
             };
 
             // Act
@@ -114,7 +114,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app",
+                AppKey = FusionAppApiData.TestFusion.AppKey
             };
 
             // Act
@@ -130,7 +130,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app",
+                AppKey = FusionAppApiData.TestFusion.AppKey
             };
 
             // Act
@@ -146,7 +146,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist-in-fusion"
+                AppKey = FusionAppApiData.NonExistentApp.AppKey
             };
 
             // Act
@@ -181,7 +181,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                ContextTypes = new List<string>() { }
+                ContextTypes = new List<string>()
             };
 
             // Act
@@ -203,7 +203,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiUpdateOnboardedAppRequest();
 
             // Act
-            var response = await UpdateOnboardedApp(UserType.Authenticated, payload, "some-app-key");
+            var response = await UpdateOnboardedApp(UserType.Authenticated, payload, OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
@@ -216,7 +216,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiUpdateOnboardedAppRequest();
 
             // Act
-            var response = await UpdateOnboardedApp(UserType.Anonymous, payload, "some-app-key");
+            var response = await UpdateOnboardedApp(UserType.Anonymous, payload, OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -229,8 +229,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "app-to-be-offboarded",
-                ContextTypes = new List<string>() { "ProjectMaster" }
+                AppKey = FusionAppApiData.TestToBeOffboardedFusion.AppKey,
+                ContextTypes = new List<string>() { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
             };
 
             // Act
