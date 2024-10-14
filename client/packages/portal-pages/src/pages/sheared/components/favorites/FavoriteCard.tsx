@@ -88,7 +88,7 @@ export const FavoriteCard = ({ app, onClick, loading, isDisabled }: FavoriteCard
 
 	return (
 		<Styled.Favorite
-			to={isDisabled ? '#' : `/apps/${app.key}/`}
+			to={isDisabled ? '#' : `/apps/${app.appKey}/`}
 			style={appColors}
 			disabled={isDisabled}
 			title={isDisabled ? `${app.name} is not available in the selected context` : app.name}

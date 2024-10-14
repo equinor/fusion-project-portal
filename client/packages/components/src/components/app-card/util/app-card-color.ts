@@ -1,10 +1,7 @@
 import { tokens } from '@equinor/eds-tokens';
+import { AppManifest } from '@portal/core';
 
-export const getAppCardColor = (app: {
-	color?: string | null;
-	isDisabled?: boolean;
-	category?: { color?: string | null };
-}) => {
+export const getAppCardColor = (app: Partial<AppManifest>) => {
 	const appColor = app.isDisabled
 		? tokens.colors.interactive.disabled__text.hex
 		: app.category?.color || tokens.colors.interactive.primary__resting.hex;

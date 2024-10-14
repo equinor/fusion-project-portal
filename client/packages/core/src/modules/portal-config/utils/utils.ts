@@ -22,35 +22,35 @@ export const appGroupArraySort = (a: AppCategory, b: AppCategory) => {
 // Returns an array of disabled apps based on the enabled apps and favorites
 export function getDisabledApps(enabledApps: AppManifest[], favorites: AppManifest[]) {
 	// Extract all app keys from the enabledApps array
-	const allAppKeys = enabledApps.map((app) => app.key);
+	const allAppKeys = enabledApps.map((app) => app.appKey);
 
 	// Filter out the favorites that are not present in the enabledApps array
 	return favorites
-		.filter((favorite) => !allAppKeys.includes(favorite.key))
+		.filter((favorite) => !allAppKeys.includes(favorite.appKey))
 		.map(
 			(disabledApp): AppManifest => ({
 				...disabledApp,
 				description: disabledApp.description ?? '',
 				isDisabled: true,
 				isPinned: true,
-				order: disabledApp.order ?? 0,
 			})
 		);
 }
 // Returns an array of disabled apps based on the enabled apps and favorites
 export function getPinnedAppsKeys(apps: AppManifest[], favorites: AppManifest[]) {
 	// Extract all app keys from the enabledApps array
-	const allAppKeys = apps.map((app) => app.key);
+	const allAppKeys = apps.map((app) => app.appKey);
 
 	// Filter out the favorites that are not present in the enabledApps array
-	return favorites.filter((favorite) => allAppKeys.includes(favorite.key)).map((f) => f.key);
+	return favorites.filter((favorite) => allAppKeys.includes(favorite.appKey)).map((f) => f.appKey);
 }
 
 export function getPinnedAppsGroup(enabledApps: AppManifest[], disabledApps: AppManifest[], favorites: AppManifest[]) {
 	const pinnedApps = favorites.reduce(
 		(acc, curr) => {
 			const enabledApp =
-				enabledApps.find((app) => app.key === curr.key) ?? disabledApps.find((app) => app.key === curr.key);
+				enabledApps.find((app) => app.appKey === curr.appKey) ??
+				disabledApps.find((app) => app.appKey === curr.appKey);
 
 			if (enabledApp) {
 				return {
@@ -68,7 +68,7 @@ export function getPinnedAppsGroup(enabledApps: AppManifest[], disabledApps: App
 		} as AppCategory
 	);
 
-	pinnedApps.apps.sort((a, b) => a.name.localeCompare(b.name));
+	pinnedApps.apps.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
 	return pinnedApps;
 }

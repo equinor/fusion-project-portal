@@ -9,16 +9,16 @@ const appGroups: AppCategory[] = [
 		defaultIcon: '1',
 		apps: [
 			{
-				key: 'handover',
-				name: 'Handover',
+				appKey: 'handover',
+				displayName: 'Handover',
 			},
 			{
-				key: 'swcr',
-				name: 'SWCR',
+				appKey: 'swcr',
+				displayName: 'SWCR',
 			},
 			{
-				key: 'scope',
-				name: 'Scope Change',
+				appKey: 'scope',
+				displayName: 'Scope Change',
 			},
 		] as AppManifest[],
 	},
@@ -28,8 +28,8 @@ const appGroups: AppCategory[] = [
 		defaultIcon: '2',
 		apps: [
 			{
-				key: 'meetings',
-				name: 'Meetings',
+				appKey: 'meetings',
+				displayName: 'Meetings',
 			},
 		] as AppManifest[],
 	},
@@ -47,8 +47,8 @@ describe('appsMatchingSearch', () => {
 				color: '1',
 				apps: [
 					{
-						key: 'swcr',
-						name: 'SWCR',
+						appKey: 'swcr',
+						displayName: 'SWCR',
 					},
 				] as AppManifest[],
 			},
@@ -65,12 +65,12 @@ describe('appsMatchingSearch', () => {
 				defaultIcon: '1',
 				apps: [
 					{
-						key: 'handover',
-						name: 'Handover',
+						appKey: 'handover',
+						displayName: 'Handover',
 					},
 					{
-						key: 'scope',
-						name: 'Scope Change',
+						appKey: 'scope',
+						displayName: 'Scope Change',
 					},
 				] as AppManifest[],
 			},
@@ -80,8 +80,8 @@ describe('appsMatchingSearch', () => {
 				defaultIcon: '2',
 				apps: [
 					{
-						key: 'meetings',
-						name: 'Meetings',
+						appKey: 'meetings',
+						displayName: 'Meetings',
 					},
 				] as AppManifest[],
 			},

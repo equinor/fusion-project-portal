@@ -16,7 +16,7 @@ export const useFavorites = () => {
 	const favorite$ = useMemo(
 		() =>
 			combineLatest([app?.getAllAppManifests(), menuFavoritesController.favorites$]).pipe(
-				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.key)))
+				map(([apps, favorites]) => apps.filter((app) => favorites.includes(app.appKey)))
 			),
 		[apps]
 	) as Observable<AppManifest[]>;
@@ -51,12 +51,13 @@ export const useFavorites = () => {
 	);
 
 	const favoritesWithDisabled =
-		useMemo(() => favorites.map((p) => ({ ...p, isDisabled: isDisabled(p.key) })), [favorites, isDisabled]) || [];
+		useMemo(() => favorites.map((p) => ({ ...p, isDisabled: isDisabled(p.appKey) })), [favorites, isDisabled]) ||
+		[];
 
 	const appGroupsWithPinned = useMemo(() => {
 		return (appCategories || []).map((group) => ({
 			...group,
-			apps: group.apps.map((app) => ({ ...app, isPinned: isPinned(app.key) })),
+			apps: group.apps.map((app) => ({ ...app, isPinned: isPinned(app.appKey) })),
 		})) as AppCategory[];
 	}, [isPinned, appCategories]);
 

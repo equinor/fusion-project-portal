@@ -8,8 +8,8 @@ export function appsMatchingSearch(groups: AppCategory[], searchText?: string) {
 			...group,
 			apps: group.apps.filter(
 				(app) =>
-					app.key.toLowerCase().includes(searchText.toLowerCase()) ||
-					app.name.toLowerCase().includes(searchText.toLowerCase())
+					app.appKey.toLowerCase().includes(searchText.toLowerCase()) ||
+					app.displayName.toLowerCase().includes(searchText.toLowerCase())
 			),
 		}))
 		.filter((group) => group.apps.length);

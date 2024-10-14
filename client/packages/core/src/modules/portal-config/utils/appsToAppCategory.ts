@@ -2,7 +2,7 @@ import { AppCategory, AppManifest } from '../types';
 
 export const appsToAppCategory = (apps?: AppManifest[]): AppCategory[] => {
 	return (apps || []).reduce((appCategories, appManifest) => {
-		if (!appManifest.categoryId) {
+		if (!appManifest.category?.id) {
 			const category = appCategories.find((category) => category.id === 'undefined');
 
 			if (category) {
@@ -19,7 +19,7 @@ export const appsToAppCategory = (apps?: AppManifest[]): AppCategory[] => {
 
 			return appCategories;
 		}
-		const category = appCategories.find((category) => appManifest.categoryId === category.id);
+		const category = appCategories.find((category) => appManifest.category?.id === category.id);
 		if (category) {
 			category.apps.push(appManifest);
 			return appCategories;

@@ -95,12 +95,12 @@ export const Favorites = ({ openAllApps }: FavoriteProps) => {
 						{sortByCategoryAndIsDisabled(favorites).map((app) => {
 							return (
 								<FavoriteCard
-									key={app.key}
+									key={app.appKey}
 									app={app}
-									isDisabled={isDisabled(app.key)}
+									isDisabled={isDisabled(app.appKey)}
 									loading={isLoading}
 									onClick={(a) => {
-										addFavorite(a.key);
+										addFavorite(a.appKey);
 									}}
 								/>
 							);
