@@ -9,9 +9,18 @@ WORKDIR /app-client
 
 COPY ["/client", "."]
 
+WORKDIR  /app-client/apps/legacyAppLoader
+
+RUN yarn install --frozen-lockfile
+RUN yarn run build:appLoader
+
+WORKDIR /app-client
+
 RUN yarn install --frozen-lockfile
 
 RUN npx yarn run build
+
+
 
 # 2: Build & run web server
 # ----------------------------------------------------

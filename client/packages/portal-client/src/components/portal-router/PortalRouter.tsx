@@ -10,8 +10,9 @@ import { AppPage } from '../../pages/AppPage/AppPage';
 import { PortalRoutes, usePortalConfig } from '@portal/core';
 import { PortalPage } from './PortalPage';
 import PeopleResolverProvider from '@equinor/fusion-framework-react-components-people-provider';
+import { PortalSelector } from '../../lib/PortalSelector';
 
-const routes = (portalRoutes: PortalRoutes | undefined): RouteObject[] => {
+const getRoutes = (portalRoutes: PortalRoutes | undefined): RouteObject[] => {
 	const pages =
 		portalRoutes?.routes?.map((route) => ({
 			path: route.path,
@@ -78,16 +79,16 @@ function PortalRouter({ routes }: { routes: RouteObject[] }) {
 
 export function PortalProvider() {
 	const { data: portalRoutes, isLoading: routesLoading } = usePortalConfig().queryRoutes;
-	const { data: portal, isLoading: portalLoading } = usePortalConfig().queryPortal;
+	const { portal } = usePortalConfig();
 
-	if (routesLoading || portalLoading) {
-		return <PortalProgressLoader title="Loading Portal Config" />;
+	if (routesLoading) {
+		return <PortalProgressLoader title="Configuring Portal" />;
 	}
-
 	return (
 		<PeopleResolverProvider>
+			<PortalSelector />
 			{portalRoutes ? (
-				<PortalRouter routes={routes(portalRoutes)} />
+				<PortalRouter routes={getRoutes(portalRoutes)} />
 			) : (
 				<>
 					<h1>Could not find configuration for {portal?.name}</h1>

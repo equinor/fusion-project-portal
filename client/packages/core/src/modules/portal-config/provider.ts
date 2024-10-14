@@ -22,8 +22,7 @@ export interface IPortalConfigProvider {
 	getPortalStateAsync(): Promise<PortalState>;
 	getPortalAsync(): Promise<Portal>;
 	getRoutesAsync(): Promise<PortalRoutes>;
-	getAppsAsync(): Promise<AppManifest[]>;
-	getAppsByContextAsync(portalId: string, contextId: string): Promise<AppManifest[]>;
+	getAppsAsync(portal?: Portal, contextId?: string): Promise<AppManifest[]>;
 	initialize(): Promise<void>;
 	state: PortalState;
 	state$: Observable<PortalState>;
@@ -49,7 +48,7 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 
 	get routes$(): Observable<PortalRoutes> {
 		return this.#state.pipe(
-			map(({ routes }) => routes),
+			map(({ portal }) => portal?.configuration.router),
 			filterEmpty()
 		);
 	}
@@ -85,6 +84,9 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 			filterEmpty()
 		);
 	}
+	get config(): PortalConfiguration {
+		return this._config;
+	}
 
 	public getPortalStateAsync = async (): Promise<PortalState> => {
 		return await firstValueFrom(this.state$);
@@ -102,12 +104,12 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		return await firstValueFrom(this.routes$);
 	};
 
-	public getAppsAsync = async (): Promise<AppManifest[]> => {
-		return await firstValueFrom(this.apps$);
-	};
+	public getAppsAsync = async (portal?: Portal, contextId?: string): Promise<AppManifest[]> => {
+		if (contextId && portal?.contexts?.length) {
+			return await firstValueFrom(this.getAppsByContextId$(portal.id, contextId));
+		} else if (portal?.contexts && portal.contexts.length === 0) return await firstValueFrom(this.apps$);
 
-	public getAppsByContextAsync = async (portalId: string, contextId: string): Promise<AppManifest[]> => {
-		return await firstValueFrom(this.getAppsByContextId$(portalId, contextId));
+		return [];
 	};
 
 	public getPortalById$ = (portalId: string): Observable<Portal> => {
@@ -118,10 +120,9 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	};
 
 	public getAppsByContextId$ = (portalId: string, contextId: string): Observable<AppManifest[]> => {
-		return this._AppsBuContext({ portalId, contextId });
+		return this._AppsByContext({ portalId, contextId });
 	};
 
-	 
 	public getPortalRoutesById$ = (_portalId?: string): Observable<PortalRoutes> => {
 		return new Observable((sub) => sub.next(this.#config.portalConfig.routes));
 	};
@@ -158,7 +159,7 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		);
 	}
 
-	protected _AppsBuContext(params: GetAppsParameters): Observable<AppManifest[]> {
+	protected _AppsByContext(params: GetAppsParameters): Observable<AppManifest[]> {
 		// Create a new query using the configured client
 		const client = new Query(this.#config.client.getApps);
 		this.#subscription.add(() => client.complete());

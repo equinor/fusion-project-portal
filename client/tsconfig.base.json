@@ -26,7 +26,8 @@
 			"@portal/types":["packages/types/src/index.ts"],
 			"@portal/core":["packages/core/src/index.ts"],
 			"@portal/ui":["packages/ui/src/index.ts"],
-			"@portal/components":["packages/components/src/index.ts"]
+			"@portal/components":["packages/components/src/index.ts"],
+			"@portal/framework":["packages/portal-framework/src/index.ts"]
 		}
 	},
 	"include": ["dompurify.d.ts", "packages/**", "images.d.ts", "*.jpg", "*.png"],

@@ -1,4 +1,3 @@
-import { FusionConfigurator } from '@equinor/fusion-framework';
 import { AppModule, enableAppModule } from '@equinor/fusion-framework-module-app';
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
@@ -9,14 +8,16 @@ import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
+import { enablePortalConfig, enablePortalMenu, enableTelemetry, Portal, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
 import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
 import { FeatureLogger } from './feature-logger';
-import { enablePortalConfig } from '@portal/core';
+
 import { PortalConfig as PortalConfigModule } from '@portal/core';
+
+import { FrameworkConfigurator } from '@equinor/fusion-framework';
 
 const showInfo = false;
 
@@ -27,93 +28,28 @@ function getClientIdFormScope(scope: string): string | undefined {
 }
 
 export function createPortalFramework(portalConfig: PortalConfig) {
-	return (config: FusionConfigurator) => {
+	return (config: FrameworkConfigurator<[], any>) => {
 		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
+		// is this needed?
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
 			portalConfig.serviceDiscovery.client.defaultScopes[0]
 		);
 
+		config.configureHttpClient('portal-client', portalConfig.portalClient.client);
+
+		enablePortalConfig(config);
+
 		enablePortalMenu(config);
 
-		enablePortalConfig(config, (builder) => {
-			builder.setConfig({
-				portalId: portalConfig.portalId,
-				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
-			});
-
-			builder.setRoutes({
-				root: {
-					pageKey: 'project-portal',
-				},
-
-				routes: [
-					{
-						path: 'project/*',
-						pageKey: 'project',
-						messages: {
-							errorMessage: 'Fail to load project page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load project page',
-								},
-								path: ':contextId',
-								pageKey: 'project',
-							},
-						],
-					},
-					{
-						path: 'facility/*',
-						pageKey: 'facility',
-						messages: {
-							errorMessage: 'Fail to load facility page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load facility page',
-								},
-								path: ':contextId',
-								pageKey: 'facility',
-							},
-						],
-					},
-					{
-						path: 'admin/*',
-						pageKey: 'portal-administration',
-						messages: {
-							errorMessage: 'Fail to load portal administration page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load portal administration page',
-								},
-								path: ':portalId',
-								pageKey: 'portal-administration',
-							},
-						],
-					},
-				],
-			});
-		});
-
-		enableContext(config);
-		config.configureServiceDiscovery(portalConfig.serviceDiscovery);
-
 		enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
-
-		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
+		enableContext(config);
 
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
 		}
-
-		addPortalClient(config, portalConfig.portalClient.client);
-
+		// addPortalClient(config, portalConfig.portalClient.client);
 		/** Enabling application insight module */
 		if (portalConfig.applicationInsights) {
 			enableTelemetry(config, {
@@ -126,7 +62,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				autoTrackPageVisitTime: true,
 			});
 		}
-
 		/** Enabling signal-r module for portal used for service messages */
 		enableSignalR(
 			config,
@@ -137,7 +72,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				path: '/signalr/hubs/portal/?negotiateVersion=1',
 			})
 		);
-
 		/** Enabling signal-r module for portal used for notifications*/
 		enableSignalR(
 			config,
@@ -148,7 +82,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				service: 'portal',
 			})
 		);
-
 		enableFeatureFlagging(config, (builder) => {
 			builder.addPlugin(
 				createLocalStoragePlugin([
@@ -184,14 +117,11 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				])
 			);
 		});
-
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);
 		});
-
 		/** Enable Navigation module  */
 		enableNavigation(config);
-
 		// TODO remove and replace with service discovery!
 		config.configureHttpClient('query_api', {
 			baseUri: ((): string => {
@@ -213,7 +143,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				}
 			})(),
 		});
-
 		config.configureHttpClient('review', {
 			baseUri: ((): string => {
 				switch (portalConfig.fusionLegacyEnvIdentifier) {
@@ -227,7 +156,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			})(),
 			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
 		});
-
 		config.configureHttpClient('cc-api', {
 			baseUri: ((): string => {
 				switch (portalConfig.fusionLegacyEnvIdentifier) {
@@ -246,29 +174,21 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				}
 			})(),
 		});
-
 		if (showInfo) {
 			config.onConfigured(() => {
 				showInfo && console.log('framework config done');
 			});
 		}
-
 		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
-			new FeatureLogger(fusion);
+			new FeatureLogger(fusion as any);
 
 			// Todo: should be moved to context module
-
-			fusion.portalConfig.state$.subscribe((state) => {
-				if (state?.portal?.contexts) {
-					configurePortalContext(fusion.context);
-				}
-			});
+			configurePortalContext(fusion.context);
 
 			// Todo: should be moved to context module
 			fusion.context.currentContext$.pipe(skip(1)).subscribe((context) => {
 				const { navigator } = fusion.navigation;
 				const client = fusion.telemetry?.client;
-
 				if (!context) {
 					navigator.replace('/');
 				} else {
@@ -283,7 +203,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 						}
 					);
 				}
-
 				if (context && context.id && !window.location.pathname.includes(context.id)) {
 					const pathname = replaceContextInPathname(context.id, window.location.pathname);
 					const to = { pathname, search: window.location.search, hash: window.location.hash };
