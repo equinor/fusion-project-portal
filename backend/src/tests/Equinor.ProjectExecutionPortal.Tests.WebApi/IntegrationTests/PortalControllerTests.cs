@@ -644,7 +644,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             Assert.IsNotNull(content);
             Assert.IsNotNull(portalConfiguration);
-            AssertHelpers.AssertPortalConfigurationValues(portalConfiguration, acceptNullValues: true);
+            AssertHelpers.AssertPortalConfigurationValues(portalConfiguration, acceptNullValues: false);
 
             return portalConfiguration;
         }

@@ -35,6 +35,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             if (!acceptNullValues)
             {
                 Assert.IsNotNull(portalConfiguration.Router);
+                Assert.IsNotNull(portalConfiguration.Extension);
+                Assert.IsNotNull(portalConfiguration.Environment);
             }
         }
 

@@ -38,6 +38,11 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
             dbContext.AddRange(portalWithoutApps, portalWithApps);
             dbContext.SaveChanges();
 
+            // Add portal configuration
+
+            portalWithoutApps.Configuration.Update(PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Router, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Extension, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Environment);
+            portalWithApps.Configuration.Update(PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Router, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Extension, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Environment);
+
             // Add context types
 
             var contextTypeProjectMaster = ContextTypeData.InitialDbSeedData.ContextType1;
