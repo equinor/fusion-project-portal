@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 const portalConfig = window['_config_'];
 
-document.title = `${portalConfig.title} | Fusion`;
+document.title = `Project Portal | Fusion`;
 
 /* fusion core is spamming the console form module this will remove it in production */
 configureDebug();
