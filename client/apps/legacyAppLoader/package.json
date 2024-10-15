@@ -41,7 +41,7 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
-    "@equinor/fusion-framework-cli": "^10.0.0-next-499bdf0f6597dbdcfdabd563b94ed08de36bbfe4",
+    "@equinor/fusion-framework-cli": "^10.0.0",
     "@types/react-router-dom": "^5.3.3",
     "vite-plugin-static-copy": "^0.17.0"
   }
