@@ -7,6 +7,10 @@ import { createAppElement } from '../utils/app-element';
 import { appRender } from '../render';
 import { getLegacyClientConfig, getFusionLegacyEnvIdentifier } from '../utils';
 
+import { AppConfig } from '@equinor/fusion-framework-app';
+import { ConfigEnvironment } from '@equinor/fusion-framework-module-app';
+import { Client } from '@portal/types';
+
 export const useAppLoader = (appKey: string) => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | undefined>();
@@ -55,7 +59,16 @@ export const useAppLoader = (appKey: string) => {
 														client: getLegacyClientConfig(),
 													},
 												},
-											},
+											} as AppConfig<
+												ConfigEnvironment & {
+													appKey: string;
+													env: string;
+													loadingText: string;
+													endpoints: {
+														client: Client;
+													};
+												}
+											>,
 										},
 									},
 								})

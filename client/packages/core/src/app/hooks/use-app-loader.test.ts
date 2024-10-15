@@ -11,7 +11,13 @@ let legacyAppScript = {};
 
 vi.mock('./use-legacy-app-loader', async () => {
 	return {
-		useLegacyAppLoader: () => useMemo(() => legacyAppScript, []),
+		useLegacyAppLoader: () =>
+			useMemo(
+				() => ({
+					legacyAppScript,
+				}),
+				[]
+			),
 	};
 });
 

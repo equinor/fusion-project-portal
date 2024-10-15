@@ -563,15 +563,6 @@
     rxjs "^7.8.1"
     uuid "^10.0.0"
 
-"@equinor/fusion-framework-module-http@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-http/-/fusion-framework-module-http-6.1.0.tgz#7381468650df868ff2cd68b954671f0aba09a3d4"
-  integrity sha512-YFqVeOVImIc6N07+hsxJPB2q3QbgOZPkY6NK01jvRkqYhF2cJqaY2RH65sFJDE8TiYp6uMksXpF81FdpKPDh5Q==
-  dependencies:
-    "@equinor/fusion-framework-module" "^4.3.5"
-    "@equinor/fusion-framework-module-msal" "^3.1.5"
-    rxjs "^7.8.1"
-
 "@equinor/fusion-framework-module-http@^6.2.0":
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-http/-/fusion-framework-module-http-6.2.0.tgz#8bace19a3cc7f500068e1e36694d4032a46bcb67"
@@ -597,17 +588,6 @@
   dependencies:
     "@remix-run/router" "^1.8.0"
 
-"@equinor/fusion-framework-module-service-discovery@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-service-discovery/-/fusion-framework-module-service-discovery-8.0.0.tgz#de9f3ab9bfad9d9f3d4001468f363ca0abd4b2b9"
-  integrity sha512-UsLCEGNKwp/VXmO/1Yyib43Ax4UkrmffxcJWqkwJIuCMdtJlukqFj1HEPqUlHpe/HVtuoxwFO3TnHNny05sVSw==
-  dependencies:
-    "@equinor/fusion-framework-module" "^4.3.5"
-    "@equinor/fusion-framework-module-http" "^6.1.0"
-    "@equinor/fusion-query" "^5.1.3"
-    rxjs "^7.8.1"
-    zod "^3.23.8"
-
 "@equinor/fusion-framework-module-service-discovery@^8.0.1":
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-service-discovery/-/fusion-framework-module-service-discovery-8.0.1.tgz#d3630f01e0f78cb774b3f21e42ce91b0a3aeb773"
@@ -619,13 +599,6 @@
     rxjs "^7.8.1"
     zod "^3.23.8"
 
-"@equinor/fusion-framework-module-services@^4.1.4":
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-services/-/fusion-framework-module-services-4.1.4.tgz#0a1a218138f55ad0817f0f1c0db0d951e7046d66"
-  integrity sha512-jpWnGx85VcTR9ZRf4K/4tHFhypJzngEDtAtDo4uD7O2pfz4WdzCEGKfwkYpagHXWvvkoYoMlYpwvLA6UnV8bUw==
-  dependencies:
-    odata-query "^7.0.4"
-
 "@equinor/fusion-framework-module-services@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-services/-/fusion-framework-module-services-4.1.5.tgz#d2bbbd975459f02aeff807097eb2db0e2defcec1"
@@ -633,10 +606,10 @@
   dependencies:
     odata-query "^7.0.4"
 
-"@equinor/fusion-framework-module-signalr@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-signalr/-/fusion-framework-module-signalr-4.0.0.tgz#9110223813ad39e56254e539f9e200d94595899f"
-  integrity sha512-bX0N0l+su9mgVpFxLaHHDXwKGZ42xRTzJ6YL0yQlsAIdOBNcZYpN13hnCJpQWHSIWMDm5NQJuc2GtmL9dy89Ag==
+"@equinor/fusion-framework-module-signalr@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-module-signalr/-/fusion-framework-module-signalr-4.0.1.tgz#cf6bd0de415914cb3a27f422f6a3325598acb931"
+  integrity sha512-5dp4fFthhj+7sRvMpJc6CFtz5BwsTe6o9HR4/bHfBz6BTsqsSRPv2c4A3CrG+Vfpps2yXTrX3hPJ5pE/JFPYnA==
   dependencies:
     "@microsoft/signalr" "^7.0.10"
     rxjs "^7.8.1"
@@ -662,13 +635,13 @@
     "@equinor/fusion-framework-react-module" "^3.1.6"
     "@equinor/fusion-framework-react-module-http" "^8.0.0"
 
-"@equinor/fusion-framework-react-components-bookmark@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-components-bookmark/-/fusion-framework-react-components-bookmark-0.5.0.tgz#95dc7b31019842dc885b9808106fb57d67c9ba34"
-  integrity sha512-KYnC2v7/p+VG2rohVaPMJoXM8U3vVFRoKF8AAzr1msGTSFjJteHr3BfaJmn77bS0dDnMHCmiw1mCKs7CpUdsmg==
+"@equinor/fusion-framework-react-components-bookmark@0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-components-bookmark/-/fusion-framework-react-components-bookmark-0.5.2.tgz#22351be1a5b59979bb0ca6c0b55e610714c14d96"
+  integrity sha512-jqkk7nLk+ul0mhbda3ULrtCSW3FDtGve36O79+LTnuVEk1KActNWSs74LsGiQnJvxmpEhGMeO9Jn0gNSKMJT6w==
   dependencies:
-    "@equinor/fusion-framework-react" "^7.2.2"
-    "@equinor/fusion-framework-react-module-bookmark" "^2.1.16"
+    "@equinor/fusion-framework-react" "^7.3.0"
+    "@equinor/fusion-framework-react-module-bookmark" "^2.1.18"
 
 "@equinor/fusion-framework-react-components-people-provider@^1.4.9":
   version "1.4.9"
@@ -682,18 +655,6 @@
     "@equinor/fusion-query" "^5.1.3"
     rxjs "^7.8.1"
 
-"@equinor/fusion-framework-react-module-bookmark@^2.1.16":
-  version "2.1.16"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-bookmark/-/fusion-framework-react-module-bookmark-2.1.16.tgz#b519b3fc41b911a330a9583ea5f006b71e655338"
-  integrity sha512-gZaNlLwN5aAv7WGNoHUhhUZUDXM3pBAfP0yE5U5Xh2i6ZpvbkziwlXos5G2YZ+xZVMnIUQ6ZOq+g0K+n1xfDPg==
-  dependencies:
-    "@equinor/fusion-framework-module-bookmark" "^1.2.12"
-    "@equinor/fusion-framework-module-context" "^5.0.12"
-    "@equinor/fusion-framework-react" "^7.2.2"
-    "@equinor/fusion-framework-react-module" "^3.1.6"
-    "@equinor/fusion-observable" "^8.4.1"
-    "@equinor/fusion-query" "^5.1.3"
-
 "@equinor/fusion-framework-react-module-bookmark@^2.1.18":
   version "2.1.18"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-bookmark/-/fusion-framework-react-module-bookmark-2.1.18.tgz#a930275e99d5221d7d7f86d17e64bbf9b0d4f803"
@@ -706,22 +667,17 @@
     "@equinor/fusion-observable" "^8.4.1"
     "@equinor/fusion-query" "^5.1.3"
 
-"@equinor/fusion-framework-react-module-http@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-http/-/fusion-framework-react-module-http-7.0.0.tgz#82a4eb93574b7f1ceef2e5aa6e1259628f565279"
-  integrity sha512-/anG6wKXwnSPHrswnXGLfZyy4QW3rVQYDXdPheClkVoIoLLrKkxnReYXLCpMR7YviVnUxehbBuNP3CHlKoO41g==
-
 "@equinor/fusion-framework-react-module-http@^8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-http/-/fusion-framework-react-module-http-8.0.0.tgz#24aa95a6f997cb13f6b504985a438b2ec2c7041a"
   integrity sha512-7B6luEmVGPdG11f9vW5rCz4RFUdc+NOjXNpJykG7bLGIkP6oUs80uOhm5mm+NqTClTf42CQaptjOroHEBAav2A==
 
-"@equinor/fusion-framework-react-module-signalr@^3.0.15":
-  version "3.0.15"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-signalr/-/fusion-framework-react-module-signalr-3.0.15.tgz#adbdc7a88598b00599359e6854686f49e7a9eece"
-  integrity sha512-GTAQH5wVt8l7Uz4F8ncAtbie+F1PFHHMFpIz6g1YinzMmo5WKs8GN5YIQcgeTWyorD/VgSf3n0WSEzDctURZRA==
+"@equinor/fusion-framework-react-module-signalr@^3.0.16":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-signalr/-/fusion-framework-react-module-signalr-3.0.16.tgz#ffb970ffb0a2a05b8313f676b10a80ec49cfac44"
+  integrity sha512-HTVQccvvPhRVgDlawENt6r4t77xQHhVmbvp5hkHAxJZqXimUA0qzGUes6r2+f2iBKXfdww1GzSuQzBQGdoiT2A==
   dependencies:
-    "@equinor/fusion-framework-module-signalr" "^4.0.0"
+    "@equinor/fusion-framework-module-signalr" "^4.0.1"
 
 "@equinor/fusion-framework-react-module@^3.1.6":
   version "3.1.6"
@@ -729,18 +685,6 @@
   integrity sha512-eLbZ10Pf3scUvYx8Vs11W6Fru+lDxHINew+GaBhoZcSnxegNzu4t/6r2a/D+/tURX85S0B9zT7x2BN1yCiUFxA==
   dependencies:
     "@equinor/fusion-framework-module" "^4.3.5"
-
-"@equinor/fusion-framework-react@^7.2.2":
-  version "7.2.2"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react/-/fusion-framework-react-7.2.2.tgz#093e20c6dd5020565ddb85d720d8601bccf6689a"
-  integrity sha512-F+Jo489ZV7sTQFmK5Xn+2mFqdvbxc6aFEmXXnOdDWBvwHAVtQqUu1BJoF4x2WWnAtXLWm9eCYIbwX3k+RGgIyg==
-  dependencies:
-    "@equinor/fusion-framework" "^7.2.7"
-    "@equinor/fusion-framework-module" "^4.3.5"
-    "@equinor/fusion-framework-react-module" "^3.1.6"
-    "@equinor/fusion-framework-react-module-http" "^7.0.0"
-    "@equinor/fusion-observable" "^8.4.1"
-    rxjs "^7.8.1"
 
 "@equinor/fusion-framework-react@^7.3.0":
   version "7.3.0"
@@ -752,20 +696,6 @@
     "@equinor/fusion-framework-react-module" "^3.1.6"
     "@equinor/fusion-framework-react-module-http" "^8.0.0"
     "@equinor/fusion-observable" "^8.4.1"
-    rxjs "^7.8.1"
-
-"@equinor/fusion-framework@^7.2.7":
-  version "7.2.7"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework/-/fusion-framework-7.2.7.tgz#8ac261f7f4af8ad433883a074139cab13469fd19"
-  integrity sha512-IOOB/hm/OhCXI1Ms7cZxJEklloE11g+JCZsMFwZlwz8HVAT4nKvqB+r907TXWGCFU1rF4tRrIFQC+iz7AFBFxA==
-  dependencies:
-    "@equinor/fusion-framework-module" "^4.3.5"
-    "@equinor/fusion-framework-module-context" "^5.0.12"
-    "@equinor/fusion-framework-module-event" "^4.2.4"
-    "@equinor/fusion-framework-module-http" "^6.1.0"
-    "@equinor/fusion-framework-module-msal" "^3.1.5"
-    "@equinor/fusion-framework-module-service-discovery" "^8.0.0"
-    "@equinor/fusion-framework-module-services" "^4.1.4"
     rxjs "^7.8.1"
 
 "@equinor/fusion-framework@^7.2.8":

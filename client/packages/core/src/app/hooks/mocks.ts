@@ -1,16 +1,13 @@
 import { vi } from 'vitest';
 
-import { AppConfig, AppManifest, AppModuleProvider } from '@equinor/fusion-framework-module-app';
+import { AppConfig, AppManifest, AppModuleProvider, ConfigEnvironment } from '@equinor/fusion-framework-module-app';
 import { BehaviorSubject } from 'rxjs';
 
-const config: AppConfig<AppConfigMock> = {
+const config = {
 	environment: {
 		env: 'test',
 	},
-};
-type AppConfigMock = {
-	env: string;
-};
+} as AppConfig<ConfigEnvironment & { env: string }>;
 
 export const getAppConfigMock = vi.fn();
 export const getAppManifestMock = vi.fn();
@@ -21,9 +18,9 @@ export const appProvider = new AppModuleProvider({
 		client: {
 			[Symbol.dispose]: vi.fn(),
 
-			getAppConfig: <A = AppConfigMock>() => {
+			getAppConfig: <TEnv>() => {
 				getAppConfigMock();
-				return new BehaviorSubject<AppConfig<A>>(config as AppConfig<A>);
+				return new BehaviorSubject(config as AppConfig<ConfigEnvironment & TEnv>);
 			},
 			getAppManifest: ({ appKey }) => {
 				getAppManifestMock();
