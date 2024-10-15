@@ -9,12 +9,19 @@ WORKDIR /app-client
 
 COPY ["/client", "."]
 
-RUN yarn install --frozen-lockfile
-
 # Build the leagasy app laoder
-RUN cd apps/fusion-app-loader && yarn install --frozen-lockfile && yarn build:appLoader
+WORKDIR  /app-client/apps/legacyAppLoader
 
+RUN yarn install --frozen-lockfile
+RUN yarn run build:appLoader
+
+# Build Portal client
+WORKDIR /app-client
+
+RUN yarn install --frozen-lockfile
 RUN npx yarn run build
+
+
 
 # 2: Build & run web server
 # ----------------------------------------------------

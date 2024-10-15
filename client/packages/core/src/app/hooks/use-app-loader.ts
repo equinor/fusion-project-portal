@@ -86,6 +86,7 @@ export const useAppLoader = (appKey: string) => {
 				error: (err) => {
 					console.error('App init Error: ', error);
 					setError(err);
+					setLoading(false);
 				},
 			})
 		);

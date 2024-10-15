@@ -111,7 +111,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableContext(config);
 
-		// enableAppModule(config, appConfigurator(portalConfig.portalClient.client));
 		enableAppModule(config);
 
 		config.configureHttpClient('app', {

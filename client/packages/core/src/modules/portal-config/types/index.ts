@@ -63,7 +63,6 @@ export type AppManifestResponse = {
 };
 
 export type AppManifest = FusionAppManifest & {
-	isPinned?: boolean;
 	isDisabled?: boolean;
 	url?: string;
 };
