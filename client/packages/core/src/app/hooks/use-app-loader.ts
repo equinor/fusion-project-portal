@@ -13,7 +13,7 @@ export const useAppLoader = (appKey: string) => {
 
 	const { fusion, currentApp } = useAppModule(appKey);
 
-	const legacyAppScript = useLegacyAppLoader();
+	const { legacyAppScript, legacyAppError } = useLegacyAppLoader();
 
 	const appRef = useRef<HTMLDivElement>(createAppElement());
 
@@ -73,19 +73,24 @@ export const useAppLoader = (appKey: string) => {
 							);
 
 							/** remove app element when application unmounts */
-							subscription.add(() => appRef.current.remove());
+							// subscription.add(() => appRef.current.remove());
 						}
 					} catch (error) {
 						console.error('App loading Error: ', error);
+
 						setError(error as Error);
 					}
 				},
 				complete: () => {
 					setLoading(false);
 				},
-				error: (err) => {
-					console.error('App init Error: ', error);
-					setError(err);
+				error: (error) => {
+					console.error('App init Error: ', error, legacyAppError);
+					if (legacyAppError) {
+						setError(legacyAppError);
+					} else {
+						setError(error);
+					}
 					setLoading(false);
 				},
 			})
@@ -94,7 +99,7 @@ export const useAppLoader = (appKey: string) => {
 		return () => {
 			subscription.unsubscribe();
 		};
-	}, [currentApp, appRef, fusion, legacyAppScript]);
+	}, [currentApp, appRef, fusion, legacyAppScript, legacyAppError]);
 
 	return {
 		loading,
