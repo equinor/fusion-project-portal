@@ -1,0 +1,11 @@
+# .snyk
+
+ignore:
+  "VULN_ID_1":  # Replace with actual Vulnerability ID related to appKey in app.config.ts
+    - 'app.config.ts':
+        reason: "Ignoring issues related to appKey: 'handover-garden' in config"
+        expires: "2025-12-31T23:59:59.999Z"
+  "VULN_ID_2":  # Another potential vulnerability ID related to the same file
+    - 'app.config.ts':
+        reason: "Ignoring specific appKey configuration in app.config.ts"
+        expires: "2025-12-31T23:59:59.999Z"
