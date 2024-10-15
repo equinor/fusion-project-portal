@@ -2,6 +2,6 @@
 
 ignore:
   "CWE-547": # Snyk vulnerability for using hard-coded values, like appKey
-    - "/client/apps/legacyAppLoader/app.config.ts": # The specific file where the issue is found
+    - "client/apps/legacyAppLoader/app.config.ts": # The specific file where the issue is found
         reason: "Ignoring hard-coded appKey in app.config.ts"
         expires: "2025-12-31T23:59:59.999Z" # Set the expiration date for the ignore rule
