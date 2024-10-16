@@ -115,7 +115,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.configureHttpClient('app', {
 			baseUri: new URL('/apps-proxy/', location.origin).href,
-			defaultScopes: ['5a842df8-3238-415d-b168-9f16a6a6031b/.default'],
+			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
 		});
 
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);

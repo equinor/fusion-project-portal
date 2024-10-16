@@ -5,7 +5,7 @@ import { useAppModule } from './use-app-module';
 import { useLegacyAppLoader } from './use-legacy-app-loader';
 import { createAppElement } from '../utils/app-element';
 import { appRender } from '../render';
-import { getLegacyClientConfig, getFusionLegacyEnvIdentifier } from '../utils';
+import { getLegacyClientConfig, getFusionLegacyEnvIdentifier, getLegacyFusionConfig } from '../utils';
 
 import { AppConfig } from '@equinor/fusion-framework-app';
 import { ConfigEnvironment } from '@equinor/fusion-framework-module-app';
@@ -57,6 +57,7 @@ export const useAppLoader = (appKey: string) => {
 													loadingText: 'Loading',
 													endpoints: {
 														client: getLegacyClientConfig(),
+														fusion: getLegacyFusionConfig(),
 													},
 												},
 											} as AppConfig<
@@ -66,6 +67,7 @@ export const useAppLoader = (appKey: string) => {
 													loadingText: string;
 													endpoints: {
 														client: Client;
+														fusion: Client;
 													};
 												}
 											>,
