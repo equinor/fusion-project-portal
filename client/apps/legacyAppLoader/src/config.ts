@@ -13,16 +13,16 @@ interface Client {
 export const configure: AppModuleInitiator<
 	[NavigationModule],
 	Fusion<unknown>,
-	{ config: { environment: { endpoints: { client: Client; portal: Client } } } }
-> = (configurator, env) => {
-	configurator.configureHttpClient('portal-client', env.env.config?.environment.endpoints.client);
-	configurator.configureHttpClient('portal', env.env.config?.environment.endpoints.portal);
+	{ config: { environment: { endpoints: { client: Client; portal: Client; fusion: Client } } } }
+> = (configurator, { env, fusion }) => {
+	configurator.configureHttpClient('portal-client', env.config?.environment.endpoints.client);
+	configurator.configureHttpClient('portal', env.config?.environment.endpoints.portal);
 
-	window['clientBaseUri'] = env.env.config?.environment.endpoints.client.baseUri;
+	window['clientBaseUri'] = env.config?.environment.endpoints.client.baseUri;
 	// configurator.logger.level = 4;
 	configurator.configureHttpClient('app', {
 		baseUri: new URL('/apps-proxy/', location.origin).href,
-		defaultScopes: ['5a842df8-3238-415d-b168-9f16a6a6031b/.default'],
+		defaultScopes: env.config?.environment.endpoints.fusion.defaultScopes,
 	});
 
 	enableAppModule(configurator);
@@ -41,9 +41,8 @@ export const configure: AppModuleInitiator<
 			if (nav.action !== 'PUSH') return;
 
 			if (
-				nav.location.pathname
-					.split('/')
-					.filter((path) => path === env.fusion.modules.context.currentContext?.id).length > 1
+				nav.location.pathname.split('/').filter((path) => path === fusion.modules.context.currentContext?.id)
+					.length > 1
 			) {
 				instance.navigation.navigator.go(-1);
 			}

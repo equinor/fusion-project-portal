@@ -7,7 +7,6 @@ import env from 'vite-plugin-environment';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { appProxyPlugin } from '@equinor/fusion-framework-cli/plugin-app-proxy';
 
-let token: string | undefined = undefined;
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
 	const isProduction = mode === 'prod';

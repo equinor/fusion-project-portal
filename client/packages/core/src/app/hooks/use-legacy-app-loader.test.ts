@@ -22,7 +22,7 @@ describe('useLegacyAppLoader', () => {
 
 		await act(async () => {
 			await waitFor(() => {
-				expect(typeof result.current?.renderApp === 'function').toEqual(true);
+				expect(typeof result.current?.legacyAppScript?.renderApp === 'function').toEqual(true);
 			});
 		});
 	});
@@ -32,7 +32,7 @@ describe('useLegacyAppLoader', () => {
 
 		await act(async () => {
 			await waitFor(() => {
-				expect(typeof result.current?.default === 'function').toEqual(true);
+				expect(typeof result.current?.legacyAppScript?.default === 'function').toEqual(true);
 			});
 		});
 	});
