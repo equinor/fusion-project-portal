@@ -2,7 +2,6 @@ import { AppManifest as FusionAppManifest } from '@equinor/fusion-framework-reac
 import { Router } from './router-config';
 
 export type AppManifest = FusionAppManifest & {
-	isPinned?: boolean;
 	isDisabled?: boolean;
 	url?: string;
 };
