@@ -5,27 +5,24 @@ describe('appsToAppCategory', () => {
 	it('should correctly group apps by category', () => {
 		const apps: AppManifest[] = [
 			{
-				key: 'app1',
-				categoryId: 'category1',
-				name: 'App 1',
+				appKey: 'app1',
+				displayName: 'App 1',
 				category: {
 					id: 'category1',
 				},
 				// Other properties...
 			} as AppManifest,
 			{
-				key: 'app2',
-				categoryId: 'category1',
-				name: 'App 2',
+				appKey: 'app2',
+				displayName: 'App 2',
 				category: {
 					id: 'category1',
 				},
 				// Other properties...
 			} as AppManifest,
 			{
-				key: 'app3',
-				categoryId: 'category2',
-				name: 'App 3',
+				appKey: 'app3',
+				displayName: 'App 3',
 				category: {
 					id: 'category2',
 				},
@@ -42,11 +39,11 @@ describe('appsToAppCategory', () => {
 
 		expect(category1).toBeDefined();
 		expect(category1?.apps).toHaveLength(2); // Two apps in category1
-		expect(category1?.apps.map((app) => app.key)).toEqual(['app1', 'app2']);
+		expect(category1?.apps.map((app) => app.appKey)).toEqual(['app1', 'app2']);
 
 		expect(category2).toBeDefined();
 		expect(category2?.apps).toHaveLength(1); // One app in category2
-		expect(category2?.apps.map((app) => app.key)).toEqual(['app3']);
+		expect(category2?.apps.map((app) => app.appKey)).toEqual(['app3']);
 	});
 
 	it('should handle empty input', () => {
@@ -58,14 +55,13 @@ describe('appsToAppCategory', () => {
 	it('should handle undefined category in app manifest', () => {
 		const apps: AppManifest[] = [
 			{
-				key: 'app1',
-				name: 'App 1',
+				appKey: 'app1',
+				displayName: 'App 1',
 				// Other properties...
 			} as AppManifest,
 			{
-				key: 'app2',
-				categoryId: 'category1',
-				name: 'App 2',
+				appKey: 'app2',
+				displayName: 'App 2',
 				category: {
 					id: 'category1',
 				},
@@ -82,10 +78,10 @@ describe('appsToAppCategory', () => {
 
 		expect(category1).toBeDefined();
 		expect(category1?.apps).toHaveLength(1); // One app in category1
-		expect(category1?.apps.map((app) => app.key)).toEqual(['app2']);
+		expect(category1?.apps.map((app) => app.appKey)).toEqual(['app2']);
 
 		expect(category2).toBeDefined();
 		expect(category2?.apps).toHaveLength(1); // One app with undefined category
-		expect(category2?.apps.map((app) => app.key)).toEqual(['app1']);
+		expect(category2?.apps.map((app) => app.appKey)).toEqual(['app1']);
 	});
 });

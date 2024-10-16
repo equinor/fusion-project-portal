@@ -15,8 +15,12 @@ export const getGreeting = () => {
 };
 
 export const getSearchAppIcon = (app: AppManifest): string => {
-	const appIcon = app.icon ? (app.icon !== '' ? app.icon : app.category?.defaultIcon) : app.category?.defaultIcon;
-	const appColor = app.accentColor || app.category?.color || '#000000';
+	const appIcon = app.visualization?.icon
+		? app.visualization?.icon !== ''
+			? app.visualization?.icon
+			: app.category?.defaultIcon
+		: app.category?.defaultIcon;
+	const appColor = app.visualization?.color || app.category?.color || '#000000';
 
 	const searchIconStyles = {
 		display: 'flex',

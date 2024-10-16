@@ -33,7 +33,6 @@ export function getDisabledApps(enabledApps: AppManifest[], favorites: AppManife
 				description: disabledApp.description ?? '',
 				isDisabled: true,
 				isPinned: true,
-				order: disabledApp.order ?? 0,
 			})
 		);
 }
@@ -68,7 +67,7 @@ export function getPinnedAppsGroup(enabledApps: AppManifest[], disabledApps: App
 		} as AppCategory
 	);
 
-	pinnedApps.apps.sort((a, b) => a.name.localeCompare(b.name));
+	pinnedApps.apps.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
 
 	return pinnedApps;
 }

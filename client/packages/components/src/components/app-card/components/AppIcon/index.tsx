@@ -4,7 +4,7 @@ import { tokens } from '@equinor/eds-tokens';
 import { SkeletonSize, SkeletonVariant } from '@equinor/fusion-react-skeleton';
 import { AppCardType } from '../../types/types';
 import { defaultIcon } from './defaultIcon';
-import { AppManifest } from '../../types/types';
+import { AppManifest } from '@portal/core';
 
 const primaryColor = tokens.colors.interactive.primary__resting.hex;
 
@@ -102,7 +102,11 @@ type AppIconProps = {
 
 export const AppIconContainer = ({ app, display, loading }: AppIconProps): JSX.Element => {
 	const appCategoryIcon = app.category ? app.category.defaultIcon : defaultIcon;
-	const appIcon = app.icon ? (app.icon !== '' ? app.icon : appCategoryIcon) : appCategoryIcon;
+	const appIcon = app.visualization?.icon
+		? app.visualization.icon !== ''
+			? app.visualization.icon
+			: appCategoryIcon
+		: appCategoryIcon;
 
 	if (loading) {
 		return (

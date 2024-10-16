@@ -11,7 +11,13 @@ let legacyAppScript = {};
 
 vi.mock('./use-legacy-app-loader', async () => {
 	return {
-		useLegacyAppLoader: () => useMemo(() => legacyAppScript, []),
+		useLegacyAppLoader: () =>
+			useMemo(
+				() => ({
+					legacyAppScript,
+				}),
+				[]
+			),
 	};
 });
 
@@ -20,6 +26,10 @@ vi.mock('../utils', async (getRest) => {
 	return {
 		...rest,
 		getLegacyClientConfig: () => ({
+			baseUri: 'baseUri',
+			defaultScopes: ['defaultScopes'],
+		}),
+		getLegacyFusionConfig: () => ({
 			baseUri: 'baseUri',
 			defaultScopes: ['defaultScopes'],
 		}),

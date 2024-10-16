@@ -2,8 +2,6 @@
 {
     public class ClientBundleOptions
     {
-        public string? Title { get; set; }
-        public string? Description { get; set; }
         public string? PortalId { get; set; }
         public ClientBundleMsalOptions? Msal { get; set; }
         public ClientBundleAgGridOptions? AgGrid { get; set; }
