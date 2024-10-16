@@ -39,6 +39,7 @@ export const AllApps = () => {
 			</Styles.WrapperLoading>
 		);
 	}
+
 	return (
 		<>
 			<AppContextMessage />
@@ -66,7 +67,10 @@ export const AllApps = () => {
 										}
 									);
 								}}
-								onFavorite={(app) => addFavorite(app.key)}
+								onFavorite={(app) => {
+									console.log(app);
+									addFavorite(app.key);
+								}}
 							/>
 						</div>
 					))}

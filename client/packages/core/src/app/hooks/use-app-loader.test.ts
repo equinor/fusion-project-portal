@@ -29,6 +29,10 @@ vi.mock('../utils', async (getRest) => {
 			baseUri: 'baseUri',
 			defaultScopes: ['defaultScopes'],
 		}),
+		getLegacyFusionConfig: () => ({
+			baseUri: 'baseUri',
+			defaultScopes: ['defaultScopes'],
+		}),
 		getFusionLegacyEnvIdentifier: () => 'ci',
 	};
 });
