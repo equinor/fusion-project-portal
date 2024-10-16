@@ -16,17 +16,6 @@ export const LoadingSkeleton = () => (
 			<Table.Cell>
 				<Skeleton variant={SkeletonVariant.Text} />
 			</Table.Cell>
-		</Table.Row>
-		<Table.Row>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
-			<Table.Cell>
-				<Skeleton variant={SkeletonVariant.Text} />
-			</Table.Cell>
 			<Table.Cell>
 				<Skeleton variant={SkeletonVariant.Text} />
 			</Table.Cell>
@@ -44,8 +33,31 @@ export const LoadingSkeleton = () => (
 			<Table.Cell>
 				<Skeleton variant={SkeletonVariant.Text} />
 			</Table.Cell>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
 		</Table.Row>
 		<Table.Row>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
+		</Table.Row>
+		<Table.Row>
+			<Table.Cell>
+				<Skeleton variant={SkeletonVariant.Text} />
+			</Table.Cell>
 			<Table.Cell>
 				<Skeleton variant={SkeletonVariant.Text} />
 			</Table.Cell>
