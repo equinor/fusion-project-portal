@@ -86,9 +86,6 @@ export const useAppLoader = (appKey: string) => {
 									},
 								})
 							);
-
-							/** remove app element when application unmounts */
-							// subscription.add(() => appRef.current.remove());
 						}
 					} catch (error) {
 						console.error('App loading Error: ', error);
