@@ -5,7 +5,7 @@ import { Icon } from '@equinor/eds-core-react';
 import { star_filled, star_outlined } from '@equinor/eds-icons';
 import { Skeleton, SkeletonSize, SkeletonVariant } from '@equinor/fusion-react-skeleton';
 
-import { AppManifest } from '../../types/types';
+import { AppManifest } from '@portal/core';
 
 const pinnIconSize = 1.5;
 
@@ -25,7 +25,7 @@ export const Styled = {
 			cursor: pointer;
 		}
 	`,
-	PinIconOut: styled(Icon)<{ isPinned?: boolean }>`
+	PinIconOut: styled(Icon)<{ isPinned?: boolean | null }>`
 		${({ isPinned }) => {
 			if (isPinned) {
 				return css`

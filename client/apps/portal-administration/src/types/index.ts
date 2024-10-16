@@ -1,6 +1,10 @@
-import { AppManifest } from '@equinor/fusion-framework-react-app';
+import { AppManifest as FusionAppManifest } from '@equinor/fusion-framework-react-app';
 import { Router } from './router-config';
 
+export type AppManifest = FusionAppManifest & {
+	isDisabled?: boolean;
+	url?: string;
+};
 export type Portal = {
 	name: string;
 	shortName: string;

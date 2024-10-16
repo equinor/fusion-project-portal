@@ -3,7 +3,7 @@ import { Fusion } from '@equinor/fusion-framework-react';
 
 export type RenderConfig = {
 	fusion: Fusion<[AppModule]>;
-	env: AppEnv<unknown, unknown>;
+	env: AppEnv;
 };
 
 export const appRender = (args: { script?: AppScriptModule; element: HTMLDivElement; config: RenderConfig }) => {

@@ -11,7 +11,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
             services.AddOptions()
                 .Configure<AssetProxyOptions>("AssetProxy", configuration);
 
-            services.AddScoped<LegacyAppResourcesRequestTransformer>();
+            services.AddScoped<FusionAppsApiResourcesRequestTransformer>();
             services.AddScoped<ProfileImageRequestTransformer>();
 
             return services;
@@ -19,9 +19,9 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Modules
 
         public static IEndpointRouteBuilder MapFusionPortalAssetProxy(this IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/bundles/apps/{appKey}/resources/{*resourcePath}", AssetProxyHandler.ProxyRequestAsync<LegacyAppResourcesRequestTransformer>);
-            endpoints.MapGet("/assets/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
-            endpoints.MapGet("/images/profiles/{uniqueId}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
+            endpoints.MapGet($"{Constants.AssetProfileImageRoute}/{{uniqueId}}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
+            endpoints.MapGet($"{Constants.ProfileImageRoute}/{{uniqueId}}", AssetProxyHandler.ProxyRequestAsync<ProfileImageRequestTransformer>);
+            endpoints.MapGet($"{Constants.FusionAppsRoute}/{{**catch-all}}", AssetProxyHandler.ProxyRequestAsync<FusionAppsApiResourcesRequestTransformer>);
 
             return endpoints;
         }

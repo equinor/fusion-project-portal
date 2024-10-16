@@ -5,6 +5,7 @@ import tsconfig from 'vite-tsconfig-paths';
 
 import env from 'vite-plugin-environment';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { appProxyPlugin } from '@equinor/fusion-framework-cli/plugin-app-proxy';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -31,6 +32,17 @@ export default defineConfig(({ mode }) => {
 					},
 				],
 			}),
+			appProxyPlugin({
+				proxy: {
+					path: '/apps-proxy',
+					target: 'https://fusion-s-apps-ci.azurewebsites.net/',
+					onProxyReq: (proxyReq, req, res) => {
+						proxyReq.on('response', (res) => {
+							console.log(res.statusMessage ?? `${res.statusCode} `, res.req?.path, res.statusCode);
+						});
+					},
+				},
+			}),
 		],
 		assetsInclude: ['*.svg', '*.jpg', '*.jpeg', '*.png'],
 		preview: { port: 3000 },
@@ -47,6 +59,7 @@ export default defineConfig(({ mode }) => {
 				},
 			},
 		},
+		mode: process.env.NODE_ENV ?? 'development',
 		server: {
 			port: 3000,
 			host: true,
