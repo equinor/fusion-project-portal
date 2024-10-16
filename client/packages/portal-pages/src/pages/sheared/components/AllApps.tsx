@@ -68,7 +68,6 @@ export const AllApps = () => {
 									);
 								}}
 								onFavorite={(app) => {
-									console.log(app);
 									addFavorite(app.key);
 								}}
 							/>
