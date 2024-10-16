@@ -29,7 +29,7 @@ function getClientIdFormScope(scope: string): string | undefined {
 
 export function createPortalFramework(portalConfig: PortalConfig) {
 	return (config: FusionConfigurator) => {
-		config.logger.level = 4; // (portalConfig.logger?.level as LoggerLevel) || 0;
+		config.logger.level = (portalConfig.logger?.level as LoggerLevel) || 0;
 
 		/** Legacy Fusion ClientId used in legacy auth provider  */
 		(window as { clientId?: string }).clientId = getClientIdFormScope(
@@ -266,11 +266,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		}
 
 		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
-			// const appService = await fusion.serviceDiscovery.resolveService('apps');
-			// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// // @ts-ignore
-			// modules.http.config._clients.apps = { baseUri: appService.uri, defaultScopes: appService.scopes };
-
 			new FeatureLogger(fusion);
 
 			// Todo: should be moved to context module
