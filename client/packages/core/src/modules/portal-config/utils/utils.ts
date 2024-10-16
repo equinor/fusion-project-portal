@@ -67,7 +67,7 @@ export function getPinnedAppsGroup(enabledApps: AppManifest[], disabledApps: App
 		} as AppCategory
 	);
 
-	pinnedApps.apps.sort((a, b) => a.name!.localeCompare(b.name!));
+	pinnedApps.apps.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
 
 	return pinnedApps;
 }
