@@ -1,7 +1,7 @@
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useQuery } from 'react-query';
 import { getPimsTasks } from '../work-assigned/assignment-queries';
-import { getMyMeetingsActions, getMyReviewActions } from '../queries/fusion-meetings-queries';
+import { getMyMeetingsActions, getMyReviewActions, myMeetingsActionSelector } from '../queries/fusion-meetings-queries';
 import { getQueryAndNCRequest } from '../queries/query-ncr-request-queries';
 import { Task } from '../types/task';
 import { getFusionTasks, getProCoSysAssignments } from '../queries/fusion-task-queries';
@@ -95,6 +95,7 @@ export function useMeetingsActionsQuery() {
 	return useQuery({
 		queryKey: ['Assignment', 'Meetings', 'Meetings-Actions'],
 		queryFn: async ({ signal }) => getMyMeetingsActions(await client, signal),
+		select: myMeetingsActionSelector,
 		cacheTime: 5000 * 60,
 		refetchInterval: 5000 * 60,
 		staleTime: 2000 * 60,
