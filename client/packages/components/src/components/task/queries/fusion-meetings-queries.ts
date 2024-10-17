@@ -12,7 +12,7 @@ function stripHtml(html?: string) {
 }
 
 export async function getMyMeetingsActions(client: IHttpClient, signal?: AbortSignal): Promise<Task[]> {
-	const response = await client.fetch('/persons/me/actions', { signal });
+	const response = await client.fetch('/persons/me/actions?api-version=4.0', { signal });
 
 	const tasks: MeetingAction[] = await response.json();
 
