@@ -1,10 +1,10 @@
-﻿using Equinor.ProjectExecutionPortal.FusionPortalApi.Apps.Models;
+﻿using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Cache;
 
 public interface IFusionAppsCache
 {
-    Task<List<FusionPortalAppInformation>> GetFusionApps();
+    Task<List<App>> GetFusionApps();
 
-    Task<FusionPortalAppInformation?> GetFusionApp(string appKey);
+    Task<App?> GetFusionApp(string appKey);
 }

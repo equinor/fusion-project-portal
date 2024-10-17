@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
 {

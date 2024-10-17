@@ -19,6 +19,5 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities
 
         public IReadOnlyCollection<Portal> Portals => _portals.AsReadOnly();
         public IReadOnlyCollection<OnboardedApp> OnboardedApps => _onboardedApps.AsReadOnly();
-
     }
 }

@@ -4,7 +4,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
     internal class OnboardedAppData
     {
-        public class InitialSeedData
+        public class InitialDbSeedData
         {
             public static OnboardedApp MeetingsApp = new("meetings");
             public static OnboardedApp ReviewsApp = new("reviews");

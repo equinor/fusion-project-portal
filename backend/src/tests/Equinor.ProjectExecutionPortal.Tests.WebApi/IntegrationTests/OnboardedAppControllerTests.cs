@@ -52,7 +52,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApp_AsAuthenticatedUser_ShouldReturnOk()
         {
             // Act
-            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialSeedData.MeetingsApp.AppKey, UserType.Authenticated, HttpStatusCode.OK);
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialDbSeedData.MeetingsApp.AppKey, UserType.Authenticated, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(onboardedApp);
@@ -64,7 +64,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApp_AsAdministratorUser_ShouldReturnOk()
         {
             // Act
-            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialSeedData.MeetingsApp.AppKey, UserType.Administrator, HttpStatusCode.OK);
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialDbSeedData.MeetingsApp.AppKey, UserType.Administrator, HttpStatusCode.OK);
 
             // Assert
             Assert.IsNotNull(onboardedApp);
@@ -76,7 +76,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Get_OnboardedApp_AsAnonymous_ShouldReturnUnauthorized()
         {
             // Act
-            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialSeedData.MeetingsApp.AppKey, UserType.Anonymous, HttpStatusCode.Unauthorized);
+            var onboardedApp = await AssertGetOnboardedApp(OnboardedAppData.InitialDbSeedData.MeetingsApp.AppKey, UserType.Anonymous, HttpStatusCode.Unauthorized);
 
             // Assert
             Assert.IsNull(onboardedApp);
@@ -91,8 +91,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app",
-                ContextTypes = new List<string>() { "ProjectMaster" }
+                AppKey = FusionAppApiData.TestFusion.AppKey,
+                ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
             };
 
             // Act
@@ -114,7 +114,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app",
+                AppKey = FusionAppApiData.TestFusion.AppKey
             };
 
             // Act
@@ -130,7 +130,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "test-app",
+                AppKey = FusionAppApiData.TestFusion.AppKey
             };
 
             // Act
@@ -140,21 +140,20 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        [Ignore] // TODO: Mock service must accept dynamic values
         [TestMethod]
         public async Task Add_Invalid_OnboardedApp_AsAdministratorUser_ShouldThrowExeption()
         {
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "i-do-not-exist-in-fusion"
+                AppKey = FusionAppApiData.NonExistentApp.AppKey
             };
 
             // Act
             var response = await AddOnboardedApp(UserType.Administrator, payload);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [TestMethod]
@@ -163,7 +162,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = OnboardedAppData.InitialSeedData.OrgChartApp.AppKey
+                AppKey = OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey
             };
 
             // Act
@@ -182,7 +181,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiUpdateOnboardedAppRequest
             {
-                ContextTypes = new List<string>() { }
+                ContextTypes = new List<string>()
             };
 
             // Act
@@ -204,7 +203,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiUpdateOnboardedAppRequest();
 
             // Act
-            var response = await UpdateOnboardedApp(UserType.Authenticated, payload, "some-app-key");
+            var response = await UpdateOnboardedApp(UserType.Authenticated, payload, OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
@@ -217,7 +216,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             var payload = new ApiUpdateOnboardedAppRequest();
 
             // Act
-            var response = await UpdateOnboardedApp(UserType.Anonymous, payload, "some-app-key");
+            var response = await UpdateOnboardedApp(UserType.Anonymous, payload, OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey);
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -230,8 +229,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = "app-to-be-removed",
-                ContextTypes = new List<string>() { "ProjectMaster" }
+                AppKey = FusionAppApiData.TestToBeOffboardedFusion.AppKey,
+                ContextTypes = new List<string>() { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
             };
 
             // Act
@@ -256,7 +255,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var existingOnboardedAppKey = OnboardedAppData.InitialSeedData.OrgChartApp.AppKey;
+            var existingOnboardedAppKey = OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey;
 
             // Act
             var removeResponse = await RemoveOnboardedApp(UserType.Authenticated, existingOnboardedAppKey);
@@ -269,7 +268,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var existingOnboardedAppKey = OnboardedAppData.InitialSeedData.OrgChartApp.AppKey;
+            var existingOnboardedAppKey = OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey;
 
             // Act
             var removeResponse = await RemoveOnboardedApp(UserType.Anonymous, existingOnboardedAppKey);

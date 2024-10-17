@@ -1,24 +1,23 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
-using Fusion.Integration;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
     internal class ContextTypeData
     {
-        public class InitialSeedData
+        public class InitialDbSeedData
         {
-            public static ContextType ContextType1 = new(ValidData.ProjectMasterContextTypeKey);
-            public static ContextType ContextType2 = new(ValidData.FacilityContextTypeKey);
+            public static ContextType ContextType1 = new(ValidContextTypes.ProjectMasterContextTypeKey);
+            public static ContextType ContextType2 = new(ValidContextTypes.FacilityContextTypeKey);
         }
 
-        public class ValidData
+        public class ValidContextTypes
         {
             public static string ProjectMasterContextTypeKey = "ProjectMaster";
             public static string FacilityContextTypeKey = "Facility";
             public static string ContractContextTypeKey = "Contract";
         }
 
-        public class InvalidData
+        public class InvalidContextTypes
         {
             public static string InvalidContextTypeKey = "SuperContext";
         }

@@ -61,7 +61,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
 
             var payload = new ApiAddContextTypeRequest
             {
-                Type = ContextTypeData.ValidData.ContractContextTypeKey
+                Type = ContextTypeData.ValidContextTypes.ContractContextTypeKey
             };
 
             // Act
@@ -83,7 +83,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiAddContextTypeRequest
             {
-                Type = ContextTypeData.ValidData.ContractContextTypeKey
+                Type = ContextTypeData.ValidContextTypes.ContractContextTypeKey
             };
 
             // Act
@@ -99,7 +99,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiAddContextTypeRequest
             {
-                Type = ContextTypeData.ValidData.ContractContextTypeKey
+                Type = ContextTypeData.ValidContextTypes.ContractContextTypeKey
             };
 
             // Act
@@ -115,7 +115,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiAddContextTypeRequest
             {
-                Type = ContextTypeData.InvalidData.InvalidContextTypeKey
+                Type = ContextTypeData.InvalidContextTypes.InvalidContextTypeKey
             };
 
             // Act
@@ -131,7 +131,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiAddContextTypeRequest
             {
-                Type = ContextTypeData.InitialSeedData.ContextType1.ContextTypeKey
+                Type = ContextTypeData.InitialDbSeedData.ContextType1.ContextTypeKey
             };
 
             // Act
@@ -145,7 +145,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_ContextType_WithoutPortals_AsAdministratorUser_ShouldReturnOk()
         {
             // Arrange
-            var payload = ContextTypeData.InitialSeedData.ContextType2.ContextTypeKey;
+            var payload = ContextTypeData.InitialDbSeedData.ContextType2.ContextTypeKey;
 
             // Act
             var getAllBefore = await AssertGetAllContextTypes(UserType.Administrator, HttpStatusCode.OK);
@@ -166,7 +166,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_ContextType_WithPortals_AsAdministratorUser_ShouldReturnBadRequest()
         {
             // Arrange
-            var payload = ContextTypeData.InitialSeedData.ContextType1.ContextTypeKey;
+            var payload = ContextTypeData.InitialDbSeedData.ContextType1.ContextTypeKey;
 
             // Act
             var getAllBefore = await AssertGetAllContextTypes(UserType.Administrator, HttpStatusCode.OK);
@@ -184,7 +184,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_ContextType_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var existingContextTypeKey = ContextTypeData.InitialSeedData.ContextType1.ContextTypeKey;
+            var existingContextTypeKey = ContextTypeData.InitialDbSeedData.ContextType1.ContextTypeKey;
 
             // Act
             var getAllBefore = await AssertGetAllContextTypes(UserType.Administrator, HttpStatusCode.OK);
@@ -202,7 +202,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Remove_ContextType_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var existingContextTypeKey = ContextTypeData.InitialSeedData.ContextType1.ContextTypeKey;
+            var existingContextTypeKey = ContextTypeData.InitialDbSeedData.ContextType1.ContextTypeKey;
 
             // Act
             var getAllBefore = await AssertGetAllContextTypes(UserType.Administrator, HttpStatusCode.OK);

@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -15,7 +14,7 @@ public class RemoveContextTypeCommand : IRequest
     }
 
     public string ContextTypeKey { get; }
-   
+
     public class Handler : IRequestHandler<RemoveContextTypeCommand>
     {
         private readonly IReadWriteContext _readWriteContext;
@@ -27,19 +26,19 @@ public class RemoveContextTypeCommand : IRequest
 
         public async Task Handle(RemoveContextTypeCommand command, CancellationToken cancellationToken)
         {
-            var entity  = await _readWriteContext.Set<ContextType>()
+            var entity = await _readWriteContext.Set<ContextType>()
                 .Include(x => x.OnboardedApps)
                 .Include(x => x.Portals)
                 .FirstOrDefaultAsync(x => x.ContextTypeKey == command.ContextTypeKey, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(ContextType) ,command.ContextTypeKey);
+                throw new NotFoundException(nameof(ContextType), command.ContextTypeKey);
             }
 
             if (entity.Portals.Any())
             {
-                 throw new InvalidActionException("Cannot remove context type. Context type is used by portals");
+                throw new InvalidActionException("Cannot remove context type. Context type is used by portals");
             }
 
             if (entity.OnboardedApps.Any())
@@ -50,7 +49,6 @@ public class RemoveContextTypeCommand : IRequest
             _readWriteContext.Set<ContextType>().Remove(entity);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
-
         }
     }
 }

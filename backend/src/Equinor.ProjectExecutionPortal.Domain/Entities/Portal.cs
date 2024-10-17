@@ -50,11 +50,6 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         Icon = icon;
     }
 
-    private static PortalConfiguration CreateDefaultPortalConfiguration()
-    {
-        return new PortalConfiguration(null,null, null);
-    }
-
     public void AddApp(PortalApp app)
     {
         _apps.Add(app);
@@ -112,5 +107,10 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     {
         return HasApp(onboardedAppId) &&
                _apps.Any(portalApp => portalApp.IsContextual);
+    }
+
+    private static PortalConfiguration CreateDefaultPortalConfiguration()
+    {
+        return new PortalConfiguration(null, null, null);
     }
 }

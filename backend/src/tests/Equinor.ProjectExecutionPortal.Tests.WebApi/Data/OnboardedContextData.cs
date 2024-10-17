@@ -4,10 +4,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
     internal class OnboardedContextData
     {
-        public class InitialSeedData
+        public class InitialDbSeedData
         {
-            public static OnboardedContext JcaContext = new(FusionContextData.InitialSeedData.JcaContextExternalId, FusionContextData.InitialSeedData.ContextType, "desc");
-            public static OnboardedContext OgpContext = new(FusionContextData.InitialSeedData.OgpContextExternalId, FusionContextData.InitialSeedData.ContextType, "desc");
+            public static OnboardedContext JcaContext = new(FusionContextApiData.JcaContextExternalId, ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey, "desc");
+            public static OnboardedContext OgpContext = new(FusionContextApiData.OgpContextExternalId, ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey, "desc");
         }
     }
 }
