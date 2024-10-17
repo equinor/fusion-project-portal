@@ -2,7 +2,7 @@ import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { Task } from '../types/task';
 
 import { verifyDate } from '../utils/time';
-import { ActionState, MeetingAction } from '../types/meetings-task';
+import { ActionState, MeetingAction, MeetingType } from '../types/meetings-task';
 import { isTaskOverdue } from './query-ncr-request-queries';
 
 function stripHtml(html?: string) {
@@ -11,11 +11,14 @@ function stripHtml(html?: string) {
 	return tmp.textContent || tmp.innerText || '';
 }
 
-export async function getMyMeetingsActions(client: IHttpClient, signal?: AbortSignal): Promise<Task[]> {
+export async function getMyMeetingsActions(client: IHttpClient, signal?: AbortSignal): Promise<MeetingAction[]> {
 	const response = await client.fetch('/persons/me/actions?api-version=4.0', { signal });
 
 	const tasks: MeetingAction[] = await response.json();
+	return tasks;
+}
 
+export function myMeetingsActionSelector(tasks: MeetingAction[]): Task[] {
 	return tasks
 		.filter((a) => a.state !== ActionState.Completed && a.state !== ActionState.NotCompleted)
 		.map((task) => ({
