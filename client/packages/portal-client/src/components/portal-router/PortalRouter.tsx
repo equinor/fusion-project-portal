@@ -7,11 +7,11 @@ import { Navigate, RouteObject, RouterProvider } from 'react-router-dom';
 
 import { PortalFrame } from '../portal-frame/PortalFrame';
 import { AppPage } from '../../pages/AppPage/AppPage';
-import { PortalRoutes, usePortalConfig } from '@portal/core';
+import { PortalRouter as PortalRouterType, usePortalConfig, usePortalRouterConfig } from '@portal/core';
 import { PortalPage } from './PortalPage';
 import PeopleResolverProvider from '@equinor/fusion-framework-react-components-people-provider';
 
-const routes = (portalRoutes: PortalRoutes | undefined): RouteObject[] => {
+const routes = (portalRoutes: PortalRouterType | undefined): RouteObject[] => {
 	const pages =
 		portalRoutes?.routes?.map((route) => ({
 			path: route.path,
@@ -77,8 +77,9 @@ function PortalRouter({ routes }: { routes: RouteObject[] }) {
 }
 
 export function PortalProvider() {
-	const { data: portalRoutes, isLoading: routesLoading } = usePortalConfig().queryRoutes;
-	const { data: portal, isLoading: portalLoading } = usePortalConfig().queryPortal;
+	const { router: portalRoutes, isLoading: routesLoading } = usePortalRouterConfig();
+	const { portal, isLoading: portalLoading } = usePortalConfig();
+	console.log(routesLoading, portalLoading);
 
 	if (routesLoading || portalLoading) {
 		return <PortalProgressLoader title="Loading Portal Config" />;

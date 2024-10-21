@@ -69,10 +69,14 @@ export const AppGroup = ({ group, onFavorite, dark, onClick }: AppGroupProps) =>
 	const isGroupActive = !!group.apps.find((a) => a.key === appKey);
 
 	return (
-		<Styles.Group id={`groupe-${group.name}`}>
+		<Styles.Group id={`groupe-${group.displayName}`}>
 			<Styles.Nav>
-				<Styles.Title isActive={isGroupActive} id={`groupe-${group.name}-name`} title={group.name || ''}>
-					{group.name}
+				<Styles.Title
+					isActive={isGroupActive}
+					id={`groupe-${group.displayName}-name`}
+					title={group.displayName || ''}
+				>
+					{group.displayName}
 				</Styles.Title>
 				<Styles.List>
 					{group.apps.map((app) => (

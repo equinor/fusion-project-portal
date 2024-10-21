@@ -8,8 +8,8 @@ interface PortalContextProviderProps {
 }
 
 export const ContextProvider = ({ children }: PortalContextProviderProps) => {
-	const { data } = usePortalConfig().queryPortal;
-	const resolver = useContextResolver(data?.contexts?.map((context) => context.type) || ['ProjectMaster']);
+	const { portal } = usePortalConfig();
+	const resolver = useContextResolver(portal?.contexts?.map((context) => context.type) || ['ProjectMaster']);
 
 	return <FusionContextProvider resolver={resolver}>{children}</FusionContextProvider>;
 };

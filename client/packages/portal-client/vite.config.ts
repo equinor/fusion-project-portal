@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			tsconfig(),
-			env({ NODE_ENV: 'development' }),
+			env({ NODE_ENV: 'development', FUSION_LOG_LEVEL: '0' }),
 			viteStaticCopy({
 				targets: [
 					{

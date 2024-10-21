@@ -10,7 +10,7 @@ export const appsToAppCategory = (apps?: AppManifest[]): AppCategory[] => {
 			} else {
 				appCategories.push({
 					id: 'undefined',
-					name: 'Unknown',
+					displayName: 'Unknown',
 					color: null,
 					defaultIcon: null,
 					apps: [appManifest],
