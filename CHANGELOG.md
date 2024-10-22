@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 5.0.2
+
+### Patch Changes
+
+- c9b0ad5: providing the right env key to appLoader
+
 ## 5.0.1
 
 ### Patch Changes
