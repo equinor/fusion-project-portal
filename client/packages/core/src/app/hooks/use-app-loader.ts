@@ -52,7 +52,7 @@ export const useAppLoader = (appKey: string) => {
 												...config,
 												environment: {
 													appKey,
-													env: getFusionLegacyEnvIdentifier(),
+													fusionEnv: getFusionLegacyEnvIdentifier(),
 													loadingText: 'Loading',
 													endpoints: {
 														client: getLegacyClientConfig(),
@@ -63,7 +63,7 @@ export const useAppLoader = (appKey: string) => {
 											} as AppConfig<
 												ConfigEnvironment & {
 													appKey: string;
-													env: string;
+													fusionEnv: string;
 													loadingText: string;
 													endpoints: {
 														client: Client;
