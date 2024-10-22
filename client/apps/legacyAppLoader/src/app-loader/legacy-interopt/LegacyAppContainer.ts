@@ -228,12 +228,12 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
 			 * assume if the manifest missing AppComponent or render, that loading is required
 			 */
 
-			if (!AppComponent && !render) {
-				await this.#loadScript(key);
+			const manifest = this.#manifests.value[appKey] as unknown as AppManifest;
+
+			if (!AppComponent && !render && manifest.build) {
+				await this.#loadScript(manifest);
 			}
 			await new Promise((resolve) => window.requestAnimationFrame(resolve));
-
-			const manifest = this.#manifests.value[appKey] as unknown as AppManifest;
 
 			const currentApp = appProvider.current;
 
@@ -285,8 +285,9 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
 		return this.updateComplete;
 	}
 
-	async #loadScript(appKey: string): Promise<void> {
+	async #loadScript(manifest: AppManifest): Promise<void> {
 		return new Promise((resolve, reject) => {
+			const { appKey, build } = manifest;
 			const script = document.createElement('script');
 			script.async = true;
 			script.id = appKey;
@@ -296,8 +297,7 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
 			script.addEventListener('load', () => resolve());
 			script.addEventListener('abort', () => reject());
 			script.addEventListener('error', () => reject());
-			// Todo: Fix uri to mach the new structure
-			script.src = `${window['clientBaseUri']}/api/bundles/${appKey}.js`;
+			script.src = `/apps-proxy/bundles/apps/${appKey}/${build?.version}/${build?.entryPoint}`;
 		});
 	}
 
@@ -305,7 +305,7 @@ export class LegacyAppContainer extends EventEmitter<AppContainerEvents> {
 		console.log('Updating');
 		this.#updateTask = new Promise((resolve, reject) => {
 			this.#updateTask.state = 'pending';
-			this.#appModules.app.getAllAppManifests().subscribe({
+			this.#appModules.app.getAppManifests({ filterByCurrentUser: true }).subscribe({
 				complete: () => {
 					this.#updateTask.state = 'fulfilled';
 					this.#lastUpdated = Date.now();
