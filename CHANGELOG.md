@@ -1,5 +1,14 @@
 # fusion-project-portal
 
+## 5.0.1
+
+### Patch Changes
+
+- 0d4055d: - Remove unused import and code in app.config.ts
+  - Update dev:appLoader script in package.json
+  - Remove unused components in legacyAppLoader
+- a59d1b5: fixing icon error and waring of div inside table
+
 ## 5.0.0
 
 ### Major Changes
