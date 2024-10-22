@@ -1,217 +1,196 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
-  createApiClients,
-  ResourceCache,
-  EventHub,
-  HttpClient,
-  AbortControllerManager,
-  createResourceCollections,
-  TelemetryLogger,
-  FeatureLogger,
-  SettingsContainer,
-  ComponentDisplayType,
-  AppContainer,
-  TasksContainer,
-  NotificationCenter,
-  PeopleContainer,
-  UserMenuContainer,
-  FusionContextRefs,
-  IFusionContext,
-} from "@equinor/fusion";
-import { appContainerFactory } from "@equinor/fusion/lib/app/AppContainer";
+	createApiClients,
+	ResourceCache,
+	EventHub,
+	HttpClient,
+	AbortControllerManager,
+	createResourceCollections,
+	TelemetryLogger,
+	FeatureLogger,
+	SettingsContainer,
+	ComponentDisplayType,
+	AppContainer,
+	TasksContainer,
+	NotificationCenter,
+	PeopleContainer,
+	UserMenuContainer,
+	FusionContextRefs,
+	IFusionContext,
+} from '@equinor/fusion';
+import { appContainerFactory } from '@equinor/fusion/lib/app/AppContainer';
 
-import { NavigationUpdate } from "@equinor/fusion-framework-module-navigation";
+import { NavigationUpdate } from '@equinor/fusion-framework-module-navigation';
 
-import { LegacyAppContainer } from "./LegacyAppContainer";
-import { LegacyAuthContainer } from "./LegacyAuthContainer";
+import { LegacyAppContainer } from './LegacyAppContainer';
+import { LegacyAuthContainer } from './LegacyAuthContainer';
 
-import createServiceResolver from "./create-service-resolver";
-import type { PortalFramework } from "./types";
-import legacySignIn from "./legacy-api-signin";
-import LegacyContextManager from "./LegacyContextManager";
+import createServiceResolver from './create-service-resolver';
+import type { PortalFramework } from './types';
+import legacySignIn from './legacy-api-signin';
+import LegacyContextManager from './LegacyContextManager';
 
-import { GLOBAL_FUSION_CONTEXT_KEY } from "./static";
+import { GLOBAL_FUSION_CONTEXT_KEY } from './static';
 
-import { AppModule } from "@equinor/fusion-framework-module-app";
-import { AppModulesInstance } from "@equinor/fusion-framework-react-app";
+import { AppModule } from '@equinor/fusion-framework-module-app';
+import { AppModulesInstance } from '@equinor/fusion-framework-react-app';
 
 export type FusionContextOptions = {
-  loadBundlesFromDisk: boolean;
-  environment?: {
-    env: string;
-    pullRequest?: string;
-  };
-  telemetry?: {
-    instrumentationKey: string;
-  };
+	loadBundlesFromDisk: boolean;
+	environment?: {
+		env: string;
+		pullRequest?: string;
+		clientId?: string;
+	};
+	telemetry?: {
+		instrumentationKey: string;
+	};
 };
 
 export const createFusionContext = async (args: {
-  framework: PortalFramework;
-  refs: FusionContextRefs;
-  options?: FusionContextOptions;
-  appFramework: AppModulesInstance<[AppModule]>;
+	framework: PortalFramework;
+	refs: FusionContextRefs;
+	options?: FusionContextOptions;
+	appFramework: AppModulesInstance<[AppModule]>;
 }): Promise<IFusionContext> => {
-  const { framework, refs, options, appFramework } = args;
+	const { framework, refs, options, appFramework } = args;
 
-  const {
-    environment = { env: "ci" },
-    loadBundlesFromDisk = false,
-    telemetry,
-  } = options ?? {};
+	const { environment = { env: 'ci' }, loadBundlesFromDisk = false, telemetry } = options ?? {};
 
-  const authContainer = new LegacyAuthContainer({
-    auth: framework.modules.auth,
-  });
+	const authContainer = new LegacyAuthContainer({
+		auth: framework.modules.auth,
+	});
 
-  const telemetryLogger = new TelemetryLogger(
-    telemetry?.instrumentationKey ?? "",
-    authContainer
-  );
+	const telemetryLogger = new TelemetryLogger(telemetry?.instrumentationKey ?? '', authContainer);
 
-  const abortControllerManager = new AbortControllerManager(new EventHub());
+	const abortControllerManager = new AbortControllerManager(new EventHub());
 
-  const { serviceDiscovery } = framework.modules;
-  if (!serviceDiscovery) {
-    throw Error("missing module for service discovery");
-  }
-  const serviceResolver = await createServiceResolver(
-    serviceDiscovery,
-    authContainer
-  );
+	const { serviceDiscovery } = framework.modules;
+	if (!serviceDiscovery) {
+		throw Error('missing module for service discovery');
+	}
 
-  const resourceCollections = createResourceCollections(serviceResolver, {
-    loadBundlesFromDisk,
-    environment,
-  });
+	const serviceResolver = await createServiceResolver(serviceDiscovery, authContainer, window.clientId);
 
-  const resourceCache = new ResourceCache(new EventHub());
+	const resourceCollections = createResourceCollections(serviceResolver, {
+		loadBundlesFromDisk,
+		environment,
+	});
 
-  const httpClient = new HttpClient(
-    authContainer,
-    resourceCache,
-    abortControllerManager,
-    telemetryLogger,
-    new EventHub()
-  );
+	const resourceCache = new ResourceCache(new EventHub());
 
-  const apiClients = createApiClients(
-    httpClient,
-    resourceCollections,
-    serviceResolver
-  );
+	const httpClient = new HttpClient(
+		authContainer,
+		resourceCache,
+		abortControllerManager,
+		telemetryLogger,
+		new EventHub()
+	);
 
-  const featureLogger = new FeatureLogger(apiClients, new EventHub());
+	const apiClients = createApiClients(httpClient, resourceCollections, serviceResolver);
 
-  const history = framework.modules.navigation.navigator;
+	const featureLogger = new FeatureLogger(apiClients, new EventHub());
 
-  const historyListenFn = history.listen.bind(history);
+	const history = framework.modules.navigation.navigator;
 
-  /**
-   * TODO - write what this wrapper does!?
-   */
-  // @ts-ignore
-  history.listen = (
-    cb: (
-      eventOrLocation: NavigationUpdate | NavigationUpdate["location"],
-      action?: NavigationUpdate["action"]
-    ) => void
-  ) => {
-    return historyListenFn((e: NavigationUpdate) => {
-      const event = new Proxy(e, {
-        get(target, p) {
-          // eslint-disable-next-line default-case
-          switch (p) {
-            case "action":
-              return target.action;
+	const historyListenFn = history.listen.bind(history);
 
-            case "location":
-              return target.location;
+	/**
+	 * TODO - write what this wrapper does!?
+	 */
+	// @ts-ignore
+	history.listen = (
+		cb: (
+			eventOrLocation: NavigationUpdate | NavigationUpdate['location'],
+			action?: NavigationUpdate['action']
+		) => void
+	) => {
+		return historyListenFn((e: NavigationUpdate) => {
+			const event = new Proxy(e, {
+				get(target, p) {
+					// eslint-disable-next-line default-case
+					switch (p) {
+						case 'action':
+							return target.action;
 
-            case "state":
-            case "hash":
-            case "key":
-            case "search":
-            case "pathname":
-              // @ts-ignore
-              return target.location[p];
-          }
-        },
-      });
-      cb(event, e.action);
-    });
-  };
+						case 'location':
+							return target.location;
 
-  const coreSettings = new SettingsContainer(
-    "core",
-    authContainer.getCachedUser(),
-    new EventHub(),
-    {
-      componentDisplayType: ComponentDisplayType.Comfortable,
-    }
-  );
+						case 'state':
+						case 'hash':
+						case 'key':
+						case 'search':
+						case 'pathname':
+							// @ts-ignore
+							return target.location[p];
+					}
+				},
+			});
+			cb(event, e.action);
+		});
+	};
 
-  const appContainer = new LegacyAppContainer({
-    framework,
-    eventHub: new EventHub(),
-    featureLogger,
-    telemetryLogger,
-    appModules: appFramework,
-  }) as unknown as AppContainer;
+	const coreSettings = new SettingsContainer('core', authContainer.getCachedUser(), new EventHub(), {
+		componentDisplayType: ComponentDisplayType.Comfortable,
+	});
 
-  appContainerFactory(appContainer);
+	const appContainer = new LegacyAppContainer({
+		framework,
+		eventHub: new EventHub(),
+		featureLogger,
+		telemetryLogger,
+		appModules: appFramework,
+	}) as unknown as AppContainer;
 
-  // @ts-ignore
-  const contextManager = new LegacyContextManager({
-    featureLogger,
-    framework,
-    history: history as unknown as History,
-  });
+	appContainerFactory(appContainer);
 
-  const tasksContainer = new TasksContainer(apiClients, new EventHub());
-  const notificationCenter = new NotificationCenter(new EventHub(), apiClients);
-  const peopleContainer = new PeopleContainer(
-    apiClients,
-    resourceCollections,
-    new EventHub()
-  );
-  const userMenuSectionsContainer = new UserMenuContainer(new EventHub());
+	// @ts-ignore
+	const contextManager = new LegacyContextManager({
+		featureLogger,
+		framework,
+		history: history as unknown as History,
+	});
 
-  const fusionContext = {
-    auth: { container: authContainer },
-    http: {
-      client: httpClient,
-      resourceCollections,
-      apiClients,
-      resourceCache,
-      serviceResolver,
-    },
-    refs,
-    history,
-    settings: {
-      core: coreSettings,
-      apps: {},
-    },
-    app: {
-      container: appContainer,
-    },
-    contextManager,
-    tasksContainer,
-    abortControllerManager,
-    notificationCenter,
-    peopleContainer,
-    userMenuSectionsContainer,
-    environment,
-    logging: {
-      telemetry: telemetryLogger,
-      feature: featureLogger,
-    },
-    options: { environment },
-  };
-  // @ts-ignore
-  window[GLOBAL_FUSION_CONTEXT_KEY] = fusionContext;
+	const tasksContainer = new TasksContainer(apiClients, new EventHub());
+	const notificationCenter = new NotificationCenter(new EventHub(), apiClients);
+	const peopleContainer = new PeopleContainer(apiClients, resourceCollections, new EventHub());
+	const userMenuSectionsContainer = new UserMenuContainer(new EventHub());
 
-  await legacySignIn(framework);
+	const fusionContext = {
+		auth: { container: authContainer },
+		http: {
+			client: httpClient,
+			resourceCollections,
+			apiClients,
+			resourceCache,
+			serviceResolver,
+		},
+		refs,
+		history,
+		settings: {
+			core: coreSettings,
+			apps: {},
+		},
+		app: {
+			container: appContainer,
+		},
+		contextManager,
+		tasksContainer,
+		abortControllerManager,
+		notificationCenter,
+		peopleContainer,
+		userMenuSectionsContainer,
+		environment,
+		logging: {
+			telemetry: telemetryLogger,
+			feature: featureLogger,
+		},
+		options: { environment },
+	};
+	// @ts-ignore
+	window[GLOBAL_FUSION_CONTEXT_KEY] = fusionContext;
 
-  return fusionContext as unknown as IFusionContext;
+	await legacySignIn(framework);
+
+	return fusionContext as unknown as IFusionContext;
 };
