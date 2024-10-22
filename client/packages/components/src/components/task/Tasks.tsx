@@ -51,7 +51,7 @@ export const Tasks: FC<TasksProps> = ({ height }) => {
 					<TabNav>
 						<Tabs.Tab>All ({assignments.length})</Tabs.Tab>
 						<Tabs.Tab>
-							Meetings
+							Meeting Actions
 							{isLoading.meetingsActions ? (
 								<Style.CircularProgress size={16} />
 							) : (

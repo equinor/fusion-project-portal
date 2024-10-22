@@ -1,5 +1,48 @@
 # fusion-project-portal
 
+## 5.0.3
+
+### Patch Changes
+
+- 6e599cf: Improve loading logic in LegacyAppContainer, by loading app from new app api with proxy
+
+## 5.0.2
+
+### Patch Changes
+
+- c9b0ad5: providing the right env key to appLoader
+
+## 5.0.1
+
+### Patch Changes
+
+- 0d4055d: - Remove unused import and code in app.config.ts
+  - Update dev:appLoader script in package.json
+  - Remove unused components in legacyAppLoader
+- a59d1b5: fixing icon error and waring of div inside table
+
+## 5.0.0
+
+### Major Changes
+
+- d96ab34: - BREAKING CHANGE: The previous proxy endpoint: `/bundles/apps/{appKey}/resources/{*resourcePath}` is no more. Instead use `/fusion-apps/{*wildcard*}` to make proxy calls against the whole Fusion Apps API. See Fusion Apps API Swagger documentation for more information about routes.
+  - Migrated proxy from Fusion Portal to Fusion Apps API
+  - Updated packages to latest version
+  - Refactored and simplified code
+  - Removed unused Project Portal variables in frontend
+  - Update frontend to use the new proxy endpoints
+  - Make frontend client use the new types provided by fusion core
+  - Update the legacy app loader to use the new proxy endpoints and and fix types
+  - Move legacy app code to apps folder for cleaner repository
+  - Setup build of legacy app loader in build pipeline for constant build an deployment.
+  - Update all Fusion dependencies for frontend client
+
+### Patch Changes
+
+- b3edf8a: Fix errors and add data owner on milestones
+- cc5f76c: Rename meetings tab to meeting actions
+- 4a4eba3: Update api version on meeting actions to the newest version.
+
 ## 4.1.4
 
 ### Patch Changes

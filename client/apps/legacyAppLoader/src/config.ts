@@ -13,7 +13,7 @@ interface Client {
 export const configure: AppModuleInitiator<
 	[NavigationModule],
 	Fusion<unknown>,
-	{ config: { environment: { endpoints: { client: Client; portal: Client; fusion: Client } } } }
+	{ config: { environment: { endpoints: { client: Client; portal: Client; apps: Client } } } }
 > = (configurator, { env, fusion }) => {
 	configurator.configureHttpClient('portal-client', env.config?.environment.endpoints.client);
 	configurator.configureHttpClient('portal', env.config?.environment.endpoints.portal);
@@ -22,7 +22,7 @@ export const configure: AppModuleInitiator<
 	// configurator.logger.level = 4;
 	configurator.configureHttpClient('app', {
 		baseUri: new URL('/apps-proxy/', location.origin).href,
-		defaultScopes: env.config?.environment.endpoints.fusion.defaultScopes,
+		defaultScopes: env.config?.environment.endpoints.apps.defaultScopes,
 	});
 
 	enableAppModule(configurator);
