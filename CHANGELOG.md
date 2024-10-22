@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 5.0.3
+
+### Patch Changes
+
+- 6e599cf: Improve loading logic in LegacyAppContainer, by loading app from new app api with proxy
+
 ## 5.0.2
 
 ### Patch Changes
