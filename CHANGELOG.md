@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 5.0.4
+
+### Patch Changes
+
+- bee97b4: Update key property in registerCurrentApps function call
+
 ## 5.0.3
 
 ### Patch Changes
