@@ -45,7 +45,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 Assert.Fail();
             }
 
-            Assert.IsNotNull(portalAll.Key);
+            Assert.IsNotNull(portalAll.AppKey);
         }
 
         public static void AssertOnboardedAppValues(ApiOnboardedApp? onboardedApp)
