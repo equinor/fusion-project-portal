@@ -36,9 +36,9 @@ export function setStoredContext(contextProvider: IContextProvider) {
 
 	const uriContext = getContextFormUrl();
 
-	if (storedContextId && window.location.pathname === '/') {
-		window.location.replace(`project/${storedContextId}`);
-	}
+	// if (storedContextId && window.location.pathname === '/') {
+	// 	window.location.replace(`project/${storedContextId}`);
+	// }
 
 	if (contextProvider.currentContext?.id !== storedContextId || uriContext) {
 		contextProvider.contextClient.setCurrentContext(uriContext ? uriContext : storedContextId);

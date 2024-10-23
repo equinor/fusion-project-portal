@@ -22,6 +22,7 @@ import { ProjectMaster } from '../sheared/types';
 import { PageHeader } from '../sheared/components/header/Header';
 import { ProjectDetails } from './components/ProjectDetails';
 import { assignment } from '@equinor/eds-icons';
+import { useNavigateOnContextChange } from '../sheared/hooks/useNavigateOnContextChange';
 
 export const Styles = {
 	Wrapper: styled.main`
@@ -84,6 +85,7 @@ const SEARCH_PARM_TAB = 'tab';
 
 export const ProjectPage = () => {
 	const { contextId } = useParams();
+	useNavigateOnContextChange();
 	const [searchParams, setSearchparams] = useSearchParams();
 
 	const { feature } = useFrameworkFeature('cc-tab');

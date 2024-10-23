@@ -20,7 +20,7 @@ export const handleFetchPortal =
 					meta: { update },
 				} = action;
 
-				const subject = from(provider.getPortalById$(portalId)).pipe(
+				const subject = from(provider.getPortalConfigById$(portalId)).pipe(
 					filter((x) => !!x),
 					share()
 				);
@@ -50,7 +50,7 @@ export const handleFetchAppsByContext =
 					meta: { update },
 				} = action;
 
-				const subject = from(provider.getAppsByContextId$(portalId, contextId)).pipe(
+				const subject = from(provider.getApps$({ contextId })).pipe(
 					filter((x) => !!x),
 					share()
 				);

@@ -26,8 +26,14 @@ export type PortalRequest = {
 	subtext?: string;
 	contexts?: ContextType[];
 	apps?: string[];
+	// todo remove routes and extensions
 	routes?: PortalRouter;
 	extensions?: Extensions;
+	configuration: {
+		environment: string | null;
+		extension: string | null;
+		router: string | null;
+	};
 };
 
 export type PortalRouter = {
@@ -109,6 +115,7 @@ export type PortalState = {
 	routes: PortalRouter;
 	apps?: string[];
 	extensions?: Extensions;
+	req?: PortalRequest;
 	error?: {
 		message: string;
 		type: string;
@@ -138,6 +145,6 @@ export type GetAppsParameters = {
 };
 
 export type IClient = {
-	getPortal: QueryCtorOptions<Portal, GetPortalParameters>;
+	getPortal: QueryCtorOptions<PortalRequest, GetPortalParameters>;
 	getPortalApps: QueryCtorOptions<string[], GetAppsParameters>;
 };

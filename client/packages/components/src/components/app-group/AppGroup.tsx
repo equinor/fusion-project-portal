@@ -66,7 +66,7 @@ type AppGroupProps = {
 
 export const AppGroup = ({ group, onFavorite, dark, onClick }: AppGroupProps) => {
 	const { appKey } = useParams();
-	const isGroupActive = !!group.apps.find((a) => a.key === appKey);
+	const isGroupActive = !!group.apps.find((a) => a.appKey === appKey);
 
 	return (
 		<Styles.Group id={`groupe-${group.displayName}`}>
@@ -81,7 +81,7 @@ export const AppGroup = ({ group, onFavorite, dark, onClick }: AppGroupProps) =>
 				<Styles.List>
 					{group.apps.map((app) => (
 						<ListCard
-							key={app.key}
+							key={app.appKey}
 							app={app}
 							pinButton
 							dark={dark}

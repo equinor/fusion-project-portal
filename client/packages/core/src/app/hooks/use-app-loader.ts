@@ -11,7 +11,13 @@ import { AppConfig } from '@equinor/fusion-framework-app';
 import { ConfigEnvironment } from '@equinor/fusion-framework-module-app';
 import { Client } from '@portal/types';
 
-export const useAppLoader = (appKey: string) => {
+// Todo Move to utils naming of baseName
+function cleanBaseName(baseName?: string): string | undefined {
+	return `/${baseName?.replace('/*', '')}`;
+}
+
+export const useAppLoader = (args: { appKey: string; baseName?: string }) => {
+	const { appKey } = args;
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | undefined>();
 
@@ -33,7 +39,7 @@ export const useAppLoader = (appKey: string) => {
 
 					// Generate basename for application regex extracts /apps/:appKey
 					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
-						window.location.pathname,
+						cleanBaseName(args.baseName) ?? window.location.pathname,
 					];
 
 					try {
@@ -90,7 +96,6 @@ export const useAppLoader = (appKey: string) => {
 						}
 					} catch (error) {
 						console.error('App loading Error: ', error);
-
 						setError(error as Error);
 					}
 				},

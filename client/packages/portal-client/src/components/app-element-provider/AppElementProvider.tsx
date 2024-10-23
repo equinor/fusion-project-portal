@@ -4,6 +4,7 @@ import { useAppLoader } from '@portal/core';
 
 interface CurrentAppLoaderProps {
 	appKey: string;
+	baseName?: string;
 }
 
 const Wrapper = styled.section`
@@ -20,10 +21,10 @@ const StyledAppSection = styled.section`
 	max-width: 100%;
 `;
 
-export const AppElementProvider: FC<PropsWithChildren<CurrentAppLoaderProps>> = ({ appKey, children }) => {
+export const AppElementProvider: FC<PropsWithChildren<CurrentAppLoaderProps>> = ({ appKey, baseName, children }) => {
 	const ref = useRef<HTMLElement>(null);
 
-	const { loading, error, appRef } = useAppLoader(appKey);
+	const { loading, error, appRef } = useAppLoader({ appKey, baseName });
 
 	useEffect(() => {
 		const refEl = ref.current;

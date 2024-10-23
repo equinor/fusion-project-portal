@@ -76,7 +76,7 @@ export const FavoriteCard = ({ app, onClick, loading, colorsStyle }: FavoriteCar
 	return (
 		<Styled.Favorite
 			$loading={loading}
-			to={app.url || `/apps/${app.key}/`}
+			to={app.url || `/apps/${app.appKey}/`}
 			style={colorsStyle}
 			onClick={() => onClick(app)}
 		>

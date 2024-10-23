@@ -50,63 +50,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 				portalId: portalConfig.portalId,
 				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
 			});
-
-			builder.setRoutes({
-				root: {
-					pageKey: 'project-portal',
-				},
-
-				routes: [
-					{
-						path: 'project/*',
-						pageKey: 'project',
-						messages: {
-							errorMessage: 'Fail to load project page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load project page',
-								},
-								path: ':contextId',
-								pageKey: 'project',
-							},
-						],
-					},
-					{
-						path: 'facility/*',
-						pageKey: 'facility',
-						messages: {
-							errorMessage: 'Fail to load facility page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load facility page',
-								},
-								path: ':contextId',
-								pageKey: 'facility',
-							},
-						],
-					},
-					{
-						path: 'admin/*',
-						pageKey: 'portal-administration',
-						messages: {
-							errorMessage: 'Fail to load portal administration page',
-						},
-						children: [
-							{
-								messages: {
-									errorMessage: 'Fail to load portal administration page',
-								},
-								path: ':portalId',
-								pageKey: 'portal-administration',
-							},
-						],
-					},
-				],
-			});
 		});
 
 		enableContext(config);
@@ -267,6 +210,10 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
 			new FeatureLogger(fusion);
+
+			fusion.portalConfig.portal$.subscribe((portal) => {
+				document.title = portal?.name || `Fusion`;
+			});
 
 			// Todo: should be moved to context module
 

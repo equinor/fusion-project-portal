@@ -1,14 +1,14 @@
 import {
-	AppManifest,
 	Extensions,
 	GetAppsParameters,
 	GetPortalParameters,
 	Portal,
 	PortalConfiguration,
+	PortalRequest,
 	PortalRouter,
 	PortalState,
 } from './types';
-import { Observable, OperatorFunction, Subscription, catchError, filter, firstValueFrom, map } from 'rxjs';
+import { Observable, OperatorFunction, Subscription, catchError, filter, firstValueFrom, from, map, take } from 'rxjs';
 import { Query } from '@equinor/fusion-query';
 import { PortalLoadError } from './errors/portal';
 import { HttpResponseError } from '@equinor/fusion-framework-module-http';
@@ -18,15 +18,11 @@ import { createState } from './state/create-state';
 import { AppsLoadError } from './errors/apps';
 
 export interface IPortalConfigProvider {
-	getPortalById$(portalId: string): Observable<Portal>;
-	getPortalStateAsync(): Promise<PortalState>;
-	getPortalAsync(): Promise<Portal>;
-	getRoutesAsync(): Promise<PortalRouter>;
-	getAppsAsync(arg?: { contextId?: string }): Promise<string[]>;
+	getPortalConfigById$(portalId: string): Observable<Portal>;
 	getApps$(arg?: { contextId?: string }): Observable<string[]>;
-	initialize(): Promise<void>;
 	state: PortalState;
 	state$: Observable<PortalState>;
+	portal$: Observable<Portal>;
 	routes$: Observable<PortalRouter>;
 	apps$: Observable<string[]>;
 	complete(): void;
@@ -53,7 +49,8 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	get routes$(): Observable<PortalRouter> {
 		return this.#state.pipe(
 			map(({ routes }) => routes),
-			filterEmpty()
+			filterEmpty(),
+			take(1)
 		);
 	}
 
@@ -74,7 +71,8 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	get portal$(): Observable<Portal> {
 		return this.#state.pipe(
 			map(({ portal }) => portal),
-			filterEmpty()
+			filterEmpty(),
+			take(1)
 		);
 	}
 
@@ -91,54 +89,23 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 
 	public getApps$ = (args?: { contextId?: string }): Observable<string[]> => {
 		if (args?.contextId) {
-			return this.getAppsByContextId$(this.#state.value.portal.id, args.contextId);
+			return this._AppsByContext$({ portalId: this.#state.value.portal.id, contextId: args.contextId });
 		}
 		return this.apps$;
 	};
 
-	public getPortalStateAsync = async (): Promise<PortalState> => {
-		return await firstValueFrom(this.state$);
-	};
+	protected async initialize(): Promise<void> {
+		this.#state.next(actions.fetchPortal(this.#config.base));
+	}
 
-	public getPortalAsync = async (): Promise<Portal> => {
-		return await firstValueFrom(this.portal$);
-	};
-
-	public getRoutesAsync = async (): Promise<PortalRouter> => {
-		return await firstValueFrom(this.routes$);
-	};
-
-	public getExtensionsAsync = async (): Promise<PortalRouter> => {
-		return await firstValueFrom(this.routes$);
-	};
-
-	public getAppsAsync = async (args?: { contextId?: string }): Promise<string[]> => {
-		if (args?.contextId) {
-			return await firstValueFrom(this.getAppsByContextId$(this.#state.value.portal.id, args.contextId));
-		}
-		return await firstValueFrom(this.apps$);
-	};
-
-	public getPortalById$ = (portalId: string): Observable<Portal> => {
-		if (this.#state.value.portal) {
-			return new Observable((sub) => sub.next(this.#state.value.portal));
+	public getPortalConfigById$ = (portalId: string): Observable<PortalRequest> => {
+		if (this.#state.value.req) {
+			return new Observable((sub) => sub.next(this.#state.value.req));
 		}
 		return this._getPortal$({ portalId });
 	};
 
-	public getAppsByContextId$ = (portalId: string, contextId: string): Observable<string[]> => {
-		return this._AppsByContext$({ portalId, contextId });
-	};
-
-	public getPortalRoutesById$ = (_portalId?: string): Observable<PortalRouter> => {
-		return new Observable((sub) => sub.next(this.#config.portalConfig.routes));
-	};
-
-	public async initialize(): Promise<void> {
-		this.#state.next(actions.fetchPortal(this.#config.base));
-	}
-
-	protected _getPortal$(params: GetPortalParameters): Observable<Portal> {
+	protected _getPortal$(params: GetPortalParameters): Observable<PortalRequest> {
 		// Create a new query using the configured client
 		const client = new Query(this.#config.client.getPortal);
 		this.#subscription.add(() => client.complete());
