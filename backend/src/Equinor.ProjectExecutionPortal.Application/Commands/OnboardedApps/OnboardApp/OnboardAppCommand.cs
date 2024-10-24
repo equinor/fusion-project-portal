@@ -52,7 +52,7 @@ public class OnboardAppCommand : IRequest<Guid>
 
             try
             {
-                onboardedApp.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+                onboardedApp.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
             }
             catch (InvalidActionException ex)
             {

@@ -42,7 +42,7 @@ public class CreatePortalCommand : IRequest<Guid>
 
             var portal = new Portal(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
            
-            portal.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+            portal.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.Set<Portal>().AddAsync(portal, cancellationToken);
 

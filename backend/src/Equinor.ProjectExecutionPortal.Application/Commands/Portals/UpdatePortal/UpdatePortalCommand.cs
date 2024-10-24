@@ -55,7 +55,7 @@ public class UpdatePortalCommand : IRequest<Guid>
 
             entity.Update(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
 
-            entity.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+            entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

@@ -4,6 +4,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
 {
     public interface IContextTypeService
     {
-        Task<IList<ContextType>> GetContextTypesByContextTypeKey(IList<string> contextTypeKeys, CancellationToken cancellationToken);
+        Task<IList<ContextType>> GetAllowedContextTypesByKeys(IList<string> contextTypeKeys, CancellationToken cancellationToken);
     }
 }

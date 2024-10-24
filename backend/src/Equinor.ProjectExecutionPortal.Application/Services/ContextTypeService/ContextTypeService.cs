@@ -14,7 +14,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
             _readWriteContext = readWriteContext;
         }
 
-        public async Task<IList<ContextType>> GetContextTypesByContextTypeKey(IList<string> contextTypeKeys, CancellationToken cancellationToken)
+        public async Task<IList<ContextType>> GetAllowedContextTypesByKeys(IList<string> contextTypeKeys, CancellationToken cancellationToken)
         {
             if (contextTypeKeys.Count == 0)
             {
