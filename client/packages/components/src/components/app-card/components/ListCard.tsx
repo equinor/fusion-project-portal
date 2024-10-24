@@ -64,17 +64,21 @@ export const ListCard = ({ app, onClick, loading, pinButton, dark, onFavorite }:
 		<Styled.Bg
 			dark={dark}
 			isDisabled={app.isDisabled}
-			title={app.isDisabled ? `${app.name} is not available in the selected context` : app.name}
+			title={app.isDisabled ? `${app.displayName} is not available in the selected context` : app.displayName}
 		>
 			<Styled.Item
-				to={app.isDisabled ? '#' : app.url || `/apps/${app.key}/`}
+				to={app.isDisabled ? '#' : app.url || `/apps/${app.appKey}/`}
 				style={getAppCardColor(app)}
 				onClick={(e) => onClick && onClick(app, e)}
 			>
 				<Styled.Content $loading={loading}>
 					<AppIconContainer loading={loading} display="item" app={app} />
 					<Styled.Name group="navigation" variant="menu_title">
-						{loading ? <Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} /> : app.name}
+						{loading ? (
+							<Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} />
+						) : (
+							app.displayName
+						)}
 					</Styled.Name>
 				</Styled.Content>
 				{pinButton && <PinButtonContainer isLoading={loading} app={app} onFavorite={onFavorite} />}

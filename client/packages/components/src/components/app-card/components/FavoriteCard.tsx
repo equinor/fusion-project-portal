@@ -76,7 +76,7 @@ export const FavoriteCard = ({ app, onClick, loading, colorsStyle }: FavoriteCar
 	return (
 		<Styled.Favorite
 			$loading={loading}
-			to={app.url || `/apps/${app.key}/`}
+			to={app.url || `/apps/${app.appKey}/`}
 			style={colorsStyle}
 			onClick={() => onClick(app)}
 		>
@@ -84,13 +84,17 @@ export const FavoriteCard = ({ app, onClick, loading, colorsStyle }: FavoriteCar
 				<AppIconContainer loading={loading} display="card" app={app} />
 				<Styled.Details>
 					<Styled.Name group="paragraph" variant="body_short_bold">
-						{loading ? <Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} /> : app.name}
+						{loading ? (
+							<Skeleton size={SkeletonSize.small} variant={SkeletonVariant.Text} />
+						) : (
+							app.displayName
+						)}
 					</Styled.Name>
 					<Styled.Category group="paragraph" variant="caption">
 						{loading ? (
 							<Skeleton size={SkeletonSize.XSmall} variant={SkeletonVariant.Text} />
 						) : (
-							app.category?.name
+							app.category?.displayName
 						)}
 					</Styled.Category>
 				</Styled.Details>

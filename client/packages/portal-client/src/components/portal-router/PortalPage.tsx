@@ -1,9 +1,8 @@
 import { PortalRoute } from '@portal/core';
 import { FacilityPage, ProjectPage, ProjectPortalPage } from '@equinor/portal-pages';
-import { AppElementProvider } from '../app-element-provider/AppElementProvider';
-import { PortalMessagePage, PortalProgressLoader } from '@equinor/portal-ui';
+import { LoadPage } from './LoadPage';
 
-export const PortalPage = (prop: { route?: Omit<PortalRoute, 'path'> }) => {
+export const PortalPage = (prop: { route?: Partial<PortalRoute> }) => {
 	switch (prop.route?.pageKey) {
 		case 'project-portal':
 			return <ProjectPortalPage />;
@@ -12,15 +11,6 @@ export const PortalPage = (prop: { route?: Omit<PortalRoute, 'path'> }) => {
 		case 'facility':
 			return <FacilityPage />;
 		default:
-			return <LoadPage pageKey={prop.route?.pageKey} message={prop.route?.messages?.loadingMessage} />;
+			return <LoadPage {...prop.route} />;
 	}
-};
-
-const LoadPage = ({ pageKey, message }: { pageKey?: string; message?: string }) => {
-	if (!pageKey) return <PortalMessagePage title="Page Key not provided " />;
-	return (
-		<AppElementProvider appKey={pageKey}>
-			<PortalProgressLoader title={message || 'Loading Page'} />
-		</AppElementProvider>
-	);
 };

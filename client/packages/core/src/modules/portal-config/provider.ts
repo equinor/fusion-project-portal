@@ -1,14 +1,14 @@
 import {
-	AppManifest,
 	Extensions,
 	GetAppsParameters,
 	GetPortalParameters,
 	Portal,
 	PortalConfiguration,
-	PortalRoutes,
+	PortalRequest,
+	PortalRouter,
 	PortalState,
 } from './types';
-import { Observable, OperatorFunction, Subscription, catchError, filter, firstValueFrom, map } from 'rxjs';
+import { Observable, OperatorFunction, Subscription, catchError, filter, firstValueFrom, from, map, take } from 'rxjs';
 import { Query } from '@equinor/fusion-query';
 import { PortalLoadError } from './errors/portal';
 import { HttpResponseError } from '@equinor/fusion-framework-module-http';
@@ -18,15 +18,14 @@ import { createState } from './state/create-state';
 import { AppsLoadError } from './errors/apps';
 
 export interface IPortalConfigProvider {
-	getPortalById$(portalId: string): Observable<Portal>;
-	getPortalStateAsync(): Promise<PortalState>;
-	getPortalAsync(): Promise<Portal>;
-	getRoutesAsync(): Promise<PortalRoutes>;
-	getAppsAsync(): Promise<AppManifest[]>;
-	getAppsByContextAsync(portalId: string, contextId: string): Promise<AppManifest[]>;
-	initialize(): Promise<void>;
+	getPortalConfigById$(portalId: string): Observable<Portal>;
+	getApps$(arg?: { contextId?: string }): Observable<string[]>;
 	state: PortalState;
 	state$: Observable<PortalState>;
+	portal$: Observable<Portal>;
+	routes$: Observable<PortalRouter>;
+	apps$: Observable<string[]>;
+	complete(): void;
 }
 
 export function filterEmpty<T>(): OperatorFunction<T | null | undefined, T> {
@@ -47,14 +46,15 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		this.initialize();
 	}
 
-	get routes$(): Observable<PortalRoutes> {
+	get routes$(): Observable<PortalRouter> {
 		return this.#state.pipe(
 			map(({ routes }) => routes),
-			filterEmpty()
+			filterEmpty(),
+			take(1)
 		);
 	}
 
-	get apps$(): Observable<AppManifest[]> {
+	get apps$(): Observable<string[]> {
 		return this.#state.pipe(
 			map(({ apps }) => apps),
 			filterEmpty()
@@ -71,7 +71,8 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	get portal$(): Observable<Portal> {
 		return this.#state.pipe(
 			map(({ portal }) => portal),
-			filterEmpty()
+			filterEmpty(),
+			take(1)
 		);
 	}
 
@@ -86,51 +87,25 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		);
 	}
 
-	public getPortalStateAsync = async (): Promise<PortalState> => {
-		return await firstValueFrom(this.state$);
-	};
-
-	public getPortalAsync = async (): Promise<Portal> => {
-		return await firstValueFrom(this.portal$);
-	};
-
-	public getRoutesAsync = async (): Promise<PortalRoutes> => {
-		return await firstValueFrom(this.routes$);
-	};
-
-	public getExtensionsAsync = async (): Promise<PortalRoutes> => {
-		return await firstValueFrom(this.routes$);
-	};
-
-	public getAppsAsync = async (): Promise<AppManifest[]> => {
-		return await firstValueFrom(this.apps$);
-	};
-
-	public getAppsByContextAsync = async (portalId: string, contextId: string): Promise<AppManifest[]> => {
-		return await firstValueFrom(this.getAppsByContextId$(portalId, contextId));
-	};
-
-	public getPortalById$ = (portalId: string): Observable<Portal> => {
-		if (this.#state.value.portal) {
-			return new Observable((sub) => sub.next(this.#state.value.portal));
+	public getApps$ = (args?: { contextId?: string }): Observable<string[]> => {
+		if (args?.contextId) {
+			return this._AppsByContext$({ portalId: this.#state.value.portal.id, contextId: args.contextId });
 		}
-		return this._getPortal({ portalId });
+		return this.apps$;
 	};
 
-	public getAppsByContextId$ = (portalId: string, contextId: string): Observable<AppManifest[]> => {
-		return this._AppsBuContext({ portalId, contextId });
-	};
-
-	 
-	public getPortalRoutesById$ = (_portalId?: string): Observable<PortalRoutes> => {
-		return new Observable((sub) => sub.next(this.#config.portalConfig.routes));
-	};
-
-	public async initialize(): Promise<void> {
+	protected async initialize(): Promise<void> {
 		this.#state.next(actions.fetchPortal(this.#config.base));
 	}
 
-	protected _getPortal(params: GetPortalParameters): Observable<Portal> {
+	public getPortalConfigById$ = (portalId: string): Observable<PortalRequest> => {
+		if (this.#state.value.req) {
+			return new Observable((sub) => sub.next(this.#state.value.req));
+		}
+		return this._getPortal$({ portalId });
+	};
+
+	protected _getPortal$(params: GetPortalParameters): Observable<PortalRequest> {
 		// Create a new query using the configured client
 		const client = new Query(this.#config.client.getPortal);
 		this.#subscription.add(() => client.complete());
@@ -142,14 +117,14 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 					// Extract the cause since the error will be a `QueryError`
 					const { cause } = err;
 
-					// Handle specific errors and throw a `GetWidgetConfigError` if applicable
+					// Handle specific errors and throw a `PortalLoadError` if applicable
 					if (cause instanceof PortalLoadError) {
 						throw cause;
 					}
 					if (cause instanceof HttpResponseError) {
 						throw PortalLoadError.fromHttpResponse(cause.response, { cause });
 					}
-					// Throw a generic `GetWidgetManifestError` for unknown errors
+					// Throw a generic `PortalLoadError` for unknown errors
 					throw new PortalLoadError('unknown', 'failed to load config', {
 						cause,
 					});
@@ -158,9 +133,9 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 		);
 	}
 
-	protected _AppsBuContext(params: GetAppsParameters): Observable<AppManifest[]> {
+	protected _AppsByContext$(params: GetAppsParameters): Observable<string[]> {
 		// Create a new query using the configured client
-		const client = new Query(this.#config.client.getApps);
+		const client = new Query(this.#config.client.getPortalApps);
 		this.#subscription.add(() => client.complete());
 
 		// Execute the query and handle errors
@@ -170,19 +145,28 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 					// Extract the cause since the error will be a `QueryError`
 					const { cause } = err;
 
-					// Handle specific errors and throw a `GetWidgetConfigError` if applicable
+					// Handle specific errors and throw a `AppsLoadError` if applicable
 					if (cause instanceof AppsLoadError) {
 						throw cause;
 					}
 					if (cause instanceof HttpResponseError) {
 						throw AppsLoadError.fromHttpResponse(cause.response, { cause });
 					}
-					// Throw a generic `GetWidgetManifestError` for unknown errors
+					// Throw a generic `AppsLoadError` for unknown errors
 					throw new AppsLoadError('unknown', 'failed to load config', {
 						cause,
 					});
 				})
 			)
 		);
+	}
+
+	[Symbol.dispose]() {
+		this.complete();
+	}
+
+	public complete() {
+		this.#subscription.unsubscribe();
+		this.#state.complete();
 	}
 }

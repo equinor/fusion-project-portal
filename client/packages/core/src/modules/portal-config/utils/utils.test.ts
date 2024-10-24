@@ -3,7 +3,7 @@ import { AppManifest, AppCategory } from '@portal/core';
 import { getColumnCount } from './utils';
 const appGroups: AppCategory[] = [
 	{
-		name: 'Group 1',
+		displayName: 'Group 1',
 		apps: [
 			{ appKey: 'Test1' } as AppManifest,
 			{ appKey: 'Test2' } as AppManifest,
@@ -16,7 +16,7 @@ const appGroups: AppCategory[] = [
 		],
 	} as AppCategory,
 	{
-		name: 'Group 2',
+		displayName: 'Group 2',
 		apps: [
 			{ appKey: 'Test9' } as AppManifest,
 			{ appKey: 'Test10' } as AppManifest,
@@ -29,7 +29,7 @@ const appGroups: AppCategory[] = [
 		],
 	} as AppCategory,
 	{
-		name: 'Group 3',
+		displayName: 'Group 3',
 		apps: [
 			{ appKey: 'Test17' } as AppManifest,
 			{ appKey: 'Test18' } as AppManifest,
@@ -39,7 +39,7 @@ const appGroups: AppCategory[] = [
 ];
 const singleAppGroup: AppCategory[] = [
 	{
-		name: 'Group 1',
+		displayName: 'Group 1',
 		apps: [{ appKey: 'testSingleApp' } as AppManifest],
 	} as AppCategory,
 ];

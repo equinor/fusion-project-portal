@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { BaseConfigBuilder, ConfigBuilderCallbackArgs } from '@equinor/fusion-framework-module';
-import { AppManifestResponse, IClient, PortalConfiguration, PortalRoutes, PortalState } from './types';
+import { AppManifestResponse, IClient, PortalConfiguration, PortalRouter, PortalState } from './types';
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 
 export const createDefaultClient = (httpClient: IHttpClient): IClient => {
@@ -11,7 +11,7 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 			},
 			key: (args) => JSON.stringify(args),
 		},
-		getApps: {
+		getPortalApps: {
 			client: {
 				fn: async (args) => {
 					if (!args.contextId) return [];
@@ -20,7 +20,9 @@ export const createDefaultClient = (httpClient: IHttpClient): IClient => {
 					);
 					// Mapping AppMAnifestREsponse to AppManifest, this is done so our solution
 					// is working with at application manifest similar to fusion classic.
-					return apps.map((app) => app.appManifest);
+					return apps.map((app) =>
+						typeof app === 'string' ? app : app.appManifest.key || app.appManifest.appKey
+					);
 				},
 			},
 			key: (args) => JSON.stringify(args),
@@ -37,7 +39,7 @@ export class PortalConfigConfigurator extends BaseConfigBuilder<PortalConfigurat
 		this._set('client', async () => client);
 	}
 
-	public setRoutes(client: PortalRoutes) {
+	public setRoutes(client: PortalRouter) {
 		this._set('portalConfig.routes', async () => client);
 	}
 

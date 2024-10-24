@@ -76,7 +76,7 @@ describe('use-app-loader', () => {
 		const app = createApp(appRender);
 		initialize.mockImplementation(() => app.asObservable());
 
-		const { result } = renderHook(() => useAppLoader('handover'));
+		const { result } = renderHook(() => useAppLoader({ appKey: 'handover' }));
 
 		act(() => {
 			app.complete();
@@ -97,7 +97,7 @@ describe('use-app-loader', () => {
 		const app = createApp(appRender);
 		initialize.mockImplementation(() => app.asObservable());
 
-		const { result } = renderHook(() => useAppLoader('handover'));
+		const { result } = renderHook(() => useAppLoader({ appKey: 'handover' }));
 
 		act(() => {
 			app.complete();
@@ -109,7 +109,7 @@ describe('use-app-loader', () => {
 	test('should get error when no render is provider from script', () => {
 		const app = createApp();
 		initialize.mockImplementation(() => app.asObservable());
-		const { result } = renderHook(() => useAppLoader('handover'));
+		const { result } = renderHook(() => useAppLoader({ appKey: 'handover' }));
 		act(() => {
 			app.complete();
 		});
@@ -129,7 +129,7 @@ describe('use-app-loader', () => {
 		const app = createApp(appRender, true);
 		initialize.mockImplementation(() => app.asObservable());
 
-		const { result } = renderHook(() => useAppLoader('handover'));
+		const { result } = renderHook(() => useAppLoader({ appKey: 'handover' }));
 
 		act(() => {
 			app.complete();
@@ -148,7 +148,7 @@ describe('use-app-loader', () => {
 			)
 		);
 
-		const { result } = renderHook(() => useAppLoader('handover'));
+		const { result } = renderHook(() => useAppLoader({ appKey: 'handover' }));
 		act(() => {
 			app.complete();
 		});

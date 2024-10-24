@@ -42,9 +42,10 @@ export class ServiceMessages {
 					messages.filter(
 						(message) =>
 							message.scope === 'App' ||
-							message.relevantPortals?.some((portal) =>
-								portals ? portals?.includes(portal.identifier) : true
-							)
+							(message.relevantPortals &&
+								message.relevantPortals.findIndex((portal) =>
+									portals ? portals?.includes(portal.identifier) : true
+								) > -1)
 					)
 				)
 			);
@@ -116,17 +117,21 @@ export class ServiceMessages {
 		message: ServiceMessage
 	): Record<string, PortalServiceMessage> => {
 		if (!message.relevantPortals) return acc;
-		message.relevantPortals.forEach((portal) => {
-			if (acc[portal.identifier]) {
-				acc[portal.identifier].messages.push(message);
-				acc[portal.identifier].messages = this.#sortMessages(acc[portal.identifier].messages);
-			} else {
-				acc[portal.identifier] = {
-					...portal,
-					messages: [message],
-				};
-			}
-		});
+		message.relevantPortals
+			.filter((portal) =>
+				this.#portalsFilter$.value ? this.#portalsFilter$.value.includes(portal.identifier) : true
+			)
+			.forEach((portal) => {
+				if (acc[portal.identifier]) {
+					acc[portal.identifier].messages.push(message);
+					acc[portal.identifier].messages = this.#sortMessages(acc[portal.identifier].messages);
+				} else {
+					acc[portal.identifier] = {
+						...portal,
+						messages: [message],
+					};
+				}
+			});
 		return acc;
 	};
 

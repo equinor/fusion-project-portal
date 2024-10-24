@@ -12,6 +12,7 @@ import { Checkbox, LinearProgress, Typography } from '@equinor/eds-core-react';
 
 import { useState } from 'react';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
+import { useNavigateOnContextChange } from '../sheared/hooks/useNavigateOnContextChange';
 
 const styles = {
 	contentSection: css`
@@ -117,7 +118,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 	const [value, setValue] = useState(false);
 	const { data, isLoading } = useUserOrgDetails(value);
 	const { feature } = useFeature('project-prediction');
-
+	useNavigateOnContextChange();
 	return (
 		<Styles.Wrapper>
 			<ProjectHeader>
@@ -151,9 +152,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 										}}
 									/>
 								</Styles.Heading>
-								<Typography>
-									{value ? 'All' : 'Current'}{' '} projects:
-								</Typography>
+								<Typography>{value ? 'All' : 'Current'} projects:</Typography>
 							</Styles.Section>
 							{isLoading ? (
 								<Styles.Loading>

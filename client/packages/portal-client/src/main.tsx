@@ -4,7 +4,7 @@ import { QueryClientProvider } from 'react-query';
 import Framework from '@equinor/fusion-framework-react';
 
 import { PortalProgressLoader } from '@equinor/portal-ui';
-import { PortalProvider } from './components/portal-router/PortalRouter';
+import { PortalProvider } from './components/portal-router/PortalProvider';
 import { queryClient } from './utils/queryClient/query-client';
 import { createPortalFramework } from './lib';
 import { configureDebug } from '@equinor/portal-core';
@@ -14,8 +14,6 @@ import { PortalConfig } from '@portal/types';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const portalConfig = window['_config_'];
-
-document.title = `Project Portal | Fusion`;
 
 /* fusion core is spamming the console form module this will remove it in production */
 configureDebug();

@@ -15,7 +15,7 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appCategory, isMenuOpen, 
 	const { appKey } = useParams();
 	const { dispatchEvent } = useTelemetry();
 
-	const currentApp = appCategory?.apps.find((a) => a.key === appKey);
+	const currentApp = appCategory?.apps.find((a) => a.appKey === appKey);
 
 	const ref = useRef<HTMLSpanElement>(null);
 	const hasApps = Boolean(appCategory?.apps.length);
@@ -46,19 +46,19 @@ export const AppBreadcrumb: FC<AppBreadcrumbProp> = ({ appCategory, isMenuOpen, 
 					{appCategory.apps.map((app) => (
 						<Menu.Item
 							as={Link}
-							key={app.key}
-							to={`/apps/${app.key}/`}
+							key={app.appKey}
+							to={`/apps/${app.appKey}/`}
 							onClick={() => {
 								toggleMenuOpen(false);
 								dispatchEvent(
 									{
 										name: 'onAppNavigation',
 									},
-									{ appKey: app.key, source: 'top-bar-navigation' }
+									{ appKey: app.appKey, source: 'top-bar-navigation' }
 								);
 							}}
 						>
-							{currentApp?.key === app.key ? <b>{app.name}</b> : app.name}
+							{currentApp?.appKey === app.appKey ? <b>{app.displayName}</b> : app.displayName}
 						</Menu.Item>
 					))}
 				</Menu>

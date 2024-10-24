@@ -51,14 +51,14 @@ export const GroupWrapper = ({ appCategories, maxAppsInColumn }: GroupWrapperPro
 									},
 
 									{
-										appKey: app.key,
+										appKey: app.appKey,
 										isFavorite: app.isPinned,
 										source: 'app-menu',
 									}
 								);
 							}}
-							onFavorite={(app) => addFavorite(app.key)}
-							key={appCategories.name}
+							onFavorite={(app) => addFavorite(app.appKey)}
+							key={appCategories.displayName}
 						/>
 					))
 				) : (
