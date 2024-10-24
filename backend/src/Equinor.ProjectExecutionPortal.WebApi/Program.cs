@@ -4,6 +4,7 @@ using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation.AspNetCore;
 using Fusion.Integration;
+using Fusion.Integration.Apps.Configuration;
 using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -53,6 +54,7 @@ builder.Services.AddFusionIntegration(f =>
     var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
     f.UseServiceInformation("Fusion.Project.Portal", environment);
     f.UseDefaultEndpointResolver(environment);
+    f.AddAppsClient();
     f.UseDefaultTokenProvider(opts =>
     {
         opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
@@ -128,7 +130,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddApplicationModules(builder.Configuration);
 builder.Services.AddApplicationServicesModules();
-builder.Services.AddApplicationIntegrationsModule();
 builder.Services.AddCacheModules();
 
 var app = builder.Build();

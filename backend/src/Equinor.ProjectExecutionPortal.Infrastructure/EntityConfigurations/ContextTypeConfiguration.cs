@@ -19,7 +19,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.EntityConfigurations
             builder.Property(t => t.ContextTypeKey)
                 .HasMaxLength(ContextType.ContextTypeKeyLengthMax)
                 .IsRequired();
-
         }
     }
 }

@@ -44,7 +44,7 @@ public class GetOnboardedAppQuery : QueryBase<OnboardedAppDto?>
 
             var onboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(entity);
 
-            await _appService.EnrichAppWithFusionAppData(onboardedApp, cancellationToken);
+            await _appService.EnrichWithFusionAppData(onboardedApp, cancellationToken);
 
             return onboardedApp;
         }

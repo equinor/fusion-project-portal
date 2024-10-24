@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
-using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
@@ -22,12 +21,10 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContext
     public class Handler : IRequestHandler<AddContextTypeToPortalCommand, Unit>
     {
         private readonly IReadWriteContext _readWriteContext;
-        private readonly IContextTypeService _contextTypeService;
 
-        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService)
+        public Handler(IReadWriteContext readWriteContext)
         {
             _readWriteContext = readWriteContext;
-            _contextTypeService = contextTypeService;
         }
 
         public async Task<Unit> Handle(AddContextTypeToPortalCommand command, CancellationToken cancellationToken)

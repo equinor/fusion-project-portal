@@ -32,16 +32,21 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
         {
             // Create portals
 
-            var portalWithoutApps = PortalData.InitialSeedData.Portal1;
-            var portalWithApps = PortalData.InitialSeedData.Portal2;
+            var portalWithoutApps = PortalData.InitialDbSeedData.PortfolioManagement;
+            var portalWithApps = PortalData.InitialDbSeedData.ProjectExecution;
 
             dbContext.AddRange(portalWithoutApps, portalWithApps);
             dbContext.SaveChanges();
 
+            // Add portal configuration
+
+            portalWithoutApps.Configuration.Update(PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Router, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Extension, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Environment);
+            portalWithApps.Configuration.Update(PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Router, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Extension, PortalConfigurationData.InitialDbSeedData.GenericPortalConfiguration.Environment);
+
             // Add context types
 
-            var contextTypeProjectMaster = ContextTypeData.InitialSeedData.ContextType1;
-            var contextTypeFacility = ContextTypeData.InitialSeedData.ContextType2;
+            var contextTypeProjectMaster = ContextTypeData.InitialDbSeedData.ContextType1;
+            var contextTypeFacility = ContextTypeData.InitialDbSeedData.ContextType2;
 
             // Connect portal with a context type
             portalWithApps.AddContextType(contextTypeProjectMaster);
@@ -51,12 +56,12 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add onboarded apps
 
-            var meetingsApp = OnboardedAppData.InitialSeedData.MeetingsApp;
-            var reviewsApp = OnboardedAppData.InitialSeedData.ReviewsApp;
-            var tasksApp = OnboardedAppData.InitialSeedData.TasksApp;
-            var orgChartApp = OnboardedAppData.InitialSeedData.OrgChartApp;
-            var handoverGardenApp = OnboardedAppData.InitialSeedData.HandoverGardenApp;
-            var workOrderGardenApp = OnboardedAppData.InitialSeedData.WorkOrderGardenApp;
+            var meetingsApp = OnboardedAppData.InitialDbSeedData.MeetingsApp;
+            var reviewsApp = OnboardedAppData.InitialDbSeedData.ReviewsApp;
+            var tasksApp = OnboardedAppData.InitialDbSeedData.TasksApp;
+            var orgChartApp = OnboardedAppData.InitialDbSeedData.OrgChartApp;
+            var handoverGardenApp = OnboardedAppData.InitialDbSeedData.HandoverGardenApp;
+            var workOrderGardenApp = OnboardedAppData.InitialDbSeedData.WorkOrderGardenApp;
 
             // Add apps
 
@@ -65,9 +70,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc
 
             // Add onboarded contexts
 
-            var jcaContext = OnboardedContextData.InitialSeedData.JcaContext;
+            var jcaContext = OnboardedContextData.InitialDbSeedData.JcaContext;
+            var ogpContext = OnboardedContextData.InitialDbSeedData.OgpContext;
 
-            dbContext.AddRange(jcaContext);
+            dbContext.AddRange(jcaContext, ogpContext);
             dbContext.SaveChanges();
 
             // Add apps to portal

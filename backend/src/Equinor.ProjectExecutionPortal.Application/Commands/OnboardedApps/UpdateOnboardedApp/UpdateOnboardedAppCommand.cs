@@ -42,7 +42,7 @@ public class UpdateOnboardedAppCommand : IRequest<Guid>
 
             try
             {
-                entity.AddContextTypes(await _contextTypeService.GetContextTypesByContextTypeKey(command.ContextTypes, cancellationToken));
+                entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
             }
             catch (InvalidActionException ex)
             {

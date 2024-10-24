@@ -32,8 +32,6 @@ spec:
         AzureAd__ClientId: ""
         Authenticator__ProjectPortalApiClientId: ""
         Swagger__ClientId: ""
-        FusionPortalApi__BaseAddress: ""
-        FusionPortalApi__Scope: ""
         AssetProxy__FusionPortalUrl: ""
         AssetProxy__FusionPeopleUrl: ""
         AssetProxy__TokenScope: ""

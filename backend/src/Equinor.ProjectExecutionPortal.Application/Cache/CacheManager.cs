@@ -45,7 +45,7 @@ public class CacheManager : ICacheManager
             CacheDuration.Hours => TimeSpan.FromHours(expiration),
             CacheDuration.Minutes => TimeSpan.FromMinutes(expiration),
             CacheDuration.Seconds => TimeSpan.FromSeconds(expiration),
-            _ => throw new NotImplementedException($"Unknown {nameof(CacheDuration)}: {duration}"),
+            _ => throw new Exception($"Unknown {nameof(CacheDuration)}: {duration}"),
         };
 
     private class CacheClock : ISystemClock
