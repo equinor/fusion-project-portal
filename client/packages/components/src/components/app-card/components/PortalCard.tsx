@@ -81,7 +81,11 @@ export const PortalCard = ({ app, onClick, isLoading }: PortalCardProps): JSX.El
 			<AppIconContainer loading={isLoading} display="portal" app={app} />
 			<Styled.Details>
 				<FavoriteStyled.Name group="heading" variant="h5">
-					{isLoading ? <Skeleton size={SkeletonSize.Medium} variant={SkeletonVariant.Text} /> : app.name}
+					{isLoading ? (
+						<Skeleton size={SkeletonSize.Medium} variant={SkeletonVariant.Text} />
+					) : (
+						app.displayName
+					)}
 				</FavoriteStyled.Name>
 				<Styled.Description group="paragraph" variant="caption">
 					{isLoading ? (

@@ -91,7 +91,7 @@ export const FavoriteCard = ({ app, onClick, loading, isDisabled }: FavoriteCard
 			to={isDisabled ? '#' : `/apps/${app.appKey}/`}
 			style={appColors}
 			disabled={isDisabled}
-			title={isDisabled ? `${app.name} is not available in the selected context` : app.name}
+			title={isDisabled ? `${app.displayName} is not available in the selected context` : app.displayName}
 		>
 			<Styled.Content isLoading={loading}>
 				<AppIconContainer loading={loading} display="card" app={app} disabled={isDisabled} />
@@ -105,7 +105,7 @@ export const FavoriteCard = ({ app, onClick, loading, isDisabled }: FavoriteCard
 								: tokens.colors.text.static_icons__default.hex
 						}
 					>
-						{loading ? <Skeleton size="small" variant="text" /> : app.name}
+						{loading ? <Skeleton size="small" variant="text" /> : app.displayName}
 					</Typography>
 					<Typography
 						group="paragraph"
@@ -116,7 +116,7 @@ export const FavoriteCard = ({ app, onClick, loading, isDisabled }: FavoriteCard
 								: tokens.colors.text.static_icons__default.hex
 						}
 					>
-						{loading ? <Skeleton size="xSmall" variant="text" /> : app.category?.name}
+						{loading ? <Skeleton size="xSmall" variant="text" /> : app.category?.displayName}
 					</Typography>
 				</Styled.Details>
 			</Styled.Content>
