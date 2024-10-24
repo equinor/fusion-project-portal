@@ -160,6 +160,7 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 			)
 		);
 	}
+
 	[Symbol.dispose]() {
 		this.complete();
 	}
