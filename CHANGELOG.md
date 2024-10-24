@@ -1,5 +1,32 @@
 # fusion-project-portal
 
+## 5.0.4
+
+### Patch Changes
+
+- bee97b4: Update key property in registerCurrentApps function call
+
+## 5.0.3
+
+### Patch Changes
+
+- 6e599cf: Improve loading logic in LegacyAppContainer, by loading app from new app api with proxy
+
+## 5.0.2
+
+### Patch Changes
+
+- c9b0ad5: providing the right env key to appLoader
+
+## 5.0.1
+
+### Patch Changes
+
+- 0d4055d: - Remove unused import and code in app.config.ts
+  - Update dev:appLoader script in package.json
+  - Remove unused components in legacyAppLoader
+- a59d1b5: fixing icon error and waring of div inside table
+
 ## 5.0.0
 
 ### Major Changes

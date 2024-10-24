@@ -4,7 +4,7 @@ import { PortalFramework } from './types';
 export const createServiceResolver = async (
 	provider: PortalFramework['modules']['serviceDiscovery'],
 	authContainer: LegacyAuthContainer,
-	clientId: string = window.clientId
+	clientId: string
 ) => {
 	const services = await provider.resolveServices().then((services) =>
 		services.reduce((acc, service) => {

@@ -106,10 +106,14 @@ export const Milestones = () => {
 											);
 										})
 									) : (
-										<Message
-											type="NoContent"
-											title="No content - There are no milestones awaitable"
-										></Message>
+										<Table.Row>
+											<Table.Cell colSpan={5}>
+												<Message
+													type="NoContent"
+													title="No content - There are no milestones awaitable"
+												></Message>
+											</Table.Cell>
+										</Table.Row>
 									)}
 								</Table.Body>
 							</Styled.Table>

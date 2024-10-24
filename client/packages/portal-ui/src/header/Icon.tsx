@@ -17,8 +17,8 @@ export function PortalIcon({ icon }: { icon?: string }) {
 							gradientUnits="userSpaceOnUse"
 							gradientTransform="matrix(-13.5478 9.01983 -12.9578 -13.5478 18.0677 6.77391)"
 						>
-							<stop offset="0.508287" stop-color="#DC002E"></stop>
-							<stop offset="0.508387" stop-color="#FF1243"></stop>
+							<stop offset="0.508287" stopColor="#DC002E"></stop>
+							<stop offset="0.508387" stopColor="#FF1243"></stop>
 						</linearGradient>
 						<linearGradient
 							id="paint4_linear"
@@ -26,8 +26,8 @@ export function PortalIcon({ icon }: { icon?: string }) {
 							gradientUnits="userSpaceOnUse"
 							gradientTransform="matrix(-13.5478 9.01983 -12.9578 -13.5478 18.0677 6.77391)"
 						>
-							<stop offset="0.508287" stop-color="#DC002E"></stop>
-							<stop offset="0.508387" stop-color="#FF1243"></stop>
+							<stop offset="0.508287" stopColor="#DC002E"></stop>
+							<stop offset="0.508387" stopColor="#FF1243"></stop>
 						</linearGradient>
 					</defs>
 					<path

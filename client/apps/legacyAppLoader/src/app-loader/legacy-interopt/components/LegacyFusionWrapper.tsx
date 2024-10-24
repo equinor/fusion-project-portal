@@ -41,7 +41,6 @@ export const LegacyFusionWrapper = (props: PropsWithChildren<LegacyFusionWrapper
 		[framework, options]
 	);
 
-	console.log('LegacyFusionWrapper!!!!');
 	return (
 		<Suspense fallback={loader}>
 			<LegacyContext>
