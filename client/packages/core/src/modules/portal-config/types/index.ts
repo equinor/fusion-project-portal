@@ -26,9 +26,6 @@ export type PortalRequest = {
 	subtext?: string;
 	contexts?: ContextType[];
 	apps?: string[];
-	// todo remove routes and extensions
-	routes?: PortalRouter;
-	extensions?: Extensions;
 	configuration: {
 		environment: string | null;
 		extension: string | null;
@@ -56,7 +53,6 @@ export type PortalRouteWithChildren = PortalRoute & {
 
 export type AppCategory = {
 	id?: string;
-	// name: string | null;
 	displayName: string | null;
 	color: string | null;
 	defaultIcon: string | null;
