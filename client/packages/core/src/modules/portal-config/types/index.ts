@@ -25,12 +25,15 @@ export type PortalRequest = {
 	shortName?: string;
 	subtext?: string;
 	contexts?: ContextType[];
-	apps?: AppManifest[];
-	routes?: PortalRoutes;
-	extensions?: Extensions;
+	apps?: string[];
+	configuration: {
+		environment: string | null;
+		extension: string | null;
+		router: string | null;
+	};
 };
 
-export type PortalRoutes = {
+export type PortalRouter = {
 	root: Omit<PortalRoute, 'path'>;
 	routes: PortalRouteWithChildren[];
 };
@@ -50,7 +53,7 @@ export type PortalRouteWithChildren = PortalRoute & {
 
 export type AppCategory = {
 	id?: string;
-	name: string | null;
+	displayName: string | null;
 	color: string | null;
 	defaultIcon: string | null;
 	apps: AppManifest[];
@@ -105,9 +108,10 @@ export type PortalMenu = {
 
 export type PortalState = {
 	portal: Portal;
-	routes: PortalRoutes;
-	apps?: AppManifest[];
+	routes: PortalRouter;
+	apps?: string[];
 	extensions?: Extensions;
+	req?: PortalRequest;
 	error?: {
 		message: string;
 		type: string;
@@ -137,6 +141,6 @@ export type GetAppsParameters = {
 };
 
 export type IClient = {
-	getPortal: QueryCtorOptions<Portal, GetPortalParameters>;
-	getApps: QueryCtorOptions<AppManifest[], GetAppsParameters>;
+	getPortal: QueryCtorOptions<PortalRequest, GetPortalParameters>;
+	getPortalApps: QueryCtorOptions<string[], GetAppsParameters>;
 };

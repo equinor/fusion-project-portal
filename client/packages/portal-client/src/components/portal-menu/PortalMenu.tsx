@@ -7,6 +7,7 @@ import { useState, useMemo } from 'react';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
 import { AppContextMessage, AppGroup, LoadingMenu } from '@portal/components';
+import { useApps } from '@equinor/fusion-framework-react/app';
 
 const Styles = {
 	Divider: styled.div`
@@ -69,13 +70,16 @@ const Styles = {
 
 export function MenuGroups() {
 	const { dispatchEvent } = useTelemetry();
+
 	const { appCategories, isLoading } = usePortalApps();
+
 	const { searchText, closeMenu, setSearchText } = usePortalMenu();
+
 	const [activeItem, setActiveItem] = useState('All Apps');
 
 	const { addFavorite, appGroups, favorites } = useFavorites();
 
-	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.name) ?? []), 'All Apps'];
+	const categoryItems = ['Pinned Apps', ...(appCategories?.map((item) => item.displayName) ?? []), 'All Apps'];
 
 	const favoriteGroup = useMemo(() => {
 		const enabledApps = (appGroups?.map((group) => group.apps) ?? []).flat();
@@ -91,7 +95,7 @@ export function MenuGroups() {
 			const appSearch = appsMatchingSearch(appGroups ?? [], searchText);
 			return appSearch.sort(appGroupArraySort);
 		}
-		const filteredApps = appGroups?.filter((obj) => obj.name === activeItem);
+		const filteredApps = appGroups?.filter((obj) => obj.displayName === activeItem);
 		return filteredApps;
 	}, [searchText, activeItem, appGroups, favoriteGroup]);
 
@@ -148,8 +152,8 @@ export function MenuGroups() {
 										{displayAppGroups &&
 											displayAppGroups.map((appGroup) => {
 												appGroup.apps = appGroup.apps.sort((a, b) => {
-													const nameA = a.name?.toUpperCase() ?? '';
-													const nameB = b.name?.toUpperCase() ?? '';
+													const nameA = a.displayName?.toUpperCase() ?? '';
+													const nameB = b.displayName?.toUpperCase() ?? '';
 													if (nameA > nameB) {
 														return 1;
 													}
@@ -159,7 +163,7 @@ export function MenuGroups() {
 													return 0;
 												});
 												return (
-													<div key={appGroup.name}>
+													<div key={appGroup.displayName}>
 														<AppGroup
 															dark={false}
 															group={appGroup}
@@ -174,7 +178,7 @@ export function MenuGroups() {
 																	},
 
 																	{
-																		appKey: app.key,
+																		appKey: app.appKey,
 																		isFavorite: app.isPinned,
 																		source: 'app-menu',
 																	}
@@ -182,7 +186,7 @@ export function MenuGroups() {
 
 																closeMenu();
 															}}
-															onFavorite={(app) => addFavorite(app.key)}
+															onFavorite={(app) => addFavorite(app.appKey)}
 														/>
 													</div>
 												);

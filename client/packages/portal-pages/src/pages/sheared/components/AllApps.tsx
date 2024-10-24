@@ -46,7 +46,7 @@ export const AllApps = () => {
 			<Styles.Wrapper>
 				{appGroups &&
 					appGroups.sort(appGroupArraySort).map((appGroup) => (
-						<div key={appGroup.name}>
+						<div key={appGroup.displayName}>
 							<AppGroup
 								dark={true}
 								group={appGroup}
@@ -61,14 +61,14 @@ export const AllApps = () => {
 										},
 
 										{
-											appKey: app.key,
+											appKey: app.appKey,
 											isFavorite: app.isPinned,
 											source: 'app-menu',
 										}
 									);
 								}}
 								onFavorite={(app) => {
-									addFavorite(app.key);
+									addFavorite(app.appKey);
 								}}
 							/>
 						</div>
