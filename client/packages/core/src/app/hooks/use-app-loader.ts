@@ -10,13 +10,9 @@ import { getLegacyClientConfig, getFusionLegacyEnvIdentifier, getLegacyFusionCon
 import { AppConfig } from '@equinor/fusion-framework-app';
 import { ConfigEnvironment } from '@equinor/fusion-framework-module-app';
 import { Client } from '@portal/types';
+import { cleanBasePath } from '../utils/clean-base-path';
 
-// Todo Move to utils naming of baseName
-function cleanBaseName(baseName?: string): string | undefined {
-	return `/${baseName?.replace('/*', '')}`;
-}
-
-export const useAppLoader = (args: { appKey: string; baseName?: string }) => {
+export const useAppLoader = (args: { appKey: string; path?: string }) => {
 	const { appKey } = args;
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | undefined>();
@@ -39,7 +35,7 @@ export const useAppLoader = (args: { appKey: string; baseName?: string }) => {
 
 					// Generate basename for application regex extracts /apps/:appKey
 					const [basename] = window.location.pathname.match(/\/?apps\/[a-z|-]+\//g) ?? [
-						cleanBaseName(args.baseName) ?? window.location.pathname,
+						cleanBasePath(args.path) ?? window.location.pathname,
 					];
 
 					try {

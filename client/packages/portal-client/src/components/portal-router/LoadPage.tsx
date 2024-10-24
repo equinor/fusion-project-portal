@@ -7,7 +7,7 @@ export const LoadPage = ({ pageKey, messages, path }: Partial<PortalRoute>) => {
 	if (!pageKey) return <PortalMessagePage title="Page Key not provided" />;
 
 	return (
-		<AppElementProvider appKey={pageKey} baseName={path}>
+		<AppElementProvider appKey={pageKey} path={path}>
 			<PortalProgressLoader title={messages?.loadingMessage || 'Loading'} />
 		</AppElementProvider>
 	);
