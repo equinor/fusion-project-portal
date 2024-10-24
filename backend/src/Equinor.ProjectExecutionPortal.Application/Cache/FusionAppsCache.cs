@@ -8,6 +8,7 @@ public class FusionAppsCache : IFusionAppsCache
     private readonly ICacheManager _cacheManager;
     private readonly IAppsClient _fusionAppsClient;
 
+    // TODO: Move cache duration to app settings
     public FusionAppsCache(ICacheManager cacheManager, IAppsClient fusionAppsClient)
     {
         _cacheManager = cacheManager;

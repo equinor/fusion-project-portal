@@ -5,7 +5,6 @@ using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.Infrastructure;
-using Equinor.ProjectExecutionPortal.WebApi.Authentication;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
@@ -25,7 +24,6 @@ public static class ApplicationModule
         var applicationAssembly = typeof(IApplicationMarker).GetTypeInfo().Assembly;
 
         services.Configure<CacheOptions>(configuration.GetSection("CacheOptions"));
-        services.Configure<AuthenticatorOptions>(configuration.GetSection("Authenticator"));
 
         services.AddAuthorization(options =>
         {
@@ -59,10 +57,5 @@ public static class ApplicationModule
         services.AddScoped<ICurrentUserSetter>(x => x.GetRequiredService<CurrentUserProvider>());
 
         services.AddScoped<IEventDispatcher, EventDispatcher>();
-
-        services.AddScoped<Authenticator>();
-        services.AddScoped<IBearerTokenProvider>(x => x.GetRequiredService<Authenticator>());
-        services.AddScoped<IBearerTokenSetter>(x => x.GetRequiredService<Authenticator>());
-        services.AddScoped<IAuthenticator>(x => x.GetRequiredService<Authenticator>());
     }
 }

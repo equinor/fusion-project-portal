@@ -3,6 +3,4 @@
 public interface ICurrentUserProvider
 {
     Guid GetCurrentUserOid();
-
-    bool HasCurrentUser();
 }
