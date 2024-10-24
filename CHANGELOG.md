@@ -1,5 +1,22 @@
 # fusion-project-portal
 
+## 6.0.0
+
+### Major Changes
+
+- 0a7119c: - **BREAKING CHANGE**: Migrate from the deprecated Fusion Portal API (for apps) to the new and separate Fusion Apps API.
+  This results in breaking changes in the API contract. The reason for this is model changes in the new Fusion Apps API. And we prefer modelling 1-1 as best as possible instead of introducing remapping etc. on our end.
+  - **BREAKING CHANGE**: Removal of the Fusion Portal Proxy. We no longer provide endpoints for this on the API. All calls to get bundles and app information from Fusion shall go through the ClientBackend
+  - Fixed more tests
+  - Refactoring has been done in multiple locations
+- 2e486e0: - Updating to new app manifest types
+  - Refactor and performance enhancements on portal configuration module
+  - Update menu and favorites
+  - loading router config from portal config service
+  - filter portal service messages
+  - Update all list laded from new app service.
+  - user portal config to filter full applist
+
 ## 5.0.4
 
 ### Patch Changes
