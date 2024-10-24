@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation.AspNetCore;
@@ -44,9 +43,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
-
-// Add asset proxy
-builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
 
 // Add fusion integration
 builder.Services.AddFusionIntegration(f =>
@@ -159,14 +155,7 @@ app.UseAuthorization();
 
 app.UseMiddleware<CurrentUserMiddleware>();
 
-app.UseEndpoints(endpoints =>
-{
-    // Set up routes that the asset proxy should forward.
-    endpoints.MapFusionPortalAssetProxy();
-
-    endpoints.MapControllers();
-    endpoints.MapRazorPages();
-});
+app.MapControllers();
 
 app.Run();
 

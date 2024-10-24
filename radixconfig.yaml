@@ -32,9 +32,6 @@ spec:
         AzureAd__ClientId: ""
         Authenticator__ProjectPortalApiClientId: ""
         Swagger__ClientId: ""
-        AssetProxy__FusionPortalUrl: ""
-        AssetProxy__FusionPeopleUrl: ""
-        AssetProxy__TokenScope: ""
         Fusion__Environment: "ci"
       ports:
         - name: http
