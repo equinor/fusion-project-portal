@@ -212,7 +212,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			new FeatureLogger(fusion);
 
 			fusion.portalConfig.portal$.subscribe((portal) => {
-				document.title = portal?.name || `Fusion`;
+				document.title = `${portal?.name} | Fusion` || `Fusion`;
 			});
 
 			// Todo: should be moved to context module
