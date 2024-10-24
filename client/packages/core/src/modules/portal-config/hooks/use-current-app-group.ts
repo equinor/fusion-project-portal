@@ -8,7 +8,7 @@ export const useCurrentAppGroup = (key?: string) => {
 	const { appCategories, isLoading } = usePortalApps();
 
 	const currentAppGroup = useMemo(() => {
-		const nextAppGroup = appCategories?.find((app) => !!app.apps?.find((a) => a.key === key));
+		const nextAppGroup = appCategories?.find((app) => !!app.apps?.find((a) => a.appKey === key));
 		return nextAppGroup ? nextAppGroup : undefined;
 	}, [key, appCategories]);
 

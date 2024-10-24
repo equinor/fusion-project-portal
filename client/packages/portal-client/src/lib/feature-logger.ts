@@ -57,7 +57,7 @@ const getPayloadByType = (
 	context?: ContextItem | null
 ) => {
 	if (type === 'App selected') {
-		return JSON.stringify(getSelectedAppPayload({ key: app?.key || null, name: app?.name || null }));
+		return JSON.stringify(getSelectedAppPayload({ key: app?.appKey || null, name: app?.displayName || null }));
 	} else if (type === 'Context selected') {
 		return JSON.stringify({ selectedContext: context });
 	}
@@ -85,7 +85,7 @@ const getEntry = (
 	context?: ContextItem
 ): FeatureLogEntryRequest | undefined => {
 	return {
-		appKey: app?.key || null,
+		appKey: app?.appKey || null,
 		contextId: context?.id || null,
 		feature: type,
 		featureVersion: '0.0.1',

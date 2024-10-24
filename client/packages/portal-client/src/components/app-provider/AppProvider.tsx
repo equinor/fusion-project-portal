@@ -9,7 +9,7 @@ export const AppProvider = ({ hasContext, appKey }: { hasContext: boolean; appKe
 	if (isAppAvailable(hasContext) && appKey) {
 		return (
 			<AppElementProvider appKey={appKey}>
-				<PortalProgressLoader title="Loading App" />
+				<PortalProgressLoader title="Loading" />
 			</AppElementProvider>
 		);
 	}

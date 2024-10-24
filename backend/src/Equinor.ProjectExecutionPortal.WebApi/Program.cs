@@ -1,18 +1,14 @@
 ﻿using System.Text.Json.Serialization;
-using Equinor.ProjectExecutionPortal.WebApi.AssetProxy;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation.AspNetCore;
-using Fusion.Integration;
 using Fusion.Integration.Apps.Configuration;
-using Fusion.Integration.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Constants = Equinor.ProjectExecutionPortal.WebApi.Constants;
 
 const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
 
@@ -45,9 +41,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
-// Add asset proxy
-builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
-
 // Add fusion integration
 builder.Services.AddFusionIntegration(f =>
 {
@@ -62,15 +55,6 @@ builder.Services.AddFusionIntegration(f =>
     });
     f.DisableClaimsTransformation();
 });
-
-// Add http client to the fusion portal api. This can be fetched from the IHttpClientFactory
-builder.Services.AddFusionIntegrationHttpClient(Constants.HttpClientPortal, s =>
-{
-    s.UseDelegateToken = true;
-    s.UseFusionEndpoint(FusionEndpoint.Portal);
-});
-
-builder.Services.AddRazorPages();
 
 builder.Services.AddControllers(config =>
     {
@@ -159,14 +143,7 @@ app.UseAuthorization();
 
 app.UseMiddleware<CurrentUserMiddleware>();
 
-app.UseEndpoints(endpoints =>
-{
-    // Set up routes that the asset proxy should forward.
-    endpoints.MapFusionPortalAssetProxy();
-
-    endpoints.MapControllers();
-    endpoints.MapRazorPages();
-});
+app.MapControllers();
 
 app.Run();
 

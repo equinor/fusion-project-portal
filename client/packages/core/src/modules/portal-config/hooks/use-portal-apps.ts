@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { usePortalConfig } from './use-portal-config';
+import { usePortalAppsConfig } from './use-portal-config';
 import { appsToAppCategory } from '../utils/appsToAppCategory';
 
 /**
@@ -8,7 +8,7 @@ import { appsToAppCategory } from '../utils/appsToAppCategory';
  * The Return Object containing apps data, categorized apps, loading state, and error state.
  */
 export const usePortalApps = () => {
-	const { data: apps, isLoading, error } = usePortalConfig().queryApps;
+	const { apps, isLoading, error } = usePortalAppsConfig();
 
 	// Organize apps into categories using memoized the result
 	const appCategories = useMemo(() => {

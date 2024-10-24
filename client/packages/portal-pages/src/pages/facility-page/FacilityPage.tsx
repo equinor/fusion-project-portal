@@ -15,6 +15,7 @@ import InfoBox from '../sheared/components/InfoBox/InfoBox';
 import { PageHeader } from '../sheared/components/header/Header';
 import { platform } from '@equinor/eds-icons';
 import { FacilityDetails } from './components/FacilityDetails';
+import { useNavigateOnContextChange } from '../sheared/hooks/useNavigateOnContextChange';
 
 export const Styles = {
 	Wrapper: styled.main`
@@ -82,8 +83,8 @@ const SEARCH_PARM_TAB = 'tab';
 
 export const FacilityPage = () => {
 	const { contextId } = useParams();
-	 
-	const [searchParams, setSearchparams] = useSearchParams();
+	useNavigateOnContextChange();
+	const [_, setSearchparams] = useSearchParams();
 
 	const [activeTab, setActiveTab] = useState(0);
 

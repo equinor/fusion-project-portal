@@ -1,9 +1,7 @@
 import { ActionInstanceMap, ActionTypes, createAction, createAsyncAction } from '@equinor/fusion-observable';
 import { PortalRequest } from '../types';
-import { AppManifest } from '@equinor/fusion-framework-module-app';
 
 const createActions = () => ({
-	/** Portal loading */
 	setPortal: createAction('set_portal', (portal: PortalRequest, update?: boolean) => ({
 		payload: portal,
 		meta: {
@@ -26,10 +24,10 @@ const createActions = () => ({
 			payload,
 			meta: { update },
 		}),
-		(apps: AppManifest[]) => ({ payload: apps }),
+		(apps: string[]) => ({ payload: apps }),
 		(error: unknown) => ({ payload: error })
 	),
-	setApps: createAction('set_apps', (apps: AppManifest[], update?: boolean) => ({
+	setApps: createAction('set_apps', (apps: string[], update?: boolean) => ({
 		payload: apps,
 		meta: {
 			created: Date.now(),

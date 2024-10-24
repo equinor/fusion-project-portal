@@ -111,8 +111,8 @@ export const AppSearchBar = (): JSX.Element => {
 		const alteredAsDropdownItems = apps
 			? apps.map((app) => {
 					return {
-						id: app.key,
-						title: app.name,
+						id: app.appKey,
+						title: app.displayName,
 						subTitle: app.category?.name,
 						graphic: getSearchAppIcon(app),
 						graphicType: 'inline-svg',

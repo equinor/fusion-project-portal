@@ -4,7 +4,7 @@ import { AppCategory, AppManifest } from '@portal/core';
 
 const appGroups: AppCategory[] = [
 	{
-		name: 'Construction',
+		displayName: 'Construction',
 		color: '1',
 		defaultIcon: '1',
 		apps: [
@@ -23,7 +23,7 @@ const appGroups: AppCategory[] = [
 		] as AppManifest[],
 	},
 	{
-		name: 'Collaboration',
+		displayName: 'Collaboration',
 		color: '2',
 		defaultIcon: '2',
 		apps: [
@@ -42,7 +42,7 @@ describe('appsMatchingSearch', () => {
 	test('Should return Construction appGroups with swcr app', () => {
 		const expected: AppCategory[] = [
 			{
-				name: 'Construction',
+				displayName: 'Construction',
 				defaultIcon: '1',
 				color: '1',
 				apps: [
@@ -60,7 +60,7 @@ describe('appsMatchingSearch', () => {
 	test('Should return all appGroups', () => {
 		const expected: AppCategory[] = [
 			{
-				name: 'Construction',
+				displayName: 'Construction',
 				color: '1',
 				defaultIcon: '1',
 				apps: [
@@ -75,7 +75,7 @@ describe('appsMatchingSearch', () => {
 				] as AppManifest[],
 			},
 			{
-				name: 'Collaboration',
+				displayName: 'Collaboration',
 				color: '2',
 				defaultIcon: '2',
 				apps: [
