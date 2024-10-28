@@ -1,5 +1,6 @@
 import { tokens } from '@equinor/eds-tokens';
 import { AppManifest, AppCategory } from '../types';
+import { OperatorFunction, filter } from 'rxjs';
 
 export const getColumnCount = (MAX: number, appGroup?: AppCategory[]) => {
 	const count =
@@ -71,4 +72,8 @@ export function getPinnedAppsGroup(enabledApps: AppManifest[], disabledApps: App
 	pinnedApps.apps.sort((a, b) => (a.displayName ?? '').localeCompare(b.displayName ?? ''));
 
 	return pinnedApps;
+}
+
+export function filterEmpty<T>(): OperatorFunction<T | null | undefined, T> {
+	return filter((value): value is T => value !== undefined && value !== null);
 }

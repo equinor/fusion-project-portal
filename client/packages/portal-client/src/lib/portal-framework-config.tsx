@@ -211,13 +211,13 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
 			new FeatureLogger(fusion);
 
-			fusion.portalConfig.portal$.subscribe((portal) => {
+			fusion.portalConfig.current.portalConfig$.subscribe((portal) => {
 				document.title = `${portal?.name} | Fusion` || `Fusion`;
 			});
 
 			// Todo: should be moved to context module
 
-			fusion.portalConfig.state$.subscribe((state) => {
+			fusion.portalConfig.current.state$.subscribe((state) => {
 				if (state?.portal?.contexts) {
 					configurePortalContext(fusion.context);
 				}

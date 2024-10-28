@@ -1,7 +1,10 @@
 import { AppCategory, AppManifest } from '../types';
 
 export const appsToAppCategory = (apps?: AppManifest[]): AppCategory[] => {
-	return (apps || []).reduce((appCategories, appManifest) => {
+	if (!apps) {
+		return [];
+	}
+	return apps.reduce((appCategories, appManifest) => {
 		if (!appManifest.category?.id) {
 			const category = appCategories.find((category) => category.id === 'undefined');
 

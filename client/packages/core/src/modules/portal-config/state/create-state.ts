@@ -6,16 +6,17 @@ import type { Actions } from './actions';
 import { PortalState, PortalStateInitial } from '../types';
 
 import { PortalConfigProvider } from '../provider';
-import { handleFetchPortal, handleFetchAppsByContext } from './flows';
+import { handleFetchPortal, handleFetchAppsByContext, handleFetchApps } from './flows';
 
 export const createState = (
-	value: PortalStateInitial,
-	provider: PortalConfigProvider
+	provider: PortalConfigProvider,
+	initial?: PortalStateInitial
 ): FlowSubject<PortalState, Actions> => {
-	const reducer = createReducer(value);
+	const reducer = createReducer(initial);
 	const state = new FlowSubject<PortalState, Actions>(reducer);
 	state.addFlow(handleFetchPortal(provider));
 	state.addFlow(handleFetchAppsByContext(provider));
+	state.addFlow(handleFetchApps(provider));
 
 	return state;
 };

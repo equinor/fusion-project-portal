@@ -19,9 +19,18 @@ const createActions = () => ({
 		(error: unknown) => ({ payload: error })
 	),
 	fetchAppsByContextId: createAsyncAction(
-		'fetch_portal',
-		(payload: { portalId: string; contextId: string }, update?: boolean) => ({
+		'fetch_apps_by_context',
+		(payload: { contextId: string }, update?: boolean) => ({
 			payload,
+			meta: { update },
+		}),
+		(apps: string[]) => ({ payload: apps }),
+		(error: unknown) => ({ payload: error })
+	),
+	fetchApps: createAsyncAction(
+		'fetch_apps',
+		(update?: boolean) => ({
+			payload: null,
 			meta: { update },
 		}),
 		(apps: string[]) => ({ payload: apps }),
