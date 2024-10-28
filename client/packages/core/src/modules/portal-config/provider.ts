@@ -21,11 +21,13 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	#config: PortalConfiguration;
 
 	#portalClient: IPortalClient;
+
 	portalId: string;
 
 	get current(): CurrentPortal {
 		return this.#currentPortal$.value;
 	}
+
 	get current$(): Observable<CurrentPortal> {
 		return this.#currentPortal$.pipe(
 			distinctUntilChanged((prev, next) => {
@@ -64,9 +66,11 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	public getPortalConfig(portalId: string): Observable<PortalRequest> {
 		return from(this.#portalClient.getPortalConfig({ portalId }));
 	}
+
 	public getApps(): Observable<string[]> {
 		return from(this.#portalClient.getAppsConfig({ portalId: this.#config.base.portalId }));
 	}
+
 	public getAppsByContext(contextId: string): Observable<string[]> {
 		return this.#portalClient.getAppsConfigByContextId({ contextId, portalId: this.#config.base.portalId });
 	}

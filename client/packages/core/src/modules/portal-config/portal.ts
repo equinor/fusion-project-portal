@@ -59,6 +59,7 @@ export class Portal implements IPortal {
 			filterEmpty()
 		);
 	}
+
 	get apps(): string[] {
 		return this.#state.value.apps || [];
 	}

@@ -10,6 +10,7 @@ export interface IPortalAppsProvider {
 
 export class PortalAppsProvider implements IPortalAppsProvider {
 	#portalClient: IPortalAppsClient;
+
 	#apps$ = new BehaviorSubject<string[] | undefined>(undefined);
 
 	get apps$(): Observable<string[] | undefined> {
