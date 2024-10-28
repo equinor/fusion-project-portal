@@ -1,4 +1,4 @@
-import { BaseConfig, Extensions, PortalConfig, PortalRouter, PortalState } from './types';
+import { BaseConfig, Extensions, PortalConfigState, PortalRouter, PortalState } from './types';
 import { Observable, map, take } from 'rxjs';
 
 import { FlowSubject } from '@equinor/fusion-observable';
@@ -11,8 +11,8 @@ export interface IPortal {
 	state: PortalState;
 	base: BaseConfig;
 	state$: Observable<PortalState>;
-	portalConfig$: Observable<PortalConfig>;
-	portalConfig: PortalConfig;
+	portalConfig$: Observable<PortalConfigState>;
+	portalConfig: PortalConfigState;
 	routes$: Observable<PortalRouter>;
 	apps$: Observable<string[]>;
 	apps: string[];
@@ -70,7 +70,7 @@ export class Portal implements IPortal {
 		);
 	}
 
-	get portalConfig$(): Observable<PortalConfig> {
+	get portalConfig$(): Observable<PortalConfigState> {
 		return this.#state.pipe(
 			map(({ portal }) => portal),
 			filterEmpty(),
@@ -78,7 +78,7 @@ export class Portal implements IPortal {
 		);
 	}
 
-	get portalConfig(): PortalConfig {
+	get portalConfig(): PortalConfigState {
 		return this.#state.value.portal;
 	}
 

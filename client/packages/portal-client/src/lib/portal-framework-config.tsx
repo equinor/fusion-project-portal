@@ -9,7 +9,13 @@ import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import { enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
+import {
+	enablePortalApps,
+	enablePortalMenu,
+	enableTelemetry,
+	IPortalConfigProvider,
+	TelemetryModule,
+} from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
@@ -49,6 +55,14 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			builder.setConfig({
 				portalId: portalConfig.portalId,
 				portalEnv: portalConfig.fusionLegacyEnvIdentifier,
+			});
+		});
+
+		// This is to loosely-couple the portal landing page app from the portal config module
+		enablePortalApps(config, (builder) => {
+			builder.selPortalConfig(async (builder) => {
+				const { portalId } = await builder.requireInstance<{ portalId: string }>('portalConfig');
+				return { portalId, isContextPortal: true };
 			});
 		});
 

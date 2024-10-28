@@ -1,15 +1,16 @@
-import { BaseConfig, PortalConfig, PortalConfiguration, PortalRequest } from './types';
+import { BaseConfig, PortalConfigState, PortalConfiguration, PortalRequest } from './types';
 import { BehaviorSubject, Observable, Subscription, distinctUntilChanged, from } from 'rxjs';
 
 import { IPortalClient } from './portal-client';
 import { CurrentPortal, Portal } from './portal';
 
 export interface IPortalConfigProvider {
-	getPortalConfig(portalId: string): Observable<PortalConfig>;
+	getPortalConfig(portalId: string): Observable<PortalConfigState>;
 	getApps(): Observable<string[]>;
 	getAppsByContext(contextId: string): Observable<string[]>;
 	current: CurrentPortal;
 	current$: Observable<CurrentPortal>;
+	portalId: string;
 }
 
 export class PortalConfigProvider implements IPortalConfigProvider {
@@ -20,6 +21,7 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	#config: PortalConfiguration;
 
 	#portalClient: IPortalClient;
+	portalId: string;
 
 	get current(): CurrentPortal {
 		return this.#currentPortal$.value;
@@ -45,9 +47,11 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 				initialPortalConfig: _config.portalConfig,
 			})
 		);
+		this.portalId = _config.base.portalId;
 	}
 
-	public setCurrentPortal(base?: BaseConfig): void {
+	public setCurrentPortal(base: BaseConfig): void {
+		this.portalId = base.portalId;
 		this.#currentPortal$.next(
 			new Portal({
 				provider: this,

@@ -5,9 +5,9 @@ import { enableMapSet } from 'immer';
 enableMapSet();
 
 import { actions } from './actions';
-import { PortalConfig, PortalRequest, PortalState, PortalStateInitial } from '../types';
+import { PortalConfigState, PortalRequest, PortalState, PortalStateInitial } from '../types';
 
-const portalMapper = (portalRequest: PortalRequest): PortalConfig => ({
+const portalMapper = (portalRequest: PortalRequest): PortalConfigState => ({
 	id: portalRequest.id,
 	icon: portalRequest.icon,
 	name: portalRequest.name,

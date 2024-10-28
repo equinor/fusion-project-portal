@@ -3,13 +3,9 @@ import { PortalConfig } from '../module';
 
 import { useObservableState } from '@equinor/fusion-observable/react';
 import { useEffect, useMemo } from 'react';
-import { combineLatestWith, filter, firstValueFrom, from, map, of, OperatorFunction, pipe, take } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs';
 
 import { AppModule } from '@equinor/fusion-framework-module-app';
-
-export function filterEmpty<T>(): OperatorFunction<T | null | undefined, T> {
-	return filter((value): value is T => value !== undefined && value !== null);
-}
 
 export const usePortal = () => {
 	const { portalConfig } = useFramework<[PortalConfig]>().modules;

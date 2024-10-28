@@ -6,7 +6,7 @@ import { IPortalClient } from '../portal-client';
  *  The portal state.
  *
  */
-export type PortalConfig = {
+export type PortalConfigState = {
 	id: string;
 	icon?: string;
 	name: string;
@@ -108,7 +108,7 @@ export type PortalMenu = {
 };
 
 export type PortalState = {
-	portal: PortalConfig;
+	portal: PortalConfigState;
 	routes: PortalRouter;
 	apps?: string[];
 	extensions?: Extensions;
