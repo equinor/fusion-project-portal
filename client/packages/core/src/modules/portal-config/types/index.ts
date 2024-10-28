@@ -1,11 +1,12 @@
 import { AppManifest as FusionAppManifest } from '@equinor/fusion-framework-module-app';
 import { QueryCtorOptions } from '@equinor/fusion-query';
+import { IPortalClient } from '../portal-client';
 
 /**
  *  The portal state.
  *
  */
-export type Portal = {
+export type PortalConfig = {
 	id: string;
 	icon?: string;
 	name: string;
@@ -107,7 +108,7 @@ export type PortalMenu = {
 };
 
 export type PortalState = {
-	portal: Portal;
+	portal: PortalConfig;
 	routes: PortalRouter;
 	apps?: string[];
 	extensions?: Extensions;
@@ -122,7 +123,7 @@ export type PortalStateInitial = Partial<Omit<PortalState, 'status'>>;
 
 export interface PortalConfiguration {
 	base: BaseConfig;
-	client: IClient;
+	client: IPortalClient;
 	portalConfig: PortalState;
 }
 
@@ -135,12 +136,16 @@ export type GetPortalParameters = {
 	portalId: string;
 };
 
-export type GetAppsParameters = {
+export type GetAppsByContextParameters = {
 	portalId: string;
 	contextId: string;
+};
+export type GetAppsParameters = {
+	portalId: string;
 };
 
 export type IClient = {
 	getPortal: QueryCtorOptions<PortalRequest, GetPortalParameters>;
+	getPortalAppsByContextId: QueryCtorOptions<string[], GetAppsByContextParameters>;
 	getPortalApps: QueryCtorOptions<string[], GetAppsParameters>;
 };
