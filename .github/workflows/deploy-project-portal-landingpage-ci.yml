@@ -1,10 +1,10 @@
-name: Deploy portal-portal-landingpage CI
+name: Deploy project-portal-landingpage CI
 
 on:
   push:
     branches: ["main", "feat/landing-page-app"]
     paths:
-      - "client/apps/portal-portal-landingpage/**"
+      - "client/apps/project-portal-landingpage/**"
 
 permissions:
   actions: read
@@ -47,10 +47,10 @@ jobs:
 
       - name: Install
         run: |
-          cd client/apps/portal-portal-landingpage
+          cd client/apps/project-portal-landingpage
           yarn install
 
       - name: Deploy
         run: |
-          cd client/apps/portal-portal-landingpage
+          cd client/apps/project-portal-landingpage
           fusion-framework-cli app build-publish -e ci
