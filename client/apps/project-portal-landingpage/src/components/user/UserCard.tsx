@@ -1,15 +1,37 @@
 import { Card, Typography, Icon } from '@equinor/eds-core-react';
 
-import { ProfileCardHeader } from '@portal/components';
 import { tokens } from '@equinor/eds-tokens';
 import styled from 'styled-components';
 
 import { external_link, tag_relations } from '@equinor/eds-icons';
 
-import { PersonPosition } from '@portal/types';
-import { getFusionPortalURL } from '@portal/utils';
-import { useFrameworkCurrentContext } from '@equinor/portal-core';
 import { useMemo } from 'react';
+import { useCurrentUser } from '../../hooks/user';
+import { useRelationsByType } from '../../context';
+import { PersonPosition } from '../../types/person-details';
+import { ProfileCardHeader } from '../ProfileCardHeader';
+import { useFrameworkCurrentContext } from '@equinor/fusion-framework-react-app/context';
+
+declare global {
+	interface Window {
+		_config_: {
+			fusionLegacyEnvIdentifier: string;
+		};
+	}
+}
+
+export const getFusionPortalURL = () => {
+	switch (window._config_.fusionLegacyEnvIdentifier.toLowerCase()) {
+		case 'fprd':
+			return 'https://fusion.equinor.com';
+		case 'ci':
+			return 'https://fusion-s-portal-ci.azurewebsites.net';
+		case 'fqa':
+			return 'https://fusion-s-portal-fqa.azurewebsites.net';
+		default:
+			return 'https://fusion-s-portal-ci.azurewebsites.net';
+	}
+};
 
 const Style = {
 	Wrapper: styled.div`
@@ -55,8 +77,8 @@ const Style = {
 };
 
 export const ProjectPosition = ({ positions }: { positions?: PersonPosition[] }) => {
-	const context = useFrameworkCurrentContext();
-	const { data: equinorTask } = useRelationsByType('OrgChart', context?.id);
+	const { currentContext } = useFrameworkCurrentContext();
+	const { data: equinorTask } = useRelationsByType('OrgChart', currentContext?.id);
 
 	const projectPositions = useMemo(() => {
 		return (

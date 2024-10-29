@@ -12,7 +12,8 @@ import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 
 import { useUserOrgDetails } from '../hooks/user';
 import InfoBox from './InfoBox/InfoBox';
-import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
+// import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
+import { User } from './user/UserCard';
 
 // const styles = {
 // 	contentSection: css`
@@ -129,7 +130,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 		<Styles.Wrapper>
 			<ProjectHeader>
 				<Styles.Details>
-					{/* <User /> */}
+					<User />
 					<InfoBox />
 				</Styles.Details>
 				<Styles.Content>

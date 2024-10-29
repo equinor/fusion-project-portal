@@ -4,11 +4,12 @@ import { Typography } from '@equinor/eds-core-react';
 import styled from 'styled-components';
 import background from './assets/background.svg';
 import { PropsWithChildren } from 'react';
+import { useCurrentUser } from '@equinor/fusion-framework-react/hooks';
 
 export const StyledBackgroundWrapper = styled.section`
 	background-image: url(${background});
 	width: 100%;
-	height: 100%;
+	height: calc(100vh - var(--header-height, 48px));
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: bottom;
@@ -46,14 +47,14 @@ export const getGreeting = () => {
 };
 
 export const ProjectHeader = ({ children }: PropsWithChildren) => {
-	const { data } = { data: { name: 'chris' } }; //useCurrentUser();
+	const user = useCurrentUser();
 
 	return (
 		<StyledBackgroundWrapper>
 			<StyledHeader>
 				<Typography variant="h1">Welcome to Project Portal</Typography>
 				<Typography variant="h6">
-					{getGreeting()} {data?.name || 'Chris'}
+					{getGreeting()} {user?.name}
 				</Typography>
 			</StyledHeader>
 			<StyledWrapper>{children}</StyledWrapper>
