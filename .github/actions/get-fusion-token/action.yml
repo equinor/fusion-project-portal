@@ -30,3 +30,8 @@ runs:
       id: token
       shell: bash
       run: echo "token=$(az account get-access-token --resource '${{ inputs.resource-id }}' | jq '.accessToken')" >> $GITHUB_OUTPUT
+
+    - name: "Set Token as Environment Variable"
+      shell: bash
+      run: |
+        echo "FUSION_TOKEN=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
