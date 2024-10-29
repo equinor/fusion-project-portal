@@ -136,25 +136,18 @@ jobs:
         with:
           node-version: "21"
 
-      - name: Install
+      - name: Install Global
         run: |
           cd client
           yarn install
           npm i -g @equinor/fusion-framework-cli
+
+      - name: Install
+        run: |
           cd apps/portal-administration
           yarn install
-
-      - name: Build
-        run: |
-          cd client
-          yarn build:apps
 
       - name: Deploy
         run: |
           cd client/apps/portal-administration
-          yarn bundle
-          curl -T "app-bundle.zip" -H "Authorization: bearer ${{steps.get-fusion-token.outputs.token}}" -H "Content-Disposition: attachment; filename=app-bundle.zip" -H "Content-Type: application/zip" -X POST --show-error -i --url https://fusion-s-portal-fprd.azurewebsites.net/api/apps/portal-administration/versions
-
-      - name: Publish
-        run: |
-          curl -H "Authorization: bearer ${{steps.get-fusion-token.outputs.token}}" -X POST --show-error -i --url https://fusion-s-portal-fprd.azurewebsites.net/api/apps/portal-administration/publish
+          fusion-framework-cli app build-publish -e fprd
