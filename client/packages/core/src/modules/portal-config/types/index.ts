@@ -136,16 +136,16 @@ export type GetPortalParameters = {
 	portalId: string;
 };
 
-export type GetAppsByContextParameters = {
+export type GetAppKeysByContextParameters = {
 	portalId: string;
 	contextId: string;
 };
-export type GetAppsParameters = {
+export type GetAppKeysParameters = {
 	portalId: string;
 };
 
 export type IClient = {
 	getPortal: QueryCtorOptions<PortalRequest, GetPortalParameters>;
-	getPortalAppsByContextId: QueryCtorOptions<string[], GetAppsByContextParameters>;
-	getPortalApps: QueryCtorOptions<string[], GetAppsParameters>;
+	getPortalAppsByContextId: QueryCtorOptions<string[], GetAppKeysByContextParameters>;
+	getPortalApps: QueryCtorOptions<string[], GetAppKeysParameters>;
 };

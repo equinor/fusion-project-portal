@@ -1,5 +1,5 @@
 import { HttpResponseError, IHttpClient } from '@equinor/fusion-framework-module-http';
-import { GetAppsByContextParameters, GetAppsParameters, GetPortalParameters, PortalRequest } from './types';
+import { GetAppKeysByContextParameters, GetAppKeysParameters, GetPortalParameters, PortalRequest } from './types';
 
 import { Query } from '@equinor/fusion-query';
 import { catchError, Observable } from 'rxjs';
@@ -8,16 +8,16 @@ import { PortalLoadError } from './errors/portal';
 
 export interface IPortalClient extends Disposable {
 	getPortalConfig(args: GetPortalParameters): Observable<PortalRequest>;
-	getAppKeysByContextId(args: GetAppsByContextParameters): Observable<string[]>;
-	getAppKeys(args: GetAppsParameters): Observable<string[]>;
+	getAppKeysByContextId(args: GetAppKeysByContextParameters): Observable<string[]>;
+	getAppKeys(args: GetAppKeysParameters): Observable<string[]>;
 }
 
 export class PortalClient implements IPortalClient {
 	#configQuery: Query<PortalRequest, GetPortalParameters>;
 
-	#appKeysQuery: Query<string[], GetAppsParameters>;
+	#appKeysQuery: Query<string[], GetAppKeysParameters>;
 
-	#contextAppKeysQuery: Query<string[], GetAppsByContextParameters>;
+	#contextAppKeysQuery: Query<string[], GetAppKeysByContextParameters>;
 
 	constructor(httpClient: IHttpClient) {
 		const expire = 1 * 60 * 1000;
@@ -29,7 +29,7 @@ export class PortalClient implements IPortalClient {
 			expire,
 		});
 
-		this.#appKeysQuery = new Query<string[], GetAppsParameters>({
+		this.#appKeysQuery = new Query<string[], GetAppKeysParameters>({
 			client: {
 				fn: async (args) => {
 					return await httpClient.json<string[]>(`/api/portals/${args.portalId}/appkeys`);
@@ -39,7 +39,7 @@ export class PortalClient implements IPortalClient {
 			expire,
 		});
 
-		this.#contextAppKeysQuery = new Query<string[], GetAppsByContextParameters>({
+		this.#contextAppKeysQuery = new Query<string[], GetAppKeysByContextParameters>({
 			client: {
 				fn: async (args) => {
 					return await httpClient.json<string[]>(
@@ -74,7 +74,7 @@ export class PortalClient implements IPortalClient {
 		);
 	}
 
-	getAppKeys(args: GetAppsParameters): Observable<string[]> {
+	getAppKeys(args: GetAppKeysParameters): Observable<string[]> {
 		return this.#appKeysQuery.query(args).pipe(
 			queryValue,
 			catchError((err) => {
@@ -96,7 +96,7 @@ export class PortalClient implements IPortalClient {
 		);
 	}
 
-	getAppKeysByContextId(args: GetAppsByContextParameters): Observable<string[]> {
+	getAppKeysByContextId(args: GetAppKeysByContextParameters): Observable<string[]> {
 		return this.#contextAppKeysQuery.query(args).pipe(
 			queryValue,
 			catchError((err) => {
