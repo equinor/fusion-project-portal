@@ -5,9 +5,9 @@ import { enableMapSet } from 'immer';
 enableMapSet();
 
 import { actions } from './actions';
-import { Portal, PortalRequest, PortalState, PortalStateInitial } from '../types';
+import { PortalConfigState, PortalRequest, PortalState, PortalStateInitial } from '../types';
 
-const portalMapper = (portalRequest: PortalRequest): Portal => ({
+const portalMapper = (portalRequest: PortalRequest): PortalConfigState => ({
 	id: portalRequest.id,
 	icon: portalRequest.icon,
 	name: portalRequest.name,
@@ -16,9 +16,9 @@ const portalMapper = (portalRequest: PortalRequest): Portal => ({
 	contexts: portalRequest.contexts,
 });
 
-export const createReducer = (value: PortalStateInitial) =>
+export const createReducer = (value: PortalStateInitial = {}) =>
 	makeReducer({ ...value, status: new Set() } as PortalState, (builder) => {
-		builder.addCase(actions.setPortal, (state, action) => {
+		builder.addCase(actions.setPortalConfig, (state, action) => {
 			state.req = action.payload;
 			state.portal = portalMapper(action.payload);
 			if (action.payload.configuration.router) {
@@ -28,7 +28,7 @@ export const createReducer = (value: PortalStateInitial) =>
 				state.extensions = JSON.parse(action.payload.configuration.extension);
 			}
 		});
-		builder.addCase(actions.setApps, (state, action) => {
+		builder.addCase(actions.setAppKeys, (state, action) => {
 			state.apps = action.payload;
 		});
 	});

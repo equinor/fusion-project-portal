@@ -2,15 +2,25 @@ import { useFramework } from '@equinor/fusion-framework-react';
 import { PortalConfig } from '../module';
 
 import { useObservableState } from '@equinor/fusion-observable/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { combineLatestWith, map } from 'rxjs';
 
 import { AppModule } from '@equinor/fusion-framework-module-app';
 
-export const usePortalConfig = () => {
+export const usePortal = () => {
 	const { portalConfig } = useFramework<[PortalConfig]>().modules;
 
-	const { value, error, complete } = useObservableState(useMemo(() => portalConfig.portal$, [portalConfig]));
+	const { value, error } = useObservableState(useMemo(() => portalConfig.current$, [portalConfig]));
+
+	return {
+		portal: value || portalConfig.current,
+		error,
+	};
+};
+
+export const usePortalConfig = () => {
+	const { portal } = usePortal();
+	const { value, error, complete } = useObservableState(useMemo(() => portal.portalConfig$, [portal]));
 
 	return {
 		portal: value,
@@ -20,30 +30,44 @@ export const usePortalConfig = () => {
 };
 
 export const usePortalAppsConfig = () => {
-	const { portalConfig, context, app } = useFramework<[PortalConfig, AppModule]>().modules;
+	const { app, context } = useFramework<[PortalConfig, AppModule]>().modules;
+	const { portal } = usePortal();
 
-	const { value, complete, error } = useObservableState(
+	useEffect(() => {
+		const sub = context.currentContext$.subscribe((context) => {
+			if ((portal.portalConfig.contexts || []).length > 0) {
+				context && portal.getAppKeysByContext(context.id);
+			} else {
+				portal.getAppKeys();
+			}
+		});
+		return () => sub.unsubscribe();
+	}, [portal.portalConfig, context]);
+
+	const { value: apps, error } = useObservableState(
 		useMemo(
 			() =>
-				app.getAppManifests({ filterByCurrentUser: true }).pipe(
-					combineLatestWith(portalConfig.getApps$({ contextId: context.currentContext?.id })),
-					map(([apps, portalAppKeys]) => apps.filter((app) => portalAppKeys.includes(app.appKey)))
+				portal.appsKeys$.pipe(
+					combineLatestWith(app.getAppManifests({ filterByCurrentUser: true })),
+					map(([appKeysFilter, appManifests]) =>
+						appManifests?.filter((app) => appKeysFilter.includes(app.appKey))
+					)
 				),
-			[context.currentContext?.id, portalConfig]
+			[portal, app]
 		)
 	);
 
 	return {
-		apps: value,
+		apps,
 		error,
-		isLoading: !complete,
+		isLoading: !apps,
 	};
 };
 
 export const usePortalRouter = () => {
-	const { portalConfig } = useFramework<[PortalConfig]>().modules;
+	const { portal } = usePortal();
+	const { value, error, complete } = useObservableState(useMemo(() => portal.routes$, [portal]));
 
-	const { value, error, complete } = useObservableState(useMemo(() => portalConfig.routes$, [portalConfig]));
 	return {
 		router: value,
 		error,

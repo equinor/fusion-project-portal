@@ -1,172 +1,77 @@
-import {
-	Extensions,
-	GetAppsParameters,
-	GetPortalParameters,
-	Portal,
-	PortalConfiguration,
-	PortalRequest,
-	PortalRouter,
-	PortalState,
-} from './types';
-import { Observable, OperatorFunction, Subscription, catchError, filter, firstValueFrom, from, map, take } from 'rxjs';
-import { Query } from '@equinor/fusion-query';
-import { PortalLoadError } from './errors/portal';
-import { HttpResponseError } from '@equinor/fusion-framework-module-http';
-import { FlowSubject } from '@equinor/fusion-observable';
-import { Actions, actions } from './state/actions';
-import { createState } from './state/create-state';
-import { AppsLoadError } from './errors/apps';
+import { BaseConfig, PortalConfigState, PortalConfiguration, PortalRequest } from './types';
+import { BehaviorSubject, Observable, Subscription, distinctUntilChanged, from } from 'rxjs';
+
+import { IPortalClient } from './portal-client';
+import { CurrentPortal, Portal } from './portal';
 
 export interface IPortalConfigProvider {
-	getPortalConfigById$(portalId: string): Observable<Portal>;
-	getApps$(arg?: { contextId?: string }): Observable<string[]>;
-	state: PortalState;
-	state$: Observable<PortalState>;
-	portal$: Observable<Portal>;
-	routes$: Observable<PortalRouter>;
-	apps$: Observable<string[]>;
-	complete(): void;
-}
-
-export function filterEmpty<T>(): OperatorFunction<T | null | undefined, T> {
-	return filter((value): value is T => value !== undefined && value !== null);
+	getPortalConfig(portalId: string): Observable<PortalConfigState>;
+	getApps(): Observable<string[]>;
+	getAppsByContext(contextId: string): Observable<string[]>;
+	current: CurrentPortal;
+	current$: Observable<CurrentPortal>;
+	portalId: string;
 }
 
 export class PortalConfigProvider implements IPortalConfigProvider {
-	// Private fields
 	#subscription = new Subscription();
+
+	#currentPortal$: BehaviorSubject<CurrentPortal>;
 
 	#config: PortalConfiguration;
 
-	#state: FlowSubject<PortalState, Actions>;
+	#portalClient: IPortalClient;
+
+	portalId: string;
+
+	get current(): CurrentPortal {
+		return this.#currentPortal$.value;
+	}
+
+	get current$(): Observable<CurrentPortal> {
+		return this.#currentPortal$.pipe(
+			distinctUntilChanged((prev, next) => {
+				if (prev && next) {
+					return prev.base.portalId === next.base.portalId;
+				}
+				return prev === next;
+			})
+		);
+	}
 
 	constructor(protected _config: PortalConfiguration) {
 		this.#config = _config;
-		this.#state = createState({ ..._config.portalConfig }, this);
-		this.initialize();
+		this.#portalClient = _config.client;
+		this.#currentPortal$ = new BehaviorSubject<CurrentPortal>(
+			new Portal({
+				provider: this,
+				base: _config.base,
+				initialPortalConfig: _config.portalConfig,
+			})
+		);
+		this.portalId = _config.base.portalId;
 	}
 
-	get routes$(): Observable<PortalRouter> {
-		return this.#state.pipe(
-			map(({ routes }) => routes),
-			filterEmpty(),
-			take(1)
+	public setCurrentPortal(base: BaseConfig): void {
+		this.portalId = base.portalId;
+		this.#currentPortal$.next(
+			new Portal({
+				provider: this,
+				base: base ? base : this.#config.base,
+				initialPortalConfig: this.#config.portalConfig,
+			})
 		);
 	}
 
-	get apps$(): Observable<string[]> {
-		return this.#state.pipe(
-			map(({ apps }) => apps),
-			filterEmpty()
-		);
+	public getPortalConfig(portalId: string): Observable<PortalRequest> {
+		return from(this.#portalClient.getPortalConfig({ portalId }));
 	}
 
-	get extensions$(): Observable<Extensions> {
-		return this.#state.pipe(
-			map(({ extensions }) => extensions),
-			filterEmpty()
-		);
+	public getApps(): Observable<string[]> {
+		return from(this.#portalClient.getAppKeys({ portalId: this.#config.base.portalId }));
 	}
 
-	get portal$(): Observable<Portal> {
-		return this.#state.pipe(
-			map(({ portal }) => portal),
-			filterEmpty(),
-			take(1)
-		);
-	}
-
-	get state(): PortalState {
-		return this.#state.value;
-	}
-
-	get state$(): Observable<PortalState> {
-		return this.#state.pipe(
-			map((state) => state),
-			filterEmpty()
-		);
-	}
-
-	public getApps$ = (args?: { contextId?: string }): Observable<string[]> => {
-		if (args?.contextId) {
-			return this._AppsByContext$({ portalId: this.#state.value.portal.id, contextId: args.contextId });
-		}
-		return this.apps$;
-	};
-
-	protected async initialize(): Promise<void> {
-		this.#state.next(actions.fetchPortal(this.#config.base));
-	}
-
-	public getPortalConfigById$ = (portalId: string): Observable<PortalRequest> => {
-		if (this.#state.value.req) {
-			return new Observable((sub) => sub.next(this.#state.value.req));
-		}
-		return this._getPortal$({ portalId });
-	};
-
-	protected _getPortal$(params: GetPortalParameters): Observable<PortalRequest> {
-		// Create a new query using the configured client
-		const client = new Query(this.#config.client.getPortal);
-		this.#subscription.add(() => client.complete());
-
-		// Execute the query and handle errors
-		return Query.extractQueryValue(
-			client.query(params).pipe(
-				catchError((err) => {
-					// Extract the cause since the error will be a `QueryError`
-					const { cause } = err;
-
-					// Handle specific errors and throw a `PortalLoadError` if applicable
-					if (cause instanceof PortalLoadError) {
-						throw cause;
-					}
-					if (cause instanceof HttpResponseError) {
-						throw PortalLoadError.fromHttpResponse(cause.response, { cause });
-					}
-					// Throw a generic `PortalLoadError` for unknown errors
-					throw new PortalLoadError('unknown', 'failed to load config', {
-						cause,
-					});
-				})
-			)
-		);
-	}
-
-	protected _AppsByContext$(params: GetAppsParameters): Observable<string[]> {
-		// Create a new query using the configured client
-		const client = new Query(this.#config.client.getPortalApps);
-		this.#subscription.add(() => client.complete());
-
-		// Execute the query and handle errors
-		return Query.extractQueryValue(
-			client.query(params).pipe(
-				catchError((err) => {
-					// Extract the cause since the error will be a `QueryError`
-					const { cause } = err;
-
-					// Handle specific errors and throw a `AppsLoadError` if applicable
-					if (cause instanceof AppsLoadError) {
-						throw cause;
-					}
-					if (cause instanceof HttpResponseError) {
-						throw AppsLoadError.fromHttpResponse(cause.response, { cause });
-					}
-					// Throw a generic `AppsLoadError` for unknown errors
-					throw new AppsLoadError('unknown', 'failed to load config', {
-						cause,
-					});
-				})
-			)
-		);
-	}
-
-	[Symbol.dispose]() {
-		this.complete();
-	}
-
-	public complete() {
-		this.#subscription.unsubscribe();
-		this.#state.complete();
+	public getAppsByContext(contextId: string): Observable<string[]> {
+		return this.#portalClient.getAppKeysByContextId({ contextId, portalId: this.#config.base.portalId });
 	}
 }

@@ -1,4 +1,4 @@
-import { AppCategory, AppManifest } from '../types';
+import { AppCategory, AppManifest } from '../types/portal-apps-types';
 
 export const appsToAppCategory = (apps?: AppManifest[]): AppCategory[] => {
 	if (!apps) {

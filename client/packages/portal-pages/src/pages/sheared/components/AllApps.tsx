@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { AppContextMessage, AppGroup } from '@portal/components';
-import { appGroupArraySort, useFavorites } from '@portal/core';
+import { appGroupArraySort, useApps } from '@portal/core';
 
 import { ProgressLoader } from '@equinor/portal-ui';
 import { useTelemetry } from '@portal/core';
@@ -29,7 +29,7 @@ const Styles = {
 };
 
 export const AllApps = () => {
-	const { addFavorite, appGroups, isLoading } = useFavorites();
+	const { addFavorite, appGroups, isLoading } = useApps();
 	const { dispatchEvent } = useTelemetry();
 	// Todo Create skeletons for loading
 	if (isLoading) {

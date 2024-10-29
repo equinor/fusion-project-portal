@@ -2,14 +2,14 @@ import { ActionInstanceMap, ActionTypes, createAction, createAsyncAction } from 
 import { PortalRequest } from '../types';
 
 const createActions = () => ({
-	setPortal: createAction('set_portal', (portal: PortalRequest, update?: boolean) => ({
+	setPortalConfig: createAction('set_portal', (portal: PortalRequest, update?: boolean) => ({
 		payload: portal,
 		meta: {
 			created: Date.now(),
 			update,
 		},
 	})),
-	fetchPortal: createAsyncAction(
+	fetchPortalConfig: createAsyncAction(
 		'fetch_portal',
 		(payload: { portalId: string }, update?: boolean) => ({
 			payload,
@@ -18,16 +18,25 @@ const createActions = () => ({
 		(portal: PortalRequest) => ({ payload: portal }),
 		(error: unknown) => ({ payload: error })
 	),
-	fetchAppsByContextId: createAsyncAction(
-		'fetch_portal',
-		(payload: { portalId: string; contextId: string }, update?: boolean) => ({
+	fetchAppKeysByContextId: createAsyncAction(
+		'fetch_apps_by_context',
+		(payload: { contextId: string }, update?: boolean) => ({
 			payload,
 			meta: { update },
 		}),
 		(apps: string[]) => ({ payload: apps }),
 		(error: unknown) => ({ payload: error })
 	),
-	setApps: createAction('set_apps', (apps: string[], update?: boolean) => ({
+	fetchAppKeys: createAsyncAction(
+		'fetch_apps',
+		(update?: boolean) => ({
+			payload: null,
+			meta: { update },
+		}),
+		(apps: string[]) => ({ payload: apps }),
+		(error: unknown) => ({ payload: error })
+	),
+	setAppKeys: createAction('set_apps', (apps: string[], update?: boolean) => ({
 		payload: apps,
 		meta: {
 			created: Date.now(),
