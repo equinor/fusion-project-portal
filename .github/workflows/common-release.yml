@@ -140,12 +140,12 @@ jobs:
         run: |
           cd client
           yarn install
-          npm i -g @equinor/fusion-framework-cli
 
-      - name: Install
-        run: |
+          - name: Install
+          run: |
           cd client/apps/portal-administration
           yarn install
+          npm i -g @equinor/fusion-framework-cli
 
       - name: Deploy
         run: |

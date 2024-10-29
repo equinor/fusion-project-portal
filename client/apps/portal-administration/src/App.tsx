@@ -22,7 +22,7 @@ export default function () {
 	return (
 		<Style.Root>
 			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} fallbackElement={<p>Router Error...</p>} />
+				<RouterProvider router={router} fallbackElement={<p>Router Error.</p>} />
 			</QueryClientProvider>
 		</Style.Root>
 	);
