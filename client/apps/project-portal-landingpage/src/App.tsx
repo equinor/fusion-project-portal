@@ -1,16 +1,12 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ProjectPortalPage } from './components/ProjectPortalPage';
+
+const queryClient = new QueryClient();
+
 export const App = () => (
-	<div
-		style={{
-			height: '100%',
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			background: '#f0f0f0',
-			color: '#343434',
-		}}
-	>
-		<h1>🚀 Project Portal Landingpage! 😎</h1>
-	</div>
+	<QueryClientProvider client={queryClient}>
+		<ProjectPortalPage />;
+	</QueryClientProvider>
 );
 
 export default App;

@@ -1,18 +1,30 @@
-import type { AppModuleInitiator } from '@equinor/fusion-framework-react-app';
+import type { AppModuleInitiator } from '@equinor/fusion-framework-app';
+import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';
+import { createLocalStoragePlugin } from '@equinor/fusion-framework-module-feature-flag/plugins';
+import { enableNavigation } from '@equinor/fusion-framework-module-navigation';
 
-export const configure: AppModuleInitiator = (configurator, env) => {
-    /** print render environment arguments */
-    console.log('configuring application', env);
+interface Client {
+	baseUri: string;
+	defaultScopes: string[];
+}
 
-    /** callback when configurations is created */
-    configurator.onConfigured((config) => {
-        console.log('application config created', config);
-    });
+export const configure: AppModuleInitiator = (configurator, { env }) => {
+	const { basename, config } = env;
 
-    /** callback when the application modules has initialized */
-    configurator.onInitialized((instance) => {
-        console.log('application config initialized', instance);
-    });
+	enableNavigation(configurator, basename);
+
+	enableFeatureFlagging(configurator, (builder) => {
+		builder.addPlugin(
+			createLocalStoragePlugin([
+				{
+					key: 'project-prediction',
+					title: 'Allocated Projects',
+					description: 'When enabled you will get your allocated projects on the portal landing page',
+					enabled: true,
+				},
+			])
+		);
+	});
 };
 
 export default configure;
