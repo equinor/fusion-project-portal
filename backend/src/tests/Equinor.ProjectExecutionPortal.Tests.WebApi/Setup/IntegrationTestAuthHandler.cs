@@ -9,7 +9,12 @@ using Newtonsoft.Json;
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
 {
-    internal class IntegrationTestAuthHandler : AuthenticationHandler<IntegrationTestAuthOptions>
+    internal class IntegrationTestAuthHandler(
+        IOptionsMonitor<IntegrationTestAuthOptions> options,
+        ILoggerFactory logger,
+        UrlEncoder encoder,
+        ISystemClock clock)
+        : AuthenticationHandler<IntegrationTestAuthOptions>(options, logger, encoder, clock)
     {
         public static string TestAuthenticationScheme = "AuthScheme";
 
@@ -17,15 +22,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
         {
             Application,
             Delegated
-        }
-
-        public IntegrationTestAuthHandler(
-            IOptionsMonitor<IntegrationTestAuthOptions> options,
-            ILoggerFactory logger,
-            UrlEncoder encoder,
-            ISystemClock clock)
-            : base(options, logger, encoder, clock)
-        {
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()

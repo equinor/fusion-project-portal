@@ -4,15 +4,8 @@ using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 {
-    public class AppService : IAppService
+    public class AppService(IFusionAppsService fusionAppsService) : IAppService
     {
-        private readonly IFusionAppsService _fusionAppsService;
-
-        public AppService(IFusionAppsService fusionAppsService)
-        {
-            _fusionAppsService = fusionAppsService;
-        }
-
         public async Task<OnboardedAppDto> EnrichWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
         {
             if (onboardedApp.AppKey == null)
@@ -20,7 +13,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
                 return onboardedApp;
             }
 
-            var fusionApp = await _fusionAppsService.GetFusionApp(onboardedApp.AppKey);
+            var fusionApp = await fusionAppsService.GetFusionApp(onboardedApp.AppKey);
 
             if (fusionApp != null)
             {
@@ -32,7 +25,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         public async Task<IList<OnboardedAppDto>> EnrichWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
         {
-            var fusionApps = await _fusionAppsService.GetFusionApps();
+            var fusionApps = await fusionAppsService.GetFusionApps();
 
             foreach (var onboardedApp in onboardedApps)
             {

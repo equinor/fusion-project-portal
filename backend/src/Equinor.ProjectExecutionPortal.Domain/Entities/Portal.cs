@@ -6,7 +6,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// The Portal functions as a container for enabled apps and contexts
 /// </summary>
-public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class Portal(string key, string name, string shortName, string subText, string? description, string icon) : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int KeyLengthMax = 200;
     public const int NameLengthMax = 200;
@@ -14,28 +14,17 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public const int SubTextLengthMax = 200;
     public const int DescriptionLengthMax = 4000;
 
-    private readonly List<PortalApp> _apps = new();
-    private readonly List<ContextType> _contextTypes = new();
+    private readonly List<PortalApp> _apps = [];
+    private readonly List<ContextType> _contextTypes = [];
 
-    public Portal(string key, string name, string shortName, string subText, string? description, string icon)
-    {
-        Key = key;
-        Name = name;
-        ShortName = shortName;
-        SubText = subText;
-        Description = description;
-        Icon = icon;
-        Configuration = CreateDefaultPortalConfiguration();
-    }
+    public string Key { get; set; } = key;
+    public string Name { get; set; } = name;
+    public string ShortName { get; set; } = shortName;
+    public string SubText { get; set; } = subText;
+    public string? Description { get; set; } = description;
+    public string Icon { get; set; } = icon;
 
-    public string Key { get; set; }
-    public string Name { get; set; }
-    public string ShortName { get; set; }
-    public string SubText { get; set; }
-    public string? Description { get; set; }
-    public string Icon { get; set; }
-
-    public PortalConfiguration Configuration { get; set; }
+    public PortalConfiguration Configuration { get; set; } = CreateDefaultPortalConfiguration();
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();

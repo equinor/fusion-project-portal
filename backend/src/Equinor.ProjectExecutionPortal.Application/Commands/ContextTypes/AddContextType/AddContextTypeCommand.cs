@@ -7,27 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.ContextTypes.AddContextType;
 
-public class AddContextTypeCommand : IRequest<Guid>
+public class AddContextTypeCommand(string contextTypeKey) : IRequest<Guid>
 {
-    public AddContextTypeCommand(string contextTypeKey)
+    public string ContextTypeKey { get; } = contextTypeKey;
+
+    public class Handler(IReadWriteContext readWriteContext) : IRequestHandler<AddContextTypeCommand, Guid>
     {
-        ContextTypeKey = contextTypeKey;
-    }
-
-    public string ContextTypeKey { get; }
-   
-    public class Handler : IRequestHandler<AddContextTypeCommand, Guid>
-    {
-        private readonly IReadWriteContext _readWriteContext;
-
-        public Handler(IReadWriteContext readWriteContext)
-        {
-            _readWriteContext = readWriteContext;
-        }
-
         public async Task<Guid> Handle(AddContextTypeCommand command, CancellationToken cancellationToken)
         {
-            var contextTypeExists = await _readWriteContext.Set<ContextType>()
+            var contextTypeExists = await readWriteContext.Set<ContextType>()
                 .AsNoTracking()
                 .AnyAsync(x => x.ContextTypeKey == command.ContextTypeKey, cancellationToken);
 
@@ -43,9 +31,9 @@ public class AddContextTypeCommand : IRequest<Guid>
 
             var contextType = new ContextType(command.ContextTypeKey);
 
-            _readWriteContext.Set<ContextType>().Add(contextType);
+            readWriteContext.Set<ContextType>().Add(contextType);
 
-            await _readWriteContext.SaveChangesAsync(cancellationToken);
+            await readWriteContext.SaveChangesAsync(cancellationToken);
 
             return contextType.Id;
         }

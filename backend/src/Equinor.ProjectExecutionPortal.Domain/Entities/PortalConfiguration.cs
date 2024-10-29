@@ -6,22 +6,15 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// Each portal has their own configuration
 /// </summary>
-public class PortalConfiguration : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class PortalConfiguration(string? router, string? extension, string? environment) : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int RouterLengthMax = 8000;
     public const int ExtensionLengthMax = 8000;
     public const int EnvironmentLengthMax = 8000;
 
-    public PortalConfiguration(string? router, string? extension, string? environment)
-    {
-        Router = router;
-        Extension = extension;
-        Environment = environment;
-    }
-
-    public string? Router { get; set; }
-    public string? Extension { get; set; }
-    public string? Environment { get; set; }
+    public string? Router { get; set; } = router;
+    public string? Extension { get; set; } = extension;
+    public string? Environment { get; set; } = environment;
 
     public Guid PortalId { get; set; }
     public Portal Portal { get; set; } = null!;

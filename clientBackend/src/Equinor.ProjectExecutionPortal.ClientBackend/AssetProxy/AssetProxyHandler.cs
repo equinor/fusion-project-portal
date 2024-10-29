@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
             ActivityHeadersPropagator = new ReverseProxyPropagator(DistributedContextPropagator.Current)
         });
 
-        private static readonly ForwarderRequestConfig _requestConfig = new ForwarderRequestConfig { ActivityTimeout = TimeSpan.FromSeconds(100) };
+        private static readonly ForwarderRequestConfig _requestConfig = new() { ActivityTimeout = TimeSpan.FromSeconds(100) };
 
         private static async Task<bool> AuthenticateOrChallenge(HttpContext httpContext)
         {
