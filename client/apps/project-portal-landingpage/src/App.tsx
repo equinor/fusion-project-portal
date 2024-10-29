@@ -9,7 +9,7 @@ export const App = () => (
 			color: '#343434',
 		}}
 	>
-		<h1>🚀 Project Portal Landingpage ! 😎</h1>
+		<h1>🚀 Project Portal Landingpage 😎</h1>
 	</div>
 );
 
