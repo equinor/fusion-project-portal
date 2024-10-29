@@ -2,7 +2,7 @@ name: Deploy project-portal-landingpage CI
 
 on:
   push:
-    branches: ["main", "feat/landing-page-app"]
+    branches: ["feat/landing-page-app"]
     paths:
       - "client/apps/project-portal-landingpage/**"
 
