@@ -460,7 +460,15 @@
     "@equinor/fusion-react-utils" "^2.1.1"
     "@equinor/fusion-wc-person" "^3.0.2"
 
-"@equinor/fusion-react-utils@^2.1.1":
+"@equinor/fusion-react-skeleton@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-react-skeleton/-/fusion-react-skeleton-0.3.0.tgz#41178fb42c34883a3648a0daf6890317f3a93a16"
+  integrity sha512-7YBUC2M2FcrV1XmHqjHb243kptPFW5LQZR5C+ejFCbYJltfRiHDCbXIRC8l1G7URPbt6h8TgJGbyGnNanoIC6w==
+  dependencies:
+    "@equinor/fusion-react-utils" "^2.1.0"
+    "@equinor/fusion-wc-skeleton" "^2.0.0"
+
+"@equinor/fusion-react-utils@^2.1.0", "@equinor/fusion-react-utils@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-react-utils/-/fusion-react-utils-2.1.1.tgz#05a8b49e473d2c881410418cd39d45530bae5e05"
   integrity sha512-UU3afQMaKeiUseEfOwigTZqV0J6+2PTNFzqhOb0MAAwYsNthQWn77puHVjomsi4tbh8MsxqEIdq4303RA8x2lw==
@@ -612,7 +620,7 @@
     lit "3.2.0"
     uuid "^10.0.0"
 
-"@equinor/fusion-wc-skeleton@^2.1.2":
+"@equinor/fusion-wc-skeleton@^2.0.0", "@equinor/fusion-wc-skeleton@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@equinor/fusion-wc-skeleton/-/fusion-wc-skeleton-2.1.2.tgz#f29922e46f8fe31409ca65d27b83fd0ce1e33cbe"
   integrity sha512-LqrfUAg6BEqBi59kNs08UG+K7ESCvYJ6NMDIXI8EBTy1x2nt12D2JRXAE5zIeYU4+I084/zwKwt62Gx3yFtSkA==
