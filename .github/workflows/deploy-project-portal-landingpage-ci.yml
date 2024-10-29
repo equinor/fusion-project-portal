@@ -1,0 +1,56 @@
+name: Deploy portal-portal-landingpage CI
+
+on:
+  push:
+    branches: ["main", "feat/landing-page-app"]
+    paths:
+      - "client/apps/portal-portal-landingpage/**"
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  deployments: write
+  id-token: write
+
+jobs:
+  build:
+    environment: non-prod
+    name: Deploy
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get fusion token
+        id: "get-fusion-token"
+        uses: ./.github/actions/get-fusion-token
+        with:
+          client-id: ${{secrets.AZURE_SP_FUSION}}
+          tenant-id: ${{secrets.AZURE_TENANT_ID}}
+          resource-id: ${{secrets.AZURE_FUSION_SCOPE}}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "21"
+
+      - name: Install Global
+        run: |
+          cd client
+          yarn install
+          npm i -g @equinor/fusion-framework-cli
+
+      - name: Install
+        run: |
+          cd client/apps/portal-portal-landingpage
+          yarn install
+
+      - name: Deploy
+        run: |
+          cd client/apps/portal-portal-landingpage
+          fusion-framework-cli app build-publish -e ci
