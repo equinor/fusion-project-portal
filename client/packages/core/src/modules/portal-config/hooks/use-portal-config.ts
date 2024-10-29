@@ -44,16 +44,14 @@ export const usePortalAppsConfig = () => {
 		return () => sub.unsubscribe();
 	}, [portal.portalConfig, context]);
 
-	const {
-		value: apps,
-		error,
-		complete,
-	} = useObservableState(
+	const { value: apps, error } = useObservableState(
 		useMemo(
 			() =>
 				portal.appsKeys$.pipe(
 					combineLatestWith(app.getAppManifests({ filterByCurrentUser: true })),
-					map(([filter, appManifests]) => appManifests?.filter((app) => filter.includes(app.appKey)))
+					map(([appKeysFilter, appManifests]) =>
+						appManifests?.filter((app) => appKeysFilter.includes(app.appKey))
+					)
 				),
 			[portal, app]
 		)
@@ -62,7 +60,7 @@ export const usePortalAppsConfig = () => {
 	return {
 		apps,
 		error,
-		isLoading: !complete && !apps,
+		isLoading: !apps,
 	};
 };
 
