@@ -9,11 +9,11 @@ export const useNavigateOnContextChange = () => {
 	const { modules } = useFramework<[NavigationModule]>();
 	const provider: IContextProvider = useContextProvider();
 	useEffect(() => {
-		const sub =  provider.currentContext$.subscribe((context) => {
+		const sub = provider.currentContext$.subscribe((context) => {
 			const url = new URL(getContextPageURL(context), location.origin);
 
 			modules.navigation.replace(url);
 		});
-    return ()=> sub.unsubscribe()
+		return () => sub.unsubscribe();
 	}, []);
 };

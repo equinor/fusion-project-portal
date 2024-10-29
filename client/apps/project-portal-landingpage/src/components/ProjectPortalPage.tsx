@@ -14,6 +14,7 @@ import { useUserOrgDetails } from '../hooks/user';
 import InfoBox from './InfoBox/InfoBox';
 // import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
 import { User } from './user/UserCard';
+import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
 
 // const styles = {
 // 	contentSection: css`
@@ -124,7 +125,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 	const [value, setValue] = useState(false);
 	const { data, isLoading } = useUserOrgDetails(value);
 	const { feature } = useFeature('project-prediction');
-	// useNavigateOnContextChange();
+	useNavigateOnContextChange();
 
 	return (
 		<Styles.Wrapper>
