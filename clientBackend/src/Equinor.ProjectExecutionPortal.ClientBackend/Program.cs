@@ -66,14 +66,12 @@ builder.Services.AddFusionPortalAssetProxy(builder.Configuration);
 builder.Services.AddApplicationInsightsTelemetry();
 
 // Authorization
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("default", policy =>
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("default", policy =>
     {
         policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
         policy.RequireAuthenticatedUser();
     });
-});
 
 builder.Services.AddHttpContextAccessor();
 
