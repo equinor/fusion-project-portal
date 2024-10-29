@@ -1,19 +1,17 @@
 import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { useFramework } from '@equinor/fusion-framework-react-app/framework';
-import { useContextProvider } from '@equinor/fusion-framework-react-app/context';
 import { getContextPageURL } from './utils';
 import { useEffect } from 'react';
-import { IContextProvider } from '@equinor/fusion-framework-module-context';
+import { EventModule } from '@equinor/fusion-framework-module-event';
 
 export const useNavigateOnContextChange = () => {
-	const { modules } = useFramework<[NavigationModule]>();
-	const provider: IContextProvider = useContextProvider();
+	const { modules } = useFramework<[NavigationModule, EventModule]>();
+
 	useEffect(() => {
-		const sub = provider.currentContext$.subscribe((context) => {
-			const url = new URL(getContextPageURL(context), location.origin);
+		return modules.event.addEventListener('onCurrentContextChanged', (event) => {
+			const url = new URL(getContextPageURL(event.detail.next), location.origin);
 
 			modules.navigation.replace(url);
 		});
-		return () => sub.unsubscribe();
 	}, []);
 };
