@@ -14,10 +14,10 @@ export interface IPortal {
 	portalConfig$: Observable<PortalConfigState>;
 	portalConfig: PortalConfigState;
 	routes$: Observable<PortalRouter>;
-	apps$: Observable<string[]>;
-	apps: string[];
-	getAppsByContext(contextId: string): void;
-	getApps(): void;
+	appsKeys$: Observable<string[]>;
+	appKeys: string[];
+	getAppKeysByContext(contextId: string): void;
+	getAppKeys(): void;
 }
 
 export type CurrentPortal = IPortal;
@@ -34,15 +34,15 @@ export class Portal implements IPortal {
 	}
 
 	protected async initialize(): Promise<void> {
-		this.#state.next(actions.fetchPortal(this.base));
+		this.#state.next(actions.fetchPortalConfig(this.base));
 	}
 
-	getAppsByContext(contextId: string): void {
-		this.#state.next(actions.fetchAppsByContextId({ contextId }, true));
+	getAppKeysByContext(contextId: string): void {
+		this.#state.next(actions.fetchAppKeysByContextId({ contextId }, true));
 	}
 
-	getApps(): void {
-		this.#state.next(actions.fetchApps());
+	getAppKeys(): void {
+		this.#state.next(actions.fetchAppKeys());
 	}
 
 	get routes$(): Observable<PortalRouter> {
@@ -53,14 +53,14 @@ export class Portal implements IPortal {
 		);
 	}
 
-	get apps$(): Observable<string[]> {
+	get appsKeys$(): Observable<string[]> {
 		return this.#state.pipe(
 			map(({ apps }) => apps),
 			filterEmpty()
 		);
 	}
 
-	get apps(): string[] {
+	get appKeys(): string[] {
 		return this.#state.value.apps || [];
 	}
 

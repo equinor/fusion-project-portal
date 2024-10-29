@@ -36,9 +36,9 @@ export const usePortalAppsConfig = () => {
 	useEffect(() => {
 		const sub = context.currentContext$.subscribe((context) => {
 			if ((portal.portalConfig.contexts || []).length > 0) {
-				context && portal.getAppsByContext(context.id);
+				context && portal.getAppKeysByContext(context.id);
 			} else {
-				portal.getApps();
+				portal.getAppKeys();
 			}
 		});
 		return () => sub.unsubscribe();
@@ -51,7 +51,7 @@ export const usePortalAppsConfig = () => {
 	} = useObservableState(
 		useMemo(
 			() =>
-				portal.apps$.pipe(
+				portal.appsKeys$.pipe(
 					combineLatestWith(app.getAppManifests({ filterByCurrentUser: true })),
 					map(([filter, appManifests]) => appManifests?.filter((app) => filter.includes(app.appKey)))
 				),

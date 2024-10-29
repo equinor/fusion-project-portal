@@ -18,7 +18,7 @@ const portalMapper = (portalRequest: PortalRequest): PortalConfigState => ({
 
 export const createReducer = (value: PortalStateInitial = {}) =>
 	makeReducer({ ...value, status: new Set() } as PortalState, (builder) => {
-		builder.addCase(actions.setPortal, (state, action) => {
+		builder.addCase(actions.setPortalConfig, (state, action) => {
 			state.req = action.payload;
 			state.portal = portalMapper(action.payload);
 			if (action.payload.configuration.router) {
@@ -28,7 +28,7 @@ export const createReducer = (value: PortalStateInitial = {}) =>
 				state.extensions = JSON.parse(action.payload.configuration.extension);
 			}
 		});
-		builder.addCase(actions.setApps, (state, action) => {
+		builder.addCase(actions.setAppKeys, (state, action) => {
 			state.apps = action.payload;
 		});
 	});

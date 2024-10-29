@@ -8,20 +8,20 @@ import { PortalLoadError } from './errors/portal';
 
 export interface IPortalClient extends Disposable {
 	getPortalConfig(args: GetPortalParameters): Observable<PortalRequest>;
-	getAppsConfigByContextId(args: GetAppsByContextParameters): Observable<string[]>;
-	getAppsConfig(args: GetAppsParameters): Observable<string[]>;
+	getAppKeysByContextId(args: GetAppsByContextParameters): Observable<string[]>;
+	getAppKeys(args: GetAppsParameters): Observable<string[]>;
 }
 
 export class PortalClient implements IPortalClient {
-	#config: Query<PortalRequest, GetPortalParameters>;
+	#configQuery: Query<PortalRequest, GetPortalParameters>;
 
-	#apps: Query<string[], GetAppsParameters>;
+	#appKeysQuery: Query<string[], GetAppsParameters>;
 
-	#contextApps: Query<string[], GetAppsByContextParameters>;
+	#contextAppKeysQuery: Query<string[], GetAppsByContextParameters>;
 
 	constructor(httpClient: IHttpClient) {
 		const expire = 1 * 60 * 1000;
-		this.#config = new Query<PortalRequest, GetPortalParameters>({
+		this.#configQuery = new Query<PortalRequest, GetPortalParameters>({
 			client: {
 				fn: (args) => httpClient.json(`/api/portals/${args.portalId}`),
 			},
@@ -29,7 +29,7 @@ export class PortalClient implements IPortalClient {
 			expire,
 		});
 
-		this.#apps = new Query<string[], GetAppsParameters>({
+		this.#appKeysQuery = new Query<string[], GetAppsParameters>({
 			client: {
 				fn: async (args) => {
 					return await httpClient.json<string[]>(`/api/portals/${args.portalId}/appkeys`);
@@ -39,7 +39,7 @@ export class PortalClient implements IPortalClient {
 			expire,
 		});
 
-		this.#contextApps = new Query<string[], GetAppsByContextParameters>({
+		this.#contextAppKeysQuery = new Query<string[], GetAppsByContextParameters>({
 			client: {
 				fn: async (args) => {
 					return await httpClient.json<string[]>(
@@ -53,7 +53,7 @@ export class PortalClient implements IPortalClient {
 	}
 
 	getPortalConfig(args: GetPortalParameters): Observable<PortalRequest> {
-		return this.#config.query(args).pipe(
+		return this.#configQuery.query(args).pipe(
 			queryValue,
 			catchError((err) => {
 				// Extract the cause since the error will be a `QueryError`
@@ -74,8 +74,8 @@ export class PortalClient implements IPortalClient {
 		);
 	}
 
-	getAppsConfig(args: GetAppsParameters): Observable<string[]> {
-		return this.#apps.query(args).pipe(
+	getAppKeys(args: GetAppsParameters): Observable<string[]> {
+		return this.#appKeysQuery.query(args).pipe(
 			queryValue,
 			catchError((err) => {
 				// Extract the cause since the error will be a `QueryError`
@@ -96,8 +96,8 @@ export class PortalClient implements IPortalClient {
 		);
 	}
 
-	getAppsConfigByContextId(args: GetAppsByContextParameters): Observable<string[]> {
-		return this.#contextApps.query(args).pipe(
+	getAppKeysByContextId(args: GetAppsByContextParameters): Observable<string[]> {
+		return this.#contextAppKeysQuery.query(args).pipe(
 			queryValue,
 			catchError((err) => {
 				// Extract the cause since the error will be a `QueryError`
@@ -120,8 +120,8 @@ export class PortalClient implements IPortalClient {
 
 	[Symbol.dispose]() {
 		console.warn('PortalClient disposed');
-		this.#config.complete();
-		this.#apps.complete();
-		this.#contextApps.complete();
+		this.#configQuery.complete();
+		this.#appKeysQuery.complete();
+		this.#contextAppKeysQuery.complete();
 	}
 }

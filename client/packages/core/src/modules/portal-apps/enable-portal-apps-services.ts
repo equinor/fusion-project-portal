@@ -6,7 +6,7 @@ import { PortalAppsConfigConfigurator } from './configurator';
 export type PortalAppsBuilderCallback = (builder: PortalAppsConfigConfigurator) => void | Promise<void>;
 
 /**
- * Method for enabling the portal side sheet module
+ * Method for enabling the portal apps module
  * @param configurator - configuration object
  */
 export const enablePortalApps = (

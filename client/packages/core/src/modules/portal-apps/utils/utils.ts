@@ -1,7 +1,7 @@
 import { tokens } from '@equinor/eds-tokens';
 
 import { OperatorFunction, filter } from 'rxjs';
-import { AppCategory, AppManifest } from '../types';
+import { AppCategory, AppManifest } from '../types/portal-apps-types';
 
 export const getColumnCount = (MAX: number, appGroup?: AppCategory[]) => {
 	const count =

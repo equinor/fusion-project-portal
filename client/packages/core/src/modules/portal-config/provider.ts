@@ -68,10 +68,10 @@ export class PortalConfigProvider implements IPortalConfigProvider {
 	}
 
 	public getApps(): Observable<string[]> {
-		return from(this.#portalClient.getAppsConfig({ portalId: this.#config.base.portalId }));
+		return from(this.#portalClient.getAppKeys({ portalId: this.#config.base.portalId }));
 	}
 
 	public getAppsByContext(contextId: string): Observable<string[]> {
-		return this.#portalClient.getAppsConfigByContextId({ contextId, portalId: this.#config.base.portalId });
+		return this.#portalClient.getAppKeysByContextId({ contextId, portalId: this.#config.base.portalId });
 	}
 }

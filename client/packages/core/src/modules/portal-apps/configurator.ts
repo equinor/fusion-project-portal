@@ -2,11 +2,9 @@
 import { BaseConfigBuilder, ConfigBuilderCallback, ConfigBuilderCallbackArgs } from '@equinor/fusion-framework-module';
 
 import { IPortalAppsClient, PortalAppsClient } from './portal-apps-client';
-// import { IContextProvider } from '@equinor/fusion-framework-module-context';
 
 export interface PortalAppsConfiguration {
 	portalConfig: PortalConfig;
-	// contextProvider: IContextProvider;
 	client: IPortalAppsClient;
 }
 

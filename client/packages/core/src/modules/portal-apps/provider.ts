@@ -4,30 +4,34 @@ import { PortalAppsConfiguration } from './configurator';
 import { aR } from 'vitest/dist/reporters-yx5ZTtEV';
 
 export interface IPortalAppsProvider {
-	getApps(args: { contextId?: string }): Promise<void>;
-	apps$: Observable<string[] | undefined>;
+	getAppKeys(args?: { contextId?: string }): Promise<void>;
+	appKeys$: Observable<string[] | undefined>;
+	isContextPortal: boolean;
 }
 
 export class PortalAppsProvider implements IPortalAppsProvider {
 	#portalClient: IPortalAppsClient;
 
-	#apps$ = new BehaviorSubject<string[] | undefined>(undefined);
+	#appKeys$ = new BehaviorSubject<string[] | undefined>(undefined);
 
-	get apps$(): Observable<string[] | undefined> {
-		return this.#apps$;
+	public isContextPortal: boolean;
+
+	get appKeys$(): Observable<string[] | undefined> {
+		return this.#appKeys$;
 	}
 
 	constructor(protected args: PortalAppsConfiguration) {
 		this.#portalClient = args.client;
+		this.isContextPortal = args.portalConfig.isContextPortal;
 	}
 
-	public async getApps(args: { contextId?: string }) {
-		if (this.args.portalConfig.isContextPortal && args.contextId) {
-			this.#apps$.next(
-				await firstValueFrom(this.#portalClient.getAppsConfigByContextId({ contextId: args.contextId }))
+	public async getAppKeys(args?: { contextId?: string }) {
+		if (this.args.portalConfig.isContextPortal && args?.contextId) {
+			this.#appKeys$.next(
+				await firstValueFrom(this.#portalClient.getAppKeysByContextId({ contextId: args.contextId }))
 			);
 		} else {
-			this.#apps$.next(await firstValueFrom(this.#portalClient.getAppsConfig()));
+			this.#appKeys$.next(await firstValueFrom(this.#portalClient.getAppKeys()));
 		}
 	}
 }

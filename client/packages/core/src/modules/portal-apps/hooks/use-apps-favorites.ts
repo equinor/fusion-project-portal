@@ -1,7 +1,7 @@
 import { useObservableState } from '@equinor/fusion-observable/react';
 import { Observable, combineLatest, map } from 'rxjs';
 import { useCallback, useEffect, useMemo } from 'react';
-import { AppManifest, AppCategory } from '../types';
+import { AppManifest, AppCategory } from '../types/portal-apps-types';
 
 import { useFramework } from '@equinor/fusion-framework-react';
 import { AppModule } from '@equinor/fusion-framework-module-app';
