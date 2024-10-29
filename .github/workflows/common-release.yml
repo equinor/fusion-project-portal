@@ -144,7 +144,7 @@ jobs:
 
       - name: Install
         run: |
-          cd apps/portal-administration
+          cd client/apps/portal-administration
           yarn install
 
       - name: Deploy
