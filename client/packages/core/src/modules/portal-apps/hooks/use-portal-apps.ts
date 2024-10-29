@@ -18,15 +18,15 @@ export const usePortalApps = () => {
 	}
 
 	useEffect(() => {
-		if (portalApps.isContextPortal) {
-			const sub = context.currentContext$.subscribe((context) => {
-				portalApps.getAppKeys({ contextId: context?.id });
-			});
-			return () => sub.unsubscribe();
-		} else {
+		if (!portalApps.isContextPortal) {
 			portalApps.getAppKeys();
-			return;
 		}
+
+		const sub = context.currentContext$.subscribe((context) => {
+			portalApps.isContextPortal && portalApps.getAppKeys({ contextId: context?.id });
+		});
+
+		return () => sub.unsubscribe();
 	}, [portalApps, context]);
 
 	const {
