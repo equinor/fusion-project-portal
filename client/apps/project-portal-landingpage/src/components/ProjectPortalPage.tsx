@@ -15,6 +15,8 @@ import InfoBox from './InfoBox/InfoBox';
 // import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
 import { User } from './user/UserCard';
 import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
+import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 // const styles = {
 // 	contentSection: css`
@@ -126,7 +128,7 @@ export const ProjectPortalPage = (): JSX.Element => {
 	const { data, isLoading } = useUserOrgDetails(value);
 	const { feature } = useFeature('project-prediction');
 	useNavigateOnContextChange();
-
+	const { modules } = useFramework<[NavigationModule]>();
 	return (
 		<Styles.Wrapper>
 			<ProjectHeader>
@@ -172,7 +174,16 @@ export const ProjectPortalPage = (): JSX.Element => {
 									{data && data.length > 0 ? (
 										data.map((item, index) => (
 											<Styles.LinkWrapper key={item.id}>
-												<Typography link title={item.title} href={`/project/${item.id}`}>
+												<div onClick={(e) => {}}></div>
+												<Typography
+													onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+														e.preventDefault();
+														modules.navigation.replace(`/project/${item.id}`);
+													}}
+													link
+													title={item.title}
+													href={`/project/${item.id}`}
+												>
 													{item.title}
 												</Typography>
 												{data.length > index + 1 && <span>|</span>}
