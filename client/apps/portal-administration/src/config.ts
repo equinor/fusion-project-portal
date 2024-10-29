@@ -11,7 +11,7 @@ export const configure: AppModuleInitiator = (configurator, { env }) => {
 
 	enableNavigation(configurator, basename);
 
-	const environment = config?.environment.endpoints as { client: Client };
+	const environment = config?.environment as { client: Client };
 	configurator.configureHttpClient('portal-client', environment.client);
 };
 
