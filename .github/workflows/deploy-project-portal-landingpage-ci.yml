@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
       - name: Get fusion token
         id: "get-fusion-token"
@@ -34,21 +32,11 @@ jobs:
           tenant-id: ${{secrets.AZURE_TENANT_ID}}
           resource-id: ${{secrets.AZURE_FUSION_SCOPE}}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "20"
-
-      - name: Install Global
-        run: |
-          cd client
-          yarn install
-
       - name: Install
         run: |
           cd client/apps/project-portal-landingpage
-          npm i -g @equinor/fusion-framework-cli
           yarn install
+          npm i -g @equinor/fusion-framework-cli
 
       - name: Deploy
         run: |
