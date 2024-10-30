@@ -6,16 +6,21 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 /// <summary>
 /// An onboarded app is an app that is ready for use for the project portal.
 /// </summary>
-public class OnboardedApp(string appKey) : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int AppKeyLengthMax = 200;
     private readonly List<ContextType> _contextTypes = [];
     private readonly List<PortalApp> _apps = [];
 
+    public OnboardedApp(string appKey)
+    {
+        AppKey = appKey;
+    }
+
     /// <summary>
     /// AppKey refers to the app's unique ID in the Fusion Portal
     /// </summary>
-    public string AppKey { get; set; } = appKey;
+    public string AppKey { get; set; }
 
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
