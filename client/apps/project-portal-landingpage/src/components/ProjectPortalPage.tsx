@@ -17,6 +17,8 @@ import { User } from './user/UserCard';
 import { useNavigateOnContextChange } from '../hooks/use-navigate-on-context-change';
 import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { useFramework } from '@equinor/fusion-framework-react';
+import { PortalContextSelector } from '../context/PortalContextSelector';
+import { ContextProvider } from '../context/ContextProvider';
 
 // const styles = {
 // 	contentSection: css`
@@ -125,10 +127,10 @@ export const Styles = {
 
 export const ProjectPortalPage = (): JSX.Element => {
 	const [value, setValue] = useState(false);
-	const { data, isLoading } = useUserOrgDetails(value);
-	const { feature } = useFeature('project-prediction');
-	useNavigateOnContextChange();
 	const { modules } = useFramework<[NavigationModule]>();
+	const { feature } = useFeature('project-prediction');
+	const { data, isLoading } = useUserOrgDetails(value);
+	useNavigateOnContextChange();
 	return (
 		<Styles.Wrapper>
 			<ProjectHeader>
@@ -145,9 +147,9 @@ export const ProjectPortalPage = (): JSX.Element => {
 								selected context through the menu.
 							</Typography>
 						</Styles.Section>
-						{/* <ContextProvider>
+						<ContextProvider>
 							<PortalContextSelector />
-						</ContextProvider> */}
+						</ContextProvider>
 					</Styles.ContentWrapper>
 					{feature?.enabled && (
 						<Styles.Padding>

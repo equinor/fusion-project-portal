@@ -2,9 +2,10 @@ import { Button } from '@equinor/eds-core-react';
 
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getContextPageURL } from '../utils';
+
 import { ContextSelector } from './ContextSelector';
-import { useOnboardedContexts } from '../hooks/use-onboarded-contexts';
+import { useContextProvider } from '@equinor/fusion-framework-react-app/context';
+import { getContextPageURL } from '../hooks/utils';
 import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 import { useFramework } from '@equinor/fusion-framework-react';
 
@@ -37,14 +38,14 @@ const StyledActionWrapper = styled.div`
 `;
 
 export const PortalContextSelector = () => {
-	const { hasContext, currentContext } = useOnboardedContexts();
+	const { currentContext } = useContextProvider();
 	const { modules } = useFramework<[NavigationModule]>();
 
 	return (
 		<StyledWrapper>
 			<ContextSelector />
 			<StyledActionWrapper>
-				{currentContext && hasContext && (
+				{currentContext && (
 					<StyledButton
 						variant="ghost"
 						onClick={() => {
