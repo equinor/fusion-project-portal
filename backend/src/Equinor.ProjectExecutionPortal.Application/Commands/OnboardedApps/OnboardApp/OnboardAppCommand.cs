@@ -8,25 +8,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.OnboardApp;
 
-public class OnboardAppCommand(string appKey, IList<string>? contextTypes) : IRequest<Guid>
+public class OnboardAppCommand : IRequest<Guid>
 {
-    public string AppKey { get; } = appKey;
-    public IList<string>? ContextTypes { get; set; } = contextTypes;
-
-    public class Handler(
-        IReadWriteContext readWriteContext,
-        IFusionAppsService fusionAppsService,
-        IContextTypeService contextTypeService)
-        : IRequestHandler<OnboardAppCommand, Guid>
+    public OnboardAppCommand(string appKey, IList<string>? contextTypes)
     {
+        AppKey = appKey;
+        ContextTypes = contextTypes;
+    }
+
+    public string AppKey { get; }
+    public IList<string>? ContextTypes { get; set; }
+
+    public class Handler : IRequestHandler<OnboardAppCommand, Guid>
+    {
+        private readonly IReadWriteContext _readWriteContext;
+        private readonly IFusionAppsService _fusionAppsService;
+        private readonly IContextTypeService _contextTypeService;
+
+        public Handler(IReadWriteContext readWriteContext, IFusionAppsService fusionAppsService, IContextTypeService contextTypeService)
+        {
+            _readWriteContext = readWriteContext;
+            _fusionAppsService = fusionAppsService;
+            _contextTypeService = contextTypeService;
+        }
+
         public async Task<Guid> Handle(OnboardAppCommand command, CancellationToken cancellationToken)
         {
-            if (!await fusionAppsService.FusionAppExist(command.AppKey, cancellationToken))
+            if (!await _fusionAppsService.FusionAppExist(command.AppKey, cancellationToken))
             {
                 throw new NotFoundException($"Could not locate app '{command.AppKey}' in Fusion.");
             }
 
-            var onboardedAppExists = await readWriteContext.Set<OnboardedApp>()
+            var onboardedAppExists = await _readWriteContext.Set<OnboardedApp>()
                 .AsNoTracking()
                 .AnyAsync(x => x.AppKey == command.AppKey, cancellationToken);
 
@@ -39,16 +52,16 @@ public class OnboardAppCommand(string appKey, IList<string>? contextTypes) : IRe
 
             try
             {
-                onboardedApp.AddContextTypes(await contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
+                onboardedApp.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
             }
             catch (InvalidActionException ex)
             {
                 throw new InvalidOperationException(ex.Message);
             }
 
-            readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
+            _readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
 
-            await readWriteContext.SaveChangesAsync(cancellationToken);
+            await _readWriteContext.SaveChangesAsync(cancellationToken);
 
             return onboardedApp.Id;
         }

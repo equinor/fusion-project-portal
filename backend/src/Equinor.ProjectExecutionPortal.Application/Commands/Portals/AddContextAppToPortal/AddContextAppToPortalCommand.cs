@@ -7,33 +7,49 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContextAppToPortal;
 
-public class AddContextAppToPortalCommand(Guid portalId, Guid contextId, string appKey) : IRequest<Unit>
+public class AddContextAppToPortalCommand : IRequest<Unit>
 {
-    public Guid PortalId { get; } = portalId;
-    public Guid ContextId { get; } = contextId;
-    public string AppKey { get; } = appKey;
-
-    public class Handler(IReadWriteContext readWriteContext, IContextService contextService) : IRequestHandler<AddContextAppToPortalCommand, Unit>
+    public AddContextAppToPortalCommand(Guid portalId, Guid contextId, string appKey)
     {
+        PortalId = portalId;
+        ContextId = contextId;
+        AppKey = appKey;
+    }
+
+    public Guid PortalId { get; }
+    public Guid ContextId { get; }
+    public string AppKey { get; }
+
+    public class Handler : IRequestHandler<AddContextAppToPortalCommand, Unit>
+    {
+        private readonly IReadWriteContext _readWriteContext;
+        private readonly IContextService _contextService;
+
+        public Handler(IReadWriteContext readWriteContext, IContextService contextService)
+        {
+            _readWriteContext = readWriteContext;
+            _contextService = contextService;
+        }
+
         public async Task<Unit> Handle(AddContextAppToPortalCommand command, CancellationToken cancellationToken)
         {
-            var fusionContext = await contextService.GetFusionContext(command.ContextId, cancellationToken)
+            var fusionContext = await _contextService.GetFusionContext(command.ContextId, cancellationToken)
 
                 ?? throw new InvalidOperationException($"Cannot add app '{command.AppKey} to '{command.PortalId}'. Missing context parameter.");
 
-            var onboardedContext = await readWriteContext.Set<OnboardedContext>()
+            var onboardedContext = await _readWriteContext.Set<OnboardedContext>()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ExternalId == fusionContext.ExternalId && x.Type == fusionContext.Type.Name, cancellationToken)
 
                 ?? throw new NotFoundException("Could not find any onboarded context with id", command.ContextId);
 
-            var onboardedApp = await readWriteContext.Set<OnboardedApp>()
+            var onboardedApp = await _readWriteContext.Set<OnboardedApp>()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken)
 
                 ?? throw new NotFoundException("Could not find any onboarded app with id", command.AppKey);
 
-            var portalWithAllApps = await readWriteContext.Set<Portal>()
+            var portalWithAllApps = await _readWriteContext.Set<Portal>()
                 .Include(x => x.Apps
                     .Where(wsApp => wsApp.OnboardedContext == null || wsApp.OnboardedContext.Id == onboardedContext.Id))
                     .ThenInclude(x => x.OnboardedContext)
@@ -55,7 +71,7 @@ public class AddContextAppToPortalCommand(Guid portalId, Guid contextId, string 
 
             portalWithAllApps.AddApp(portalApp);
 
-            await readWriteContext.SaveChangesAsync(cancellationToken);
+            await _readWriteContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

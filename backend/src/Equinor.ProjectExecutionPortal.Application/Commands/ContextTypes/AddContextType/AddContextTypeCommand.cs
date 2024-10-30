@@ -7,15 +7,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.ContextTypes.AddContextType;
 
-public class AddContextTypeCommand(string contextTypeKey) : IRequest<Guid>
+public class AddContextTypeCommand : IRequest<Guid>
 {
-    public string ContextTypeKey { get; } = contextTypeKey;
-
-    public class Handler(IReadWriteContext readWriteContext) : IRequestHandler<AddContextTypeCommand, Guid>
+    public AddContextTypeCommand(string contextTypeKey)
     {
+        ContextTypeKey = contextTypeKey;
+    }
+
+    public string ContextTypeKey { get; }
+
+    public class Handler : IRequestHandler<AddContextTypeCommand, Guid>
+    {
+        private readonly IReadWriteContext _readWriteContext;
+
+        public Handler(IReadWriteContext readWriteContext)
+        {
+            _readWriteContext = readWriteContext;
+        }
+
         public async Task<Guid> Handle(AddContextTypeCommand command, CancellationToken cancellationToken)
         {
-            var contextTypeExists = await readWriteContext.Set<ContextType>()
+            var contextTypeExists = await _readWriteContext.Set<ContextType>()
                 .AsNoTracking()
                 .AnyAsync(x => x.ContextTypeKey == command.ContextTypeKey, cancellationToken);
 
@@ -27,13 +39,13 @@ public class AddContextTypeCommand(string contextTypeKey) : IRequest<Guid>
             if (!FusionContextType.IsValid(command.ContextTypeKey))
             {
                 throw new NotFoundException($"ContextType: {command.ContextTypeKey} is not a valid Context type");
-            }  
+            }
 
             var contextType = new ContextType(command.ContextTypeKey);
 
-            readWriteContext.Set<ContextType>().Add(contextType);
+            _readWriteContext.Set<ContextType>().Add(contextType);
 
-            await readWriteContext.SaveChangesAsync(cancellationToken);
+            await _readWriteContext.SaveChangesAsync(cancellationToken);
 
             return contextType.Id;
         }

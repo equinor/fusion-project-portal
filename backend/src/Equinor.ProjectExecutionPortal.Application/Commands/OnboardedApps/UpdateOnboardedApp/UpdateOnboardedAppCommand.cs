@@ -7,16 +7,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.UpdateOnboardedApp;
 
-public class UpdateOnboardedAppCommand(string appKey, IList<string>? contextTypes) : IRequest<Guid>
+public class UpdateOnboardedAppCommand : IRequest<Guid>
 {
-    public string AppKey { get; } = appKey;
-    public IList<string>? ContextTypes { get; set; } = contextTypes;
-
-    public class Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService) : IRequestHandler<UpdateOnboardedAppCommand, Guid>
+    public UpdateOnboardedAppCommand(string appKey, IList<string>? contextTypes)
     {
+        AppKey = appKey;
+        ContextTypes = contextTypes;
+    }
+
+    public string AppKey { get; }
+    public IList<string>? ContextTypes { get; set; }
+
+    public class Handler : IRequestHandler<UpdateOnboardedAppCommand, Guid>
+    {
+        private readonly IReadWriteContext _readWriteContext;
+        private readonly IContextTypeService _contextTypeService;
+
+        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService)
+        {
+            _readWriteContext = readWriteContext;
+            _contextTypeService = contextTypeService;
+        }
+
         public async Task<Guid> Handle(UpdateOnboardedAppCommand command, CancellationToken cancellationToken)
         {
-            var entity = await readWriteContext.Set<OnboardedApp>()
+            var entity = await _readWriteContext.Set<OnboardedApp>()
                 .Include(x => x.ContextTypes)
                 .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
 
@@ -27,14 +42,14 @@ public class UpdateOnboardedAppCommand(string appKey, IList<string>? contextType
 
             try
             {
-                entity.AddContextTypes(await contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
+                entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
             }
             catch (InvalidActionException ex)
             {
                 throw new InvalidOperationException(ex.Message);
             }
 
-            await readWriteContext.SaveChangesAsync(cancellationToken);
+            await _readWriteContext.SaveChangesAsync(cancellationToken);
 
             return entity.Id;
         }

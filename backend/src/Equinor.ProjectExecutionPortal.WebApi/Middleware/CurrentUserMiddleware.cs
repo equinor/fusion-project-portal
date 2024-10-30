@@ -3,8 +3,15 @@ using Equinor.ProjectExecutionPortal.WebApi.Misc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Middleware;
 
-public class CurrentUserMiddleware(RequestDelegate next)
+public class CurrentUserMiddleware
 {
+    private readonly RequestDelegate _next;
+
+    public CurrentUserMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
     public async Task InvokeAsync(HttpContext context, IHttpContextAccessor httpContextAccessor, ICurrentUserSetter currentUserSetter, ILogger<CurrentUserMiddleware> logger)
     {
         logger.LogInformation($"----- {GetType().Name} start");
@@ -18,6 +25,6 @@ public class CurrentUserMiddleware(RequestDelegate next)
 
         logger.LogInformation($"----- {GetType().Name} complete");
         // Call the next delegate/middleware in the pipeline
-        await next(context);
+        await _next(context);
     }
 }
