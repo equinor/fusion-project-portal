@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
                 RuleFor(x => x.AppKey)
                     .NotEmpty()
                     .NotContainScriptTag()
-                    .WithMessage("App Key required");
+                    .WithMessage("AppKey required");
             }
         }
     }

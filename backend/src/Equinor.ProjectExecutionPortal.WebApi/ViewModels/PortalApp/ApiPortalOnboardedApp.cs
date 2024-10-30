@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 
         public ApiPortalOnboardedApp(PortalOnboardedAppDto portalOnboardedAppDto)
         {
-            Key = portalOnboardedAppDto.OnboardedApp.AppKey;
+            AppKey = portalOnboardedAppDto.OnboardedApp.AppKey;
             ContextTypes = portalOnboardedAppDto.OnboardedApp.ContextTypes.Select(x => x.ContextTypeKey).ToList();
             ContextIds = portalOnboardedAppDto.ContextIds;
             IsActive = portalOnboardedAppDto.IsActive;
@@ -19,7 +19,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
             AppManifest = portalOnboardedAppDto.OnboardedApp.AppInformation != null ? new ApiFusionApp(portalOnboardedAppDto.OnboardedApp.AppInformation) : null;
         }
 
-        public string Key { get; set; }
+        public string AppKey { get; set; }
         public IList<string> ContextTypes { get; set; }
         public IList<Guid> ContextIds { get; set; }
         public bool IsActive { get; set; }
