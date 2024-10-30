@@ -7,12 +7,13 @@ public class CurrentUserMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public CurrentUserMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
+    public CurrentUserMiddleware(RequestDelegate next) => _next = next;
 
-    public async Task InvokeAsync(HttpContext context, IHttpContextAccessor httpContextAccessor, ICurrentUserSetter currentUserSetter, ILogger<CurrentUserMiddleware> logger)
+    public async Task InvokeAsync(
+        HttpContext context,
+        IHttpContextAccessor httpContextAccessor,
+        ICurrentUserSetter currentUserSetter,
+        ILogger<CurrentUserMiddleware> logger)
     {
         logger.LogInformation($"----- {GetType().Name} start");
 

@@ -8,12 +8,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.CreatePort
 
 public class CreatePortalCommand : IRequest<Guid>
 {
-    public CreatePortalCommand(string name,
-        string shortName,
-        string subText,
-        string? description,
-        string icon,
-        IList<string> contextTypes)
+    public CreatePortalCommand(string name, string shortName, string subText, string? description, string icon, IList<string> contextTypes)
     {
         Name = name;
         ShortName = shortName;
