@@ -148,5 +148,4 @@ app.MapControllers();
 app.Run();
 
 // Used for tests
-public partial class Program
-{ }
+public partial class Program;
