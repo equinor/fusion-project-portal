@@ -8,7 +8,6 @@ indent_style = space
 # ReSharper inspection severities
 resharper_arrange_constructor_or_destructor_body_highlighting = hint
 resharper_arrange_method_or_operator_body_highlighting = hint
-resharper_convert_to_primary_constructor_highlighting = hint
 # (Please don't specify an indent_size here; that has too many unintended consequences.)
 
 # Code files
@@ -227,4 +226,11 @@ csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
-csharp_style_prefer_primary_constructors = false:silent
+
+[*.cs]
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0290
+csharp_style_prefer_primary_constructors = false
+dotnet_diagnostic.IDE0290.severity = warning
+
+# https://www.jetbrains.com/help/rider/ConvertToPrimaryConstructor.html
+resharper_convert_to_primary_constructor_highlighting = none 
