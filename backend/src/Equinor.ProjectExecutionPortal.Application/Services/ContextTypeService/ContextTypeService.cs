@@ -5,8 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
 {
-    public class ContextTypeService(IReadWriteContext readWriteContext) : IContextTypeService
+    public class ContextTypeService : IContextTypeService
     {
+        private readonly IReadWriteContext _readWriteContext;
+
+        public ContextTypeService(IReadWriteContext readWriteContext)
+        {
+            _readWriteContext = readWriteContext;
+        }
+
         public async Task<IList<ContextType>> GetAllowedContextTypesByKeys(IList<string> contextTypeKeys, CancellationToken cancellationToken)
         {
             if (contextTypeKeys.Count == 0)
@@ -14,7 +21,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
                 return [];
             }
 
-            var availableContextTypes = await readWriteContext.Set<ContextType>().ToListAsync(cancellationToken);
+            var availableContextTypes = await _readWriteContext.Set<ContextType>().ToListAsync(cancellationToken);
 
             var invalidContextTypes = contextTypeKeys.FirstOrDefault(key => !availableContextTypes.Select(contextType => contextType.ContextTypeKey).Contains(key));
 

@@ -5,11 +5,18 @@ using Equinor.ProjectExecutionPortal.Domain.Entities;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
 {
-    public class PortalService(IMapper mapper) : IPortalService
+    public class PortalService : IPortalService
     {
+        private readonly IMapper _mapper;
+
+        public PortalService(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         public IList<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, IList<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
         {
-            var portalAppsDto = mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(GetDistinctPortalApps(portal.Apps.ToList()));
+            var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(GetDistinctPortalApps(portal.Apps.ToList()));
 
             SetAppsAsActiveInPortal(portalAppsDto);
 
@@ -33,7 +40,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
         {
             return new PortalOnboardedAppDto
             {
-                OnboardedApp = mapper.Map<OnboardedApp, OnboardedAppDto>(onboardedApp),
+                OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onboardedApp),
                 IsActive = false
             };
         }
@@ -79,7 +86,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
 
             return onBoardedAppsNotActiveInPortal.Select(onBoardedApp => new PortalOnboardedAppDto()
             {
-                OnboardedApp = mapper.Map<OnboardedApp, OnboardedAppDto>(onBoardedApp),
+                OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onBoardedApp),
                 IsActive = false
             }).ToList();
         }
