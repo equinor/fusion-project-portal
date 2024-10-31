@@ -30,7 +30,6 @@ spec:
         ASPNETCORE_URLS: "http://*:5000"
         ApplicationInsights__ConnectionString: ""
         AzureAd__ClientId: ""
-        Authenticator__ProjectPortalApiClientId: ""
         Swagger__ClientId: ""
         Fusion__Environment: "ci"
       ports:
@@ -51,9 +50,6 @@ spec:
                   - name: AzureAd--ClientSecret
                     type: secret
                     envVar: AzureAd__ClientSecret
-                  - name: Authenticator--ProjectPortalApiSecret
-                    type: secret
-                    envVar: Authenticator__ProjectPortalApiSecret
                   - name: ConnectionStrings--ProjectPortalContext
                     type: secret
                     envVar: ConnectionStrings__ProjectPortalContext
@@ -79,9 +75,6 @@ spec:
                   - name: AzureAd--ClientSecret
                     type: secret
                     envVar: AzureAd__ClientSecret
-                  - name: Authenticator--ProjectPortalApiSecret
-                    type: secret
-                    envVar: Authenticator__ProjectPortalApiSecret
                   - name: ConnectionStrings--ProjectPortalContext
                     type: secret
                     envVar: ConnectionStrings__ProjectPortalContext
@@ -107,9 +100,6 @@ spec:
                   - name: AzureAd--ClientSecret
                     type: secret
                     envVar: AzureAd__ClientSecret
-                  - name: Authenticator--ProjectPortalApiSecret
-                    type: secret
-                    envVar: Authenticator__ProjectPortalApiSecret
                   - name: ConnectionStrings--ProjectPortalContext
                     type: secret
                     envVar: ConnectionStrings__ProjectPortalContext

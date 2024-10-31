@@ -35,7 +35,7 @@ public class UpdateOnboardedAppCommand : IRequest<Guid>
                 .Include(x => x.ContextTypes)
                 .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
 
-            if (entity == null)
+            if (entity is null)
             {
                 throw new NotFoundException("App is not onboarded", command.AppKey);
             }

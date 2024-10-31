@@ -12,8 +12,7 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
     public const int ExternalIdLengthMax = 200;
     public const int TypeLengthMax = 200;
     public const int DescriptionLengthMax = 4000;
-
-    private readonly List<PortalApp> _apps = new();
+    private readonly List<PortalApp> _apps = [];
 
     public OnboardedContext(string externalId, string type, string? description)
     {

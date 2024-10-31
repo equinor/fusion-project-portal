@@ -17,11 +17,11 @@ public class CurrentUserMiddleware
     {
         logger.LogInformation($"----- {GetType().Name} start");
 
-        var oid = httpContextAccessor.HttpContext?.User.Claims.TryGetOid();
+        var oId = httpContextAccessor.HttpContext?.User.Claims.TryGetOid();
 
-        if (oid.HasValue)
+        if (oId.HasValue)
         {
-            currentUserSetter.SetCurrentUserOid(oid.Value);
+            currentUserSetter.SetCurrentUserOid(oId.Value);
         }
 
         logger.LogInformation($"----- {GetType().Name} complete");
