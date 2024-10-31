@@ -12,12 +12,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
         }
         public ApiPortalApp(PortalAppDto portalAppDto)
         {
-            Key = portalAppDto.OnboardedApp.AppKey;
+            AppKey = portalAppDto.OnboardedApp.AppKey;
             ContextTypes = portalAppDto.OnboardedApp.ContextTypes.Select(x => new ApiContextType(x)).ToList();
             AppManifest = portalAppDto.OnboardedApp.AppInformation != null ? new ApiFusionApp(portalAppDto.OnboardedApp.AppInformation) : null;
         }
 
-        public string Key { get; set; }
+        public string AppKey { get; set; }
         public IList<ApiContextType> ContextTypes { get; set; }
         public ApiFusionApp? AppManifest { get; set; }
     }
