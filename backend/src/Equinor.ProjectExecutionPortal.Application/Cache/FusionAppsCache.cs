@@ -14,6 +14,8 @@ public class FusionAppsCache : IFusionAppsCache
         _fusionAppsClient = fusionAppsClient;
     }
 
+    // TODO: Move cache duration to app settings
+
     public async Task<List<App>> GetFusionApps()
     {
         return await _cacheManager.GetOrCreateAsync("FUSION_APP",

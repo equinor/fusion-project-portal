@@ -9,8 +9,8 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
     public const int AppKeyLengthMax = 200;
-    private readonly List<ContextType> _contextTypes = new();
-    private readonly List<PortalApp> _apps = new();
+    private readonly List<ContextType> _contextTypes = [];
+    private readonly List<PortalApp> _apps = [];
 
     public OnboardedApp(string appKey)
     {
