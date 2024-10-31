@@ -18,7 +18,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
         {
             if (contextTypeKeys.Count == 0)
             {
-                return new List<ContextType>();
+                return [];
             }
 
             var availableContextTypes = await _readWriteContext.Set<ContextType>().ToListAsync(cancellationToken);

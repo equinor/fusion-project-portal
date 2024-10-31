@@ -8,7 +8,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextService
     {
         private readonly IFusionContextResolver _fusionContextResolver;
         
-
         public ContextService(IFusionContextResolver contextResolver)
         {
             _fusionContextResolver = contextResolver;

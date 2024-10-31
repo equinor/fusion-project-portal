@@ -13,9 +13,8 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public const int ShortNameLengthMax = 50;
     public const int SubTextLengthMax = 200;
     public const int DescriptionLengthMax = 4000;
-
-    private readonly List<PortalApp> _apps = new();
-    private readonly List<ContextType> _contextTypes = new();
+    private readonly List<PortalApp> _apps = [];
+    private readonly List<ContextType> _contextTypes = [];
 
     public Portal(string key, string name, string shortName, string subText, string? description, string icon)
     {

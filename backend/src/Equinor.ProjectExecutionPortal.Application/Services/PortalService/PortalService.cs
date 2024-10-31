@@ -38,7 +38,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService
 
         public PortalOnboardedAppDto GetPortalOnboardedAppNotActive(OnboardedApp onboardedApp, CancellationToken cancellationToken)
         {
-            return new PortalOnboardedAppDto()
+            return new PortalOnboardedAppDto
             {
                 OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onboardedApp),
                 IsActive = false

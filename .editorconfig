@@ -226,3 +226,11 @@ csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+
+[*.cs]
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0290
+csharp_style_prefer_primary_constructors = false
+dotnet_diagnostic.IDE0290.severity = warning
+
+# https://www.jetbrains.com/help/rider/ConvertToPrimaryConstructor.html
+resharper_convert_to_primary_constructor_highlighting = none 

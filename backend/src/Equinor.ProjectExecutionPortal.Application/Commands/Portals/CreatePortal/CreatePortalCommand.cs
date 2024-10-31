@@ -27,8 +27,8 @@ public class CreatePortalCommand : IRequest<Guid>
 
     public class Handler : IRequestHandler<CreatePortalCommand, Guid>
     {
-        private readonly IContextTypeService _contextTypeService;
         private readonly IReadWriteContext _readWriteContext;
+        private readonly IContextTypeService _contextTypeService;
 
         public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService)
         {
@@ -41,7 +41,7 @@ public class CreatePortalCommand : IRequest<Guid>
             var slug = SlugHelper.Sluggify(command.Name);
 
             var portal = new Portal(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
-           
+
             portal.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.Set<Portal>().AddAsync(portal, cancellationToken);

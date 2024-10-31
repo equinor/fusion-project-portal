@@ -15,7 +15,7 @@ public class AddContextTypeCommand : IRequest<Guid>
     }
 
     public string ContextTypeKey { get; }
-   
+
     public class Handler : IRequestHandler<AddContextTypeCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
@@ -39,7 +39,7 @@ public class AddContextTypeCommand : IRequest<Guid>
             if (!FusionContextType.IsValid(command.ContextTypeKey))
             {
                 throw new NotFoundException($"ContextType: {command.ContextTypeKey} is not a valid Context type");
-            }  
+            }
 
             var contextType = new ContextType(command.ContextTypeKey);
 
