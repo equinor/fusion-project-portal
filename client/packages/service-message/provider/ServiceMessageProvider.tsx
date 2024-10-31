@@ -32,7 +32,7 @@ export const ServiceMessageProvider: FC<PropsWithChildren> = ({ children }) => {
 		serviceMessages.next(data);
 	}, [data]);
 
-	const topic = useSignalR<unknown[]>('portal', 'service-messages');
+	const topic = useSignalR<unknown[]>('servicemessages', 'service-messages');
 
 	useLayoutEffect(() => {
 		const sub = topic.pipe(map((x) => x.shift() as ServiceMessage[])).subscribe(serviceMessages);
