@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Fusion.Integration.Apps.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,13 +45,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add fusion integration
 builder.Services.AddFusionIntegration(f =>
 {
-    var environment = builder.Configuration.GetValue<string>("Fusion:Environment" ?? "ci");
+    var environment = builder.Configuration.GetValue<string>("Fusion:Environment")!;
+
     f.UseServiceInformation("Fusion.Project.Portal", environment);
     f.UseDefaultEndpointResolver(environment);
     f.AddAppsClient();
     f.UseDefaultTokenProvider(opts =>
     {
-        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId");
+        opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId")!;
         opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
     });
     f.DisableClaimsTransformation();
@@ -65,10 +67,8 @@ builder.Services.AddControllers(config =>
     })
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.AddFluentValidation(c =>
- {
-     c.RegisterValidatorsFromAssemblyContaining<Program>();
- });
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -89,8 +89,8 @@ builder.Services.AddSwaggerGen(c =>
         {
             Implicit = new OpenApiOAuthFlow
             {
-                AuthorizationUrl = new Uri(builder.Configuration["Swagger:AuthorizationUrl"]),
-                TokenUrl = new Uri(builder.Configuration["Swagger:TokenUrl"]),
+                AuthorizationUrl = new Uri(builder.Configuration["Swagger:AuthorizationUrl"]!),
+                TokenUrl = new Uri(builder.Configuration["Swagger:TokenUrl"]!),
                 Scopes = scopes
             }
         }
@@ -148,4 +148,4 @@ app.MapControllers();
 app.Run();
 
 // Used for tests
-public partial class Program;
+public abstract partial class Program;
