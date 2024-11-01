@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Equinor.ProjectExecutionPortal.Application;
+using Equinor.ProjectExecutionPortal.Application.Cache;
 using Equinor.ProjectExecutionPortal.Application.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
@@ -11,7 +12,6 @@ using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Client;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.DiModules;
 
@@ -23,7 +23,7 @@ public static class ApplicationModule
 
         var applicationAssembly = typeof(IApplicationMarker).GetTypeInfo().Assembly;
 
-        services.Configure<CacheOptions>(configuration.GetSection("CacheOptions"));
+        services.Configure<CacheOptions>(configuration.GetSection("Cache"));
 
         services.AddAuthorization(options =>
         {
