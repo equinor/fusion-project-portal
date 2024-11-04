@@ -2,11 +2,11 @@
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
-    internal class PortalConfigurationData
+    internal static class PortalConfigurationData
     {
-        public class InitialDbSeedData
+        public static class InitialDbSeedData
         {
-            public static PortalConfiguration GenericPortalConfiguration = new(
+            public static readonly PortalConfiguration GenericPortalConfiguration = new(
                 "routerConfig",
                 "extensionConfig",
                 "environmentConfig"
