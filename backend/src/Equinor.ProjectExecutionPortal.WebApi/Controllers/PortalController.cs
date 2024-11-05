@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAppKeys;
-using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
@@ -204,10 +203,10 @@ public class PortalController : ApiControllerBase
         return new ApiPortalOnboardedApp(portalOnboardedAppDto);
     }
 
-    // App Keys
+    // Apps
 
-    // TODO: Rename to /apps
-    [HttpGet("{portalId:guid}/appkeys")]
+    [HttpGet("{portalId:guid}/apps")]
+    [HttpGet("{portalId:guid}/appkeys")] // TODO: DEPRECATED
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<string>>> PortalAppKeys([FromRoute] Guid portalId)
@@ -228,8 +227,8 @@ public class PortalController : ApiControllerBase
         }
     }
 
-    // TODO Rename to /apps
-    [HttpGet("{portalId:guid}/contexts/{contextId:guid}/appkeys")]
+    [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
+    [HttpGet("{portalId:guid}/contexts/{contextId:guid}/appkeys")] // TODO: DEPRECATED
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<string>>> PortalAppKeys([FromRoute] Guid portalId, [FromRoute] Guid contextId)
@@ -239,52 +238,6 @@ public class PortalController : ApiControllerBase
             var portalContextualAppKeys = await Mediator.Send(new GetContextualAndGlobalAppKeysByPortalAndContextQuery(portalId, contextId));
 
             return Ok(portalContextualAppKeys);
-        }
-        catch (NotFoundException ex)
-        {
-            return FusionApiError.NotFound(portalId, ex.Message);
-        }
-        catch (Exception)
-        {
-            return FusionApiError.InvalidOperation("500", "An error occurred");
-        }
-    }
-
-    // Apps
-
-    // TODO: Remove
-    [HttpGet("{portalId:guid}/apps")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId)
-    {
-        try
-        {
-            var portalAppsDto = await Mediator.Send(new GetGlobalAppsForPortalQuery(portalId));
-
-            return Ok(portalAppsDto.Select(portalAppDto => new ApiPortalApp(portalAppDto)).ToList());
-        }
-        catch (NotFoundException ex)
-        {
-            return FusionApiError.NotFound(portalId, ex.Message);
-        }
-        catch (Exception)
-        {
-            return FusionApiError.InvalidOperation("500", "An error occurred");
-        }
-    }
-
-    // TODO: Remove
-    [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<ApiPortalApp>>> PortalApps([FromRoute] Guid portalId, [FromRoute] Guid contextId)
-    {
-        try
-        {
-            var portalAppsDto = await Mediator.Send(new GetContextualAndGlobalAppsByPortalAndContextQuery(portalId, contextId));
-
-            return Ok(portalAppsDto.Select(portalAppDto => new ApiPortalApp(portalAppDto)).ToList());
         }
         catch (NotFoundException ex)
         {

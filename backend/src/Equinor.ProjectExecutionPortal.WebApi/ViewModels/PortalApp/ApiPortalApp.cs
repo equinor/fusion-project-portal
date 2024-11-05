@@ -4,7 +4,6 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
-// TODO: Should be removed
 public class ApiPortalApp
 {
 #pragma warning disable CS8618 // For integration tests only
