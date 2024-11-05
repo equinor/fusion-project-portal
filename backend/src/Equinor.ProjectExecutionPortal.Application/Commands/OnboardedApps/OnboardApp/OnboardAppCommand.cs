@@ -10,14 +10,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, IList<string>? contextTypes)
+    public OnboardAppCommand(string appKey, IList<string> contextTypes)
     {
         AppKey = appKey;
         ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
-    public IList<string>? ContextTypes { get; set; }
+    public IList<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {
@@ -50,14 +50,7 @@ public class OnboardAppCommand : IRequest<Guid>
 
             var onboardedApp = new OnboardedApp(command.AppKey);
 
-            try
-            {
-                onboardedApp.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
-            }
-            catch (InvalidActionException ex)
-            {
-                throw new InvalidOperationException(ex.Message);
-            }
+            onboardedApp.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             _readWriteContext.Set<OnboardedApp>().Add(onboardedApp);
 

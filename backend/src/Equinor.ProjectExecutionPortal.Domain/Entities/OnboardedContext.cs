@@ -22,7 +22,7 @@ public class OnboardedContext : AuditableEntityBase, ICreationAuditable, IModifi
     }
 
     public string ExternalId { get; }
-    public string Type { get; } // TODO: Necessary? Type can alternatively be resolved by Fusion Context
+    public string Type { get; }
     public string? Description { get; set; }
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();

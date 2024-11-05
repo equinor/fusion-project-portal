@@ -1,17 +1,16 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
+
+public class ApiContextType
 {
-    public class ApiContextType
+    public ApiContextType()
+    { }
+
+    public ApiContextType(ContextTypeDto contextTypeDto)
     {
-        public ApiContextType()
-        { }
-
-        public ApiContextType(ContextTypeDto contextTypeDto)
-        {
-            Type = contextTypeDto.ContextTypeKey;
-        }
-
-        public string Type { get; set; }
+        Type = contextTypeDto.ContextTypeKey;
     }
+
+    public string Type { get; set; }
 }

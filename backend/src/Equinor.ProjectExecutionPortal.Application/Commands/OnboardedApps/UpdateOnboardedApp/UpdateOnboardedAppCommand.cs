@@ -9,14 +9,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Upda
 
 public class UpdateOnboardedAppCommand : IRequest<Guid>
 {
-    public UpdateOnboardedAppCommand(string appKey, IList<string>? contextTypes)
+    public UpdateOnboardedAppCommand(string appKey, IList<string> contextTypes)
     {
         AppKey = appKey;
         ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
-    public IList<string>? ContextTypes { get; set; }
+    public IList<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<UpdateOnboardedAppCommand, Guid>
     {
@@ -40,14 +40,7 @@ public class UpdateOnboardedAppCommand : IRequest<Guid>
                 throw new NotFoundException("App is not onboarded", command.AppKey);
             }
 
-            try
-            {
-                entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
-            }
-            catch (InvalidActionException ex)
-            {
-                throw new InvalidOperationException(ex.Message);
-            }
+            entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

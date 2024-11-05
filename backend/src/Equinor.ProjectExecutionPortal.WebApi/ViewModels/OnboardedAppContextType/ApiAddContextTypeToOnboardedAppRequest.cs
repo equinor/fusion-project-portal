@@ -1,26 +1,25 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.AddContextTypeToOnboardedApp;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType;
+
+public class ApiAddContextTypeToOnboardedAppRequest
 {
-    public class ApiAddContextTypeToOnboardedAppRequest
+    public required string Type { get; set; }
+
+    public AddContextTypeToOnboardedAppCommand ToCommand(string appKey)
     {
-        public string Type { get; set; } = null!;
+        return new AddContextTypeToOnboardedAppCommand(appKey, Type);
+    }
 
-        public AddContextTypeToOnboardedAppCommand ToCommand(string appKey)
+    public class ApiAddContextTypeToOnboardedAppRequestValidator : AbstractValidator<ApiAddContextTypeToOnboardedAppRequest>
+    {
+        public ApiAddContextTypeToOnboardedAppRequestValidator()
         {
-            return new AddContextTypeToOnboardedAppCommand(appKey, Type);
-        }
-
-        public class ApiAddContextTypeToOnboardedAppRequestValidator : AbstractValidator<ApiAddContextTypeToOnboardedAppRequest>
-        {
-            public ApiAddContextTypeToOnboardedAppRequestValidator()
-            {
-                RuleFor(x => x.Type)
-                    .NotEmpty()
-                    .NotContainScriptTag()
-                    .WithMessage("Type required");
-            }
+            RuleFor(x => x.Type)
+                .NotEmpty()
+                .NotContainScriptTag()
+                .WithMessage("Type required");
         }
     }
 }

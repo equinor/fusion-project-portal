@@ -5,7 +5,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp;
 public class ApiFusionApp
 {
     public ApiFusionApp()
-    { }
+    {
+    }
 
     public ApiFusionApp(App fusionApp)
     {
@@ -13,19 +14,16 @@ public class ApiFusionApp
         DisplayName = fusionApp.DisplayName;
         Description = fusionApp.Description;
         Type = fusionApp.Type;
-        IsPinned = fusionApp.IsPinned;
-        TemplateSource = fusionApp.TemplateSource;
         Category = fusionApp.Category != null ? new ApiFusionAppCategory(fusionApp.Category) : null;
         Build = fusionApp.Build != null ? new ApiFusionAppVersion(fusionApp.Build) : null;
+        Visualization = fusionApp.Visualization != null ? new ApiFusionAppVisualization(fusionApp.Visualization) : null;
     }
 
     public string AppKey { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
     public string? Type { get; set; }
-    public string? Version { get; set; }
-    public bool? IsPinned { get; set; }
-    public string? TemplateSource { get; set; }
     public ApiFusionAppCategory? Category { get; set; }
     public ApiFusionAppVersion? Build { get; set; }
+    public ApiFusionAppVisualization? Visualization { get; set; }
 }

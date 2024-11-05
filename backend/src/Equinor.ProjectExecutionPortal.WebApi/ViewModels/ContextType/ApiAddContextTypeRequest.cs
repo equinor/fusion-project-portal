@@ -1,26 +1,25 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.ContextTypes.AddContextType;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
+
+public class ApiAddContextTypeRequest
 {
-    public class ApiAddContextTypeRequest
+    public required string Type { get; init; }
+
+    public AddContextTypeCommand ToCommand()
     {
-        public string Type { get; set; } = null!;
+        return new AddContextTypeCommand(Type);
+    }
 
-        public AddContextTypeCommand ToCommand()
+    public class ApiAddContextTypeRequestValidator : AbstractValidator<ApiAddContextTypeRequest>
+    {
+        public ApiAddContextTypeRequestValidator()
         {
-            return new AddContextTypeCommand(Type);
-        }
-
-        public class ApiAddContextTypeRequestValidator : AbstractValidator<ApiAddContextTypeRequest>
-        {
-            public ApiAddContextTypeRequestValidator()
-            {
-                RuleFor(x => x.Type)
-                    .NotEmpty()
-                    .NotContainScriptTag()
-                    .WithMessage("Type required");
-            }
+            RuleFor(x => x.Type)
+                .NotEmpty()
+                .NotContainScriptTag()
+                .WithMessage("Type required");
         }
     }
 }

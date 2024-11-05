@@ -1,27 +1,26 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.OnboardApp;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+
+public class ApiOnboardAppRequest
 {
-    public class ApiOnboardAppRequest
+    public required string AppKey { get; init; } 
+    public required IList<string> ContextTypes { get; init; }
+
+    public OnboardAppCommand ToCommand()
     {
-        public string AppKey { get; set; } = null!;
-        public IList<string>? ContextTypes { get; set; }
+        return new OnboardAppCommand(AppKey, ContextTypes);
+    }
 
-        public OnboardAppCommand ToCommand()
+    public class OnboardAppRequestValidator : AbstractValidator<ApiOnboardAppRequest>
+    {
+        public OnboardAppRequestValidator()
         {
-            return new OnboardAppCommand(AppKey, ContextTypes);
-        }
-
-        public class OnboardAppRequestValidator : AbstractValidator<ApiOnboardAppRequest>
-        {
-            public OnboardAppRequestValidator()
-            {
-                RuleFor(x => x.AppKey)
-                    .NotEmpty()
-                    .NotContainScriptTag()
-                    .WithMessage("AppKey is required");
-            }
+            RuleFor(x => x.AppKey)
+                .NotEmpty()
+                .NotContainScriptTag()
+                .WithMessage("AppKey is required");
         }
     }
 }

@@ -1,25 +1,24 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.RemoveOnboardedApp;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+
+public class ApiRemoveOnboardedAppRequest
 {
-    public class ApiRemoveOnboardedAppRequest
+    public required string AppKey { get; init; }
+
+    public RemoveOnboardedAppCommand ToCommand()
     {
-        public string AppKey { get; set; } = null!;
+        return new RemoveOnboardedAppCommand(AppKey);
+    }
 
-        public RemoveOnboardedAppCommand ToCommand()
+    public class RemoveOnboardedAppRequestValidator : AbstractValidator<ApiRemoveOnboardedAppRequest>
+    {
+        public RemoveOnboardedAppRequestValidator()
         {
-            return new RemoveOnboardedAppCommand(AppKey);
-        }
-
-        public class RemoveOnboardedAppRequestValidator : AbstractValidator<ApiRemoveOnboardedAppRequest>
-        {
-            public RemoveOnboardedAppRequestValidator()
-            {
-                RuleFor(x => x.AppKey)
-                    .NotEmpty()
-                    .WithMessage("AppKey is required");
-            }
+            RuleFor(x => x.AppKey)
+                .NotEmpty()
+                .WithMessage("AppKey is required");
         }
     }
 }

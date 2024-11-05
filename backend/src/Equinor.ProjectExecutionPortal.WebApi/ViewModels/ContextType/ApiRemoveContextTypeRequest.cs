@@ -1,26 +1,25 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.ContextTypes.RemoveContextType;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
+
+public class ApiRemoveContextTypeRequest
 {
-    public class ApiRemoveContextTypeRequest
+    public required string Type { get; init; }
+
+    public RemoveContextTypeCommand ToCommand()
     {
-        public string Type { get; set; } = null!;
+        return new RemoveContextTypeCommand(Type);
+    }
 
-        public RemoveContextTypeCommand ToCommand()
+    public class ApiAddContextTypeRequestValidator : AbstractValidator<ApiAddContextTypeRequest>
+    {
+        public ApiAddContextTypeRequestValidator()
         {
-            return new RemoveContextTypeCommand(Type);
-        }
-
-        public class ApiAddContextTypeRequestValidator : AbstractValidator<ApiAddContextTypeRequest>
-        {
-            public ApiAddContextTypeRequestValidator()
-            {
-                RuleFor(x => x.Type)
-                    .NotEmpty()
-                    .NotContainScriptTag()
-                    .WithMessage("Type required");
-            }
+            RuleFor(x => x.Type)
+                .NotEmpty()
+                .NotContainScriptTag()
+                .WithMessage("Type required");
         }
     }
 }

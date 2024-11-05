@@ -1,9 +1,8 @@
-﻿namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
+﻿namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+
+public enum UserType
 {
-    public enum UserType
-    {
-        Anonymous,
-        Authenticated,
-        Administrator
-    }
+    Anonymous,
+    Authenticated,
+    Administrator
 }
