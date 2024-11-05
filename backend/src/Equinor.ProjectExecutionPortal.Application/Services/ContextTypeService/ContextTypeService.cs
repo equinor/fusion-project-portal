@@ -3,36 +3,42 @@ using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService
+namespace Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
+
+public class ContextTypeService : IContextTypeService
 {
-    public class ContextTypeService : IContextTypeService
+    private readonly IReadWriteContext _readWriteContext;
+
+    public ContextTypeService(IReadWriteContext readWriteContext)
     {
-        private readonly IReadWriteContext _readWriteContext;
+        _readWriteContext = readWriteContext;
+    }
 
-        public ContextTypeService(IReadWriteContext readWriteContext)
+    public async Task<IList<ContextType>> GetAllowedContextTypesByKeys(IList<string> contextTypeKeys, CancellationToken cancellationToken)
+    {
+        if (contextTypeKeys.Count == 0)
         {
-            _readWriteContext = readWriteContext;
+            return [];
         }
 
-        public async Task<IList<ContextType>> GetAllowedContextTypesByKeys(IList<string> contextTypeKeys, CancellationToken cancellationToken)
+        var availableContextTypes = await _readWriteContext.Set<ContextType>().ToListAsync(cancellationToken);
+
+        var invalidContextTypes = contextTypeKeys
+            .Where(key => !availableContextTypes
+                .Select(contextType => contextType.ContextTypeKey)
+                .Contains(key))
+            .ToList();
+
+        if (invalidContextTypes != null && invalidContextTypes.Any())
         {
-            if (contextTypeKeys.Count == 0)
-            {
-                return [];
-            }
-
-            var availableContextTypes = await _readWriteContext.Set<ContextType>().ToListAsync(cancellationToken);
-
-            var invalidContextTypes = contextTypeKeys.FirstOrDefault(key => !availableContextTypes.Select(contextType => contextType.ContextTypeKey).Contains(key));
-
-            if (invalidContextTypes != null)
-            {
-                throw new InvalidActionException($"Context-type is not supported: {invalidContextTypes}");
-            }
-
-            var addContextTypes = availableContextTypes.Where(contextType => contextTypeKeys.Select(key => key).Contains(contextType.ContextTypeKey)).ToList();
-
-            return addContextTypes.ToList();
+            throw new InvalidOperationException($"Context-type is not supported: {string.Join(",", invalidContextTypes)}");
         }
+
+        var contextTypesToAdd = availableContextTypes
+            .Where(contextType => contextTypeKeys
+                .Contains(contextType.ContextTypeKey))
+            .ToList();
+
+        return contextTypesToAdd.ToList();
     }
 }

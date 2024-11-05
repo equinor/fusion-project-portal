@@ -1,7 +1,6 @@
-﻿namespace Equinor.ProjectExecutionPortal.WebApi.Authorization
+﻿namespace Equinor.ProjectExecutionPortal.WebApi.Authorization;
+
+public static class Scopes
 {
-    public static class Scopes
-    {
-        public const string ProjectPortalAdmin = "Fusion.ProjectPortal.Admin";
-    }
+    public const string ProjectPortalAdmin = "Fusion.ProjectPortal.Admin";
 }

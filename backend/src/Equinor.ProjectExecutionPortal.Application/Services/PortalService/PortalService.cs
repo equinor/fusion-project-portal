@@ -24,7 +24,7 @@ public class PortalService : IPortalService
 
         portalAppsDto.AddRange(onBoardedAppsNotActiveInPortal);
 
-        return portalAppsDto.OrderBy(x => x.OnboardedApp?.AppKey).ToList();
+        return portalAppsDto.OrderBy(x => x.OnboardedApp.AppKey).ToList();
     }
 
     public async Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, IList<Guid> contextIds, CancellationToken cancellationToken)

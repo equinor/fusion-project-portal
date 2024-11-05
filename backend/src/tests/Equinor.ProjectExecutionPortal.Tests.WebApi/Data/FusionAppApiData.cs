@@ -46,9 +46,16 @@ internal static class FusionAppApiData
         Description = "Some description"
     };
 
-    public static App TestFusion => new()
+    public static App TestApp => new()
     {
         AppKey = "test-app",
+        DisplayName = "A test app",
+        Description = "Some description"
+    };
+
+    public static App AppForInvalidContextTest => new()
+    {
+        AppKey = "app-invalid-context",
         DisplayName = "A test app",
         Description = "Some description"
     };
@@ -68,5 +75,5 @@ internal static class FusionAppApiData
     };
 
     public static List<App> ValidFusionApps =>
-        [MeetingsFusion, ReviewsFusion, TasksFusion, OneEquinorFusion, HandoverGardenFusion, WorkOrderGardenFusion, TestFusion, TestToBeOffboardedFusion];
+        [MeetingsFusion, ReviewsFusion, TasksFusion, OneEquinorFusion, HandoverGardenFusion, WorkOrderGardenFusion, TestApp, AppForInvalidContextTest, TestToBeOffboardedFusion];
 }

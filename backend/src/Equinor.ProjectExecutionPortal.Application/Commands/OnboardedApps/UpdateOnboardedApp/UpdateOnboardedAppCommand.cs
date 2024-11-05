@@ -40,14 +40,7 @@ public class UpdateOnboardedAppCommand : IRequest<Guid>
                 throw new NotFoundException("App is not onboarded", command.AppKey);
             }
 
-            try
-            {
-                entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
-            }
-            catch (InvalidActionException ex)
-            {
-                throw new InvalidOperationException(ex.Message);
-            }
+            entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 

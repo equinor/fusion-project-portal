@@ -91,7 +91,7 @@ public class OnboardedAppControllerTests : TestBase
 
         var payload = new ApiOnboardAppRequest
         {
-            AppKey = FusionAppApiData.TestFusion.AppKey,
+            AppKey = FusionAppApiData.TestApp.AppKey,
             ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
         };
 
@@ -109,12 +109,29 @@ public class OnboardedAppControllerTests : TestBase
     }
 
     [TestMethod]
+    public async Task Add_Invalid_OnboardedApp_AsAdministratorUser_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var payload = new ApiOnboardAppRequest
+        {
+            AppKey = FusionAppApiData.AppForInvalidContextTest.AppKey,
+            ContextTypes = new List<string> { ContextTypeData.InvalidContextTypes.InvalidContextTypeKey }
+        };
+
+        // Act
+        var response = await AddOnboardedApp(UserType.Administrator, payload);
+
+        // Assert
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [TestMethod]
     public async Task Add_Valid_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
     {
         // Arrange
         var payload = new ApiOnboardAppRequest
         {
-            AppKey = FusionAppApiData.TestFusion.AppKey,
+            AppKey = FusionAppApiData.TestApp.AppKey,
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
         };
 
@@ -131,7 +148,7 @@ public class OnboardedAppControllerTests : TestBase
         // Arrange
         var payload = new ApiOnboardAppRequest
         {
-            AppKey = FusionAppApiData.TestFusion.AppKey,
+            AppKey = FusionAppApiData.TestApp.AppKey,
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
         };
 
@@ -143,7 +160,7 @@ public class OnboardedAppControllerTests : TestBase
     }
 
     [TestMethod]
-    public async Task Add_Invalid_OnboardedApp_AsAdministratorUser_ShouldThrowExeption()
+    public async Task Add_Invalid_OnboardedApp_AsAdministratorUser_ShouldThrowNotFoundExeption()
     {
         // Arrange
         var payload = new ApiOnboardAppRequest
