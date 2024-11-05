@@ -10,7 +10,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePort
 
 public class UpdatePortalCommand : IRequest<Guid>
 {
-    public UpdatePortalCommand(Guid id, string name, string shortName, string subText, string? description, string icon, IList<string>? contextTypes)
+    public UpdatePortalCommand(Guid id, string name, string shortName, string subText, string? description, string icon, IList<string> contextTypes)
     {
         Id = id;
         Name = name;
@@ -27,7 +27,7 @@ public class UpdatePortalCommand : IRequest<Guid>
     public string SubText { get; }
     public string? Description { get; }
     public string Icon { get; }
-    public IList<string>? ContextTypes { get; }
+    public IList<string> ContextTypes { get; }
 
     public class Handler : IRequestHandler<UpdatePortalCommand, Guid>
     {
