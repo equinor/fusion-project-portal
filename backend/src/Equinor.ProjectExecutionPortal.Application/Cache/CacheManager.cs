@@ -5,9 +5,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Cache;
 
 public class CacheManager : ICacheManager
 {
-    private readonly IMemoryCache _cache;
-
-    public CacheManager() => _cache = new MemoryCache(new MemoryCacheOptions
+    private readonly IMemoryCache _cache = new MemoryCache(new MemoryCacheOptions
     {
         Clock = new CacheClock()
     });

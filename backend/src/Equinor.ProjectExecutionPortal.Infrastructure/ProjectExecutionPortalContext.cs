@@ -33,16 +33,16 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
 
     public static DateTimeKindConverter DateTimeKindConverter { get; } = new();
 
-    public DbSet<Portal> Portals { get; set; }
-    public DbSet<PortalApp> PortalApps { get; set; }
-    public DbSet<OnboardedApp> OnboardedApps { get; set; }
-    public DbSet<OnboardedContext> OnboardedContexts { get; set; }
-    public DbSet<ContextType> ContextTypes { get; set; }
+    public DbSet<Portal> Portals { get; init; }
+    public DbSet<PortalApp> PortalApps { get; init; }
+    public DbSet<OnboardedApp> OnboardedApps { get; init; }
+    public DbSet<OnboardedContext> OnboardedContexts { get; init; }
+    public DbSet<ContextType> ContextTypes { get; init; }
  
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await DispatchEventsAsync(cancellationToken);
-        await SetAuditDataAsync();
+        SetAuditData();
 
         try
         {
@@ -63,12 +63,13 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
         await _eventDispatcher.DispatchAsync(entities, cancellationToken);
     }
 
-    private async Task SetAuditDataAsync()
+    private void SetAuditData()
     {
         var addedEntries = ChangeTracker
             .Entries<ICreationAuditable>()
             .Where(x => x.State == EntityState.Added)
             .ToList();
+
         var modifiedEntries = ChangeTracker
             .Entries<IModificationAuditable>()
             .Where(x => x.State == EntityState.Modified)

@@ -2,11 +2,11 @@
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
-    internal class PortalData
+    internal static class PortalData
     {
-        public class InitialDbSeedData
+        public static class InitialDbSeedData
         {
-            public static Portal PortfolioManagement = new(
+            public static readonly Portal PortfolioManagement = new(
                 "portfolio-management",
                 "Portfolio Management",
                 "< DG 3",
@@ -15,7 +15,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
                 "<svg></svg>"
             );
 
-            public static Portal ProjectExecution = new("project-execution",
+            public static readonly Portal ProjectExecution = new("project-execution",
                 "Project Execution",
                 "DG 3 - DG 4",
                 "Go to this phase to work with projects that are beyond DG3",

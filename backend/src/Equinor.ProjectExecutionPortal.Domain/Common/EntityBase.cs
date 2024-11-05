@@ -9,13 +9,13 @@ public abstract class EntityBase
 {
     private List<INotification>? _domainEvents;
 
-    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly() ?? (_domainEvents = new List<INotification>()).AsReadOnly();
+    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly() ?? (_domainEvents = []).AsReadOnly();
 
     public virtual Guid Id { get; protected set; }
 
     public void AddDomainEvent(INotification eventItem)
     {
-        _domainEvents ??= new List<INotification>();
+        _domainEvents ??= [];
         _domainEvents.Add(eventItem);
     }
 

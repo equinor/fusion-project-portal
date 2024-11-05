@@ -2,7 +2,5 @@
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
 {
-    internal class IntegrationTestAuthOptions : AuthenticationSchemeOptions
-    {
-    }
+    internal class IntegrationTestAuthOptions : AuthenticationSchemeOptions;
 }

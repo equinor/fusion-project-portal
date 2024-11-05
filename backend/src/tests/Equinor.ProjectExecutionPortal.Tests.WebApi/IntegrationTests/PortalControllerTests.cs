@@ -77,7 +77,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 ShortName = "Created short name",
                 Subtext = "Created subtext",
                 Icon = "Created icon",
-                ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             // Act
@@ -103,7 +103,15 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Create_Portal_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var payload = new ApiCreatePortalRequest();
+            var payload = new ApiCreatePortalRequest
+            {
+                Name = "Created portal name",
+                Description = "Created description",
+                ShortName = "Created short name",
+                Subtext = "Created subtext",
+                Icon = "Created icon",
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            };
 
             // Act
             var response = await CreatePortal(UserType.Authenticated, payload);
@@ -116,7 +124,15 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Create_Portal_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var payload = new ApiCreatePortalRequest();
+            var payload = new ApiCreatePortalRequest
+            {
+                Name = "Created portal name",
+                Description = "Created description",
+                ShortName = "Created short name",
+                Subtext = "Created subtext",
+                Icon = "Created icon",
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            };
 
             // Act
             var response = await CreatePortal(UserType.Anonymous, payload);
@@ -139,7 +155,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 ShortName = "Updated short name",
                 Subtext = "Updated subtext",
                 Icon = "Updated icon",
-                ContextTypes = new List<string> { ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey }
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             // Act
@@ -162,7 +178,15 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Update_Portal_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var payload = new ApiUpdatePortalRequest();
+            var payload = new ApiUpdatePortalRequest
+            {
+                Name = "Updated portal name",
+                Description = "Updated description",
+                ShortName = "Updated short name",
+                Subtext = "Updated subtext",
+                Icon = "Updated icon",
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            };
 
             // Act
             var response = await UpdatePortal(UserType.Authenticated, payload, Guid.NewGuid());
@@ -175,7 +199,15 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Update_Portal_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var payload = new ApiUpdatePortalRequest();
+            var payload = new ApiUpdatePortalRequest
+            {
+                Name = "Updated portal name",
+                Description = "Updated description",
+                ShortName = "Updated short name",
+                Subtext = "Updated subtext",
+                Icon = "Updated icon",
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            };
 
             // Act
             var response = await UpdatePortal(UserType.Anonymous, payload, Guid.NewGuid());
@@ -442,7 +474,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
                 ShortName = "Created short name",
                 Subtext = "Created subtext",
                 Icon = "Created icon",
-                ContextTypes = new List<string> { "ProjectMaster" }
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             await CreatePortal(UserType.Administrator, payload);

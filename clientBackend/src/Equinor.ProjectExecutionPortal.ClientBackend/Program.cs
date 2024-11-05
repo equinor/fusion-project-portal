@@ -2,7 +2,6 @@
 using Equinor.ProjectExecutionPortal.ClientBackend.Modules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +16,6 @@ builder.Services.Configure<FusionPortalApiOptions>(builder.Configuration.GetSect
 builder.Services.Configure<FusionProjectPortalApiOptions>(builder.Configuration.GetSection("FusionProjectPortalApi"));
 builder.Services.Configure<AssetProxyOptions>(builder.Configuration.GetSection("AssetProxy"));
 builder.Services.Configure<ApplicationInsightsOptions>(builder.Configuration.GetSection("ApplicationInsights"));
-builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache"));
 
 // Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

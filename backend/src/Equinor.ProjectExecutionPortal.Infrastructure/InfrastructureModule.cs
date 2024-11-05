@@ -6,7 +6,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure;
 
 public static class InfrastructureModule
 {
-    public static IServiceCollection AddInfrastructureModules(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructureModules(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("ProjectPortalContext");
 
@@ -15,7 +15,5 @@ public static class InfrastructureModule
                 b => b.MigrationsAssembly(typeof(ProjectExecutionPortalContext).Assembly.FullName)
             )
         );
-
-        return services;
     }
 }

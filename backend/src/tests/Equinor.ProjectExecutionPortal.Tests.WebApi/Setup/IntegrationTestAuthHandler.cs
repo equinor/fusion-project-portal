@@ -48,7 +48,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup
         private Task<List<Claim>> GatherTestUserClaimsAsync()
         {
             var authorizationHeader = Request.Headers["Authorization"];
-            var tokens = authorizationHeader.ToString()?.Split(' ');
+            var tokens = authorizationHeader.ToString().Split(' ');
             if (tokens == null || tokens.Length <= 1)
             {
                 throw new Exception("[Authorization] header missing");

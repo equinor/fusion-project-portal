@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data
 {
-    internal class FusionAppApiData
+    internal static class FusionAppApiData
     {
         public static App MeetingsFusion => new()
         {
