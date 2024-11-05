@@ -14,9 +14,9 @@ public class CacheManager : ICacheManager
 
     public void Remove(string key) => _cache.Remove(key);
 
-    public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> fetch, CacheDuration duration, long expiration) where T : class
+    public async Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> fetch, CacheDuration duration, long expiration) where T : class
     {
-        if (_cache.TryGetValue(key, out T instance))
+        if (_cache.TryGetValue(key, out T? instance))
         {
             return instance;
         }

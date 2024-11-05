@@ -19,7 +19,7 @@ public class FusionAppsCache : IFusionAppsCache
         _cacheOptions = cacheOptions;
     }
 
-    public async Task<List<App>> GetFusionApps()
+    public async Task<List<App>?> GetFusionApps()
     {
         return await _cacheManager.GetOrCreateAsync(FusionAppCacheKey,
             async () =>
