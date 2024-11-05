@@ -5,8 +5,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 
 public class ApiOnboardedApp
 {
+#pragma warning disable CS8618 // For integration tests only
     public ApiOnboardedApp()
-    { }
+#pragma warning restore CS8618 // For integration tests only
+    {
+    }
 
     public ApiOnboardedApp(OnboardedAppDto onboardedAppDto)
     {

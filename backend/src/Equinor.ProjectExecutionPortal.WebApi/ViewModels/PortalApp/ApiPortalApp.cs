@@ -7,10 +7,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 // TODO: Should be removed
 public class ApiPortalApp
 {
+#pragma warning disable CS8618 // For integration tests only
     public ApiPortalApp()
+#pragma warning restore CS8618 // For integration tests only
     {
-
     }
+
     public ApiPortalApp(PortalAppDto portalAppDto)
     {
         AppKey = portalAppDto.OnboardedApp.AppKey;

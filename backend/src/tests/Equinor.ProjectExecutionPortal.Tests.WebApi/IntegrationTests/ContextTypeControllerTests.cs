@@ -230,7 +230,7 @@ public class ContextTypeControllerTests : TestBase
 
         if (response.StatusCode != HttpStatusCode.OK)
         {
-            return contextTypes;
+            return contextTypes!;
         }
 
         Assert.IsNotNull(content);

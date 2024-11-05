@@ -36,9 +36,13 @@ public class GetOnboardedContextByExternalIdContextTypeQuery : QueryBase<Onboard
             var entity = await _readWriteContext.Set<Domain.Entities.OnboardedContext>()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ExternalId == request.ExternalId && x.Type == request.ContextType, cancellationToken);
+
             var onboardedContext = _mapper.Map<Domain.Entities.OnboardedContext?, OnboardedContextDto?>(entity);
-            
-            await _contextService.EnrichContextWithFusionContextData(onboardedContext, cancellationToken);
+
+            if (onboardedContext != null)
+            {
+                await _contextService.EnrichContextWithFusionContextData(onboardedContext, cancellationToken);
+            }
 
             return onboardedContext;
         }

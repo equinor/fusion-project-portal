@@ -21,6 +21,10 @@ public class ApiOnboardAppRequest
                 .NotEmpty()
                 .NotContainScriptTag()
                 .WithMessage("AppKey is required");
+
+            RuleFor(x => x.ContextTypes)
+                .NotEmpty()
+                .WithMessage("Context Types is required");
         }
     }
 }

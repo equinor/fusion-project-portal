@@ -9,10 +9,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOn
 
 public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
 {
-    public GetOnboardedAppsQuery()
-    {
-    }
-
     public class Handler : IRequestHandler<GetOnboardedAppsQuery, IList<OnboardedAppDto>>
     {
         private readonly IReadWriteContext _context;

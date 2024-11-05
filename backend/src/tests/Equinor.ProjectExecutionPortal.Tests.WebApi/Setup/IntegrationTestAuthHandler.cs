@@ -11,7 +11,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
 
 internal class IntegrationTestAuthHandler : AuthenticationHandler<IntegrationTestAuthOptions>
 {
-    public static string TestAuthenticationScheme = "AuthScheme";
+    public const string TestAuthenticationScheme = "AuthScheme";
 
     private enum AuthType
     {
@@ -19,12 +19,7 @@ internal class IntegrationTestAuthHandler : AuthenticationHandler<IntegrationTes
         Delegated
     }
 
-    public IntegrationTestAuthHandler(
-        IOptionsMonitor<IntegrationTestAuthOptions> options,
-        ILoggerFactory logger,
-        UrlEncoder encoder,
-        ISystemClock clock)
-        : base(options, logger, encoder, clock)
+    public IntegrationTestAuthHandler(IOptionsMonitor<IntegrationTestAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
     {
     }
 
@@ -83,6 +78,7 @@ internal class IntegrationTestAuthHandler : AuthenticationHandler<IntegrationTes
                 {
                     claims.AddRange(profile.AppRoles.Select(role => new Claim(ClaimTypes.Role, role)));
                 }
+
                 break;
 
             case AuthType.Application:
@@ -90,6 +86,7 @@ internal class IntegrationTestAuthHandler : AuthenticationHandler<IntegrationTes
                 {
                     claims.AddRange(profile.AppRoles.Select(role => new Claim(ClaimTypes.Role, role)));
                 }
+
                 break;
         }
 

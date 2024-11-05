@@ -5,8 +5,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
 public class ApiPortalOnboardedApp
 {
+#pragma warning disable CS8618 // For integration tests only
     public ApiPortalOnboardedApp()
-    { }
+#pragma warning restore CS8618 // For integration tests only
+    {
+    }
 
     public ApiPortalOnboardedApp(PortalOnboardedAppDto portalOnboardedAppDto)
     {
