@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
 {
     public class ApiRemoveOnboardedContextRequest
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
         public RemoveOnboardedContextCommand ToCommand()
         {

@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 {
     public class ApiAddGlobalAppToPortalRequest
     {
-        public string AppKey { get; set; } = null!;
+        public required string AppKey { get; set; }
 
         /// <summary>
         /// Only for when adding global apps

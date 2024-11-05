@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextTy
 {
     public class ApiAddContextTypeToOnboardedAppRequest
     {
-        public string Type { get; set; } = null!;
+        public required string Type { get; set; }
 
         public AddContextTypeToOnboardedAppCommand ToCommand(string appKey)
         {

@@ -5,9 +5,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
 {
     public class ApiUpdatePortalConfigurationRequest
     {
-        public string? Router { get; set; }
-        public string? Extension { get; set; }
-        public string? Environment { get; set; }
+        public string? Router { get; init; }
+        public string? Extension { get; init; }
+        public string? Environment { get; init; }
 
         public UpdatePortalConfigurationCommand ToCommand(Guid portalId)
         {

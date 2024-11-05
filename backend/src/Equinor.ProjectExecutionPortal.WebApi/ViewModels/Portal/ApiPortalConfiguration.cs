@@ -16,6 +16,5 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
         public string? Router { get; set; }
         public string? Extension { get; set; }
         public string? Environment { get; set; }
-
     }
 }

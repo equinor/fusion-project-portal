@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType
 {
     public class ApiAddContextTypeToPortalRequest
     {
-        public string Type { get; set; } = null!;
+        public required string Type { get; set; } 
 
         public AddContextTypeToPortalCommand ToCommand(Guid portalId)
         {

@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType
 {
     public class ApiAddContextTypeRequest
     {
-        public string Type { get; set; } = null!;
+        public required string Type { get; init; }
 
         public AddContextTypeCommand ToCommand()
         {

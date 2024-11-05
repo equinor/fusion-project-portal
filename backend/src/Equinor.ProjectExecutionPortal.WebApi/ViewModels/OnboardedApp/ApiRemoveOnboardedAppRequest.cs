@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
 {
     public class ApiRemoveOnboardedAppRequest
     {
-        public string AppKey { get; set; } = null!;
+        public required string AppKey { get; init; }
 
         public RemoveOnboardedAppCommand ToCommand()
         {

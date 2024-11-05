@@ -15,11 +15,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
 
         public async Task<OnboardedAppDto> EnrichWithFusionAppData(OnboardedAppDto onboardedApp, CancellationToken cancellationToken)
         {
-            if (onboardedApp.AppKey == null)
-            {
-                return onboardedApp;
-            }
-
             var fusionApp = await _fusionAppsService.GetFusionApp(onboardedApp.AppKey);
 
             if (fusionApp != null)
@@ -42,13 +37,8 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.AppService
             return onboardedApps;
         }
 
-        private static void CombineAppWithFusionAppData(OnboardedAppDto? onboardedApp, IEnumerable<App> fusionApps)
+        private static void CombineAppWithFusionAppData(OnboardedAppDto onboardedApp, IEnumerable<App> fusionApps)
         {
-            if (onboardedApp?.AppKey == null)
-            {
-                return;
-            }
-
             var fusionApp = fusionApps.FirstOrDefault(fusionApp => string.Equals(fusionApp.AppKey, onboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
             if (fusionApp != null)

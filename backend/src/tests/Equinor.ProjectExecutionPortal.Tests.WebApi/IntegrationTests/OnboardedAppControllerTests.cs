@@ -114,7 +114,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = FusionAppApiData.TestFusion.AppKey
+                AppKey = FusionAppApiData.TestFusion.AppKey,
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             // Act
@@ -130,7 +131,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = FusionAppApiData.TestFusion.AppKey
+                AppKey = FusionAppApiData.TestFusion.AppKey,
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             // Act
@@ -146,7 +148,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = FusionAppApiData.NonExistentApp.AppKey
+                AppKey = FusionAppApiData.NonExistentApp.AppKey,
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             // Act
@@ -162,7 +165,8 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
             // Arrange
             var payload = new ApiOnboardAppRequest
             {
-                AppKey = OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey
+                AppKey = OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey,
+                ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
             };
 
             // Act
@@ -200,7 +204,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Update_OnboardedApp_AsAuthenticatedUser_ShouldReturnForbidden()
         {
             // Arrange
-            var payload = new ApiUpdateOnboardedAppRequest();
+            var payload = new ApiUpdateOnboardedAppRequest
+            {
+                ContextTypes = new List<string>()
+            };
 
             // Act
             var response = await UpdateOnboardedApp(UserType.Authenticated, payload, OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey);
@@ -213,7 +220,10 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests
         public async Task Update_OnboardedApp_AsAnonymousUser_ShouldReturnUnauthorized()
         {
             // Arrange
-            var payload = new ApiUpdateOnboardedAppRequest();
+            var payload = new ApiUpdateOnboardedAppRequest
+            {
+                ContextTypes = new List<string>()
+            };
 
             // Act
             var response = await UpdateOnboardedApp(UserType.Anonymous, payload, OnboardedAppData.InitialDbSeedData.OrgChartApp.AppKey);

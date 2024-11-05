@@ -5,12 +5,12 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
 {
     public class ApiCreatePortalRequest
     {
-        public string Name { get; set; } = null!;
-        public string ShortName { get; set; } = null!;
-        public string Subtext { get; set; } = null!;
-        public string? Description { get; set; }
-        public string Icon { get; set; } = null!;
-        public IList<string>? ContextTypes { get; set; }
+        public required string Name { get; init; }
+        public required string ShortName { get; init; }
+        public required string Subtext { get; init; } 
+        public string? Description { get; init; }
+        public required string Icon { get; init; } 
+        public required IList<string> ContextTypes { get; init; }
 
         public CreatePortalCommand ToCommand()
         {
@@ -24,7 +24,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
                 RuleFor(x => x.Name)
                     .NotEmpty()
                     .NotContainScriptTag()
-                    .WithMessage("Name required");
+                    .WithMessage("DisplayName required");
 
                 RuleFor(x => x.ShortName)
                     .NotEmpty()

@@ -206,6 +206,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         // App Keys
 
+        // TODO: Rename to /apps
         [HttpGet("{portalId:guid}/appkeys")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -227,6 +228,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
         }
 
+        // TODO Rename to /apps
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/appkeys")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -250,6 +252,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
 
         // Apps
 
+        // TODO: Remove
         [HttpGet("{portalId:guid}/apps")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -271,6 +274,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
             }
         }
 
+        // TODO: Remove
         [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]

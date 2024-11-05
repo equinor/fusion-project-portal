@@ -4,6 +4,7 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp
 {
+    // TODO: Should be removed
     public class ApiPortalApp
     {
         public ApiPortalApp()
