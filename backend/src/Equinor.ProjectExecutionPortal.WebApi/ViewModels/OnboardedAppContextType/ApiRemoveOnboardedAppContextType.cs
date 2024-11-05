@@ -1,12 +1,11 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.RemoveContextTypeFromOnboardedApp;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType;
+
+public class ApiRemoveOnboardedAppContextType
 {
-    public class ApiRemoveOnboardedAppContextType
+    public RemoveContextTypeFromFromOnboardedAppCommand ToCommand(string appKey, string contextType)
     {
-        public RemoveContextTypeFromFromOnboardedAppCommand ToCommand(string appKey, string contextType)
-        {
-            return new RemoveContextTypeFromFromOnboardedAppCommand(appKey, contextType);
-        }
+        return new RemoveContextTypeFromFromOnboardedAppCommand(appKey, contextType);
     }
 }

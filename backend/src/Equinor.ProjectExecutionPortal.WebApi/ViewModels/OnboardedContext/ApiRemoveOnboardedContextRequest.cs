@@ -1,25 +1,24 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedContexts.RemoveOnboardedContext;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
+
+public class ApiRemoveOnboardedContextRequest
 {
-    public class ApiRemoveOnboardedContextRequest
+    public Guid Id { get; init; }
+
+    public RemoveOnboardedContextCommand ToCommand()
     {
-        public Guid Id { get; init; }
+        return new RemoveOnboardedContextCommand(Id);
+    }
 
-        public RemoveOnboardedContextCommand ToCommand()
+    public class RemoveOnboardedContextRequestValidator : AbstractValidator<ApiRemoveOnboardedContextRequest>
+    {
+        public RemoveOnboardedContextRequestValidator()
         {
-            return new RemoveOnboardedContextCommand(Id);
-        }
-
-        public class RemoveOnboardedContextRequestValidator : AbstractValidator<ApiRemoveOnboardedContextRequest>
-        {
-            public RemoveOnboardedContextRequestValidator()
-            {
-                RuleFor(x => x.Id)
-                    .NotEmpty()
-                    .WithMessage("External Id is required");
-            }
+            RuleFor(x => x.Id)
+                .NotEmpty()
+                .WithMessage("External Id is required");
         }
     }
 }

@@ -1,23 +1,22 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.UpdateOnboardedApp;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
+
+public class ApiUpdateOnboardedAppRequest
 {
-    public class ApiUpdateOnboardedAppRequest
+    public required IList<string> ContextTypes { get; init; }
+
+    public UpdateOnboardedAppCommand ToCommand(string appKey)
     {
-        public required IList<string> ContextTypes { get; init; }
+        return new UpdateOnboardedAppCommand(appKey, ContextTypes);
+    }
 
-        public UpdateOnboardedAppCommand ToCommand(string appKey)
+    public class ApiUpdateOnboardedAppRequestValidator : AbstractValidator<ApiUpdateOnboardedAppRequest>
+    {
+        public ApiUpdateOnboardedAppRequestValidator()
         {
-            return new UpdateOnboardedAppCommand(appKey, ContextTypes);
-        }
-
-        public class ApiUpdateOnboardedAppRequestValidator : AbstractValidator<ApiUpdateOnboardedAppRequest>
-        {
-            public ApiUpdateOnboardedAppRequestValidator()
-            {
                
-            }
         }
     }
 }

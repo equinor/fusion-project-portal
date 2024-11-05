@@ -1,35 +1,34 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePortalConfiguration;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
+
+public class ApiUpdatePortalConfigurationRequest
 {
-    public class ApiUpdatePortalConfigurationRequest
+    public string? Router { get; init; }
+    public string? Extension { get; init; }
+    public string? Environment { get; init; }
+
+    public UpdatePortalConfigurationCommand ToCommand(Guid portalId)
     {
-        public string? Router { get; init; }
-        public string? Extension { get; init; }
-        public string? Environment { get; init; }
+        return new UpdatePortalConfigurationCommand(portalId, Router, Extension, Environment);
+    }
 
-        public UpdatePortalConfigurationCommand ToCommand(Guid portalId)
+    public class UpdatePortalConfigurationValidator : AbstractValidator<ApiUpdatePortalConfigurationRequest>
+    {
+        public UpdatePortalConfigurationValidator()
         {
-            return new UpdatePortalConfigurationCommand(portalId, Router, Extension, Environment);
-        }
+            RuleFor(x => x.Router)
+                .NotContainScriptTag()
+                .MaximumLength(Domain.Entities.PortalConfiguration.RouterLengthMax);
 
-        public class UpdatePortalConfigurationValidator : AbstractValidator<ApiUpdatePortalConfigurationRequest>
-        {
-            public UpdatePortalConfigurationValidator()
-            {
-                RuleFor(x => x.Router)
-                    .NotContainScriptTag()
-                    .MaximumLength(Domain.Entities.PortalConfiguration.RouterLengthMax);
+            RuleFor(x => x.Extension)
+                .NotContainScriptTag()
+                .MaximumLength(Domain.Entities.PortalConfiguration.ExtensionLengthMax);
 
-                RuleFor(x => x.Extension)
-                    .NotContainScriptTag()
-                    .MaximumLength(Domain.Entities.PortalConfiguration.ExtensionLengthMax);
-
-                RuleFor(x => x.Environment)
-                    .NotContainScriptTag()
-                    .MaximumLength(Domain.Entities.PortalConfiguration.EnvironmentLengthMax);
-            }
+            RuleFor(x => x.Environment)
+                .NotContainScriptTag()
+                .MaximumLength(Domain.Entities.PortalConfiguration.EnvironmentLengthMax);
         }
     }
 }

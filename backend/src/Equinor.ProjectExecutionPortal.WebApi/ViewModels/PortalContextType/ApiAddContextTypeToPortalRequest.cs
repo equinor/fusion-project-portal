@@ -1,26 +1,25 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContextTypeToPortal;
 using FluentValidation;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType
+namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
+
+public class ApiAddContextTypeToPortalRequest
 {
-    public class ApiAddContextTypeToPortalRequest
+    public required string Type { get; set; } 
+
+    public AddContextTypeToPortalCommand ToCommand(Guid portalId)
     {
-        public required string Type { get; set; } 
+        return new AddContextTypeToPortalCommand(portalId, Type);
+    }
 
-        public AddContextTypeToPortalCommand ToCommand(Guid portalId)
+    public class ApiAddContextTypeToPortalRequestValidator : AbstractValidator<ApiAddContextTypeToPortalRequest>
+    {
+        public ApiAddContextTypeToPortalRequestValidator()
         {
-            return new AddContextTypeToPortalCommand(portalId, Type);
-        }
-
-        public class ApiAddContextTypeToPortalRequestValidator : AbstractValidator<ApiAddContextTypeToPortalRequest>
-        {
-            public ApiAddContextTypeToPortalRequestValidator()
-            {
-                RuleFor(x => x.Type)
-                    .NotEmpty()
-                    .NotContainScriptTag()
-                    .WithMessage("Type required");
-            }
+            RuleFor(x => x.Type)
+                .NotEmpty()
+                .NotContainScriptTag()
+                .WithMessage("Type required");
         }
     }
 }
