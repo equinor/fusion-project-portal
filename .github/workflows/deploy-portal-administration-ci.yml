@@ -24,6 +24,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
       - name: Get fusion token
         id: "get-fusion-token"
         uses: ./.github/actions/get-fusion-token
