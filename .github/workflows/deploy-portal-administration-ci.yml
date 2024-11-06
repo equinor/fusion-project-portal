@@ -40,8 +40,9 @@ jobs:
       - name: Install
         run: |
           cd client/apps/portal-administration
-          npm i -g @equinor/fusion-framework-cli
           yarn install
+          npm i -g @equinor/fusion-framework-cli
+          npm i -g typesript
 
       - name: Deploy
         run: |
