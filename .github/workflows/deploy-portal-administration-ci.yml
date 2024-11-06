@@ -40,6 +40,7 @@ jobs:
       - name: Install
         run: |
           cd client/apps/portal-administration
+          npm i -g @equinor/fusion-framework-cli
           yarn install
 
       - name: Deploy
