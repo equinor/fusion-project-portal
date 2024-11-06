@@ -42,7 +42,7 @@ jobs:
           cd client/apps/portal-administration
           yarn install
           npm i -g @equinor/fusion-framework-cli
-          npm i -g typesript
+          npm i -g typescript
 
       - name: Deploy
         run: |
