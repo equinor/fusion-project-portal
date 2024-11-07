@@ -1,4 +1,6 @@
-﻿namespace Equinor.ProjectExecutionPortal.Domain.Common.Time;
+﻿using Equinor.ProjectExecutionPortal.Domain.Interfaces;
+
+namespace Equinor.ProjectExecutionPortal.Domain.Common.Time;
 
 public class SystemTimeProvider : ITimeProvider
 {
