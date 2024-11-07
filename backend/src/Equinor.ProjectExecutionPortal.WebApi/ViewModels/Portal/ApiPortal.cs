@@ -23,7 +23,7 @@ public class ApiPortal : ApiAudit
         ContextTypes = portalDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
         Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         Configuration = portalDto.Configuration != null ? new ApiPortalConfiguration(portalDto.Configuration) : null;
-        ApplyAudit(portalDto);
+        SupplyAudit(portalDto);
     }
 
     public Guid Id { get; set; }

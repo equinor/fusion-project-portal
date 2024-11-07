@@ -15,7 +15,7 @@ public class ApiAudit
     public DateTime? ModifiedAtUtc { get; set; }
     public Guid? ModifiedByAzureOid { get; set; }
 
-    protected void ApplyAudit(AuditDto auditDto)
+    protected void SupplyAudit(AuditDto auditDto)
     {
         CreatedAtUtc = auditDto.CreatedAtUtc;
         CreatedByAzureOid = auditDto.CreatedByAzureOid;
