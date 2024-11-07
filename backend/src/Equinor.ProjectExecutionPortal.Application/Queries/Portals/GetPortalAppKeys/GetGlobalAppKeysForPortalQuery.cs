@@ -35,7 +35,7 @@ public class GetGlobalAppKeysForPortalQuery : QueryBase<List<string>>
                     .ThenInclude(app => app.ContextTypes)
             .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
-            if (portalWithGlobalApps == null)
+            if (portalWithGlobalApps is null)
             {
                 throw new NotFoundException(nameof(Portal), request.PortalId);
             }

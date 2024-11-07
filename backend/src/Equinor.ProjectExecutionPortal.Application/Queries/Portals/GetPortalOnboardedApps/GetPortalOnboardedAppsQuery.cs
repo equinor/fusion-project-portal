@@ -37,7 +37,7 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
 
             if (portal == null)
             {
-                return new List<PortalOnboardedAppDto>();
+                return [];
             }
 
             var onboardedApps = await _readWriteContext.Set<OnboardedApp>()

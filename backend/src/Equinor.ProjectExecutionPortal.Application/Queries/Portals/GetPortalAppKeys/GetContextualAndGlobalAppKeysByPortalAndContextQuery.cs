@@ -36,7 +36,7 @@ public class GetContextualAndGlobalAppKeysByPortalAndContextQuery : QueryBase<IL
         {
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
 
-            if (fusionContext == null)
+            if (fusionContext is null)
             {
                 throw new NotFoundException($"Invalid context-id: {request.ContextId}");
             }
@@ -49,13 +49,13 @@ public class GetContextualAndGlobalAppKeysByPortalAndContextQuery : QueryBase<IL
                     .ThenInclude(app => app.ContextTypes)
                 .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
-            if (portalWithContextualAndGlobalApps == null)
+            if (portalWithContextualAndGlobalApps is null)
             {
                 throw new NotFoundException(nameof(Portal), request.PortalId);
             }
 
             var contextualAndGlobalPortalAppKeys = portalWithContextualAndGlobalApps.Apps
-                .Where(apps => apps.OnboardedApp.ContextTypes.Count == 0 || apps.OnboardedApp.ContextTypes.Any(m => m.ContextTypeKey == fusionContext.Type.Name))
+                .Where(apps => !apps.OnboardedApp.ContextTypes.Any() || apps.OnboardedApp.ContextTypes.Any(m => m.ContextTypeKey == fusionContext.Type.Name))
                 .Select(app => app.OnboardedApp.AppKey)
                 .ToList();
 
