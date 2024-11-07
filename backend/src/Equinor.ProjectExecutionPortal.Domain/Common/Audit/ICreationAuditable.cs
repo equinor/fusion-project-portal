@@ -7,7 +7,7 @@
 public interface ICreationAuditable
 {
     DateTime CreatedAtUtc { get; }
-    Guid? CreatedByAzureOid { get; }
+    Guid CreatedByAzureOid { get; }
 
     /// <summary>
     /// Method to set creation data on an entity.
