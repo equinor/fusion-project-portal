@@ -9,7 +9,7 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests;
 
 public class AssertHelpers
 {
-    public static void AssertAuditValues(ApiAudit? audit, bool assertUpdate)
+    public static void AssertAuditValues(ApiAudit? audit, bool assertModified)
     {
         Assert.IsNotNull(audit);
         Assert.IsNotNull(audit.CreatedAtUtc);
@@ -18,7 +18,7 @@ public class AssertHelpers
         Assert.IsTrue(audit.CreatedAtUtc > DateTime.MinValue);
         Assert.IsTrue(Guid.Empty != audit.CreatedByAzureOid);
 
-        if (assertUpdate)
+        if (assertModified)
         {
             Assert.IsNotNull(audit.ModifiedAtUtc);
             Assert.IsNotNull(audit.ModifiedByAzureOid);

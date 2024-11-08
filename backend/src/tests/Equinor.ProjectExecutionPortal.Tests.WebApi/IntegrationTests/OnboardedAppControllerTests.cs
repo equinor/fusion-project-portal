@@ -325,7 +325,7 @@ public class OnboardedAppControllerTests : TestBase
         foreach (var app in onboardedApps)
         {
             AssertHelpers.AssertOnboardedAppValues(app);
-            AssertHelpers.AssertAuditValues(app, assertUpdate: false);
+            AssertHelpers.AssertAuditValues(app, assertModified: false);
         }
 
         return onboardedApps;
@@ -350,7 +350,7 @@ public class OnboardedAppControllerTests : TestBase
         Assert.IsNotNull(onboardedApp);
 
         AssertHelpers.AssertOnboardedAppValues(onboardedApp);
-        AssertHelpers.AssertAuditValues(onboardedApp, assertUpdate: false);
+        AssertHelpers.AssertAuditValues(onboardedApp, assertModified: false);
 
         return onboardedApp;
     }
