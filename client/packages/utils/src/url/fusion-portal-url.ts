@@ -5,11 +5,11 @@ export const getFusionPortalURL = () => {
 		case 'fprd':
 			return 'https://fusion.equinor.com';
 		case 'ci':
-			return 'https://fusion-s-portal-ci.azurewebsites.net';
+			return 'fusion.ci.fusion-dev.net';
 		case 'fqa':
-			return 'https://fusion-s-portal-fqa.azurewebsites.net';
+			return 'fusion.fqa.fusion-dev.net';
 		default:
-			return 'https://fusion-s-portal-ci.azurewebsites.net';
+			return 'fusion.ci.fusion-dev.net';
 	}
 };
 
