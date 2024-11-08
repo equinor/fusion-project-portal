@@ -172,6 +172,7 @@ public class PortalControllerTests : TestBase
         Assert.AreEqual(payload.Subtext, theOneAfterUpdate.Subtext);
         Assert.AreEqual(payload.Icon, theOneAfterUpdate.Icon);
         Assert.AreEqual(payload.ContextTypes.Count, theOneAfterUpdate.ContextTypes.Count);
+        AssertHelpers.AssertAuditValues(theOneAfterUpdate, assertUpdate: true);
     }
 
     [TestMethod]
@@ -298,6 +299,8 @@ public class PortalControllerTests : TestBase
 
         Assert.AreNotEqual(payload.Environment, theOneToUpdate.Environment);
         Assert.AreEqual(payload.Environment, theOneAfterUpdate.Environment);
+
+        AssertHelpers.AssertAuditValues(theOneAfterUpdate, assertUpdate: true);
     }
 
     [TestMethod]
@@ -630,6 +633,7 @@ public class PortalControllerTests : TestBase
         foreach (var portal in portals)
         {
             AssertHelpers.AssertPortalValues(portal);
+            AssertHelpers.AssertAuditValues(portal, assertUpdate: false);
             Assert.AreEqual(0, portal.Apps.Count); // No relational data should be included in this request
         }
 
@@ -654,6 +658,7 @@ public class PortalControllerTests : TestBase
         Assert.IsNotNull(content);
         AssertHelpers.AssertPortalValues(portal);
         AssertHelpers.AssertPortalConfigurationValues(portal!.Configuration, acceptNullValues: true);
+        AssertHelpers.AssertAuditValues(portal, assertUpdate: false);
         Assert.AreEqual(0, portal.Apps.Count); // No relational data should be included in this request
 
         return portal;
@@ -676,7 +681,8 @@ public class PortalControllerTests : TestBase
 
         Assert.IsNotNull(content);
         Assert.IsNotNull(portalConfiguration);
-        AssertHelpers.AssertPortalConfigurationValues(portalConfiguration, acceptNullValues: false);
+        AssertHelpers.AssertPortalConfigurationValues(portalConfiguration, acceptNullValues: true);
+        AssertHelpers.AssertAuditValues(portalConfiguration, assertUpdate: false);
 
         return portalConfiguration;
     }

@@ -22,8 +22,6 @@ public class OnboardedAppControllerTests : TestBase
         // Assert
         Assert.IsNotNull(onboardedApps);
         Assert.IsTrue(onboardedApps.Count > 0);
-
-        AssertHelpers.AssertOnboardedAppValues(onboardedApps.FirstOrDefault());
     }
 
     [TestMethod]
@@ -327,6 +325,7 @@ public class OnboardedAppControllerTests : TestBase
         foreach (var app in onboardedApps)
         {
             AssertHelpers.AssertOnboardedAppValues(app);
+            AssertHelpers.AssertAuditValues(app, assertUpdate: false);
         }
 
         return onboardedApps;
@@ -351,6 +350,7 @@ public class OnboardedAppControllerTests : TestBase
         Assert.IsNotNull(onboardedApp);
 
         AssertHelpers.AssertOnboardedAppValues(onboardedApp);
+        AssertHelpers.AssertAuditValues(onboardedApp, assertUpdate: false);
 
         return onboardedApp;
     }

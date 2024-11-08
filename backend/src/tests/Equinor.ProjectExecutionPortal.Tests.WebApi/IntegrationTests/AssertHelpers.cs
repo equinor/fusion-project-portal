@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
+﻿using Equinor.ProjectExecutionPortal.WebApi.ViewModels;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
@@ -8,6 +9,25 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.IntegrationTests;
 
 public class AssertHelpers
 {
+    public static void AssertAuditValues(ApiAudit? audit, bool assertUpdate)
+    {
+        Assert.IsNotNull(audit);
+        Assert.IsNotNull(audit.CreatedAtUtc);
+        Assert.IsNotNull(audit.CreatedByAzureOid);
+
+        Assert.IsTrue(audit.CreatedAtUtc > DateTime.MinValue);
+        Assert.IsTrue(Guid.Empty != audit.CreatedByAzureOid);
+
+        if (assertUpdate)
+        {
+            Assert.IsNotNull(audit.ModifiedAtUtc);
+            Assert.IsNotNull(audit.ModifiedByAzureOid);
+
+            Assert.IsTrue(audit.ModifiedAtUtc > DateTime.MinValue);
+            Assert.IsTrue(Guid.Empty != audit.ModifiedByAzureOid);
+        }
+    }
+
     public static void AssertPortalValues(ApiPortal? portal)
     {
         if (portal == null)
@@ -15,6 +35,7 @@ public class AssertHelpers
             Assert.Fail();
         }
 
+        Assert.IsNotNull(portal);
         Assert.IsNotNull(portal.Id);
         Assert.IsNotNull(portal.Name);
         Assert.IsNotNull(portal.Icon);
@@ -22,15 +43,11 @@ public class AssertHelpers
         Assert.IsNotNull(portal.ShortName);
         Assert.IsNotNull(portal.Subtext);
         Assert.IsNotNull(portal.Description);
-        Assert.IsNotNull(portal);
     }
 
     public static void AssertPortalConfigurationValues(ApiPortalConfiguration? portalConfiguration, bool acceptNullValues)
     {
-        if (portalConfiguration == null)
-        {
-            Assert.Fail();
-        }
+        Assert.IsNotNull(portalConfiguration);
 
         if (!acceptNullValues)
         {
@@ -40,33 +57,21 @@ public class AssertHelpers
         }
     }
 
-    public static void AssertPortalAppValues(ApiPortalApp? portalAll)
+    public static void AssertPortalAppValues(ApiPortalApp? portalApp)
     {
-        if (portalAll == null)
-        {
-            Assert.Fail();
-        }
-
-        Assert.IsNotNull(portalAll.AppKey);
+        Assert.IsNotNull(portalApp);
+        Assert.IsNotNull(portalApp.AppKey);
     }
 
     public static void AssertOnboardedAppValues(ApiOnboardedApp? onboardedApp)
     {
-        if (onboardedApp == null)
-        {
-            Assert.Fail();
-        }
-
+        Assert.IsNotNull(onboardedApp);
         Assert.IsNotNull(onboardedApp.AppKey);
     }
 
     public static void AssertContextTypeValues(ApiContextType? contextType)
     {
-        if (contextType == null)
-        {
-            Assert.Fail();
-        }
-
+        Assert.IsNotNull(contextType);
         Assert.IsNotNull(contextType.Type);
     }
 }
