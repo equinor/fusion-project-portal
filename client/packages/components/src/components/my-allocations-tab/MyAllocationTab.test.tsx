@@ -91,7 +91,7 @@ describe('MyAllocationTab', () => {
 		const positions = [position1];
 		vi.mock('@portal/utils', (rest) => ({
 			...rest,
-			getFusionPortalURL: vi.fn(() => 'https://fusion-s-portal-ci.azurewebsites.net'),
+			getFusionPortalURL: vi.fn(() => 'fusion.ci.fusion-dev.net'),
 		}));
 
 		render(

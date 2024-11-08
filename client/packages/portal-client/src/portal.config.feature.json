@@ -5,7 +5,7 @@
   "portalId": "5b43c3fd-77e3-4072-0aa1-08db310ee26d",
   "serviceDiscovery": {
     "client": {
-      "baseUri": "https://fusion-s-portal-ci.azurewebsites.net",
+      "baseUri": "https://discovery.fusion.equinor.com/service-registry/environments/ci/services",
       "defaultScopes": [
         "5a842df8-3238-415d-b168-9f16a6a6031b/.default"
       ]
