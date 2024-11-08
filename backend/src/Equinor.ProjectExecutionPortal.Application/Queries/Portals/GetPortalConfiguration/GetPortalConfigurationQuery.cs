@@ -33,9 +33,9 @@ public class GetPortalConfigurationQuery : QueryBase<PortalConfigurationDto?>
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.PortalId == request.PortalId, cancellationToken);
 
-            var portal = _mapper.Map<PortalConfiguration?, PortalConfigurationDto?>(entity);
+            var portalConfiguration = _mapper.Map<PortalConfiguration?, PortalConfigurationDto?>(entity);
 
-            return portal;
+            return portalConfiguration;
         }
     }
 }
