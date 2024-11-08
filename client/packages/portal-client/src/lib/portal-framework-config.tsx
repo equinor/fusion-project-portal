@@ -102,7 +102,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			'servicemessages',
 			signalRConfigurator({
 				name: 'servicemessages',
-				service: 'service-messages',
+				service: 'portal',
 				path: '/signalr/hubs/portal/?negotiateVersion=1',
 			})
 		);
