@@ -245,34 +245,11 @@ public sealed class TestFactory : WebApplicationFactory<Program>
         }
     }
 
-    private static void SetupAuthenticatedUser()
-        => TestUsersDictionary.Add(UserType.Authenticated,
-            new TestUser
-            {
-                Profile =
-                    new TokenProfile
-                    {
-                        FirstName = "Authenticated",
-                        LastName = "Authenticated",
-                        Oid = UserData.AuthenticatedUserId
-                    },
-            });
+    private static void SetupAuthenticatedUser() => TestUsersDictionary.Add(UserType.Authenticated, UserData.Authenticated);
 
-    private static void SetupAdministratorUser()
-        => TestUsersDictionary.Add(UserType.Administrator,
-            new TestUser
-            {
-                Profile =
-                    new TokenProfile
-                    {
-                        FirstName = "Admini",
-                        LastName = "Straterson",
-                        Oid = UserData.AuthenticatedUserId,
-                        AppRoles = [Scopes.ProjectPortalAdmin]
-                    },
-            });
+    private static void SetupAdministratorUser() => TestUsersDictionary.Add(UserType.Administrator, UserData.Administrator);
 
-    private static void SetupAnonymousUser() => TestUsersDictionary.Add(UserType.Anonymous, new TestUser { Profile = null });
+    private static void SetupAnonymousUser() => TestUsersDictionary.Add(UserType.Anonymous, UserData.Anonymous);
 
     private static void AuthenticateUser(ITestUser user)
     {
