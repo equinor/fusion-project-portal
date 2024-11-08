@@ -99,9 +99,9 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		/** Enabling signal-r module for portal used for service messages */
 		enableSignalR(
 			config,
-			'portal',
+			'servicemessages',
 			signalRConfigurator({
-				name: 'portal',
+				name: 'servicemessages',
 				service: 'portal',
 				path: '/signalr/hubs/portal/?negotiateVersion=1',
 			})
