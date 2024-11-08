@@ -19,7 +19,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi;
 
 public sealed class TestFactory : WebApplicationFactory<Program>
 {
-    private const string AuthenticatedUserOid = "00000000-0000-0000-0000-000000000007";
     private const string IntegrationTestEnvironment = "IntegrationTests";
     private readonly string _localDbConnectionString;
     private readonly string _configPath;
@@ -110,11 +109,11 @@ public sealed class TestFactory : WebApplicationFactory<Program>
             services.AddScoped(_ => _fusionAppsClientMock.Object);
         });
 
-        builder.ConfigureServices(services =>
+        builder.ConfigureServices(async services =>
         {
             ReplaceRealDbContextWithTestDbContext(services);
 
-            CreateSeededTestDatabase(services);
+            await CreateSeededTestDatabase(services);
 
             EnsureTestDatabaseDeletedAtTeardown(services);
         });
@@ -133,9 +132,9 @@ public sealed class TestFactory : WebApplicationFactory<Program>
         services.AddDbContext<ProjectExecutionPortalContext>(options => options.UseSqlServer(_localDbConnectionString));
     }
 
-    private static void CreateSeededTestDatabase(IServiceCollection services)
+    private static async Task CreateSeededTestDatabase(IServiceCollection services)
     {
-        using var serviceProvider = services.BuildServiceProvider();
+        await using var serviceProvider = services.BuildServiceProvider();
         using var scope = serviceProvider.CreateScope();
         var scopeServiceProvider = scope.ServiceProvider;
         var dbContext = scopeServiceProvider.GetRequiredService<ProjectExecutionPortalContext>();
@@ -153,12 +152,12 @@ public sealed class TestFactory : WebApplicationFactory<Program>
             dbContext.Database.Migrate();
         }
 
-        SeedData(dbContext, scopeServiceProvider);
+        await SeedData(dbContext, scopeServiceProvider);
     }
 
-    private static void SeedData(ProjectExecutionPortalContext dbContext, IServiceProvider scopeServiceProvider)
+    private static async Task SeedData(ProjectExecutionPortalContext dbContext, IServiceProvider scopeServiceProvider)
     {
-        dbContext.Seed(scopeServiceProvider);
+        await dbContext.Seed(scopeServiceProvider);
     }
 
     private void EnsureTestDatabaseDeletedAtTeardown(IServiceCollection services)
@@ -255,7 +254,7 @@ public sealed class TestFactory : WebApplicationFactory<Program>
                     {
                         FirstName = "Authenticated",
                         LastName = "Authenticated",
-                        Oid = AuthenticatedUserOid
+                        Oid = UserData.AuthenticatedUserId
                     },
             });
 
@@ -266,10 +265,10 @@ public sealed class TestFactory : WebApplicationFactory<Program>
                 Profile =
                     new TokenProfile
                     {
-                        FirstName = "Admin",
+                        FirstName = "Admini",
                         LastName = "Straterson",
-                        Oid = AuthenticatedUserOid,
-                        AppRoles = new[] { Scopes.ProjectPortalAdmin }
+                        Oid = UserData.AuthenticatedUserId,
+                        AppRoles = [Scopes.ProjectPortalAdmin]
                     },
             });
 
