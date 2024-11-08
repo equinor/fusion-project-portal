@@ -6,5 +6,5 @@ public interface ICacheManager
 
     void Remove(string key);
 
-    Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> fetch, CacheDuration duration, long expiration) where T : class?;
+    Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> fetch, CacheDuration duration, long expiration) where T : class?;
 }

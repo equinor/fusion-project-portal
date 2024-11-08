@@ -1,5 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 

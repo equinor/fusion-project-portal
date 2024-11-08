@@ -532,13 +532,13 @@ public class PortalControllerTests : TestBase
         var appToDelete = apps.First();
 
         // Act
-        var response = await DeletePortalApp(portalToTest.Id, appToDelete.AppKey, UserType.Administrator);
+        var response = await DeletePortalApp(portalToTest.Id, appToDelete, UserType.Administrator);
 
         // Assert
         Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
         // Verify the app is actually deleted
-        var deletedApp = await AssertGetPortalApp(portalToTest.Id, appToDelete.AppKey, UserType.Authenticated, HttpStatusCode.NotFound);
+        var deletedApp = await AssertGetPortalApp(portalToTest.Id, appToDelete, UserType.Authenticated, HttpStatusCode.NotFound);
         Assert.IsNull(deletedApp);
     }
 
@@ -558,7 +558,7 @@ public class PortalControllerTests : TestBase
         var appToDelete = apps.First();
 
         // Act
-        var response = await DeletePortalApp(portalToTest.Id, appToDelete.AppKey, UserType.Authenticated);
+        var response = await DeletePortalApp(portalToTest.Id, appToDelete, UserType.Authenticated);
 
         // Assert
         Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
@@ -580,7 +580,7 @@ public class PortalControllerTests : TestBase
         var appToDelete = apps.First();
 
         // Act
-        var response = await DeletePortalApp(portalToTest.Id, appToDelete.AppKey, UserType.Anonymous);
+        var response = await DeletePortalApp(portalToTest.Id, appToDelete, UserType.Anonymous);
 
         // Assert
         Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -708,30 +708,30 @@ public class PortalControllerTests : TestBase
         return appKeys;
     }
 
-    private static async Task<IList<ApiPortalApp>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<IList<string>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAppsForPortal(portalId, contextId, userType);
         var content = await response.Content.ReadAsStringAsync();
-        var apps = JsonConvert.DeserializeObject<IList<ApiPortalApp>>(content);
+        var appKeys = JsonConvert.DeserializeObject<IList<string>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);
 
         if (response.StatusCode != HttpStatusCode.OK)
         {
-            return apps;
+            return appKeys;
         }
 
         Assert.IsNotNull(content);
-        Assert.IsNotNull(apps);
+        Assert.IsNotNull(appKeys);
 
-        foreach (var app in apps)
+        foreach (var appKey in appKeys)
         {
-            AssertHelpers.AssertPortalAppValues(app);
+            Assert.IsNotNull(appKey);
         }
 
-        return apps;
+        return appKeys;
     }
 
     private static async Task<HttpResponseMessage> CreatePortal(UserType userType, ApiCreatePortalRequest createdPortal)

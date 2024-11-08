@@ -1,23 +1,22 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
 
-namespace Equinor.ProjectExecutionPortal.Domain.Entities
+namespace Equinor.ProjectExecutionPortal.Domain.Entities;
+
+public class ContextType : AuditableEntityBase, ICreationAuditable, IModificationAuditable
 {
-    public class ContextType : AuditableEntityBase, ICreationAuditable, IModificationAuditable
+    public const int ContextTypeKeyLengthMax = 200;
+
+    private readonly List<Portal> _portals = [];
+    private readonly List<OnboardedApp> _onboardedApps = [];
+
+    public ContextType(string contextTypeKey)
     {
-        public const int ContextTypeKeyLengthMax = 200;
-
-        private readonly List<Portal> _portals = [];
-        private readonly List<OnboardedApp> _onboardedApps = [];
-
-        public ContextType(string contextTypeKey)
-        {
-            ContextTypeKey = contextTypeKey;
-        }
-
-        public string ContextTypeKey { get; set; }
-
-        public IReadOnlyCollection<Portal> Portals => _portals.AsReadOnly();
-        public IReadOnlyCollection<OnboardedApp> OnboardedApps => _onboardedApps.AsReadOnly();
+        ContextTypeKey = contextTypeKey;
     }
+
+    public string ContextTypeKey { get; set; }
+
+    public IReadOnlyCollection<Portal> Portals => _portals.AsReadOnly();
+    public IReadOnlyCollection<OnboardedApp> OnboardedApps => _onboardedApps.AsReadOnly();
 }

@@ -4,8 +4,11 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.FusionApp;
 
 public class ApiFusionAppCategory
 {
+#pragma warning disable CS8618 // // For integration tests only
     public ApiFusionAppCategory()
-    { }
+#pragma warning restore CS8618 // // For integration tests only
+    {
+    }
 
     public ApiFusionAppCategory(AppCategory fusionAppCategory)
     {

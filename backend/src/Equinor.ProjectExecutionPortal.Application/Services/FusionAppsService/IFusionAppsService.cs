@@ -1,15 +1,14 @@
 ﻿using Fusion.Integration.Apps.Abstractions.Models;
 
-namespace Equinor.ProjectExecutionPortal.Application.Services.FusionAppsService
+namespace Equinor.ProjectExecutionPortal.Application.Services.FusionAppsService;
+
+public interface IFusionAppsService
 {
-    public interface IFusionAppsService
-    {
-        Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken);
+    Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken);
 
-        Task<IList<App>> GetFusionApps();
+    Task<IList<App>?> GetFusionApps();
 
-        Task<App?> GetFusionApp(string appKey);
+    Task<App?> GetFusionApp(string appKey);
 
-        Task<AppConfiguration?> GetFusionAppConfig(string appKey);
-    }
+    Task<AppConfiguration?> GetFusionAppConfig(string appKey);
 }

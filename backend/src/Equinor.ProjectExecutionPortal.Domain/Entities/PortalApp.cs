@@ -26,10 +26,10 @@ public class PortalApp : AuditableEntityBase, ICreationAuditable, IModificationA
     public bool IsHidden { get; set; }
 
     public Guid OnboardedAppId { get; set; }
-    public OnboardedApp OnboardedApp { get; set; }
-    
+    public OnboardedApp OnboardedApp { get; set; } = null!;
+
     public Guid PortalId { get; set; }
-    public Portal Portal { get; set; }
+    public Portal Portal { get; set; } = null!;
 
     public Guid? OnboardedContextId { get; set; }
     public OnboardedContext? OnboardedContext { get; set; }

@@ -37,9 +37,9 @@ public class AppService : IAppService
         return onboardedApps;
     }
 
-    private static void CombineAppWithFusionAppData(OnboardedAppDto onboardedApp, IEnumerable<App> fusionApps)
+    private static void CombineAppWithFusionAppData(OnboardedAppDto onboardedApp, IEnumerable<App>? fusionApps)
     {
-        var fusionApp = fusionApps.FirstOrDefault(fusionApp => string.Equals(fusionApp.AppKey, onboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
+        var fusionApp = fusionApps?.FirstOrDefault(fusionApp => string.Equals(fusionApp.AppKey, onboardedApp.AppKey, StringComparison.CurrentCultureIgnoreCase));
 
         if (fusionApp != null)
         {

@@ -4,6 +4,5 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
 public class ContextTypeDto : IMapFrom<Domain.Entities.ContextType>
 {
-    public string ContextTypeKey { get; set; }
-
+    public required string ContextTypeKey { get; set; }
 }

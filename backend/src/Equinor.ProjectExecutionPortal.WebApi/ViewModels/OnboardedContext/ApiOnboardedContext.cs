@@ -4,7 +4,9 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
 
 public class ApiOnboardedContext
 {
+#pragma warning disable CS8618 // For integration tests only
     public ApiOnboardedContext() { }
+#pragma warning restore CS8618 // For integration tests only
 
     public ApiOnboardedContext(OnboardedContextDto onboardedAppDto)
     {

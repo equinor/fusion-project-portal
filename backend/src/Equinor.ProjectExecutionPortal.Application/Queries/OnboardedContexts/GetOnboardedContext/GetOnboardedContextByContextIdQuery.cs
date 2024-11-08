@@ -41,7 +41,10 @@ public class GetOnboardedContextByContextIdQuery : QueryBase<OnboardedContextDto
 
                 var onboardedContext = _mapper.Map<Domain.Entities.OnboardedContext?, OnboardedContextDto?>(entity);
 
-                await _contextService.EnrichContextWithFusionContextData(onboardedContext, cancellationToken);
+                if (onboardedContext != null)
+                {
+                    await _contextService.EnrichContextWithFusionContextData(onboardedContext, cancellationToken);
+                }
 
                 return onboardedContext;
             }
@@ -49,7 +52,6 @@ public class GetOnboardedContextByContextIdQuery : QueryBase<OnboardedContextDto
             {
                 return null;
             }
-
         }
     }
 }

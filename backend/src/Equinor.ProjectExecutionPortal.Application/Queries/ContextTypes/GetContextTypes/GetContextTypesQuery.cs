@@ -8,10 +8,6 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetCon
 
     public class GetContextTypesQuery : QueryBase<IList<ContextTypeDto>>
     {
-        public GetContextTypesQuery()
-        {
-        }
-
         public class Handler : IRequestHandler<GetContextTypesQuery, IList<ContextTypeDto>>
         {
             private readonly IReadWriteContext _context;

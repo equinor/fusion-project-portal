@@ -23,13 +23,13 @@ public sealed class TestFactory : WebApplicationFactory<Program>
     private const string IntegrationTestEnvironment = "IntegrationTests";
     private readonly string _localDbConnectionString;
     private readonly string _configPath;
-    private readonly List<Action> _teardownList = new();
-    private readonly List<IDisposable> _disposables = new();
+    private readonly List<Action> _teardownList = [];
+    private readonly List<IDisposable> _disposables = [];
     private readonly Mock<IFusionContextResolver> _fusionContextResolverMock = new();
     private readonly Mock<IAppsClient> _fusionAppsClientMock = new();
     public static Dictionary<UserType, ITestUser> TestUsersDictionary = new();
     private static TestFactory? _sInstance;
-    private static readonly object _sPadlock = new();
+    private static readonly object SPadlock = new();
 
     public static TestFactory Instance
     {
@@ -37,7 +37,7 @@ public sealed class TestFactory : WebApplicationFactory<Program>
         {
             if (_sInstance == null)
             {
-                lock (_sPadlock)
+                lock (SPadlock)
                 {
                     if (_sInstance == null)
                     {
@@ -183,11 +183,11 @@ public sealed class TestFactory : WebApplicationFactory<Program>
 
     private static string GetTestLocalDbConnectionString(string projectDir)
     {
-        const string DbName = "ProjectPortalIntegrationTestsDB2";
-        var dbPath = Path.Combine(projectDir, $"{DbName}.mdf");
+        const string dbName = "ProjectPortalIntegrationTestsDB2";
+        var dbPath = Path.Combine(projectDir, $"{dbName}.mdf");
 
         // Set Initial Catalog to be able to delete database!
-        return $"Server=(LocalDB)\\MSSQLLocalDB;Initial Catalog={DbName};Integrated Security=true;AttachDbFileName={dbPath}";
+        return $"Server=(LocalDB)\\MSSQLLocalDB;Initial Catalog={dbName};Integrated Security=true;AttachDbFileName={dbPath}";
     }
 
     //private string GetSqlLiteConnectionString()

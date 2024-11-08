@@ -16,7 +16,9 @@ public class ApiUpdateOnboardedAppRequest
     {
         public ApiUpdateOnboardedAppRequestValidator()
         {
-               
+            RuleFor(x => x.ContextTypes)
+                .NotNull()
+                .WithMessage("Context Types is required");
         }
     }
 }
