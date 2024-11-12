@@ -65,7 +65,7 @@ export type PortalApp = {
 
 export type PortalApplication = {
 	id: string;
-	key: string;
+	appKey: string;
 	contextTypes: string[];
 	appManifest: AppManifest;
 	isActive?: boolean;
@@ -80,7 +80,7 @@ export type PortalAppMutation = {
 };
 
 export type AppManifestResponse = {
-	key: string;
+	appKey: string;
 	contextTypes: ContextType[];
 	appManifest: AppManifest;
 };

@@ -1,17 +1,17 @@
 import { QueryClient } from '@tanstack/react-query';
-import { OnboardedContext, PortalApplication } from '../types';
+import {  PortalApplication } from '../types';
 
 export const mutatePortalApps = (queryClient: QueryClient, portalId: string | undefined, apps: PortalApplication[]) => {
 	queryClient.cancelQueries({ queryKey: ['portal-onboarded-apps', portalId] });
 
 	const prevApps = queryClient.getQueryData<PortalApplication[]>(['portal-onboarded-apps', portalId]) || [];
 
-	const newApps = prevApps.map((a) => {
-		const isActive = apps.find((app) => app.key === a.key);
+	const newApps = prevApps.map((prevApp) => {
+		const isActive = apps.find((app) => app.appManifest.appKey === prevApp.appManifest.appKey);
 		if (isActive) {
-			return { ...a, isActive: true };
+			return { ...prevApp, isActive: true };
 		}
-		return a;
+		return prevApp;
 	});
 
 	queryClient.setQueryData(['portal-onboarded-apps', portalId], newApps);
@@ -26,8 +26,8 @@ export const mutateDeletePortalApps = (
 	queryClient.cancelQueries({ queryKey: ['portal-onboarded-apps', portalId] });
 	const prevApps = queryClient.getQueryData<PortalApplication[]>(['portal-onboarded-apps', portalId]) || [];
 
-	const appKeys = apps.map((a) => a.key);
-	const newApps = prevApps?.map((a) => (appKeys.includes(a.key) ? { ...a, isActive: false } : a));
+	const appKeys = apps.map((app) => app.appManifest.appKey);
+	const newApps = prevApps?.map((prevApp) => (appKeys.includes(prevApp.appManifest.appKey) ? { ...prevApp, isActive: false } : prevApp));
 	queryClient.setQueryData(['portal-onboarded-apps', portalId], newApps);
 	return { prevApps, newApps };
 };
