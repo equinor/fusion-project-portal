@@ -81,9 +81,8 @@ export function ContextAppSideSheet({
 	const { data: activeApp, isLoading } = useGetPortalApp(activePortalId, app.appManifest.appKey);
 
 	const contexts: OnboardedContext[] = useMemo(() => {
-    console.log(activeApp)
-		if (!activeApp || !activeContexts) return [];
 
+		if (!activeApp || !activeContexts) return [];
 		return activeContexts.map((context) => ({
 			...context,
 			isActive: activeApp.contextIds?.includes(context.contextId),
