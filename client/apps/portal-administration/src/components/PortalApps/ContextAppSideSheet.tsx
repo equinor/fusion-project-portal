@@ -78,9 +78,10 @@ export function ContextAppSideSheet({
 	const { activeContexts, contextTypes } = useActiveOnboardedContext();
 	const [selectedContexts, setSelectedContexts] = useState<OnboardedContext[]>([]);
 
-	const { data: activeApp, isLoading } = useGetPortalApp(activePortalId, app.key);
+	const { data: activeApp, isLoading } = useGetPortalApp(activePortalId, app.appManifest.appKey);
 
 	const contexts: OnboardedContext[] = useMemo(() => {
+    console.log(activeApp)
 		if (!activeApp || !activeContexts) return [];
 
 		return activeContexts.map((context) => ({
@@ -103,7 +104,7 @@ export function ContextAppSideSheet({
 			minWidth={1200}
 			isDismissable={true}
 		>
-			<SideSheet.Title title={`Activate ${app.appManifest.name} Application`} />
+			<SideSheet.Title title={`Activate ${app.appManifest.displayName} Application`} />
 			<SideSheet.SubTitle subTitle="Activate application with contexts" />
 			<SideSheet.Actions></SideSheet.Actions>
 			<SideSheet.Content>
@@ -165,9 +166,9 @@ export function ContextAppSideSheet({
 											onCellValueChanged: (event) => {
 												if (event.newValue) {
 													console.log('Activate context', event.data);
-													add({ appKey: app.key, contextIds: [event.data.contextId] });
+													add({ appKey: app.appManifest.appKey, contextIds: [event.data.contextId] });
 												} else {
-													remove({ appKey: app.key, contextIds: [event.data.contextId] });
+													remove({ appKey: app.appManifest.appKey, contextIds: [event.data.contextId] });
 												}
 											},
 										},
@@ -200,7 +201,7 @@ export function ContextAppSideSheet({
 								<Button
 									onClick={() => {
 										add({
-											appKey: app.key,
+											appKey: app.appManifest.appKey,
 											contextIds: selectedContexts
 												.filter((a) => !a.isActive)
 												.map((a) => a.contextId),
@@ -214,7 +215,7 @@ export function ContextAppSideSheet({
 								<Button
 									onClick={() => {
 										remove({
-											appKey: app.key,
+											appKey: app.appManifest.appKey,
 											contextIds: selectedContexts
 												.filter((a) => a.isActive)
 												.map((a) => a.contextId),
