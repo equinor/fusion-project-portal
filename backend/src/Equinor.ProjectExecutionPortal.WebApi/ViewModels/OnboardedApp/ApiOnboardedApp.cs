@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 
-public class ApiOnboardedApp
+public class ApiOnboardedApp : ApiAudit
 {
 #pragma warning disable CS8618 // For integration tests only
     public ApiOnboardedApp()
@@ -19,6 +19,7 @@ public class ApiOnboardedApp
         Description = onboardedAppDto.AppInformation?.Description;
         Contexts = onboardedAppDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
         ContextTypes = onboardedAppDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
+        SupplyAudit(onboardedAppDto);
     }
 
     public Guid Id { get; set; }

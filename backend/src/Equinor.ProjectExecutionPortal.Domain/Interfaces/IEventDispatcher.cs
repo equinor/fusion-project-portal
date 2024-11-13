@@ -1,4 +1,6 @@
-﻿namespace Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common;
+
+namespace Equinor.ProjectExecutionPortal.Domain.Interfaces;
 
 public interface IEventDispatcher
 {

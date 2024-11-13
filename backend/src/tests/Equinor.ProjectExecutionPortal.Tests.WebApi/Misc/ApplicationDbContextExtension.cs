@@ -9,8 +9,6 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Misc;
 
 public static class ApplicationDbContextExtension
 {
-    private const string SeederOid = "00000000-0000-0000-0000-999999999999";
-
     public static void CreateNewDatabaseWithCorrectSchema(this ProjectExecutionPortalContext dbContext)
     {
         //var migrations = dbContext.Database.GetPendingMigrations();
@@ -20,15 +18,15 @@ public static class ApplicationDbContextExtension
         //}
     }
 
-    public static void Seed(this ProjectExecutionPortalContext dbContext, IServiceProvider serviceProvider)
+    public static async Task Seed(this ProjectExecutionPortalContext dbContext, IServiceProvider serviceProvider)
     {
         var userProvider = serviceProvider.GetRequiredService<CurrentUserProvider>();
-        userProvider.SetCurrentUserOid(new Guid(SeederOid));
+        userProvider.SetCurrentUserOid(new Guid(UserData.AuthenticatedUserId));
 
-        SeedPortal(dbContext);
+        await SeedPortal(dbContext);
     }
 
-    private static void SeedPortal(DbContext dbContext)
+    private static async Task SeedPortal(DbContext dbContext)
     {
         // Create portals
 
@@ -36,7 +34,7 @@ public static class ApplicationDbContextExtension
         var portalWithApps = PortalData.InitialDbSeedData.ProjectExecution;
 
         dbContext.AddRange(portalWithoutApps, portalWithApps);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         // Add portal configuration
 
@@ -52,7 +50,7 @@ public static class ApplicationDbContextExtension
         portalWithApps.AddContextType(contextTypeProjectMaster);
 
         dbContext.AddRange(contextTypeProjectMaster, contextTypeFacility);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         // Add onboarded apps
 
@@ -66,7 +64,7 @@ public static class ApplicationDbContextExtension
         // Add apps
 
         dbContext.AddRange(meetingsApp, reviewsApp, tasksApp, orgChartApp, handoverGardenApp, workOrderGardenApp);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         // Add onboarded contexts
 
@@ -74,7 +72,7 @@ public static class ApplicationDbContextExtension
         var ogpContext = OnboardedContextData.InitialDbSeedData.OgpContext;
 
         dbContext.AddRange(jcaContext, ogpContext);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         // Add apps to portal
 
@@ -90,6 +88,6 @@ public static class ApplicationDbContextExtension
         // Add context specific apps to work surfaces
 
         dbContext.AddRange(globalMeetingsApp, globalReviewsApp, globalTasksApp, jcaContextOrgChartApp, jcaContextHandoverGardenApp, ogpContextWorkOrderGardenApp);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 }

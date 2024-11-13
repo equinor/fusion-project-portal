@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
-using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;

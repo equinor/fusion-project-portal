@@ -1,7 +1,7 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Application.Services.PortalService;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
-using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +37,7 @@ public class GetPortalOnboardedAppsQuery(Guid portalId) : QueryBase<IList<Portal
 
             if (portal == null)
             {
-                return new List<PortalOnboardedAppDto>();
+                return [];
             }
 
             var onboardedApps = await _readWriteContext.Set<OnboardedApp>()

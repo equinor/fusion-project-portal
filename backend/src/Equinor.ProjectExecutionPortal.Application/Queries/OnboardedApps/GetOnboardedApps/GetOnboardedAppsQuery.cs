@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
-using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
-﻿using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
-using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +35,7 @@ public class GetGlobalAppKeysForPortalQuery : QueryBase<List<string>>
                     .ThenInclude(app => app.ContextTypes)
             .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
-            if (portalWithGlobalApps == null)
+            if (portalWithGlobalApps is null)
             {
                 throw new NotFoundException(nameof(Portal), request.PortalId);
             }

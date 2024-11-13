@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 
-public class PortalDto : IMapFrom<Domain.Entities.Portal>
+public class PortalDto : AuditDto, IMapFrom<Domain.Entities.Portal>
 {
     public Guid Id { get; set; }
     public required string Key { get; set; }

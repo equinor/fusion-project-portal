@@ -3,7 +3,7 @@
 public class AuditDto
 {
     public DateTime CreatedAtUtc { get; set; }
-    //public PersonDto? CreatedBy { get; set; }
+    public Guid CreatedByAzureOid { get; set; }
     public DateTime? ModifiedAtUtc { get; set; }
-    //public PersonDto? ModifiedBy { get; set; }
+    public Guid? ModifiedByAzureOid { get; set; }
 }

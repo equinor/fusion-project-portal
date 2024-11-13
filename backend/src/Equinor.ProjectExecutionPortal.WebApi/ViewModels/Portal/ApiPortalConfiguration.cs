@@ -2,7 +2,7 @@
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 
-public class ApiPortalConfiguration
+public class ApiPortalConfiguration : ApiAudit
 {
     public ApiPortalConfiguration() { }
 
@@ -11,6 +11,7 @@ public class ApiPortalConfiguration
         Router = portalConfigurationDto.Router;
         Extension = portalConfigurationDto.Extension;
         Environment = portalConfigurationDto.Environment;
+        SupplyAudit(portalConfigurationDto);
     }
 
     public string? Router { get; set; }

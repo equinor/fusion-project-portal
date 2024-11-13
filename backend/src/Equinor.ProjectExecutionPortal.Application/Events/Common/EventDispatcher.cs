@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
-using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
+using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using MediatR;
 
 namespace Equinor.ProjectExecutionPortal.Application.Events.Common;

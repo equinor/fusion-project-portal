@@ -2,8 +2,8 @@
 using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextService;
 using Equinor.ProjectExecutionPortal.Application.Services.PortalService;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
-using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -49,14 +49,15 @@ public class GetPortalOnboardedAppQuery(Guid portalId, string appKey) : QueryBas
 
             var portalApps = portal.Apps.Where(app => app.OnboardedApp.AppKey == request.AppKey).ToList();
 
-            if (portalApps.Any()){
-                
+            if (portalApps.Any())
+            {
                 var onboardedContexts = await _readWriteContext.Set<OnboardedContext>()
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
-                
-                var portalContextIds = await _contextService.GetFusionContextIds(onboardedContexts.Where(context => portalApps.Any(app => app.OnboardedContextId == context.Id)).ToList(), cancellationToken);
-                
+
+                var portalContextIds =
+                    await _contextService.GetFusionContextIds(onboardedContexts.Where(context => portalApps.Any(app => app.OnboardedContextId == context.Id)).ToList(), cancellationToken);
+
                 var portalOnboardedAppDto = _mapper.Map<PortalApp, PortalOnboardedAppDto>(portalApps.First());
 
                 await _portalService.EnrichPortalAppWithContextIds(portalOnboardedAppDto, portalContextIds, cancellationToken);
@@ -84,6 +85,5 @@ public class GetPortalOnboardedAppQuery(Guid portalId, string appKey) : QueryBas
 
             return null;
         }
-            
     }
 }

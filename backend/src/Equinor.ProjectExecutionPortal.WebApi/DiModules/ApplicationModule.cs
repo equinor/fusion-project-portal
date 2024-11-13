@@ -2,7 +2,6 @@
 using Equinor.ProjectExecutionPortal.Application;
 using Equinor.ProjectExecutionPortal.Application.Cache;
 using Equinor.ProjectExecutionPortal.Application.Events.Common;
-using Equinor.ProjectExecutionPortal.Domain.Common.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.Infrastructure;

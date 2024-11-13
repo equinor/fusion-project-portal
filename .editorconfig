@@ -290,3 +290,6 @@ resharper_unused_auto_property_accessor_global_highlighting=none
 
 [*.{cs,vb}]
 dotnet_diagnostic.CA1812.severity = none
+
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0290.severity = none

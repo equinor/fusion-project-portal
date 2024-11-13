@@ -4,7 +4,7 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 
-public class ApiPortal
+public class ApiPortal : ApiAudit
 {
 #pragma warning disable CS8618 // For integration tests only
     public ApiPortal() { }
@@ -23,6 +23,7 @@ public class ApiPortal
         ContextTypes = portalDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
         Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         Configuration = portalDto.Configuration != null ? new ApiPortalConfiguration(portalDto.Configuration) : null;
+        SupplyAudit(portalDto);
     }
 
     public Guid Id { get; set; }

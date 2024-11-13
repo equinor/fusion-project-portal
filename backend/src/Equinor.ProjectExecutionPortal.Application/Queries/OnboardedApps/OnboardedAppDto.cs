@@ -4,7 +4,7 @@ using Fusion.Integration.Apps.Abstractions.Models;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 
-public class OnboardedAppDto : IMapFrom<Domain.Entities.OnboardedApp>
+public class OnboardedAppDto : AuditDto, IMapFrom<Domain.Entities.OnboardedApp>
 {
     public Guid Id { get; set; }
     public required string AppKey { get; set; }

@@ -8,7 +8,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Common;
 public abstract class AuditableEntityBase : EntityBase
 {
     public DateTime CreatedAtUtc { get; private set; }
-    public Guid? CreatedByAzureOid { get; private set; }
+    public Guid CreatedByAzureOid { get; private set; }
     public DateTime? ModifiedAtUtc { get; private set; }
     public Guid? ModifiedByAzureOid { get; private set; }
 

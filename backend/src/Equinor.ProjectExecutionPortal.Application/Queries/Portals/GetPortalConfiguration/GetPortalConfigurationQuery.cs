@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
-using Equinor.ProjectExecutionPortal.Domain.Infrastructure;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -33,9 +33,9 @@ public class GetPortalConfigurationQuery : QueryBase<PortalConfigurationDto?>
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.PortalId == request.PortalId, cancellationToken);
 
-            var portal = _mapper.Map<PortalConfiguration?, PortalConfigurationDto?>(entity);
+            var portalConfiguration = _mapper.Map<PortalConfiguration?, PortalConfigurationDto?>(entity);
 
-            return portal;
+            return portalConfiguration;
         }
     }
 }
