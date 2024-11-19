@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-[ApiVersion("0.1")]
+[ApiVersion("1.0")]
 [Route("api/onboarded-apps")]
 public class OnboardedAppController : ApiControllerBase
 {

@@ -6,7 +6,9 @@ using FluentValidation.AspNetCore;
 using Fusion.Integration.Apps.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -58,6 +60,14 @@ builder.Services.AddFusionIntegration(f =>
     f.DisableClaimsTransformation();
 });
 
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("X-api-version"));
+});
+
 builder.Services.AddControllers(config =>
     {
         var policy = new AuthorizationPolicyBuilder()
@@ -70,8 +80,6 @@ builder.Services.AddControllers(config =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
-builder.Services.AddEndpointsApiExplorer();
-
 // Swagger
 builder.Services.AddSwaggerGen(c =>
 {
@@ -80,7 +88,7 @@ builder.Services.AddSwaggerGen(c =>
         { $"api://{builder.Configuration["Swagger:ClientId"]}/{builder.Configuration["Swagger:Scope"]}", "" }
     };
 
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fusion Project Portal", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fusion Project Portal - v1", Version = "v1" });
 
     c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
