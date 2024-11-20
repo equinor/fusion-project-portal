@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 6.0.1
+
+### Patch Changes
+
+- b44b39d: Update piplenes for admin app and new admin app release
+
 ## 6.0.0
 
 ### Major Changes
