@@ -15,6 +15,8 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public const int DescriptionLengthMax = 4000;
     private readonly List<PortalApp> _apps = [];
     private readonly List<ContextType> _contextTypes = [];
+    private readonly List<PortalAdmin> _admins = [];
+    private readonly List<PortalOwner> _owners = [];
 
     public Portal(string key, string name, string shortName, string subText, string? description, string icon)
     {
@@ -38,6 +40,8 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
 
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
+    public IReadOnlyCollection<PortalAdmin> Admins => _admins.AsReadOnly();
+    public IReadOnlyCollection<PortalOwner> Owners => _owners.AsReadOnly();
 
     public void Update(string key, string name, string shortName, string subText, string? description, string icon)
     {
@@ -68,6 +72,28 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
     public void RemoveContextType(ContextType contextType)
     {
         _contextTypes.Remove(contextType);
+    }
+
+    public void AddAdmin(PortalAdmin admin)
+    {
+        _admins.Add(admin);
+    }
+
+    public void AddAdmins(IList<PortalAdmin> admins)
+    {
+        _admins.Clear();
+        _admins.AddRange(admins);
+    }
+
+    public void AddOwner(PortalOwner owner)
+    {
+        _owners.Add(owner);
+    }
+
+    public void AddOwners(IList<PortalOwner> owners)
+    {
+        _owners.Clear();
+        _owners.AddRange(owners);
     }
 
     public List<PortalApp> GlobalApps()
