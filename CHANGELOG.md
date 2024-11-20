@@ -1,5 +1,57 @@
 # fusion-project-portal
 
+## 6.0.0
+
+### Major Changes
+
+- 0a7119c: - **BREAKING CHANGE**: Migrate from the deprecated Fusion Portal API (for apps) to the new and separate Fusion Apps API.
+  This results in breaking changes in the API contract. The reason for this is model changes in the new Fusion Apps API. And we prefer modelling 1-1 as best as possible instead of introducing remapping etc. on our end.
+  - **BREAKING CHANGE**: Removal of the Fusion Portal Proxy. We no longer provide endpoints for this on the API. All calls to get bundles and app information from Fusion shall go through the ClientBackend
+  - Fixed more tests
+  - Refactoring has been done in multiple locations
+- 2e486e0: - Updating to new app manifest types
+  - Refactor and performance enhancements on portal configuration module
+  - Update menu and favorites
+  - loading router config from portal config service
+  - filter portal service messages
+  - Update all list laded from new app service.
+  - user portal config to filter full applist
+- e763969: BREAKING CHANGE:
+
+  Updates the API endpoints that gives Portal Apps as list of objects:
+
+  {portalId:guid}/apps
+  {portalId:guid}/contexts/{contextId:guid}/apps
+  Now instead, these endpoint returns a list of appKeys (strings).
+
+  The old ones:
+
+  {portalId:guid}/appkeys
+  {portalId:guid}/contexts/{contextId:guid}/appkeys
+  are now identical, and are deprecated and will be removed when front-end has adopted the updated endpoints.
+
+  In addition some refactoring has been done. As a result, compiler warnings has been greatly reduced
+
+### Minor Changes
+
+- 7c7715e: - Menu is filtered with portal configuration form new endpoint
+  - New portal class enabling hot-swapping of portal for development.
+  - New portal app module for listing apps in portal landeplages.
+  - Refactor of portal configuration.
+- 159f911: - Adds a profile controller with an endpoint for validating user permission on frontend
+- d814023: Renames Key to AppKey in ApiPortallApp and ApiPortalOnboardedApp models
+- 27747de: - Implemented support for showing audit information on some API endpoints: ApiOnboardedApp, ApiPortal, ApiPortalConfiguration
+- a905268: Align portal administration application with the new app management models
+
+### Patch Changes
+
+- 45d3433: - Admin app use new app manifest model
+  - Update all fusion packages in admin app
+- b875d89: update portal admin app release actions for new fusion cli
+- 1cbc59e: Update url to the service message service
+- 38b1b90: Update of all Fusion Classic URLs in codebase
+- 9980ecf: Update to new apps endpoint for Application filter.
+
 ## 5.0.4
 
 ### Patch Changes
