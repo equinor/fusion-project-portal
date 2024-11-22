@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.Authorization;
+namespace Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 
 public static class ClaimsExtensions
 {

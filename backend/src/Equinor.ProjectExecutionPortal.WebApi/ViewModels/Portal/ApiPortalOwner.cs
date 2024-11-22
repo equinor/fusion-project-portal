@@ -2,13 +2,13 @@
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 
-public class ApiAppAdmin
+public class ApiPortalOwner
 {
-    public ApiAppAdmin(PortalAdminDto adminDto)
+    public ApiPortalOwner(PortalOwnerDto ownerDto)
     {
-        Id = adminDto.Id;
+        Id = ownerDto.Id;
 
-        WithAccount(adminDto.Account);
+        WithAccount(ownerDto.Account);
     }
 
     private void WithAccount(AccountDto? account)
