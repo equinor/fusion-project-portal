@@ -7,21 +7,12 @@ spec:
     useBuildKit: true
     useBuildCache: true
   environments:
-    - name: admin
+    - name: test
       build:
-        from: main
-    - name: transfer
-      build:
-        from: main  
-    - name: status
-      build:
-        from: main    
-    - name: scoping
-      build:
-        from: main
+        from: feat/pcs5-radix
   components:
-    # Web Server (client backend)
-    - name: webserver
+    # Web Server - Admin
+    - name: admin
       identity:
         azure:
           clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
@@ -50,7 +41,7 @@ spec:
           port: 5000
       publicPort: http
       environmentConfig:
-        - environment: admin
+        - environment: test
           identity:
             azure:
               clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
@@ -75,7 +66,38 @@ spec:
             limits:
               memory: "2048Mi"
               cpu: "800m"
-        - environment: transfer
+
+    # Web Server - Transfer
+    - name: transfer
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
+      src: . # Dockerfile location
+      dockerfileName: clientBackend.Dockerfile
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        ApplicationInsights__ConnectionString: ""
+        AzureAd__ClientId: ""
+        ClientBundle__Msal__ClientId: ""
+        ClientBundle__PortalId: ""
+        FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__FusionAppsUrl: ""
+        AssetProxy__TokenScope: ""
+        FusionProjectPortalApi__BaseAddress: ""
+        FusionProjectPortalApi__Scope: ""
+        FusionBookmarks__Name: ""
+        FusionBookmarks__Identifier: ""
+        FusionBookmarks__Subsystem: "Project Portal"
+        ClientBundle__FusionLegacyEnvIdentifier: "ci"
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: test
           identity:
             azure:
               clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
@@ -100,7 +122,38 @@ spec:
             limits:
               memory: "2048Mi"
               cpu: "800m"
-        - environment: status
+
+    # Web Server - Scoping
+    - name: scoping
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
+      src: . # Dockerfile location
+      dockerfileName: clientBackend.Dockerfile
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        ApplicationInsights__ConnectionString: ""
+        AzureAd__ClientId: ""
+        ClientBundle__Msal__ClientId: ""
+        ClientBundle__PortalId: ""
+        FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__FusionAppsUrl: ""
+        AssetProxy__TokenScope: ""
+        FusionProjectPortalApi__BaseAddress: ""
+        FusionProjectPortalApi__Scope: ""
+        FusionBookmarks__Name: ""
+        FusionBookmarks__Identifier: ""
+        FusionBookmarks__Subsystem: "Project Portal"
+        ClientBundle__FusionLegacyEnvIdentifier: "ci"
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: test
           identity:
             azure:
               clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
@@ -125,7 +178,38 @@ spec:
             limits:
               memory: "2048Mi"
               cpu: "800m"
-        - environment: scoping
+
+    # Web Server - Status
+    - name: status
+      identity:
+        azure:
+          clientId: ea425507-0de4-4f5f-bac8-48cea54f7a0c
+      src: . # Dockerfile location
+      dockerfileName: clientBackend.Dockerfile
+      variables:
+        ASPNETCORE_URLS: "http://*:5000"
+        ApplicationInsights__ConnectionString: ""
+        AzureAd__ClientId: ""
+        ClientBundle__Msal__ClientId: ""
+        ClientBundle__PortalId: ""
+        FusionPortalApi__BaseAddress: ""
+        FusionPortalApi__Scope: ""
+        AssetProxy__FusionPortalUrl: ""
+        AssetProxy__FusionPeopleUrl: ""
+        AssetProxy__FusionAppsUrl: ""
+        AssetProxy__TokenScope: ""
+        FusionProjectPortalApi__BaseAddress: ""
+        FusionProjectPortalApi__Scope: ""
+        FusionBookmarks__Name: ""
+        FusionBookmarks__Identifier: ""
+        FusionBookmarks__Subsystem: "Project Portal"
+        ClientBundle__FusionLegacyEnvIdentifier: "ci"
+      ports:
+        - name: http
+          port: 5000
+      publicPort: http
+      environmentConfig:
+        - environment: test
           identity:
             azure:
               clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
