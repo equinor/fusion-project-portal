@@ -14,7 +14,6 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 [Route("api/context-types")]
 public class ContextTypeController : ApiControllerBase
 {
-    // GET: api/<ContextTypeController>
     [HttpGet("")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -26,7 +25,6 @@ public class ContextTypeController : ApiControllerBase
         return Ok(contextTypesDto.Select(contextTypeDto => new ApiContextType(contextTypeDto)).ToList());
     }
 
-    // POST api/<ContextTypeController>
     [HttpPost("")]
     [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
@@ -57,7 +55,6 @@ public class ContextTypeController : ApiControllerBase
         return Created("Created", request);
     }
 
-    // DELETE api/<ContextTypeController>/5
     [HttpDelete("{contextType}")]
     [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]

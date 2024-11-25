@@ -7,6 +7,7 @@ using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboar
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
@@ -54,6 +55,8 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> CreatePortal([FromBody] ApiCreatePortalRequest request)
     {
+        await AuthorizationService.RequireAuthorizationAsync(User, id, Policies.ProjectPortal.Admin);
+
         try
         {
             await Mediator.Send(request.ToCommand());
