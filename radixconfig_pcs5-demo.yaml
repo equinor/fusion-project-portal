@@ -9,6 +9,8 @@ spec:
   environments:
     - name: admin
     - name: transfer
+    - name: status
+    - name: scoping
   components:
     # Web Server (client backend)
     - name: webserver
@@ -66,6 +68,56 @@ spec:
               memory: "2048Mi"
               cpu: "800m"
         - environment: transfer
+          identity:
+            azure:
+              clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-ws-noe-test
+                path: /mnt/key-vault
+                useAzureIdentity: true
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: ClientBundle--AgGrid--LicenseKey
+                    type: secret
+                    envVar: ClientBundle__AgGrid__LicenseKey
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: status
+          identity:
+            azure:
+              clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
+          secretRefs:
+            azureKeyVaults:
+              - name: kv-pep-ws-noe-test
+                path: /mnt/key-vault
+                useAzureIdentity: true
+                items:
+                  - name: AzureAd--ClientSecret
+                    type: secret
+                    envVar: AzureAd__ClientSecret
+                  - name: ClientBundle--AgGrid--LicenseKey
+                    type: secret
+                    envVar: ClientBundle__AgGrid__LicenseKey
+          replicas: 1
+          monitoring: true
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "800m"
+            limits:
+              memory: "2048Mi"
+              cpu: "800m"
+        - environment: scoping
           identity:
             azure:
               clientId: 68e0c697-b713-4cd0-b24f-c2509f442e84
