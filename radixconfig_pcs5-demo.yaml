@@ -8,9 +8,17 @@ spec:
     useBuildCache: true
   environments:
     - name: admin
+      build:
+        from: main
     - name: transfer
+      build:
+        from: main  
     - name: status
+      build:
+        from: main    
     - name: scoping
+      build:
+        from: main
   components:
     # Web Server (client backend)
     - name: webserver
