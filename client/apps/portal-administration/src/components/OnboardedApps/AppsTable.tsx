@@ -59,8 +59,8 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 							hide: true,
 						},
 						{
-							field: 'name',
-							headerName: 'Name',
+							field: 'displayName',
+							headerName: 'Display Name',
 							filter: true,
 						},
 						{
