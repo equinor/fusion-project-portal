@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Domain.Common;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
 using Fusion.Integration;
@@ -31,11 +32,11 @@ public class AccountService : IAccountService
             if (accountIdentifier.Type == AccountIdentifier.IdentifierType.Mail)
             {
                 profile = await ResolveProfileAsync(accountIdentifier, cancellationToken);
+
                 if (profile is null)
                 {
-                    throw new InvalidOperationException();
+                    throw new AccountNotFoundError(accountIdentifier);
                 }
-                //throw new AccountNotFoundError(accountIdentifier);
 
                 personAzureUniqueId = profile.AzureUniqueId;
             }
@@ -55,9 +56,8 @@ public class AccountService : IAccountService
 
             if (profile == null)
             {
-                throw new InvalidOperationException();
+                throw new AccountNotFoundError(accountIdentifier);
             }
-            //throw new AccountNotFoundError(accountIdentifier);
 
             if (profile.AzureUniqueId == null)
             {
