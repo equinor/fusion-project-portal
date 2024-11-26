@@ -11,14 +11,13 @@ using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Fusion.AspNetCore.FluentAuthorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-[ApiVersion("0.1")]
+[ApiVersion("1.0")]
 [Route("api/portals")]
 public class PortalController : ApiControllerBase
 {
@@ -46,7 +45,6 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -55,7 +53,19 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> CreatePortal([FromBody] ApiCreatePortalRequest request)
     {
-        await AuthorizationService.RequireAuthorizationAsync(User, id, Policies.ProjectPortal.Admin);
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
 
         try
         {
@@ -78,7 +88,6 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpPut("{portalId:guid}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -87,6 +96,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> UpdatePortal([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalRequest request)
     {
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(portalId));
@@ -119,7 +139,6 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpPut("{portalId:guid}/configuration")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -128,6 +147,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> UpdatePortalConfiguration([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalConfigurationRequest request)
     {
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(portalId));
@@ -145,13 +175,26 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpDelete("{portalId:guid}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId)
+    public async Task<ActionResult> RemovePortal([FromRoute] Guid portalId)
     {
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         var request = new ApiRemovePortalRequest();
 
         try
@@ -253,7 +296,6 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpPost("{portalId:guid}/apps")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -263,6 +305,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddPortalApp([FromRoute] Guid portalId, [FromBody] ApiAddGlobalAppToPortalRequest request)
     {
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(portalId));
@@ -284,7 +337,6 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpPost("{portalId:guid}/contexts/{contextId:guid}/apps")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -294,6 +346,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddPortalApp([FromRoute] Guid portalId, Guid contextId, [FromBody] ApiAddContextAppToPortalRequest request)
     {
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(portalId, contextId));
@@ -319,44 +382,34 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpDelete("{portalId:guid}/apps/{appKey}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, [FromRoute] string appKey)
-    {
-        var request = new ApiRemovePortalAppRequest();
-
-        try
-        {
-            await Mediator.Send(request.ToCommand(portalId, appKey));
-        }
-        catch (NotFoundException ex)
-        {
-            return FusionApiError.NotFound(portalId, ex.Message);
-        }
-        catch (Exception)
-        {
-            return FusionApiError.InvalidOperation("500", "An error occurred while removing portal app");
-        }
-
-        return Ok();
-    }
-
     [HttpDelete("{portalId:guid}/contexts/{contextId:guid}/apps/{appKey}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, Guid contextId, [FromRoute] string appKey)
+    public async Task<ActionResult> RemovePortalApp([FromRoute] Guid portalId, [FromRoute] Guid? contextId, [FromRoute] string appKey)
     {
-        var request = new ApiRemovePortalAppRequest();
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
 
         try
         {
-            await Mediator.Send(request.ToCommand(portalId, contextId, appKey));
+            if (contextId != null)
+            {
+                await Mediator.Send(new ApiRemovePortalAppRequest().ToCommand(portalId, contextId.Value, appKey));
+            }
+            else
+            {
+                await Mediator.Send(new ApiRemovePortalAppRequest().ToCommand(portalId, appKey));
+            }
         }
         catch (NotFoundException ex)
         {
@@ -382,6 +435,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddContextType([FromRoute] Guid portalId, [FromBody] ApiAddContextTypeToPortalRequest request)
     {
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(portalId));
@@ -414,6 +478,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveContextType([FromRoute] Guid portalId, [FromRoute] string contextType)
     {
+        #region Authorization
+
+        var authResult = await AuthorizeCanModifyPortal(portalId);
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         var request = new ApiRemovePortalContextType();
         try
         {
@@ -433,5 +508,21 @@ public class PortalController : ApiControllerBase
         }
 
         return Ok();
+    }
+
+    private async Task<AuthorizationOutcome> AuthorizeCanModifyPortal(Guid portalId)
+    {
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+
+            builder.AnyOf(or =>
+            {
+                or.BePortalAdmin(portalId);
+                or.BePortalOwner(portalId);
+            });
+        });
+
+        return authResult;
     }
 }

@@ -6,21 +6,24 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 
 public static class ApplicationsRequirementBuilderExtensions
 {
-    public static IAuthorizationRequirementRule PortalsFullControl(this IAuthorizationRequirementRule builder)
+    public static IAuthorizationRequirementRule HasPortalsFullControl(this IAuthorizationRequirementRule builder)
     {
         builder.OrGlobalRole(Scopes.ProjectPortalAdmin);
+
         return builder;
     }
 
     public static IAuthorizationRequirementRule BePortalAdmin(this IAuthorizationRequirementRule builder, Guid portalId)
     {
         builder.AddRule(portalId, new PortalAdminRequirement());
+
         return builder;
     }
 
     public static IAuthorizationRequirementRule BePortalOwner(this IAuthorizationRequirementRule builder, Guid portalId)
     {
         builder.AddRule(portalId, new PortalOwnerRequirement());
+
         return builder;
     }
 
