@@ -16,7 +16,7 @@ public class ContextTypeController : ApiControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IList<ApiContextType>>> ContextTypes()
+    public async Task<ActionResult<IList<ApiContextType>>> GetContextTypes()
     {
         var contextTypesDto = await Mediator.Send(new GetContextTypesQuery());
 

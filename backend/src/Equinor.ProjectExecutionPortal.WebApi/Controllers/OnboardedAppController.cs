@@ -15,7 +15,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 public class OnboardedAppController : ApiControllerBase
 {
     [HttpGet("")]
-    public async Task<ActionResult<IList<ApiOnboardedApp>>> OnboardedApps()
+    public async Task<ActionResult<IList<ApiOnboardedApp>>> GetOnboardedApps()
     {
         var onboardedAppsDto = await Mediator.Send(new GetOnboardedAppsQuery());
 
@@ -25,7 +25,7 @@ public class OnboardedAppController : ApiControllerBase
     [HttpGet("{appKey}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiOnboardedAppExpanded>> OnboardedApp([FromRoute] string appKey)
+    public async Task<ActionResult<ApiOnboardedAppExpanded>> GetOnboardedApp([FromRoute] string appKey)
     {
         var onboardedAppDto = await Mediator.Send(new GetOnboardedAppQuery(appKey));
 
@@ -170,6 +170,7 @@ public class OnboardedAppController : ApiControllerBase
     }
 
     // ContextTypes
+
     [HttpPost("{appKey}/context-type")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -178,7 +179,7 @@ public class OnboardedAppController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Guid>> AddContextType([FromRoute] string appKey, [FromBody] ApiAddContextTypeToOnboardedAppRequest request)
+    public async Task<ActionResult<Guid>> AddContextTypeToOnboardedApp([FromRoute] string appKey, [FromBody] ApiAddContextTypeToOnboardedAppRequest request)
     {
         #region Authorization
 
@@ -223,7 +224,7 @@ public class OnboardedAppController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> RemoveContextType([FromRoute] string appKey, [FromRoute] string contextType)
+    public async Task<ActionResult> RemoveContextTypeFromOnboardedApp([FromRoute] string appKey, [FromRoute] string contextType)
     {
         #region Authorization
 

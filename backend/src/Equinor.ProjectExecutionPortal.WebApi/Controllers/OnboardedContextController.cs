@@ -15,7 +15,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 public class OnboardedContextController : ApiControllerBase
 {
     [HttpGet("")]
-    public async Task<ActionResult<IList<ApiOnboardedContext>>> OnboardedContexts()
+    public async Task<ActionResult<IList<ApiOnboardedContext>>> GetOnboardedContexts()
     {
         var onboardedContextsDto = await Mediator.Send(new GetOnboardedContextsQuery());
 
@@ -25,7 +25,7 @@ public class OnboardedContextController : ApiControllerBase
     [HttpGet("{contextId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiOnboardedContext>> OnboardedContextByContextId([FromRoute] Guid contextId)
+    public async Task<ActionResult<ApiOnboardedContext>> GetOnboardedContextByContextId([FromRoute] Guid contextId)
     {
         var onboardedContext = await Mediator.Send(new GetOnboardedContextByContextIdQuery(contextId));
 
@@ -40,7 +40,7 @@ public class OnboardedContextController : ApiControllerBase
     [HttpGet("{contextExternalId}/type{type}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiOnboardedContext>> OnboardedContext([FromRoute] string contextExternalId, string type)
+    public async Task<ActionResult<ApiOnboardedContext>> GetOnboardedContext([FromRoute] string contextExternalId, string type)
     {
         var onboardedContext = await Mediator.Send(new GetOnboardedContextByExternalIdContextTypeQuery(contextExternalId, type));
 
