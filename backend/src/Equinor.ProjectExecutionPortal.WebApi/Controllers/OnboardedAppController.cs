@@ -2,7 +2,6 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-[ApiVersion("0.1")]
+[ApiVersion("1.0")]
 [Route("api/onboarded-apps")]
 public class OnboardedAppController : ApiControllerBase
 {

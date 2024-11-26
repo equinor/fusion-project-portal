@@ -6,7 +6,6 @@ using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboar
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;

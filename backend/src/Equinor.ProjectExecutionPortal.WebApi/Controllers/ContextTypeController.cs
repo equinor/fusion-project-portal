@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetContextTypes;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-[ApiVersion("0.1")]
+[ApiVersion("1.0")]
 [Route("api/context-types")]
 public class ContextTypeController : ApiControllerBase
 {
