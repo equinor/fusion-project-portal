@@ -11,7 +11,7 @@ using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
+const string allowAllOriginsCorsPolicy = "AllowAllOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(AllowAllOriginsCorsPolicy,
+    options.AddPolicy(allowAllOriginsCorsPolicy,
         policyBuilder =>
         {
             policyBuilder
@@ -118,7 +118,7 @@ builder.Services.AddCacheModules();
 
 var app = builder.Build();
 
-app.UseCors(AllowAllOriginsCorsPolicy);
+app.UseCors(allowAllOriginsCorsPolicy);
 
 // Use Swagger in all environments
 app.UseSwagger();
