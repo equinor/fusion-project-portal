@@ -7,6 +7,20 @@ import { PortalRouter } from '@portal/core';
 import { PortalPage } from './PortalPage';
 import { getConfiguredRoutes } from './GetConfiguredRoutes';
 
+/**
+ * Generates the route configuration for the portal application.
+ *
+ * @param {PortalRouter} portalRoutes - The portal router configuration object.
+ * @returns {RouteObject[]} An array of route objects for the portal application.
+ *
+ * The generated routes include:
+ * - The root path (`/`) which renders the `PortalFrame` component and handles errors with `PortalMessagePage`.
+ * - The root page (`/`) which renders the `PortalPage` component with the root route configuration.
+ * - Additional configured pages from `getConfiguredRoutes`.
+ * - An application path (`/apps/:appKey`) which renders the `AppPage` component and handles nested routes and errors.
+ * - A redirect path (`/aka/*`) which navigates to the corresponding application path.
+ * - A wildcard path (`/*`) which redirects to the root path.
+ */
 export const getRoutes = (portalRoutes: PortalRouter): RouteObject[] => {
 	const pages = getConfiguredRoutes(portalRoutes.routes);
 
