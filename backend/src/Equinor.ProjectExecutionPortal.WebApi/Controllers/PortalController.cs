@@ -250,9 +250,7 @@ public class PortalController : ApiControllerBase
     // Apps
 
     [HttpGet("{portalId:guid}/apps")]
-    [HttpGet("{portalId:guid}/appkeys")] // TODO: DEPRECATED
     [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
-    [HttpGet("{portalId:guid}/contexts/{contextId:guid}/appkeys")] // TODO: DEPRECATED
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<string>>> GetAppKeysForPortal([FromRoute] Guid portalId, [FromRoute] Guid? contextId)
