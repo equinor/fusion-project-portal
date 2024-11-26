@@ -22,7 +22,7 @@ import { getConfiguredRoutes } from './GetConfiguredRoutes';
  * - A wildcard path (`/*`) which redirects to the root path.
  */
 export const getRoutes = (portalRoutes: PortalRouter): RouteObject[] => {
-	// Generate the route configuration for the portal application.
+	// Generate the route configuration for the portal application2.
 	const pages = getConfiguredRoutes(portalRoutes.routes);
 
 	return [
