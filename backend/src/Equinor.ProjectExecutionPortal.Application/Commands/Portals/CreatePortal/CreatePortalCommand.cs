@@ -71,15 +71,17 @@ public class CreatePortalCommand : IRequest<Guid>
             foreach (var admin in command.Admins)
             {
                 var account = accounts[admin];
+                var portalAdmin = new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
 
-                portal.AddAdmin(new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id });
+                portal.AddAdmin(portalAdmin);
             }
 
             foreach (var owner in command.Owners)
             {
                 var account = accounts[owner];
+                var portalOwner = new PortalOwner { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
 
-                portal.AddOwner(new PortalOwner { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id });
+                portal.AddOwner(portalOwner);
             }
 
             await _readWriteContext.Set<Portal>().AddAsync(portal, cancellationToken);
