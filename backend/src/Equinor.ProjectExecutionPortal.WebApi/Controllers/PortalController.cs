@@ -11,7 +11,6 @@ using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
 using Fusion.AspNetCore.FluentAuthorization;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
@@ -424,7 +423,6 @@ public class PortalController : ApiControllerBase
 
     // ContextTypes
     [HttpPost("{portalId:guid}/context-type")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -470,7 +468,6 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpDelete("{portalId:guid}/context-type/{contextType}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]

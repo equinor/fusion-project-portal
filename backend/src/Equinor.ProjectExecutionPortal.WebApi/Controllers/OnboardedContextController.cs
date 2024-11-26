@@ -2,15 +2,14 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
+using Fusion.AspNetCore.FluentAuthorization;
 using Fusion.Integration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiVersion("1.0")]
 [Route("api/onboarded-contexts")]
 public class OnboardedContextController : ApiControllerBase
@@ -54,7 +53,6 @@ public class OnboardedContextController : ApiControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -64,8 +62,21 @@ public class OnboardedContextController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
     {
-        var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
+        #region Authorization
 
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
+        var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
         var context = await ContextResolver.ResolveContextAsync(contextIdentifier, request.Type);
 
         if (context == null || context.ExternalId == null)
@@ -90,7 +101,6 @@ public class OnboardedContextController : ApiControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -99,6 +109,20 @@ public class OnboardedContextController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] Guid id, [FromBody] ApiUpdateOnboardedContextRequest request)
     {
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(id));
@@ -116,18 +140,29 @@ public class OnboardedContextController : ApiControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveOnboardedContext([FromRoute] Guid id)
     {
-        var request = new ApiRemoveOnboardedContextRequest { Id = id };
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
 
         try
         {
-            await Mediator.Send(request.ToCommand());
+            await Mediator.Send(new ApiRemoveOnboardedContextRequest { Id = id }.ToCommand());
         }
         catch (NotFoundException ex)
         {

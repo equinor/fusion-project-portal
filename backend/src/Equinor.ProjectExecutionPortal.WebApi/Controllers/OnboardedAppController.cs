@@ -2,15 +2,14 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedAppContextType;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Fusion.AspNetCore.FluentAuthorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiVersion("1.0")]
 [Route("api/onboarded-apps")]
 public class OnboardedAppController : ApiControllerBase
@@ -39,7 +38,6 @@ public class OnboardedAppController : ApiControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -49,6 +47,20 @@ public class OnboardedAppController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> OnboardApp([FromBody] ApiOnboardAppRequest request)
     {
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand());
@@ -74,7 +86,6 @@ public class OnboardedAppController : ApiControllerBase
     }
 
     [HttpPut("{appKey}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -83,6 +94,20 @@ public class OnboardedAppController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> UpdateOnboardedApp([FromRoute] string appKey, [FromBody] ApiUpdateOnboardedAppRequest request)
     {
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(appKey));
@@ -104,18 +129,29 @@ public class OnboardedAppController : ApiControllerBase
     }
 
     [HttpDelete("{appKey}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveOnboardedApp([FromRoute] string appKey)
     {
-        var request = new ApiRemoveOnboardedAppRequest { AppKey = appKey };
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
 
         try
         {
-            await Mediator.Send(request.ToCommand());
+            await Mediator.Send(new ApiRemoveOnboardedAppRequest { AppKey = appKey }.ToCommand());
         }
         catch (NotFoundException ex)
         {
@@ -133,9 +169,8 @@ public class OnboardedAppController : ApiControllerBase
         return Ok();
     }
 
-    //ContextTypes
+    // ContextTypes
     [HttpPost("{appKey}/context-type")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -145,6 +180,20 @@ public class OnboardedAppController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddContextType([FromRoute] string appKey, [FromBody] ApiAddContextTypeToOnboardedAppRequest request)
     {
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand(appKey));
@@ -170,17 +219,29 @@ public class OnboardedAppController : ApiControllerBase
     }
 
     [HttpDelete("{appKey}/context-type/{contextType}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveContextType([FromRoute] string appKey, [FromRoute] string contextType)
     {
-        var request = new ApiRemoveOnboardedAppContextType();
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
-            await Mediator.Send(request.ToCommand(appKey, contextType));
+            await Mediator.Send(new ApiRemoveOnboardedAppContextType().ToCommand(appKey, contextType));
         }
         catch (NotFoundException ex)
         {

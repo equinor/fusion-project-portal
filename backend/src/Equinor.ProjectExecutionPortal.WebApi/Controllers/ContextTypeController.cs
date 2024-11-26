@@ -1,14 +1,13 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetContextTypes;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Fusion.AspNetCore.FluentAuthorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiVersion("1.0")]
 [Route("api/context-types")]
 public class ContextTypeController : ApiControllerBase
@@ -25,7 +24,6 @@ public class ContextTypeController : ApiControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -34,6 +32,20 @@ public class ContextTypeController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
     public async Task<ActionResult<Guid>> AddContextType([FromBody] ApiAddContextTypeRequest request)
     {
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
+
         try
         {
             await Mediator.Send(request.ToCommand());
@@ -55,18 +67,29 @@ public class ContextTypeController : ApiControllerBase
     }
 
     [HttpDelete("{contextType}")]
-    [Authorize(Policy = Policies.ProjectPortal.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveContextType([FromRoute] string contextType)
     {
-        var request = new ApiRemoveContextTypeRequest { Type = contextType };
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        {
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
+        }
+
+        #endregion
 
         try
         {
-            await Mediator.Send(request.ToCommand());
+            await Mediator.Send(new ApiRemoveContextTypeRequest { Type = contextType }.ToCommand());
         }
         catch (NotFoundException ex)
         {
