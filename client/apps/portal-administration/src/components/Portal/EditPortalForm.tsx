@@ -70,7 +70,6 @@ export const EditPortalForm = (props: {
 		formState: { errors, isSubmitting, touchedFields },
 		watch,
 		setValue,
-		reset,
 	} = useForm<PortalInputs>({
 		resolver: zodResolver(portalEditInputSchema),
 		defaultValues: {
@@ -80,7 +79,6 @@ export const EditPortalForm = (props: {
 
 	const onSubmit: SubmitHandler<PortalInputs> = async (editedPortal) => {
 		await updatePortal(editedPortal);
-		reset();
 	};
 
 	const [type, setType] = useState(contexts && contexts?.length > 0 ? 'context-portal' : 'app-portal');
