@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals;
@@ -15,4 +16,6 @@ public class PortalDto : AuditDto, IMapFrom<Domain.Entities.Portal>
     public required IList<ContextTypeDto> ContextTypes { get; set; }
     public required List<PortalAppDto> Apps { get; set; }
     public PortalConfigurationDto? Configuration { get; set; }
+    public List<PortalAdminDto>? Admins { get; set; }
+    public List<PortalOwnerDto>? Owners { get; set; }
 }

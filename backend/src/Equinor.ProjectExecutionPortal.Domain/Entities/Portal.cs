@@ -58,7 +58,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _apps.Add(app);
     }
 
-    public void AddContextTypes(IList<ContextType> contextTypes)
+    public void UpdateContextTypes(IList<ContextType> contextTypes)
     {
         _contextTypes.Clear();
         _contextTypes.AddRange(contextTypes);
@@ -79,7 +79,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _admins.Add(admin);
     }
 
-    public void AddAdmins(IList<PortalAdmin> admins)
+    public void UpdateAdmins(IList<PortalAdmin> admins)
     {
         _admins.Clear();
         _admins.AddRange(admins);
@@ -90,7 +90,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _owners.Add(owner);
     }
 
-    public void AddOwners(IList<PortalOwner> owners)
+    public void UpdateOwners(IList<PortalOwner> owners)
     {
         _owners.Clear();
         _owners.AddRange(owners);

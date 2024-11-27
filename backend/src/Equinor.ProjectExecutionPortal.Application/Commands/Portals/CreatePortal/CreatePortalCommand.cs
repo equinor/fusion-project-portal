@@ -63,26 +63,25 @@ public class CreatePortalCommand : IRequest<Guid>
                 command.Description,
                 command.Icon);
 
-            portal.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
+            portal.UpdateContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
             var accountIdentifiers = command.Admins.Concat(command.Owners).ToList();
             var accounts = await _mediator.Send(new EnsureAccountsCommand(accountIdentifiers), cancellationToken);
 
-            foreach (var admin in command.Admins)
+            var admins = command.Admins.Select(admin =>
             {
                 var account = accounts[admin];
-                var portalAdmin = new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+                return new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+            }).ToList();
 
-                portal.AddAdmin(portalAdmin);
-            }
-
-            foreach (var owner in command.Owners)
+            var owners = command.Owners.Select(owner =>
             {
                 var account = accounts[owner];
-                var portalOwner = new PortalOwner { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+                return new PortalOwner { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+            }).ToList();
 
-                portal.AddOwner(portalOwner);
-            }
+            portal.UpdateAdmins(admins);
+            portal.UpdateOwners(owners);
 
             await _readWriteContext.Set<Portal>().AddAsync(portal, cancellationToken);
 

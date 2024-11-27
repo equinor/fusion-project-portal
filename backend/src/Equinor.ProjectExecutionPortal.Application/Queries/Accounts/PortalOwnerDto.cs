@@ -1,8 +1,9 @@
-﻿using Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
 
-public class PortalOwnerDto
+public class PortalOwnerDto : IMapFrom<PortalOwner>
 {
     public PortalOwnerDto(PortalOwner owner)
     {

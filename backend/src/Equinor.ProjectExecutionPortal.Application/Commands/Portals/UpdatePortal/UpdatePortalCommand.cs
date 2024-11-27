@@ -1,5 +1,7 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Helpers;
+﻿using Equinor.ProjectExecutionPortal.Application.Commands.Accounts.EnsureAccounts;
+using Equinor.ProjectExecutionPortal.Application.Helpers;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
 using Equinor.ProjectExecutionPortal.Infrastructure;
@@ -10,7 +12,16 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePort
 
 public class UpdatePortalCommand : IRequest<Guid>
 {
-    public UpdatePortalCommand(Guid id, string name, string shortName, string subText, string? description, string icon, IList<string> contextTypes)
+    public UpdatePortalCommand(
+        Guid id,
+        string name,
+        string shortName,
+        string subText,
+        string? description,
+        string icon,
+        IList<string> contextTypes,
+        IList<AccountIdentifier> admins,
+        IList<AccountIdentifier> owners)
     {
         Id = id;
         Name = name;
@@ -19,6 +30,8 @@ public class UpdatePortalCommand : IRequest<Guid>
         Description = description;
         Icon = icon;
         ContextTypes = contextTypes;
+        Admins = admins;
+        Owners = owners;
     }
 
     public Guid Id { get; }
@@ -28,38 +41,62 @@ public class UpdatePortalCommand : IRequest<Guid>
     public string? Description { get; }
     public string Icon { get; }
     public IList<string> ContextTypes { get; }
+    public IList<AccountIdentifier> Admins { get; private set; }
+    public IList<AccountIdentifier> Owners { get; private set; }
 
     public class Handler : IRequestHandler<UpdatePortalCommand, Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IContextTypeService _contextTypeService;
+        private readonly ISender _mediator;
 
-        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService)
+        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService, ISender mediator)
         {
             _readWriteContext = readWriteContext;
             _contextTypeService = contextTypeService;
+            _mediator = mediator;
         }
 
         public async Task<Guid> Handle(UpdatePortalCommand command, CancellationToken cancellationToken)
         {
-            var entity = await _readWriteContext.Set<Portal>()
-                .Include(x => x.ContextTypes)
-                .FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
+            var portal = await _readWriteContext.Set<Portal>()
+                .Include(portal => portal.ContextTypes)
+                .Include(portal => portal.Admins)
+                .Include(portal => portal.Owners)
+                .FirstOrDefaultAsync(portal => portal.Id == command.Id, cancellationToken);
 
-            if (entity == null)
+            if (portal == null)
             {
                 throw new NotFoundException(nameof(Portal), command.Id);
             }
 
             var slug = SlugHelper.Sluggify(command.Name);
 
-            entity.Update(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
+            portal.Update(slug, command.Name, command.ShortName, command.SubText, command.Description, command.Icon);
 
-            entity.AddContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
+            portal.UpdateContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
+
+            var accountIdentifiers = command.Admins.Concat(command.Owners).ToList();
+            var accounts = await _mediator.Send(new EnsureAccountsCommand(accountIdentifiers), cancellationToken);
+
+            var admins = command.Admins.Select(admin =>
+            {
+                var account = accounts[admin];
+                return new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+            }).ToList();
+
+            var owners = command.Owners.Select(owner =>
+            {
+                var account = accounts[owner];
+                return new PortalOwner { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+            }).ToList();
+
+            portal.UpdateAdmins(admins);
+            portal.UpdateOwners(owners);
 
             await _readWriteContext.SaveChangesAsync(cancellationToken);
 
-            return entity.Id;
+            return portal.Id;
         }
     }
 }

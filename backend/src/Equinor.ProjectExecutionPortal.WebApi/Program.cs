@@ -1,11 +1,18 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Configuration;
+using System.Text.Json.Serialization;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Fusion.Infrastructure.ServiceDiscovery;
+using Fusion.Integration;
+using Fusion.Integration.Apps.Abstractions.Models;
 using Fusion.Integration.Apps.Configuration;
+using Fusion.Integration.Profile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -42,20 +49,35 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
+
+
+
 // Add fusion integration
-builder.Services.AddFusionIntegration(f =>
+
+// WIP. Perhaps this
+//builder.Services.AddFusionInfrastructure(builder.Configuration, fusion =>
+//{
+//    fusion.ConfigureIntegration(i =>
+//    {
+//        i.AddProfileSync<ProfileSyncHandler>();
+//    });
+//});
+
+
+builder.Services.AddFusionIntegration(fusion =>
 {
     var environment = builder.Configuration.GetValue<string>("Fusion:Environment")!;
 
-    f.UseServiceInformation("Fusion.Project.Portal", environment);
-    f.UseDefaultEndpointResolver(environment);
-    f.AddAppsClient();
-    f.UseDefaultTokenProvider(opts =>
+    fusion.UseServiceInformation("Fusion.Project.Portal", environment);
+    fusion.UseDefaultEndpointResolver(environment);
+    fusion.AddAppsClient();
+    fusion.UseDefaultTokenProvider(opts =>
     {
         opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId")!;
         opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
     });
-    f.DisableClaimsTransformation();
+    fusion.DisableClaimsTransformation();
+    //fusion.AddProfileSync<ProfileSyncHandler>(); // WIP. Or this
 });
 
 builder.Services.AddControllers(config =>
@@ -63,6 +85,7 @@ builder.Services.AddControllers(config =>
         var policy = new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
             .Build();
+
         config.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
