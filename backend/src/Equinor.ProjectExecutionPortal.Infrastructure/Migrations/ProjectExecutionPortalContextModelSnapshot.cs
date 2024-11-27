@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -52,6 +52,47 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("PortalContextTypes", (string)null);
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Account", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AccountClassification")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("AccountType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<Guid>("AzureUniqueId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("ExpiredDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("HasExpired")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LastSyncDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AzureUniqueId")
+                        .IsUnique();
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -66,7 +107,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ModifiedAtUtc")
@@ -97,7 +138,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ModifiedAtUtc")
@@ -123,7 +164,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -163,7 +204,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -208,6 +249,26 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("Portals");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalAdmin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PortalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("PortalId");
+
+                    b.ToTable("PortalAdmins");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
                 {
                     b.Property<Guid>("Id")
@@ -217,7 +278,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsHidden")
@@ -258,7 +319,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Environment")
@@ -290,6 +351,26 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("PortalConfiguration");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalOwner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PortalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("PortalId");
+
+                    b.ToTable("PortalOwners");
+                });
+
             modelBuilder.Entity("ContextTypeOnboardedApp", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", null)
@@ -318,6 +399,23 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .HasForeignKey("PortalsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalAdmin", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Account", "Account")
+                        .WithMany("PortalAdmins")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", null)
+                        .WithMany("Admins")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
@@ -357,6 +455,30 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Navigation("Portal");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalOwner", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Account", "Account")
+                        .WithMany("PortalOwners")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", null)
+                        .WithMany("Owners")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Account", b =>
+                {
+                    b.Navigation("PortalAdmins");
+
+                    b.Navigation("PortalOwners");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
                 {
                     b.Navigation("Apps");
@@ -369,10 +491,14 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
                 {
+                    b.Navigation("Admins");
+
                     b.Navigation("Apps");
 
                     b.Navigation("Configuration")
                         .IsRequired();
+
+                    b.Navigation("Owners");
                 });
 #pragma warning restore 612, 618
         }
