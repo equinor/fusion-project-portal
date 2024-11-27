@@ -46,10 +46,10 @@ public class ApiUpdatePortalRequest
                 .MaximumLength(Domain.Entities.Portal.DescriptionLengthMax);
 
             RuleFor(x => x.Admins).NotEmpty().WithMessage("Must specify at least one admin");
-            RuleFor(x => x.Admins).BeValidAccounts(accountService);
+            //RuleFor(x => x.Admins).BeValidAccounts(accountService);
 
             RuleFor(x => x.Owners).NotEmpty().WithMessage("Must specify at least one owner");
-            RuleFor(x => x.Owners).BeValidAccounts(accountService);
+            //RuleFor(x => x.Owners).BeValidAccounts(accountService);
         }
     }
 }

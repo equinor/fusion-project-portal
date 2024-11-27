@@ -43,7 +43,7 @@ public class AccountService : IAccountService
 
             if (personAzureUniqueId is not null && personAzureUniqueId != Guid.Empty)
             {
-                var account = await _context.Set<Account>().FirstOrDefaultAsync(p => p.AzureUniqueId == personAzureUniqueId, cancellationToken);
+                var account = await _context.Set<Account>().FirstOrDefaultAsync(account => account.AzureUniqueId == personAzureUniqueId, cancellationToken);
 
                 if (account != null)
                 {

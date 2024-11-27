@@ -7,7 +7,6 @@ public class ApiPortalOwner
     public ApiPortalOwner(PortalOwnerDto ownerDto)
     {
         Id = ownerDto.Id;
-
         WithAccount(ownerDto.Account);
     }
 
@@ -22,7 +21,7 @@ public class ApiPortalOwner
         IsExpired = account.HasExpired;
     }
 
-    public Guid Id { get; }
+    public Guid Id { get; set; }
     public Guid? AzureUniqueId { get; set; }
     public string? AccountType { get; set; }
     public string? AccountClassification { get; set; }

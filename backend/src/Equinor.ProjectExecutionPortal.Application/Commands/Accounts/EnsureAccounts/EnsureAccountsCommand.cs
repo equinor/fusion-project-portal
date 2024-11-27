@@ -1,6 +1,9 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
+﻿using AutoMapper;
+using Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
 using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
 using Equinor.ProjectExecutionPortal.Domain.Common;
+using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.Domain.Entities;
 using MediatR;
 
 namespace Equinor.ProjectExecutionPortal.Application.Commands.Accounts.EnsureAccounts;
@@ -17,22 +20,24 @@ public class EnsureAccountsCommand : IRequest<IDictionary<AccountIdentifier, Acc
         AccountIdentifiers = accountIdentifiers;
     }
 
+    public IReadOnlyCollection<AccountIdentifier> AccountIdentifiers { get; }
+    public bool ShouldThrow { get; private set; } = true;
+
     public EnsureAccountsCommand NoThrow()
     {
         ShouldThrow = false;
         return this;
     }
 
-    public IReadOnlyCollection<AccountIdentifier> AccountIdentifiers { get; private set; }
-    public bool ShouldThrow { get; private set; } = true;
-
     public class Handler : IRequestHandler<EnsureAccountsCommand, IDictionary<AccountIdentifier, AccountDto?>>
     {
         private readonly IAccountService _accountService;
+        private readonly IMapper _mapper;
 
-        public Handler(IAccountService accountService)
+        public Handler(IAccountService accountService, IMapper mapper)
         {
             _accountService = accountService;
+            _mapper = mapper;
         }
 
         public async Task<IDictionary<AccountIdentifier, AccountDto?>> Handle(EnsureAccountsCommand command, CancellationToken cancellationToken)
@@ -55,8 +60,7 @@ public class EnsureAccountsCommand : IRequest<IDictionary<AccountIdentifier, Acc
 
             if (command.ShouldThrow && notFound.Count > 0)
             {
-                throw new InvalidOperationException();
-                //throw new EnsureAccountsError(notFound);
+                throw new EnsureAccountsException(notFound);
             }
 
             return ensuredAccounts;
@@ -71,12 +75,7 @@ public class EnsureAccountsCommand : IRequest<IDictionary<AccountIdentifier, Acc
                 account = await _accountService.EnsureApplicationAsync(accountIdentifier.UniqueId!.Value, cancellationToken);
             }
 
-            if (account is null)
-            {
-                return null;
-            }
-
-            return new AccountDto(account);
+            return account is null ? null : _mapper.Map<Account, AccountDto>(account);
         }
     }
 }

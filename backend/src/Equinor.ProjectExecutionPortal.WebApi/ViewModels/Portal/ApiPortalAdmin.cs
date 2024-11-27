@@ -7,7 +7,6 @@ public class ApiPortalAdmin
     public ApiPortalAdmin(PortalAdminDto adminDto)
     {
         Id = adminDto.Id;
-
         WithAccount(adminDto.Account);
     }
 
@@ -22,7 +21,7 @@ public class ApiPortalAdmin
         IsExpired = account.HasExpired;
     }
 
-    public Guid Id { get; }
+    public Guid Id { get; set; }
     public Guid? AzureUniqueId { get; set; }
     public string? AccountType { get; set; }
     public string? AccountClassification { get; set; }

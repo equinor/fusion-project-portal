@@ -62,7 +62,9 @@ public class UpdatePortalCommand : IRequest<Guid>
             var portal = await _readWriteContext.Set<Portal>()
                 .Include(portal => portal.ContextTypes)
                 .Include(portal => portal.Admins)
+                    .ThenInclude(x => x.Account)
                 .Include(portal => portal.Owners)
+                    .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync(portal => portal.Id == command.Id, cancellationToken);
 
             if (portal is null)
