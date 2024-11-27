@@ -2,11 +2,11 @@
 
 public class Account
 {
+    public const int AccountTypeLengthMax = 30;
+    public const int AccountClassificationLengthMax = 30;
+
     public Guid Id { get; set; }
     public Guid AzureUniqueId { get; set; }
-    public string? Mail { get; set; }
-    public string DisplayName { get; set; } = string.Empty;
-    public string? UPN { get; set; }
     public string AccountType { get; set; } = string.Empty;
     public string? AccountClassification { get; set; }
 

@@ -68,9 +68,6 @@ public class AccountService : IAccountService
             {
                 Id = Guid.NewGuid(),
                 AzureUniqueId = profile.AzureUniqueId.Value,
-                Mail = profile.Mail,
-                DisplayName = profile.Name,
-                UPN = profile.UPN,
                 AccountType = profile.AccountType.ToString(),
                 AccountClassification = profile.AccountClassification?.ToString(),
                 CreatedDate = DateTimeOffset.UtcNow
@@ -109,8 +106,6 @@ public class AccountService : IAccountService
             account = new Account
             {
                 AzureUniqueId = azureUniqueId,
-                Mail = $"{profile.ServicePrincipalId}@{profile.ApplicationId}",
-                DisplayName = profile.DisplayName,
                 AccountType = $"{FusionAccountType.Application}",
                 AccountClassification = string.Empty,
                 CreatedDate = DateTimeOffset.UtcNow
@@ -131,7 +126,7 @@ public class AccountService : IAccountService
     {
         try
         {
-            var resolvedProfiles = await ResolveProfilesAsync(new[] { accountIdentifier }, cancellationToken);
+            var resolvedProfiles = await ResolveProfilesAsync([accountIdentifier], cancellationToken);
             return resolvedProfiles.FirstOrDefault(p => p.Success)?.Profile;
         }
         catch (Exception)

@@ -9,9 +9,6 @@ public class AccountDto : IMapFrom<Account>
     {
         Id = account.Id;
         AzureUniqueId = account.AzureUniqueId;
-        Mail = account.Mail;
-        DisplayName = account.DisplayName;
-        UPN = account.UPN;
         AccountType = account.AccountType;
         AccountClassification = account.AccountClassification;
 
@@ -24,9 +21,6 @@ public class AccountDto : IMapFrom<Account>
 
     public Guid Id { get; private set; }
     public Guid AzureUniqueId { get; set; }
-    public string? Mail { get; set; }
-    public string DisplayName { get; set; }
-    public string? UPN { get; set; }
     public string AccountType { get; set; }
     public string? AccountClassification { get; set; }
 

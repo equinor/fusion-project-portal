@@ -12,23 +12,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasIndex(t => t.AzureUniqueId)
             .IsUnique();
 
-        builder
-            .HasIndex(t => t.Mail);
-
-        builder.Property(t => t.Mail)
-            .HasMaxLength(200);
-
-        builder.Property(t => t.DisplayName)
-            .HasMaxLength(250)
-            .IsRequired();
-
-        builder.Property(t => t.UPN)
-            .HasMaxLength(200);
-
         builder.Property(t => t.AccountType)
-            .HasMaxLength(30);
+            .HasMaxLength(Account.AccountTypeLengthMax);
 
         builder.Property(t => t.AccountClassification)
-            .HasMaxLength(30);
+            .HasMaxLength(Account.AccountClassificationLengthMax);
     }
 }

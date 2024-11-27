@@ -65,7 +65,7 @@ public class UpdatePortalCommand : IRequest<Guid>
                 .Include(portal => portal.Owners)
                 .FirstOrDefaultAsync(portal => portal.Id == command.Id, cancellationToken);
 
-            if (portal == null)
+            if (portal is null)
             {
                 throw new NotFoundException(nameof(Portal), command.Id);
             }
