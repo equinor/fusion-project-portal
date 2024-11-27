@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -406,13 +406,13 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Account", "Account")
                         .WithMany("PortalAdmins")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", null)
                         .WithMany("Admins")
                         .HasForeignKey("PortalId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -460,13 +460,13 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Account", "Account")
                         .WithMany("PortalOwners")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", null)
                         .WithMany("Owners")
                         .HasForeignKey("PortalId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");

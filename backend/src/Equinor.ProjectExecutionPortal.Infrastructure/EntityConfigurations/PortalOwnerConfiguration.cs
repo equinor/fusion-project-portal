@@ -15,11 +15,11 @@ public class PortalOwnerConfiguration : IEntityTypeConfiguration<PortalOwner>
         builder.HasOne<Portal>()
             .WithMany(x => x.Owners)
             .HasForeignKey(aa => aa.PortalId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(aa => aa.Account)
             .WithMany(t => t.PortalOwners)
             .HasForeignKey(aa => aa.AccountId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
