@@ -5,31 +5,31 @@
 /// </summary>
 public class AccountIdentifier : IEquatable<AccountIdentifier>
 {
-    public AccountIdentifier(string identifier)
-    {
-        OriginalIdentifier = identifier;
+    //public AccountIdentifier(string identifier)
+    //{
+    //    OriginalIdentifier = identifier;
 
-        if (Guid.TryParse(identifier, out var id))
-        {
-            UniqueId = id;
-            Mail = null;
-            Type = IdentifierType.UniqueId;
-        }
-        else
-        {
-            UniqueId = null;
-            Mail = identifier;
-            Type = IdentifierType.Mail;
-        }
-    }
+    //    if (Guid.TryParse(identifier, out var id))
+    //    {
+    //        UniqueId = id;
+    //        Mail = null;
+    //        Type = IdentifierType.UniqueId;
+    //    }
+    //    else
+    //    {
+    //        UniqueId = null;
+    //        Mail = identifier;
+    //        Type = IdentifierType.Mail;
+    //    }
+    //}
 
-    public AccountIdentifier(Guid uniqueId)
-    {
-        OriginalIdentifier = $"{uniqueId}";
-        UniqueId = uniqueId;
-        Mail = null;
-        Type = IdentifierType.UniqueId;
-    }
+    //public AccountIdentifier(Guid uniqueId)
+    //{
+    //    OriginalIdentifier = $"{uniqueId}";
+    //    UniqueId = uniqueId;
+    //    Mail = null;
+    //    Type = IdentifierType.UniqueId;
+    //}
 
     public Guid? UniqueId { get; set; }
     public string OriginalIdentifier { get; set; }
@@ -58,15 +58,15 @@ public class AccountIdentifier : IEquatable<AccountIdentifier>
         return OriginalIdentifier.GetHashCode();
     }
 
-    public static implicit operator AccountIdentifier(string identifier)
-    {
-        return new AccountIdentifier(identifier);
-    }
+    //public static implicit operator AccountIdentifier(string identifier)
+    //{
+    //    return new AccountIdentifier(identifier);
+    //}
 
-    public static implicit operator AccountIdentifier(Guid uniqueId)
-    {
-        return new AccountIdentifier(uniqueId);
-    }
+    //public static implicit operator AccountIdentifier(Guid uniqueId)
+    //{
+    //    return new AccountIdentifier(uniqueId);
+    //}
 
     //public static implicit operator Fusion.Integration.Profile.PersonIdentifier(AccountIdentifier personId)
     //{
