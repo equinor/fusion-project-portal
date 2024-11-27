@@ -5,7 +5,6 @@ using Equinor.ProjectExecutionPortal.Application.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.Infrastructure;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization.Requirements;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;

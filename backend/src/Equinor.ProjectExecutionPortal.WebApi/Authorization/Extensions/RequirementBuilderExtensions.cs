@@ -30,7 +30,7 @@ public static class ApplicationsRequirementBuilderExtensions
     private static IAuthorizationRequirementRule OrGlobalRole(this IAuthorizationRequirementRule builder, params string[] scopes)
     {
         var policy = new AuthorizationPolicyBuilder()
-            .RequireAssertion(c => scopes.Any(s => c.User.IsInRole(s)))
+            .RequireAssertion(c => scopes.Any(role => c.User.IsInRole(role)))
             .Build();
 
         builder.AddRule((auth, user) => auth.AuthorizeAsync(user, policy));
