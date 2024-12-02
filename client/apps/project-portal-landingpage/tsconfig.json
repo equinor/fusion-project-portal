@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+      "rootDir": "src",
+      "baseUrl": "src",
+      "jsx": "react-jsx",
+      "strict": true,
+      "incremental": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "inlineSourceMap":true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "stripInternal": true,
+      "skipLibCheck": true,
+      "target": "ESNext",
+      "module": "ESNext",
+      "lib": ["ES2022", "dom"],
+      "composite": true,
+      "outDir": "./dist",
+  },
+  "include": [
+      "./src",
+    ],
+    "exclude": [
+      "node_modules",
+      "lib"
+    ]
+}

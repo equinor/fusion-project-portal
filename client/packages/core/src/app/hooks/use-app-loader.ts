@@ -27,6 +27,8 @@ export const useAppLoader = (args: { appKey: string; path?: string }) => {
 		setLoading(true);
 		setError(undefined);
 		const subscription = new Subscription();
+
+		console.time('app loading');
 		subscription.add(
 			currentApp?.initialize().subscribe({
 				next: ({ manifest, script, config }) => {
@@ -79,6 +81,7 @@ export const useAppLoader = (args: { appKey: string; path?: string }) => {
 								})
 							);
 						} else {
+							console.timeEnd('app loading');
 							subscription.add(
 								appRender({
 									script,
