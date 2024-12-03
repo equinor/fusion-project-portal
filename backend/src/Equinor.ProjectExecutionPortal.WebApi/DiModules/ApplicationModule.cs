@@ -58,6 +58,5 @@ public static class ApplicationModule
 
         // Authorization handlers
         services.AddScoped<IAuthorizationHandler, PortalAdminRequirement.Handler>();
-        services.AddScoped<IAuthorizationHandler, PortalOwnerRequirement.Handler>();
     }
 }

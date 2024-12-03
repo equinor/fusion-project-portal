@@ -17,5 +17,4 @@ public class Account
     public DateTimeOffset? ExpiredDate { get; set; }
 
     public ICollection<PortalAdmin> PortalAdmins { get; set; } = new HashSet<PortalAdmin>();
-    public ICollection<PortalOwner> PortalOwners { get; set; } = new HashSet<PortalOwner>();
 }

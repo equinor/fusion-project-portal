@@ -15,11 +15,10 @@ public class ApiCreatePortalRequest
     public required string Icon { get; init; }
     public required IList<string> ContextTypes { get; init; }
     public List<AccountIdentifier> Admins { get; init; } = [];
-    public List<AccountIdentifier> Owners { get; init; } = [];
 
     public CreatePortalCommand ToCommand()
     {
-        return new CreatePortalCommand(Name, ShortName, Subtext, Description, Icon, ContextTypes, Admins, Owners);
+        return new CreatePortalCommand(Name, ShortName, Subtext, Description, Icon, ContextTypes, Admins);
     }
 
     public class CreatePortalRequestValidator : AbstractValidator<ApiCreatePortalRequest>
@@ -47,9 +46,6 @@ public class ApiCreatePortalRequest
 
             RuleFor(x => x.Admins).NotEmpty().WithMessage("Must specify at least one admin");
             RuleFor(x => x.Admins).BeValidAccounts(accountService);
-
-            RuleFor(x => x.Owners).NotEmpty().WithMessage("Must specify at least one owner");
-            RuleFor(x => x.Owners).BeValidAccounts(accountService);
         }
     }
 }

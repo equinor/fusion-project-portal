@@ -17,5 +17,4 @@ public class PortalDto : AuditDto, IMapFrom<Domain.Entities.Portal>
     public required List<PortalAppDto> Apps { get; set; }
     public PortalConfigurationDto? Configuration { get; set; }
     public List<PortalAdminDto>? Admins { get; set; }
-    public List<PortalOwnerDto>? Owners { get; set; }
 }

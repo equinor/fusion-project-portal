@@ -501,7 +501,6 @@ public class PortalController : ApiControllerBase
             builder.AnyOf(or =>
             {
                 or.BePortalAdmin(portalId);
-                or.BePortalOwner(portalId);
             });
         });
 

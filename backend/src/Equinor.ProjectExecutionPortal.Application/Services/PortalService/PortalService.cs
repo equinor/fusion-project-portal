@@ -54,17 +54,6 @@ public class PortalService : IPortalService
         return app;
     }
 
-    public async Task<bool> UserIsOwner(Guid portalId, Guid userId)
-    {
-        var isOwner = await _context.Set<Portal>()
-            .Include(portal => portal.Owners)
-            .ThenInclude(owner => owner.Account)
-            .Where(portal => portal.Id == portalId)
-            .AnyAsync(x => x.Owners.Any(o => o.Account.AzureUniqueId == userId));
-
-        return isOwner;
-    }
-
     public async Task<bool> UserIsAdmin(Guid portalId, Guid userId)
     {
         var isAdmin = await _context.Set<Portal>()

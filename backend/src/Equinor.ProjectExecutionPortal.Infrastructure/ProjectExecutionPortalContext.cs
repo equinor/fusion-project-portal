@@ -38,7 +38,6 @@ public class ProjectExecutionPortalContext : DbContext, IReadWriteContext
     public DbSet<OnboardedContext> OnboardedContexts { get; init; }
     public DbSet<ContextType> ContextTypes { get; init; }
     public DbSet<Account> Accounts { get; init; }
-    public DbSet<PortalOwner> PortalOwners { get; init; }
     public DbSet<PortalAdmin> PortalAdmins { get; init; }
  
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

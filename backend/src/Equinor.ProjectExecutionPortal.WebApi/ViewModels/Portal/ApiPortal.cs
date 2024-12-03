@@ -24,7 +24,6 @@ public class ApiPortal : ApiAudit
         Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         Configuration = portalDto.Configuration != null ? new ApiPortalConfiguration(portalDto.Configuration) : null;
         Admins = portalDto.Admins?.Select(x => new ApiPortalAdmin(x)).ToList() ?? [];
-        Owners = portalDto.Owners?.Select(x => new ApiPortalOwner(x)).ToList() ?? [];
         SupplyAudit(portalDto);
     }
 
@@ -40,6 +39,4 @@ public class ApiPortal : ApiAudit
     public List<ApiPortalApp> Apps { get; set; } = null!;
     public ApiPortalConfiguration? Configuration { get; set; }
     public List<ApiPortalAdmin> Admins { get; set; }
-    public List<ApiPortalOwner> Owners { get; set; }
-
 }

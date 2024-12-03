@@ -16,8 +16,7 @@ public class CreatePortalCommand : IRequest<Guid>
         string? description,
         string icon,
         IList<string> contextTypes,
-        IList<AccountIdentifier> admins,
-        IList<AccountIdentifier> owners)
+        IList<AccountIdentifier> admins)
     {
         Name = name;
         ShortName = shortName;
@@ -26,7 +25,6 @@ public class CreatePortalCommand : IRequest<Guid>
         Icon = icon;
         ContextTypes = contextTypes;
         Admins = admins;
-        Owners = owners;
     }
 
     public string Name { get; set; }
@@ -36,7 +34,6 @@ public class CreatePortalCommand : IRequest<Guid>
     public string Icon { get; set; }
     public IList<string> ContextTypes { get; set; }
     public IList<AccountIdentifier> Admins { get; private set; }
-    public IList<AccountIdentifier> Owners { get; private set; }
 
     public class Handler : IRequestHandler<CreatePortalCommand, Guid>
     {
@@ -65,8 +62,7 @@ public class CreatePortalCommand : IRequest<Guid>
 
             portal.UpdateContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
-            var accountIdentifiers = command.Admins.Concat(command.Owners).ToList();
-            var accounts = await _mediator.Send(new EnsureAccountsCommand(accountIdentifiers), cancellationToken);
+            var accounts = await _mediator.Send(new EnsureAccountsCommand(command.Admins.ToList()), cancellationToken);
 
             var admins = command.Admins.Select(admin =>
             {
@@ -74,14 +70,7 @@ public class CreatePortalCommand : IRequest<Guid>
                 return new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
             }).ToList();
 
-            var owners = command.Owners.Select(owner =>
-            {
-                var account = accounts[owner];
-                return new PortalOwner { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
-            }).ToList();
-
             portal.UpdateAdmins(admins);
-            portal.UpdateOwners(owners);
 
             await _readWriteContext.Set<Portal>().AddAsync(portal, cancellationToken);
 

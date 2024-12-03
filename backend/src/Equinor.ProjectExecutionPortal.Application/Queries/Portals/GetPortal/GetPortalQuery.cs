@@ -33,8 +33,6 @@ public class GetPortalQuery : QueryBase<PortalDto?>
             .AsNoTracking()
             .Include(x => x.ContextTypes)
             .Include(x => x.Configuration)
-            .Include(x => x.Owners)
-                .ThenInclude(x => x.Account)
             .Include(x => x.Admins)
                 .ThenInclude(x => x.Account)
             .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);

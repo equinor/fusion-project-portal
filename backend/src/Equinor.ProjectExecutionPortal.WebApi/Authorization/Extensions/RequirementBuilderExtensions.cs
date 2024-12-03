@@ -20,13 +20,6 @@ public static class ApplicationsRequirementBuilderExtensions
         return builder;
     }
 
-    public static IAuthorizationRequirementRule BePortalOwner(this IAuthorizationRequirementRule builder, Guid portalId)
-    {
-        builder.AddRule(portalId, new PortalOwnerRequirement());
-
-        return builder;
-    }
-
     private static IAuthorizationRequirementRule OrGlobalRole(this IAuthorizationRequirementRule builder, params string[] scopes)
     {
         var policy = new AuthorizationPolicyBuilder()
