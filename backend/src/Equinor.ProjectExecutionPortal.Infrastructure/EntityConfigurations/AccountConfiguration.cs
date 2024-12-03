@@ -11,11 +11,5 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder
             .HasIndex(t => t.AzureUniqueId)
             .IsUnique();
-
-        builder.Property(t => t.AccountType)
-            .HasMaxLength(Account.AccountTypeLengthMax);
-
-        builder.Property(t => t.AccountClassification)
-            .HasMaxLength(Account.AccountClassificationLengthMax);
     }
 }
