@@ -1,18 +1,11 @@
-﻿using System.Configuration;
-using System.Text.Json.Serialization;
-using Equinor.ProjectExecutionPortal.Domain.Common;
+﻿using System.Text.Json.Serialization;
 using Equinor.ProjectExecutionPortal.WebApi.DiModules;
 using Equinor.ProjectExecutionPortal.WebApi.Middleware;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Fusion.Infrastructure.ServiceDiscovery;
-using Fusion.Integration;
-using Fusion.Integration.Apps.Abstractions.Models;
 using Fusion.Integration.Apps.Configuration;
-using Fusion.Integration.Profile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -49,21 +42,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
-
-
-
-// Add fusion integration
-
-// WIP. Perhaps this
-//builder.Services.AddFusionInfrastructure(builder.Configuration, fusion =>
-//{
-//    fusion.ConfigureIntegration(i =>
-//    {
-//        i.AddProfileSync<ProfileSyncHandler>();
-//    });
-//});
-
-
 builder.Services.AddFusionIntegration(fusion =>
 {
     var environment = builder.Configuration.GetValue<string>("Fusion:Environment")!;
@@ -77,7 +55,6 @@ builder.Services.AddFusionIntegration(fusion =>
         opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
     });
     fusion.DisableClaimsTransformation();
-    //fusion.AddProfileSync<ProfileSyncHandler>(); // WIP. Or this
 });
 
 builder.Services.AddControllers(config =>
