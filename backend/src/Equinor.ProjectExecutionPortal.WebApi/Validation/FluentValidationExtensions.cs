@@ -6,11 +6,8 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Validation;
 
 public static class FluentValidationExtensions
 {
-    public static IRuleBuilderOptions<T, List<AccountIdentifier>> BeValidAccounts<T>(
-        this IRuleBuilder<T, List<AccountIdentifier>> ruleBuilder,
-        IAccountService accountService,
-        bool allowServicePrincipals = false)
+    public static IRuleBuilderOptions<T, List<AccountIdentifier>> BeValidAccounts<T>(this IRuleBuilder<T, List<AccountIdentifier>> ruleBuilder, IAccountService accountService)
     {
-        return ruleBuilder.SetAsyncValidator(new AccountsValidator<T>(accountService, allowServicePrincipals));
+        return ruleBuilder.SetAsyncValidator(new AccountsValidator<T>(accountService));
     }
 }

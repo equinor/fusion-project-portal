@@ -25,15 +25,6 @@ public interface IAccountService
     Task<Account?> EnsurePersonOrDefaultAsync(AccountIdentifier? accountIdentifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Attempting to resolve an application identity using the Fusion People Service.
-    /// Will return null if account cannot be resolved.
-    /// </summary>
-    /// <param name="azureUniqueId">A guid representing the application identity.</param>
-    /// <param name="cancellationToken">A System.Threading.CancellationToken to observe while waiting for the task to complete.</param>
-    /// <returns>Account persisted in database or null if uses does not exist</returns>
-    Task<Account?> EnsureApplicationAsync(Guid azureUniqueId, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Attempts to resolve a Fusion basic profile.
     /// </summary>
     /// <param name="accountIdientifier">An identifier representing the profile to be resolved.</param>
@@ -48,20 +39,4 @@ public interface IAccountService
     /// <param name="cancellationToken">A System.Threading.CancellationToken to observe while waiting for the task to complete.</param>
     /// <returns>A list of resolved profiles.</returns>
     Task<IEnumerable<ResolvedPersonProfile>> ResolveProfilesAsync(IEnumerable<AccountIdentifier> accountIdentifiers, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Attempts to resolve a Fusion service principal
-    /// </summary>
-    /// <param name="servicePrincipalUniqueId">An identifier representing the service principal to be resolved</param>
-    /// <param name="cancellationToken">A System.Threading.CancellationToken to observe while waiting for the task to complete.</param>
-    /// <returns>Resolved service principal profile. Else null</returns>
-    Task<FusionApplicationProfile?> ResolveServicePrincipalAsync(Guid servicePrincipalUniqueId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Resolves multiple service principals
-    /// </summary>
-    /// <param name="servicePrincipalUniqueIds">Identifiers representing the service principals to be resolved</param>
-    /// <param name="cancellationToken">A System.Threading.CancellationToken to observe while waiting for the task to complete.</param>
-    /// <returns>A list of resolved profiles</returns>
-    Task<IEnumerable<FusionApplicationProfile>> ResolveServicePrincipalsAsync(IEnumerable<Guid> servicePrincipalUniqueIds, CancellationToken cancellationToken = default);
 }

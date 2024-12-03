@@ -67,7 +67,7 @@ public class CreatePortalCommand : IRequest<Guid>
             var admins = command.Admins.Select(admin =>
             {
                 var account = accounts[admin];
-                return new PortalAdmin { Id = Guid.NewGuid(), PortalId = portal.Id, AccountId = account!.Id };
+                return new PortalAdmin { PortalId = portal.Id, AccountId = account!.Id };
             }).ToList();
 
             portal.UpdateAdmins(admins);

@@ -70,11 +70,6 @@ public class EnsureAccountsCommand : IRequest<IDictionary<AccountIdentifier, Acc
         {
             var account = await _accountService.EnsurePersonOrDefaultAsync(accountIdentifier, cancellationToken);
 
-            if (account is null && accountIdentifier.Type == AccountIdentifier.IdentifierType.UniqueId)
-            {
-                account = await _accountService.EnsureApplicationAsync(accountIdentifier.UniqueId!.Value, cancellationToken);
-            }
-
             return account is null ? null : _mapper.Map<Account, AccountDto>(account);
         }
     }

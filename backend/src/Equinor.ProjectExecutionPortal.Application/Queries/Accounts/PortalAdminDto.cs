@@ -3,7 +3,7 @@ using Equinor.ProjectExecutionPortal.Domain.Entities;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
 
-public class PortalAdminDto : IMapFrom<PortalAdmin>
+public class PortalAdminDto : AuditDto, IMapFrom<PortalAdmin>
 {
     public Guid Id { get; set;  }
     public Guid PortalId { get; set; }

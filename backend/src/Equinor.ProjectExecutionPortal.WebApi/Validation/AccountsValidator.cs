@@ -11,15 +11,13 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Validation;
 public class AccountsValidator<T> : AsyncPropertyValidator<T, List<AccountIdentifier>>
 {
     private readonly IAccountService _accountService;
-    private readonly bool _allowServicePrincipals;
 
-    public override string Name => "AccountsValidator";
-
-    public AccountsValidator(IAccountService accountService, bool allowServicePrincipals)
+    public AccountsValidator(IAccountService accountService)
     {
         _accountService = accountService;
-        _allowServicePrincipals = allowServicePrincipals;
     }
+
+    public override string Name => "AccountsValidator";
 
     public override async Task<bool> IsValidAsync(ValidationContext<T> context, List<AccountIdentifier> accounts, CancellationToken cancellationToken)
     {
@@ -29,23 +27,8 @@ public class AccountsValidator<T> : AsyncPropertyValidator<T, List<AccountIdenti
             .Select(p => p.Profile!)
             .ToList();
 
-        var missingIdentifiers = resolvedProfiles.Where(profile => !profile.Success && profile.Identifier.Type == IdentifierType.UniqueId)
-            .Select(p => p.Identifier.AzureUniquePersonId)
-            .ToList();
-
-        if (_allowServicePrincipals && missingIdentifiers.Count > 0)
-        {
-            var spProfiles = (await _accountService.ResolveServicePrincipalsAsync(missingIdentifiers, cancellationToken)).ToList();
-
-            if (spProfiles.Count > 0)
-            {
-                profiles.AddRange(spProfiles.Select(profile => new FusionPersonProfile(profile)));
-            }
-        }
-        else if (!_allowServicePrincipals)
-        {
-            profiles.RemoveAll(profile => profile.AccountType == FusionAccountType.Application);
-        }
+        // Remove all accounts that are service principals
+        profiles.RemoveAll(profile => profile.AccountType == FusionAccountType.Application);
 
         if (profiles.Count != accounts.Count)
         {

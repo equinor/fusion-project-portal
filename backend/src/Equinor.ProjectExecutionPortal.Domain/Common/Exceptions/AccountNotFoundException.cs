@@ -2,5 +2,5 @@
 
 public class AccountNotFoundError : Exception
 {
-    public AccountNotFoundError(AccountIdentifier accountIdentifier) : base($"Could not resolve account with identifier '{accountIdentifier.OriginalIdentifier}'.") { }
+    public AccountNotFoundError(AccountIdentifier accountIdentifier) : base($"Could not resolve account with identifier '{accountIdentifier.AzureUniqueId}'.") { }
 }

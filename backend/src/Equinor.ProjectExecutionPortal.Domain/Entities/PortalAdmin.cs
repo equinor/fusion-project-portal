@@ -1,8 +1,10 @@
-﻿namespace Equinor.ProjectExecutionPortal.Domain.Entities;
+﻿using Equinor.ProjectExecutionPortal.Domain.Common.Audit;
+using Equinor.ProjectExecutionPortal.Domain.Common;
 
-public class PortalAdmin
+namespace Equinor.ProjectExecutionPortal.Domain.Entities;
+
+public class PortalAdmin : AuditableEntityBase, ICreationAuditable
 {
-    public Guid Id { get; set; }
     public Guid PortalId { get; set; }
     public Guid AccountId { get; set; }
     public Account Account { get; set; } = null!;
