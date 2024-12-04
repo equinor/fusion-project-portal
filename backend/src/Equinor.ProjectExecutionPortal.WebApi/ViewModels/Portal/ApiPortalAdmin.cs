@@ -11,7 +11,7 @@ public class ApiPortalAdmin
     }
 
     public Guid Id { get; set; }
-    public Guid? AzureUniqueId { get; set; }
+    public Guid AzureUniqueId { get; set; }
 
     private void WithAccount(AccountDto? account)
     {

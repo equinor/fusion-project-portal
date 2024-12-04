@@ -23,7 +23,7 @@ public class ApiPortal : ApiAudit
         ContextTypes = portalDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
         Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         Configuration = portalDto.Configuration != null ? new ApiPortalConfiguration(portalDto.Configuration) : null;
-        Admins = portalDto.Admins?.Select(x => new ApiPortalAdmin(x)).ToList() ?? [];
+        Admins = portalDto.Admins?.Select(adminDto => new ApiPortalAdmin(adminDto)).ToList() ?? [];
         SupplyAudit(portalDto);
     }
 

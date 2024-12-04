@@ -95,16 +95,4 @@ public class AccountService : IAccountService
 
         return null;
     }
-
-    public async Task<FusionApplicationProfile?> ResolveServicePrincipalAsync(Guid servicePrincipalUniqueId, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            return await _profileResolver.ResolveServicePrincipalAsync(servicePrincipalUniqueId, cancellationToken: cancellationToken);
-        }
-        catch (Exception)
-        {
-            return null;
-        }
-    }
 }

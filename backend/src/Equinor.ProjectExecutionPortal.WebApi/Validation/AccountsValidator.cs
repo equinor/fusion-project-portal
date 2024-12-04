@@ -1,5 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
-using Equinor.ProjectExecutionPortal.Domain.Common;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels;
 using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
@@ -8,7 +8,7 @@ using Fusion.Integration.Profile;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Validation;
 
-public class AccountsValidator<T> : AsyncPropertyValidator<T, List<AccountIdentifier>>
+public class AccountsValidator<T> : AsyncPropertyValidator<T, List<ApiAccountIdentifier>>
 {
     private readonly IAccountService _accountService;
 
@@ -19,9 +19,9 @@ public class AccountsValidator<T> : AsyncPropertyValidator<T, List<AccountIdenti
 
     public override string Name => "AccountsValidator";
 
-    public override async Task<bool> IsValidAsync(ValidationContext<T> context, List<AccountIdentifier> accounts, CancellationToken cancellationToken)
+    public override async Task<bool> IsValidAsync(ValidationContext<T> context, List<ApiAccountIdentifier> accounts, CancellationToken cancellationToken)
     {
-        var resolvedProfiles = (await _accountService.ResolveProfilesAsync(accounts, cancellationToken)).ToList();
+        var resolvedProfiles = (await _accountService.ResolveProfilesAsync(accounts.Select(identifier => identifier.ToAccountIdentifier()), cancellationToken)).ToList();
 
         var profiles = resolvedProfiles.Where(profile => profile.Success)
             .Select(p => p.Profile!)

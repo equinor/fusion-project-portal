@@ -72,11 +72,6 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _contextTypes.Remove(contextType);
     }
 
-    public void AddAdmin(PortalAdmin admin)
-    {
-        _admins.Add(admin);
-    }
-
     public void UpdateAdmins(IList<PortalAdmin> admins)
     {
         _admins.Clear();
