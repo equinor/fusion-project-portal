@@ -11,7 +11,7 @@ public class ApiUpdatePortalRequest
     public required string Subtext { get; init; }
     public string? Description { get; init; }
     public required string Icon { get; init; }
-    public required IList<string> ContextTypes { get; init; }
+    public required List<string> ContextTypes { get; init; }
     public List<ApiAccountIdentifier> Admins { get; init; } = [];
 
     public UpdatePortalCommand ToCommand(Guid id)
@@ -45,6 +45,7 @@ public class ApiUpdatePortalRequest
             RuleFor(x => x.Admins)
                 .NotEmpty()
                 .WithMessage("Must specify at least one admin");
+
             //RuleFor(x => x.Admins).BeValidAccounts(accountService);
         }
     }

@@ -15,8 +15,8 @@ public class CreatePortalCommand : IRequest<Guid>
         string subText,
         string? description,
         string icon,
-        IList<string> contextTypes,
-        IList<AccountIdentifier> admins)
+        List<string> contextTypes,
+        List<AccountIdentifier> admins)
     {
         Name = name;
         ShortName = shortName;
@@ -32,8 +32,8 @@ public class CreatePortalCommand : IRequest<Guid>
     public string SubText { get; set; }
     public string? Description { get; set; }
     public string Icon { get; set; }
-    public IList<string> ContextTypes { get; set; }
-    public IList<AccountIdentifier> Admins { get; private set; }
+    public List<string> ContextTypes { get; set; }
+    public List<AccountIdentifier> Admins { get; private set; }
 
     public class Handler : IRequestHandler<CreatePortalCommand, Guid>
     {

@@ -15,7 +15,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 public class OnboardedContextController : ApiControllerBase
 {
     [HttpGet("")]
-    public async Task<ActionResult<IList<ApiOnboardedContext>>> GetOnboardedContexts()
+    public async Task<ActionResult<List<ApiOnboardedContext>>> GetOnboardedContexts()
     {
         var onboardedContextsDto = await Mediator.Send(new GetOnboardedContextsQuery());
 

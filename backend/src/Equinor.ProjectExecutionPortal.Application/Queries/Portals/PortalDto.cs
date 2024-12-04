@@ -13,7 +13,7 @@ public class PortalDto : AuditDto, IMapFrom<Domain.Entities.Portal>
     public required string SubText { get; set; }
     public string? Description { get; set; }
     public required string Icon { get; set; }
-    public required IList<ContextTypeDto> ContextTypes { get; set; }
+    public required List<ContextTypeDto> ContextTypes { get; set; }
     public required List<PortalAppDto> Apps { get; set; }
     public PortalConfigurationDto? Configuration { get; set; }
     public List<PortalAdminDto>? Admins { get; set; }

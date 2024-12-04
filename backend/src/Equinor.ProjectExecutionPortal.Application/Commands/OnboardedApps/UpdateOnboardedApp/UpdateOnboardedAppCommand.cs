@@ -9,14 +9,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Upda
 
 public class UpdateOnboardedAppCommand : IRequest<Guid>
 {
-    public UpdateOnboardedAppCommand(string appKey, IList<string> contextTypes)
+    public UpdateOnboardedAppCommand(string appKey, List<string> contextTypes)
     {
         AppKey = appKey;
         ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
-    public IList<string> ContextTypes { get; set; }
+    public List<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<UpdateOnboardedAppCommand, Guid>
     {

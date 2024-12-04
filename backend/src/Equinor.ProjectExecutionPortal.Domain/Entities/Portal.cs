@@ -56,7 +56,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _apps.Add(app);
     }
 
-    public void UpdateContextTypes(IList<ContextType> contextTypes)
+    public void UpdateContextTypes(List<ContextType> contextTypes)
     {
         _contextTypes.Clear();
         _contextTypes.AddRange(contextTypes);
@@ -72,7 +72,7 @@ public class Portal : AuditableEntityBase, ICreationAuditable, IModificationAudi
         _contextTypes.Remove(contextType);
     }
 
-    public void UpdateAdmins(IList<PortalAdmin> admins)
+    public void UpdateAdmins(List<PortalAdmin> admins)
     {
         _admins.Clear();
         _admins.AddRange(admins);

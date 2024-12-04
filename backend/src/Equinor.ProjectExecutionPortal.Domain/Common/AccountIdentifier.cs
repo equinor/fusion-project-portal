@@ -5,5 +5,5 @@
 /// </summary>
 public class AccountIdentifier
 {
-    public Guid AzureUniqueId { get; set; }
+    public Guid AzureUniqueId { get; init; }
 }

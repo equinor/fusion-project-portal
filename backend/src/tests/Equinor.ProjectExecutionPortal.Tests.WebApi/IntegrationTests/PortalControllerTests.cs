@@ -460,7 +460,7 @@ public class PortalControllerTests : TestBase
         Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
         var content = await response.Content.ReadAsStringAsync();
-        var apps = JsonConvert.DeserializeObject<IList<ApiPortalOnboardedApp>>(content);
+        var apps = JsonConvert.DeserializeObject<List<ApiPortalOnboardedApp>>(content);
 
         Assert.IsNotNull(apps);
         Assert.IsTrue(apps.Count > 0);
@@ -612,12 +612,12 @@ public class PortalControllerTests : TestBase
         return app;
     }
 
-    private static async Task<IList<ApiPortal>?> AssertGetAllPortals(UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<ApiPortal>?> AssertGetAllPortals(UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAllPortals(userType);
         var content = await response.Content.ReadAsStringAsync();
-        var portals = JsonConvert.DeserializeObject<IList<ApiPortal>>(content);
+        var portals = JsonConvert.DeserializeObject<List<ApiPortal>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -687,12 +687,12 @@ public class PortalControllerTests : TestBase
         return portalConfiguration;
     }
 
-    private static async Task<IList<string>?> AssertGetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<string>?> AssertGetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAppKeysForPortal(portalId, contextId, userType);
         var content = await response.Content.ReadAsStringAsync();
-        var appKeys = JsonConvert.DeserializeObject<IList<string>>(content);
+        var appKeys = JsonConvert.DeserializeObject<List<string>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -714,12 +714,12 @@ public class PortalControllerTests : TestBase
         return appKeys;
     }
 
-    private static async Task<IList<string>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<string>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAppsForPortal(portalId, contextId, userType);
         var content = await response.Content.ReadAsStringAsync();
-        var appKeys = JsonConvert.DeserializeObject<IList<string>>(content);
+        var appKeys = JsonConvert.DeserializeObject<List<string>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);

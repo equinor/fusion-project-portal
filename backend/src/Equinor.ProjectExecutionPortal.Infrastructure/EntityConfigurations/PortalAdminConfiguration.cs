@@ -13,8 +13,6 @@ public class PortalAdminConfiguration : IEntityTypeConfiguration<PortalAdmin>
 
         builder.HasKey(x => x.Id);
 
-        //builder.Property(x => x.Id).ValueGeneratedNever();
-
         builder.HasOne<Portal>()
             .WithMany(x => x.Admins)
             .HasForeignKey(aa => aa.PortalId)

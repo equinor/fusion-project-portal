@@ -10,14 +10,14 @@ namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.Onbo
 
 public class OnboardAppCommand : IRequest<Guid>
 {
-    public OnboardAppCommand(string appKey, IList<string> contextTypes)
+    public OnboardAppCommand(string appKey, List<string> contextTypes)
     {
         AppKey = appKey;
         ContextTypes = contextTypes;
     }
 
     public string AppKey { get; }
-    public IList<string> ContextTypes { get; set; }
+    public List<string> ContextTypes { get; set; }
 
     public class Handler : IRequestHandler<OnboardAppCommand, Guid>
     {

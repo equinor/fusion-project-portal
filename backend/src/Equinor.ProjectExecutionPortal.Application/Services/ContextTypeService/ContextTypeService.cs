@@ -13,7 +13,7 @@ public class ContextTypeService : IContextTypeService
         _readWriteContext = readWriteContext;
     }
 
-    public async Task<IList<ContextType>> GetAllowedContextTypesByKeys(IList<string> contextTypeKeys, CancellationToken cancellationToken)
+    public async Task<List<ContextType>> GetAllowedContextTypesByKeys(List<string> contextTypeKeys, CancellationToken cancellationToken)
     {
         if (contextTypeKeys.Count == 0)
         {

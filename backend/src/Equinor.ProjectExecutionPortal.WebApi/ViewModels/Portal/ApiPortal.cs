@@ -34,8 +34,8 @@ public class ApiPortal : ApiAudit
     public string Subtext { get; set; } = null!;
     public string? Description { get; set; }
     public string Icon { get; set; } = null!;
-    public IList<ApiContextType> Contexts { get; set; }
-    public IList<string> ContextTypes { get; set; }
+    public List<ApiContextType> Contexts { get; set; }
+    public List<string> ContextTypes { get; set; }
     public List<ApiPortalApp> Apps { get; set; } = null!;
     public ApiPortalConfiguration? Configuration { get; set; }
     public List<ApiPortalAdmin> Admins { get; set; }

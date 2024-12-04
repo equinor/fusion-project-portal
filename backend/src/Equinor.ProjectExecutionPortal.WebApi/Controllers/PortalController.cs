@@ -20,7 +20,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 public class PortalController : ApiControllerBase
 {
     [HttpGet("")]
-    public async Task<ActionResult<IList<ApiPortal>>> GetPortals()
+    public async Task<ActionResult<List<ApiPortal>>> GetPortals()
     {
         var portalDtos = await Mediator.Send(new GetPortalsQuery());
 

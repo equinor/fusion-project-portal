@@ -18,7 +18,7 @@ public class PortalService : IPortalService
         _context = context;
     }
 
-    public IList<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, IList<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
+    public List<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, List<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
     {
         var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(GetDistinctPortalApps(portal.Apps.ToList()));
 
@@ -31,7 +31,7 @@ public class PortalService : IPortalService
         return portalAppsDto.OrderBy(x => x.OnboardedApp.AppKey).ToList();
     }
 
-    public async Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, IList<Guid> contextIds, CancellationToken cancellationToken)
+    public async Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds, CancellationToken cancellationToken)
     {
         portalOnboardedAppDto.ContextIds = contextIds.ToList();
 
@@ -65,7 +65,7 @@ public class PortalService : IPortalService
         return isAdmin;
     }
 
-    private static void SetAppsAsActiveInPortal(IList<PortalOnboardedAppDto> apps)
+    private static void SetAppsAsActiveInPortal(List<PortalOnboardedAppDto> apps)
     {
         foreach (var app in apps)
         {
@@ -82,7 +82,7 @@ public class PortalService : IPortalService
         return distinctPortalApps;
     }
 
-    private List<PortalOnboardedAppDto> GetOnBoardedAppsNotActiveInPortal(Portal portal, IList<OnboardedApp> onboardedApps)
+    private List<PortalOnboardedAppDto> GetOnBoardedAppsNotActiveInPortal(Portal portal, List<OnboardedApp> onboardedApps)
     {
         var onBoardedAppsNotActiveInPortal = IsContextualPortal(portal)
             ? onboardedApps

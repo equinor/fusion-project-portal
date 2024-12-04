@@ -19,8 +19,8 @@ public class UpdatePortalCommand : IRequest<Guid>
         string subText,
         string? description,
         string icon,
-        IList<string> contextTypes,
-        IList<AccountIdentifier> admins)
+        List<string> contextTypes,
+        List<AccountIdentifier> admins)
     {
         Id = id;
         Name = name;
@@ -38,8 +38,8 @@ public class UpdatePortalCommand : IRequest<Guid>
     public string SubText { get; }
     public string? Description { get; }
     public string Icon { get; }
-    public IList<string> ContextTypes { get; }
-    public IList<AccountIdentifier> Admins { get; private set; }
+    public List<string> ContextTypes { get; }
+    public List<AccountIdentifier> Admins { get; private set; }
 
     public class Handler : IRequestHandler<UpdatePortalCommand, Guid>
     {

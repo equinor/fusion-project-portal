@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 
-public class GetPortalsQuery : QueryBase<IList<PortalDto>>
+public class GetPortalsQuery : QueryBase<List<PortalDto>>
 {
-    public class Handler : IRequestHandler<GetPortalsQuery, IList<PortalDto>>
+    public class Handler : IRequestHandler<GetPortalsQuery, List<PortalDto>>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ public class GetPortalsQuery : QueryBase<IList<PortalDto>>
             _mapper = mapper;
         }
 
-        public async Task<IList<PortalDto>> Handle(GetPortalsQuery request, CancellationToken cancellationToken)
+        public async Task<List<PortalDto>> Handle(GetPortalsQuery request, CancellationToken cancellationToken)
         {
             var entities = await _context.Set<Domain.Entities.Portal>()
                 .AsNoTracking()
