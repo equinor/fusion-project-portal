@@ -205,7 +205,7 @@ public class PortalController : ApiControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return FusionApiError.Forbidden(ex.Message);
+            return FusionApiError.InvalidOperation("500", ex.Message);
         }
         catch (Exception)
         {

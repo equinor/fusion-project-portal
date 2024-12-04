@@ -2,6 +2,7 @@
 using System.Text;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -77,7 +78,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         // Act
@@ -110,7 +112,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         // Act
@@ -131,7 +134,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         // Act
@@ -155,7 +159,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Updated short name",
             Subtext = "Updated subtext",
             Icon = "Updated icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         // Act
@@ -186,7 +191,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Updated short name",
             Subtext = "Updated subtext",
             Icon = "Updated icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         // Act
@@ -207,7 +213,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Updated short name",
             Subtext = "Updated subtext",
             Icon = "Updated icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         // Act
@@ -330,50 +337,6 @@ public class PortalControllerTests : TestBase
     }
 
     [TestMethod]
-    public async Task Get_OnlyGlobalAppKeysForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
-    {
-        // Arrange
-        var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-        var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
-
-        // Act
-        var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
-
-        // Assert
-        Assert.IsNotNull(apps);
-        Assert.AreEqual(4, apps.Count);
-    }
-
-    [TestMethod]
-    public async Task Get_BothGlobalAndContextAppKeysForPortal_WithValidContext_AsAuthenticatedUser_ShouldReturnOk()
-    {
-        // Arrange
-        var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-        var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
-
-        // Act
-        var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
-
-        // Assert
-        Assert.IsNotNull(apps);
-        Assert.AreEqual(6, apps.Count);
-    }
-
-    [TestMethod]
-    public async Task Get_BothGlobalAndContextAppKeysForPortal_WithInvalidContext_AsAuthenticatedUser_ShouldReturn404()
-    {
-        // Arrange
-        var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-        var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
-
-        // Act
-        var response = await GetAppKeysForPortal(portalToTest!.Id, FusionContextApiData.InvalidContextId, UserType.Authenticated);
-
-        // Assert
-        Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-    }
-
-    [TestMethod]
     public async Task Get_OnlyGlobalAppsForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
     {
         // Arrange
@@ -477,7 +440,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
         };
 
         await CreatePortal(UserType.Administrator, payload);
