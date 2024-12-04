@@ -79,7 +79,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Created subtext",
             Icon = "Created icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -113,7 +113,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Created subtext",
             Icon = "Created icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -135,7 +135,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Created subtext",
             Icon = "Created icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -160,7 +160,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Updated subtext",
             Icon = "Updated icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -192,7 +192,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Updated subtext",
             Icon = "Updated icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -214,7 +214,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Updated subtext",
             Icon = "Updated icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -441,7 +441,7 @@ public class PortalControllerTests : TestBase
             Subtext = "Created subtext",
             Icon = "Created icon",
             ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
-            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserId) }]
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         await CreatePortal(UserType.Administrator, payload);
@@ -460,7 +460,7 @@ public class PortalControllerTests : TestBase
     }
 
     [TestMethod]
-    public async Task Delete_PortalWithApps_AsAdministrator_ShouldReturnForbidden()
+    public async Task Delete_PortalWithApps_AsAdministrator_ShouldReturnBadRequest()
     {
         // Arrange
         var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
@@ -476,7 +476,7 @@ public class PortalControllerTests : TestBase
         var response = await DeletePortal(portalToDelete.Id, UserType.Administrator);
 
         // Assert
-        Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 
         // Verify the portal is not deleted
         var deletedPortal = await AssertGetPortal(portalToDelete.Id, UserType.Administrator, HttpStatusCode.OK);
