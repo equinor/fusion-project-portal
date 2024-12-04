@@ -13,11 +13,6 @@ public class PortalAdminConfiguration : IEntityTypeConfiguration<PortalAdmin>
 
         builder.HasKey(x => x.Id);
 
-        builder.HasOne<Portal>()
-            .WithMany(x => x.Admins)
-            .HasForeignKey(aa => aa.PortalId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasOne(aa => aa.Account)
             .WithMany(t => t.PortalAdmins)
             .HasForeignKey(aa => aa.AccountId)

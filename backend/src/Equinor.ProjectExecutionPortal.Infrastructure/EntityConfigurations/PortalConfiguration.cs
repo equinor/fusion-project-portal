@@ -54,5 +54,9 @@ public class PortalConfiguration : IEntityTypeConfiguration<Portal>
             .WithOne(x => x.Portal)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.Admins)
+            .WithOne(x => x.Portal)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
