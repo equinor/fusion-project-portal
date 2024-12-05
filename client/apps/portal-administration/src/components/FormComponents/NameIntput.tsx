@@ -8,13 +8,15 @@ type NameInputProps = {
 	errors: FieldErrors<{
 		name?: string | undefined;
 	}>;
+	canEdit?: boolean;
 };
 
-export const NameInput = ({ register, errors }: NameInputProps) => {
+export const NameInput = ({ register, errors, canEdit }: NameInputProps) => {
 	return (
 		<TextField
 			{...register('name')}
 			id="textfield-name"
+			readOnly={!canEdit}
 			variant={errors.name && 'error'}
 			helperText={errors.name?.message}
 			inputIcon={errors.name && <Icon data={error_filled} title="Error" />}
