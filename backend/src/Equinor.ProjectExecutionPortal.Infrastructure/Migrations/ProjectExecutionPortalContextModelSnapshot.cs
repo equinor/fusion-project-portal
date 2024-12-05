@@ -52,35 +52,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("PortalContextTypes", (string)null);
                 });
 
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Account", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AzureUniqueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedByAzureOid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("ModifiedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("ModifiedByAzureOid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AzureUniqueId")
-                        .IsUnique();
-
-                    b.ToTable("Accounts");
-                });
-
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.ContextType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -243,7 +214,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AccountId")
+                    b.Property<Guid>("AzureUniqueId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
@@ -262,8 +233,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("PortalId");
 
@@ -384,19 +353,11 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalAdmin", b =>
                 {
-                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Account", "Account")
-                        .WithMany("PortalAdmins")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", "Portal")
                         .WithMany("Admins")
                         .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Account");
 
                     b.Navigation("Portal");
                 });
@@ -436,11 +397,6 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Portal");
-                });
-
-            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Account", b =>
-                {
-                    b.Navigation("PortalAdmins");
                 });
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", b =>
