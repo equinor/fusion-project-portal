@@ -13,5 +13,5 @@ public interface IPortalService
 
     Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds, CancellationToken cancellationToken);
 
-    Task<bool> UserIsAdmin(Guid portalId, Guid userId);
+    Task<bool> UserIsAdmin(Guid portalId, Guid userOId);
 }

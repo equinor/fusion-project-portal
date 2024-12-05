@@ -5,8 +5,7 @@ namespace Equinor.ProjectExecutionPortal.Domain.Entities;
 
 public class PortalAdmin : AuditableEntityBase, ICreationAuditable
 {
-    public Guid PortalId { get; set; }
-    public Portal Portal { get; set; } = null!;
-    public Guid AccountId { get; set; }
-    public Account Account { get; set; } = null!;
+    public Guid PortalId { get; init; }
+    public Portal Portal { get; init; } = null!;
+    public Guid AzureUniqueId { get; init; }
 }

@@ -1,5 +1,4 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Infrastructure.Mappings;
-using Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals;

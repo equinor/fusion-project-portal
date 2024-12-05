@@ -34,7 +34,6 @@ public class GetPortalQuery : QueryBase<PortalDto?>
             .Include(x => x.ContextTypes)
             .Include(x => x.Configuration)
             .Include(x => x.Admins)
-                .ThenInclude(x => x.Account)
             .FirstOrDefaultAsync(x => x.Id == request.PortalId, cancellationToken);
 
             var portal = _mapper.Map<Portal?, PortalDto?>(entity);

@@ -21,9 +21,9 @@ public class PortalAdminRequirement : FusionAuthorizationRequirement
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PortalAdminRequirement requirement, Guid portalId)
         {
-            var userId = context.User.GetAzureUniqueIdOrThrow();
+            var userOId = context.User.GetAzureUniqueIdOrThrow();
 
-            var isAdmin = await _portalService.UserIsAdmin(portalId, userId);
+            var isAdmin = await _portalService.UserIsAdmin(portalId, userOId);
 
             if (isAdmin)
             {

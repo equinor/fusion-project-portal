@@ -1,5 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Commands.Accounts.EnsureAccounts;
-using Equinor.ProjectExecutionPortal.Application.Helpers;
+﻿using Equinor.ProjectExecutionPortal.Application.Helpers;
+using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
 using Equinor.ProjectExecutionPortal.Domain.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
@@ -45,13 +45,13 @@ public class UpdatePortalCommand : IRequest<Guid>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IContextTypeService _contextTypeService;
-        private readonly ISender _mediator;
+        private readonly IAccountService _accountService;
 
-        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService, ISender mediator)
+        public Handler(IReadWriteContext readWriteContext, IContextTypeService contextTypeService, IAccountService accountService)
         {
             _readWriteContext = readWriteContext;
             _contextTypeService = contextTypeService;
-            _mediator = mediator;
+            _accountService = accountService;
         }
 
         public async Task<Guid> Handle(UpdatePortalCommand command, CancellationToken cancellationToken)
@@ -59,7 +59,6 @@ public class UpdatePortalCommand : IRequest<Guid>
             var portal = await _readWriteContext.Set<Portal>()
                 .Include(portal => portal.ContextTypes)
                 .Include(portal => portal.Admins)
-                    .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync(portal => portal.Id == command.Id, cancellationToken);
 
             if (portal is null)
@@ -73,13 +72,14 @@ public class UpdatePortalCommand : IRequest<Guid>
 
             portal.UpdateContextTypes(await _contextTypeService.GetAllowedContextTypesByKeys(command.ContextTypes, cancellationToken));
 
-            var accounts = await _mediator.Send(new EnsureAccountsCommand(command.Admins.ToList()), cancellationToken);
+            var fusionProfiles = await _accountService.ResolveProfilesOrThrowAsync(command.Admins.ToList(), cancellationToken);
 
             var admins = command.Admins.Select(admin =>
             {
-                var account = accounts[admin];
-                return new PortalAdmin { PortalId = portal.Id, AccountId = account!.Id };
+                var fusionProfile = fusionProfiles.FirstOrDefault(x => x.Profile!.AzureUniqueId == admin.AzureUniqueId)!.Profile;
+                return new PortalAdmin { PortalId = portal.Id, AzureUniqueId = fusionProfile!.AzureUniqueId!.Value };
             }).ToList();
+
 
             portal.UpdateAdmins(admins);
 

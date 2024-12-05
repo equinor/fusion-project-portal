@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Queries.Accounts;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 
@@ -11,19 +11,9 @@ public class ApiPortalAdmin
     public ApiPortalAdmin(PortalAdminDto adminDto)
     {
         Id = adminDto.Id;
-        WithAccount(adminDto.Account);
+        AzureUniqueId = adminDto.AzureUniqueId;
     }
 
     public Guid Id { get; set; }
     public Guid AzureUniqueId { get; set; }
-
-    private void WithAccount(AccountDto? account)
-    {
-        if (account == null)
-        {
-            return;
-        }
-
-        AzureUniqueId = account.AzureUniqueId;
-    }
 }

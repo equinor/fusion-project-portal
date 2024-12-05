@@ -54,13 +54,12 @@ public class PortalService : IPortalService
         return app;
     }
 
-    public async Task<bool> UserIsAdmin(Guid portalId, Guid userId)
+    public async Task<bool> UserIsAdmin(Guid portalId, Guid userOId)
     {
         var isAdmin = await _context.Set<Portal>()
             .Include(portal => portal.Admins)
-            .ThenInclude(admin => admin.Account)
             .Where(portal => portal.Id == portalId)
-            .AnyAsync(x => x.Admins.Any(o => o.Account.AzureUniqueId == userId));
+            .AnyAsync(x => x.Admins.Any(o => o.AzureUniqueId == userOId));
 
         return isAdmin;
     }
