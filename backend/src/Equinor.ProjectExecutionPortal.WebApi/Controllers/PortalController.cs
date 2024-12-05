@@ -96,7 +96,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -147,7 +147,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -290,7 +290,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -331,7 +331,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -374,7 +374,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -420,7 +420,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -462,7 +462,7 @@ public class PortalController : ApiControllerBase
     {
         #region Authorization
 
-        var authResult = await AuthorizeCanModifyPortal(portalId);
+        var authResult = await AuthorizeCanManagePortal(portalId);
 
         if (authResult.Unauthorized)
         {
@@ -492,7 +492,7 @@ public class PortalController : ApiControllerBase
         return Ok();
     }
 
-    private async Task<AuthorizationOutcome> AuthorizeCanModifyPortal(Guid portalId)
+    private async Task<AuthorizationOutcome> AuthorizeCanManagePortal(Guid portalId)
     {
         var authResult = await Request.RequireAuthorizationAsync(builder =>
         {
