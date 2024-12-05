@@ -4,18 +4,19 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 
 internal static class FusionProfileApiData
 {
-    public static Guid ValidProfileAzureUniquePersonId = new(UserData.AuthenticatedUserWithPortalAdminId);
+    public static Guid NonExistentAzureUniquePersonId = new (UserData.NonExistentUserId);
+    public static Guid ValidAzureUniquePersonId = new(UserData.AuthenticatedUserWithPortalAdminId);
 
-    public static readonly ResolvedPersonProfile ValidResolvedProfile = new(new FusionPersonProfile(FusionAccountType.External, string.Empty, ValidProfileAzureUniquePersonId, "Name"))
+    public static readonly ResolvedPersonProfile ValidResolvedProfile = new(new FusionPersonProfile(FusionAccountType.External, string.Empty, ValidAzureUniquePersonId, "Some Name"))
     {
-        Identifier = ValidProfile,
+        Identifier = ValidPerson,
         Success = true,
         StatusCode = 200,
-        Profile = new FusionPersonProfile(FusionAccountType.External, string.Empty, ValidProfileAzureUniquePersonId, "Name"),
+        Profile = new FusionPersonProfile(FusionAccountType.External, string.Empty, ValidAzureUniquePersonId, "Name"),
         Message = string.Empty
     };
 
-    public static PersonIdentifier ValidProfile => new(ValidProfileAzureUniquePersonId);
+    public static PersonIdentifier ValidPerson => new(ValidAzureUniquePersonId);
 
     public static List<ResolvedPersonProfile> ValidFusionProfiles => [ValidResolvedProfile];
 }

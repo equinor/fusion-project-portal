@@ -102,6 +102,32 @@ public class PortalControllerTests : TestBase
     }
 
     [TestMethod]
+    public async Task Create_Portal_AsAdministrator_WithInvalidAdmin_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var getAllBeforeCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+
+        var payload = new ApiCreatePortalRequest
+        {
+            Name = "Created portal name",
+            Description = "Created description",
+            ShortName = "Created short name",
+            Subtext = "Created subtext",
+            Icon = "Created icon",
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = FusionProfileApiData.NonExistentAzureUniquePersonId }]
+        };
+
+        // Act
+        var response = await CreatePortal(UserType.Administrator, payload);
+        var getAllAfterCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+
+        // Assert
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.AreEqual(getAllBeforeCreation!.Count, getAllAfterCreation!.Count);
+    }
+
+    [TestMethod]
     public async Task Create_Portal_AsAuthenticatedUser_ShouldReturnForbidden()
     {
         // Arrange
