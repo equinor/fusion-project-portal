@@ -31,11 +31,9 @@ public class PortalService : IPortalService
         return portalAppsDto.OrderBy(x => x.OnboardedApp.AppKey).ToList();
     }
 
-    public async Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds, CancellationToken cancellationToken)
+    public PortalOnboardedAppDto EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds)
     {
         portalOnboardedAppDto.ContextIds = contextIds.ToList();
-
-        await Task.CompletedTask;
 
         return portalOnboardedAppDto;
     }
@@ -45,11 +43,9 @@ public class PortalService : IPortalService
         return new PortalOnboardedAppDto { OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onboardedApp), IsActive = false };
     }
 
-    public async Task<PortalOnboardedAppDto> SetAppAsActiveInPortal(PortalOnboardedAppDto app, CancellationToken cancellationToken)
+    public PortalOnboardedAppDto SetAppAsActiveInPortal(PortalOnboardedAppDto app)
     {
         app.IsActive = true;
-
-        await Task.CompletedTask;
 
         return app;
     }

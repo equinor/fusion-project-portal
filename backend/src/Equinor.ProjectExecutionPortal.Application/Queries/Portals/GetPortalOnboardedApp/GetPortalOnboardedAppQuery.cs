@@ -60,9 +60,8 @@ public class GetPortalOnboardedAppQuery(Guid portalId, string appKey) : QueryBas
 
                 var portalOnboardedAppDto = _mapper.Map<PortalApp, PortalOnboardedAppDto>(portalApps.First());
 
-                await _portalService.EnrichPortalAppWithContextIds(portalOnboardedAppDto, portalContextIds, cancellationToken);
-
-                await _portalService.SetAppAsActiveInPortal(portalOnboardedAppDto, cancellationToken);
+                _portalService.EnrichPortalAppWithContextIds(portalOnboardedAppDto, portalContextIds);
+                _portalService.SetAppAsActiveInPortal(portalOnboardedAppDto);
 
                 await _appService.EnrichWithFusionAppData(portalOnboardedAppDto.OnboardedApp, cancellationToken);
 

@@ -5,13 +5,13 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService;
 
 public interface IPortalService
 {
-    Task<PortalOnboardedAppDto> SetAppAsActiveInPortal(PortalOnboardedAppDto app, CancellationToken cancellationToken);
+    PortalOnboardedAppDto SetAppAsActiveInPortal(PortalOnboardedAppDto app);
 
     List<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, List<OnboardedApp> onboardedApps, CancellationToken cancellationToken);
 
     PortalOnboardedAppDto GetPortalOnboardedAppNotActive(OnboardedApp onboardedApp, CancellationToken cancellationToken);
 
-    Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds, CancellationToken cancellationToken);
+    PortalOnboardedAppDto EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds);
 
     Task<bool> UserIsAdmin(Guid portalId, Guid userOId);
 }
