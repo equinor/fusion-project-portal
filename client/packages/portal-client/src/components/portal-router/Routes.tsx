@@ -18,7 +18,7 @@ export const getRoutes = (portalRoutes: PortalRouter): RouteObject[] => {
 			children: [
 				{
 					path: '/',
-					element: <PortalPage route={portalRoutes?.root} />,
+					element: <PortalPage route={{ ...portalRoutes?.root, path: '' }} />,
 					errorElement: <PortalMessagePage title="Fail to load view page" type={'Error'} />,
 				},
 				...pages,

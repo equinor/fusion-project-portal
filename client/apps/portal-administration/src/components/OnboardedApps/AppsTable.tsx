@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 
 import { useDeleteOnboardedApp } from '../../hooks/use-onboarded-apps';
 import { PortalApp } from '../../types';
-import { AppSideSheet } from './AppSideSheet';
+
 import { delete_to_trash, edit } from '@equinor/eds-icons';
 import { AgStyles } from '../AgStyle';
 import { OnboardedAppsActionBar } from './OnboardedAppsActionBar';
@@ -14,7 +14,6 @@ import { useResizeObserver } from '../../hooks/use-resise-observer';
 import { Message } from '../Message';
 
 export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | undefined }) => {
-	const [selectedApp, setSelectedApp] = useState<PortalApp | undefined>();
 	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
 	const { mutateAsync: deleteAppByAppKey } = useDeleteOnboardedApp();
 
@@ -59,8 +58,8 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 							hide: true,
 						},
 						{
-							field: 'name',
-							headerName: 'Name',
+							field: 'displayName',
+							headerName: 'Display Name',
 							filter: true,
 						},
 						{

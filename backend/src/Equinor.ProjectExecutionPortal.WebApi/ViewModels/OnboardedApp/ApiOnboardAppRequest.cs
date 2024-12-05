@@ -23,7 +23,7 @@ public class ApiOnboardAppRequest
                 .WithMessage("AppKey is required");
 
             RuleFor(x => x.ContextTypes)
-                .NotEmpty()
+                .NotNull()
                 .WithMessage("Context Types is required");
         }
     }
