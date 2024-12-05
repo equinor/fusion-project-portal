@@ -8,9 +8,10 @@ type DescriptionInputProps = {
 	errors: FieldErrors<{
 		description?: string | undefined;
 	}>;
+	canEdit?: boolean;
 };
 
-export const DescriptionInput = ({ register, errors }: DescriptionInputProps) => {
+export const DescriptionInput = ({ register, errors, canEdit }: DescriptionInputProps) => {
 	return (
 		<TextField
 			rows={3}
@@ -22,6 +23,7 @@ export const DescriptionInput = ({ register, errors }: DescriptionInputProps) =>
 			inputIcon={errors.description && <Icon data={error_filled} title="Error" />}
 			label="Description"
 			maxLength={500}
+			readOnly={!canEdit}
 		/>
 	);
 };

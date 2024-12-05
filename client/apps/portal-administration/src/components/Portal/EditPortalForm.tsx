@@ -10,13 +10,15 @@ import { useUpdatePortal } from '../../hooks/use-portal-query';
 import { PortalInputs, portalEditInputSchema } from '../../schema';
 import { ContextType, Portal } from '../../types';
 import { DescriptionInput } from '../FormComponents/DescriptionInput';
-
 import { FormActionBar } from './FormActionBar';
 import { IdInput } from '../FormComponents/IdInput';
 import { NameInput } from '../FormComponents/NameIntput';
 import { ShortNameInput } from '../FormComponents/ShortNameInput';
 import { SubtextInput } from '../FormComponents/SubTextInput';
 import { IconInput } from '../FormComponents/IconInput';
+import { AddAdmins } from '../FormComponents/AddAdmins';
+import { useCurrentAccount } from '@equinor/fusion-framework-react-app/msal';
+import { useAccess } from '../../hooks/use-access';
 
 const Style = {
 	Wrapper: styled.div`
@@ -25,6 +27,7 @@ const Style = {
 		flex-direction: column;
 		padding-bottom: 2rem;
 	`,
+
 	Row: styled.div`
 		gap: 1rem;
 		display: flex;
@@ -70,17 +73,16 @@ export const EditPortalForm = (props: {
 		formState: { errors, isSubmitting, touchedFields },
 		watch,
 		setValue,
-		reset,
 	} = useForm<PortalInputs>({
 		resolver: zodResolver(portalEditInputSchema),
 		defaultValues: {
 			...props.portal,
+			admins: props.portal.admins || [],
 		},
 	});
 
 	const onSubmit: SubmitHandler<PortalInputs> = async (editedPortal) => {
 		await updatePortal(editedPortal);
-		reset();
 	};
 
 	const [type, setType] = useState(contexts && contexts?.length > 0 ? 'context-portal' : 'app-portal');
@@ -98,19 +100,31 @@ export const EditPortalForm = (props: {
 		onDisabled && onDisabled(disabled);
 	}, [disabled, onDisabled]);
 
+	const { data: isAdmin } = useAccess();
+
+	const account = useCurrentAccount();
+	const canEdit = useMemo(
+		() => watch().admins?.some((admin) => admin.azureUniqueId === account?.localAccountId) || isAdmin,
+		[watch().admins, account, isAdmin]
+	);
+
 	return (
 		<Style.Wrapper>
 			<Style.Card>
 				<Style.Heading variant="h5">General</Style.Heading>
 				<Style.From onSubmit={handleSubmit(onSubmit)} id="portal">
 					<IdInput register={register} errors={errors} />
-					<NameInput register={register} errors={errors} />
+					<NameInput register={register} errors={errors} canEdit={canEdit} />
 					<Style.Row>
 						<ShortNameInput register={register} errors={errors} />
 						<SubtextInput register={register} errors={errors} />
 					</Style.Row>
 					<DescriptionInput register={register} errors={errors} />
 				</Style.From>
+			</Style.Card>
+			<Style.Card>
+				<Style.Heading variant="h5">Admins</Style.Heading>
+				<AddAdmins watch={watch} setValue={setValue} errors={errors} canEdit={canEdit} />
 			</Style.Card>
 			<Style.Card>
 				<Typography variant="h5">Icon</Typography>
@@ -128,12 +142,14 @@ export const EditPortalForm = (props: {
 						value="app-portal"
 						checked={type === 'app-portal'}
 						onChange={onTypeChange}
+						disabled={!canEdit}
 					/>
 					<Radio
 						label="Context Portal"
 						value="context-portal"
 						checked={type === 'context-portal'}
 						onChange={onTypeChange}
+						disabled={!canEdit}
 					/>
 				</Style.Row>
 			</Style.Card>
@@ -144,24 +160,29 @@ export const EditPortalForm = (props: {
 						<Typography variant="h5">Context</Typography>
 					</div>
 
-					<Autocomplete
-						id="textfield-context-types"
-						multiple
-						variant={errors.contextTypes && 'error'}
-						helperText={errors.contextTypes?.message}
-						options={props.contextTypes?.map((ct) => ct.type) || []}
-						selectedOptions={watch().contextTypes}
-						onOptionsChange={({ selectedItems }) => {
-							setValue('contextTypes', selectedItems, { shouldTouch: true });
-						}}
-						itemCompare={(item, compare) => {
-							return item === compare;
-						}}
-						label="Context Types"
-					/>
+					{canEdit ? (
+						<Autocomplete
+							id="textfield-context-types"
+							multiple
+							variant={errors.contextTypes && 'error'}
+							helperText={errors.contextTypes?.message}
+							options={props.contextTypes?.map((ct) => ct.type) || []}
+							selectedOptions={watch().contextTypes}
+							onOptionsChange={({ selectedItems }) => {
+								setValue('contextTypes', selectedItems, { shouldTouch: true });
+							}}
+							itemCompare={(item, compare) => {
+								return item === compare;
+							}}
+							label="Context Types"
+						/>
+					) : (
+						<>{watch().contextTypes?.join(' | ')}</>
+					)}
 				</Style.Card>
 			)}
-			{!props.isSideSheet && (
+
+			{!props.isSideSheet && canEdit && (
 				<Style.Card>
 					<Typography variant="overline">Portal Actions</Typography>
 					<Style.Row>
