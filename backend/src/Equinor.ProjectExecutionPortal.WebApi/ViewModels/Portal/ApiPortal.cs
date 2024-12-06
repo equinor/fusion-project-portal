@@ -23,6 +23,7 @@ public class ApiPortal : ApiAudit
         ContextTypes = portalDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
         Apps = portalDto.Apps.Select(x => new ApiPortalApp(x)).ToList();
         Configuration = portalDto.Configuration != null ? new ApiPortalConfiguration(portalDto.Configuration) : null;
+        Admins = portalDto.Admins?.Select(adminDto => new ApiPortalAdmin(adminDto)).ToList() ?? [];
         SupplyAudit(portalDto);
     }
 
@@ -33,8 +34,9 @@ public class ApiPortal : ApiAudit
     public string Subtext { get; set; } = null!;
     public string? Description { get; set; }
     public string Icon { get; set; } = null!;
-    public IList<ApiContextType> Contexts { get; set; }
-    public IList<string> ContextTypes { get; set; }
+    public List<ApiContextType> Contexts { get; set; }
+    public List<string> ContextTypes { get; set; }
     public List<ApiPortalApp> Apps { get; set; } = null!;
     public ApiPortalConfiguration? Configuration { get; set; }
+    public List<ApiPortalAdmin> Admins { get; set; }
 }

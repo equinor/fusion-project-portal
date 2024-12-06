@@ -1,4 +1,5 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.CreatePortal;
+using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
@@ -7,19 +8,20 @@ public class ApiCreatePortalRequest
 {
     public required string Name { get; init; }
     public required string ShortName { get; init; }
-    public required string Subtext { get; init; } 
+    public required string Subtext { get; init; }
     public string? Description { get; init; }
-    public required string Icon { get; init; } 
-    public required IList<string> ContextTypes { get; init; }
+    public required string Icon { get; init; }
+    public required List<string> ContextTypes { get; init; }
+    public List<ApiAccountIdentifier> Admins { get; init; } = [];
 
     public CreatePortalCommand ToCommand()
     {
-        return new CreatePortalCommand(Name, ShortName, Subtext, Description, Icon, ContextTypes);
+        return new CreatePortalCommand(Name, ShortName, Subtext, Description, Icon, ContextTypes, Admins.Select(identifer => identifer.ToAccountIdentifier()).ToList());
     }
 
     public class CreatePortalRequestValidator : AbstractValidator<ApiCreatePortalRequest>
     {
-        public CreatePortalRequestValidator()
+        public CreatePortalRequestValidator(IAccountService accountService)
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
@@ -40,6 +42,11 @@ public class ApiCreatePortalRequest
                 .NotContainScriptTag()
                 .MaximumLength(Domain.Entities.Portal.DescriptionLengthMax);
 
+            RuleFor(x => x.Admins)
+                .NotEmpty()
+                .WithMessage("Must specify at least one admin");
+
+            //RuleFor(x => x.Admins).BeValidAccounts(accountService);
         }
     }
 }

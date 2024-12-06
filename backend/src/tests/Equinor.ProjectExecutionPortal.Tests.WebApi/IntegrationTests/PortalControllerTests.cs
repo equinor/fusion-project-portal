@@ -2,6 +2,7 @@
 using System.Text;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
+using Equinor.ProjectExecutionPortal.WebApi.ViewModels;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -77,7 +78,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -100,6 +102,32 @@ public class PortalControllerTests : TestBase
     }
 
     [TestMethod]
+    public async Task Create_Portal_AsAdministrator_WithInvalidAdmin_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var getAllBeforeCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+
+        var payload = new ApiCreatePortalRequest
+        {
+            Name = "Created portal name",
+            Description = "Created description",
+            ShortName = "Created short name",
+            Subtext = "Created subtext",
+            Icon = "Created icon",
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = FusionProfileApiData.NonExistentAzureUniquePersonId }]
+        };
+
+        // Act
+        var response = await CreatePortal(UserType.Administrator, payload);
+        var getAllAfterCreation = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
+
+        // Assert
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.AreEqual(getAllBeforeCreation!.Count, getAllAfterCreation!.Count);
+    }
+
+    [TestMethod]
     public async Task Create_Portal_AsAuthenticatedUser_ShouldReturnForbidden()
     {
         // Arrange
@@ -110,7 +138,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -131,7 +160,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -155,7 +185,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Updated short name",
             Subtext = "Updated subtext",
             Icon = "Updated icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -186,7 +217,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Updated short name",
             Subtext = "Updated subtext",
             Icon = "Updated icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -207,7 +239,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Updated short name",
             Subtext = "Updated subtext",
             Icon = "Updated icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         // Act
@@ -330,50 +363,6 @@ public class PortalControllerTests : TestBase
     }
 
     [TestMethod]
-    public async Task Get_OnlyGlobalAppKeysForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
-    {
-        // Arrange
-        var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-        var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
-
-        // Act
-        var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, null, UserType.Authenticated, HttpStatusCode.OK);
-
-        // Assert
-        Assert.IsNotNull(apps);
-        Assert.AreEqual(4, apps.Count);
-    }
-
-    [TestMethod]
-    public async Task Get_BothGlobalAndContextAppKeysForPortal_WithValidContext_AsAuthenticatedUser_ShouldReturnOk()
-    {
-        // Arrange
-        var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-        var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
-
-        // Act
-        var apps = await AssertGetAppKeysForPortal(portalToTest!.Id, FusionContextApiData.JcaContextId, UserType.Authenticated, HttpStatusCode.OK);
-
-        // Assert
-        Assert.IsNotNull(apps);
-        Assert.AreEqual(6, apps.Count);
-    }
-
-    [TestMethod]
-    public async Task Get_BothGlobalAndContextAppKeysForPortal_WithInvalidContext_AsAuthenticatedUser_ShouldReturn404()
-    {
-        // Arrange
-        var portals = await AssertGetAllPortals(UserType.Authenticated, HttpStatusCode.OK);
-        var portalToTest = portals?.SingleOrDefault(x => x.Key == PortalData.InitialDbSeedData.ProjectExecution.Key);
-
-        // Act
-        var response = await GetAppKeysForPortal(portalToTest!.Id, FusionContextApiData.InvalidContextId, UserType.Authenticated);
-
-        // Assert
-        Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-    }
-
-    [TestMethod]
     public async Task Get_OnlyGlobalAppsForPortal_WithoutContext_AsAuthenticatedUser_ShouldReturnOk()
     {
         // Arrange
@@ -460,7 +449,7 @@ public class PortalControllerTests : TestBase
         Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
         var content = await response.Content.ReadAsStringAsync();
-        var apps = JsonConvert.DeserializeObject<IList<ApiPortalOnboardedApp>>(content);
+        var apps = JsonConvert.DeserializeObject<List<ApiPortalOnboardedApp>>(content);
 
         Assert.IsNotNull(apps);
         Assert.IsTrue(apps.Count > 0);
@@ -477,7 +466,8 @@ public class PortalControllerTests : TestBase
             ShortName = "Created short name",
             Subtext = "Created subtext",
             Icon = "Created icon",
-            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey]
+            ContextTypes = [ContextTypeData.ValidContextTypes.ProjectMasterContextTypeKey],
+            Admins = [new ApiAccountIdentifier { AzureUniqueId = Guid.Parse(UserData.AuthenticatedUserWithPortalAdminId) }]
         };
 
         await CreatePortal(UserType.Administrator, payload);
@@ -496,7 +486,7 @@ public class PortalControllerTests : TestBase
     }
 
     [TestMethod]
-    public async Task Delete_PortalWithApps_AsAdministrator_ShouldReturnForbidden()
+    public async Task Delete_PortalWithApps_AsAdministrator_ShouldReturnBadRequest()
     {
         // Arrange
         var portals = await AssertGetAllPortals(UserType.Administrator, HttpStatusCode.OK);
@@ -512,7 +502,7 @@ public class PortalControllerTests : TestBase
         var response = await DeletePortal(portalToDelete.Id, UserType.Administrator);
 
         // Assert
-        Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 
         // Verify the portal is not deleted
         var deletedPortal = await AssertGetPortal(portalToDelete.Id, UserType.Administrator, HttpStatusCode.OK);
@@ -612,12 +602,12 @@ public class PortalControllerTests : TestBase
         return app;
     }
 
-    private static async Task<IList<ApiPortal>?> AssertGetAllPortals(UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<ApiPortal>?> AssertGetAllPortals(UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAllPortals(userType);
         var content = await response.Content.ReadAsStringAsync();
-        var portals = JsonConvert.DeserializeObject<IList<ApiPortal>>(content);
+        var portals = JsonConvert.DeserializeObject<List<ApiPortal>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -687,12 +677,12 @@ public class PortalControllerTests : TestBase
         return portalConfiguration;
     }
 
-    private static async Task<IList<string>?> AssertGetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<string>?> AssertGetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAppKeysForPortal(portalId, contextId, userType);
         var content = await response.Content.ReadAsStringAsync();
-        var appKeys = JsonConvert.DeserializeObject<IList<string>>(content);
+        var appKeys = JsonConvert.DeserializeObject<List<string>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);
@@ -714,12 +704,12 @@ public class PortalControllerTests : TestBase
         return appKeys;
     }
 
-    private static async Task<IList<string>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<string>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAppsForPortal(portalId, contextId, userType);
         var content = await response.Content.ReadAsStringAsync();
-        var appKeys = JsonConvert.DeserializeObject<IList<string>>(content);
+        var appKeys = JsonConvert.DeserializeObject<List<string>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);

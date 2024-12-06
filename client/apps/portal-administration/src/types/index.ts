@@ -5,6 +5,12 @@ export type AppManifest = FusionAppManifest & {
 	isDisabled?: boolean;
 	url?: string;
 };
+
+export type Admin = {
+	id?: string;
+	azureUniqueId: string;
+};
+
 export type Portal = {
 	name: string;
 	shortName: string;
@@ -14,6 +20,7 @@ export type Portal = {
 	type: string;
 	icon?: string;
 	description: string;
+	admins: Admin[];
 	contexts: ContextType[];
 };
 

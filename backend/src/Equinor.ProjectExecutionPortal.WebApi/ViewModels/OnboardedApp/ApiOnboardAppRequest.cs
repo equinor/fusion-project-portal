@@ -6,7 +6,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 public class ApiOnboardAppRequest
 {
     public required string AppKey { get; init; } 
-    public required IList<string> ContextTypes { get; init; }
+    public required List<string> ContextTypes { get; init; }
 
     public OnboardAppCommand ToCommand()
     {

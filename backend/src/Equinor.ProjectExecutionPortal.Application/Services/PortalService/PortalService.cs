@@ -2,19 +2,23 @@
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals;
 using Equinor.ProjectExecutionPortal.Domain.Entities;
+using Equinor.ProjectExecutionPortal.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Services.PortalService;
 
 public class PortalService : IPortalService
 {
     private readonly IMapper _mapper;
+    private readonly IReadWriteContext _context;
 
-    public PortalService(IMapper mapper)
+    public PortalService(IMapper mapper, IReadWriteContext context)
     {
         _mapper = mapper;
+        _context = context;
     }
 
-    public IList<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, IList<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
+    public List<PortalOnboardedAppDto> CombinePortalAppsWithOnboardedApps(Portal portal, List<OnboardedApp> onboardedApps, CancellationToken cancellationToken)
     {
         var portalAppsDto = _mapper.Map<List<PortalApp>, List<PortalOnboardedAppDto>>(GetDistinctPortalApps(portal.Apps.ToList()));
 
@@ -27,34 +31,36 @@ public class PortalService : IPortalService
         return portalAppsDto.OrderBy(x => x.OnboardedApp.AppKey).ToList();
     }
 
-    public async Task<PortalOnboardedAppDto> EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, IList<Guid> contextIds, CancellationToken cancellationToken)
+    public PortalOnboardedAppDto EnrichPortalAppWithContextIds(PortalOnboardedAppDto portalOnboardedAppDto, List<Guid> contextIds)
     {
         portalOnboardedAppDto.ContextIds = contextIds.ToList();
-
-        await Task.CompletedTask;
 
         return portalOnboardedAppDto;
     }
 
     public PortalOnboardedAppDto GetPortalOnboardedAppNotActive(OnboardedApp onboardedApp, CancellationToken cancellationToken)
     {
-        return new PortalOnboardedAppDto
-        {
-            OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onboardedApp),
-            IsActive = false
-        };
+        return new PortalOnboardedAppDto { OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onboardedApp), IsActive = false };
     }
 
-    public async Task<PortalOnboardedAppDto> SetAppAsActiveInPortal(PortalOnboardedAppDto app, CancellationToken cancellationToken)
+    public PortalOnboardedAppDto SetAppAsActiveInPortal(PortalOnboardedAppDto app)
     {
         app.IsActive = true;
-
-        await Task.CompletedTask;
 
         return app;
     }
 
-    private static void SetAppsAsActiveInPortal(IList<PortalOnboardedAppDto> apps)
+    public async Task<bool> UserIsAdmin(Guid portalId, Guid userOId)
+    {
+        var isAdmin = await _context.Set<Portal>()
+            .Include(portal => portal.Admins)
+            .Where(portal => portal.Id == portalId)
+            .AnyAsync(x => x.Admins.Any(o => o.AzureUniqueId == userOId));
+
+        return isAdmin;
+    }
+
+    private static void SetAppsAsActiveInPortal(List<PortalOnboardedAppDto> apps)
     {
         foreach (var app in apps)
         {
@@ -71,24 +77,21 @@ public class PortalService : IPortalService
         return distinctPortalApps;
     }
 
-    private List<PortalOnboardedAppDto> GetOnBoardedAppsNotActiveInPortal(Portal portal, IList<OnboardedApp> onboardedApps)
+    private List<PortalOnboardedAppDto> GetOnBoardedAppsNotActiveInPortal(Portal portal, List<OnboardedApp> onboardedApps)
     {
-        var onBoardedAppsNotActiveInPortal = IsContextualPortal(portal) ?
-            onboardedApps
+        var onBoardedAppsNotActiveInPortal = IsContextualPortal(portal)
+            ? onboardedApps
                 .Where(onboardedApp =>
                     portal.Apps.All(portalAppDto => portalAppDto.OnboardedApp.Id != onboardedApp.Id) &&
                     (onboardedApp.ContextTypes.Count == 0 ||
                      onboardedApp.ContextTypes.Any(m => portal.ContextTypes.Any(n => n.ContextTypeKey == m.ContextTypeKey))))
-                .ToList() :
-            onboardedApps
+                .ToList()
+            : onboardedApps
                 .Where(onboardedApp => portal.Apps.All(portalAppDto => portalAppDto.OnboardedApp.Id != onboardedApp.Id))
                 .ToList();
 
-        return onBoardedAppsNotActiveInPortal.Select(onBoardedApp => new PortalOnboardedAppDto()
-        {
-            OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onBoardedApp),
-            IsActive = false
-        }).ToList();
+        return onBoardedAppsNotActiveInPortal.Select(onBoardedApp => new PortalOnboardedAppDto() { OnboardedApp = _mapper.Map<OnboardedApp, OnboardedAppDto>(onBoardedApp), IsActive = false })
+            .ToList();
     }
 
     private static bool IsContextualPortal(Portal portal)

@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedApps.GetOnboardedApps;
 
-public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
+public class GetOnboardedAppsQuery : QueryBase<List<OnboardedAppDto>>
 {
-    public class Handler : IRequestHandler<GetOnboardedAppsQuery, IList<OnboardedAppDto>>
+    public class Handler : IRequestHandler<GetOnboardedAppsQuery, List<OnboardedAppDto>>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class GetOnboardedAppsQuery : QueryBase<IList<OnboardedAppDto>>
             _appService = appService;
         }
 
-        public async Task<IList<OnboardedAppDto>> Handle(GetOnboardedAppsQuery request, CancellationToken cancellationToken)
+        public async Task<List<OnboardedAppDto>> Handle(GetOnboardedAppsQuery request, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<Domain.Entities.OnboardedApp>()
                 .Include(x => x.ContextTypes)

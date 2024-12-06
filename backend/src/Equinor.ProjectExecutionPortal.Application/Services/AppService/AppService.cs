@@ -25,7 +25,7 @@ public class AppService : IAppService
         return onboardedApp;
     }
 
-    public async Task<IList<OnboardedAppDto>> EnrichWithFusionAppData(IList<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
+    public async Task<List<OnboardedAppDto>> EnrichWithFusionAppData(List<OnboardedAppDto> onboardedApps, CancellationToken cancellationToken)
     {
         var fusionApps = await _fusionAppsService.GetFusionApps();
 

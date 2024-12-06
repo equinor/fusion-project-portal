@@ -32,9 +32,10 @@ type IconInputProps = {
 		icon?: string | undefined;
 	}>;
 	icon: string;
+	canEdit?: boolean;
 };
 
-export const IconInput = ({ register, errors, icon }: IconInputProps) => {
+export const IconInput = ({ register, errors, icon, canEdit }: IconInputProps) => {
 	return (
 		<Style.Row>
 			<div>
@@ -54,6 +55,7 @@ export const IconInput = ({ register, errors, icon }: IconInputProps) => {
 			<TextField
 				rows={5}
 				multiline
+				readOnly={!canEdit}
 				{...register('icon')}
 				id="textfield-icon"
 				variant={errors.icon && 'error'}

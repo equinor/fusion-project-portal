@@ -2,10 +2,10 @@
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Data;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Misc;
 using Equinor.ProjectExecutionPortal.Tests.WebApi.Setup;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Fusion.Integration;
 using Fusion.Integration.Apps.Abstractions.Abstractions;
 using Fusion.Integration.Apps.Abstractions.Models;
+using Fusion.Integration.Profile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -20,15 +20,24 @@ namespace Equinor.ProjectExecutionPortal.Tests.WebApi;
 public sealed class TestFactory : WebApplicationFactory<Program>
 {
     private const string IntegrationTestEnvironment = "IntegrationTests";
-    private readonly string _localDbConnectionString;
-    private readonly string _configPath;
-    private readonly List<Action> _teardownList = [];
-    private readonly List<IDisposable> _disposables = [];
-    private readonly Mock<IFusionContextResolver> _fusionContextResolverMock = new();
-    private readonly Mock<IAppsClient> _fusionAppsClientMock = new();
     public static Dictionary<UserType, ITestUser> TestUsersDictionary = new();
     private static TestFactory? _sInstance;
     private static readonly object SPadlock = new();
+    private readonly string _configPath;
+    private readonly List<IDisposable> _disposables = [];
+    private readonly Mock<IAppsClient> _fusionAppsClientMock = new();
+    private readonly Mock<IFusionContextResolver> _fusionContextResolverMock = new();
+    private readonly Mock<IFusionProfileResolver> _fusionProfileResolverMock = new();
+    private readonly string _localDbConnectionString;
+    private readonly List<Action> _teardownList = [];
+
+    private TestFactory()
+    {
+        var projectDir = Directory.GetCurrentDirectory();
+        _localDbConnectionString = GetTestLocalDbConnectionString(projectDir);
+        _configPath = Path.Combine(projectDir, "appsettings.json");
+        SetupTestUsers();
+    }
 
     public static TestFactory Instance
     {
@@ -49,14 +58,6 @@ public sealed class TestFactory : WebApplicationFactory<Program>
         }
     }
 
-    private TestFactory()
-    {
-        var projectDir = Directory.GetCurrentDirectory();
-        _localDbConnectionString = GetTestLocalDbConnectionString(projectDir);
-        _configPath = Path.Combine(projectDir, "appsettings.json");
-        SetupTestUsers();
-    }
-
     public new void Dispose()
     {
         // Run teardown
@@ -72,7 +73,11 @@ public sealed class TestFactory : WebApplicationFactory<Program>
 
         foreach (var disposable in _disposables)
         {
-            try { disposable.Dispose(); } catch { /* Ignore */ }
+            try { disposable.Dispose(); }
+            catch
+            {
+                /* Ignore */
+            }
         }
 
         //lock (s_padlock)
@@ -92,7 +97,10 @@ public sealed class TestFactory : WebApplicationFactory<Program>
         return testUser.HttpClient;
     }
 
-    public TokenProfile? GetTestProfile(UserType userType) => TestUsersDictionary[userType].Profile;
+    public TokenProfile? GetTestProfile(UserType userType)
+    {
+        return TestUsersDictionary[userType].Profile;
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -107,6 +115,7 @@ public sealed class TestFactory : WebApplicationFactory<Program>
 
             services.AddScoped(_ => _fusionContextResolverMock.Object);
             services.AddScoped(_ => _fusionAppsClientMock.Object);
+            services.AddScoped(_ => _fusionProfileResolverMock.Object);
         });
 
         builder.ConfigureServices(async services =>
@@ -161,11 +170,13 @@ public sealed class TestFactory : WebApplicationFactory<Program>
     }
 
     private void EnsureTestDatabaseDeletedAtTeardown(IServiceCollection services)
-        => _teardownList.Add(() =>
+    {
+        _teardownList.Add(() =>
         {
             using var dbContext = DatabaseContext(services);
             dbContext.Database.EnsureDeleted();
         });
+    }
 
     private ProjectExecutionPortalContext DatabaseContext(IServiceCollection services)
     {
@@ -216,6 +227,18 @@ public sealed class TestFactory : WebApplicationFactory<Program>
             {
                 return Task.FromResult(FusionContextApiData.ValidFusionContexts.FirstOrDefault(x => x.Id == contextId))!;
             });
+
+        _fusionProfileResolverMock.Setup(service => service.ResolvePersonsAsync(It.IsAny<IEnumerable<PersonIdentifier>>(), default))
+            .Returns((IEnumerable<PersonIdentifier> personIdentifiers, CancellationToken token) =>
+            {
+                var matchingProfiles = FusionProfileApiData.ValidFusionProfiles
+                    .Where(resolvedProfile => personIdentifiers
+                        .Select(x => x.AzureUniquePersonId)
+                        .Contains(resolvedProfile.Profile!.AzureUniqueId!.Value))
+                    .AsEnumerable();
+
+                return Task.FromResult(matchingProfiles);
+            });
     }
 
     private void SetupTestUsers()
@@ -245,11 +268,20 @@ public sealed class TestFactory : WebApplicationFactory<Program>
         }
     }
 
-    private static void SetupAuthenticatedUser() => TestUsersDictionary.Add(UserType.Authenticated, UserData.Authenticated);
+    private static void SetupAuthenticatedUser()
+    {
+        TestUsersDictionary.Add(UserType.Authenticated, UserData.Authenticated);
+    }
 
-    private static void SetupAdministratorUser() => TestUsersDictionary.Add(UserType.Administrator, UserData.Administrator);
+    private static void SetupAdministratorUser()
+    {
+        TestUsersDictionary.Add(UserType.Administrator, UserData.Administrator);
+    }
 
-    private static void SetupAnonymousUser() => TestUsersDictionary.Add(UserType.Anonymous, UserData.Anonymous);
+    private static void SetupAnonymousUser()
+    {
+        TestUsersDictionary.Add(UserType.Anonymous, UserData.Anonymous);
+    }
 
     private static void AuthenticateUser(ITestUser user)
     {

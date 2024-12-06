@@ -8,14 +8,18 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Fusion.Integration.Abstractions" Version="8.0.7" />
-    <PackageReference Include="Fusion.Integration.Apps.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Fusion.Integration.Abstractions" Version="8.1.0" />
+    <PackageReference Include="Fusion.Integration.Apps.Abstractions" Version="8.1.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Domain\Equinor.ProjectExecutionPortal.Domain.csproj" />
     <ProjectReference Include="..\Equinor.ProjectExecutionPortal.Infrastructure\Equinor.ProjectExecutionPortal.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Queries\Accounts\" />
   </ItemGroup>
 
 </Project>

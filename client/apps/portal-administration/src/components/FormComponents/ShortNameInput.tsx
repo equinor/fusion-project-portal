@@ -8,13 +8,15 @@ type ShortNameInputProps = {
 	errors: FieldErrors<{
 		shortName?: string | undefined;
 	}>;
+	canEdit?: boolean;
 };
 
-export const ShortNameInput = ({ register, errors }: ShortNameInputProps) => {
+export const ShortNameInput = ({ register, errors, canEdit }: ShortNameInputProps) => {
 	return (
 		<TextField
 			{...register('shortName')}
 			id="textfield-short-name"
+			readOnly={!canEdit}
 			variant={errors.shortName && 'error'}
 			helperText={errors.shortName?.message}
 			inputIcon={errors.shortName && <Icon data={error_filled} title="Error" />}

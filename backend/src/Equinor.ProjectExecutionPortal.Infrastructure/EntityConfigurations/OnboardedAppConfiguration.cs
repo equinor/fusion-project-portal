@@ -20,6 +20,9 @@ public class OnboardedAppConfiguration : IEntityTypeConfiguration<OnboardedApp>
             .HasMaxLength(OnboardedApp.AppKeyLengthMax)
             .IsRequired();
 
-         builder.HasMany(x => x.ContextTypes).WithMany(x => x.OnboardedApps).UsingEntity(join => join.ToTable("OnboardedAppContextTypes"));
+         builder
+             .HasMany(x => x.ContextTypes)
+             .WithMany(x => x.OnboardedApps)
+             .UsingEntity(join => join.ToTable("OnboardedAppContextTypes"));
     }
 }

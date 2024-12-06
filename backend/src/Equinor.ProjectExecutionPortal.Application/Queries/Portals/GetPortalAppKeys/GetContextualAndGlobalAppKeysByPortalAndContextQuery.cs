@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAppKeys;
 
-public class GetContextualAndGlobalAppKeysByPortalAndContextQuery : QueryBase<IList<string>>
+public class GetContextualAndGlobalAppKeysByPortalAndContextQuery : QueryBase<List<string>>
 {
     public GetContextualAndGlobalAppKeysByPortalAndContextQuery(Guid portalId, Guid contextId)
     {
@@ -19,7 +19,7 @@ public class GetContextualAndGlobalAppKeysByPortalAndContextQuery : QueryBase<IL
     public Guid PortalId { get; }
     public Guid ContextId { get; }
 
-    public class Handler : IRequestHandler<GetContextualAndGlobalAppKeysByPortalAndContextQuery, IList<string>>
+    public class Handler : IRequestHandler<GetContextualAndGlobalAppKeysByPortalAndContextQuery, List<string>>
     {
         private readonly IReadWriteContext _readWriteContext;
 
@@ -32,7 +32,7 @@ public class GetContextualAndGlobalAppKeysByPortalAndContextQuery : QueryBase<IL
             _contextService = contextService;
         }
 
-        public async Task<IList<string>> Handle(GetContextualAndGlobalAppKeysByPortalAndContextQuery request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(GetContextualAndGlobalAppKeysByPortalAndContextQuery request, CancellationToken cancellationToken)
         {
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
 

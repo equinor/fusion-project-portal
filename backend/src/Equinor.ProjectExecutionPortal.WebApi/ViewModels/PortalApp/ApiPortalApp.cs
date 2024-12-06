@@ -20,6 +20,6 @@ public class ApiPortalApp
     }
 
     public string AppKey { get; set; }
-    public IList<ApiContextType> ContextTypes { get; set; }
+    public List<ApiContextType> ContextTypes { get; set; }
     public ApiFusionApp? AppManifest { get; set; }
 }
