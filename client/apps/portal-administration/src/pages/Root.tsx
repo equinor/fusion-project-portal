@@ -7,6 +7,7 @@ import { useAccess } from '../hooks/use-access';
 import { Loading } from '../components/Loading';
 import { PageMessage } from '../components/PageMessage/PageMessage';
 import { Typography } from '@equinor/eds-core-react';
+import { LandingPage } from './LandingPage';
 
 const Styles = {
 	Content: styled.div`
@@ -31,7 +32,7 @@ export const Root = () => {
 
 	if (isLoading) return <Loading detail="Checking Access" />;
 
-	if (hasAccess) {
+	if (!hasAccess) {
 		return (
 			<Styles.Wrapper>
 				<PortalContextComponent>
@@ -46,9 +47,5 @@ export const Root = () => {
 			</Styles.Wrapper>
 		);
 	}
-	return (
-		<PageMessage type="Warning" title="No Access">
-			<Typography>You do not have access to portal administration application</Typography>
-		</PageMessage>
-	);
+	return <LandingPage />;
 };

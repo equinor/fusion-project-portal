@@ -12,7 +12,7 @@ type MenuItemProps =
 				expanded?: boolean;
 			} & Pick<SidebarLinkProps, 'active'>;
 
-export const SideMenu = () => {
+export const SideMenu = ({ isAdmin }: { isAdmin?: boolean }) => {
 	const { activePortalId } = usePortalContext();
 
 	const menuItems: MenuItemProps[] = [
