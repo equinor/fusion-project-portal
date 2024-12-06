@@ -40,7 +40,7 @@ We aim to design a system that provides users with a streamlined workflow, by of
 
 | Build  | Status | WebClient | Backend |
 | - | - | - | - |
-| Prod | ![Prod Status](https://api.radix.equinor.com/api/v1/applications/fusion-project-portal/environments/prod/buildstatus?pipeline=promote) | [portal.fusion.equinor](https://portal.fusion.equinor.com)|[project-portal-api-prod](https://backend-fusion-project-portal-prod.radix.equinor.com/swagger/index.html)
+| Prod | ![Prod Status](https://api.radix.equinor.com/api/v1/applications/fusion-project-portal/environments/prod/buildstatus?pipeline=promote) | [project.fusion.equinor](https://project.fusion.equinor.com)|[project-portal-api-prod](https://backend-fusion-project-portal-prod.radix.equinor.com/swagger/index.html)
 | Test | ![Test Build status](https://api.radix.equinor.com/api/v1/applications/fusion-project-portal/environments/test/buildstatus) |[webserver-project-portal-test](https://webserver-fusion-project-portal-test.radix.equinor.com/)|[project-portal-api-test](https://backend-fusion-project-portal-test.radix.equinor.com/swagger/index.html)
 | Feature | ![Feature Build status](https://api.radix.equinor.com/api/v1/applications/fusion-project-portal/environments/feature/buildstatus) |[webserver-project-portal-feature](https://webserver-fusion-project-portal-feature.radix.equinor.com/)| [project-portal-api-feature](https://backend-fusion-project-portal-feature.radix.equinor.com/swagger/index.html)
 
