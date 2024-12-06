@@ -6,8 +6,8 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
     public class BundleController : Controller
     {
         [Authorize]
-        [HttpGet("/{*anything}")]
         [HttpGet("/authentication/{*anything}")]
+        [HttpGet("/")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public Task<IActionResult> Index()
         {
