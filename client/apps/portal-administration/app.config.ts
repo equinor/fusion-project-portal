@@ -1,6 +1,6 @@
 import { defineAppConfig } from '@equinor/fusion-framework-cli';
 
-const feature = true;
+const feature = false;
 export default defineAppConfig((_env) => ({
 	environment: {
 		client: feature
