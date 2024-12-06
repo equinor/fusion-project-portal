@@ -7,7 +7,6 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.Controllers
     {
         [Authorize]
         [HttpGet("/authentication/{*anything}")]
-        [HttpGet("/")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public Task<IActionResult> Index()
         {
