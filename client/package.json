@@ -56,7 +56,7 @@
     "vite-plugin-static-copy": "^1.0.0",
     "vite-svg-loader": "^5.1.0",
     "vite-tsconfig-paths": "^4.3.1",
-    "vitest": "^1.2.1"
+    "vitest": "^2.1.0"
   },
   "dependencies": {
     "@ag-grid-enterprise/core": "28.1.1",
