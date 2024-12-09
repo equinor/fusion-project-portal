@@ -50,8 +50,6 @@ builder.Services.AddResponseCompression(options =>
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddResponseCaching();
-
 // Add services
 builder.Services.AddServiceModule();
 
@@ -89,8 +87,6 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always
 });
-
-app.UseResponseCaching();
 
 app.UseRouting();
 
