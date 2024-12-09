@@ -1,5 +1,6 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePortal;
 using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
+using Equinor.ProjectExecutionPortal.WebApi.Validation;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
@@ -46,7 +47,7 @@ public class ApiUpdatePortalRequest
                 .NotEmpty()
                 .WithMessage("Must specify at least one admin");
 
-            //RuleFor(x => x.Admins).BeValidAccounts(accountService);
+            RuleFor(x => x.Admins).BeValidAccounts(accountService);
         }
     }
 }

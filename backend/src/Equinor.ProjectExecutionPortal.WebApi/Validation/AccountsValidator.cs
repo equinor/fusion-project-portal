@@ -8,7 +8,7 @@ using Fusion.Integration.Profile;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Validation;
 
-public class AccountsValidator<T> : AsyncPropertyValidator<T, List<ApiAccountIdentifier>>
+public class AccountsValidator<T> : PropertyValidator<T, List<ApiAccountIdentifier>>
 {
     private readonly IAccountService _accountService;
 
@@ -19,10 +19,12 @@ public class AccountsValidator<T> : AsyncPropertyValidator<T, List<ApiAccountIde
 
     public override string Name => "AccountsValidator";
 
-    public override async Task<bool> IsValidAsync(ValidationContext<T> context, List<ApiAccountIdentifier> accounts, CancellationToken cancellationToken)
+    public override bool IsValid(ValidationContext<T> context, List<ApiAccountIdentifier> accounts)
     {
-        var resolvedProfiles = (await _accountService.ResolveProfilesAsync(accounts.Select(identifier => identifier.ToAccountIdentifier()), cancellationToken)).ToList();
-
+        // Dotnet automatic validation pipeline is not async, so we need to run the async method synchronously
+        var resolvedProfilesAsSyncronous = Task.Run(async () => await _accountService.ResolveProfilesAsync(accounts.Select(identifier => identifier.ToAccountIdentifier())));
+        var resolvedProfiles = resolvedProfilesAsSyncronous.Result;
+        
         var profiles = resolvedProfiles.Where(profile => profile.Success)
             .Select(p => p.Profile!)
             .ToList();

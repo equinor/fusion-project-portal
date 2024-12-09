@@ -8,6 +8,6 @@ public static class FluentValidationExtensions
 {
     public static IRuleBuilderOptions<T, List<ApiAccountIdentifier>> BeValidAccounts<T>(this IRuleBuilder<T, List<ApiAccountIdentifier>> ruleBuilder, IAccountService accountService)
     {
-        return ruleBuilder.SetAsyncValidator(new AccountsValidator<T>(accountService));
+        return ruleBuilder.SetValidator(new AccountsValidator<T>(accountService));
     }
 }
