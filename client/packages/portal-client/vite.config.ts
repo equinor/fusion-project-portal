@@ -51,7 +51,9 @@ export default defineConfig(({ mode }) => {
 		},
 		build: {
 			assetsInlineLimit: 0,
+
 			rollupOptions: {
+				plugins: [env({ NODE_ENV: process.env.NODE_ENV ?? 'development', FUSION_LOG_LEVEL: '0' })],
 				input: path.resolve(__dirname, './src/main.tsx'),
 				output: {
 					entryFileNames: `index.[hash].js`,
