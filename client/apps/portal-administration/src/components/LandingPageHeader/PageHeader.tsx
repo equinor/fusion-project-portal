@@ -12,7 +12,7 @@ export const StyledHeader = styled.div`
 	> :not(:first-child) {
 		margin-left: 0px;
 	}
-	margin: 2rem 0;
+	/* margin-top: 2rem; */
 `;
 
 export const ProjectHeader = ({ children }: PropsWithChildren) => {

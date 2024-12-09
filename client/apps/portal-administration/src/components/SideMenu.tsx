@@ -1,7 +1,18 @@
 import { Link, useMatch, type LinkProps } from 'react-router-dom';
 import { SideBar, SidebarLinkProps } from '@equinor/eds-core-react';
 
-import { dashboard, build_wrench, briefcase, apps, desktop_mac, settings, view_list, add } from '@equinor/eds-icons';
+import {
+	dashboard,
+	build_wrench,
+	briefcase,
+	apps,
+	desktop_mac,
+	settings,
+	view_list,
+	add,
+	code,
+	tag_relations,
+} from '@equinor/eds-icons';
 import { usePortalContext } from '../context/PortalContext';
 
 type MenuItemProps =
@@ -12,7 +23,7 @@ type MenuItemProps =
 				expanded?: boolean;
 			} & Pick<SidebarLinkProps, 'active'>;
 
-export const SideMenu = ({ isAdmin }: { isAdmin?: boolean }) => {
+export const SideMenu = () => {
 	const { activePortalId } = usePortalContext();
 
 	const menuItems: MenuItemProps[] = [
@@ -20,66 +31,43 @@ export const SideMenu = ({ isAdmin }: { isAdmin?: boolean }) => {
 			label: 'Portals',
 			icon: desktop_mac,
 			active: !!useMatch(`portals`),
-			to: `portals`,
+			to: `/portals`,
 			as: Link,
-			subItems: [
-				{
-					label: 'Portals',
-					icon: view_list,
-					to: `portals`,
-					active: !!useMatch(`portals`),
-					as: Link,
-				},
-				{
-					label: 'Create New Portal',
-					icon: add,
-					to: `portals/create`,
-					active: !!useMatch(`portals/create`),
-					as: Link,
-				},
-			],
+		},
+
+		{
+			label: 'Overview',
+			icon: dashboard,
+			to: `/portals/${activePortalId}/overview`,
+			active: !!useMatch(`portals/:portalId/overview`),
+			disabled: Boolean(!activePortalId),
+			as: Link,
 		},
 		{
-			label: 'Portal',
-			active: !!useMatch({ path: `portals/:portalId/:page`, end: true }),
-			icon: dashboard,
+			label: 'Apps Config',
+			icon: apps,
+			to: `/portals/${activePortalId}/apps`,
+			active: !!useMatch(`portals/:portalId/apps`),
 			disabled: Boolean(!activePortalId),
-			expanded: true,
-			subItems: [
-				{
-					label: 'Overview',
-					icon: dashboard,
-					to: `portals/${activePortalId}/overview`,
-					active: !!useMatch(`portals/:portalId/overview`),
-					disabled: Boolean(!activePortalId),
-					as: Link,
-				},
-				{
-					label: 'Apps Config',
-					icon: build_wrench,
-					to: `portals/${activePortalId}/apps`,
-					active: !!useMatch(`portals/:portalId/apps`),
-					disabled: Boolean(!activePortalId),
-					as: Link,
-				},
-				{
-					label: 'Router Config',
-					icon: briefcase,
-					to: `portals/${activePortalId}/router`,
-					active: !!useMatch(`portals/:portalId/router`),
-					disabled: Boolean(!activePortalId),
-					as: Link,
-				},
-				{
-					label: 'Portal Config',
-					icon: settings,
-					to: `portals/${activePortalId}/show`,
-					active: !!useMatch(`portals/:portalId/show`),
-					disabled: Boolean(!activePortalId),
-					as: Link,
-				},
-			],
+			as: Link,
 		},
+		{
+			label: 'Router Config',
+			icon: tag_relations,
+			to: `/portals/${activePortalId}/router`,
+			active: !!useMatch(`portals/:portalId/router`),
+			disabled: Boolean(!activePortalId),
+			as: Link,
+		},
+		{
+			label: 'Portal Config',
+			icon: code,
+			to: `/portals/${activePortalId}/show`,
+			active: !!useMatch(`portals/:portalId/show`),
+			disabled: Boolean(!activePortalId),
+			as: Link,
+		},
+
 		{
 			label: 'Settings',
 			active: !!useMatch({ path: `settings`, end: false }),
@@ -89,20 +77,20 @@ export const SideMenu = ({ isAdmin }: { isAdmin?: boolean }) => {
 					label: 'Onboarded Apps',
 					icon: apps,
 					active: !!useMatch({ path: `settings/apps`, end: true }),
-					to: `settings/apps`,
+					to: `/settings/apps`,
 					as: Link,
 				},
 				{
 					label: 'Contexts',
 					icon: build_wrench,
-					to: `settings/contexts`,
+					to: `/settings/contexts`,
 					active: !!useMatch({ path: `settings/contexts`, end: true }),
 					as: Link,
 				},
 				{
 					label: 'Context Types',
 					icon: build_wrench,
-					to: `settings/contexts/types`,
+					to: `/settings/contexts/types`,
 					active: !!useMatch(`settings/contexts/types`),
 					as: Link,
 				},

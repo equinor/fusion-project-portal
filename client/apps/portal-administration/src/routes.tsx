@@ -8,12 +8,17 @@ import { Settings } from './pages/Settings';
 import { PortalApps } from './pages/PortalApps';
 import { Root } from './pages/Root';
 import { ShowConfigPage } from './components/Portal/ShowConfig';
-import { PortalList } from './pages/PortalsList';
 import { CreatePortal } from './pages/CreatePortal';
 
 import { OnboardedApps } from './pages/OnboardedAppsTable';
 
 import { ContextTypesPage } from './pages/ContextTypesPage';
+import { LandingPage } from './pages/LandingPage';
+import { Layout } from './pages/Layout';
+import { PortalList } from './pages/PortalsList';
+import { CreatePortalForm } from './components/Portals/CreatePortalForm';
+import { AdminCreatePortal } from './pages/AdminCreatePortal';
+import { GettingStarted } from './pages/GettingStated';
 
 export const routes: RouteObject[] = [
 	{
@@ -25,66 +30,90 @@ export const routes: RouteObject[] = [
 				Component: () => <Navigate to="/portals" />,
 			},
 			{
-				path: 'settings/apps',
-				Component: Settings,
-				children: [
-					{
-						index: true,
-						Component: OnboardedApps,
-					},
-				],
-			},
-			{
-				Component: Settings,
-				path: 'settings/contexts',
-				children: [
-					{
-						index: true,
-						Component: Context,
-					},
-					{
-						path: 'types',
-						Component: ContextTypesPage,
-					},
-				],
-			},
-			{
 				path: 'portals',
+				Component: LandingPage,
+			},
+			{
+				path: 'getting-started',
+				Component: GettingStarted,
+			},
+			{
+				path: 'create',
+				Component: CreatePortal,
+			},
+			{
+				path: 'admin/*',
 				Component: Portals,
 				children: [
 					{
-						index: true,
+						path: 'portals',
 						Component: PortalList,
 					},
 					{
 						path: 'create',
-						Component: CreatePortal,
+						Component: AdminCreatePortal,
 					},
 				],
 			},
 			{
-				path: 'portals/:portalId',
-				Component: Portal,
+				path: 'portals/*',
+				Component: Layout,
 				children: [
 					{
-						path: 'overview',
-						Component: EditPortal,
+						path: ':portalId',
+						Component: Portal,
+						children: [
+							{
+								path: 'overview',
+								Component: EditPortal,
+							},
+							{
+								Component: RouterConfig,
+								path: 'router',
+							},
+							{
+								Component: PortalApps,
+								path: 'apps',
+							},
+							{
+								Component: Context,
+								path: 'context',
+							},
+							{
+								Component: ShowConfigPage,
+								path: 'show',
+							},
+						],
 					},
+				],
+			},
+			{
+				path: 'settings/*',
+				Component: Layout,
+				children: [
 					{
-						Component: RouterConfig,
-						path: 'router',
-					},
-					{
-						Component: PortalApps,
 						path: 'apps',
+						Component: Settings,
+						children: [
+							{
+								index: true,
+								Component: OnboardedApps,
+							},
+						],
 					},
 					{
-						Component: Context,
-						path: 'context',
-					},
-					{
-						Component: ShowConfigPage,
-						path: 'show',
+						Component: Settings,
+						path: 'contexts',
+						children: [
+							{
+								index: true,
+								Component: Context,
+							},
+							{
+								path: 'types',
+								Component: ContextTypesPage,
+							},
+						],
 					},
 				],
 			},
