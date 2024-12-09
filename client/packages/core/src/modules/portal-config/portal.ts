@@ -18,6 +18,7 @@ export interface IPortal {
 	appKeys: string[];
 	getAppKeysByContext(contextId: string): void;
 	getAppKeys(): void;
+	clearAppKeys(): void;
 }
 
 export type CurrentPortal = IPortal;
@@ -39,6 +40,10 @@ export class Portal implements IPortal {
 
 	getAppKeysByContext(contextId: string): void {
 		this.#state.next(actions.fetchAppKeysByContextId({ contextId }, true));
+	}
+
+	clearAppKeys(): void {
+		this.#state.next(actions.clearAppKeys());
 	}
 
 	getAppKeys(): void {
