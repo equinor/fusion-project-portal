@@ -70,10 +70,12 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableAppModule(config);
 
-		config.configureHttpClient('app', {
-			baseUri: new URL('/apps-proxy/', location.origin).href,
-			defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
-		});
+		if (process.env.NODE_ENV === 'development') {
+			config.configureHttpClient('app', {
+				baseUri: new URL('/apps-proxy/', location.origin).href,
+				defaultScopes: portalConfig.serviceDiscovery.client.defaultScopes,
+			});
+		}
 
 		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
 

@@ -6,8 +6,7 @@ import { appsMatchingSearch, usePortalApps } from '@portal/core';
 import { useState, useMemo } from 'react';
 import { useFavorites } from '@portal/core';
 import styled from 'styled-components';
-import { AppContextMessage, AppGroup, LoadingMenu } from '@portal/components';
-import { useApps } from '@equinor/fusion-framework-react/app';
+import { AppGroup, LoadingMenu } from '@portal/components';
 
 const Styles = {
 	Divider: styled.div`
@@ -37,10 +36,11 @@ const Styles = {
 	AppsListWrapper: styled.div`
 		overflow: auto;
 		height: inherit;
+		min-width: 550px;
 	`,
 
-	Wrapper: styled.div`
-		column-count: 3;
+	Wrapper: styled.div<{ count?: number }>`
+		column-count: ${({ count }) => (count && count > 1 ? 3 : 0)};
 		height: 100%;
 		gap: 1.5rem;
 		overflow: auto;
@@ -140,7 +140,6 @@ export function MenuGroups() {
 							</Styles.CategoryWrapper>
 						</Styles.Divider>
 						<Styles.AppsListWrapper>
-							<AppContextMessage />
 							{displayAppGroups && !!displayAppGroups?.length ? (
 								activeItem.includes('Pinned Apps') && favorites?.length === 0 ? (
 									<InfoMessage>
@@ -148,7 +147,7 @@ export function MenuGroups() {
 										add them to the pinned app section.
 									</InfoMessage>
 								) : (
-									<Styles.Wrapper>
+									<Styles.Wrapper count={displayAppGroups.length}>
 										{displayAppGroups &&
 											displayAppGroups.map((appGroup) => {
 												appGroup.apps = appGroup.apps.sort((a, b) => {

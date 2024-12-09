@@ -15,6 +15,7 @@ export const usePortal = () => {
 	return {
 		portal: value || portalConfig.current,
 		error,
+		isLoading: !value,
 	};
 };
 
@@ -31,12 +32,12 @@ export const usePortalConfig = () => {
 
 export const usePortalAppsConfig = () => {
 	const { app, context } = useFramework<[PortalConfig, AppModule]>().modules;
-	const { portal } = usePortal();
+	const { portal, isLoading } = usePortal();
 
 	useEffect(() => {
 		const sub = context.currentContext$.subscribe((context) => {
 			if ((portal.portalConfig.contexts || []).length > 0) {
-				context && portal.getAppKeysByContext(context.id);
+				context ? portal.getAppKeysByContext(context.id) : portal.clearAppKeys();
 			} else {
 				portal.getAppKeys();
 			}
@@ -60,7 +61,7 @@ export const usePortalAppsConfig = () => {
 	return {
 		apps,
 		error,
-		isLoading: !apps,
+		isLoading: isLoading,
 	};
 };
 
