@@ -1,22 +1,32 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
+using Fusion.AspNetCore.FluentAuthorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Equinor.ProjectExecutionPortal.WebApi.Controllers
+namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
+
+[ApiVersion("1.0")]
+[Route("api/profile")]
+public class ProfileController : ApiControllerBase
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ApiVersion("0.1")]
-    [Route("api/profile")]
-    public class ProfileController : ApiControllerBase
+    [HttpOptions("admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult> Options()
     {
-        [HttpOptions("admin")]
-        [Authorize(Policy = Policies.ProjectPortal.Admin)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public IActionResult Options()
+        #region Authorization
+
+        var authResult = await Request.RequireAuthorizationAsync(builder =>
         {
-            return Ok();
+            builder.AlwaysAccessWhen().HasPortalsFullControl();
+        });
+
+        if (authResult.Unauthorized)
+        {
+            return authResult.CreateForbiddenResponse();
         }
+
+        #endregion
+
+        return Ok();
     }
 }

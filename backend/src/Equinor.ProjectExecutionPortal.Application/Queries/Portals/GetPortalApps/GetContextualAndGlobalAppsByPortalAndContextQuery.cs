@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalApps;
 
-public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList<PortalAppDto>>
+public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<List<PortalAppDto>>
 {
     public GetContextualAndGlobalAppsByPortalAndContextQuery(Guid portalId, Guid contextId)
     {
@@ -21,7 +21,7 @@ public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList
     public Guid PortalId { get; }
     public Guid ContextId { get; }
 
-    public class Handler : IRequestHandler<GetContextualAndGlobalAppsByPortalAndContextQuery, IList<PortalAppDto>>
+    public class Handler : IRequestHandler<GetContextualAndGlobalAppsByPortalAndContextQuery, List<PortalAppDto>>
     {
         private readonly IReadWriteContext _readWriteContext;
         private readonly IAppService _appService;
@@ -36,7 +36,7 @@ public class GetContextualAndGlobalAppsByPortalAndContextQuery : QueryBase<IList
             _contextService = contextService;
         }
 
-        public async Task<IList<PortalAppDto>> Handle(GetContextualAndGlobalAppsByPortalAndContextQuery request, CancellationToken cancellationToken)
+        public async Task<List<PortalAppDto>> Handle(GetContextualAndGlobalAppsByPortalAndContextQuery request, CancellationToken cancellationToken)
         {
             var fusionContext = await _contextService.GetFusionContext(request.ContextId, cancellationToken);
 

@@ -30,12 +30,19 @@ export const EditPortal = () => {
 
 	const { data: contextTypes, isLoading: contextTypeLoading } = useGetContextTypes();
 
+	if (!portalId) {
+		return <Message title="No portalId provided" />;
+	}
 	if (portalLoading || contextTypeLoading) {
 		return <Loading detail="Loading Portal Config" />;
 	}
 
-	if (!portalId || !portal || !contextTypes) {
-		return <Message title="No portalId provided" />;
+	if (!contextTypes) {
+		return <Message title="No context types found" />;
+	}
+
+	if (!portal) {
+		return <Message title={`No portal found with id ${portalId}`} />;
 	}
 
 	return (

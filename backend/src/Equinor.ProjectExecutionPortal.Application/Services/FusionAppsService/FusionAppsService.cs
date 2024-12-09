@@ -22,7 +22,7 @@ public class FusionAppsService : IFusionAppsService
         return fusionApps != null && fusionApps.Any(app => app.AppKey == appKey);
     }
 
-    public async Task<IList<App>?> GetFusionApps()
+    public async Task<List<App>?> GetFusionApps()
     {
         return await _fusionAppsCache.GetFusionApps();
     }

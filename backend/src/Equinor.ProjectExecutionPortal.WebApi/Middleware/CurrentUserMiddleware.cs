@@ -1,4 +1,4 @@
-﻿using Equinor.ProjectExecutionPortal.WebApi.Authorization;
+﻿using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Middleware;
@@ -7,7 +7,10 @@ public class CurrentUserMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public CurrentUserMiddleware(RequestDelegate next) => _next = next;
+    public CurrentUserMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
 
     public async Task InvokeAsync(
         HttpContext context,

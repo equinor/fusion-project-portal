@@ -25,7 +25,7 @@ public class OnboardedApp : AuditableEntityBase, ICreationAuditable, IModificati
     public IReadOnlyCollection<ContextType> ContextTypes => _contextTypes.AsReadOnly();
     public IReadOnlyCollection<PortalApp> Apps => _apps.AsReadOnly();
 
-    public void AddContextTypes(IList<ContextType> contextTypes)
+    public void AddContextTypes(List<ContextType> contextTypes)
     {
         _contextTypes.Clear();
         _contextTypes.AddRange(contextTypes);

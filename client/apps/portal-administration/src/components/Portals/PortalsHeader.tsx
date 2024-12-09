@@ -44,7 +44,9 @@ export const PortalsHeader = () => {
 					)}
 				</Styles.Breadcrumbs>
 				<InfoPopover title={activeTab.title}>
-					<Typography>{activeTab.description}</Typography>
+					<Typography>
+						{typeof activeTab.description === 'string' ? activeTab.description : <activeTab.description />}
+					</Typography>
 				</InfoPopover>
 			</Styles.Row>
 			<Styles.Row>
@@ -52,7 +54,7 @@ export const PortalsHeader = () => {
 				<Tabs activeTab={activeTab.key}>
 					<Tabs.List>
 						{tabs.map((tab) => (
-							<Tabs.Tab title={tab.title} value={tab.key} as={Link} to={tab.route}>
+							<Tabs.Tab title={tab.title} value={tab.key} as={Link} to={tab.route} key={tab.key}>
 								<Tooltip title={tab.title}>
 									<Icon data={tab.icon || add} />
 								</Tooltip>

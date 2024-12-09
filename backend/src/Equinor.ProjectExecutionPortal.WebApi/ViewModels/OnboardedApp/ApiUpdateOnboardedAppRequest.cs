@@ -5,7 +5,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedApp;
 
 public class ApiUpdateOnboardedAppRequest
 {
-    public required IList<string> ContextTypes { get; init; }
+    public required List<string> ContextTypes { get; init; }
 
     public UpdateOnboardedAppCommand ToCommand(string appKey)
     {

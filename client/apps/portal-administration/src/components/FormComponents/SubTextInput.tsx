@@ -8,13 +8,15 @@ type SubtextInputProps = {
 	errors: FieldErrors<{
 		subtext?: string | undefined;
 	}>;
+	canEdit?: boolean;
 };
 
-export const SubtextInput = ({ register, errors }: SubtextInputProps) => {
+export const SubtextInput = ({ register, errors, canEdit }: SubtextInputProps) => {
 	return (
 		<TextField
 			{...register('subtext')}
 			id="textfield-subtext"
+			readOnly={!canEdit}
 			variant={errors.subtext && 'error'}
 			helperText={errors.subtext?.message}
 			inputIcon={errors.subtext && <Icon data={error_filled} title="Error" />}

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetContextTypes;
 
-    public class GetContextTypesQuery : QueryBase<IList<ContextTypeDto>>
+    public class GetContextTypesQuery : QueryBase<List<ContextTypeDto>>
     {
-        public class Handler : IRequestHandler<GetContextTypesQuery, IList<ContextTypeDto>>
+        public class Handler : IRequestHandler<GetContextTypesQuery, List<ContextTypeDto>>
         {
             private readonly IReadWriteContext _context;
             private readonly IMapper _mapper;
@@ -19,8 +19,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetCon
                 _mapper = mapper;
             }
 
-            public async Task<IList<ContextTypeDto>> Handle(GetContextTypesQuery request,
-                CancellationToken cancellationToken)
+            public async Task<List<ContextTypeDto>> Handle(GetContextTypesQuery request, CancellationToken cancellationToken)
             {
                 var entity = await _context.Set<Domain.Entities.ContextType>()
                     .AsNoTracking()

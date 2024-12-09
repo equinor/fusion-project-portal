@@ -11,7 +11,7 @@ using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-const string AllowAllOriginsCorsPolicy = "AllowAllOrigins";
+const string allowAllOriginsCorsPolicy = "AllowAllOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(AllowAllOriginsCorsPolicy,
+    options.AddPolicy(allowAllOriginsCorsPolicy,
         policyBuilder =>
         {
             policyBuilder
@@ -36,26 +36,25 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;
 });
 
-//Add bearer auth
+// Add bearer auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
-// Add fusion integration
-builder.Services.AddFusionIntegration(f =>
+builder.Services.AddFusionIntegration(fusion =>
 {
     var environment = builder.Configuration.GetValue<string>("Fusion:Environment")!;
 
-    f.UseServiceInformation("Fusion.Project.Portal", environment);
-    f.UseDefaultEndpointResolver(environment);
-    f.AddAppsClient();
-    f.UseDefaultTokenProvider(opts =>
+    fusion.UseServiceInformation("Fusion.Project.Portal", environment);
+    fusion.UseDefaultEndpointResolver(environment);
+    fusion.AddAppsClient();
+    fusion.UseDefaultTokenProvider(opts =>
     {
         opts.ClientId = builder.Configuration.GetValue<string>("AzureAd:ClientId")!;
         opts.ClientSecret = builder.Configuration.GetValue<string>("AzureAd:ClientSecret");
     });
-    f.DisableClaimsTransformation();
+    fusion.DisableClaimsTransformation();
 });
 
 builder.Services.AddControllers(config =>
@@ -63,6 +62,7 @@ builder.Services.AddControllers(config =>
         var policy = new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
             .Build();
+
         config.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -118,7 +118,7 @@ builder.Services.AddCacheModules();
 
 var app = builder.Build();
 
-app.UseCors(AllowAllOriginsCorsPolicy);
+app.UseCors(allowAllOriginsCorsPolicy);
 
 // Use Swagger in all environments
 app.UseSwagger();

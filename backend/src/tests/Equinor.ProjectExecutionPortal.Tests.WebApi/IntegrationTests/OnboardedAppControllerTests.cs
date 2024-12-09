@@ -304,12 +304,12 @@ public class OnboardedAppControllerTests : TestBase
 
     #region Helpers
 
-    private static async Task<IList<ApiOnboardedApp>?> AssertGetAllOnboardedApps(UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<ApiOnboardedApp>?> AssertGetAllOnboardedApps(UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAllOnboardedApps(userType);
         var content = await response.Content.ReadAsStringAsync();
-        var onboardedApps = JsonConvert.DeserializeObject<IList<ApiOnboardedApp>>(content);
+        var onboardedApps = JsonConvert.DeserializeObject<List<ApiOnboardedApp>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);

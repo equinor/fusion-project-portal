@@ -26,6 +26,6 @@ public class ApiOnboardedApp : ApiAudit
     public string AppKey { get; set; }
     public string? DisplayName { get; set; }
     public string? Description { get; set; }
-    public IList<ApiContextType> Contexts { get; set; } = new List<ApiContextType>();
-    public IList<string> ContextTypes { get; set; } = new List<string>();
+    public List<ApiContextType> Contexts { get; set; } = [];
+    public List<string> ContextTypes { get; set; } = [];
 }

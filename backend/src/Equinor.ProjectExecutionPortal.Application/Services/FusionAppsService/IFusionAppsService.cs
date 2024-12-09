@@ -6,7 +6,7 @@ public interface IFusionAppsService
 {
     Task<bool> FusionAppExist(string appKey, CancellationToken cancellationToken);
 
-    Task<IList<App>?> GetFusionApps();
+    Task<List<App>?> GetFusionApps();
 
     Task<App?> GetFusionApp(string appKey);
 
