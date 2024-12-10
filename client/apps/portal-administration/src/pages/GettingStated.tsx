@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CreatePortalForm } from '../components/Portals/CreatePortalForm';
+
 import { Link } from 'react-router-dom';
 
 import { Button, Card, Typography } from '@equinor/eds-core-react';
@@ -29,7 +29,6 @@ export const Styles = {
 		padding-top: 5rem;
 	`,
 	Section: styled.span`
-		width: 50vw;
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
@@ -61,16 +60,18 @@ export const Styles = {
 	`,
 
 	Card: styled(Card).withConfig({ displayName: 'pa_' })`
+		width: 46vw;
 		display: flex;
 		flex-direction: row;
 		gap: 1rem;
-		width: 380px;
-		height: 100px;
-		overflow: hidden;
+		/* width: 680px; */
 		border-radius: 4px;
 	`,
 	CardContent: styled.div`
-		padding: 1rem 0.5rem;
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 	`,
 	IconWrapper: styled.div`
 		display: flex;
@@ -82,30 +83,32 @@ export const Styles = {
 	`,
 };
 
-export const CreatePortal = (): JSX.Element => {
-	const { data: hasAccess, isLoading } = useAccess();
-
+export const GettingStarted = (): JSX.Element => {
 	return (
 		<Styles.Wrapper>
 			<Styles.ContentWrapper>
 				<Styles.Content>
-					<Typography variant="h1">Create New Portal</Typography>
-					{isLoading ? (
-						<div style={{ width: '868px', height: '500px' }}>
-							<Loading detail="Checking Access" />
-						</div>
-					) : hasAccess ? (
-						<CreatePortalForm />
-					) : (
-						<div style={{ width: '868px', height: '500px' }}>
-							<PageMessage type="Warning" title="No Access">
-								<Typography>You do not have the permissions to create a new portal.</Typography>
-								<Typography>
-									Required role is <b>Fusion.ProjectPortal.Admin</b>.
-								</Typography>
-							</PageMessage>
-						</div>
-					)}
+					<Typography variant="h1">Getting Stated</Typography>
+					<Styles.Card>
+						<Styles.CardContent>
+							<Typography variant="h3">Introduction</Typography>
+							<Typography variant="body_long">
+								Tools are often designed to meet everyone's needs by trying to incorporate every
+								possible feature. While this can be effective in some cases, for everyday tasks, such
+								complexity can feel overwhelming and cumbersome.
+							</Typography>
+							<Typography variant="h3">Requirements</Typography>
+							<Typography variant="body_long">
+								Tools are often designed to meet everyone's needs by trying to incorporate every
+								possible feature. While this can be effective in some cases, for everyday tasks, such
+								complexity can feel overwhelming and cumbersome.
+							</Typography>
+							<Typography variant="h3">Request Access</Typography>
+							<Typography variant="body_long">
+								Access to create a new portal is restricted. If you need access, please Hans Vaage
+							</Typography>
+						</Styles.CardContent>
+					</Styles.Card>
 				</Styles.Content>
 				<Styles.Details>
 					<User />

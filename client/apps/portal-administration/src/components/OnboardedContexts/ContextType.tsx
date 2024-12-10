@@ -12,6 +12,7 @@ import { useCreateContextType, useGetContextTypes } from '../../hooks/use-contex
 import { ContextTypeTable } from './ContextTypeTable';
 import { InfoPopover } from '../InfoPopover';
 import { useState } from 'react';
+import { useAccess } from '../../hooks/use-access';
 
 const Style = {
 	Content: styled.div`
@@ -52,7 +53,7 @@ const Style = {
 
 export const EditContextTypeForm = () => {
 	const { mutateAsync: createContextType, reset: resetCreate } = useCreateContextType();
-
+	const { data: isAdmin } = useAccess();
 	const {
 		register,
 		handleSubmit,
@@ -77,45 +78,47 @@ export const EditContextTypeForm = () => {
 
 	return (
 		<Style.Content>
-			<Style.Card>
-				<Style.Row onClick={() => setActive((s) => !s)}>
-					<Style.Row>
-						<Typography variant="h6">Add Context Type</Typography>
-						<InfoPopover title="Add Context Type">
-							<Typography>
-								Expand the form to add new context type by pressing the chevron icon.
-							</Typography>
-						</InfoPopover>
-					</Style.Row>
-					<Button
-						variant="ghost_icon"
-						onClick={(event) => {
-							event.preventDefault();
-							event.stopPropagation();
-							setActive((s) => !s);
-						}}
-					>
-						<Icon data={active ? chevron_down : chevron_left} />
-					</Button>
-				</Style.Row>
-				{active && (
-					<Style.From onSubmit={handleSubmit(onSubmit)} id="context-type-form">
-						<TextField
-							{...register('type')}
-							id="textfield-context-type"
-							variant={errors.type && 'error'}
-							helperText={errors.type?.message}
-							inputIcon={errors.type && <Icon data={error_filled} title="Error" />}
-							label="Type *"
-							maxLength={31}
-						/>
-						<Button form="context-type-form" type="submit" disabled={isSubmitting || !isValid}>
-							Add
+			{isAdmin && (
+				<Style.Card>
+					<Style.Row onClick={() => setActive((s) => !s)}>
+						<Style.Row>
+							<Typography variant="h6">Add Context Type</Typography>
+							<InfoPopover title="Add Context Type">
+								<Typography>
+									Expand the form to add new context type by pressing the chevron icon.
+								</Typography>
+							</InfoPopover>
+						</Style.Row>
+						<Button
+							variant="ghost_icon"
+							onClick={(event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								setActive((s) => !s);
+							}}
+						>
+							<Icon data={active ? chevron_down : chevron_left} />
 						</Button>
-					</Style.From>
-				)}
-			</Style.Card>
-			{contextTypes?.length && <ContextTypeTable contextTypes={contextTypes} />}
+					</Style.Row>
+					{active && (
+						<Style.From onSubmit={handleSubmit(onSubmit)} id="context-type-form">
+							<TextField
+								{...register('type')}
+								id="textfield-context-type"
+								variant={errors.type && 'error'}
+								helperText={errors.type?.message}
+								inputIcon={errors.type && <Icon data={error_filled} title="Error" />}
+								label="Type *"
+								maxLength={31}
+							/>
+							<Button form="context-type-form" type="submit" disabled={isSubmitting || !isValid}>
+								Add
+							</Button>
+						</Style.From>
+					)}
+				</Style.Card>
+			)}
+			{contextTypes?.length && <ContextTypeTable contextTypes={contextTypes} isAdmin={isAdmin} />}
 		</Style.Content>
 	);
 };

@@ -1,5 +1,5 @@
 import { Breadcrumbs, Typography, Tabs, Tooltip, Icon } from '@equinor/eds-core-react';
-import { view_list, add } from '@equinor/eds-icons';
+import { view_list, add, home } from '@equinor/eds-icons';
 import { Link } from 'react-router-dom';
 import { TabsList, useTabs } from '../../hooks/use-tabs';
 import { DataClarification } from '../DataClarification';
@@ -8,12 +8,18 @@ import { InfoPopover } from '../InfoPopover';
 
 const Styles = HeaderStyle;
 
-const tabs: TabsList<'portals' | 'create'> = [
+const tabs: TabsList<'home' | 'portals' | 'create'> = [
+	{
+		title: 'Home',
+		key: 'home',
+		route: '/',
+		icon: home,
+		description: `Portal Admin Home page.`,
+	},
 	{
 		title: 'Portal List',
 		key: 'portals',
-		route: '/portals',
-
+		route: '/admin/portals',
 		icon: view_list,
 		description: `Portals are the main entry point for users to access the applications. They can be
 							configured with a set of applications and routes.`,
@@ -21,7 +27,7 @@ const tabs: TabsList<'portals' | 'create'> = [
 	{
 		title: 'Create New Portal',
 		key: 'create',
-		route: '/portals/create',
+		route: '/admin/create',
 		icon: add,
 		description: 'Create a new portal to manage applications and routes.',
 	},

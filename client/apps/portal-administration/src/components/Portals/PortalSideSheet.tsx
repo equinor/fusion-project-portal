@@ -7,6 +7,7 @@ import { useGetContextTypes } from '../../hooks/use-context-type-query';
 import { EditPortalForm } from '../Portal/EditPortalForm';
 import { FormActionBar } from '../Portal/FormActionBar';
 import { useState } from 'react';
+import { useGetPortal } from '../../hooks/use-portal-query';
 
 const Style = {
 	Wrapper: styled.div`
@@ -28,8 +29,11 @@ const Style = {
 
 export function PortalSideSheet({ portal, onClose }: { portal?: Portal; onClose: VoidFunction }) {
 	const { data: contextTypes } = useGetContextTypes();
+	const { data: fullPortal } = useGetPortal(portal?.id);
 	const [isDisabled, setOnDisabled] = useState<boolean>(false);
+
 	if (!portal || !contextTypes) return null;
+
 	return (
 		<SideSheet
 			isOpen={Boolean(portal)}
@@ -53,7 +57,7 @@ export function PortalSideSheet({ portal, onClose }: { portal?: Portal; onClose:
 							setOnDisabled(disabled);
 						}}
 						isSideSheet
-						portal={portal}
+						portal={{ ...portal, ...fullPortal }}
 						contextTypes={contextTypes}
 					/>
 				</Style.Wrapper>

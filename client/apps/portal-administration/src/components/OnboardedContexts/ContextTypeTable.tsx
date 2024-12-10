@@ -8,7 +8,7 @@ import { Button, Icon } from '@equinor/eds-core-react';
 import { delete_to_trash } from '@equinor/eds-icons';
 import { useRemoveContextType } from '../../hooks/use-context-type-query';
 
-export function ContextTypeTable({ contextTypes }: { contextTypes?: { type: string }[] }) {
+export function ContextTypeTable({ contextTypes, isAdmin }: { contextTypes?: { type: string }[]; isAdmin?: boolean }) {
 	const ref = useRef(null);
 	const [_, height] = useResizeObserver(ref);
 	const { mutateAsync: removeContextType } = useRemoveContextType();
@@ -54,6 +54,7 @@ export function ContextTypeTable({ contextTypes }: { contextTypes?: { type: stri
 										<Button
 											variant="ghost"
 											title={`Delete ${params.data?.type}`}
+											disabled={!isAdmin}
 											onClick={(e) => {
 												e.preventDefault();
 												e.stopPropagation();
