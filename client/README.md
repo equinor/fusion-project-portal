@@ -12,7 +12,7 @@
     <br />
     <a href="https://equinor.github.io/fusion-project-portal-internal/"><strong>Explore the docs</strong></a>
     <br />
-    <a href="https://equinor.github.io/fusion-project-portal-internal/docs/developer/dev-setup/webClientRonBook"><strong>Web Client Runbook</strong></a> 
+    <a href="https://equinor.github.io/fusion-project-portal-internal/docs/developer/dev-setup/webClientRonBook"><strong>Web Client Run-book</strong></a> 
   </p>
 </div>
 
