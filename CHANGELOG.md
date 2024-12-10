@@ -1,5 +1,22 @@
 # fusion-project-portal
 
+## 7.0.0
+
+### Major Changes
+
+- 6953d9a: - Portal Administrators can now be assigned to Portals
+
+  - These will be able to manage the respective portal, updating content, apps and contexts
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+### Minor Changes
+
+- 3595482: Loading new landing page apps on routes
+- a4e0d41: New portal administration landing page
+  - Admins can only edit portals
+
 ## 6.1.0
 
 ### Minor Changes
