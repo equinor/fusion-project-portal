@@ -1,5 +1,19 @@
 # fusion-project-portal
 
+## 6.1.0
+
+### Minor Changes
+
+- 60cbf96: The release includes
+  - Add clearAppKeys action and loading state to portal hooks
+  - Disable response caching
+  - fix bug where multiple sign-in prompts occur
+
+### Patch Changes
+
+- 2715328: The release includes
+  - update portal routes and change proxy target URL
+
 ## 6.0.1
 
 ### Patch Changes
