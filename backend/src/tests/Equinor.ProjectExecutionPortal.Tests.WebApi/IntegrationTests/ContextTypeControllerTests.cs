@@ -218,12 +218,12 @@ public class ContextTypeControllerTests : TestBase
 
     #region Helpers
 
-    private static async Task<IList<ApiContextType>> AssertGetAllContextTypes(UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<ApiContextType>> AssertGetAllContextTypes(UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAllContextTypes(userType);
         var content = await response.Content.ReadAsStringAsync();
-        var contextTypes = JsonConvert.DeserializeObject<IList<ApiContextType>>(content);
+        var contextTypes = JsonConvert.DeserializeObject<List<ApiContextType>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);

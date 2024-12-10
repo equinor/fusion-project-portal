@@ -60,7 +60,7 @@ export const PortalsHeader = () => {
 				<Tabs activeTab={activeTab.key}>
 					<Tabs.List>
 						{tabs.map((tab) => (
-							<Tabs.Tab title={tab.title} value={tab.key} as={Link} to={tab.route}>
+							<Tabs.Tab title={tab.title} value={tab.key} as={Link} to={tab.route} key={tab.key}>
 								<Tooltip title={tab.title}>
 									<Icon data={tab.icon || add} />
 								</Tooltip>

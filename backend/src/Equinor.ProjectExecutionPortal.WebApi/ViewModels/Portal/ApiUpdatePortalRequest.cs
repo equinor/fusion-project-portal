@@ -1,25 +1,28 @@
 ﻿using Equinor.ProjectExecutionPortal.Application.Commands.Portals.UpdatePortal;
+using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
+using Equinor.ProjectExecutionPortal.WebApi.Validation;
 using FluentValidation;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 
 public class ApiUpdatePortalRequest
 {
-    public required string Name { get; init; } 
+    public required string Name { get; init; }
     public required string ShortName { get; init; }
-    public required string Subtext { get; init; } 
+    public required string Subtext { get; init; }
     public string? Description { get; init; }
-    public required string Icon { get; init; } 
-    public required IList<string> ContextTypes { get; init; }
+    public required string Icon { get; init; }
+    public required List<string> ContextTypes { get; init; }
+    public List<ApiAccountIdentifier> Admins { get; init; } = [];
 
     public UpdatePortalCommand ToCommand(Guid id)
     {
-        return new UpdatePortalCommand(id, Name, ShortName, Subtext, Description, Icon, ContextTypes);
+        return new UpdatePortalCommand(id, Name, ShortName, Subtext, Description, Icon, ContextTypes, Admins.Select(identifer => identifer.ToAccountIdentifier()).ToList());
     }
 
     public class UpdatePortalRequestValidator : AbstractValidator<ApiUpdatePortalRequest>
     {
-        public UpdatePortalRequestValidator()
+        public UpdatePortalRequestValidator(IAccountService accountService)
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
@@ -39,6 +42,12 @@ public class ApiUpdatePortalRequest
             RuleFor(x => x.Description)
                 .NotContainScriptTag()
                 .MaximumLength(Domain.Entities.Portal.DescriptionLengthMax);
+
+            RuleFor(x => x.Admins)
+                .NotEmpty()
+                .WithMessage("Must specify at least one admin");
+
+            RuleFor(x => x.Admins).BeValidAccounts(accountService);
         }
     }
 }

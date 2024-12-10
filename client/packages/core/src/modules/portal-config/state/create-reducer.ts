@@ -31,6 +31,9 @@ export const createReducer = (value: PortalStateInitial = {}) =>
 		builder.addCase(actions.setAppKeys, (state, action) => {
 			state.apps = action.payload;
 		});
+		builder.addCase(actions.clearAppKeys, (state, action) => {
+			state.apps = [];
+		});
 	});
 
 export default createReducer;

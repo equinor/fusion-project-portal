@@ -5,12 +5,13 @@ using Equinor.ProjectExecutionPortal.Application.Events.Common;
 using Equinor.ProjectExecutionPortal.Domain.Common.Time;
 using Equinor.ProjectExecutionPortal.Domain.Interfaces;
 using Equinor.ProjectExecutionPortal.Infrastructure;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization.Requirements;
 using Equinor.ProjectExecutionPortal.WebApi.Behaviors;
 using Equinor.ProjectExecutionPortal.WebApi.Misc;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.DiModules;
 
@@ -31,8 +32,6 @@ public static class ApplicationModule
                 policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
                 policy.RequireAuthenticatedUser();
             });
-
-            options.UseApplicationPolicies();
         });
 
         services.AddInfrastructureModules(configuration);
@@ -56,5 +55,8 @@ public static class ApplicationModule
         services.AddScoped<ICurrentUserSetter>(x => x.GetRequiredService<CurrentUserProvider>());
 
         services.AddScoped<IEventDispatcher, EventDispatcher>();
+
+        // Authorization handlers
+        services.AddScoped<IAuthorizationHandler, PortalAdminRequirement.Handler>();
     }
 }

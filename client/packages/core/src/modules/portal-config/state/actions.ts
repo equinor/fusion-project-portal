@@ -36,6 +36,14 @@ const createActions = () => ({
 		(apps: string[]) => ({ payload: apps }),
 		(error: unknown) => ({ payload: error })
 	),
+	clearAppKeys: createAsyncAction(
+		'clear_apps',
+		(update?: boolean) => ({
+			payload: null,
+			meta: { update },
+		}),
+		(apps: string[]) => ({ payload: apps })
+	),
 	setAppKeys: createAction('set_apps', (apps: string[], update?: boolean) => ({
 		payload: apps,
 		meta: {
