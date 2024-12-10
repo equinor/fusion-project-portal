@@ -35,7 +35,7 @@ const Style = {
 	`,
 };
 
-export const RouterRoot = () => {
+export const RouterRoot = ({ canEdit }: { canEdit?: boolean }) => {
 	const { root, updateRoot, createNewRoute, routes } = useRouterConfigContext();
 	const { mutate } = useUpdatePortalConfig();
 	const {
@@ -70,6 +70,7 @@ export const RouterRoot = () => {
 				<Style.Content>
 					<TextField
 						{...register('pageKey')}
+						readOnly={!canEdit}
 						id="pageKey"
 						variant={errors.pageKey && 'error'}
 						helperText={errors.pageKey?.message}
@@ -81,6 +82,7 @@ export const RouterRoot = () => {
 
 					<TextField
 						{...register('messages.errorMessage')}
+						readOnly={!canEdit}
 						id="errorMessage"
 						label="Error Message"
 						variant={errors.messages?.errorMessage && 'error'}
@@ -103,24 +105,26 @@ export const RouterRoot = () => {
 					</Style.CardContent>
 				</Card>
 			</Card>
-			<Card>
-				<Style.CardContent>
-					<Typography variant="overline">Base Route Actions</Typography>
-					<Style.Row>
-						<Button disabled={disabled} type="submit">
-							Save
-						</Button>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								createNewRoute();
-							}}
-						>
-							Add New route
-						</Button>
-					</Style.Row>
-				</Style.CardContent>
-			</Card>
+			{canEdit && (
+				<Card>
+					<Style.CardContent>
+						<Typography variant="overline">Base Route Actions</Typography>
+						<Style.Row>
+							<Button disabled={disabled} type="submit">
+								Save
+							</Button>
+							<Button
+								variant="outlined"
+								onClick={() => {
+									createNewRoute();
+								}}
+							>
+								Add New route
+							</Button>
+						</Style.Row>
+					</Style.CardContent>
+				</Card>
+			)}
 		</Style.Form>
 	);
 };

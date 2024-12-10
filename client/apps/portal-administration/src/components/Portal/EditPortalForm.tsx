@@ -104,7 +104,7 @@ export const EditPortalForm = (props: {
 
 	const account = useCurrentAccount();
 	const canEdit = useMemo(
-		() => watch().admins?.some((admin) => admin.azureUniqueId === account?.localAccountId) || isAdmin,
+		() => watch().admins?.some((admin) => admin.azureUniqueId === account?.localAccountId), //|| isAdmin,
 		[watch().admins, account, isAdmin]
 	);
 
@@ -116,10 +116,10 @@ export const EditPortalForm = (props: {
 					<IdInput register={register} errors={errors} />
 					<NameInput register={register} errors={errors} canEdit={canEdit} />
 					<Style.Row>
-						<ShortNameInput register={register} errors={errors} />
-						<SubtextInput register={register} errors={errors} />
+						<ShortNameInput register={register} errors={errors} canEdit={canEdit} />
+						<SubtextInput register={register} errors={errors} canEdit={canEdit} />
 					</Style.Row>
-					<DescriptionInput register={register} errors={errors} />
+					<DescriptionInput register={register} errors={errors} canEdit={canEdit} />
 				</Style.From>
 			</Style.Card>
 			<Style.Card>
@@ -128,7 +128,7 @@ export const EditPortalForm = (props: {
 			</Style.Card>
 			<Style.Card>
 				<Typography variant="h5">Icon</Typography>
-				<IconInput register={register} errors={errors} icon={watch().icon} />
+				<IconInput register={register} errors={errors} icon={watch().icon} canEdit={canEdit} />
 			</Style.Card>
 			<Style.Card>
 				<Typography variant="h5">Portal Type</Typography>

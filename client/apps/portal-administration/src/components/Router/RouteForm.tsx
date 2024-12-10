@@ -37,7 +37,7 @@ const Style = {
 	`,
 };
 
-export const RouteForm = () => {
+export const RouteForm = ({ canEdit }: { canEdit?: boolean }) => {
 	const {
 		activeRoute,
 		root,
@@ -81,6 +81,7 @@ export const RouteForm = () => {
 					<TextField id="id" label="Route Id" readOnly value={activeRoute?.id} />
 					<TextField
 						{...register('path')}
+						readOnly={!canEdit}
 						id="path"
 						label="Route Path"
 						variant={errors.path && 'error'}
@@ -90,6 +91,7 @@ export const RouteForm = () => {
 					<TextField
 						id="pageKey"
 						{...register('pageKey')}
+						readOnly={!canEdit}
 						label="Page Key"
 						variant={errors.pageKey && 'error'}
 						helperText={errors.pageKey?.message}
@@ -99,6 +101,7 @@ export const RouteForm = () => {
 						rows={3}
 						multiline
 						{...register('description')}
+						readOnly={!canEdit}
 						id="description"
 						variant={errors.description && 'error'}
 						helperText={errors.description?.message}
@@ -111,6 +114,7 @@ export const RouteForm = () => {
 
 					<TextField
 						{...register('messages.errorMessage')}
+						readOnly={!canEdit}
 						id="errorMessage"
 						label="Error Message"
 						variant={errors.messages?.errorMessage && 'error'}
@@ -119,6 +123,7 @@ export const RouteForm = () => {
 					/>
 					<TextField
 						{...register('messages.noPageMessage')}
+						readOnly={!canEdit}
 						id="noPageMessage"
 						label="No Page Message"
 						variant={errors.messages?.noPageMessage && 'error'}
@@ -141,37 +146,39 @@ export const RouteForm = () => {
 					/>
 				</Style.CardContent>
 			</Card>
-			<Card>
-				<Style.CardContent>
-					<Typography variant="overline">Route Actions</Typography>
-					<Style.Row>
-						<Button
-							disabled={!activeRoute || activeRoute?.id === '' || disabled}
-							type="submit"
-							form="route"
-						>
-							Save
-						</Button>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								createNewRoute();
-							}}
-						>
-							Add New route
-						</Button>
-						<Button
-							variant="outlined"
-							disabled={!activeRoute || activeRoute?.id === ''}
-							onClick={() => {
-								activeRoute && removeRouteById(activeRoute?.id);
-							}}
-						>
-							Delete Route
-						</Button>
-					</Style.Row>
-				</Style.CardContent>
-			</Card>
+			{canEdit && (
+				<Card>
+					<Style.CardContent>
+						<Typography variant="overline">Route Actions</Typography>
+						<Style.Row>
+							<Button
+								disabled={!activeRoute || activeRoute?.id === '' || disabled}
+								type="submit"
+								form="route"
+							>
+								Save
+							</Button>
+							<Button
+								variant="outlined"
+								onClick={() => {
+									createNewRoute();
+								}}
+							>
+								Add New route
+							</Button>
+							<Button
+								variant="outlined"
+								disabled={!activeRoute || activeRoute?.id === ''}
+								onClick={() => {
+									activeRoute && removeRouteById(activeRoute?.id);
+								}}
+							>
+								Delete Route
+							</Button>
+						</Style.Row>
+					</Style.CardContent>
+				</Card>
+			)}
 		</Style.Form>
 	);
 };

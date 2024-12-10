@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import { PortalsHeader } from '../components/Portals/PortalsHeader';
-import { PortalList } from './PortalsList';
 
 const Styles = {
 	Content: styled.div`
