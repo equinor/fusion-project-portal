@@ -16,9 +16,9 @@ export const Styles = {
 		width: 100%;
 		height: calc(100vh - var(--header-height, 48px));
 		background-color: #dee5e7;
-		overflow: hidden;
 		display: flex;
 		justify-content: center;
+		overflow-y: auto;
 	`,
 	ContentWrapper: styled.main`
 		display: flex;
@@ -26,11 +26,20 @@ export const Styles = {
 		gap: 1rem;
 		padding-top: 5rem;
 	`,
+
 	Section: styled.span`
 		width: 46vw;
+
+		@media only screen and (max-width: 1920px) {
+			width: 68vw;
+		}
+
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+		&:last-child {
+			padding-bottom: 5rem;
+		}
 	`,
 	Content: styled.section`
 		padding: 0rem 2rem;
