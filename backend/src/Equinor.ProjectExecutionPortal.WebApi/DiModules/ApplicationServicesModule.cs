@@ -1,4 +1,5 @@
-﻿using Equinor.ProjectExecutionPortal.Application.Services.AppService;
+﻿using Equinor.ProjectExecutionPortal.Application.Services.AccountService;
+using Equinor.ProjectExecutionPortal.Application.Services.AppService;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextService;
 using Equinor.ProjectExecutionPortal.Application.Services.ContextTypeService;
 using Equinor.ProjectExecutionPortal.Application.Services.FusionAppsService;
@@ -15,5 +16,6 @@ public static class ApplicationServicesModule
         services.AddScoped<IContextService, ContextService>();
         services.AddScoped<IContextTypeService, ContextTypeService>();
         services.AddScoped<IPortalService, PortalService>();
+        services.AddScoped<IAccountService, AccountService>();
     }
 }

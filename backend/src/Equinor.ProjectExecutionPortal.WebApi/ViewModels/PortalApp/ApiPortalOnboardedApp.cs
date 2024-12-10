@@ -23,8 +23,8 @@ public class ApiPortalOnboardedApp
     }
 
     public string AppKey { get; set; }
-    public IList<string> ContextTypes { get; set; }
-    public IList<Guid> ContextIds { get; set; }
+    public List<string> ContextTypes { get; set; }
+    public List<Guid> ContextIds { get; set; }
     public bool IsActive { get; set; }
     public bool IsGlobal { get; set; }
     public bool IsContextual { get; set; }

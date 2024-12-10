@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
 
-public class GetOnboardedContextsQuery : QueryBase<IList<OnboardedContextDto>>
+public class GetOnboardedContextsQuery : QueryBase<List<OnboardedContextDto>>
 {
-    public class Handler : IRequestHandler<GetOnboardedContextsQuery, IList<OnboardedContextDto>>
+    public class Handler : IRequestHandler<GetOnboardedContextsQuery, List<OnboardedContextDto>>
     {
         private readonly IReadWriteContext _context;
         private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class GetOnboardedContextsQuery : QueryBase<IList<OnboardedContextDto>>
             _contextService = contextService;
         }
 
-        public async Task<IList<OnboardedContextDto>> Handle(GetOnboardedContextsQuery request, CancellationToken cancellationToken)
+        public async Task<List<OnboardedContextDto>> Handle(GetOnboardedContextsQuery request, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<Domain.Entities.OnboardedContext>()
                 .AsNoTracking()

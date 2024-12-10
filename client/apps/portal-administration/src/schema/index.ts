@@ -5,8 +5,12 @@ export const contextTypeSchema = z.object({
 
 export type ContextTypeInputs = z.infer<typeof contextTypeSchema>;
 
+const user = z.object({
+	azureUniqueId: z.string(),
+});
+
 const base = {
-	name: z.string().min(3, 'Short description must contain at least 3 character(s)').max(50),
+	name: z.string().min(3, 'Name must contain at least 3 character(s)').max(50),
 	shortName: z
 		.string()
 		.min(2, 'Short Name must contain at least 2 character(s)')
@@ -17,6 +21,7 @@ const base = {
 		.max(150, 'Short Name can contain at most 300 character(s)'),
 	description: z.string().max(500, 'Description can contain at most 300 character(s)').optional(),
 	icon: z.string().default(''),
+	admins: z.array(user).min(1, 'At least one admin is required'),
 };
 
 export const portalInputSchema = z.object({
