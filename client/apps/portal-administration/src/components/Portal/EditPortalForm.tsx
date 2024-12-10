@@ -104,7 +104,7 @@ export const EditPortalForm = (props: {
 
 	const account = useCurrentAccount();
 	const canEdit = useMemo(
-		() => watch().admins?.some((admin) => admin.azureUniqueId === account?.localAccountId), //|| isAdmin,
+		() => watch().admins?.some((admin) => admin.azureUniqueId === account?.localAccountId) || isAdmin,
 		[watch().admins, account, isAdmin]
 	);
 

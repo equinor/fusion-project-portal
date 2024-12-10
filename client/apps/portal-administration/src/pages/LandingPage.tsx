@@ -172,7 +172,7 @@ export const LandingPage = (): JSX.Element => {
 				<Styles.Details>
 					<User />
 					<InfoBox />
-					{accessIsLoading ? null : !isAdmin ? (
+					{accessIsLoading ? null : isAdmin ? (
 						<>
 							<Button to={'/admin/portals'} as={Link} variant="outlined" color="primary">
 								Advanced View
@@ -182,11 +182,7 @@ export const LandingPage = (): JSX.Element => {
 								Create Portal
 							</Button>
 						</>
-					) : (
-						<Button to={'/getting-started'} as={Link} variant="outlined" color="primary">
-							Getting Started
-						</Button>
-					)}
+					) : null}
 				</Styles.Details>
 			</Styles.ContentWrapper>
 		</Styles.Wrapper>

@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { Loading } from '../components/Loading';
 import { PortalTable } from '../components/Portals/PortalTable';
 import { usePortalsQuery } from '../hooks/use-portals-query';
+import { useAccess } from '../hooks/use-access';
 
 const Style = {
 	Wrapper: styled.div`
