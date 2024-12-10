@@ -36,7 +36,7 @@ const Style = {
 	`,
 };
 
-export const RouterEdit = () => {
+export const RouterEdit = ({ canEdit }: { canEdit?: boolean }) => {
 	const { rootActive, configActive } = useRouterConfigContext();
 
 	return (
@@ -57,11 +57,11 @@ export const RouterEdit = () => {
 				<Style.Wrapper>
 					{rootActive ? (
 						<Style.Content>
-							<RouterRoot />
+							<RouterRoot canEdit={canEdit} />
 						</Style.Content>
 					) : (
 						<Style.Content>
-							<RouteForm />
+							<RouteForm canEdit={canEdit} />
 						</Style.Content>
 					)}
 				</Style.Wrapper>

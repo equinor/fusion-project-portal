@@ -8,7 +8,7 @@ import { ActionBar } from './ActionBar';
 import { AgStyles } from '../AgStyle';
 import { Message } from '../Message';
 
-export const PortalAppTable = ({ portalApps }: { portalApps: PortalApplication[] }) => {
+export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalApplication[]; canEdit?: boolean }) => {
 	const ref = useRef(null);
 	const [_, height] = useResizeObserver(ref);
 
@@ -42,10 +42,10 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApplication[]
 					}}
 					onRowSelected={(event) => {
 						const selectedRows = event.api!.getSelectedRows();
-						setSelectedApps(selectedRows);
+						canEdit && setSelectedApps(selectedRows);
 					}}
 					onRowDataUpdated={() => {
-						setSelectedApps([]);
+						canEdit && setSelectedApps([]);
 					}}
 					colDefs={[
 						{
@@ -159,7 +159,7 @@ export const PortalAppTable = ({ portalApps }: { portalApps: PortalApplication[]
 					]}
 				/>
 
-				<ActionBar selection={selectedApps} />
+				{canEdit && <ActionBar selection={selectedApps} />}
 			</AgStyles.TableContent>
 		</AgStyles.Wrapper>
 	);

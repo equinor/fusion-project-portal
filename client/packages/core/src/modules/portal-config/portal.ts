@@ -1,4 +1,4 @@
-import { BaseConfig, Extensions, PortalConfigState, PortalRouter, PortalState } from './types';
+import { BaseConfig, ContextType, Extensions, PortalConfigState, PortalRouter, PortalState } from './types';
 import { Observable, map, take } from 'rxjs';
 
 import { FlowSubject } from '@equinor/fusion-observable';
@@ -19,18 +19,35 @@ export interface IPortal {
 	getAppKeysByContext(contextId: string): void;
 	getAppKeys(): void;
 	clearAppKeys(): void;
+	portalAppConfig: PortalConfig;
 }
+
+type PortalConfig = {
+	id?: string;
+	contextTypes: ContextType[];
+	env: string;
+};
 
 export type CurrentPortal = IPortal;
 
 export class Portal implements IPortal {
 	#state: FlowSubject<PortalState, Actions>;
-
+	portalAppConfig: PortalConfig;
 	base: BaseConfig;
 
 	constructor(args: { provider: PortalConfigProvider; base: BaseConfig; initialPortalConfig?: PortalState }) {
 		this.base = args.base;
 		this.#state = createState(args.provider, args.initialPortalConfig);
+		this.portalAppConfig = {
+			id: args.base.portalId,
+			contextTypes: [],
+			env: args.base.portalEnv,
+		};
+
+		this.portalConfig$.subscribe((portalConfig) => {
+			this.portalAppConfig.contextTypes = portalConfig.contexts || [];
+		});
+
 		this.initialize();
 	}
 

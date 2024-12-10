@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

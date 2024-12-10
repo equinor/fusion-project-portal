@@ -34,13 +34,14 @@ const Style = {
 	`,
 };
 
-export const RouterTree = () => {
+export const RouterTree = ({ canEdit }: { canEdit?: boolean }) => {
 	const { createNewRoute, routes, root, rootActive, toggleRoot, seeConfig } = useRouterConfigContext();
 	return (
 		<Style.Router>
 			<Style.Top>
 				<Button
 					fullWidth
+					disabled={!canEdit}
 					variant="outlined"
 					onClick={() => {
 						createNewRoute();
@@ -65,7 +66,7 @@ export const RouterTree = () => {
 						}}
 					>
 						{routes.map((route) => (
-							<RouteTreeItem route={route} />
+							<RouteTreeItem route={route} canEdit={canEdit} />
 						))}
 					</TreeRoot>
 				</Tree>

@@ -124,6 +124,13 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			builder.addPlugin(
 				createLocalStoragePlugin([
 					{
+						key: 'landing-page',
+						title: 'New Landing pages',
+						description:
+							'When enabled you will get new landing pages in the portal. The functionality is the same but the loading is done differently',
+						enabled: false,
+					},
+					{
 						key: 'project-prediction',
 						title: 'Allocated Projects',
 						description: 'When enabled you will get your allocated projects on the portal landing page',

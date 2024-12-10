@@ -193,12 +193,12 @@ public class OnboardedContextControllerTests : TestBase
 
     #region Helpers
 
-    private static async Task<IList<ApiOnboardedContext>?> AssertGetAllOnboardedContexts(UserType userType, HttpStatusCode expectedStatusCode)
+    private static async Task<List<ApiOnboardedContext>?> AssertGetAllOnboardedContexts(UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
         var response = await GetAllOnboardedContexts(userType);
         var content = await response.Content.ReadAsStringAsync();
-        var onboardedContexts = JsonConvert.DeserializeObject<IList<ApiOnboardedContext>>(content);
+        var onboardedContexts = JsonConvert.DeserializeObject<List<ApiOnboardedContext>>(content);
 
         // Assert
         Assert.AreEqual(expectedStatusCode, response.StatusCode);

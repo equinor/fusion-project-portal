@@ -17,7 +17,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -66,7 +66,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ModifiedAtUtc")
@@ -97,7 +97,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ModifiedAtUtc")
@@ -123,7 +123,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -163,7 +163,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -208,6 +208,37 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.ToTable("Portals");
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalAdmin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AzureUniqueId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedByAzureOid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PortalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortalId");
+
+                    b.ToTable("PortalAdmins");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
                 {
                     b.Property<Guid>("Id")
@@ -217,7 +248,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsHidden")
@@ -258,7 +289,7 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedByAzureOid")
+                    b.Property<Guid>("CreatedByAzureOid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Environment")
@@ -320,6 +351,17 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalAdmin", b =>
+                {
+                    b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", "Portal")
+                        .WithMany("Admins")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Portal");
+                });
+
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.PortalApp", b =>
                 {
                     b.HasOne("Equinor.ProjectExecutionPortal.Domain.Entities.OnboardedApp", "OnboardedApp")
@@ -369,6 +411,8 @@ namespace Equinor.ProjectExecutionPortal.Infrastructure.Migrations
 
             modelBuilder.Entity("Equinor.ProjectExecutionPortal.Domain.Entities.Portal", b =>
                 {
+                    b.Navigation("Admins");
+
                     b.Navigation("Apps");
 
                     b.Navigation("Configuration")

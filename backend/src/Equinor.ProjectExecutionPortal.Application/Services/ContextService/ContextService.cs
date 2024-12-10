@@ -26,7 +26,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextService
             return context;
         }
 
-        public async Task<IList<OnboardedContextDto>> EnrichContextsWithFusionContextData(IList<OnboardedContextDto> contexts, CancellationToken cancellationToken)
+        public async Task<List<OnboardedContextDto>> EnrichContextsWithFusionContextData(List<OnboardedContextDto> contexts, CancellationToken cancellationToken)
         {
             foreach (var onboardedContextDto in contexts)
             {
@@ -49,7 +49,7 @@ namespace Equinor.ProjectExecutionPortal.Application.Services.ContextService
             return context;
         }
 
-        public async Task<IList<Guid>> GetFusionContextIds(IList<OnboardedContext> contexts, CancellationToken cancellationToken)
+        public async Task<List<Guid>> GetFusionContextIds(List<OnboardedContext> contexts, CancellationToken cancellationToken)
         {
             var contextIds = new List<Guid>();
 
