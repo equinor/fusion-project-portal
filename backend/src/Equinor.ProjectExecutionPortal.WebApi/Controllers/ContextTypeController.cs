@@ -106,4 +106,20 @@ public class ContextTypeController : ApiControllerBase
 
         return Ok();
     }
+
+    [HttpOptions]
+    public async Task<IActionResult> Options()
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, null),
+            (HttpMethod.Post.Method, Policies.ContextType.Create)
+            (HttpMethod.Delete.Method, Policies.ContextType.Delete)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
 }
