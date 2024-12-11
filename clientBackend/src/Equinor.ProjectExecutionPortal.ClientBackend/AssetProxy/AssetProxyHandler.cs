@@ -4,47 +4,46 @@ using Fusion.Integration.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Yarp.ReverseProxy.Forwarder;
 
-namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy
+namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
+
+public class AssetProxyHandler
 {
-    public class AssetProxyHandler
+    private static readonly HttpMessageInvoker _httpClient = new(new SocketsHttpHandler()
     {
-        private static readonly HttpMessageInvoker _httpClient = new(new SocketsHttpHandler()
+        UseProxy = false,
+        AllowAutoRedirect = false,
+        AutomaticDecompression = DecompressionMethods.None,
+        UseCookies = false,
+        ActivityHeadersPropagator = new ReverseProxyPropagator(DistributedContextPropagator.Current)
+    });
+
+    private static readonly ForwarderRequestConfig _requestConfig = new() { ActivityTimeout = TimeSpan.FromSeconds(100) };
+
+    private static async Task<bool> AuthenticateOrChallenge(HttpContext httpContext)
+    {
+        using var scope = new DisableClaimsTransformerScope();
+
+        var auth = await httpContext.AuthenticateAsync();
+
+        if (!auth.Succeeded)
         {
-            UseProxy = false,
-            AllowAutoRedirect = false,
-            AutomaticDecompression = DecompressionMethods.None,
-            UseCookies = false,
-            ActivityHeadersPropagator = new ReverseProxyPropagator(DistributedContextPropagator.Current)
-        });
-
-        private static readonly ForwarderRequestConfig _requestConfig = new() { ActivityTimeout = TimeSpan.FromSeconds(100) };
-
-        private static async Task<bool> AuthenticateOrChallenge(HttpContext httpContext)
-        {
-            using var scope = new DisableClaimsTransformerScope();
-
-            var auth = await httpContext.AuthenticateAsync();
-
-            if (!auth.Succeeded)
-            {
-                await httpContext.ChallengeAsync();
-                return false;
-            }
-
-            return true;
+            await httpContext.ChallengeAsync();
+            return false;
         }
 
-        public static async Task ProxyRequestAsync<TTransformer>(HttpContext httpContext) where TTransformer : HttpTransformer
+        return true;
+    }
+
+    public static async Task ProxyRequestAsync<TTransformer>(HttpContext httpContext) where TTransformer : HttpTransformer
+    {
+        if (!await AuthenticateOrChallenge(httpContext))
         {
-            if (!await AuthenticateOrChallenge(httpContext))
-            {
-                return;
-            }
-
-            var transformer = httpContext.RequestServices.GetRequiredService<TTransformer>();
-            var forwarder = httpContext.RequestServices.GetRequiredService<IHttpForwarder>();
-
-            await forwarder.SendAsync(httpContext, "https://localhost:10000/", _httpClient, _requestConfig, transformer);
+            return;
         }
+
+        var transformer = httpContext.RequestServices.GetRequiredService<TTransformer>();
+        var forwarder = httpContext.RequestServices.GetRequiredService<IHttpForwarder>();
+
+        await forwarder.SendAsync(httpContext, "https://localhost:10000/", _httpClient, _requestConfig, transformer);
     }
 }
