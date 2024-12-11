@@ -8,7 +8,7 @@ namespace Equinor.ProjectExecutionPortal.ClientBackend.AssetProxy;
 
 public class AssetProxyHandler
 {
-    private static readonly HttpMessageInvoker _httpClient = new(new SocketsHttpHandler()
+    private static readonly HttpMessageInvoker HttpClient = new(new SocketsHttpHandler()
     {
         UseProxy = false,
         AllowAutoRedirect = false,
@@ -17,7 +17,7 @@ public class AssetProxyHandler
         ActivityHeadersPropagator = new ReverseProxyPropagator(DistributedContextPropagator.Current)
     });
 
-    private static readonly ForwarderRequestConfig _requestConfig = new() { ActivityTimeout = TimeSpan.FromSeconds(100) };
+    private static readonly ForwarderRequestConfig RequestConfig = new() { ActivityTimeout = TimeSpan.FromSeconds(100) };
 
     private static async Task<bool> AuthenticateOrChallenge(HttpContext httpContext)
     {
@@ -44,6 +44,6 @@ public class AssetProxyHandler
         var transformer = httpContext.RequestServices.GetRequiredService<TTransformer>();
         var forwarder = httpContext.RequestServices.GetRequiredService<IHttpForwarder>();
 
-        await forwarder.SendAsync(httpContext, "https://localhost:10000/", _httpClient, _requestConfig, transformer);
+        await forwarder.SendAsync(httpContext, "https://localhost:10000/", HttpClient, RequestConfig, transformer);
     }
 }
