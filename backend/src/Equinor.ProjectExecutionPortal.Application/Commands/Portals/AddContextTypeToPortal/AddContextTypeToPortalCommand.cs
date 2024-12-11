@@ -4,61 +4,60 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContextTypeToPortal
-{
-    public class AddContextTypeToPortalCommand : IRequest<Unit>
-    {
-        public AddContextTypeToPortalCommand(Guid portalId, string type)
-        {
-            PortalId = portalId;
-            Type = type;
-        }
+namespace Equinor.ProjectExecutionPortal.Application.Commands.Portals.AddContextTypeToPortal;
 
-        public Guid PortalId { get; }
-        public string Type { get; }
+public class AddContextTypeToPortalCommand : IRequest<Unit>
+{
+    public AddContextTypeToPortalCommand(Guid portalId, string type)
+    {
+        PortalId = portalId;
+        Type = type;
     }
 
-    public class Handler : IRequestHandler<AddContextTypeToPortalCommand, Unit>
+    public Guid PortalId { get; }
+    public string Type { get; }
+}
+
+public class Handler : IRequestHandler<AddContextTypeToPortalCommand, Unit>
+{
+    private readonly IReadWriteContext _readWriteContext;
+
+    public Handler(IReadWriteContext readWriteContext)
     {
-        private readonly IReadWriteContext _readWriteContext;
+        _readWriteContext = readWriteContext;
+    }
 
-        public Handler(IReadWriteContext readWriteContext)
+    public async Task<Unit> Handle(AddContextTypeToPortalCommand command, CancellationToken cancellationToken)
+    {
+        var portalWithAllContextTypes = await _readWriteContext.Set<Portal>()
+            .Include(x => x.ContextTypes)
+            .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
+
+        if (portalWithAllContextTypes == null)
         {
-            _readWriteContext = readWriteContext;
+            throw new NotFoundException(nameof(Portal), command.PortalId);
         }
 
-        public async Task<Unit> Handle(AddContextTypeToPortalCommand command, CancellationToken cancellationToken)
+        var contextTypeExistsOnPortal = portalWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);
+
+        if (contextTypeExistsOnPortal.Any())
         {
-            var portalWithAllContextTypes = await _readWriteContext.Set<Portal>()
-                .Include(x => x.ContextTypes)
-                .FirstOrDefaultAsync(x => x.Id == command.PortalId, cancellationToken);
-
-            if (portalWithAllContextTypes == null)
-            {
-                throw new NotFoundException(nameof(Portal), command.PortalId);
-            }
-
-            var contextTypeExistsOnPortal = portalWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);
-
-            if (contextTypeExistsOnPortal.Any())
-            {
-                throw new InvalidActionException($"context-type {command.Type}is already enabled on portal");
-            }
-
-            var contextType = await _readWriteContext.Set<ContextType>()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ContextTypeKey == command.Type, cancellationToken);
-
-            if (contextType == null)
-            {
-                throw new InvalidOperationException($"context-type: {command.Type} is not supported");
-            }
-
-            portalWithAllContextTypes.AddContextType(contextType);
-
-            await _readWriteContext.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
+            throw new InvalidActionException($"context-type {command.Type}is already enabled on portal");
         }
+
+        var contextType = await _readWriteContext.Set<ContextType>()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.ContextTypeKey == command.Type, cancellationToken);
+
+        if (contextType == null)
+        {
+            throw new InvalidOperationException($"context-type: {command.Type} is not supported");
+        }
+
+        portalWithAllContextTypes.AddContextType(contextType);
+
+        await _readWriteContext.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }
