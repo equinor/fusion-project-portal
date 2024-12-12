@@ -21,7 +21,7 @@ export class PortalAppsClient implements IPortalAppsClient {
 		this.#appKeysQuery = new Query<string[]>({
 			client: {
 				fn: async () => {
-					return await httpClient.json<string[]>(`/api/portals/${this.portalId}/appkeys`);
+					return await httpClient.json<string[]>(`/api/portals/${this.portalId}/apps`);
 				},
 			},
 			key: () => `app-keys-${this.portalId}`,
@@ -32,7 +32,7 @@ export class PortalAppsClient implements IPortalAppsClient {
 			client: {
 				fn: async (args) => {
 					return await httpClient.json<string[]>(
-						`/api/portals/${this.portalId}/contexts/${args.contextId}/appkeys`
+						`/api/portals/${this.portalId}/contexts/${args.contextId}/apps`
 					);
 				},
 			},
