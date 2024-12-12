@@ -4,61 +4,60 @@ using Equinor.ProjectExecutionPortal.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.AddContextTypeToOnboardedApp
-{
-    public class AddContextTypeToOnboardedAppCommand : IRequest<Unit>
-    {
-        public AddContextTypeToOnboardedAppCommand(string appKey, string type)
-        {
-            AppKey = appKey;
-            Type = type;
-        }
+namespace Equinor.ProjectExecutionPortal.Application.Commands.OnboardedApps.AddContextTypeToOnboardedApp;
 
-        public string AppKey { get; }
-        public string Type { get; }
+public class AddContextTypeToOnboardedAppCommand : IRequest<Unit>
+{
+    public AddContextTypeToOnboardedAppCommand(string appKey, string type)
+    {
+        AppKey = appKey;
+        Type = type;
     }
 
-    public class Handler : IRequestHandler<AddContextTypeToOnboardedAppCommand, Unit>
+    public string AppKey { get; }
+    public string Type { get; }
+}
+
+public class Handler : IRequestHandler<AddContextTypeToOnboardedAppCommand, Unit>
+{
+    private readonly IReadWriteContext _readWriteContext;
+
+    public Handler(IReadWriteContext readWriteContext)
     {
-        private readonly IReadWriteContext _readWriteContext;
+        _readWriteContext = readWriteContext;
+    }
 
-        public Handler(IReadWriteContext readWriteContext)
+    public async Task<Unit> Handle(AddContextTypeToOnboardedAppCommand command, CancellationToken cancellationToken)
+    {
+        var onboardedAppWithAllContextTypes = await _readWriteContext.Set<OnboardedApp>()
+            .Include(x => x.ContextTypes)
+            .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
+
+        if (onboardedAppWithAllContextTypes == null)
         {
-            _readWriteContext = readWriteContext;
+            throw new NotFoundException(nameof(Portal), command.AppKey);
         }
 
-        public async Task<Unit> Handle(AddContextTypeToOnboardedAppCommand command, CancellationToken cancellationToken)
+        var contextTypeExistsOnOnboardedApp = onboardedAppWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);
+
+        if (contextTypeExistsOnOnboardedApp.Any())
         {
-            var onboardedAppWithAllContextTypes = await _readWriteContext.Set<OnboardedApp>()
-                .Include(x => x.ContextTypes)
-                .FirstOrDefaultAsync(x => x.AppKey == command.AppKey, cancellationToken);
-
-            if (onboardedAppWithAllContextTypes == null)
-            {
-                throw new NotFoundException(nameof(Portal), command.AppKey);
-            }
-
-            var contextTypeExistsOnOnboardedApp = onboardedAppWithAllContextTypes.ContextTypes.Where(x => x.ContextTypeKey == command.Type);
-
-            if (contextTypeExistsOnOnboardedApp.Any())
-            {
-                throw new InvalidOperationException($"context-type {command.Type} is already enabled on onboarded app");
-            }
-
-            var contextType = await _readWriteContext.Set<ContextType>()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ContextTypeKey == command.Type, cancellationToken);
-
-            if (contextType == null)
-            {
-                throw new InvalidActionException($"context-type: {command.Type} is not supported");
-            }
-
-            onboardedAppWithAllContextTypes.AddContextType(contextType);
-
-            await _readWriteContext.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
+            throw new InvalidOperationException($"context-type {command.Type} is already enabled on onboarded app");
         }
+
+        var contextType = await _readWriteContext.Set<ContextType>()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.ContextTypeKey == command.Type, cancellationToken);
+
+        if (contextType == null)
+        {
+            throw new InvalidActionException($"context-type: {command.Type} is not supported");
+        }
+
+        onboardedAppWithAllContextTypes.AddContextType(contextType);
+
+        await _readWriteContext.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }
