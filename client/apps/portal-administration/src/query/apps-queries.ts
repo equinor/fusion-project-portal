@@ -165,7 +165,7 @@ export const removePortalApps = async (client: IHttpClient, portalApps: PortalAp
 	const results: Result[] = [];
 
 	for (const app of portalApps) {
-		const result = await removePortalApp(client, app.appManifest.appKey, portalId);
+		const result = await removePortalApp(client, app.appKey, portalId);
 		results.push(result);
 	}
 
