@@ -1,7 +1,7 @@
 import { HeaderStyle } from '../HeaderStyle';
 import { TabsList, useTabs } from '../../hooks/use-tabs';
 import { Breadcrumbs, Typography, Tabs, Tooltip, Icon } from '@equinor/eds-core-react';
-import { edit, apps, tag_relations, settings } from '@equinor/eds-icons';
+import { edit, apps, tag_relations, settings, widgets } from '@equinor/eds-icons';
 import { Link } from 'react-router-dom';
 import { DataClarification } from '../DataClarification';
 import { InfoPopover } from '../InfoPopover';
@@ -9,13 +9,19 @@ import { Portal } from '../../types';
 
 const Styles = HeaderStyle;
 
-const tabs: TabsList<'overview' | 'apps' | 'router' | 'show'> = [
+const tabs: TabsList<'overview' | 'apps' | 'router' | 'extensions' | 'show'> = [
 	{ key: 'overview', title: 'Overview', route: 'overview', description: 'Overview of the portal' },
 	{
 		title: 'Apps Config',
 		key: 'apps',
 		route: 'apps',
 		description: 'Configure the applications that are available in this portal.',
+	},
+	{
+		key: 'extensions',
+		title: 'Extensions',
+		route: 'extensions',
+		description: 'Extensions configuration of the portal',
 	},
 	{
 		key: 'router',
@@ -95,7 +101,17 @@ export const PortalHeader = ({ portal }: { portal?: Portal }) => {
 							</Tooltip>
 						</Tabs.Tab>
 						<Tabs.Tab
-							title="Router COnfiguration"
+							title="Extensions Configuration"
+							value={'extensions'}
+							as={Link}
+							to={`/portals/${portal?.id}/extensions`}
+						>
+							<Tooltip title="Router Configuration">
+								<Icon data={widgets} />
+							</Tooltip>
+						</Tabs.Tab>
+						<Tabs.Tab
+							title="Router Configuration"
 							value={'router'}
 							as={Link}
 							to={`/portals/${portal?.id}/router`}

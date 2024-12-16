@@ -74,7 +74,7 @@ export const AddAdmins = ({
 					</Style.AdminError>
 				)}
 				{watch().admins.map((person) => (
-					<PersonListItem key={person.azureUniqueId} azureId={person.azureUniqueId}>
+					<PersonListItem key={person.azureUniqueId} azureId={person.azureUniqueId} size="small">
 						{canEdit && (
 							<Button
 								variant="ghost_icon"
@@ -82,7 +82,7 @@ export const AddAdmins = ({
 									handlePersonRemove(person.azureUniqueId);
 								}}
 							>
-								<Icon data={close} title={`Remove admin`} />
+								<Icon data={close} size={18} title={`Remove admin`} />
 							</Button>
 						)}
 					</PersonListItem>

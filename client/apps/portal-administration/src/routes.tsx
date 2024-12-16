@@ -19,6 +19,7 @@ import { PortalList } from './pages/PortalsList';
 import { CreatePortalForm } from './components/Portals/CreatePortalForm';
 import { AdminCreatePortal } from './pages/AdminCreatePortal';
 import { GettingStarted } from './pages/GettingStated';
+import { ExtensionConfig } from './pages/ExtensionConfig';
 
 export const routes: RouteObject[] = [
 	{
@@ -70,6 +71,10 @@ export const routes: RouteObject[] = [
 							{
 								Component: RouterConfig,
 								path: 'router',
+							},
+							{
+								Component: ExtensionConfig,
+								path: 'extensions',
 							},
 							{
 								Component: PortalApps,

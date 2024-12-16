@@ -12,6 +12,7 @@ import {
 	add,
 	code,
 	tag_relations,
+	widgets,
 } from '@equinor/eds-icons';
 import { usePortalContext } from '../context/PortalContext';
 
@@ -48,6 +49,14 @@ export const SideMenu = () => {
 			icon: apps,
 			to: `/portals/${activePortalId}/apps`,
 			active: !!useMatch(`portals/:portalId/apps`),
+			disabled: Boolean(!activePortalId),
+			as: Link,
+		},
+		{
+			label: 'Extensions Config',
+			icon: widgets,
+			to: `/portals/${activePortalId}/extensions`,
+			active: !!useMatch(`portals/:portalId/extensions`),
 			disabled: Boolean(!activePortalId),
 			as: Link,
 		},

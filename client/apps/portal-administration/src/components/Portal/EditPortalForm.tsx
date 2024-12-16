@@ -26,6 +26,8 @@ const Style = {
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 2rem;
+		width: 100%;
+		max-width: 800px;
 	`,
 
 	Row: styled.div`
