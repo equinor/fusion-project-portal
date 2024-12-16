@@ -8,6 +8,8 @@ import { ActionBar } from './ActionBar';
 import { AgStyles } from '../AgStyle';
 import { Message } from '../Message';
 
+const FAIL_MESSAGE = 'Application Error!';
+
 export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalApplication[]; canEdit?: boolean }) => {
 	const ref = useRef(null);
 	const [_, height] = useResizeObserver(ref);
@@ -27,6 +29,9 @@ export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalAppl
 						flex: 1,
 						sortable: true,
 						resizable: true,
+					}}
+					rowClassRules={{
+						notActive: (params) => !Boolean(params.data?.appManifest),
 					}}
 					ensureDomOrder
 					onGridReady={(event) => {
@@ -57,19 +62,19 @@ export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalAppl
 									isActive?: boolean;
 									isContextual?: boolean;
 									appKey: string;
-									appManifest: { name: string };
+									appManifest?: { name: string };
 								}>
 							) => {
 								return (
 									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
 										{params.data?.isContextual ? (
 											<AgStyles.ContextIndicator
-												title={`${params.data?.appManifest.name} is activated with contexts`}
+												title={`${params.data?.appManifest?.name} is activated with contexts`}
 												active={params.data?.isContextual?.toString()}
 											/>
 										) : (
 											<AgStyles.Indicator
-												title={`${params.data?.appManifest.name} is active`}
+												title={`${params.data?.appManifest?.name} is active`}
 												active={params.data?.isActive?.toString()}
 											/>
 										)}
@@ -102,9 +107,20 @@ export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalAppl
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
 								defaultOption: 'startsWith',
 							},
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									appManifest?: { displayName: string };
+								}>
+							) => {
+								return (
+									<AgStyles.TextCellWrapperLeft key={`active-${params.context?.appKey}`}>
+										{params.data?.appManifest ? params.data?.appManifest.displayName : FAIL_MESSAGE}
+									</AgStyles.TextCellWrapperLeft>
+								);
+							},
 						},
 						{
-							field: 'appManifest.appKey',
+							field: 'appKey',
 							maxWidth: 350,
 							headerName: 'Application key',
 							filterParams: {
@@ -120,16 +136,34 @@ export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalAppl
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
 								defaultOption: 'startsWith',
 							},
+							cellRenderer: (
+								params: CustomCellRendererProps<{
+									appManifest?: { category: { displayName: string } };
+								}>
+							) => {
+								return (
+									<AgStyles.TextCellWrapperLeft key={`active-${params.context?.appKey}`}>
+										{params.data?.appManifest
+											? params.data?.appManifest.category.displayName
+											: FAIL_MESSAGE}
+									</AgStyles.TextCellWrapperLeft>
+								);
+							},
 						},
 
 						{
-							field: 'appManifest.description',
+							field: 'appManifest',
 							headerName: 'Description',
 							filterParams: {
 								filterOptions: ['contains', 'startsWith', 'endsWith'],
 								defaultOption: 'startsWith',
 							},
 							width: 500,
+							valueFormatter: (params) => {
+								return params.data?.appManifest
+									? params.data?.appManifest.description
+									: 'Application Missing application manifest! Application may have been deleted from Fusion app service.';
+							},
 						},
 
 						{
