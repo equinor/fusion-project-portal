@@ -7,7 +7,7 @@ export const mutatePortalApps = (queryClient: QueryClient, portalId: string | un
 	const prevApps = queryClient.getQueryData<PortalApplication[]>(['portal-onboarded-apps', portalId]) || [];
 
 	const newApps = prevApps.map((prevApp) => {
-		const isActive = apps.find((app) => app.appManifest.appKey === prevApp.appManifest.appKey);
+		const isActive = apps.find((app) => app.appKey === prevApp.appKey);
 		if (isActive) {
 			return { ...prevApp, isActive: true };
 		}

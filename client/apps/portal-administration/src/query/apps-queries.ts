@@ -125,7 +125,7 @@ export const addPortalApps = async (client: IHttpClient, portalApps: PortalAppli
 	const results: Result[] = [];
 
 	for (const app of portalApps) {
-		const result = await addPortalApp(client, app.appManifest.appKey, portalId);
+		const result = await addPortalApp(client, app.appKey, portalId);
 		results.push(result);
 	}
 
