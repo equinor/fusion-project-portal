@@ -2,8 +2,7 @@ import { CustomCellRendererProps } from '@ag-grid-community/react';
 
 import { AgStyles } from '../AgStyle';
 import { ColDef } from '@equinor/workspace-ag-grid';
-
-const FAIL_MESSAGE = 'Application Error!';
+import { capitalizeFirstLetter } from '../Ag-Grid/defaultGridOptions';
 
 export const colDefs: ColDef<any, any>[] = [
 	{
@@ -65,11 +64,14 @@ export const colDefs: ColDef<any, any>[] = [
 		cellRenderer: (
 			params: CustomCellRendererProps<{
 				appManifest?: { displayName: string };
+				appKey: string;
 			}>
 		) => {
 			return (
 				<AgStyles.TextCellWrapperLeft key={`active-${params.context?.appKey}`}>
-					{params.data?.appManifest ? params.data?.appManifest.displayName : FAIL_MESSAGE}
+					{params.data?.appManifest
+						? params.data?.appManifest.displayName
+						: capitalizeFirstLetter(params.data?.appKey)}
 				</AgStyles.TextCellWrapperLeft>
 			);
 		},
@@ -92,20 +94,6 @@ export const colDefs: ColDef<any, any>[] = [
 		filterParams: {
 			filterOptions: ['contains', 'startsWith', 'endsWith'],
 			defaultOption: 'startsWith',
-		},
-		cellRenderer: (
-			params: CustomCellRendererProps<{
-				appManifest?: { category: { displayName: string } };
-				doesNotExistInFusion: boolean;
-			}>
-		) => {
-			return (
-				<AgStyles.TextCellWrapperLeft key={`active-${params.context?.appKey}`}>
-					{params.data?.doesNotExistInFusion === false
-						? params.data?.appManifest?.category.displayName
-						: FAIL_MESSAGE}
-				</AgStyles.TextCellWrapperLeft>
-			);
 		},
 	},
 	{
