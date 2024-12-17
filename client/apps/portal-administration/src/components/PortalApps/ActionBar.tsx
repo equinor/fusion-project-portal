@@ -83,7 +83,10 @@ export const ActionBar = ({ selection }: { selection: PortalApplication[] }) => 
 				<Styles.Actions>
 					<Typography variant="overline">Portal Application Actions</Typography>
 					{hadNoVersion ? (
-						<Message title="One ore more selected applications have no build version" type="Warning" />
+						<Styles.Row>
+							<RemoveAppsButton selection={selection} removeApps={removeSelected} />
+							<Message title="One ore more selected applications have no build version" type="Warning" />
+						</Styles.Row>
 					) : (
 						<Styles.Row>
 							<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />

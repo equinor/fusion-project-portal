@@ -24,7 +24,7 @@ export const AgStyles = {
 	TableContent: styled.div`
 		padding-top: 1rem;
 		position: relative;
-		height: calc(100% - 3rem);
+		height: calc(100% - 1rem);
 		width: 100%;
 	`,
 

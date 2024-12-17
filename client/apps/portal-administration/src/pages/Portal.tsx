@@ -16,12 +16,11 @@ const Styles = {
 		flex-direction: column;
 		padding: 1rem;
 		display: flex;
-		height: 100%;
+		height: calc(100% - 2rem);
 	`,
 	Wrapper: styled.div`
 		display: block;
 		height: 100%;
-		overflow: hidden;
 	`,
 };
 
