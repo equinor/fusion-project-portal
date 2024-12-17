@@ -68,6 +68,7 @@ export type PortalApp = {
 	appInformation: { icon: string };
 	isActive?: boolean;
 	isGlobal?: boolean;
+	doesNotExistInFusion: boolean;
 	isContextual?: boolean;
 };
 
@@ -79,6 +80,7 @@ export type PortalApplication = {
 	isActive?: boolean;
 	isGlobal?: boolean;
 	isContextual?: boolean;
+	doesNotExistInFusion: boolean;
 	contextIds?: string[];
 };
 

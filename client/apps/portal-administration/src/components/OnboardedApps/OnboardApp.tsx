@@ -10,8 +10,7 @@ import { OnboardAppInputs, onboardAppInput } from '../../schema/app';
 import { useAddOnboardedApp, useOnboardedApps } from '../../hooks/use-onboarded-apps';
 import { useGetContextTypes } from '../../hooks/use-context-type-query';
 import { AppSelector } from './AppSelector';
-import { Row } from '@equinor/eds-core-react/dist/types/components/Table/Row';
-import { arrow_back, arrow_drop_left, chevron_down, chevron_left } from '@equinor/eds-icons';
+import { chevron_down, chevron_left } from '@equinor/eds-icons';
 import { InfoPopover } from '../InfoPopover';
 
 const Style = {

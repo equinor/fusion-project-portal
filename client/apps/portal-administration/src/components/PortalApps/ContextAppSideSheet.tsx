@@ -81,7 +81,6 @@ export function ContextAppSideSheet({
 	const { data: activeApp, isLoading } = useGetPortalApp(activePortalId, app.appManifest.appKey);
 
 	const contexts: OnboardedContext[] = useMemo(() => {
-
 		if (!activeApp || !activeContexts) return [];
 		return activeContexts.map((context) => ({
 			...context,
@@ -165,9 +164,15 @@ export function ContextAppSideSheet({
 											onCellValueChanged: (event) => {
 												if (event.newValue) {
 													console.log('Activate context', event.data);
-													add({ appKey: app.appManifest.appKey, contextIds: [event.data.contextId] });
+													add({
+														appKey: app.appManifest.appKey,
+														contextIds: [event.data.contextId],
+													});
 												} else {
-													remove({ appKey: app.appManifest.appKey, contextIds: [event.data.contextId] });
+													remove({
+														appKey: app.appManifest.appKey,
+														contextIds: [event.data.contextId],
+													});
 												}
 											},
 										},

@@ -43,7 +43,9 @@ export const OnboardedAppsActionBar = ({ selection }: { selection: PortalApp[] }
 		}
 	}, [selection]);
 	const { data: contextTypes } = useGetContextTypes();
+
 	if (selection.length === 0) return null;
+
 	return (
 		<Styles.Wrapper>
 			<Styles.Content>
@@ -59,7 +61,6 @@ export const OnboardedAppsActionBar = ({ selection }: { selection: PortalApp[] }
 							return item === compare;
 						}}
 						onOptionsChange={(change) => {
-							console.log(change.selectedItems);
 							setSelected(change.selectedItems);
 							editSelected(
 								selection.map((s) => ({ appKey: s.appKey, contextTypes: change.selectedItems }))

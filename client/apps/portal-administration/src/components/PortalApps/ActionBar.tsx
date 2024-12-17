@@ -4,13 +4,14 @@ import { Typography } from '@equinor/eds-core-react';
 import { useAddPortalApps, useRemovePortalApps } from '../../hooks/use-portal-apps';
 import { usePortalContext } from '../../context/PortalContext';
 import { ContextAppSideSheet } from './ContextAppSideSheet';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MakeSelectionGlobalButton } from '../Actions/MakeGlobalAppsButton';
 import { ActivateSelectedButton } from '../Actions/ActivateSelectedButton';
 import { RemoveAppsButton } from '../Actions/RemoveAppsButton';
 import { EditSelectedButton } from '../Actions/EditSelectedButton';
 import { ActivateSelectedWithContextButton } from '../Actions/ActivateSelectedWithContextButton';
 import { useQueryClient } from '@tanstack/react-query';
+import { Message } from '../Message';
 
 const Styles = {
 	Wrapper: styled.div`
@@ -39,13 +40,29 @@ const Styles = {
 };
 
 export const ActionBar = ({ selection }: { selection: PortalApplication[] }) => {
-	const { activePortalId } = usePortalContext();
+	const { activePortalId, contexts } = usePortalContext();
 	const queryClient = useQueryClient();
 
 	const { mutateAsync: activateSelected } = useAddPortalApps(activePortalId);
 	const { mutateAsync: removeSelected } = useRemovePortalApps(activePortalId);
 
 	const [isOpen, setIsOpen] = useState(false);
+
+	/**
+	 * Determines if any of the selected apps do not have a version.
+	 * @returns {boolean} `true` if any app in the selection has a `null` build version or no `appManifest`; otherwise, `false`.
+	 */
+	const hadNoVersion = useMemo(
+		() => selection.some((app) => app.appManifest?.build === null || !app.appManifest),
+		[selection]
+	);
+
+	/**
+	 * Determines if the current portal is app driven or context driven portal. If the portal has contexts, it is a context driven portal.
+	 * And the user can activate the selected apps with context.
+	 * @returns {boolean} True if there are contexts and the length of contexts is greater than 0, otherwise false.
+	 */
+	const isContextPortal = useMemo(() => contexts && contexts.length > 0, [contexts]);
 
 	if (selection.length === 0) return null;
 
@@ -65,21 +82,27 @@ export const ActionBar = ({ selection }: { selection: PortalApplication[] }) => 
 			<Styles.Content>
 				<Styles.Actions>
 					<Typography variant="overline">Portal Application Actions</Typography>
-					<Styles.Row>
-						<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />
-						<ActivateSelectedWithContextButton
-							selection={selection}
-							activateSelectedWithContext={() => setIsOpen(true)}
-						/>
-						<EditSelectedButton
-							editSelection={() => {
-								setIsOpen(true);
-							}}
-							selection={selection}
-						/>
-						<MakeSelectionGlobalButton selection={selection} makeSelectionGlobal={activateSelected} />
-						<RemoveAppsButton selection={selection} removeApps={removeSelected} />
-					</Styles.Row>
+					{hadNoVersion ? (
+						<Message title="One ore more selected applications have no build version" type="Warning" />
+					) : (
+						<Styles.Row>
+							<ActivateSelectedButton selection={selection} activateSelected={activateSelected} />
+							{isContextPortal && (
+								<ActivateSelectedWithContextButton
+									selection={selection}
+									activateSelectedWithContext={() => setIsOpen(true)}
+								/>
+							)}
+							<EditSelectedButton
+								editSelection={() => {
+									setIsOpen(true);
+								}}
+								selection={selection}
+							/>
+							<MakeSelectionGlobalButton selection={selection} makeSelectionGlobal={activateSelected} />
+							<RemoveAppsButton selection={selection} removeApps={removeSelected} />
+						</Styles.Row>
+					)}
 				</Styles.Actions>
 				<Typography variant="overline">Selected applications ({selection.length})</Typography>
 			</Styles.Content>

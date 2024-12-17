@@ -21,6 +21,7 @@ const Styles = {
 	Wrapper: styled.div`
 		display: block;
 		height: 100%;
+		overflow: hidden;
 	`,
 };
 
@@ -31,7 +32,7 @@ export const Portal = () => {
 
 	useEffect(() => {
 		if (!portalId || portalId === 'undefined') {
-			navigate('portals');
+			navigate('/portals');
 		} else {
 			activePortalId !== portalId && setActivePortalById(portalId);
 		}

@@ -68,5 +68,9 @@ export const AgStyles = {
 			font-weight: bold;
 			background-color: ${tokens.colors.ui.background__danger.hex} !important;
 		}
+		.noBuilds {
+			font-weight: bold;
+			background-color: ${tokens.colors.ui.background__warning.hex} !important;
+		}
 	`,
 };
