@@ -124,7 +124,6 @@ export function ContextAppSideSheet({
 									rowHeight={36}
 									onRowSelected={(event) => {
 										const selectedRows = event.api!.getSelectedRows();
-
 										setSelectedContexts(selectedRows);
 									}}
 									noRowsOverlayComponent={() => (
@@ -163,7 +162,6 @@ export function ContextAppSideSheet({
 											editable: true,
 											onCellValueChanged: (event) => {
 												if (event.newValue) {
-													console.log('Activate context', event.data);
 													add({
 														appKey: app.appManifest.appKey,
 														contextIds: [event.data.contextId],
