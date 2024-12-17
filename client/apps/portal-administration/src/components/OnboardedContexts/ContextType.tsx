@@ -80,7 +80,7 @@ export const EditContextTypeForm = () => {
 		<Style.Content>
 			{isAdmin && (
 				<Style.Card>
-					<Style.Row onClick={() => setActive((s) => !s)}>
+					<Style.Row>
 						<Style.Row>
 							<Typography variant="h6">Add Context Type</Typography>
 							<InfoPopover title="Add Context Type">

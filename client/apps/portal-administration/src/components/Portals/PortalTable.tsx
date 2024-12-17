@@ -14,6 +14,7 @@ import { AgStyles } from '../AgStyle';
 import { Message } from '../Message';
 import { usePortalContext } from '../../context/PortalContext';
 import { tokens } from '@equinor/eds-tokens';
+import { defaultGridOptions } from '../Ag-Grid/defaultGridOptions';
 
 export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 	const { mutateAsync: deletePortal } = useDeletePortal();
@@ -30,22 +31,9 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 			<AgStyles.TableContent ref={ref}>
 				<ClientGrid<Portal>
 					height={height}
+					{...defaultGridOptions}
 					rowData={portalsData || []}
 					noRowsOverlayComponent={() => <Message title="No data available" />}
-					rowHeight={36}
-					autoSizeStrategy={{
-						type: 'fitGridWidth',
-						defaultMinWidth: 80,
-						defaultMaxWidth: 300,
-					}}
-					onGridReady={(event) => {
-						const api = event.api;
-						api.sizeColumnsToFit();
-					}}
-					onGridSizeChanged={(event) => {
-						const api = event.api;
-						api.sizeColumnsToFit();
-					}}
 					getRowStyle={(params) => {
 						if (params.data?.id === activePortalId) {
 							return { backgroundColor: tokens.colors.ui.background__info.rgba };
@@ -55,8 +43,8 @@ export function PortalTable({ portalsData }: { portalsData?: Portal[] }) {
 						{
 							field: 'icon',
 							headerName: 'Icon',
-							maxWidth: 70,
-							minWidth: 70,
+							maxWidth: 80,
+							minWidth: 80,
 							cellRenderer: (
 								params: CustomCellRendererProps<{
 									icon: string;

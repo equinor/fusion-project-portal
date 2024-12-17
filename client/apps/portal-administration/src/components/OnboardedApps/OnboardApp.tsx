@@ -88,7 +88,7 @@ export const OnboardApp = () => {
 	return (
 		<Style.Wrapper>
 			<Style.Card>
-				<Style.RowHead onClick={() => setActive((s) => !s)}>
+				<Style.RowHead>
 					<Style.Row>
 						<Typography variant="h6">Onboard App</Typography>
 						<InfoPopover title="Onboard App">
