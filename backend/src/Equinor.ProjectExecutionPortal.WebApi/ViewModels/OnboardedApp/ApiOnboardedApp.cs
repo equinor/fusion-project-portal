@@ -19,6 +19,7 @@ public class ApiOnboardedApp : ApiAudit
         Description = onboardedAppDto.AppInformation?.Description;
         Contexts = onboardedAppDto.ContextTypes.Select(x => new ApiContextType(x)).ToList();
         ContextTypes = onboardedAppDto.ContextTypes.Select(x => x.ContextTypeKey).ToList();
+        DoesNotExistInFusion = onboardedAppDto.DoesNotExistInFusion;
         SupplyAudit(onboardedAppDto);
     }
 
@@ -28,4 +29,5 @@ public class ApiOnboardedApp : ApiAudit
     public string? Description { get; set; }
     public List<ApiContextType> Contexts { get; set; } = [];
     public List<string> ContextTypes { get; set; } = [];
+    public bool DoesNotExistInFusion { get; set; }
 }

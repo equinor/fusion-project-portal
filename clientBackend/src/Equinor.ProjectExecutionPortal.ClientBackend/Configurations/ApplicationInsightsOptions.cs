@@ -1,7 +1,6 @@
-namespace Equinor.ProjectExecutionPortal.ClientBackend.Configurations
+namespace Equinor.ProjectExecutionPortal.ClientBackend.Configurations;
+
+public class ApplicationInsightsOptions
 {
-    public class ApplicationInsightsOptions
-    {
-        public string? ConnectionString { get; set; }
-    }
+    public string? ConnectionString { get; set; }
 }
