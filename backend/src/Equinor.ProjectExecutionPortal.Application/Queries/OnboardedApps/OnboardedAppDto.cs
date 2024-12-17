@@ -13,7 +13,6 @@ public class OnboardedAppDto : AuditDto, IMapFrom<Domain.Entities.OnboardedApp>
     public App? AppInformation { get; set; }
     public bool DoesNotExistInFusion { get; set; } = false;
     public List<ContextTypeDto> ContextTypes { get; set; } = [];
-    // existsInFusion
 
     public void SupplyWithFusionData(App app)
     {

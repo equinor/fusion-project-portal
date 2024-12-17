@@ -20,6 +20,7 @@ public class ApiPortalOnboardedApp
         IsGlobal = portalOnboardedAppDto.IsGlobal;
         IsContextual = portalOnboardedAppDto.IsContextual;
         AppManifest = portalOnboardedAppDto.OnboardedApp.AppInformation != null ? new ApiFusionApp(portalOnboardedAppDto.OnboardedApp.AppInformation) : null;
+        DoesNotExistInFusion = portalOnboardedAppDto.OnboardedApp.DoesNotExistInFusion;
     }
 
     public string AppKey { get; set; }
@@ -29,4 +30,5 @@ public class ApiPortalOnboardedApp
     public bool IsGlobal { get; set; }
     public bool IsContextual { get; set; }
     public ApiFusionApp? AppManifest { get; set; }
+    public bool DoesNotExistInFusion { get; set; }
 }
