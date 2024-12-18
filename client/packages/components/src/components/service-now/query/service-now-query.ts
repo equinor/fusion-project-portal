@@ -2,7 +2,6 @@ import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { AttachmentResponse, Incident } from '../types/types';
 import { formatError } from '../utils/error-utils';
 import { handleAttachmentsResponse } from '../utils/handle-attachments-response';
-import { s } from 'vite/dist/node/types.d-aGj9QkWt';
 
 export const getIncidentsQuery = async (client: IHttpClient, azureUniqueId?: string, signal?: AbortSignal) => {
 	const response = await client.fetch(`persons/${azureUniqueId}/incidents`, {

@@ -14,7 +14,7 @@ import { MessageCard } from '@portal/ui';
 import { UploadStatus } from '../types/types';
 import { AttachmentsApiFailed } from './AttachmentsApiFailed';
 import { AttachmentsPartialFail } from './AttachmentsPartialFail';
-import { Inputs, inputSchema } from '../schema';
+import { HelpInput, Inputs, inputSchema } from '../schema';
 import InfoMessage from './InfoMessage';
 import { tokens } from '@equinor/eds-tokens';
 
@@ -43,9 +43,9 @@ const Style = {
 	`,
 };
 
-const formatDescription = (assistanceDescription: string, detailedDescription: string) => {
+const formatDescription = (description: string) => {
 	return `
-        Type: I need help\n\nWhat were you doing and what happened?\n${assistanceDescription}\n\nDescribe as detailed as possible:\n${detailedDescription}
+      Type: I need help\n\nWhat do you need assistance with?\n${description}\n\n
   `;
 };
 
@@ -75,10 +75,10 @@ export const HelpNeeded = ({ onClose }: HelpNeededProps) => {
 
 	const metadata = useIncidentMeta();
 
-	const onSubmit: SubmitHandler<Inputs> = async ({ shortDescription, assistanceDescription, description, files }) => {
+	const onSubmit: SubmitHandler<HelpInput> = async ({ shortDescription, description, files }) => {
 		const incident = await createIncident({
 			shortDescription,
-			description: formatDescription(assistanceDescription, description),
+			description: formatDescription(description),
 			metadata,
 		});
 

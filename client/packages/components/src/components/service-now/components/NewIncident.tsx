@@ -14,7 +14,7 @@ import { MessageCard } from '@portal/ui';
 import { UploadStatus } from '../types/types';
 import { AttachmentsApiFailed } from './AttachmentsApiFailed';
 import { AttachmentsPartialFail } from './AttachmentsPartialFail';
-import { helpInput, HelpInput } from '../schema';
+import { Inputs, inputSchema } from '../schema';
 import InfoMessage from './InfoMessage';
 import { tokens } from '@equinor/eds-tokens';
 
@@ -43,9 +43,9 @@ const Style = {
 	`,
 };
 
-const formatDescription = (description: string) => {
+const formatDescription = (assistanceDescription: string, detailedDescription: string) => {
 	return `
-      Type: Report an error\n\nWhat do you need assistance with?\n${description}\n\n
+         Type: Report an error\n\nWhat were you doing and what happened?\n${assistanceDescription}\n\nDescribe as detailed as possible:\n${detailedDescription}
   `;
 };
 
@@ -58,8 +58,8 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 		watch,
 		setError,
 		clearErrors,
-	} = useForm<HelpInput>({
-		resolver: zodResolver(helpInput),
+	} = useForm<Inputs>({
+		resolver: zodResolver(inputSchema),
 	});
 
 	const {
@@ -75,10 +75,10 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 
 	const metadata = useIncidentMeta();
 
-	const onSubmit: SubmitHandler<HelpInput> = async ({ shortDescription, description, files }) => {
+	const onSubmit: SubmitHandler<Inputs> = async ({ shortDescription, assistanceDescription, description, files }) => {
 		const incident = await createIncident({
 			shortDescription,
-			description: formatDescription(description),
+			description: formatDescription(assistanceDescription, description),
 			metadata,
 		});
 
