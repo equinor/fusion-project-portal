@@ -60,7 +60,6 @@ public static class ApplicationModule
         services.AddScoped<IEventDispatcher, EventDispatcher>();
 
         // Authorization handlers
-        services.AddScoped<IAuthorizationHandler, PortalAdminRequirement.Handler>();
         services.AddScoped<IAuthorizationHandler, PortalManageRequirement.Handler>();
     }
 }
