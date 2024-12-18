@@ -14,11 +14,11 @@ import { MessageCard } from '@portal/ui';
 import { UploadStatus } from '../types/types';
 import { AttachmentsApiFailed } from './AttachmentsApiFailed';
 import { AttachmentsPartialFail } from './AttachmentsPartialFail';
-import { helpInput, HelpInput } from '../schema';
+import { Inputs, inputSchema } from '../schema';
 import InfoMessage from './InfoMessage';
 import { tokens } from '@equinor/eds-tokens';
 
-type NewIncidentProps = {
+type HelpNeededProps = {
 	onClose: () => void;
 };
 
@@ -43,13 +43,13 @@ const Style = {
 	`,
 };
 
-const formatDescription = (description: string) => {
+const formatDescription = (assistanceDescription: string, detailedDescription: string) => {
 	return `
-      Type: Report an error\n\nWhat do you need assistance with?\n${description}\n\n
+        Type: I need help\n\nWhat were you doing and what happened?\n${assistanceDescription}\n\nDescribe as detailed as possible:\n${detailedDescription}
   `;
 };
 
-export const NewIncident = ({ onClose }: NewIncidentProps) => {
+export const HelpNeeded = ({ onClose }: HelpNeededProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -58,8 +58,8 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 		watch,
 		setError,
 		clearErrors,
-	} = useForm<HelpInput>({
-		resolver: zodResolver(helpInput),
+	} = useForm<Inputs>({
+		resolver: zodResolver(inputSchema),
 	});
 
 	const {
@@ -75,10 +75,10 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 
 	const metadata = useIncidentMeta();
 
-	const onSubmit: SubmitHandler<HelpInput> = async ({ shortDescription, description, files }) => {
+	const onSubmit: SubmitHandler<Inputs> = async ({ shortDescription, assistanceDescription, description, files }) => {
 		const incident = await createIncident({
 			shortDescription,
-			description: formatDescription(description),
+			description: formatDescription(assistanceDescription, description),
 			metadata,
 		});
 
@@ -126,18 +126,9 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 
 	return (
 		<Style.Wrapper>
-			<Typography variant="h5"> Report an Error</Typography>
-			<InfoMessage
-				message={
-					<>
-						Provide more details for faster, better, and more relevant support.
-						<br />
-						<br />
-						Use this form if something is not working as expected or shows an error message. For general
-						assistance, please use the 'I need help' form.
-					</>
-				}
-			/>
+			<Typography variant="h5"> I need help</Typography>
+
+			<InfoMessage message="Provide more details for faster, better, and more relevant support." />
 			{Object.values(errors).length > 0 && (
 				<Style.ErrorWrapper>
 					<MessageCard
@@ -173,52 +164,25 @@ export const NewIncident = ({ onClose }: NewIncidentProps) => {
 					variant={errors.shortDescription && 'error'}
 					helperText={errors.shortDescription?.message}
 					inputIcon={errors.shortDescription && <Icon data={error_filled} title="Error" />}
-					label="Short Description*"
+					label="Short description *"
 					placeholder="Ticket title, please keep short and concise"
 					maxLength={51}
 					required
 				/>
 
 				<TextField
-					{...register('assistanceDescription')}
-					id="textfield-assistanceDescription"
-					variant={errors.assistanceDescription && 'error'}
-					helperText={errors.assistanceDescription?.message}
-					placeholder="Add assistance description"
-					label={
-						<>
-							What were you doing and what happened? <b>*</b>
-							<br />
-							<br />
-							Describe any error messages, unexpected behavior, and what you expected to happen.
-						</>
-					}
-					inputIcon={errors.assistanceDescription && <Icon data={error_filled} title="Error" />}
-					multiline
-					rows={5}
-					required
-				/>
-				<TextField
 					{...register('description')}
 					id="textfield-description"
 					variant={errors.description && 'error'}
 					placeholder="Add description"
 					helperText={errors.description?.message}
-					label={
-						<>
-							Describe as detailed as possible <b>*</b>
-							<br />
-							<br />
-							What you clicked, where, any error messages, unexpected behavior, and what you expected to
-							happen.
-						</>
-					}
+					label="What do you need assistance with? *"
 					inputIcon={errors.description && <Icon data={error_filled} title="Error" />}
 					multiline
 					rows={5}
 					required
 				/>
-				<InfoMessage message="When providing screenshots, please include as much contextual information as possible, not just the error message, expand any detail sections." />
+				<InfoMessage message="Add images you feel might help the S@E team understand what you need help with." />
 				<FileUpload
 					title="Drop pictures here, or click browse."
 					acceptTitle="accept png & jpeg"

@@ -55,6 +55,15 @@ export const HelpMenu = ({ setActiveActionById }: { setActiveActionById: (id: st
 					Report an error
 				</MenuItem>
 				<MenuItem
+					iconData={help_outline}
+					title="Send help request to service@equinor"
+					onClick={() => {
+						setActiveActionById('services');
+					}}
+				>
+					Need Help?
+				</MenuItem>
+				<MenuItem
 					iconData={launch}
 					title="Submit an improvement suggestion"
 					link="https://equinor.service-now.com/selfservice?id=sc_cat_item&sys_id=32d7c0cddb2d630023a69407db961900"

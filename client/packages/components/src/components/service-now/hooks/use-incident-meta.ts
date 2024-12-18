@@ -11,6 +11,7 @@ export const useIncidentMeta = () => {
 		contextName: context?.title || 'unknown',
 		contextType: context?.type.id || 'unknown',
 		currentApp: currentApp?.appKey || 'portal',
+		currentAppCategory: currentApp?.manifest?.category?.displayName || 'unknown',
 		userAgent: window.navigator.userAgent || 'unknown',
 	};
 };
