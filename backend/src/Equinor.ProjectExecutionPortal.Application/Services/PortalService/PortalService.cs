@@ -53,6 +53,7 @@ public class PortalService : IPortalService
     public async Task<bool> UserIsAdmin(Guid portalId, Guid userOId)
     {
         var isAdmin = await _context.Set<Portal>()
+            .AsNoTracking()
             .Include(portal => portal.Admins)
             .Where(portal => portal.Id == portalId)
             .AnyAsync(x => x.Admins.Any(o => o.AzureUniqueId == userOId));

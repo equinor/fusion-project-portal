@@ -1,17 +1,18 @@
-﻿using System.Net.Mime;
-using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortal;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalAppKeys;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalConfiguration;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApp;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortalOnboardedApps;
 using Equinor.ProjectExecutionPortal.Application.Queries.Portals.GetPortals;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.Portal;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalApp;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.PortalContextType;
-using Fusion.AspNetCore.FluentAuthorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
@@ -19,6 +20,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 [Route("api/portals")]
 public class PortalController : ApiControllerBase
 {
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("")]
     public async Task<ActionResult<List<ApiPortal>>> GetPortals()
     {
@@ -27,6 +29,7 @@ public class PortalController : ApiControllerBase
         return Ok(portalDtos.Select(dto => new ApiPortal(dto)).ToList());
     }
 
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("{portalId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -42,6 +45,7 @@ public class PortalController : ApiControllerBase
         return Ok(new ApiPortal(portalWithAppsDto));
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpPost("")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -51,20 +55,6 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> CreatePortal([FromBody] ApiCreatePortalRequest request)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
         try
         {
             await Mediator.Send(request.ToCommand());
@@ -94,16 +84,12 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> UpdatePortal([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalRequest request)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
-
-        #endregion
 
         try
         {
@@ -121,6 +107,7 @@ public class PortalController : ApiControllerBase
         return Ok();
     }
 
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("{portalId:guid}/configuration")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -145,16 +132,12 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> UpdatePortalConfiguration([FromRoute] Guid portalId, [FromBody] ApiUpdatePortalConfigurationRequest request)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
-
-        #endregion
 
         try
         {
@@ -172,6 +155,7 @@ public class PortalController : ApiControllerBase
         return Ok();
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpDelete("{portalId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -179,24 +163,9 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemovePortal([FromRoute] Guid portalId)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
-        var request = new ApiRemovePortalRequest();
-
         try
         {
+            var request = new ApiRemovePortalRequest();
             await Mediator.Send(request.ToCommand(portalId));
         }
         catch (NotFoundException ex)
@@ -217,6 +186,7 @@ public class PortalController : ApiControllerBase
 
     // Onboarded Apps
 
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("{portalId:guid}/onboarded-apps")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -232,6 +202,7 @@ public class PortalController : ApiControllerBase
         return Ok(portalOnboardedAppsDto.Select(onboardedAppDto => new ApiPortalOnboardedApp(onboardedAppDto)).ToList());
     }
 
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("{portalId:guid}/onboarded-apps/{appKey}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -249,6 +220,7 @@ public class PortalController : ApiControllerBase
 
     // Apps
 
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("{portalId:guid}/apps")]
     [HttpGet("{portalId:guid}/contexts/{contextId:guid}/apps")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -288,16 +260,12 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddAppToPortal([FromRoute] Guid portalId, [FromBody] ApiAddGlobalAppToPortalRequest request)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
-
-        #endregion
 
         try
         {
@@ -329,16 +297,12 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddAppToPortal([FromRoute] Guid portalId, Guid contextId, [FromBody] ApiAddContextAppToPortalRequest request)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
-
-        #endregion
 
         try
         {
@@ -372,16 +336,12 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveAppFromPortal([FromRoute] Guid portalId, [FromRoute] Guid? contextId, [FromRoute] string appKey)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
-
-        #endregion
 
         try
         {
@@ -418,16 +378,12 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> AddContextTypeToPortal([FromRoute] Guid portalId, [FromBody] ApiAddContextTypeToPortalRequest request)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
-
-        #endregion
 
         try
         {
@@ -460,20 +416,17 @@ public class PortalController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveContextTypeFromPortal([FromRoute] Guid portalId, [FromRoute] string contextType)
     {
-        #region Authorization
+        var authResult = await Request.RequireAuthorizationAsync(portalId, Policies.Global.ManagePortal);
 
-        var authResult = await AuthorizeCanManagePortal(portalId);
-
-        if (authResult.Unauthorized)
+        if (!authResult.Succeeded)
         {
-            return authResult.CreateForbiddenResponse();
+            return CreateForbiddenResponse();
         }
 
-        #endregion
-
-        var request = new ApiRemovePortalContextType();
         try
         {
+            var request = new ApiRemovePortalContextType();
+
             await Mediator.Send(request.ToCommand(portalId, contextType));
         }
         catch (NotFoundException ex)
@@ -492,18 +445,32 @@ public class PortalController : ApiControllerBase
         return Ok();
     }
 
-    private async Task<AuthorizationOutcome> AuthorizeCanManagePortal(Guid portalId)
+    [HttpOptions]
+    public async Task<IActionResult> PortalsOptions()
     {
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
+        var verbPolicyMap = new List<(string verb, string policy)>
         {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
+            (HttpMethod.Get.Method, Policies.Global.Read), 
+            (HttpMethod.Post.Method, Policies.Global.Administrate)
+        };
 
-            builder.AnyOf(or =>
-            {
-                or.BePortalAdmin(portalId);
-            });
-        });
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
 
-        return authResult;
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}")]
+    public async Task<IActionResult> PortalOptions(Guid portalId)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+            (HttpMethod.Put.Method, Policies.Global.ManagePortal), 
+            (HttpMethod.Delete.Method, Policies.Global.ManagePortal)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
     }
 }
