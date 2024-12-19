@@ -16,7 +16,7 @@ public abstract class ApiControllerBase : Controller
     protected IFusionContextResolver ContextResolver => _contextResolver ??= HttpContext.RequestServices.GetRequiredService<IFusionContextResolver>();
     protected IAuthorizationService AuthorizationService => _authorizationService ??= HttpContext.RequestServices.GetRequiredService<IAuthorizationService>();
 
-    public static ActionResult CreateForbiddenResponse()
+    protected static ActionResult CreateForbiddenResponse()
     {
         return FusionApiError.Forbidden("User is not authorized");
     }
