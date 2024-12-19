@@ -66,7 +66,7 @@ export const AddContext = () => {
 	return (
 		<Style.Content>
 			<Style.Card>
-				<Style.RowHead onClick={() => setActive((s) => !s)}>
+				<Style.RowHead>
 					<Style.Row>
 						<Typography variant="h6">Add Context</Typography>
 						<InfoPopover title="Add Context">

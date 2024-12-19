@@ -5,11 +5,12 @@ export const CodeStyle = styled.pre`
 	background-color: #242a2d;
 	border: 2px solid #3a3d3e;
 	color: #ffffff;
-	padding: 1.5rem;
+	padding: 2rem;
 	font-family: monospace;
 	max-height: -webkit-fill-available;
-	margin-bottom: 4rem;
+	margin-bottom: 0.5rem;
 	overflow: auto;
+	max-height: calc(100vh - 350px);
 	.key {
 		color: rgb(156, 220, 254);
 	}

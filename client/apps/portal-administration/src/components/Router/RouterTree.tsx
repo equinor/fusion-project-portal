@@ -9,7 +9,7 @@ import { TreeRoot } from '../Tree/TreeRoot';
 
 const Style = {
 	Router: styled.span`
-		margin: 1rem 0 2rem 0;
+		margin-top: 1rem;
 		padding: 1rem;
 
 		background-color: ${tokens.colors.ui.background__medium.hex};

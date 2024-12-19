@@ -3,9 +3,11 @@ import { ClientGrid } from '@equinor/workspace-ag-grid';
 
 import { useEditOnboardContext } from '../../hooks/use-onboarded-context';
 import { OnboardedContext } from '../../types';
-import { AgStyles } from '../AgStyle';
+
 import { useRef } from 'react';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
+import { AgStyles } from '../AgStyle';
+import { bottomPadding, defaultGridOptions } from '../Ag-Grid/defaultGridOptions';
 
 export function OnboardedContextsTable({ onboardedContexts }: { onboardedContexts?: OnboardedContext[] }) {
 	const { mutateAsync } = useEditOnboardContext();
@@ -17,25 +19,9 @@ export function OnboardedContextsTable({ onboardedContexts }: { onboardedContext
 		<AgStyles.Wrapper>
 			<AgStyles.TableContent ref={ref}>
 				<ClientGrid<OnboardedContext>
-					height={height}
+					height={height - bottomPadding}
+					{...defaultGridOptions}
 					rowData={onboardedContexts || []}
-					enableCellTextSelection
-					ensureDomOrder
-					defaultColDef={{
-						filter: true,
-						flex: 1,
-						sortable: true,
-						resizable: true,
-					}}
-					autoSizeStrategy={{
-						type: 'fitGridWidth',
-						defaultMinWidth: 80,
-						defaultMaxWidth: 300,
-					}}
-					onGridReady={(event) => {
-						const api = event.api;
-						api.sizeColumnsToFit();
-					}}
 					onCellValueChanged={(event) => {
 						if (event.data) mutateAsync(event.data);
 					}}

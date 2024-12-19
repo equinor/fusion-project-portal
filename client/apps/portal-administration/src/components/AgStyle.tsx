@@ -24,7 +24,7 @@ export const AgStyles = {
 	TableContent: styled.div`
 		padding-top: 1rem;
 		position: relative;
-		height: calc(100% - 3rem);
+		height: calc(100% - 1rem);
 		width: 100%;
 	`,
 
@@ -67,6 +67,10 @@ export const AgStyles = {
 		.notActive {
 			font-weight: bold;
 			background-color: ${tokens.colors.ui.background__danger.hex} !important;
+		}
+		.noBuilds {
+			font-weight: bold;
+			background-color: ${tokens.colors.ui.background__warning.hex} !important;
 		}
 	`,
 };
