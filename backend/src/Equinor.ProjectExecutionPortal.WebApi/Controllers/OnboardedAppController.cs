@@ -198,13 +198,60 @@ public class OnboardedAppController : ApiControllerBase
     }
 
     [HttpOptions]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> OnboardedAppsOptions()
     {
         var verbPolicyMap = new List<(string verb, string policy)>
         {
             (HttpMethod.Get.Method, Policies.Global.Read),
             (HttpMethod.Post.Method, Policies.Global.Administrate),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{appKey}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedAppOptions(string appKey)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
             (HttpMethod.Put.Method, Policies.Global.Administrate),
+            (HttpMethod.Delete.Method, Policies.Global.Administrate)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{appKey}/context-type")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedAppContextTypeOptions(string appKey)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Post.Method, Policies.Global.Administrate),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{appKey}/context-type/{contextType}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedAppContextTypeOptions(string appKey, string contextType)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
             (HttpMethod.Delete.Method, Policies.Global.Administrate)
         };
 

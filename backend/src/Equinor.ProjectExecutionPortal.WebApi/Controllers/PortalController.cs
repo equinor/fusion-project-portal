@@ -446,6 +446,8 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpOptions]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> PortalsOptions()
     {
         var verbPolicyMap = new List<(string verb, string policy)>
@@ -460,12 +462,123 @@ public class PortalController : ApiControllerBase
     }
 
     [HttpOptions("{portalId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> PortalOptions(Guid portalId)
     {
         var verbPolicyMap = new List<(string verb, string policy)>
         {
             (HttpMethod.Get.Method, Policies.Global.Read),
             (HttpMethod.Put.Method, Policies.Global.ManagePortal), 
+            (HttpMethod.Delete.Method, Policies.Global.ManagePortal)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/configuration")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalConfigurationOptions(Guid portalId)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+            (HttpMethod.Put.Method, Policies.Global.ManagePortal), 
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/onboarded-apps")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalOnboardedAppsOptions(Guid portalId)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/onboarded-apps/{appKey}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalOnboardedAppOptions(Guid portalId, Guid appKey)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/apps")]
+    [HttpOptions("{portalId:guid}/contexts/{contextId}/apps")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalAppsOptions(Guid portalId, Guid? contextId)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+            (HttpMethod.Post.Method, Policies.Global.ManagePortal),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/apps/{appKey}")]
+    [HttpOptions("{portalId:guid}/contexts/{contextId}/apps/{appKey}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalAppOptions(Guid portalId, Guid? contextId, string appKey)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Delete.Method, Policies.Global.ManagePortal),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/context-type")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalContextTypesOptions(Guid portalId)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Post.Method, Policies.Global.ManagePortal)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, portalId);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{portalId:guid}/context-type/{contextType}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> PortalContextTypeOptions(Guid portalId, string contextType)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
             (HttpMethod.Delete.Method, Policies.Global.ManagePortal)
         };
 

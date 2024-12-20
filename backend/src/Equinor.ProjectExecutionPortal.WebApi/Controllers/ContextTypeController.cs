@@ -83,16 +83,32 @@ public class ContextTypeController : ApiControllerBase
     }
 
     [HttpOptions]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> ContextTypesOptions()
     {
         var verbPolicyMap = new List<(string verb, string policy)>
         {
             (HttpMethod.Get.Method, Policies.Global.Read),
             (HttpMethod.Post.Method, Policies.Global.Administrate),
-            (HttpMethod.Delete.Method, Policies.Global.Administrate)
         };
 
         await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{contextType}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> ContextTypeOptions(string contextType)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Delete.Method, Policies.Global.Administrate)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, contextType);
 
         return NoContent();
     }

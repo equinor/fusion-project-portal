@@ -142,14 +142,46 @@ public class OnboardedContextController : ApiControllerBase
     }
 
     [HttpOptions]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> OnboardedContextsOptions()
     {
         var verbPolicyMap = new List<(string verb, string policy)>
         {
             (HttpMethod.Get.Method, Policies.Global.Read),
             (HttpMethod.Post.Method, Policies.Global.Administrate),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{contextId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedContextOptions(Guid contextId, Guid id)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
             (HttpMethod.Put.Method, Policies.Global.Administrate),
             (HttpMethod.Delete.Method, Policies.Global.Administrate)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{contextExternalId:guid}/type{type}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedContextOptions(Guid contextExternalId, string type)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read)
         };
 
         await SetAuthorizedVerbsHeader(verbPolicyMap, null);
