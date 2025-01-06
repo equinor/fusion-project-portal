@@ -16,10 +16,10 @@ export const getFusionLegacyEnvIdentifier = (): string => {
 export function getFusionOrigin() {
 	switch (getFusionLegacyEnvIdentifier().toLowerCase()) {
 		case 'ci':
-			return 'https://fusion-s-portal-ci.azurewebsites.net/';
+			return 'https://fusion.ci.fusion-dev.net/';
 
 		case 'fqa':
-			return 'https://fusion-s-portal-fqa.azurewebsites.net/';
+			return 'https://fusion.fqa.fusion-dev.net/';
 
 		case 'fprd':
 			return 'https://fusion.equinor.com/';
