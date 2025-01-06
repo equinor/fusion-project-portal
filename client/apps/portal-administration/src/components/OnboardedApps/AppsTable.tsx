@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import { useDeleteOnboardedApp } from '../../hooks/use-onboarded-apps';
 import { PortalApp } from '../../types';
 
-import { delete_to_trash, edit } from '@equinor/eds-icons';
+import { delete_to_trash } from '@equinor/eds-icons';
 import { AgStyles } from '../AgStyle';
 import { OnboardedAppsActionBar } from './OnboardedAppsActionBar';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
@@ -15,7 +15,13 @@ import { Message } from '../Message';
 
 const FAIL_MESSAGE = 'Application Error!';
 
-export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | undefined }) => {
+export const AppsTable = ({
+	onboardedApps,
+	canEdit,
+}: {
+	onboardedApps: PortalApp[] | undefined;
+	canEdit?: boolean;
+}) => {
 	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
 	const { mutateAsync: deleteAppByAppKey } = useDeleteOnboardedApp();
 
@@ -110,11 +116,12 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 							headerName: 'Action',
 							maxWidth: 100,
 							resizable: false,
+							hide: !canEdit,
 							cellRenderer: (params: CustomCellRendererProps<PortalApp>) => {
 								return (
 									<AgStyles.CellWrapper key={params.context?.appKey}>
 										<Button
-											title={`Delete ${params.data?.name} from system`}
+											title={`Delete ${params.data?.displayName} from system`}
 											variant="ghost"
 											onClick={(e) => {
 												e.preventDefault();

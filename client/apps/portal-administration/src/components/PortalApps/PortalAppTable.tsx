@@ -62,19 +62,22 @@ export const PortalAppTable = ({ portalApps, canEdit }: { portalApps: PortalAppl
 									isActive?: boolean;
 									isContextual?: boolean;
 									appKey: string;
-									appManifest?: { name: string };
+									appManifest?: { displayName: string };
 								}>
 							) => {
+								if (!params.data?.appManifest) {
+									return null;
+								}
 								return (
 									<AgStyles.CellWrapper key={`active-${params.context?.appKey}`}>
 										{params.data?.isContextual ? (
 											<AgStyles.ContextIndicator
-												title={`${params.data?.appManifest?.name} is activated with contexts`}
+												title={`${params.data?.appManifest?.displayName} is activated with contexts`}
 												active={params.data?.isContextual?.toString()}
 											/>
 										) : (
 											<AgStyles.Indicator
-												title={`${params.data?.appManifest?.name} is active`}
+												title={`${params.data?.appManifest?.displayName} is active`}
 												active={params.data?.isActive?.toString()}
 											/>
 										)}

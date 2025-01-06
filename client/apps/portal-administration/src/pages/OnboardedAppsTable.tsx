@@ -3,6 +3,7 @@ import { Loading } from '../components/Loading';
 import { useOnboardedApps } from '../hooks/use-onboarded-apps';
 import { AppsTable } from '../components/OnboardedApps/AppsTable';
 import { OnboardApp } from '../components/OnboardedApps/OnboardApp';
+import { useAccess } from '../hooks/use-access';
 
 const Style = {
 	Content: styled.div`
@@ -19,12 +20,17 @@ const Style = {
 
 export const OnboardedApps = () => {
 	const { data, isLoading } = useOnboardedApps();
+	const { data: isAdmin } = useAccess();
 
 	return (
 		<Style.Content>
 			<Style.Wrapper>
-				<OnboardApp />
-				{isLoading ? <Loading detail="Loading Onboarded Apps" /> : <AppsTable onboardedApps={data} />}
+				{isAdmin && <OnboardApp />}
+				{isLoading ? (
+					<Loading detail="Loading Onboarded Apps" />
+				) : (
+					<AppsTable onboardedApps={data} canEdit={isAdmin} />
+				)}
 			</Style.Wrapper>
 		</Style.Content>
 	);
