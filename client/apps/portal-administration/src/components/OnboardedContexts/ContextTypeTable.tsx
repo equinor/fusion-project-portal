@@ -48,6 +48,7 @@ export function ContextTypeTable({ contextTypes, isAdmin }: { contextTypes?: { t
 							field: 'type',
 							headerName: 'Action',
 							maxWidth: 120,
+							hide: !isAdmin,
 							cellRenderer: (params: CustomCellRendererProps<{ type: string }>) => {
 								return (
 									<AgStyles.CellWrapper>
