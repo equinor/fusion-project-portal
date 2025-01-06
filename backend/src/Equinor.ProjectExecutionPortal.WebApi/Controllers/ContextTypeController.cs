@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
 using Equinor.ProjectExecutionPortal.Application.Queries.ContextTypes.GetContextTypes;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.ContextType;
-using Fusion.AspNetCore.FluentAuthorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
@@ -12,6 +12,7 @@ namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 [Route("api/context-types")]
 public class ContextTypeController : ApiControllerBase
 {
+    [Authorize(Policy = Policies.Global.Read)]
     [HttpGet("")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -23,6 +24,7 @@ public class ContextTypeController : ApiControllerBase
         return Ok(contextTypesDto.Select(contextTypeDto => new ApiContextType(contextTypeDto)).ToList());
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpPost("")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -32,20 +34,6 @@ public class ContextTypeController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status409Conflict)]
     public async Task<ActionResult<Guid>> AddContextType([FromBody] ApiAddContextTypeRequest request)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
         try
         {
             await Mediator.Send(request.ToCommand());
@@ -66,6 +54,7 @@ public class ContextTypeController : ApiControllerBase
         return Created("Created", request);
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpDelete("{contextType}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -73,20 +62,6 @@ public class ContextTypeController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveContextType([FromRoute] string contextType)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
         try
         {
             await Mediator.Send(new ApiRemoveContextTypeRequest { Type = contextType }.ToCommand());
@@ -105,5 +80,36 @@ public class ContextTypeController : ApiControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpOptions]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> ContextTypesOptions()
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+            (HttpMethod.Post.Method, Policies.Global.Administrate),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{contextType}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> ContextTypeOptions(string contextType)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Delete.Method, Policies.Global.Administrate)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, contextType);
+
+        return NoContent();
     }
 }

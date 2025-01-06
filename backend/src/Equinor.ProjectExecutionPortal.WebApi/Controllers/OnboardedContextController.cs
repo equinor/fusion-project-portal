@@ -1,12 +1,12 @@
-﻿using System.Net.Mime;
-using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
+﻿using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContext;
 using Equinor.ProjectExecutionPortal.Application.Queries.OnboardedContexts.GetOnboardedContexts;
 using Equinor.ProjectExecutionPortal.Domain.Common.Exceptions;
-using Equinor.ProjectExecutionPortal.WebApi.Authorization.Extensions;
+using Equinor.ProjectExecutionPortal.WebApi.Authorization;
 using Equinor.ProjectExecutionPortal.WebApi.ViewModels.OnboardedContext;
-using Fusion.AspNetCore.FluentAuthorization;
 using Fusion.Integration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Controllers;
 
@@ -52,6 +52,7 @@ public class OnboardedContextController : ApiControllerBase
         return Ok(new ApiOnboardedContext(onboardedContext));
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpPost("")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -62,20 +63,6 @@ public class OnboardedContextController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<string>> OnboardContext([FromBody] ApiOnboardContextRequest request)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
         var contextIdentifier = ContextIdentifier.FromExternalId(request.ExternalId);
         var context = await ContextResolver.ResolveContextAsync(contextIdentifier, request.Type);
 
@@ -100,6 +87,7 @@ public class OnboardedContextController : ApiControllerBase
         return Ok();
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpPut("{id:guid}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -109,20 +97,6 @@ public class OnboardedContextController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<string>> UpdateOnboardedContext([FromRoute] Guid id, [FromBody] ApiUpdateOnboardedContextRequest request)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
         try
         {
             await Mediator.Send(request.ToCommand(id));
@@ -139,6 +113,7 @@ public class OnboardedContextController : ApiControllerBase
         return Ok();
     }
 
+    [Authorize(Policy = Policies.Global.Administrate)]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -146,20 +121,6 @@ public class OnboardedContextController : ApiControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RemoveOnboardedContext([FromRoute] Guid id)
     {
-        #region Authorization
-
-        var authResult = await Request.RequireAuthorizationAsync(builder =>
-        {
-            builder.AlwaysAccessWhen().HasPortalsFullControl();
-        });
-
-        if (authResult.Unauthorized)
-        {
-            return authResult.CreateForbiddenResponse();
-        }
-
-        #endregion
-
         try
         {
             await Mediator.Send(new ApiRemoveOnboardedContextRequest { Id = id }.ToCommand());
@@ -178,5 +139,53 @@ public class OnboardedContextController : ApiControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpOptions]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedContextsOptions()
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+            (HttpMethod.Post.Method, Policies.Global.Administrate),
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{contextId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedContextOptions(Guid contextId, Guid id)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read),
+            (HttpMethod.Put.Method, Policies.Global.Administrate),
+            (HttpMethod.Delete.Method, Policies.Global.Administrate)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
+    }
+
+    [HttpOptions("{contextExternalId:guid}/type{type}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> OnboardedContextOptions(Guid contextExternalId, string type)
+    {
+        var verbPolicyMap = new List<(string verb, string policy)>
+        {
+            (HttpMethod.Get.Method, Policies.Global.Read)
+        };
+
+        await SetAuthorizedVerbsHeader(verbPolicyMap, null);
+
+        return NoContent();
     }
 }

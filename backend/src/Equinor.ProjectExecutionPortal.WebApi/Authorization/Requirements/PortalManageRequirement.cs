@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Equinor.ProjectExecutionPortal.WebApi.Authorization.Requirements;
 
-public class PortalAdminRequirement : FusionAuthorizationRequirement
+public class PortalManageRequirement : FusionAuthorizationRequirement
 {
-    public override string Description => "User must be an portal admin";
+    public override string Description => "User must be either a portal admin or global admin";
     public override string Code => "PortalAdmins";
 
-    public class Handler : AuthorizationHandler<PortalAdminRequirement, Guid>
+    public class Handler : AuthorizationHandler<PortalManageRequirement, Guid>
     {
         private readonly IPortalService _portalService;
 
@@ -19,13 +19,20 @@ public class PortalAdminRequirement : FusionAuthorizationRequirement
             _portalService = portalService;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PortalAdminRequirement requirement, Guid portalId)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PortalManageRequirement requirement, Guid portalId)
         {
             var userOId = context.User.GetAzureUniqueIdOrThrow();
 
-            var isAdmin = await _portalService.UserIsAdmin(portalId, userOId);
+            var isGlobalAdmin = context.User.IsInRole(Scopes.ProjectPortalAdmin);
 
-            if (isAdmin)
+            if (isGlobalAdmin)
+            {
+                context.Succeed(requirement);
+            }
+
+            var isPortalAdmin = await _portalService.UserIsAdmin(portalId, userOId);
+
+            if (isPortalAdmin)
             {
                 context.Succeed(requirement);
             }
