@@ -1,5 +1,30 @@
 # fusion-project-portal
 
+## 7.0.0
+
+### Major Changes
+
+- 6953d9a: - Portal Administrators can now be assigned to Portals
+
+  - These will be able to manage the respective portal, updating content, apps and contexts
+
+  > [!IMPORTANT]
+  > This change requires database migration.
+
+### Minor Changes
+
+- 3595482: Loading new landing page apps on routes
+- a4e0d41: New portal administration landing page
+  - Admins can only edit portals
+- 55a0688: - OnboardedApp: Added a new field about whether an app is found in Fusion or not.
+
+### Patch Changes
+
+- f8d7dd3: - Updated packages to fix vulnerabilities
+- 47b3298: update API endpoints for app keys to apps in PortalAppsClient
+- 7a81751: Show error when application is deleted form app service
+- f148ea0: update fusion ci urls
+
 ## 6.1.0
 
 ### Minor Changes
