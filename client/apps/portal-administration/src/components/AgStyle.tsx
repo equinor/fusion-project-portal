@@ -14,6 +14,10 @@ export const AgStyles = {
 		padding: 0.5rem;
 		overflow: hidden;
 	`,
+	TextCellWrapperLeft: styled.div`
+		display: flex;
+		overflow: hidden;
+	`,
 	Chip: styled(Chip)`
 		margin-top: 0.25rem;
 	`,
@@ -59,5 +63,10 @@ export const AgStyles = {
 		}
 		height: 100%;
 		position: relative;
+
+		.notActive {
+			font-weight: bold;
+			background-color: ${tokens.colors.ui.background__danger.hex} !important;
+		}
 	`,
 };

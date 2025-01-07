@@ -1,7 +1,6 @@
-﻿namespace Equinor.ProjectExecutionPortal.ClientBackend.Services
+﻿namespace Equinor.ProjectExecutionPortal.ClientBackend.Services;
+
+public interface IClientBundleService
 {
-    public interface IClientBundleService
-    {
-        string GetClientBundleFileName();
-    }
+    string GetClientBundleFileName();
 }

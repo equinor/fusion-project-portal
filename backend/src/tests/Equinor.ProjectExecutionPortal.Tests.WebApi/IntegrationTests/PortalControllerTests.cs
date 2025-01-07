@@ -677,33 +677,6 @@ public class PortalControllerTests : TestBase
         return portalConfiguration;
     }
 
-    private static async Task<List<string>?> AssertGetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
-    {
-        // Act
-        var response = await GetAppKeysForPortal(portalId, contextId, userType);
-        var content = await response.Content.ReadAsStringAsync();
-        var appKeys = JsonConvert.DeserializeObject<List<string>>(content);
-
-        // Assert
-        Assert.AreEqual(expectedStatusCode, response.StatusCode);
-
-        if (response.StatusCode != HttpStatusCode.OK)
-        {
-            return appKeys;
-        }
-
-        Assert.IsNotNull(content);
-        Assert.IsNotNull(appKeys);
-
-        foreach (var appKey in appKeys)
-        {
-            Assert.IsNotNull(appKey);
-            Assert.IsInstanceOfType<string>(appKey);
-        }
-
-        return appKeys;
-    }
-
     private static async Task<List<string>?> AssertGetAppsForPortal(Guid portalId, Guid? contextId, UserType userType, HttpStatusCode expectedStatusCode)
     {
         // Act
@@ -783,15 +756,6 @@ public class PortalControllerTests : TestBase
     {
         var client = TestFactory.Instance.GetHttpClient(userType);
         var response = await client.GetAsync($"{Route}/{portalId}/configuration");
-
-        return response;
-    }
-
-    private static async Task<HttpResponseMessage> GetAppKeysForPortal(Guid portalId, Guid? contextId, UserType userType)
-    {
-        var route = contextId != null ? $"{Route}/{portalId}/contexts/{contextId}/appkeys" : $"{Route}/{portalId}/appkeys";
-        var client = TestFactory.Instance.GetHttpClient(userType);
-        var response = await client.GetAsync(route);
 
         return response;
     }

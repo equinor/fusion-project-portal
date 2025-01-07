@@ -21,6 +21,10 @@ public class AppService : IAppService
         {
             onboardedApp.SupplyWithFusionData(fusionApp);
         }
+        else
+        {
+            onboardedApp.DoesNotExistInFusion = true;
+        }
 
         return onboardedApp;
     }
@@ -44,6 +48,10 @@ public class AppService : IAppService
         if (fusionApp != null)
         {
             onboardedApp.SupplyWithFusionData(fusionApp);
+        }
+        else
+        {
+            onboardedApp.DoesNotExistInFusion = true;
         }
     }
 }

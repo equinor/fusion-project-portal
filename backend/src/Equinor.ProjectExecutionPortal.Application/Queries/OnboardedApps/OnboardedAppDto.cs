@@ -11,6 +11,7 @@ public class OnboardedAppDto : AuditDto, IMapFrom<Domain.Entities.OnboardedApp>
     public string? DisplayName { get; set; }
     public string? Description { get; set; }
     public App? AppInformation { get; set; }
+    public bool DoesNotExistInFusion { get; set; } = false;
     public List<ContextTypeDto> ContextTypes { get; set; } = [];
 
     public void SupplyWithFusionData(App app)

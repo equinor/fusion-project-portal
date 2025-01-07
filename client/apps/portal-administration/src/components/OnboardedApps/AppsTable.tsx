@@ -13,6 +13,8 @@ import { OnboardedAppsActionBar } from './OnboardedAppsActionBar';
 import { useResizeObserver } from '../../hooks/use-resise-observer';
 import { Message } from '../Message';
 
+const FAIL_MESSAGE = 'Application Error!';
+
 export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | undefined }) => {
 	const [selectedApps, setSelectedApps] = useState<PortalApp[]>([]);
 	const { mutateAsync: deleteAppByAppKey } = useDeleteOnboardedApp();
@@ -34,6 +36,9 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 						flex: 1,
 						sortable: true,
 						resizable: true,
+					}}
+					rowClassRules={{
+						notActive: (params) => !Boolean(params.data?.displayName || params.data?.description),
 					}}
 					autoSizeStrategy={{
 						type: 'fitGridWidth',
@@ -61,6 +66,9 @@ export const AppsTable = ({ onboardedApps }: { onboardedApps: PortalApp[] | unde
 							field: 'displayName',
 							headerName: 'Display Name',
 							filter: true,
+							valueFormatter: (params) => {
+								return params.value ? params.value : FAIL_MESSAGE;
+							},
 						},
 						{
 							field: 'appKey',

@@ -4,7 +4,7 @@ import { LoadPage } from './LoadPage';
 import { useFeature } from '@equinor/fusion-framework-react-app/feature-flag';
 
 export const PortalPage = (prop: { route?: Partial<PortalRoute> }) => {
-	const { feature } = useFeature('landing-page');
+	const { feature } = { feature: { enabled: false } }; //useFeature('landing-page');
 	switch (prop.route?.pageKey) {
 		case 'project-portal':
 			return (

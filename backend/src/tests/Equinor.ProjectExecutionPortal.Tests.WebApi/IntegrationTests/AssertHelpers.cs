@@ -67,6 +67,7 @@ public class AssertHelpers
     {
         Assert.IsNotNull(onboardedApp);
         Assert.IsNotNull(onboardedApp.AppKey);
+        Assert.IsFalse(onboardedApp.DoesNotExistInFusion);
     }
 
     public static void AssertContextTypeValues(ApiContextType? contextType)

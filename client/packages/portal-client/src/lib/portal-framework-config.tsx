@@ -105,7 +105,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			signalRConfigurator({
 				name: 'servicemessages',
 				service: 'portal',
-				path: '/signalr/hubs/portal/?negotiateVersion=1',
+				path: '/signalr/hubs/servicemessages/?negotiateVersion=1',
 			})
 		);
 
@@ -123,13 +123,13 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 		enableFeatureFlagging(config, (builder) => {
 			builder.addPlugin(
 				createLocalStoragePlugin([
-					{
-						key: 'landing-page',
-						title: 'New Landing pages',
-						description:
-							'When enabled you will get new landing pages in the portal. The functionality is the same but the loading is done differently',
-						enabled: false,
-					},
+					// {
+					// 	key: 'landing-page',
+					// 	title: 'New Landing pages',
+					// 	description:
+					// 		'When enabled you will get new landing pages in the portal. The functionality is the same but the loading is done differently',
+					// 	enabled: false,
+					// },
 					{
 						key: 'project-prediction',
 						title: 'Allocated Projects',

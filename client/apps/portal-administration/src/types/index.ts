@@ -58,6 +58,7 @@ export type FormattedError = {
 
 export type PortalApp = {
 	name: string;
+	displayName: string;
 	id: string;
 	appKey: string;
 	isLegacy: boolean;
