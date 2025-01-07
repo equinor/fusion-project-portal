@@ -32,7 +32,9 @@ export type CurrentPortal = IPortal;
 
 export class Portal implements IPortal {
 	#state: FlowSubject<PortalState, Actions>;
+
 	portalAppConfig: PortalConfig;
+
 	base: BaseConfig;
 
 	constructor(args: { provider: PortalConfigProvider; base: BaseConfig; initialPortalConfig?: PortalState }) {
