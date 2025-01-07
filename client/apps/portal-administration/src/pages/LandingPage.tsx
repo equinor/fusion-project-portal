@@ -9,7 +9,7 @@ import { usePortalsQuery } from '../hooks/use-portals-query';
 import { Loading } from '../components/Loading';
 import * as AllIcons from '@equinor/eds-icons';
 import { Link } from 'react-router-dom';
-import { useAccess } from '../hooks/use-access';
+import { useAccess } from '../access/hooks/useAccess';
 
 export const Styles = {
 	Wrapper: styled.div`
@@ -106,7 +106,7 @@ export const Styles = {
 
 export const LandingPage = (): JSX.Element => {
 	const { isLoading, data: portalsData } = usePortalsQuery();
-	const { isLoading: accessIsLoading, data: isAdmin } = useAccess();
+	const { isCheckingAccess, canPost } = useAccess({ type: 'Portals' });
 	return (
 		<Styles.Wrapper>
 			<Styles.ContentWrapper>
@@ -181,7 +181,7 @@ export const LandingPage = (): JSX.Element => {
 				<Styles.Details>
 					<User />
 					<InfoBox />
-					{accessIsLoading ? null : isAdmin ? (
+					{isCheckingAccess ? null : canPost ? (
 						<>
 							<Button to={'/admin/portals'} as={Link} variant="outlined" color="primary">
 								Advanced View

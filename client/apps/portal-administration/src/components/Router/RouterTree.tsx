@@ -34,7 +34,7 @@ const Style = {
 	`,
 };
 
-export const RouterTree = ({ canEdit }: { canEdit?: boolean }) => {
+export const RouterTree = ({ canEdit }: { canEdit?: boolean; canPost?: boolean }) => {
 	const { createNewRoute, routes, root, rootActive, toggleRoot, seeConfig } = useRouterConfigContext();
 	return (
 		<Style.Router>

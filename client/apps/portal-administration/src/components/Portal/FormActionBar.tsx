@@ -35,10 +35,12 @@ type FormActionBarProps = {
 	isDisabled: boolean;
 	portal: Portal;
 	isIcons?: boolean;
+	canDelete?: boolean;
+	canPut?: boolean;
 	onClose?: VoidFunction;
 };
 
-export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActionBarProps) => {
+export const FormActionBar = ({ isDisabled, portal, isIcons, onClose, canDelete, canPut }: FormActionBarProps) => {
 	const { mutateAsync: deletePortal } = useDeletePortal();
 
 	const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -52,12 +54,16 @@ export const FormActionBar = ({ isDisabled, portal, isIcons, onClose }: FormActi
 						variant={isIcons ? 'ghost_icon' : 'contained'}
 						form="portal"
 						type="submit"
-						disabled={isDisabled}
+						disabled={isDisabled && !canPut}
 					>
 						{!isIcons ? <Icon data={save} size={16} /> : <Icon data={save} />}
 						{!isIcons && 'Save'}
 					</Button>
-					<Button variant={isIcons ? 'ghost_icon' : 'outlined'} onClick={() => setIsDeleting(true)}>
+					<Button
+						variant={isIcons ? 'ghost_icon' : 'outlined'}
+						disabled={!canDelete}
+						onClick={() => setIsDeleting(true)}
+					>
 						{!isIcons ? <Icon data={delete_to_trash} size={16} /> : <Icon data={delete_to_trash} />}
 						{!isIcons && 'Delete'}
 					</Button>

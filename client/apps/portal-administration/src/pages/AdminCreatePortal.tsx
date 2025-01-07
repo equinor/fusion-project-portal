@@ -1,9 +1,10 @@
 import { styled } from 'styled-components';
 import { Loading } from '../components/Loading';
-import { useAccess } from '../hooks/use-access';
+
 import { Typography } from '@equinor/eds-core-react';
 import { PageMessage } from '../components/PageMessage/PageMessage';
 import { CreatePortalForm } from '../components/Portals/CreatePortalForm';
+import { useAccess } from '../access/hooks/useAccess';
 
 const Style = {
 	Content: styled.div`
@@ -14,18 +15,18 @@ const Style = {
 };
 
 export const AdminCreatePortal = () => {
-	const { data: hasAccess, isLoading } = useAccess();
+	const { canPost, isCheckingAccess } = useAccess({ type: 'Portals' });
 
-	if (isLoading) {
+	if (isCheckingAccess) {
 		return <Loading detail="Loading Portals" />;
 	}
 	return (
 		<Style.Content>
-			{isLoading ? (
+			{isCheckingAccess ? (
 				<div style={{ width: '868px', height: '500px' }}>
 					<Loading detail="Checking Access" />
 				</div>
-			) : hasAccess ? (
+			) : canPost ? (
 				<CreatePortalForm />
 			) : (
 				<div style={{ width: '868px', height: '500px' }}>
