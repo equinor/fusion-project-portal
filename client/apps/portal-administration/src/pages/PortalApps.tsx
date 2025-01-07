@@ -24,7 +24,7 @@ export const PortalApps = () => {
 
 	const { data: portalApps, isLoading } = useGetPortalApps(portalId);
 
-	const access = useAccess({ type: 'PortalApps', portalId: portalId || '' });
+	const access = useAccess({ type: 'PortalApps', portalId: portalId });
 
 	if (!portalId) {
 		return <>No portalId provided</>;

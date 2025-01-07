@@ -1,21 +1,19 @@
-import { c } from 'vite/dist/node/types.d-aGj9QkWt';
-
 export type AccessConfig =
 	| { type: 'ContextTypes' }
-	| { type: 'ContextType'; contextType: string }
+	| { type: 'ContextType'; contextType?: string }
 	| { type: 'OnboardedApps' }
-	| { type: 'OnboardedApp'; appKey: string }
-	| { type: 'OnboardedAppContextTypes'; appKey: string }
-	| { type: 'OnboardedAppContextType'; appKey: string; contextType: string }
+	| { type: 'OnboardedApp'; appKey?: string }
+	| { type: 'OnboardedAppContextTypes'; appKey?: string }
+	| { type: 'OnboardedAppContextType'; appKey?: string; contextType?: string }
 	| { type: 'OnboardedContexts' }
-	| { type: 'OnboardedContext'; contextId: string }
+	| { type: 'OnboardedContext'; contextId?: string }
 	| { type: 'OnboardedContextType' }
 	| { type: 'Portals' }
-	| { type: 'Portal'; portalId: string }
-	| { type: 'PortalConfiguration'; portalId: string }
-	| { type: 'PortalApps'; portalId: string }
-	| { type: 'PortalApp'; portalId: string; appKey: string }
-	| { type: 'PortalContextApp'; portalId: string; contextId: string };
+	| { type: 'Portal'; portalId?: string }
+	| { type: 'PortalConfiguration'; portalId?: string }
+	| { type: 'PortalApps'; portalId?: string }
+	| { type: 'PortalApp'; portalId?: string; appKey?: string }
+	| { type: 'PortalContextApp'; portalId?: string; contextId?: string };
 
 export type AccessType = AccessConfig['type'];
 
@@ -40,40 +38,58 @@ export function getOptionsUrlByType<T extends AccessType>(config: AccessArgs<T>)
 		}
 		case 'OnboardedAppContextType': {
 			const { appKey, contextType } = config as AccessArgs<'OnboardedAppContextType'>;
+			if (!appKey || !contextType) {
+				return;
+			}
 			return `api/onboarded-apps/${appKey}/context-types/${contextType}`;
 		}
 		case 'OnboardedContexts':
 			return `api/onboarded-contexts`;
 		case 'OnboardedContext': {
 			const { contextId } = config as AccessArgs<'OnboardedContext'>;
+			if (!contextId) {
+				return;
+			}
 			return `api/onboarded-contexts/${contextId}`;
 		}
 		case 'Portals':
 			return `api/portals`;
 		case 'Portal': {
 			const { portalId } = config as AccessArgs<'Portal'>;
+			if (!portalId) {
+				return;
+			}
 			return `api/portals/${portalId}`;
 		}
 		case 'PortalConfiguration': {
 			const { portalId } = config as AccessArgs<'PortalConfiguration'>;
+			if (!portalId) {
+				return;
+			}
 			return `api/portals/${portalId}/configuration`;
 		}
 		case 'PortalApps': {
 			const { portalId } = config as AccessArgs<'PortalApps'>;
+			if (!portalId) {
+				return;
+			}
 			return `api/portals/${portalId}/apps`;
 		}
 		case 'PortalApp': {
 			const { portalId, appKey } = config as AccessArgs<'PortalApp'>;
+			if (!portalId || !appKey) {
+				return;
+			}
 			return `api/portals/${portalId}/apps/${appKey}`;
 		}
 		case 'PortalContextApp': {
 			const { portalId, contextId } = config as AccessArgs<'PortalContextApp'>;
+			if (!portalId || !contextId) {
+				return;
+			}
 			return `api/portals/${portalId}/contexts/${contextId}/apps`;
 		}
 		default:
 			return;
 	}
 }
-
-getOptionsUrlByType({ type: 'Portals' });
-getOptionsUrlByType({ type: 'Portal', portalId: '123' });

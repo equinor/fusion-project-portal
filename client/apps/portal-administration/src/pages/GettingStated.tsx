@@ -8,10 +8,6 @@ import { User } from '../components/User/User';
 import { InfoBox } from '../components/InfoBox/InfoBox';
 
 import { CardContent } from '@equinor/eds-core-react/dist/types/components/Card/CardContent';
-import { i } from 'vite/dist/node/types.d-aGj9QkWt';
-import { useAccess } from '../hooks/use-access';
-import { Loading } from '../components/Loading';
-import { PageMessage } from '../components/PageMessage/PageMessage';
 
 export const Styles = {
 	Wrapper: styled.div`

@@ -17,7 +17,6 @@ import { ShortNameInput } from '../FormComponents/ShortNameInput';
 import { SubtextInput } from '../FormComponents/SubTextInput';
 import { IconInput } from '../FormComponents/IconInput';
 import { AddAdmins } from '../FormComponents/AddAdmins';
-import { useCurrentAccount } from '@equinor/fusion-framework-react-app/msal';
 import { useAccess } from '../../access/hooks/useAccess';
 
 const Style = {
