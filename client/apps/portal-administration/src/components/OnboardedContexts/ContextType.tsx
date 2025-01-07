@@ -12,7 +12,7 @@ import { useCreateContextType, useGetContextTypes } from '../../hooks/use-contex
 import { ContextTypeTable } from './ContextTypeTable';
 import { InfoPopover } from '../InfoPopover';
 import { useState } from 'react';
-import { useAccess } from '../../hooks/use-access';
+import { useAccess } from '../../access/hooks/useAccess';
 
 const Style = {
 	Content: styled.div`
@@ -53,7 +53,7 @@ const Style = {
 
 export const EditContextTypeForm = () => {
 	const { mutateAsync: createContextType, reset: resetCreate } = useCreateContextType();
-	const { data: isAdmin } = useAccess();
+	const { canPost, canDelete } = useAccess({ type: 'ContextTypes' });
 	const {
 		register,
 		handleSubmit,
@@ -78,7 +78,7 @@ export const EditContextTypeForm = () => {
 
 	return (
 		<Style.Content>
-			{isAdmin && (
+			{canPost && (
 				<Style.Card>
 					<Style.Row onClick={() => setActive((s) => !s)}>
 						<Style.Row>
@@ -118,7 +118,7 @@ export const EditContextTypeForm = () => {
 					)}
 				</Style.Card>
 			)}
-			{contextTypes?.length && <ContextTypeTable contextTypes={contextTypes} isAdmin={isAdmin} />}
+			{contextTypes?.length && <ContextTypeTable contextTypes={contextTypes} canDelete={canPost || canDelete} />}
 		</Style.Content>
 	);
 };

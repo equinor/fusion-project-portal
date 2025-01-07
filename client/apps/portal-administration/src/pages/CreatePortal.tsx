@@ -8,10 +8,10 @@ import { User } from '../components/User/User';
 import { InfoBox } from '../components/InfoBox/InfoBox';
 
 import { CardContent } from '@equinor/eds-core-react/dist/types/components/Card/CardContent';
-import { i } from 'vite/dist/node/types.d-aGj9QkWt';
-import { useAccess } from '../hooks/use-access';
+
 import { Loading } from '../components/Loading';
 import { PageMessage } from '../components/PageMessage/PageMessage';
+import { useAccess } from '../access/hooks/useAccess';
 
 export const Styles = {
 	Wrapper: styled.div`
@@ -83,18 +83,18 @@ export const Styles = {
 };
 
 export const CreatePortal = (): JSX.Element => {
-	const { data: hasAccess, isLoading } = useAccess();
+	const { canPost, isCheckingAccess } = useAccess({ type: 'Portals' });
 
 	return (
 		<Styles.Wrapper>
 			<Styles.ContentWrapper>
 				<Styles.Content>
 					<Typography variant="h1">Create New Portal</Typography>
-					{isLoading ? (
+					{isCheckingAccess ? (
 						<div style={{ width: '868px', height: '500px' }}>
 							<Loading detail="Checking Access" />
 						</div>
-					) : hasAccess ? (
+					) : canPost ? (
 						<CreatePortalForm />
 					) : (
 						<div style={{ width: '868px', height: '500px' }}>

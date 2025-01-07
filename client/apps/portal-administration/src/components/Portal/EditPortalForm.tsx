@@ -17,8 +17,7 @@ import { ShortNameInput } from '../FormComponents/ShortNameInput';
 import { SubtextInput } from '../FormComponents/SubTextInput';
 import { IconInput } from '../FormComponents/IconInput';
 import { AddAdmins } from '../FormComponents/AddAdmins';
-import { useCurrentAccount } from '@equinor/fusion-framework-react-app/msal';
-import { useAccess } from '../../hooks/use-access';
+import { useAccess } from '../../access/hooks/useAccess';
 
 const Style = {
 	Wrapper: styled.div`
@@ -100,13 +99,7 @@ export const EditPortalForm = (props: {
 		onDisabled && onDisabled(disabled);
 	}, [disabled, onDisabled]);
 
-	const { data: isAdmin } = useAccess();
-
-	const account = useCurrentAccount();
-	const canEdit = useMemo(
-		() => watch().admins?.some((admin) => admin.azureUniqueId === account?.localAccountId) || isAdmin,
-		[watch().admins, account, isAdmin]
-	);
+	const { canPut, canDelete } = useAccess({ type: 'Portal', portalId: props.portal.id });
 
 	return (
 		<Style.Wrapper>
@@ -114,21 +107,21 @@ export const EditPortalForm = (props: {
 				<Style.Heading variant="h5">General</Style.Heading>
 				<Style.From onSubmit={handleSubmit(onSubmit)} id="portal">
 					<IdInput register={register} errors={errors} />
-					<NameInput register={register} errors={errors} canEdit={canEdit} />
+					<NameInput register={register} errors={errors} canEdit={canPut} />
 					<Style.Row>
-						<ShortNameInput register={register} errors={errors} canEdit={canEdit} />
-						<SubtextInput register={register} errors={errors} canEdit={canEdit} />
+						<ShortNameInput register={register} errors={errors} canEdit={canPut} />
+						<SubtextInput register={register} errors={errors} canEdit={canPut} />
 					</Style.Row>
-					<DescriptionInput register={register} errors={errors} canEdit={canEdit} />
+					<DescriptionInput register={register} errors={errors} canEdit={canPut} />
 				</Style.From>
 			</Style.Card>
 			<Style.Card>
 				<Style.Heading variant="h5">Admins</Style.Heading>
-				<AddAdmins watch={watch} setValue={setValue} errors={errors} canEdit={canEdit} />
+				<AddAdmins watch={watch} setValue={setValue} errors={errors} canEdit={canPut} />
 			</Style.Card>
 			<Style.Card>
 				<Typography variant="h5">Icon</Typography>
-				<IconInput register={register} errors={errors} icon={watch().icon} canEdit={canEdit} />
+				<IconInput register={register} errors={errors} icon={watch().icon} canEdit={canPut} />
 			</Style.Card>
 			<Style.Card>
 				<Typography variant="h5">Portal Type</Typography>
@@ -142,14 +135,14 @@ export const EditPortalForm = (props: {
 						value="app-portal"
 						checked={type === 'app-portal'}
 						onChange={onTypeChange}
-						disabled={!canEdit}
+						disabled={!canPut}
 					/>
 					<Radio
 						label="Context Portal"
 						value="context-portal"
 						checked={type === 'context-portal'}
 						onChange={onTypeChange}
-						disabled={!canEdit}
+						disabled={!canPut}
 					/>
 				</Style.Row>
 			</Style.Card>
@@ -160,7 +153,7 @@ export const EditPortalForm = (props: {
 						<Typography variant="h5">Context</Typography>
 					</div>
 
-					{canEdit ? (
+					{canPut ? (
 						<Autocomplete
 							id="textfield-context-types"
 							multiple
@@ -182,11 +175,16 @@ export const EditPortalForm = (props: {
 				</Style.Card>
 			)}
 
-			{!props.isSideSheet && canEdit && (
+			{!props.isSideSheet && (
 				<Style.Card>
 					<Typography variant="overline">Portal Actions</Typography>
 					<Style.Row>
-						<FormActionBar isDisabled={isSubmitting || disabled} portal={props.portal} />
+						<FormActionBar
+							isDisabled={isSubmitting || disabled}
+							portal={props.portal}
+							canPut={canPut}
+							canDelete={canDelete}
+						/>
 					</Style.Row>
 				</Style.Card>
 			)}
