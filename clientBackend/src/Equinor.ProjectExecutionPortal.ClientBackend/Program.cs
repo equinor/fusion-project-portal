@@ -85,7 +85,8 @@ app.Use((context, next) =>
 // Used for Radix
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    Secure = CookieSecurePolicy.Always
+    Secure = CookieSecurePolicy.Always,
+    MinimumSameSitePolicy = SameSiteMode.None
 });
 
 app.UseRouting();
