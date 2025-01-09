@@ -86,7 +86,7 @@ app.Use((context, next) =>
 app.UseCookiePolicy(new CookiePolicyOptions
 {
     Secure = CookieSecurePolicy.Always,
-    MinimumSameSitePolicy = SameSiteMode.None
+    MinimumSameSitePolicy = SameSiteMode.Lax
 });
 
 app.UseRouting();
