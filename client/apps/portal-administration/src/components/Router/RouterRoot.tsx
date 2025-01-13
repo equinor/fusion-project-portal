@@ -35,7 +35,7 @@ const Style = {
 	`,
 };
 
-export const RouterRoot = ({ canEdit, canPost }: { canEdit?: boolean; canPost?: boolean }) => {
+export const RouterRoot = ({ canEdit }: { canEdit?: boolean }) => {
 	const { root, updateRoot, createNewRoute, routes } = useRouterConfigContext();
 	const { mutate } = useUpdatePortalConfig();
 	const {
@@ -105,7 +105,7 @@ export const RouterRoot = ({ canEdit, canPost }: { canEdit?: boolean; canPost?: 
 					</Style.CardContent>
 				</Card>
 			</Card>
-			{canPost && (
+			{canEdit && (
 				<Card>
 					<Style.CardContent>
 						<Typography variant="overline">Base Route Actions</Typography>
