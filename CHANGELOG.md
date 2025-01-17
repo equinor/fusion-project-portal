@@ -1,5 +1,19 @@
 # fusion-project-portal
 
+## 7.1.0
+
+### Minor Changes
+
+- d0c5082: - Added OPTIONS endpoints for most API resources
+- d0c5082: - Added OPTIONS endpoints for most API resources
+- f45ba5a: - Removed Profile Controller as it is unused after moving to OPTIONS endpoints
+- 3ebfc39: Refactor access management for more granular access management for portals
+
+### Patch Changes
+
+- 13786e6: Update SignalR hub path for servicemessages
+- dfe2328: Update subtitle to use displayName instead of name
+
 ## 7.0.0
 
 ### Major Changes
