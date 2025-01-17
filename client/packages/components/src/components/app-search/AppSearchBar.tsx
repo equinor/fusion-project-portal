@@ -113,7 +113,7 @@ export const AppSearchBar = (): JSX.Element => {
 					return {
 						id: app.appKey,
 						title: app.displayName,
-						subTitle: app.category?.name,
+						subTitle: app.category?.displayName,
 						graphic: getSearchAppIcon(app),
 						graphicType: 'inline-svg',
 					} as SearchableDropdownResultItem;
