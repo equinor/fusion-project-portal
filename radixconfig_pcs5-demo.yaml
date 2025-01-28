@@ -11,6 +11,8 @@ spec:
       build:
         from: feat/pcs5-radix
     - name: test
+      build:
+        from: feat/pcs5-radix
   components:
     # Web Server - One
     - name: one
