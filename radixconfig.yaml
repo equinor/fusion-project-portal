@@ -14,8 +14,6 @@ spec:
       build:
         from: main
     - name: fqa
-      build:
-        from: feat-add-new-fqa-env
     - name: prod
   dnsExternalAlias:
     - alias: project.fusion.equinor.com
