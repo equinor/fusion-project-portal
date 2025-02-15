@@ -19,7 +19,11 @@ export const getIncidentsQuery = async (client: IHttpClient, azureUniqueId?: str
 
 export const createIncidentsQuery = async (
 	client: IHttpClient,
-	body: { shortDescription: string; description: string; metadata: Record<string, string> },
+	body: {
+		description: string;
+		shortDescription: string;
+		metadata: Record<string, string>;
+	},
 	azureUniqueId?: string
 ) => {
 	const response = await client.fetch<Response>(`persons/${azureUniqueId}/incidents`, {
