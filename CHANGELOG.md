@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.0
+
+### Major Changes
+
+- cffa892: Feature flag removed so all landing pages are now loaded as fusion applications
+
 ## 7.1.0
 
 ### Minor Changes
