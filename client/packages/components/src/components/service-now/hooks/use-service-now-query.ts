@@ -28,7 +28,11 @@ export const useCreateServiceNowIncidents = () => {
 	return useMutation<
 		Incident,
 		FormattedError,
-		{ description: string; shortDescription: string; metadata: Record<string, string> },
+		{
+			description: string;
+			shortDescription: string;
+			metadata: Record<string, string>;
+		},
 		Incident
 	>({
 		mutationKey: ['new-service-now-incidents', user?.localAccountId || ''],
