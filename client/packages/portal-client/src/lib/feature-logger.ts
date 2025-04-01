@@ -2,6 +2,7 @@
 import { AppManifest, AppModule } from '@equinor/fusion-framework-module-app';
 import { ContextItem } from '@equinor/fusion-framework-module-context';
 import { Fusion } from '@equinor/fusion-framework-react';
+import { retry } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
 const getSessionId = () => {
@@ -108,47 +109,74 @@ export class FeatureLogger {
 
 	private context: ContextItem | undefined = undefined;
 
+
 	constructor(private fusion: Omit<Fusion<[AppModule]>['modules'], 'dispose'>) {
 		this.fusion.event.addEventListener('onAppManifestLoaded', (e) => {
-			this.manifest = e.detail.manifest;
 
+			if (this.manifest?.appKey === e.detail.manifest.appKey) return;
+			this.manifest = e.detail.manifest;
+			console.log('App selected');
 			this.log('App selected');
 		});
 		this.fusion.event.addEventListener('onCurrentContextChanged', (e) => {
+
+			if (this.context?.id === e.detail.next?.id) return;
 			this.context = e.detail.next || undefined;
 			if (e.detail.next) this.log('Context selected');
 		});
 	}
 
 	public log = (type: 'App selected' | 'Context selected') => {
+		console.log('dispatching logs', type, this.entries);
 		const entire = getEntry(type, this.manifest, this.context);
 		if (entire && !this.entries.find((e) => e.dateTimeUtc.toString() === entire.dateTimeUtc.toString())) {
 			this.entries.push(entire);
 		}
-		this.scheduleDispatch();
+		try {
+			this.scheduleDispatch(type);
+		} catch (error) {
+			// suppress error
+		}
 	};
 
-	private scheduleDispatch = () => {
+	private scheduleDispatch = (type: string) => {
 		if (this.timer) {
 			clearTimeout(this.timer);
 		}
 
 		if (this.entries.length >= 3) {
-			this.dispatchLogs();
+			try {
+				this.dispatchLogs(type);
+				return
+			} catch (error) {
+				// suppress error
+			}
 			return;
 		}
-		this.timer = setTimeout(() => {
-			this.dispatchLogs();
+		this.timer = setTimeout(async () => {
+			try {
+				this.dispatchLogs(type);
+
+			} catch (error) {
+				// suppress error
+			}
 		}, 5000);
 	};
 
-	private dispatchLogs = async () => {
+	private dispatchLogs = async (type: string) => {
+
 		if (this.entries.length === 0) {
 			return;
 		}
 
 		if (this.state === 'sending') {
-			this.scheduleDispatch();
+			try {
+
+				this.scheduleDispatch(type);
+				return
+				} catch (error) {
+					// suppress error
+				}
 			return;
 		}
 
