@@ -20,7 +20,7 @@ export const ContextSelector = ({ variant }: ContextSelectorProps) => {
 				e.stopPropagation();
 				// sins this is a single select the will be the next context at index 0
 				const context = (e.nativeEvent.detail.selected as ContextResult)[0];
-				contextProvider.contextClient.setCurrentContext(context.id);
+				contextProvider.setCurrentContextByIdAsync(context.id);
 			}}
 			value={currentContext?.id ? currentContext?.title || '' : ''}
 			placeholder="Start to type to search..."
