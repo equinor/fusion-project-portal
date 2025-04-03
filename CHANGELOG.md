@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.1
+
+### Patch Changes
+
+- 9163cc8: added landing page feature flag for testing
+
 ## 8.0.0
 
 ### Major Changes
