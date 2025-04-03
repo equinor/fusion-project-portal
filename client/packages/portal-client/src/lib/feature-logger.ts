@@ -115,7 +115,6 @@ export class FeatureLogger {
 
 			if (this.manifest?.appKey === e.detail.manifest.appKey) return;
 			this.manifest = e.detail.manifest;
-			console.log('App selected');
 			this.log('App selected');
 		});
 		this.fusion.event.addEventListener('onCurrentContextChanged', (e) => {
@@ -127,7 +126,6 @@ export class FeatureLogger {
 	}
 
 	public log = (type: 'App selected' | 'Context selected') => {
-		console.log('dispatching logs', type, this.entries);
 		const entire = getEntry(type, this.manifest, this.context);
 		if (entire && !this.entries.find((e) => e.dateTimeUtc.toString() === entire.dateTimeUtc.toString())) {
 			this.entries.push(entire);
