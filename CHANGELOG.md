@@ -1,5 +1,16 @@
 # fusion-project-portal
 
+## 8.0.0
+
+### Major Changes
+
+- cffa892: Feature flag removed so all landing pages are now loaded as fusion applications
+
+### Patch Changes
+
+- 2307828: Build Trigger
+- 0e4be8d: improve error handling and logging in FeatureLogger and update context selection method
+
 ## 7.1.0
 
 ### Minor Changes
