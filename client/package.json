@@ -93,7 +93,7 @@
     "@microsoft/applicationinsights-web": "^3.0.2",
     "@microsoft/signalr": "^7.0.0",
     "adaptivecards": "^2.11.2",
-    "dompurify": "^2.4.9",
+    "dompurify": "^3.2.4",
     "luxon": "^3.2.1",
     "marked": "^4.2.5",
     "re-resizable": "^6.9.9",
