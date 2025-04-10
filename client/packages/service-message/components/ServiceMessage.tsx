@@ -68,14 +68,18 @@ const portalNameMapper = (identifier: string) => {
 };
 
 export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
-	const { appsMessages, portalMessages, messages } = useServiceMessage();
-	const {apps} = usePortalAppsConfig();
-	const [compact] = useState(false);
+	const { appsMessages, portalMessages } = useServiceMessage();
+	const { apps } = usePortalAppsConfig();
+	const [ compact ] = useState(false);
+
+	const appKeys = useMemo(() => {
+		return (apps || []).map((app) => app.appKey);
+	}
+	, [apps]);
 
 	const appsMessagesFiltered = useMemo(()=> appsMessages.filter((app) => {
-		const appConfig = apps?.find((a) => a.key === app.key);
-		return Boolean(appConfig);
-	}) , [appsMessages, apps]);
+		return appKeys.includes(app.key);
+	}) , [appsMessages, appKeys]);
 
 
 
