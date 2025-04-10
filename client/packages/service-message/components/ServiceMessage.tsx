@@ -15,7 +15,7 @@ import Tooltip from '@equinor/fusion-react-tooltip';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { ServiceMessageTooltip } from './ServiceMessageIcon';
-import { usePortalAppsConfig } from '../../core/src';
+import { usePortalAppsConfig } from '@portal/core';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
