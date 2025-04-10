@@ -1,6 +1,6 @@
 import { Icon, Typography } from '@equinor/eds-core-react';
 
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,6 +15,7 @@ import Tooltip from '@equinor/fusion-react-tooltip';
 import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { ServiceMessageTooltip } from './ServiceMessageIcon';
+import { usePortalAppsConfig } from '../../core/src';
 
 export function ServiceMessages({ action, onClose, open }: PortalActionProps) {
 	const { appKey } = useParams();
@@ -68,7 +69,15 @@ const portalNameMapper = (identifier: string) => {
 
 export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) => {
 	const { appsMessages, portalMessages, messages } = useServiceMessage();
+	const {apps} = usePortalAppsConfig();
 	const [compact] = useState(false);
+
+	const appsMessagesFiltered = useMemo(()=> appsMessages.filter((app) => {
+		const appConfig = apps?.find((a) => a.key === app.key);
+		return Boolean(appConfig);
+	}) , [appsMessages, apps]);
+
+
 
 	return (
 		<>
@@ -97,11 +106,11 @@ export const ServiceMessageWidget: FC<ServiceMessageWidgetProps> = ({ appKey }) 
 			<Styles.Wrapper>
 				<Styles.HeadingWrapper>
 					<Typography variant="h5">
-						App Status ({messages.filter((a) => a.scope === 'App').length})
+						App Status ({appsMessagesFiltered.length})
 					</Typography>
 				</Styles.HeadingWrapper>
-				{appsMessages.length > 0 ? (
-					appsMessages
+				{appsMessagesFiltered.length > 0 ? (
+					appsMessagesFiltered
 						.sort(sortCurrentAppToTop(appKey))
 						.map((appMessageGroup) => (
 							<ServiceMessageList
