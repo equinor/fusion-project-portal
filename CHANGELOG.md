@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.2
+
+### Patch Changes
+
+- fa0c0e9: Remove unnecessary messages for apps that are not active in portal
+
 ## 8.0.1
 
 ### Patch Changes
