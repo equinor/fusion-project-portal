@@ -77,7 +77,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
+		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options.requiresAuth);
 
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
@@ -158,6 +158,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);
+			builder.setLogLevel(4);
 		});
 
 		/** Enable Navigation module  */
