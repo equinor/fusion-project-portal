@@ -1,5 +1,15 @@
 # fusion-project-portal
 
+## 8.0.3
+
+### Patch Changes
+
+- 4d59d2d: Updating fusion-framework packages to be up to date with the latest releases and new applications using the latest bookmark module from the framework.
+
+  This is required to use the new pbi template app in the project portal.
+
+  Setting necessary parameters to BookmarkProvider
+
 ## 8.0.2
 
 ### Patch Changes
