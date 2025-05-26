@@ -1,5 +1,5 @@
 import { Icon, Popover, Typography } from '@equinor/eds-core-react';
-import { info_circle, title } from '@equinor/eds-icons';
+import { info_circle } from '@equinor/eds-icons';
 import { tokens } from '@equinor/eds-tokens';
 import { PersonCell } from '@equinor/fusion-react-person';
 import { useRef, useState } from 'react';
@@ -56,7 +56,7 @@ export const DataInfo = ({ dataSource, azureUniqueId, access, title }: DataInfoP
 						{azureUniqueId && (
 							<>
 								<Typography variant="overline">Contact person</Typography>
-								<PersonCell azureId={azureUniqueId} showAvatar subHeading={(u) => u.mail} />
+								<PersonCell azureId={azureUniqueId} showAvatar subHeading={(u: { mail?: string }) => u.mail} />
 							</>
 						)}
 					</Style.Content>

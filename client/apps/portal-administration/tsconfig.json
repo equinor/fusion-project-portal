@@ -11,7 +11,7 @@
         "preserveConstEnums": true,
 
         "inlineSourceMap":true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "stripInternal": true,

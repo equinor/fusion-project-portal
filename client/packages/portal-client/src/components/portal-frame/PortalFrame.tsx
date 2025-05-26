@@ -11,7 +11,7 @@ import { ServiceMessageFilter } from '../service-message-filter/ServiceMessageFi
 import styled from 'styled-components';
 import { useCurrentUser } from '@equinor/fusion-framework-react/hooks';
 import { useCurrentApp } from '@equinor/fusion-framework-react/app';
-import { useFrameworkModule } from '@equinor/fusion-framework-react';
+import { useFramework } from '@equinor/fusion-framework-react';
 import { BookmarkModule } from '@equinor/fusion-framework-react-module-bookmark';
 
 const Styles = {
@@ -30,8 +30,8 @@ const Styles = {
 export const PortalFrame = () => {
 	const currentUser = useCurrentUser();
 	const { currentApp} = useCurrentApp();
-	const bookmarkProvider = useFrameworkModule<[BookmarkModule]>('bookmark');
-	
+	const {bookmark: bookmarkProvider} = useFramework<[BookmarkModule]>().modules;
+
 	useBookmarkNavigate({ resolveAppPath: (appKey: string) => `/apps/${appKey}/` });
 
 	return (

@@ -1,7 +1,6 @@
 import { BehaviorSubject, Observable, firstValueFrom, from } from 'rxjs';
 import { IPortalAppsClient } from './portal-apps-client';
 import { PortalAppsConfiguration } from './configurator';
-import { aR } from 'vitest/dist/reporters-yx5ZTtEV';
 
 export interface IPortalAppsProvider {
 	getAppKeys(args?: { contextId?: string }): Promise<void>;
