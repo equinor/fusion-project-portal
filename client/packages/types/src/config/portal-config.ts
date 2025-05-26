@@ -1,5 +1,4 @@
-import { AuthClientOptions } from '@equinor/fusion-framework-module-msal';
-import { SourceSystem } from '@equinor/fusion-framework-module-services/bookmarks';
+
 
 export type LoggerLevel = 0 | 1 | 2 | 4 | 3;
 
@@ -46,4 +45,16 @@ export interface PortalConfig {
 export interface Client {
 	baseUri: string;
 	defaultScopes: string[];
+}
+
+
+type AuthClientOptions = {
+ 	tenantId: string;
+    clientId: string;
+    redirectUri: string;
+}
+type SourceSystem = {
+	name: string;
+  	identifier: string;
+  	subSystem: string;
 }

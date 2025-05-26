@@ -29,6 +29,6 @@ export function Bookmarks({ action, onClose, open }: PortalActionProps) {
 			</SideSheet.Content>
 		</SideSheet>
 	);
-};
+}
 
 export default Bookmarks;
