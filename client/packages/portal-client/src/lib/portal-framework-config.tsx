@@ -77,7 +77,7 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options);
+		config.configureMsal(portalConfig.msal.client, portalConfig.msal.options.requiresAuth);
 
 		if (portalConfig.agGrid?.licenseKey) {
 			enableAgGrid(config, portalConfig.agGrid);
