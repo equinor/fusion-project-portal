@@ -158,7 +158,6 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 
 		enableBookmark(config, (builder) => {
 			builder.setSourceSystem(portalConfig.bookmarks);
-			builder.setLogLevel(4);
 		});
 
 		/** Enable Navigation module  */
