@@ -11,7 +11,7 @@ jobs:
     if: ${{ github.event.pull_request.draft == false && github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' && github.event.pull_request.title != 'Fusion Project Portal Release'}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Create changeset
         id: create-changeset

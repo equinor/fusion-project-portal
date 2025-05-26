@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [21.x]
+        version: [22.x]
     env:
       commit-author: bot
       author-email: bot@equinor.com
