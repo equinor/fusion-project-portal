@@ -13,11 +13,11 @@ jobs:
     name: Open Pull Request
     strategy:
       matrix:
-        version: [21.x]
+        version: [22.x]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: ./.github/actions/node-setup
