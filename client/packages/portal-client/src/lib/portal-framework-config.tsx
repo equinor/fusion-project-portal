@@ -9,13 +9,7 @@ import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
 import { enableAgGrid } from '@equinor/fusion-framework-module-ag-grid';
 import { signalRConfigurator } from './signal-ir-configurator';
-import {
-	enablePortalApps,
-	enablePortalMenu,
-	enableTelemetry,
-	IPortalConfigProvider,
-	TelemetryModule,
-} from '@portal/core';
+import { enablePortalApps, enablePortalMenu, enableTelemetry, TelemetryModule } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
 import { enableContext } from '@equinor/fusion-framework-module-context';
 import { enableFeatureFlagging } from '@equinor/fusion-framework-module-feature-flag';

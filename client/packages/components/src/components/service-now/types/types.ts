@@ -13,6 +13,7 @@ export type Incident = {
 	link: string;
 	number: string;
 	shortDescription: string;
+	assistanceDescription: string;
 	state: string;
 	type: string;
 };
