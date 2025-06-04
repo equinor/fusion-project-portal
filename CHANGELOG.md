@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.5
+
+### Patch Changes
+
+- 5654e0e: update bookmark
+
 ## 8.0.4
 
 ### Patch Changes
