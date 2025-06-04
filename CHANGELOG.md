@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.6
+
+### Patch Changes
+
+- 182d37a: add bookmark initialization and update portal framework configuration
+
 ## 8.0.5
 
 ### Patch Changes
