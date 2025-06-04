@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.4
+
+### Patch Changes
+
+- 13581e1: Added the ability to copy bookmarks to the clipboard in the bookmark component when bookmark is shared with the user. This allows users to easily share bookmarks with others by copying the bookmark link to their clipboard.
+
 ## 8.0.3
 
 ### Patch Changes
