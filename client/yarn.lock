@@ -664,13 +664,13 @@
     "@equinor/fusion-framework-react-module" "^3.1.12"
     "@equinor/fusion-framework-react-module-http" "^9.0.2"
 
-"@equinor/fusion-framework-react-components-bookmark@^1.0.21":
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-components-bookmark/-/fusion-framework-react-components-bookmark-1.0.21.tgz#951fabe0310bdcd8ee2e2767827c5f8d32f70c86"
-  integrity sha512-2cJxvMC7W3RBD5hzZuZt4NFdq30dYX3O5CMuf64jrdSHQa6C8BluvEci7mdeQ5bJ59yo6pIk8wAZKoj6LKrOBQ==
+"@equinor/fusion-framework-react-components-bookmark@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-components-bookmark/-/fusion-framework-react-components-bookmark-1.0.22.tgz#8874177266939a17e6c7dfe5f4a42a8b21999732"
+  integrity sha512-Cqix6PUhAW0+F36hgzNAmhnA4XeM+vcl0P5mHy06NuonPOdseD9QmDVYLCc6XWJFwJ0Hf+q6X0iGtkA+LiW02w==
   dependencies:
     "@equinor/fusion-framework-react" "^7.4.13"
-    "@equinor/fusion-framework-react-module-bookmark" "^4.0.4"
+    "@equinor/fusion-framework-react-module-bookmark" "^4.0.5"
     "@equinor/fusion-observable" "^8.5.0"
     rxjs "^7.8.1"
 
@@ -685,10 +685,10 @@
     "@equinor/fusion-query" "^5.2.8"
     rxjs "^7.8.1"
 
-"@equinor/fusion-framework-react-module-bookmark@^4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-bookmark/-/fusion-framework-react-module-bookmark-4.0.4.tgz#5a988c28a4349396ed315906356ab526f0164fc8"
-  integrity sha512-YVh8CEBIt1IUSwrnC6SZLIsY2jnv7pEjunHbQaXQkV5a6AszOjtKrhYt+bgpVfdNV1HUgOR89CN2JvYYfNMVLw==
+"@equinor/fusion-framework-react-module-bookmark@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@equinor/fusion-framework-react-module-bookmark/-/fusion-framework-react-module-bookmark-4.0.5.tgz#70d2fbae8bf7173c84cdfc41fb3be84fc74a5a03"
+  integrity sha512-QRUH3QD4enSss8sDX1LJ+b33fusZE4DC3XEcXLqz3X+Lp4nHwEP9Z8kF2GGGJT2QaB9M8++njMpKvsRVNZtNDw==
   dependencies:
     "@equinor/fusion-framework-module-bookmark" "^2.1.10"
     "@equinor/fusion-observable" "^8.5.0"
