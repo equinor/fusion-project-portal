@@ -1,6 +1,6 @@
 {
   "name": "fusion-project-portal",
-  "version": "8.0.5",
+  "version": "8.0.6",
   "license": "MIT",
   "description": "Project Portal powered by Fusion",
   "devDependencies": {
