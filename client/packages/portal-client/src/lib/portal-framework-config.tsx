@@ -3,7 +3,7 @@ import { AppModule, enableAppModule } from '@equinor/fusion-framework-module-app
 import { enableNavigation, NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
 import { enableSignalR } from '@equinor/fusion-framework-module-signalr';
-import { enableBookmark } from '@equinor/fusion-framework-module-bookmark';
+import { BookmarkModule, enableBookmark } from '@equinor/fusion-framework-module-bookmark';
 import { addPortalClient, configurePortalContext } from '@equinor/portal-core';
 import { skip } from 'rxjs';
 import { replaceContextInPathname } from '../utils/context-utils';
@@ -13,7 +13,6 @@ import {
 	enablePortalApps,
 	enablePortalMenu,
 	enableTelemetry,
-	IPortalConfigProvider,
 	TelemetryModule,
 } from '@portal/core';
 import { LoggerLevel, PortalConfig } from '@portal/types';
@@ -24,6 +23,7 @@ import { FeatureLogger } from './feature-logger';
 import { enablePortalConfig } from '@portal/core';
 import { PortalConfig as PortalConfigModule } from '@portal/core';
 import { enableServiceDiscovery } from '@equinor/fusion-framework-module-service-discovery';
+import { initBookmarkUrlParams } from './bookmark-init';
 
 const showInfo = false;
 
@@ -224,12 +224,16 @@ export function createPortalFramework(portalConfig: PortalConfig) {
 			});
 		}
 
-		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule]>(async (fusion) => {
+		config.onInitialized<[NavigationModule, TelemetryModule, AppModule, PortalConfigModule, BookmarkModule]>(async (fusion) => {
 			new FeatureLogger(fusion);
+
+			initBookmarkUrlParams(fusion.bookmark);
 
 			fusion.portalConfig.current.portalConfig$.subscribe((portal) => {
 				document.title = `${portal?.name} | Fusion` || `Fusion`;
 			});
+
+
 
 			// Todo: should be moved to context module
 
