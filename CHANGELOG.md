@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.7
+
+### Patch Changes
+
+- 5867166: Update Fusion Bookmark
+
 ## 8.0.6
 
 ### Patch Changes
