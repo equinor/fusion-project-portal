@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@equinor/eds-core-react": "^0.42.0",
-    "@equinor/fusion": "^3.4.16",
+    "@equinor/fusion": "^3.4.17",
     "@equinor/fusion-components": "^2.12.0",
     "@equinor/fusion-framework-app": "^9.1.10",
     "@equinor/fusion-framework-module-app": "^6.0.0",
