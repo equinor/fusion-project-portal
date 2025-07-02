@@ -1,5 +1,12 @@
 # fusion-project-portal
 
+## 8.0.7
+
+### Patch Changes
+
+- 07be407: Update various fusion-framework modules to their latest versions
+- 5867166: Update Fusion Bookmark
+
 ## 8.0.6
 
 ### Patch Changes
