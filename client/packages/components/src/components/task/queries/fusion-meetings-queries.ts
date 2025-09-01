@@ -26,7 +26,7 @@ export function myMeetingsActionSelector(tasks: MeetingAction[]): Task[] {
 			title: task.title,
 			source: 'Meetings',
 			description: stripHtml(task.description),
-			href: `${location.origin}/apps/meetings/meeting/${task.meeting.id}/actions/${task.id}`,
+			href: `${location.origin}/apps/meetings/meeting/${task.meeting?.id}/actions/${task.id}`,
 			dueDate: verifyDate(task.dueDateUtc),
 			isOverdue: isTaskOverdue(task.dueDateUtc),
 			state: task.isArchived
@@ -37,55 +37,40 @@ export function myMeetingsActionSelector(tasks: MeetingAction[]): Task[] {
 				? 'Deleted'
 				: 'Unknown',
 			isExternal: false,
-			project: task.meeting.project?.name,
+			project: task.meeting?.project?.name,
 			priority: task.priority,
 		}));
 }
 
 export async function getMyReviewActions(
 	client: IHttpClient,
-	contextClient: IHttpClient,
 	signal?: AbortSignal
 ): Promise<Task[]> {
-	const response = await client.fetch('/persons/me/actions', { signal });
+	  const response = await client.fetch('/persons/me/actions?api-version=4.0', { signal });
 
-	const tasks: MeetingAction[] = await response.json();
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Review actions: ${response.statusText}`);
+  }
 
-	// Get all unique OrgChart context Ids
-	const context = tasks.reduce((acc, task) => {
-		if (task.contextId && !acc.includes(task.contextId)) {
-			acc.push(task.contextId);
-		}
-		return acc;
-	}, [] as string[]) as string[];
+  const tasks: MeetingAction[] = await response.json();
 
-	// Resolve project master ids by OrgChart context Ids
-	const contextResponse = (
-		await Promise.all(
-			context.map(
-				async (contextId) =>
-					await contextClient.json(`/contexts/${contextId}/relations?$filter=type eq ProjectMaster`, {
-						signal,
-					})
-			)
-		)
-	).flat() as { id: string }[];
 
-	//create context map OrgChart:ProjectMaster
-	const map = context.reduce((acc, c, i) => {
-		acc[c] = contextResponse[i].id;
-		return acc;
-	}, {} as Record<string, string>);
-	return tasks.map((task) => ({
-		id: task.id,
-		title: task.title,
-		source: 'Review',
-		description: stripHtml(task.description),
-		href: `${location.origin}/apps/reviews/${map[task.contextId || '']}/landingpage/actions/${task.id}`,
-		dueDate: verifyDate(task.dueDateUtc),
-		isOverdue: isTaskOverdue(task.dueDateUtc),
-		state: task.state,
-		project: task.meeting.project?.name,
-		priority: task.priority,
-	}));
+
+  return tasks
+    .filter(
+      (task) => task.state !== ActionState.Completed && task.state !== ActionState.NotCompleted,
+    )
+    .map((task) => ({
+      id: task.id,
+      title: task.title,
+      source: 'Review',
+      description: stripHtml(task.description),
+      href: `${location.origin}/apps/reviews/${task.project?.id}/landingpage/actions/${task.id}`,
+      dueDate: task.dueDateUtc,
+      isOverdue: isTaskOverdue(task.dueDateUtc),
+      createdDate: task.createdUtc,
+      state: task.state,
+      project: task.review?.project?.name,
+      priority: task.priority,
+    }));
 }
