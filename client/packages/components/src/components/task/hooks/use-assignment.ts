@@ -103,10 +103,9 @@ export function useMeetingsActionsQuery() {
 }
 export function useReviewActionsQuery() {
 	const client = useFramework().modules.http.createClient('review');
-	const contextClient = useFramework().modules.serviceDiscovery.createClient('context');
 	return useQuery({
 		queryKey: ['Assignment', 'Review', 'Review-Actions'],
-		queryFn: async ({ signal }) => getMyReviewActions(await client, await contextClient, signal),
+		queryFn: async ({ signal }) => getMyReviewActions(client,  signal),
 		cacheTime: 5000 * 60,
 		refetchInterval: 5000 * 60,
 		staleTime: 2000 * 60,
@@ -116,7 +115,7 @@ export function useQueryAndNCRRequestQuery() {
 	const client = useFramework().modules.http.createClient('query_api');
 	return useQuery({
 		queryKey: ['Assignment', 'Query', 'Query-Actions'],
-		queryFn: async ({ signal }) => getQueryAndNCRequest(await client, signal),
+		queryFn: async ({ signal }) => getQueryAndNCRequest(client, signal),
 		cacheTime: 5000 * 60,
 		refetchInterval: 5000 * 60,
 		staleTime: 2000 * 60,

@@ -17,8 +17,10 @@ type ActionMeeting = {
 	isDisabled: boolean;
 	plannedDateUtc: string;
 	title: string;
+	isCanceled?: boolean;
 	project?: {
 		name?: string;
+		projectMasterId: string;
 	};
 };
 
@@ -35,9 +37,12 @@ export type MeetingAction = {
 	description: string;
 	category: string;
 	meetingType: MeetingType;
+	reviewType?: string;
+  	reviewId?: string;
 	completedReason: string | null;
 	state: ActionState;
-	meeting: ActionMeeting;
+	meeting?: ActionMeeting;
+  	review?: ActionMeeting;
 	priority: MeetingActionPriority;
 	percentStatus?: number;
 	lastModifiedUtc?: string;
@@ -46,7 +51,8 @@ export type MeetingAction = {
 	dueDateUtc?: string;
 	isCompleted: boolean;
 	projectId?: string;
-
+  	project?: { id?: string, projectMasterId: string, name?: string };
+	createdUtc: string;
 	contextId?: string;
 	isDeleted: boolean;
 	isArchived: boolean;
