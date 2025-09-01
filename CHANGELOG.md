@@ -1,5 +1,11 @@
 # fusion-project-portal
 
+## 8.0.8
+
+### Patch Changes
+
+- 7451fd6: Update Reviews url an logic
+
 ## 8.0.7
 
 ### Patch Changes
