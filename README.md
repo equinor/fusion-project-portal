@@ -25,7 +25,7 @@
         <img alt="GitHub issues" src="https://img.shields.io/github/issues/equinor/fusion-project-portal">
         <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/equinor/fusion-project-portal">
 <p>
-Powered by ❤️ Fusion</p>
+Powered by Fusion</p>
 
 </div>
 
